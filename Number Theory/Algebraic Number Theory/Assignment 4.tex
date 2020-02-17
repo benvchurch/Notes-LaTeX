@@ -1,0 +1,223 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={7in, 9.5in}]{geometry}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\norm}[3]{\mathrm{N}^{#1}_{#2}\left(#3\right)}
+\newcommand{\qnorm}[2]{\mathrm{N}^{#1}_{\Q}\left(#2\right)}
+\newcommand{\quadint}[3]{#1 + #2 \sqrt{#3}}
+\newcommand{\pideal}{\mathfrak{p}}
+\newcommand{\inorm}[1]{\mathrm{N}(#1)}
+\newcommand{\tr}[1]{\mathrm{Tr} \! \left(#1\right)}
+
+\newcommand{\atitle}[1]{\title{% 
+	\large \textbf{Mathematics W4043 Algebraic Number Theory
+	\\ Assignment \# #1} \vspace{-2ex}}
+\author{Benjamin Church \\ \textit{Worked With Matthew Lerner-Brecher} }
+\maketitle}
+
+ 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\begin{document}
+\atitle{4}
+
+\begin{enumerate}
+\item Let $q_1(X, Y) = q_1(X e_1 + Y e_2) = X^2 + 15 Y^2$ and $q_2(X, Y) = 3 X^2 + 5 Y^2$. Now, \[b_{ij}^{(1)} = B_1(e_i, e_j) = q_1(e_i + e_j) - q_1(e_i) - q_1(e_j)\] 
+Thus, \[B^{(1)} = 
+\begin{pmatrix}
+b_{11}^{(1)}  & b_{12}^{(1)}  \\
+b_{21}^{(1)}  & b_{22}^{(1)}  			
+\end{pmatrix} = 
+\begin{pmatrix}
+4 - 1 - 1 & 16 - 1 - 15 \\
+16 - 15 - 1 & 60 - 15 - 15 			
+\end{pmatrix} = 
+\begin{pmatrix}
+2 & 0 \\
+0 & 30			
+\end{pmatrix}\]
+Thus, the discriminant, $\Delta_1 = - \det{B^{(1)}} = -(2 \cdot 30) = - 60$.
+Next, \[b_{ij}^{(2)} = B_2(e_i, e_j) = q_2(e_i + e_j) - q_2(e_i) - q_2(e_j)\] 
+Thus, \[B^{(2)} = 
+\begin{pmatrix}
+b_{11}^{(2)} & b_{12}^{(2)} \\
+b_{21}^{(2)} & b_{22}^{(2)}			
+\end{pmatrix} = 
+\begin{pmatrix}
+12 - 3 - 3 & 8 - 3 - 5 \\
+8 - 5 - 3 & 20 - 5 - 5 			
+\end{pmatrix} = 
+\begin{pmatrix}
+6 & 0 \\
+0 & 10			
+\end{pmatrix}\]
+Thus, the discriminant, $\Delta_2 = - \det{B^{(2)}} = -60$.
+However, suppose that there existed $f : \Z^2 \rightarrow \Z^2$ s.t. that $q_1$ factors as $q_2 \circ f = q_1$. Then $q_1(1, 0) = 1$ so $q_2 \circ f(1, 0) = 1$ but $f(1, 0) \in \Z^2$ and on $\Z^2$ the form $3 X^2 + 5 Y^2 \neq 1$ so the desired $f$ cannot exist.  
+
+
+\item Let $K = \quadfield{-d}$ with square-free $d \in \Zplus$ and $q(x) = \qnorm{K}{x}$.
+\begin{enumerate}
+\item If $\mod{d}{1,2}{4}$ then $\ints{K} = \Z[\sqrt{-d}]$ so $\ints{K} = \Z \oplus \Z \sqrt{-d}$ thus, $\{1, \sqrt{-d}\}$ is a $\Z$ basis of $\ints{K}$ as a $\Z$-module of rank $2$. Then, \[b_{ij} = B(e_i, e_j) = q(e_i + e_j) - q(e_i) - q(e_j) = \qnorm{K}{e_i + e_j} - \qnorm{K}{e_i} - \qnorm{K}{e_j} \] 
+Thus, \begin{align*} B &= 
+\begin{pmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22}			
+\end{pmatrix} \\ &= 
+\begin{pmatrix}
+q(1 + 1) - q(1) - q(1) & q(1 + \sqrt{-d}) - q(1) - q(\sqrt{-d}) \\
+q(\sqrt{-d} + 1) - q(\sqrt{-d}) - q(1) & q(\sqrt{-d} + \sqrt{-d}) - q(\sqrt{-d}) - q(\sqrt{-d}) 				
+\end{pmatrix} \\ &= 
+\begin{pmatrix}
+4 - 1 - 1 & 1 + d - 1 - d \\
+1 + d - d - 1 & 4 d - d	- d		
+\end{pmatrix} = 
+\begin{pmatrix}
+2 & 0 \\
+0 & 2 d		
+\end{pmatrix}
+\end{align*}
+Thus, the discriminant, $\Delta_q = - \det{B} = -4 d$.\\
+If $\mod{d}{3}{4}$ then $\ints{K} = \Z\left[\frac{1 + \sqrt{-d}}{2}\right]$ so $\ints{K} = \Z \oplus \Z \frac{1 + \sqrt{-d}}{2}$ thus, $\left\{1, \frac{1 + \sqrt{-d}}{2} \right\}$ is a $\Z$ basis of $\ints{K}$ as a $\Z$-module of rank $2$. Then, \[b_{ij} = B(e_i, e_j) = q(e_i + e_j) - q(e_i) - q(e_j) = \qnorm{K}{e_i + e_j} - \qnorm{K}{e_i} - \qnorm{K}{e_j} \] 
+Thus, \begin{align*} B &= 
+\begin{pmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{11}			
+\end{pmatrix} \\ &= 
+\begin{pmatrix}
+q(1 + 1) - q(1) - q(1) & q \left(1 + \frac{1 + \sqrt{-d}}{2} \right) - q(1) - q \left( \frac{1 + \sqrt{-d}}{2} \right) \\
+q\left( \frac{1 + \sqrt{-d}}{2} + 1 \right) - q\left( \frac{1 + \sqrt{-d}}{2} \right) - q(1) & q\left( \frac{1 + \sqrt{-d}}{2} + \frac{1 + \sqrt{-d}}{2} \right) - q\left( \frac{1 + \sqrt{-d}}{2} \right) - q\left( \frac{1 + \sqrt{-d}}{2} \right) 		
+\end{pmatrix} \\ &= 
+\begin{pmatrix}
+4 - 1 - 1 & \frac{9}{4} + \frac{d}{4} - 1 - \left(\frac{1}{4} + \frac{d}{4}\right) \\
+\frac{9}{4} + \frac{d}{4} - \left(\frac{1}{4} + \frac{d}{4}\right) - 1 & 1 + d - \left(\frac{1}{4} + \frac{d}{4}\right) - \left(\frac{1}{4} + \frac{d}{4}\right)	
+\end{pmatrix} = 
+\begin{pmatrix}
+2 & 1 \\
+1 & \frac{1 + d}{2}		
+\end{pmatrix}
+\end{align*}
+Thus, the discriminant, $\Delta_q = - \det{B} = - d$. Therefore, in either case, $\Delta_q = \Delta_d$. Both quadratic forms are postivie definite due to the positive definiteness of the complex conjugate norm on $\C$ i.e. $z \neq 0 \implies z \bar{z} > 0$ so $x \neq 0 \implies q(x) = \qnorm{K}{x} = x \bar{x} > 0.$ These are equivalent because the only non identity Galois conjugate in an order two complex field extension is complex conjugation and thus $\qnorm{K}{x} = x \sigma(x) = x \bar{x}$. 
+
+\item $K$ is a complex field extension of $\Q$ thus the elemet $\sigma : x \mapsto \bar{x}$ is a non-identity automorphism in $\galgroup{K/\Q}$. Since the order of $K/\Q = 2$ this must be the only non-identitiy Galois conjugate. Now for $\tau$ ranging over all $ G = \galgroup{K/\Q}$ \[q(x) = \qnorm{K}{x} = \prod_{\tau \in G} \tau(x) = \mathrm{id}(x) \sigma(x) = x \sigma(x)\]
+Thus, 
+\begin{align*}
+B_q(x, y) &= q(x + y) - q(x) - q(y) = (x + y) \sigma(x + y) - x \sigma(x) - y \sigma(y) \\ &= x \sigma(x) + x \sigma(y) + y \sigma(x) + y \sigma(y) - x \sigma(x) - y \sigma(y) \\ &= x \sigma(y) + y \sigma(x) = x \sigma(y) + \sigma^2(y) \sigma(x) = x \sigma(y) + \sigma(x \sigma(x)) \\ & = \mathrm{Tr}_{\Q}^{K}(x \sigma(y))
+\end{align*}
+in which i have used the fact that $\sigma^2 = \mathrm{id}$ which holds because the order of the Galois group is $2$.
+
+\item Let $I \subset \ints{K}$ be an ideal and define $q_I : I \rightarrow \Q$ by $q_I(x) = \qnorm{K}{x} / \mathrm{N}(I)$. First, for any $\alpha \in I$ by closure of ideals, $(\alpha) \subset I$ thus by Dedekind prime factorization, there exists an ideal $J \subset \ints{K}$ such that $(\alpha) = IJ$ so in particular, $\qnorm{K}{\alpha} = \inorm{(\alpha)} = \inorm{I} \inorm{J}$ so $\inorm{I} \divides \qnorm{K}{\alpha}$. Thus, $q_I(\alpha) = \qnorm{K}{\alpha} / \inorm{I} \in \Z$. Since, $\qnorm{K}{\alpha}$ is a norm on $I$ then because $\inorm{I}$ is constant, $q_I(\alpha) = \qnorm{K}{\alpha} / \inorm{I} \in \Z$ satisfies all the norm axioms and by above has its image inside $\Z$. Thus, $q_I$ is a perfecly good norm and $I$ is a $\Z$-module of free rank $2$ because $[K : \Q] = 2$ implies that $\ints{K}$ is a $\Z$-module of free rank $2$ and $I$ is a submodule of finite type. Thus, $(I, q_I)$ is a quadratic space. 
+
+\item Since $[K : \Q] = 2$ then $\ints{K}$ is a $\Z$-module of free rank $2$ so $\ints{K} = \Z e_1 \oplus \Z e_2$ and any ideal $I \subset \ints{K}$ is also a $\Z$-module of free rank $2$ expressed as $I = \Z e_1 c_1 \oplus \Z e_2 c_2$ for $c_1, c_2 \in \Z$. Then $\ints{K}/I \cong \Z/c_1 \Z \times \Z / c_2 \Z$ so $\inorm{I} = [\ints{K} : I] = [\Z : c_1 \Z] [\Z : c_2 \Z] = c_1 c_2$. Now we calculate the matrix associated with the bilinear form,
+\begin{align*}
+b_{ij} &= B_I(e_i c_i, e_j c_j) = q(e_i c_i + e_j c_j) - q(e_i c_i) - q(e_j c_j) \\ &= (\qnorm{K}{e_i c_i + e_j c_j} - \qnorm{K}{e_i c_i} - \qnorm{K}{e_j c_j})/\inorm{I}  \\
+&= B_K(e_i c_i, e_j c_j)/\inorm{I} = (e_i c_i \: \sigma(e_j c_j) + e_j c_j \: \sigma(e_i c_i))/ \inorm{I} 
+\end{align*}
+But integers are fixed under every automorphism thus,
+\begin{align*}
+b_{ij}^I &= B_I(e_i c_i, e_j c_j) = (e_i \:\sigma(e_j) + e_j\: \sigma(e_i)) c_i c_j/ \inorm{I}  = B_K(e_i, e_j) \: c_i c_j /\inorm{I} = b_{ij} c_i c_j /\inorm{I}
+\end{align*}
+Thus, \begin{align*} B_I &= 
+\begin{pmatrix}
+b_{11}^I & b_{12}^I \\
+b_{21}^I & b_{11}^I			
+\end{pmatrix} = \frac{1}{\inorm{I}}
+\begin{pmatrix}
+b_{11} c_1^2 & b_{12} c_1 c_2 \\
+b_{21} c_2 c_1 & b_{22} c_2^2		
+\end{pmatrix} 
+\end{align*}
+Thus, the discriminant, 
+\begin{align*}
+\Delta_I &= - \det{B^I} = - (b_{11} b_{22} (c_1 c_2)^2 - b_{12} b_{21} (c_1 c_2)^2)/ \inorm{I}^2 \\ &= -(b_{11} b_{22} - b_{12} b_{21}) (c_1 c_2)^2 / \inorm{I}^2 = - \det{B} = \Delta_d
+\end{align*}
+because $\inorm{I} = c_1 c_2$ and from before, $\Delta_d = -\det{B} = -(b_{11} b_{22} - b_{12} b_{21})$.
+
+\end{enumerate}
+
+\item Let $D(x_1, \dots, x_n) = \det{\tr{x_1, x_2}}$.
+
+\begin{enumerate}
+\item $\tr{x_i x_j} = \sum\limits_{k = 1}^n \sigma_k (x_i x_j) = \sum\limits_{k = 1}^n \sigma_k (x_i) \sigma_k(x_j)$. Now define $A_{ki} = \sigma_k(x_i)$ then, \[\sum\limits_{k = 1}^n \sigma_k (x_i x_j) = \sum\limits_{k = 1}^n A_{ki} A_{kj} = \sum\limits_{k = 1}^n (A^\top)_{ik} A_{kj} = (A^\top A)_{ij}\] Thus, \[D(x_1, \dots, x_n) = \det{\tr{x_1, x_2}} = \det{(A^\top A)} = (\det{A})^2 = (\det{\sigma_i(x_j)})^2\]
+
+\item Let $y_i = \sum\limits_{j = 1}^n A_{ij} x_j$ with $A_{ij} \in \Q$. Now, 
+\begin{align*}
+D(y_1, \dots, y_n) &= (\det{\sigma_i(y_j)})^2 = \left(\det{\sigma_i \left(\sum\limits_{k = 1}^n A_{jk} x_k \right)} \right)^2 = \left(\det{\left( \sum\limits_{k = 1}^n \sigma_i \left( x_k \right) (A^\top)_{kj} \right)} \right)^2 \\ &= (\det{A})^2 (\det{\sigma_i(x_j)})^2 = (\det{A})^2 D(x_1, \dots, x_n)
+\end{align*}
+
+\item Let $K = \Q(\alpha)$ and $f$ be the minimal polynomial of $\alpha$. Now,
+\[f(x) = (x - \sigma_1(\alpha)) (x - \sigma_2(\alpha)) \dots (x - \sigma_n(\alpha)) = \prod_{i = 1}^n (x - \sigma_i(x)) \]
+because the embeddings permute the roots of $f$. Thus, 
+\[f'(x) = \sum_{k = 1}^n \prod_{j \neq k}^n (x - \sigma_j(\alpha))\]
+Plugging in a root,
+\[f'(\sigma_i(\alpha)) = \sum_{k = 1}^n \prod_{j \neq k}^n (\sigma_i(\alpha) - \sigma_j(\alpha)) = \prod_{j \neq i}^n (\sigma_i(\alpha) - \sigma_j(\alpha))\]
+Now consider the norm, 
+\[\qnorm{K}{f'(\alpha)} = \prod_{i = 1}^n \sigma_i(f'(\alpha)) = \prod_{i = 1}^n f'(\sigma_i(\alpha)) = \prod_{i = 1}^n \prod_{j \neq i}^n (\sigma_i(\alpha) - \sigma_j(\alpha))\]
+which holds because each $\sigma_i$ is an automorphism. This product ranges twice over all pairs but in the opposite orders. Therefore, this product is equal to the square of the product over all pairs mutliplied by $n(n-1)/2$ (the number of pairs) minus signs from swapping the orders of terms i.e.
+\[ \qnorm{K}{f'(\alpha)} =  (-1)^{\frac{n(n-1)}{2}} \left[ \prod_{i \: > \: j}^n (\sigma_i(\alpha) - \sigma_j(\alpha)) \right]^2 \]
+By Vandermonde's determinant formula, 
+\[\prod_{i \: > \: j}^n (\sigma_i(\alpha) - \sigma_j(\alpha)) = \det{\sigma_i(\alpha)^{j-1}} = \det{\sigma_i (\alpha^{j-1})}\]
+Thus, \[\left[\prod_{i \: > \: j}^n (\sigma_i(\alpha) - \sigma_j(\alpha)) \right]^2 = (\det{\sigma_i (\alpha^{j-1})})^2 = D(1, \alpha, \alpha^2, \dots, \alpha^{n-1}) \]
+Therefore, \[D(1, \alpha, \alpha^2, \dots, \alpha^{n-1}) = (-1)^{\frac{n(n-1)}{2}} \qnorm{K}{f'(\alpha)}\]
+However, the $f'(\alpha) \neq 0$ because $f$ is the minimal polynomial of alpha and thus does not have a double root at $\alpha$. Therefore, $\qnorm{K}{f'(\alpha)} \neq 0$ and thus,
+$D(1, \alpha, \alpha^2, \dots, \alpha^{n-1}) \neq 0$. A set of $n$ elements $\{x_1, \dots x_n\}$ forms a basis if and only if it is related to some basis by an invertable matrix. In partucular, $\{x_1, \dots, x_n\}$ is a basis iff the matrix $A$ such that $x_i = \sum\limits_{j = 1}^n A_{ij} \alpha^{j-1}$ is invertible. In this case, 
+\[D(x_1, \dots, x_n) = (\det{A})^2 D(1, \alpha, \dots, \alpha^{n-1})\]
+Because $D(1, \alpha, \dots, \alpha^{n-1}) \neq 0$, we have that,
+\[D(x_1, \dots, x_n) = 0 \iff \det{A} = 0 \iff A \text{ is invertible } \iff \{x_1, \dots x_n\} \text{ is a basis}\] 
+Because a bilinear form is degenerate if and only if its associated matrix has zero determinant, we conclude that, \[\tr{xy}  \text{ is degenerate } \iff \det{\tr{x_i x_j}} = D(x_1, \dots, x_n) = 0  \iff \{x_1, \dots, x_n\} \text{ is a basis}\] 
+\end{enumerate}
+
+\item Let $\{v_1, \dots, v_n \}$ be a basis of $\R^n$ then define:
+\[G = \left\{ \sum_{i = 1}^n z_i v_i \: \Big| \: z_i \in \Z \right\}\]
+and 
+\[D = \left\{ \sum_{i = 1}^n d_i v_i \: \Big| \: d_i \in [0, 1) \right\}\]
+\begin{enumerate}
+\item Let $v \in \R^n$ then because $\{v_1, \dots, v_n \}$ is a basis, there is a decomposition with $c_i \in \R$, \[v = c_1 v_1 + \dots c_n v_n\] Now take $d_i = \floor{c_i}$ and $z_i = c_i - \floor{c_i}$. We have $z_i + d_i = c_i - \floor{c_i} + \floor{c_i} = c_i$ also, $z_i \in \Z$ and $d_i = \floor{c_i} \in [0, 1)$. Now take, \[g = \sum_{i = 1}^n z_i v_i \in G \quad \text{and} \quad d = \sum_{i = 1}^n d_i v_i \in D\]
+And therefore, 
+\[ g + d = \sum_{i = 1}^n (z_i + d_i) v_i = \sum_{i = 1}^n c_i v_i = v\] 
+
+Suppose there were another decomposition, $g' + d' = v$ with \[g' = \sum_{i = 1}^n z_i' v_i \in G \quad \text{and} \quad d = \sum_{i = 1}^n d_i' v_i \in D\] and then,
+\[ g + d = \sum_{i = 1}^n (z_i' + d_i') v_i = v\] but $\{v_1, \dots, v_n \}$ is a basis so the decomposition is unique. Thus, $z_i' + d_i' = z_i + d_i$ so $z_i' - z_i = d_i - d_i' \in \Z$ but $z_i, z_i' \in [0, 1)$ so $z_i' = z_i$ and thus $d_i = d_i'$ so the decomposition in $G$ and $D$ is indeed unique. 
+
+\item Using the notation $\ball{\delta}{x} = \{ v \in \R^n \mid |v - x| < \delta \}$. Now, $G$ is a discrete set because around each $g \in G$ the ball $\ball{\frac{1}{2}}{g}$ contains no other points of $G$. Also, $D$ is a bounded set i.e. $D \subset \ball{R}{0}$ for $R = |v_1| + \dots + |v_n|$. Define the set \[H = \{ h \in G \mid \ball{r}{0} \cap D_h \neq \emptyset \}\]
+Thus, $D_h \subset \ball{R}{h}$ so if $\ball{r}{0} \cap D_h \neq \emptyset$ then $\exists x \in \ball{r}{0} \cap D_h$ so $|h| < |x| + |h - x| < r + R$ because $x$ is in both balls. Thus, if $h \in H$ then $|h| < r + R = \delta$ so $H \subset \ball{\delta}{0} \subset \overline{\ball{\delta}{0}}$. The closure of this ball is compact by Heine-Borrel. Furthermore, $H \subset G$ by construction so $H \subset G \cap \overline{\ball{\delta}{0}}$. However, $G$ is discrete and $\overline{\ball{\delta}{0}}$ is compact so their intersection is finite. Thus, $H$ is finite. 
+\end{enumerate}
+
+\end{enumerate}
+\end{document}

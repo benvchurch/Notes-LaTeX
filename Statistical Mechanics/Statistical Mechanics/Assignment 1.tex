@@ -1,0 +1,583 @@
+\documentclass[12pt]{extarticle}
+\include{StatMechCommands}
+\usepackage{cancel}
+
+
+\begin{document}
+\atitle{1}
+ 
+\section*{Problem 1.}
+For the degrees of freedom $Q_n(t)$, let the action be given by,
+\[ S = \frac{1}{2} \int \d{t} \sum_{n} \left(m \dot{Q}_n(t)^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \cos{\left(\frac{2 \pi Q_n}{a} \right)} \right)\]  
+\subsection*{(a)}
+First, we apply the Euler-Lagrange equations,
+\[\pderiv{\lagrange}{Q_n} = \deriv{}{t} \pderiv{\lagrange}{\dot{Q}_n} \]
+Firstly, 
+\begin{align*}
+\pderiv{\lagrange}{Q_n} & = \frac{1}{2} \pderiv{}{Q_n} \left[ - u \left(\frac{Q_{n} - Q_{n-1}}{a}\right)^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \cos{\left(\frac{2 \pi Q_n}{a} \right)} \right] 
+\\
+& = - \frac{u}{a^2} (Q_n - Q_{n-1}) + \frac{u}{a^2} (Q_{n+1} - Q_{n}) - \frac{2 \pi v}{a} \sin{\left( \frac{2 \pi Q_n}{a} \right)}  
+\\
+& = \frac{u}{a^2} \left[ Q_{n + 1} + Q_{n - 1} - 2 Q_n \right] - \frac{2 \pi v}{a} \sin{\left( \frac{2 \pi Q_n}{a} \right)}
+\end{align*}  
+The kinetic part of the Lagrangian is much simpler,
+\[\deriv{}{t} \pderiv{\lagrange}{\dot{Q}_n} = \deriv{}{t} m \dot{Q}_n = m\ddot{Q}_n \]
+For small displacements, we can linerize the equations by approximating the terms to first order,
+\[ \pderiv{\lagrange}{Q_n} = \frac{u}{a^2} \left[ Q_{n + 1} + Q_{n - 1} - 2 Q_n \right] - \frac{2 \pi v}{a} \sin{\left( \frac{2 \pi Q_n}{a} \right)} \simeq \frac{u}{a^2} \left[ Q_{n + 1} + Q_{n - 1} - 2 Q_n \right] - \frac{4 \pi^2 v}{a^2} Q_n  \]
+Plugging into the Euler-Lagrange equations,
+\[  m\ddot{Q}_n = \frac{u}{a^2} \left[ Q_{n + 1} + Q_{n - 1} - 2 Q_n \right] - \frac{4 \pi^2 v}{a^2} Q_n\]
+\subsection*{(b)}
+Now, we rewrite the displacements in terms of the Fourier transformed variables,
+\[Q_n(t) = \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa n} \] 
+where the discrete variables $Q_n$ can be represented in a band-limited continuous frequency domain. The inverse transform is given by,
+\[Q(t, \kappa) = \frac{1}{2\pi} \sum_{n} Q_n(t) \: e^{- i \kappa n}\]
+Taking the second time derivative and applying the linearlized equations of motion,
+\begin{align*} m \ddot{Q}(t, \kappa) & = \frac{1}{2\pi} \sum_{n} m \ddot{Q}_n(t) e^{- i \kappa n} = \frac{1}{2\pi} \sum_{n} \left[\frac{u}{a^2} \left[ Q_{n + 1} + Q_{n - 1} - 2 Q_n \right] - \frac{4 \pi^2 v}{a^2} Q_n \right] e^{ -i \kappa n}  
+\\
+& =  \frac{u}{a^2} \frac{1}{2\pi} \sum_{n} Q_{n + 1} \: e^{ -i \kappa n} + \frac{u}{a^2} \frac{1}{2\pi} \sum_{n} Q_{n - 1} \: e^{ -i \kappa n} - \left(2 \frac{u}{a^2} + \frac{4 \pi^2 v}{a^2} \right) \frac{1}{2\pi} \sum_{n} Q_{n} \: e^{ -i \kappa n} 
+\\ 
+& = \frac{u}{a^2} \frac{1}{2\pi} \sum_{n'} Q_{n'} \: e^{ -i \kappa (n' - 1)} + \frac{u}{a^2} \frac{1}{2\pi} \sum_{n'} Q_{n} \: e^{ -i \kappa (n' + 1)} - \left(2 \frac{u}{a^2} + \frac{4 \pi^2 v}{a^2} \right)  Q(t, \kappa) 
+\\
+& = \frac{u}{a^2} \frac{1}{2\pi} \sum_{n'} Q_{n'} \: e^{ -i \kappa n'} e^{i \kappa} + \frac{u}{a^2} \frac{1}{2\pi} \sum_{n'} Q_{n} \: e^{ -i \kappa n'} e^{-i \kappa} - \left(2 \frac{u}{a^2} + \frac{4 \pi^2 v}{a^2} \right) Q(t, \kappa) 
+\\
+& = \left[ \frac{u}{a^2}  e^{i \kappa} + \frac{u}{a^2} e^{-i \kappa} - \left(2 \frac{u}{a^2} + \frac{4 \pi^2 v}{a^2} \right) \right] Q(t, \kappa) = - m \omega_{\kappa}^2 Q(t, \kappa)
+\end{align*}
+where, 
+\[\omega_\kappa^2 = \frac{2}{m a^2} \left[ 2\pi^2 v + u \left(1 - \cos{\kappa}\right) \right]\]
+Therefore,
+\[ \partial_t^2 Q(t,\kappa) = - \omega^2_k Q(t, \kappa)\]
+
+\subsection*{(c)}
+We introduce an effective field,
+\[ \phi(t, x) = Z \int_{-\pi}^{\pi} \d{\kappa} \: Q(t, \kappa) \: e^{i \kappa x / a} \]
+Given total freedom in the dynamical variables $Q_n$, only a subset of all smooth functions can be represented by the expression for $\phi$. The restriction stems from the fact that $\phi$ is band-limited in frequency space. In general, the Fourier transform of an arbitrary function will have unbounded components and cannot be represented as an integral over a finite region of frequency space. Furthermore, the Nyquist-Shannon sampling theorem implies that the function $\phi$ can be recovered from the discrete samples $Q_n$ with perfect fidelity because $\phi$ is band-limited in frequency space. This theorem gives another interpretation for the restriction on the function $\phi$ because there exist infinitely many smooth functions fitting the points $Q_n$ perfectly yet only one such function can be represented in this form since it is uniquely determined by the values of $Q_n$.     
+\subsection*{(d)}
+Consider,
+\begin{align*} 
+\partial_t^2 \phi(t, x) & = Z \int_{-\pi}^\pi \! \d{\kappa} \: \partial_t^2 Q(t, \kappa) e^{i \kappa x / a} = - Z \int_{-\pi}^\pi \! \d{\kappa} \: \omega_\kappa^2 Q(t, \kappa) e^{i \kappa x / a} \\
+& = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[2 \pi^2 v + u \left(1 - \cos{\kappa}\right) \right] Q(t, \kappa) e^{i \kappa x / a}
+\end{align*}
+If $Q(t, \kappa)$ is only significant for $|\kappa| \ll 1$ then we approximate $1 - \cos{\kappa} \simeq \frac{1}{2} \kappa^2$. Plugging in,
+\begin{align*}
+\partial_t^2 \phi(t, x) & = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[ 2 \pi^2 v + \tfrac{1}{2} u \kappa^2 \right] Q(t, \kappa) e^{i \kappa x / a} \\
+& = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[ 2 \pi^2 v Q(t, \kappa) e^{i \kappa x / a}  - \tfrac{1}{2} a ^2 u Q(t, \kappa) \partial_x^2  e^{i \kappa x / a} \right] \\
+& = - Z \frac{4 \pi^2 v}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa x / a}  + Z \frac{u}{m} \partial_x^2 \int_{-\pi}^\pi \! \d{\kappa} \:  Q(t, \kappa)  e^{i \kappa x / a} \\
+& = - \frac{4 \pi^2 v}{m a^2} \phi(t, x) + \frac{u}{m} \partial_x^2 \phi(t, x)
+\end{align*} 
+Therefore,
+\[ \partial_t^2 \phi(t, x) - \frac{u}{m} \partial_x^2 \phi(t, x) + \frac{4 \pi^2 v}{m a^2} \phi(t, x) = 0\]
+which, when written in the form,
+\[\left( \partial_t^2 - c^2 \partial_t^2 + \mu^2 \right) \phi = 0\]
+fixes the constants, $c^2 = \frac{u}{m}$ and $\mu^2 = \frac{4 \pi^2 v}{m a^2}$. The field $\phi$ has a momentum-space (k-space) representation in terms of $Q(t, \kappa)$ corresponding to a mode $e^{i \kappa x /a}$ which has wavenumber $\kappa/a$. Therefore, the condition $|\kappa| \ll 1$ is equivalent to the condition $k \ll \frac{1}{a}$ which can be rewritten as $\lambda = \frac{2 \pi}{k} \gg a$. This condition says that $\phi$ does not contain modes which wavelengths on the order of or less than the spacing between particles. In other words, $\phi$ only changes on length scales much larger than the lattice spacing. 
+
+\subsection*{(e)}
+Applying the same argument as above,
+\begin{align*} 
+\partial_t^2 \phi(t, x) & = Z \int_{-\pi}^\pi \! \d{\kappa} \: \partial_t^2 Q(t, \kappa) e^{i \kappa x / a} = - Z \int_{-\pi}^\pi \! \d{\kappa} \: \omega_\kappa^2 Q(t, \kappa) e^{i \kappa x / a} \\
+& = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[ 2 \pi^2 v + u \left(1 - \cos{\kappa}\right) \right] Q(t, \kappa) e^{i \kappa x / a}
+\end{align*}
+Now we expland the function $\omega_\kappa$ to leading order past second order,
+\[1 - \cos{\kappa} \simeq \frac{1}{2} \kappa^2 - \frac{1}{24} \kappa^4 \]
+Plugging in,
+\begin{align*}
+\partial_t^2 \phi(t, x) & = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[ 2 \pi^2 v + \tfrac{1}{2} u \kappa^2 - \tfrac{1}{24} u \kappa^4 \right] Q(t, \kappa) e^{i \kappa x / a} \\
+& = - Z \frac{2}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: \left[ 2 \pi^2 v Q(t, \kappa) e^{i \kappa x / a}  - \tfrac{1}{2} a ^2 u Q(t, \kappa) \partial_x^2  e^{i \kappa x / a}  - \tfrac{1}{24} a^4 u Q(t, \kappa) \partial_x^4 e^{i \kappa x / a} \right] \\
+& = - Z \frac{4 \pi^2 v}{m a^2} \int_{-\pi}^\pi \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa x / a}  + Z \frac{u}{m} \partial_x^2 \int_{-\pi}^\pi \! \d{\kappa} \:  Q(t, \kappa)  e^{i \kappa x / a} + Z \frac{u a^2}{12 m} \partial_x^4 \int_{-\pi}^\pi \! \d{\kappa} \:  Q(t, \kappa)  e^{i \kappa x / a} \\
+& = - \frac{4 \pi^2 v}{m a^2} \phi(t, x) + \frac{u}{m} \partial_x^2 \phi(t, x) + \frac{u a^2}{12 m} \partial_x^4 \phi(t, x)
+\end{align*} 
+Therefore, to fourth order in the $\kappa$ expansion of $\omega_\kappa$, we have the equation of motion,
+\[\left(\partial_t^2 - c^2 \partial_x^2 + \mu^2 - \frac{a^2 c^2}{12} \partial_x^4 \right) \phi = 0\]
+
+\subsection*{(f)}
+The second-order action is given by,
+\[S^{(2)} = \frac{1}{2} \int \d{t} \sum_{n} \left(m \dot{Q}_n^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \left[1 - \frac{1}{2} \left(\frac{2 \pi Q_n}{a} \right)^2 \right] \right)\]
+now, we replace the degrees of freedom $Q_n$ whith their Fourier transforms. I will do this calculation term by term.
+\begin{align*}
+\sum_{n} m \dot{Q}_n^2 & = \sum_n m \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: \dot{Q}(t, \kappa) e^{i \kappa n} \right)^2 = \sum_{n} m \int_{-\pi}^{\pi} \! \d{\kappa} \: \int_{-\pi}^{\pi} \! \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa') e^{i (\kappa + \kappa') n} \\
+& =  m \int_{-\pi}^{\pi} \! \d{\kappa} \: \int_{-\pi}^{\pi} \! \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa') \sum_{n} e^{i (\kappa + \kappa') n} \\ 
+& = m \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa')  \sum_{m} 2 \pi \delta(\kappa + \kappa' + 2 \pi m) \\
+& = 2 \pi m \int_{-\pi}^{\pi} \! \d{\kappa} \: \dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) 
+\end{align*}
+where the last line follows from integrating out the delta functions. The only delta function that contributes is $m = 0$ because $|\kappa| < \pi$ and $|\kappa'| < \pi$ so we must have $\kappa + \kappa' = 0$. Continuting,
+\begin{align*}
+\sum_{n} u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 & = \sum_n \frac{u}{a^2} \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) \left[ e^{i \kappa (n+1)} - e^{i \kappa n} \right] \right)^2 \\ 
+& = \frac{u}{a^2} \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \left[ e^{i \kappa} -  1 \right] \left[ e^{i \kappa'} -  1 \right] \sum_n e^{i (\kappa + \kappa') n} \\ & = \frac{u}{a^2} \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \left[ e^{i \kappa} -  1 \right] \left[ e^{i \kappa'} -  1 \right] \sum_m 2 \pi \delta(\kappa + \kappa' + 2 \pi m) \\
+& = 2\pi \frac{u}{a^2} \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) Q(t, -\kappa) \left[ e^{i \kappa} -  1 \right] \left[ e^{-i \kappa} -  1 \right] \\
+& = 2\pi \frac{u}{a^2} \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) Q(t, -\kappa) \left[ 1 - e^{i \kappa} - e^{- i \kappa} + 1 \right] \\
+& = 2\pi \frac{2u}{a^2} \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) Q(t, -\kappa) \left(1 - \cos{\kappa}\right)
+\end{align*}
+Finally,
+\begin{align*}
+\sum_{n} \frac{1}{2} v \left(\frac{2 \pi Q_n}{a} \right)^2 & = \sum_n \frac{2 \pi^2 v}{a^2} \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa n} \right)^2 = \sum_{n} \frac{4 \pi^2 v}{a^2}  \int_{-\pi}^{\pi} \! \d{\kappa} \: \int_{-\pi}^{\pi} \! \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') e^{i (\kappa + \kappa') n} 
+\\
+& = \frac{2 \pi^2 v}{a^2}  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa')  \sum_{m} 2 \pi \delta(\kappa + \kappa' + 2 \pi m) \\
+& = \pi \frac{4 \pi^2 v}{a^2}  \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) Q(t, -\kappa) 
+\end{align*}
+Therefore, combining the terms, 
+\begin{align*}
+S^{(2)} = \pi \int \! \d{t} \int_{-\pi}^{\pi} \! \d{\kappa} \left[m \dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) - \left( \frac{2u}{a^2} \left(1 - \cos{\kappa}\right) + \frac{4 \pi^2 v}{a^2} \right) Q(t, \kappa) Q(t, -\kappa) + \frac{N v}{2 \pi^2} \right] 
+\end{align*}
+which looks like a continuous set of harmonic oscillators with frequencies,
+\[ \omega_k^2 = \frac{4 \pi^2 v}{m a^2} + \frac{2 u}{m a^2} \left(1 - \cos{\kappa} \right) \]
+with agrees with the earlier result.
+\section*{(g)}
+Consider the action of a scalar field $\phi$ given by,
+\[\tilde{S}^{(2)} = \int \! \d{t} \int \! \d{x} \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 - \tfrac{1}{2} \mu^2 \phi^2 - \rho \right)\]
+Now, use the expansion of the field $\phi$ in terms of $Q$ given by,
+\[\phi(t, x) = Z \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa x / a} \]
+As before, I will calculate the action term by term.
+\begin{align*}
+\int \! \d{x} \: (\partial_t \phi)^2 & = Z^2 \int \! \d{x} \: \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: \dot{Q}(t, \kappa) e^{i \kappa x / a} \right)^2 = Z^2  \int \! \d{x} \:\int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa') e^{i (\kappa + \kappa') x / a} \\
+& = Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa') \int \! \d{x} \: e^{i (\kappa + \kappa') x / a} \\
+& = 2 \pi a Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: \dot{Q}(t, \kappa) \dot{Q}(t, \kappa') \delta\left( \kappa + \kappa' \right) = 2 \pi a Z^2  \int_{-\pi}^{\pi} \! \d{\kappa} \: \dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) 
+\end{align*}
+likewise,
+\begin{align*}
+\int \! \d{x} \: (\partial_x \phi)^2 & = Z^2 \int \! \d{x} \: \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) \frac{i \kappa}{a} e^{i \kappa x / a} \right)^2 = Z^2  \int \! \d{x} \:\int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \frac{-\kappa \kappa'}{a^2}  e^{i (\kappa + \kappa') x / a} \\
+& = Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \frac{-\kappa \kappa'}{a^2} \int \! \d{x} \: e^{i (\kappa + \kappa') x / a} \\
+& = 2 \pi a Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \frac{-\kappa \kappa'}{a^2} \delta\left( \kappa + \kappa' \right) = \frac{2 \pi Z^2}{a}  \int_{-\pi}^{\pi} \! \d{\kappa} \: \kappa^2 Q(t, \kappa) Q(t, -\kappa) 
+\end{align*}
+and finally,
+\begin{align*}
+\int \! \d{x} \: \mu^2 \phi^2 & = \mu^2 Z^2 \int \! \d{x} \: \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa x / a} \right)^2 = \mu^2 Z^2 \int \! \d{x} \:\int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') e^{i (\kappa + \kappa') x / a} \\
+& = \mu^2 Z^2 \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \int \! \d{x} \: e^{i (\kappa + \kappa') x / a} \\
+& = 2 \pi \mu^2 a Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \delta\left( \kappa + \kappa' \right) = 2 \pi \mu^2 a Z^2 \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) Q(t, -\kappa) 
+\end{align*}
+Finally, combining terms,
+\begin{align*}
+\tilde{S}^{(2)} = \pi a Z^2 \int \d{t} \: \int_{-\pi}^{\pi} \! \d{\kappa} \:\left[  \dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) - \left(\frac{c^2 \kappa^2}{a^2} + \mu^2 \right) Q(t, \kappa) Q(t, -\kappa) - \frac{\rho L}{2 \pi^2 a Z^2} \right]
+\end{align*}
+Therefore, we can match terms such that $S^{(2)} = \tilde{S}^{(2)}$ when $|\kappa| \ll 1$ such that the approximation $1 - \cos{\kappa} = \tfrac{1}{2} \kappa^2$ is valid. Matching coeficients,
+\[ aZ^2 = m \quad \quad a Z^2 \frac{c^2}{a^2} = \frac{u}{a^2} \quad \quad a Z^2 \mu^2 = \frac{4 \pi^2 v}{a^2} \quad \quad \frac{N v}{2 \pi^2} = - \frac{\rho L}{2 \pi^2 a Z^2}\]
+Therefore, the actions agree if we set,
+\[Z = \sqrt{\frac{m}{a}} \quad \quad c^2 = \frac{u}{m} \quad \quad \mu^2 = \frac{4 \pi^2 v}{m a^2} \quad \quad \rho = - v n m\] 
+where $n = \frac{N}{L}$ is the number density of particles so $n m$ is the linear mass density. 
+\subsection*{(h)}
+First, we calculate the higher derivatives of $\phi$ in Fourier space,
+\begin{align*}
+\int \! \d{x} \: (\partial_x^m \phi)^2 & = Z^2 \int \! \d{x} \: \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) \left(\frac{i \kappa}{a}\right)^m e^{i \kappa x / a} \right)^2 \\
+& = Z^2  \int \! \d{x} \:\int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \left(\frac{-\kappa \kappa'}{a^2} \right)^m e^{i (\kappa + \kappa') x / a} \\
+& = Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \left(\frac{-\kappa \kappa'}{a^2} \right)^m \int \! \d{x} \: e^{i (\kappa + \kappa') x / a} \\
+& = 2 \pi a Z^2  \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \! \d{\kappa} \d{\kappa'} \: Q(t, \kappa) Q(t, \kappa') \left(\frac{-\kappa \kappa'}{a^2} \right)^m \delta\left( \kappa + \kappa' \right) 
+\\ & = \frac{2 \pi Z^2}{a^{2m - 1}}  \int_{-\pi}^{\pi} \! \d{\kappa} \: \kappa^{2m} Q(t, \kappa) Q(t, -\kappa) 
+\end{align*}
+Now, we take the exact action $S^{(2)}$ and expand the curvature term,
+\[(1 - \cos{\kappa}) = \tfrac{1}{2} \kappa^2 - \tfrac{1}{24} \kappa^4 + \cdots = \sum_{m = 1}^\infty \frac{(-1)^{m - 1}}{(2m)!} \kappa^{2m} \]  
+Now,
+\begin{align*}
+S^{(2)} & = \pi \int \! \d{t} \int_{-\pi}^{\pi} \! \d{\kappa} \left[m \dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) - \left( \frac{2u}{a^2} \sum_{m = 1}^\infty \frac{(-1)^{m - 1} }{(2m)!} \kappa^{2m} + \frac{4 \pi^2 v}{a^2} \right) Q(t, \kappa) Q(t, -\kappa) + \frac{N v}{2 \pi^2} \right] \\
+& = \pi a Z^2 \int \! \d{t} \int_{-\pi}^{\pi} \! \d{\kappa} \left[\dot{Q}(t, \kappa) \dot{Q}(t, -\kappa) - \left( \frac{2 c^2}{a^2} \sum_{m = 1}^\infty \frac{(-1)^{m - 1}}{(2m)!} \kappa^{2m} + \mu^2 \right) Q(t, \kappa) Q(t, -\kappa) - \frac{\rho L}{2 \pi^2 a Z^2} \right] \\
+& = \int \! \d{t} \int \! \d{x} \left( \tfrac{1}{2} \left( \partial_t \phi \right)^2  -  c^2 \sum_{m = 1}^{\infty} \frac{(-1)^{m - 1}a^{2(m-1)}}{(2m)!} (\partial_x^m \phi)^2 - \tfrac{1}{2} \mu^2 \phi^2 - \rho \right)
+\end{align*}
+\subsection*{(i)}
+Expanding the origional action $S$ to fourth order in $Q_n$, we arrive at,
+\begin{align*} S^{(4)} & = \frac{1}{2} \int \d{t} \sum_{n} \left(m \dot{Q}_n(t)^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \left[1 - \frac{1}{2} \left(\frac{2 \pi Q_n}{a} \right)^2 + \frac{1}{24} \left(\frac{2 \pi Q_n}{a} \right)^4 \right] \right) \\
+& = S^{(2)} + \int \! \d{t} \: \sum_{n} \frac{1}{24} v \left(\frac{2 \pi Q_n}{a} \right)^4
+\end{align*}
+with the exception of the final order four term, we have already calculated all of these  monomials in terms of the Fourier transformed variable $Q(t, \kappa)$. The remaing calculation goes as follows,
+\begin{align*}
+\sum_{n} \frac{1}{24} v \left(\frac{2 \pi Q_n}{a} \right)^4 & = \sum_n \frac{2 \pi^4 v}{3 a^4} \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa n} \right)^4 \\ & = \frac{2 \pi^4 v}{3 a^4} \int_{[-\pi, \pi]^4} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3} \d{\kappa_4} \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, \kappa_4) \sum_{n} e^{i (\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4) n} \\
+& = 2\pi \frac{2 \pi^4 v}{3 a^4} \int_{[-\pi, \pi]^4} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3} \d{\kappa_4} \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, \kappa_4) \\ & \quad \quad \quad \cdot \sum_{m} \delta(\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4 + 2 \pi m)
+\end{align*}
+which imposes the condition $\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4 + 2 \pi m = 0$ but also $|\kappa_4| < \pi$. Therefore, given $\kappa_i$ for $i = 1,2,3$ then there is exactly one value of $\kappa_4$ which is a zero of the delta function. Write this value as $\kappa' = [-\kappa_1 - \kappa_2 - \kappa]_{[-\pi, \pi]}$ where this notation means that the value is reduced to the interval $[-\pi, \pi]$. Then,
+\begin{align*}
+\sum_{n} \frac{1}{24} v \left(\frac{2 \pi Q_n}{a} \right)^4 = 2\pi \frac{2 \pi^4 v}{3 a^4} \int_{[-\pi, \pi]^3} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3}  \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, \kappa')
+\end{align*}
+We compare this term to the Fourier expansion of the $\phi^4$ term,
+\begin{align*}
+\int \! \d{x} \: \lambda \phi^4 & = \lambda Z^4 \int \! \d{x} \: \left( \int_{-\pi}^{\pi} \! \d{\kappa} \: Q(t, \kappa) e^{i \kappa x / a} \right)^4 
+\\
+& = \lambda Z^4  \int_{[-\pi, \pi]^4} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3} \d{\kappa_4} \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, \kappa_4) \int \! \d{x} \: e^{i (\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4) x / a} 
+\\
+& = 2 \pi \lambda  a Z^4  \int_{[-\pi, \pi]^4} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3} \d{\kappa_4} \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, \kappa_4) \delta(\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4) \\
+\end{align*}
+Under the approximation that only modes with $|\kappa| \ll 1$ are excited, there will always exist a value $\kappa_4 \in [-\pi, \pi]$ such that $\kappa_1 + \kappa_2 + \kappa_3 + \kappa_4 = 0$ for any combiation of $\kappa_1, \kappa_2, \kappa_3$. Therefore,
+\begin{align*}
+\int \! \d{x} \: \lambda \phi^4 = 2 \pi \lambda a Z^4  \int_{[-\pi, \pi]^3} \! \d{\kappa_1} \d{\kappa_2} \d{\kappa_3} \d{\kappa_4} \: Q(t, \kappa_1) Q(t, \kappa_2) Q(t, \kappa_3) Q(t, -\kappa_1 - \kappa_2 - \kappa_3) \\
+\end{align*}
+Thus, if we set,
+\[ \lambda = - \frac{2 \pi^4 v}{3 m^2 a^3} = - \frac{\pi^2 \mu^2}{6 m a} \]
+Then the continuous and discrete interaction terms are equal,
+\[ - \int \! \d{x} \: \lambda \phi^4 = \sum_{n} \frac{1}{24} v \left(\frac{2 \pi Q_n}{a} \right)^4\]
+Therefore, using the correspondence of terms we calculated earlier, when only $|\kappa| \ll 1$ modes are excited,
+\begin{align*}
+S^{(4)} & = S^{(2)} + \int \! \d{t} \: \sum_{n} \frac{1}{24} v \left(\frac{2 \pi Q_n}{a} \right)^4 \simeq \tilde{S}^{(2)} - \int \! \d{t} \int \! \d{x} \: \lambda \phi^4 \\
+& = \int \! \d{t} \int \! \d{x} \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 - \tfrac{1}{2} \mu^2 \phi^2 - \lambda \phi^4 - \rho \right) = \tilde{S}^{(4)}
+\end{align*}
+
+\subsection*{(j)}
+
+By an identical argument as used for the $\phi^4$ term, we see that,
+\[ \sum_{n} \left(\frac{2 \pi Q_n}{a} \right)^m = \left(\frac{2 \pi}{a} \right)^m \frac{1}{a Z^m} \int \d{x} \: \phi^m \]
+then, under the approximation that only $|\kappa| \ll 1$ modes appear in the expansion of $\phi$, the action becomes,
+\begin{align*}
+S & = \frac{1}{2} \int \d{t} \sum_{n} \left(m \dot{Q}_n(t)^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \cos{\left(\frac{2 \pi Q_n}{a} \right)} \right) 
+\\
+& = \frac{1}{2} \int \d{t} \sum_{n} \left(m \dot{Q}_n(t)^2 - u \left(\frac{Q_{n+1} - Q_{n}}{a}\right)^2 + 2 v \sum_{m = 0} \frac{(-1)^{m-1}}{(2m)!} \left(\frac{2 \pi Q_n}{a}\right)^m \right) 
+\\
+& \simeq \frac{1}{2} \int \d{t} \int \d{x} \: \left( (\partial_t \phi)^2 - c^2 (\partial_x \phi)^2 + \frac{2 v}{a} \sum_{m = 0}^\infty \frac{(-1)^{m-1}}{(2m)!} \left(\frac{2 \pi}{a Z} \phi \right)^m \right) 
+\\
+& = \int \d{t} \int \d{x} \: \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 + \frac{v}{a} \cos \left(\frac{2 \pi}{a Z} \phi \right) \right) 
+\end{align*}
+Therefore, the action for the effective theory can be written as,
+\[\tilde{S} = \int \d{t} \int \d{x} \: \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 + w \cos \left(\frac{2 \pi \phi}{b} \right) \right) \]
+where the constants are given by,
+\[w = \frac{v}{a} \quad \quad b = aZ = \sqrt{ma} \quad \quad c^2 = \frac{u}{m} \]
+Thus, we can express the microscopic parameters in terms of the effective field theory constants,
+\[ m = \frac{b^2}{a} \quad \quad u = \frac{c^2 b^2}{a} \quad \quad v = w a \]
+
+\subsection*{(k)}
+The action,
+\[\tilde{S} = \int \d{t} \int \d{x} \: \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 + w \cos \left(\frac{2 \pi \phi}{b} \right) \right) \]
+is clearly invariant under space-time translation because the Lagrangian does not explicity depend on space-time coordinates. Therefore, the cooresponding change to the Lagrangian under a translation of the fields is a total derivative which integrates out of the action to produce boundary terms. These terms are independent of the local fields and therefore cannot effect the extremalization of the action which determines the equations of motion of the fields. \bigskip \\
+Now, consider the Lorentz-like coordinate tranformation,
+\begin{align*}
+t' & = \frac{1}{\sqrt{1 - \beta^2}} \left( t - \frac{\beta x}{c} \right) \\
+x' & = \frac{1}{\sqrt{1 - \beta^2}} \left( x - c \beta t \right) \\
+\end{align*}
+under which the field is an invariant,
+\[\phi'(t', x')  = \phi(t, x)\]
+In order to calculate the transformation of derivatives, the inverse coordinate transformation will be useful,
+\begin{align*}
+t & = \frac{1}{\sqrt{1 - \beta^2}} \left( t' + \frac{\beta x'}{c} \right) \\
+x & = \frac{1}{\sqrt{1 - \beta^2}} \left( x' + c \beta t' \right) \\
+\end{align*}
+The derivatives transform as,
+\begin{align*}
+\partial_t' & = \pderiv{t}{t'} \partial_t + \pderiv{x}{t'} \partial_x = \frac{1}{\sqrt{1 - \beta^2}} \partial_t +  \frac{1}{\sqrt{1 - \beta^2}} c \beta \partial_x 
+\\
+\partial_x' & = \pderiv{t}{x'} \partial_t + \pderiv{x}{x'} \partial_x = \frac{1}{\sqrt{1 - \beta^2}} \frac{\beta}{c} \partial_t + \frac{1}{\sqrt{1 - \beta^2}} \partial_x 
+\end{align*}
+Therefore, the combination derivatives in the continuous action evaluated in the new coordinates becomes,
+\begin{align*} 
+(\partial_t' \phi')^2 - c^2 (\partial_x' \phi') & = \left( \frac{1}{\sqrt{1 - \beta^2}} \partial_t \phi +  \frac{1}{\sqrt{1 - \beta^2}} c \beta \partial_x \phi \right)^2 - c^2 \left( \frac{1}{\sqrt{1 - \beta^2}} \frac{\beta}{c} \partial_t \phi + \frac{1}{\sqrt{1 - \beta^2}} \partial_x \phi \right)^2 
+\\
+& = \frac{1}{1 - \beta^2} \left[ (\partial_t \phi)^2 + 2 c \beta \partial_t \phi \partial_x \phi + c^2 \beta^2 (\partial_x \phi)^2 \right] - c^2 \frac{1}{1 - \beta^2} \left[ \frac{\beta^2}{c^2} (\partial_t \phi)^2 + 2 \frac{\beta}{c} \partial_t \phi \partial_x \phi + (\partial_x \phi)^2 \right] 
+\\
+& = \frac{1}{1 - \beta^2} \left[ (1 - \beta^2) (\partial_t \phi)^2 + c^2 (\beta^2 - 1) (\partial_x \phi)^2 \right] = (\partial_t \phi)^2 - c^2 (\partial_x \phi)^2
+\end{align*}
+Therefore, using the fact that the Jacobian of the transformation has determinant $1$,
+\begin{align*}
+\tilde{S}' & = \int \d{t'} \int \d{x'} \: \left( \tfrac{1}{2} (\partial_t' \phi')^2 - \tfrac{c^2}{2} (\partial_x' \phi')^2 + w \cos \left(\frac{2 \pi \phi'}{b} \right) \right) 
+\\
+& = \int \d{t} \int \d{x} \: \left( \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 + w \cos \left(\frac{2 \pi \phi}{b} \right) \right) = \tilde{S} 
+\end{align*}
+so the action is invariant under the Lorentz-like transformations. 
+\subsection*{(l)}
+Space-time translation is also a symmetry of the action with arbitrarily higher order derivative corrections. This action will be invariant under translations for exactly the same reason that the action $\tilde{S}$ is invariant, namely that the Lagrangian is not explicitly dependent on the coordinates. However, the microscopic model is not invariant under continuous spatial translations because the lattice may not be mapped back onto itself. Discrete translations by multiples of $a$, the lattice spacing, are symmetries of the microscopic model because they amount to simply permuting the terms in the sum leaving the action invariant. That said, the microscopic model is invariant under arbitrary shifts in time because the Lagrangian does not explicitly depend on time.
+\bigskip \\
+However, the Lorentz-like symmetry is not present in either the original microscopic model or the higher derivative corrections to the continuous model. In the case of the original model, time and space coordinates cannot be mixed in the proper way to even define the Lorentz-like symmetry because time is a continuous variable were as space is discrete. On the other hand, higher derivative terms are not ``Lorentz'' invariant because they are spatial only and not matched with time derivatives of the proper orders. When the Lorentz-like transformation is applied, the higher order spatial derivatives will introduce higher order time derivatives which were not present in the original action. \bigskip \\
+
+\subsection*{(m)}
+Under space-time translation in the direction $a^\nu$, the field transforms as, $\delta \phi = \epsilon a^\nu \partial_\nu \phi$ and the Lagrangian as, $\delta \lagrange = \epsilon a^{\nu} \partial_\nu \lagrange = \epsilon \: \partial_\nu \left(a^\nu \lagrange \right)$, so by Noether's theorem, there is a conserved current, 
+\[ \mathcal{J}_N^\mu = a^\nu \partial_\nu \phi \pderiv{\lagrange}{(\partial_\mu \phi)} -  a^{\mu} \lagrange = \left( \pderiv{\lagrange}{(\partial_\mu \phi)} \partial^\nu \phi  - \eta^{\mu \nu} \lagrange \right) a_\nu  = T^{\mu \nu}  a_\nu\]
+Therefore,
+\[ \partial_\mu \mathcal{J}_N^\mu = \partial_\mu T^{\mu \nu}  a_\nu = 0\]
+must hold for any constant vector $a_\nu$. Therefore, 
+\[ \partial_\mu T^{\mu \nu}  = 0 \]
+and thus $T^{\mu \nu}$ is the Energy-Momentum tensor because it is the quantity which is conserved by virture of space-time translational invariance. In the case of the real scalar field with cosine self-interaction,
+\[ \lagrange = \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{c^2}{2} (\partial_x \phi)^2 + w \cos \left(\tfrac{2 \pi \phi}{b} \right) \]
+Therefore,
+\[ \mathcal{H} = T^{00} =  (\partial_t \phi)^2 - \lagrange = \tfrac{1}{2} (\partial_t \phi)^2 + \tfrac{c^2}{2} (\partial_x \phi)^2 - w \cos \left(\tfrac{2 \pi \phi}{b} \right) \]
+and likewise,
+\[ \mathcal{P} = T^{01} = - \partial_t \phi \: \partial_x \phi  \]
+\section*{Problem 2.}
+
+\subsection*{(a)}
+For the free scalar field,
+\[ \lagrange = \tfrac{1}{2} \left[ (\partial_t \phi)^2 - c^2 (\partial_x \phi)^2 - \mu^2 \phi^2 \right] \]
+we calculate the conjugte momentum,
+\[ \pi_{\phi} = \pderiv{\lagrange}{(\partial_t \phi)} = \partial_t \phi \]
+and Hamiltonian,
+\begin{align*}
+\mathcal{H} =  \pi_\phi \partial_t \phi - \lagrange = (\partial_t \phi)^2 - \tfrac{1}{2} \left[ (\partial_t \phi)^2 - c^2 (\partial_x \phi)^2 - \mu^2 \phi^2 \right] = \tfrac{1}{2} \left[ (\partial_t \phi)^2 + c^2 (\partial_x \phi)^2 + \mu^2 \phi^2 \right]
+\end{align*}
+Next, the Hamiltonian is written in terms of canonically conjugate variables which are promoted to operators,
+\[ \hamilt =  \int \d{x} \: \mathcal{H} =  \frac{1}{2} \int \mathrm{d}^4 x\: \left[ \hat{\pi}(x)^2 + c^2 (\partial_x \hat{\phi}(x))^2 + \mu^2 \hat{\phi}(x)^2 \right]\]
+\subsection*{(b)}
+
+Now we use the Fourier transformed canonically conjugate variables,
+\[ \hat{\phi}(x) = \frac{1}{\sqrt{2\pi}} \int \d{k} \: \hat{\phi}(k) \: e^{i k x} \quad \quad \hat{\pi}(x) = \frac{1}{\sqrt{2\pi}} \int \d{k} \: \hat{\pi}(k) \: e^{i k x}\]
+We will also make use of the inverse transformations,
+\[ \hat{\phi}(k) = \frac{1}{\sqrt{2\pi}} \int \d{x} \: \hat{\phi}(x) \: e^{-i k x} \quad \quad \hat{\pi}(k) = \frac{1}{\sqrt{2\pi}} \int \d{x} \: \hat{\pi}(x) \: e^{-i k x}\]
+Therefore,
+\begin{align*}
+[\hat{\phi}(k), \hat{\phi}(k')] & = \hat{\phi}(k) \hat{\phi}(k') - \hat{\phi}(k') \hat{\phi}(k) = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: \left[ \hat{\phi}(x) \: e^{-i k x} \hat{\phi}(y) \: e^{-i k' y} - \hat{\phi}(y) \: e^{-i k' y} \hat{\phi}(x) \: e^{-i k x} \right] \\ 
+& = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: [\hat{\phi}(x), \hat{\phi}(y)] e^{-i(kx + k'y)} = 0 \\
+[\hat{\pi}(k), \hat{\pi}(k')] & = \hat{\pi}(k) \hat{\pi}(k') - \hat{\pi}(k') \hat{\pi}(k) = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: \left[ \hat{\pi}(x) \: e^{-i k x} \hat{\pi}(y) \: e^{-i k' y} - \hat{\pi}(y) \: e^{-i k' y} \hat{\pi}(x) \: e^{-i k x} \right] \\ 
+& = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: [\hat{\pi}(x), \hat{\pi}(y)] e^{-i(kx + k'y)} = 0 \\
+[\hat{\phi}(k), \hat{\pi}(k')] & = \hat{\phi}(k) \hat{\pi}(k') - \hat{\pi}(k') \hat{\phi}(k) = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: \left[ \hat{\phi}(x) \: e^{-i k x} \hat{\pi}(y) \: e^{-i k' y} - \hat{\pi}(y) \: e^{-i k' y} \hat{\phi}(x) \: e^{-i k x} \right] \\ 
+& = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: [\hat{\phi}(x), \hat{\pi}(y)] e^{-i(kx + k'y)} = \frac{1}{2 \pi}  \int \d{x} \: \d{y} \: i \delta(x - y) e^{-i(kx + k'y)} \\
+& = \frac{1}{2 \pi}  \int \d{x} \: i  e^{-i(kx + k'x)} = i \delta(k + k')  \\
+\end{align*}
+Next, we compute the Hamiltonian in Fourier space variables,
+\begin{align*}
+\hamilt & =  \int \d{x}  \: \mathcal{H} =  \frac{1}{2} \int \mathrm{d}^4 x\: \left[ \hat{\pi}(x)^2 + c^2 (\partial_x \hat{\phi}(x))^2 + \mu^2 \hat{\phi}(x)^2 \right] \\
+& = \frac{1}{4 \pi}  \int \: \d{x}  \: \left[ \left( \int \d{k} \: \hat{\pi}(k) \: e^{i k x} \right)^2 + c^2 \left(\partial_x \int \d{k} \: \hat{\phi}(k) \: e^{i k x} \right)^2 + \mu^2 \left(\int \d{k} \: \hat{\phi}(k) \: e^{i k x}\right) \right] 
+\\
+& = \frac{1}{4 \pi} \int \: \d{x} \int \d{k} \d{k'} \: \left[ \hat{\pi}(k) \: e^{i k x} \hat{\pi}(k') \: e^{i k x'} + c^2 i k \hat{\phi}(k) \: e^{i k x} i k' \hat{\phi}(k') \: e^{i k' x}  + \mu^2 \hat{\phi}(k) \: e^{i k x} \hat{\phi}(k') \: e^{i k' x} \right] 
+\\
+& = \frac{1}{4 \pi}  \int \d{k} \d{k'} \: \left[ \hat{\pi}(k) \: \hat{\pi}(k')  + \left( - c^2 k k'  + \mu^2 \right) \hat{\phi}(k) \: \hat{\phi}(k') \right] \int \d{x} \: e^{i (k + k') x} 
+\\
+& = \frac{1}{2}  \int \d{k} \d{k'} \: \left[ \hat{\pi}(k) \: \hat{\pi}(k')  + \left( - c^2 k k'  + \mu^2 \right) \hat{\phi}(k) \: \hat{\phi}(k') \right] \: \delta(k + k')
+\\
+& = \frac{1}{2}  \int \d{k} \: \left[ \hat{\pi}(k) \: \hat{\pi}(-k)  + \left(c^2 k^2  + \mu^2 \right) \hat{\phi}(k) \: \hat{\phi}(-k) \right] 
+\end{align*}
+\subsection*{(c)}
+Define,
+\[ \alpha(k) = \sqrt{\frac{\omega(k)}{2}} \hat{\phi}(k) + \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(k)\]
+and similarly,
+\[ \alpha^\dagger(k) = \sqrt{\frac{\omega(k)}{2}} \hat{\phi}(-k) - \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(-k)\]
+where,
+\[\omega(k)^2 = c^2 k^2 + \mu^2\]
+The canonical commutation relations become,
+\begin{align*}
+[\alpha(k), \alpha(k')] & = \left[\sqrt{\frac{\omega(k)}{2}} \hat{\phi}(k) + \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(k), \sqrt{\frac{\omega(k')}{2}} \hat{\phi}(k') + \frac{i}{\sqrt{2 \omega(k')}} \hat{\pi}(k') \right] 
+\\
+& = \frac{1}{2} \left[ i\sqrt{\frac{\omega(k')}{\omega(k)}} [\hat{\pi}(k), \hat{\phi}(k')] + i \sqrt{\frac{\omega(k)}{\omega(k')}} [\hat{\phi}(k), \hat{\pi}(k')] \right]
+\\
+& =  \frac{1}{2} \left[ \sqrt{\frac{\omega(k')}{\omega(k)}} \delta(k + k') -  \sqrt{\frac{\omega(k)}{\omega(k')}} \delta(k + k')  \right] = 0
+\end{align*}
+where the last follows because when $k + k' = 0$ then $\omega(k) = \omega(k')$. 
+Similarly,
+\begin{align*}
+[\alpha^\dagger(k), \alpha^\dagger(k')] & = \left[\sqrt{\frac{\omega(k)}{2}} \hat{\phi}(-k) - \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(-k), \sqrt{\frac{\omega(k')}{2}} \hat{\phi}(-k') - \frac{i}{\sqrt{2 \omega(k')}} \hat{\pi}(-k') \right] 
+\\
+& = -\frac{i}{2} \left[\sqrt{\frac{\omega(k')}{\omega(k)}} [\hat{\pi}(-k), \hat{\phi}(-k')] + \sqrt{\frac{\omega(k)}{\omega(k')}} [\hat{\phi}(-k), \hat{\pi}(-k')]\right]
+\\
+& = -\frac{1}{2} \left[ \sqrt{\frac{\omega(k')}{\omega(k)}} \delta(-k - k') - \sqrt{\frac{\omega(k)}{\omega(k')}} \delta(-k - k')\right] = 0
+\end{align*}
+and finally,
+\begin{align*}
+[\alpha(k), \alpha^\dagger(k')] & = \left[\sqrt{\frac{\omega(k)}{2}} \hat{\phi}(k) + \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(k), \sqrt{\frac{\omega(k')}{2}} \hat{\phi}(-k') - \frac{i}{\sqrt{2 \omega(k')}} \hat{\pi}(-k') \right] 
+\\
+& = \frac{1}{2} \left[i \sqrt{\frac{\omega(k')}{\omega(k)}} [\hat{\pi}(k), \hat{\phi}(-k')] - i \sqrt{\frac{\omega(k)}{\omega(k')}} [\hat{\phi}(k), \hat{\pi}(-k')]\right]
+\\
+& = \frac{1}{2} \left[ \sqrt{\frac{\omega(k')}{\omega(k)}} \delta(k - k') + \sqrt{\frac{\omega(k)}{\omega(k')}} \delta(k - k')\right] = \delta(k - k')
+\end{align*}
+Now, we can rewrite the Hamiltonian in terms of these operators. First, the field and its conjugate momentum should be expressed in terms of $\alpha$ and $\alpha^\dagger$,
+\[\hat{\phi}(k) = \frac{1}{\sqrt{2 \omega(k)}} \left[ \alpha(k) + \alpha^\dagger(-k) \right] \quad \quad \hat{\pi}(k) = \frac{1}{i} \sqrt{\frac{\omega(k)}{2}} \left[ \alpha(k) - \alpha^\dagger(-k) \right]\]
+Therefore,
+\begin{align*}
+\hamilt & = \frac{1}{2}  \int \d{k} \: \left[ \hat{\pi}(k) \: \hat{\pi}(-k)  + \left(c^2 k^2  + \mu^2 \right) \hat{\phi}(k) \: \hat{\phi}(-k) \right] 
+\\
+& =  \frac{1}{4}  \int \d{k} \: \left[ - \omega(k) [\alpha(k) - \alpha^\dagger(-k)][\alpha(-k) - \alpha^\dagger(k)]  + \frac{c^2 k^2  + \mu^2}{\omega(k)}[\alpha(k) + \alpha^\dagger(-k)][\alpha(-k) + \alpha^\dagger(k)] \right]
+\\
+& = \frac{1}{4}  \int \d{k} \: \omega(k) \left[ \alpha^\dagger(-k) \alpha(-k) + \alpha(k) \alpha^\dagger(k) - \cancel{\alpha(k) \alpha(-k)} - \cancel{\alpha^\dagger(-k) \alpha^\dagger(k)} \right.
+\\
+& \left. \quad \quad \quad \quad \quad \quad + \cancel{\alpha(k) \alpha(-k)} + \alpha^\dagger(-k) \alpha(-k) + \alpha(k) \alpha^\dagger(k) + \cancel{\alpha^\dagger(-k) \alpha^\dagger(k)}  \right] 
+\\
+& = \frac{1}{2}  \int \d{k} \: \omega(k) \left[ \alpha^\dagger(-k) \alpha(-k) + \alpha(k) \alpha^\dagger(k) \right]
+\end{align*}
+now we reparametrize the integral over the first term by $k \to -k$,
+\begin{align*}
+\hamilt & = \frac{1}{2}  \int \d{k} \: \omega(k) \left[ \alpha^\dagger(k) \alpha(k) + \alpha(k) \alpha^\dagger(k) \right] = \frac{1}{2}  \int \d{k} \: \omega(k) \left[ 2 \alpha^\dagger(k) \alpha(k) + [\alpha(k), \alpha^\dagger(k)] \right] \\
+& =  \int \d{k} \: \omega(k) \alpha^\dagger(k) \alpha(k) + \frac{1}{2}  \int \d{k} \: \omega(k) [\alpha(k), \alpha^\dagger(k)]
+\end{align*}
+\subsection*{(d)}
+The constant term in our Hamiltonian is,
+\[ \frac{1}{2}  \int \d{k} \: \omega(k) [\alpha(k), \alpha^\dagger(k)] = \frac{1}{2}  \int \d{k} \: \omega(k) \delta(k - k) = \frac{1}{2}  \int \d{k} \: \d{x} \: \omega(k) e^{i (k - k) x} = \frac{1}{2}  \int \d{k} \: \d{x} \: \omega(k) \]
+If we restrict ourselves to finite region of space, the available modes become discrete so the divergent constant is instead,
+\[  \frac{1}{2} \sum_{k} \omega(k) [\alpha(k), \alpha^\dagger(k)] = \frac{1}{2} \sum_{k} \omega(k) \delta_{k,k} = \frac{1}{2} \sum_{k} \omega(k)\]
+which, as a sum over modes with arbitrarily large $k$, is still divergent even without the volume divergence. However, this model is not exactly the same as the microscopic model given in problem 1 which has only a finite number of degrees of freedom. In that model, there is a cuttof scale $a$ which restricts the possible values of $k$. Arbitrarily large wavenumbers are not allowed because they would correspond to variation of the field on a scale smaller than the cuttof $a$. Therefore, the sum over zero point energies would be finite in the physical model because only a finite number of modes exist. This fact was expressed in the indentification of the effective field $\phi$ as an integral over $\kappa$ modes in only a finite range of wavenumbers. In reality, a collection of $n$ 1D oscillators has exactly $n$ normal modes and therefore a finite sum of $n$ zero point energies. 
+
+\subsection*{(e)}
+
+Assume that the ground state can be written as a functional in the form,
+\[ \Psi[\phi] = C \exp{\left[ - \frac{1}{2} \int \d{k} \: A(k) \phi(k) \phi(-k) \right] } \]
+We require that, for all values of $k$,
+\[ \alpha(k) \Psi[\phi ] = 0\]
+However, in the basis of all possible functions $\phi$, the conjugate momentum becomes the functional derivative, \[\hat{\pi}(k) = - i \frac{\delta}{\delta \phi(-k)} \]
+This expression can be justified by looking at the canonical commutatior acting on a functonal,
+\begin{align*}
+[\hat{\phi}(k), \hat{\pi}(k')] \Psi[\phi] & = - i \phi(k) \frac{\delta}{\delta \phi(-k')} \Psi[\phi] + i \frac{\delta}{\delta \phi(-k')} \left( \phi(k) \Psi[\phi] \right)
+\\
+& = - i \phi(k) \frac{\delta}{\delta \phi(-k')} \Psi[\phi] + i \phi(k)  \frac{\delta}{\delta \phi(-k')}  \Psi[\phi] + i \frac{\delta \phi(k)}{\delta \phi(-k')} \Psi[\phi] = i \delta(k + k') \Psi[\phi]
+\end{align*}
+so the desired commutatior works out. Now, writing the lowering operators in this basis,
+\[ \alpha(k) = \sqrt{\frac{\omega(k)}{2}} \hat{\phi}(k) + \frac{i}{\sqrt{2 \omega(k)}} \hat{\pi}(k) = \sqrt{\frac{\omega(k)}{2}} \phi(k) + \frac{1}{\sqrt{2 \omega(k)}} \frac{\delta}{\delta \phi(-k)} \]
+Therefore,
+\begin{align*}
+\alpha(k) \Psi[\phi] & = \left( \sqrt{\frac{\omega(k)}{2}} \phi(k) + \frac{1}{\sqrt{2 \omega(k)}} \frac{\delta}{\delta \phi(-k)} \right) C \exp{\left[ - \frac{1}{2} \int \d{k} \: A(k) \phi(k) \phi(-k) \right] }
+\\ 
+& = \left( \sqrt{\frac{\omega(k)}{2}} \phi(k) - \frac{1}{2} \frac{1}{\sqrt{2 \omega(k)}} \left[ A(k) \phi(k) + A(-k) \phi(k) \right] \right) C \exp{\left[ - \frac{1}{2} \int \d{k} \: A(k) \phi(k) \phi(-k) \right] } 
+\\
+& = \left( \sqrt{\frac{\omega(k)}{2}}  - \frac{1}{2} \frac{1}{\sqrt{2 \omega(k)}} \left[ A(k) + A(-k) \right] \right) \phi(k) \Psi[\phi]
+\\
+\end{align*}
+The condition that $\alpha(k) \Psi[\phi] = 0$ for all $k$ implies that,
+\[ \omega(k) = \tfrac{1}{2} \left( A(k) + A(-k) \right) \]
+However, $A(k)$ only appears integrated against an even function of $k$ and therefore when $A(k)$ is written as a sum of an odd and an even part, the odd part makes no contribution. Therefore, we can constrain $A(k)$ to be even. Thus,
+\[A(k) = \omega(k)\]
+
+\subsection*{(f)}
+
+An expectation value on the vacuum state can be expressed as a functional integral over all possible functions $\phi$ of the ground state functional. Thus,
+\begin{align*}
+\bra{0} \phi(k) \phi(k') \ket{0} = \frac{\int \mathcal{D} \phi \: \Psi[\phi]^{*} \phi(k) \phi(k') \Psi[\phi]}{\int \mathcal{D} \phi \: \Psi[\phi]^{*} \Psi[\phi]} = \frac{\int \mathcal{D} \phi \: e^{-\frac{1}{2} \int \d{k} \: \omega(k) \phi(k)^{*} \phi(-k)^{*}} \phi(k) \phi(k') e^{-\frac{1}{2} \int \d{k} \: \omega(k) \phi(k) \phi(-k)}}{\int \mathcal{D} \phi \: e^{-\frac{1}{2} \int \d{k} \: \omega(k) \phi(k)^{*} \phi(-k)^{*}} e^{-\frac{1}{2} \int \d{k} \: \omega(k) \phi(k) \phi(-k)}}
+\end{align*}
+However, 
+\[ \int \d{k} \: \omega(k) \phi(k)^{*} \phi(-k)^{*} = \int \d{k} \: \omega(k) \phi(-k) \phi(k) = \int \d{k} \: \omega(k) \phi(k) \phi(-k) \]
+and therefore,
+\begin{align*}
+\bra{0} \phi(k) \phi(k') \ket{0} = \frac{\int \mathcal{D} \phi \: \phi(k) \phi(k') e^{- \int \d{k} \: \omega(k) \phi(k) \phi(-k)}}{\int \mathcal{D} \phi \: e^{- \int \d{k} \: \omega(k) \phi(k) \phi(-k)}}
+\end{align*}
+To compute this integral, first we introduce an auxilliary functional which generalizes the Gaussian integral, 
+\[ \mathcal{K}[b] = \int \mathcal{D} \phi \: e^{- \frac{1}{2} \int \d{k} \: \d{k'} \: \phi(k) A(k,k') \phi(k') + \int \d{k} \: b(k) \phi(k)} = B \left[ \det{A} \right]^{-1/2} e^{\frac{1}{2} \int \d{k} \: \d{k'} \: b(k) A^{-1}(k, k') b(k')} \] 
+where $A^{-1}(k, k')$ is the function such that,
+\[ \int \d{k'} \: A(k, k') A^{-1}(k', k'') = \delta(k - k'')\]
+Where $A(k, k')$ is choosen to be symmetric. Now, taking the functional derivative of $\mathcal{K}[b]$,
+\begin{align*}
+\frac{\delta^2 \mathcal{K}[b]}{\delta b(k) \delta b(k')} \Bigg|_{b = 0} = \int \mathcal{D} \phi \: \phi(k) \phi(k') \: e^{- \frac{1}{2} \int \d{k} \: \d{k'} \: \phi(k) A(k,k') \phi(k')}
+\end{align*}
+and therefore,
+\begin{align*}
+\frac{1}{\mathcal{K}[b = 0]} \frac{\delta^2 \mathcal{K}[b]}{\delta b(k) \delta b(k')} \Bigg|_{b = 0} = \frac{\int \mathcal{D} \phi \: \phi(k) \phi(k') \: e^{- \frac{1}{2} \int \d{k} \: \d{k'} \: \phi(k) A(k,k') \phi(k')}}{\int \mathcal{D} \phi \: e^{- \frac{1}{2} \int \d{k} \: \d{k'} \: \phi(k) A(k,k') \phi(k')}}
+\end{align*}
+However, we can calculate this derivative using the value of the Gaussian functional integral, 
+\begin{align*} \frac{\delta^2 \mathcal{K}[b]}{\delta b(k) \delta b(k')} \Bigg|_{b = 0} & = B \left[ \det{A} \right]^{-1/2} \frac{\delta}{\delta b(k)} \left[ \left( \int \d{k} \: b(k) A^{-1}(k, k') \right) \cdot  e^{\left[\frac{1}{2} \int \d{k} \: \d{k'} \: b(k) A^{-1}(k, k') b(k') \right]} \right] \Bigg|_{b = 0}
+\\
+& = B \left[ \det{A} \right]^{-1/2}  \left[ \left(  A^{-1}(k, k')  + \int \d{k'} \: A^{-1}(k, k') b(k') \right) \cdot e^{\left[\frac{1}{2} \int \d{k} \: \d{k'} \: b(k) A^{-1}(k, k') b(k') \right]} \right] \Bigg|_{b = 0}
+\\
+& = B \left[ \det{A} \right]^{-1/2} A^{-1}(k, k')
+\end{align*}
+Therefore, taking the ratio,
+\begin{align*}
+\frac{1}{\mathcal{K}[b = 0]} \frac{\delta^2 \mathcal{K}[b]}{\delta b(k) \delta b(k')} \Bigg|_{b = 0} = \frac{B \left[ \det{A} \right]^{-1/2} A^{-1}(k, k')}{B \left[ \det{A} \right]^{-1/2} } = A^{-1}(k, k')
+\end{align*}
+Thus, if we set $A(k, k') = 2 \omega(k) \delta(k + k')$ then,
+\[- \frac{1}{2} \int \d{k} \: \d{k'} \: \phi(k) A(k,k') \phi(k') = - \int \d{k} \: \d{k'} \: \phi(k) \omega(k) \delta(k + k') \phi(k') = - \int \d{k} \: \omega(k) \phi(k) \phi(-k) \]
+which means that the two integrals are, in fact, equal,
+\begin{align*}
+\frac{1}{\mathcal{K}[b = 0]} \frac{\delta^2 \mathcal{K}[b]}{\delta b(k) \delta b(k')} \Bigg|_{b = 0} = \bra{0} \phi(k) \phi(k') \ket{0}
+\end{align*}
+And finally, using the second expression for the functional derivative of $\mathcal{K}$,
+\[\bra{0} \phi(k) \phi(k') \ket{0} = A^{-1}(k, k') = \frac{1}{2 \omega(k)} \delta(k + k') \]
+This function satisfied the inverse criterion because,
+\[ \int \d{k'} \:2 \omega(k) \delta(k + k') \frac{1}{2 \omega(k')} \delta(k' + k'') =   \left[ \frac{\omega(k)}{\omega(k')} \delta(k + k') \right] \Bigg|_{k' = - k''}  = \frac{\omega(k)}{\omega(k'')} \delta(k - k'') = \delta(k - k'') \] 
+\bigskip \\
+Now, expressing the field operators in terms of their Fourier transforms, we can calculate the 2-point function,
+\begin{align*}
+\bra{0} \phi(x) \phi(x') \ket{0} & = \bra{0} \frac{1}{\sqrt{2 \pi}} \int \d{k} \: \phi(k) e^{i k x} \frac{1}{\sqrt{2 \pi}} \int \d{k'} \phi(k') e^{i k' x'} \ket{0} = \bra{0} \frac{1}{2\pi} \int \d{k} \: \d{k'} \: \phi(k) \phi(k') e^{i (k x + k' x')} \ket{0} 
+\\
+& = \frac{1}{2 \pi} \int \d{k} \: \d{k'} \: \bra{0}  \phi(k) \phi(k') \ket{0}  e^{i (k x + k' x')} = \frac{1}{2 \pi} \int \d{k} \: \d{k'} \: \frac{1}{2 \omega(k)} \delta(k + k') e^{i (k x + k' x')} 
+\\
+& = \frac{1}{4 \pi} \int \d{k} \: \frac{1}{\sqrt{c^2 k ^2 + \mu^2} } e^{i k (x - x') } = \frac{1}{2 \sqrt{2 \pi}} \mathcal{F}_k^{-1} \left[ \frac{1}{\sqrt{c^2 k^2 + \mu^2}} \right](x - x')
+\end{align*}
+Where $\mathcal{F}_k^{-1}[f(k)]$ is the inverse Fourier transform with respect to the variable $k$.
+From Mathematica,  
+\[ \mathcal{F}_k^{-1} \left[ \frac{1}{\sqrt{c^2 k^2 + \mu^2}} \right] = \sqrt{\frac{2}{\pi c^2}} K_0\left( \frac{\mu}{c} |x| \right) \]
+where $K_\alpha(x)$ is the modified Bessel function of the second kind. Thus,
+\[ \bra{0} \phi(x) \phi(x') \ket{0} = \frac{1}{2 \pi c} K_0 \left( \frac{\mu}{c} |x - x'| \right) \]
+\subsection*{(g)}
+From Noether's theorem, the conserved momentum is given by,
+\[ \hat{P} = - \int \d{x} \: \partial_t \hat{\phi} \partial_x \hat{\phi} = - \int \d{x} \: \hat{\pi}(x) \partial_x \hat{\phi}(x) \] 
+Using the inverse Fourier transform, we recover the field and conjugate momentum operators in position space in terms of creation and annihilation operators,
+\begin{align*} 
+\hat{\phi}(x) & = \frac{1}{\sqrt{2\pi}} \int \d{k} \: \frac{1}{\sqrt{2 \omega(k)}} \left[ \alpha(k) + \alpha^\dagger(-k) \right] e^{i k x}  = \frac{1}{\sqrt{2\pi}} \int \frac{\d{k}}{\sqrt{2 \omega(k)}} \left[ \alpha(k) e^{i k x} + \alpha^\dagger(k) e^{- i k x} \right] \\
+\hat{\pi}(x) & = \frac{1}{\sqrt{2\pi}} \int \d{k} \: \frac{1}{i} \sqrt{\frac{\omega(k)}{2}} \left[ \alpha(k) - \alpha^\dagger(-k) \right] e^{i k x} = \frac{1}{\sqrt{2\pi}} \int \d{k} \: \frac{1}{i} \sqrt{\frac{\omega(k)}{2}} \left[ \alpha(k) e^{i k x} - \alpha^\dagger(k) e^{- i k x} \right]
+\end{align*}
+Now, plugging in the fields in terms of creation and annihilation operators, 
+\begin{align*}
+\hat{P} & = - \int \d{x} \: \hat{\pi}(x) \partial_x \hat{\phi}(x) 
+\\
+& = - \frac{1}{4 \pi} \int \d{x} \: \left( \frac{1}{i} \int \d{k} \: \left[ \alpha(k) e^{i k x} - \alpha^\dagger(k) e^{- i k x} \right] \right) \partial_x \left( \int \d{k'} \: \left[ \alpha(k') e^{i k' x} + \alpha^\dagger(k') e^{- i k' x} \right] \right)
+\\
+& = -\frac{1}{4 \pi} \int \d{x} \: \d{k} \: \d{k'} \: \Big( \alpha(k) e^{i k x} - \alpha^\dagger(k) e^{- i k x} \Big)  \Big( k' \alpha(k') e^{i k' x} - k' \alpha^\dagger(k') e^{- i k' x} \Big)
+\\
+& = -\frac{1}{4 \pi} \int \d{x} \: \d{k} \: \d{k'} \: k' \Big( \alpha(k) \alpha(k') e^{i (k + k') x} - \alpha^\dagger(k) \alpha(k') e^{i (k' - k) x} \\
+& \quad \quad \quad \quad - \alpha(k) \alpha^\dagger(k') e^{i (k - k') x} + \alpha^\dagger(k) \alpha^\dagger(k') e^{-i(k + k')x} \Big)
+\\
+& = \frac{1}{2}\int \d{k} \: \d{k'} \: k' \Big( \alpha^\dagger(k) \alpha(k') \delta(k' - k) - \alpha(k) \alpha(k') \delta(k + k') + \alpha(k) \alpha^\dagger(k') \delta(k - k') - \alpha^\dagger(k) \alpha^\dagger(k') \delta(k + k') \Big) 
+\\
+& = \frac{1}{2} \int \d{k} \: k \Big( \alpha^\dagger(k) \alpha(k) + \alpha(k) \alpha(-k) + \alpha(k) \alpha^\dagger(k) + \alpha^\dagger(k) \alpha^\dagger(-k) \Big) 
+\\
+& = \int \d{k} \: k \: \alpha^\dagger(k) \alpha(k) + \frac{1}{2} \int \d{k} \: k \Big( [\alpha(k), \alpha^\dagger(k)] + \alpha(k) \alpha(-k) + \alpha^\dagger(k) \alpha^\dagger(-k) \Big) 
+\\
+& = \int \d{k} \: k \: \alpha^\dagger(k) \alpha(k) + \frac{1}{2} \int \d{k} \: k \Big( \delta(0) + \alpha(k) \alpha(-k) + \alpha^\dagger(k) \alpha^\dagger(-k) \Big) 
+\end{align*}
+However, because $[\alpha(k), \alpha(k')] = [\alpha^\dagger(k), \alpha^\dagger(k')] = 0$, the function,
+\[  k \Big( \delta(0) + \alpha(k) \alpha(-k) + \alpha^\dagger(k) \alpha^\dagger(-k) \Big) \]
+is odd under $k \mapsto -k$ so the second integral is zero. Therefore,
+\[ \hat{P} = \int \d{k} \: k \: \alpha^\dagger(k) \alpha(k) \]
+
+\subsection*{(h)}
+Both the Hamiltonian and conserved momentum can be written in terms of the combination $\alpha^\dagger(k) \alpha(k)$. Therefore, we compute the commutator
+\begin{align*}
+[\alpha^\dagger(k) \alpha(k), \alpha^\dagger(k')] & = \alpha^\dagger(k) \alpha(k) \alpha^\dagger(k') - \alpha^\dagger(k') \alpha^\dagger(k) \alpha(k)
+\\
+& = \alpha^\dagger(k) [\alpha(k), \alpha^\dagger(k')] + \alpha^\dagger(k) \alpha^\dagger(k') \alpha(k) - \alpha^\dagger(k) \alpha^\dagger(k') \alpha(k) = \alpha^\dagger(k) [\alpha(k), \alpha^\dagger(k')] 
+\\
+& = \delta(k - k') \alpha^\dagger(k)
+\end{align*}
+Now, consider the (normal ordered) operators,
+\[ \hamilt = \int \d{k} \: \omega(k) \alpha^\dagger(k) \alpha(k) \quad \quad \hat{P} = \int \d{k} \: k \: \alpha^\dagger(k) \alpha(k) \]
+in the commutator with a creation operator,
+\begin{align*}
+[\hamilt, \alpha^\dagger(k')] & = \int \d{k} \: \omega(k) [\alpha^\dagger(k) \alpha(k), \alpha^\dagger(k')] = \int \d{k} \: \omega(k) \delta(k - k') \alpha^\dagger(k) = \omega(k') \alpha^\dagger(k') 
+\\
+[\hat{P}, \alpha^\dagger(k')] & = \int \d{k} \: k \: [\alpha^\dagger(k) \alpha(k), \alpha^\dagger(k')] = \int \d{k} \: k \: \delta(k - k') \alpha^\dagger(k) = k' \: \alpha^\dagger(k') 
+\end{align*}
+acting on the state,
+\[ \ket{k_1, k_2, \dots, k_n} = \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) \ket{0} \]
+Because $\alpha(k) \ket{0} = 0$ then $\hamilt \ket{0} = \hat{P} \ket{0} = 0$ then,
+\begin{align*}
+\hamilt \ket{k_1, k_2, \dots, k_n} & = [\hamilt, \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n)] \ket{0} 
+\\
+& = \left( \alpha^\dagger(k_1) [\hamilt, \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n)]   + [\hamilt, \alpha^\dagger(k_1)] \: \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) \right) \ket{0} 
+\\
+& = \left([\hamilt, \alpha^\dagger(k_1)] \: \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) + \alpha^\dagger(k_1) [\hamilt, \alpha^\dagger(k_2)] \cdots \alpha^\dagger(k_n) \right. \\ 
+& \left. \quad \quad \quad + \cdots +  \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots [\hamilt, \alpha^\dagger(k_n)] \right) \ket{0} 
+\\ 
+& = \Big( \omega(k_1) + \omega(k_2) + \cdots + \omega(k_n) \Big) \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) \ket{0} 
+\\
+& = \Big( \omega(k_1) + \omega(k_2) + \cdots + \omega(k_n) \Big) \ket{k_1, k_2, \dots, k_n}
+\end{align*}
+and similarly,  
+\begin{align*}
+\hat{P} \ket{k_1, k_2, \dots, k_n} & = [\hat{P}, \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n)] \ket{0} 
+\\
+& = \left( \alpha^\dagger(k_1) [\hat{P}, \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n)]   + [\hat{P}, \alpha^\dagger(k_1)] \: \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) \right) \ket{0} 
+\\
+& = \left([\hat{P}, \alpha^\dagger(k_1)] \: \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) + \alpha^\dagger(k_1) [\hat{P}, \alpha^\dagger(k_2)] \cdots \alpha^\dagger(k_n) \right. \\ 
+& \left. \quad \quad \quad + \cdots +  \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots [\hat{P}, \alpha^\dagger(k_n)] \right) \ket{0} 
+\\ 
+& = \Big( k_1 + k_2 + \cdots + k_n \Big) \alpha^\dagger(k_1) \alpha^\dagger(k_2) \cdots \alpha^\dagger(k_n) \ket{0} 
+\\
+& = \Big( k_1 + k_2 + \cdots + k_n \Big) \ket{k_1, k_2, \dots, k_n}
+\end{align*}
+Therefore, the state $\ket{k_1, k_2, \dots, k_n}$ has energy $E = \omega(k_1) + \omega(k_2) + \cdots + \omega(k_n)$ and momentum $P = k_1 + k_2 + \cdots + k_n$. This state behaves as one with $n$ particles obeying the dispersion relation: $\omega(k)^2 = c^2 k^2 + \mu^2$ i.e. a particle with momentum $k$ has energy $\omega(k) = \sqrt{c^2 k^2 + \mu^2}$.
+ 
+\subsection*{(i)}
+
+In the Heisenberg picture, the operators $\alpha(k)$ are promoted to time dependent operators, 
+\[\alpha(t, k) = e^{i \hamilt t} \alpha(k) e^{- i \hamilt t} \]
+Using the Heisenberg equations of motion,
+\begin{align*}
+i \pderiv{}{t} \alpha(t, k) & = [\alpha(t, k), \hamilt] = \omega(k) \alpha(t, k) \\
+i \pderiv{}{t} \alpha^\dagger(t, k) & = [\alpha^\dagger(t, k), \hamilt] = - \omega(k) \alpha^\dagger(t, k) 
+\end{align*}
+Therefore, solving the operator differential equations,
+\[ \alpha(t, k) = e^{- i \omega(k) t} \alpha(k) \quad \quad \alpha^\dagger(t, k) = e^{i \omega(k) t} \alpha^\dagger(k)\]
+Finally, the time evolved field operator is given by,
+\begin{align*}
+\hat{\phi}(t, x) & = e^{i \hamilt t} \hat{\phi}(x) e^{- i \hamilt t} = \frac{1}{\sqrt{2\pi}} \int \frac{\d{k}}{\sqrt{2 \omega(k)}} \left[ e^{i \hamilt t} \alpha(k) e^{- i \hamilt t} e^{i k x} + e^{i \hamilt t} \alpha^\dagger(k) e^{- i \hamilt t} e^{- i k x} \right] 
+\\
+& = \frac{1}{\sqrt{2\pi}} \int \frac{\d{k}}{\sqrt{2 \omega(k)}} \left[ \alpha(k) e^{- i \omega(k) t + i k x} + \alpha^\dagger(k) e^{i \omega(k) t - i k x} \right]
+\end{align*}
+Thus, 
+\[g(k) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{2 \omega(k)}} \quad \text{and} \quad \omega(k) = \sqrt{c^2 k^2 + \mu^2}\]
+with the same frequency as defined before. 
+
+\subsection*{(j)}
+
+Define,
+\[ a(k) = f(k) \alpha(k) \quad \quad a^\dagger(k) = f(k)^{*} \alpha^\dagger(k)\]
+Now, we impose the commutation relation,
+\[ [a(k), a^\dagger(k')] = 2 \pi 2 \omega(k) \delta(k - k') = f(k) f(k')^{*} [\alpha(k), \alpha^\dagger(k')] = f(k) f(k')^{*} \delta(k - k') \]
+This condition is satisfied if we take $f(k) = \sqrt{4 \pi \omega(k)}$. Therefore, 
+\[ \alpha(k) = \frac{a(k)}{\sqrt{4 \pi \omega(k)}} \quad \quad \alpha^\dagger(k) = \frac{a^\dagger(k)}{\sqrt{4 \pi \omega(k)}} \]
+so the expansion of the field operator becomes,
+\[ \hat{\phi}(t, x) = \int \frac{\d{k}}{4 \pi \omega(k)} \left[ a(k) e^{- i \omega(k) t + i k x} + a^\dagger(k) e^{i \omega(k) t - i k x} \right] \]
+\end{document}
+

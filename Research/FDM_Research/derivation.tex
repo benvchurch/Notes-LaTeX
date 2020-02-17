@@ -1,0 +1,209 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={7in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\sech}{\mathrm{sech}}
+\newcommand{\EV}[1]{\left< #1 \right>}
+
+\begin{document}
+Consider the density distribution,
+\begin{equation} 
+\rho(r, z, t) = \frac{\Sigma(r,t)}{2 h(r, t)} \sech^2{(z/h(r,t))} 
+\end{equation}
+with scale height,
+\begin{equation}
+h = \frac{\sigma_D^2}{\pi G \Sigma}
+\end{equation}
+such that $\rho$ satisfies the vertical Jeans equation,
+\begin{equation}
+\frac{1}{\rho} \pderiv{}{z} \left( \frac{1}{\rho} \pderiv{}{z} \rho \right) = - \frac{4 \pi G}{\sigma_D^2}
+\end{equation}
+By Gauss's law,  gravitational acceleration is,
+\begin{equation}
+\mathbf{g}(z) = -4 \pi G \int_0^z \rho(z') \d{z'} = -2 \pi G \Sigma \tanh{(z / h)} 
+\end{equation}
+and therefore, the gravitational potential is,
+\begin{equation}
+\phi(z) = - \int_0^z \mathbf{g}(z') \d{z'} = 2 \pi G \Sigma h \log{\cosh{(z / h)}}
+\end{equation}
+Thus we can write the action as,
+\begin{align}
+J_z & = \oint p \d{q} = 2m \int_{-z_m}^{z_m} \sqrt{2(\phi(z_m) - \phi(z'))} \d{z'} 
+\\
+& = 2m \sqrt{4 \pi G \Sigma h^3} \int_{-z_m}^{z_m} \sqrt{\log{\cosh{(z_m / h)}} - \log{\cosh{(z'/ h)}}} \frac{\d{z'}}{h} 
+= 2 m \frac{2 \sigma_D^3}{\pi G \Sigma} I(z_m / h)
+\\
+I(u) & = \int_{-u}^u \sqrt{\log{\cosh{u}} - \log{\cosh{x}}} \d{x} 
+\end{align}
+Let $E$ denote the value Hamiltonian for the vertical motion of the star in question. Explicitly, 
+\begin{equation}
+E = H(p_z, z) = \frac{p_z^2}{2 m} + m \phi(z) = m \phi(z_{\text{max}})  
+\end{equation}
+We find the period of the orbit from differentiating the action variable with respect to the fixed value of the Hamiltonian along the phase space trajectory defining the action. Thus, the period equals,
+\begin{align}
+ \pderiv{J_z}{E} & = 2 \int_{-z_m}^{z_m} \frac{1}{\sqrt{2 ( \phi(z_m) - \phi(z') )}} \d{z'} 
+ \\
+ & = 2 \sqrt{\frac{h}{4 \pi G \Sigma }} \int_{-z_m}^{z_m} \frac{1}{\sqrt{ \log{\cosh{(z_m / h)}} - \log{\cosh{(z'/h)}}}} \frac{\d{z'}}{h} 
+\\
+& = \frac{2 \sigma_D}{2 \pi G \Sigma} I_P(z_m / h)
+\\
+I_P(u) & = \int_{-u}^u \frac{1}{\sqrt{\log{\cosh{u}} - \log{\cosh{x}}}} \d{x} 
+\end{align}
+Now we have heating due to an instantaneous velocity impulse of the form,
+\[ \deriv{v^2}{t} = Q = M \log{(P / \tau)} \]  
+where $M$ and $\tau$ depend only on the properties of the halo and is independent of the star in question. The constant $\tau$ is a characteristic time-scale for the interactions so the Coulomb integral is $\Lambda = P / \tau$. The change in action of a single star is given by,
+\begin{equation}
+\deriv{J_z}{t} = \pderiv{J_z}{E} \deriv{E}{t} + \pderiv{J_z}{\lambda_i} \deriv{\lambda_i}{t}
+\end{equation}
+where the $\lambda_i$ are the parameters of the potential. Furthermore,
+\begin{equation}
+\deriv{E}{t} = \pderiv{E}{\lambda_i} \deriv{\lambda_i}{t} + \frac{m}{2} Q
+\end{equation}
+and 
+\begin{equation}
+\pderiv{J_z}{E} = P
+\end{equation}
+so putting everything together,
+\begin{equation}
+ \deriv{J_z}{t} = \left( P \pderiv{E}{\lambda_i} + \pderiv{J_z}{\lambda_i} \right) \dot{\lambda}_i + \frac{mP}{2} Q
+\end{equation}
+However, because $J_z$ is an action adiabatic invariant,
+\begin{equation}
+\pderiv{J_z}{\lambda_i} = - P \EV{\pderiv{E}{\lambda_i}}_{\text{orbit}}
+\end{equation}
+Thus if $\lambda_i$ do not change much over the course of an orbit then,
+\begin{equation}
+P \pderiv{E}{\lambda_i} + \pderiv{J_z}{\lambda_i}  =  P \pderiv{E}{\lambda_i} - P \EV{\pderiv{E}{\lambda_i}}_{\text{orbit}}  \approx 0
+\end{equation}
+and therefore,
+\begin{equation}
+\deriv{J_z}{t} = \frac{m P}{2} Q 
+\end{equation}
+Plugging in,
+\begin{equation}
+\deriv{}{t} \left( \frac{2 \sigma_D^3}{\pi G \Sigma} I(z_m / h) \right) = \frac{1}{2} \left( \frac{\sigma_D I_P(z_m / h)}{2 \pi G \Sigma} \right) M \log{\left( \frac{\sigma_D I_P(z_m / h)}{\pi G \Sigma \tau} \right)}
+\end{equation}
+rearranging,
+\begin{equation}
+\frac{\Sigma} {\sigma_D} \deriv{}{t} \left( \frac{\sigma_D^3}{\Sigma} I(z_m / h) \right) = \frac{1}{8}  I_P(z / h) M \log{\left( \frac{\sigma_D I_P(z_m / h)}{\pi G \Sigma \tau} \right)}
+\end{equation}
+and then expanding this expression,
+\begin{equation}
+I(z_m / h) \left( \frac{3}{2} \deriv{\sigma_D^2}{t} - \sigma_D^2 \deriv{}{t} \log{\Sigma} + \sigma_D^2 \deriv{}{t} \log{I(z_m / h)} \right)  = \frac{1}{8}  I_P(z_m / h) M \log{\left( \frac{\sigma_D I_P(z_m / h)}{\pi G \Sigma \tau} \right)}
+\end{equation}
+However, this is the action of a single star and is thus $z_m$ dependent. We really care about the average action. So we average all these quantities over $z_m / h$,
+\begin{align}
+\EV{I(z_m / h)}_{z_m} & \left( \frac{3}{2} \deriv{\sigma_D^2}{t} - \sigma_D^2 \deriv{}{t} \log{\Sigma} \right) + \sigma_D^2 \EV{\deriv{}{t} I(z_m / h) }_{z_m}  
+\\
+&= \frac{1}{8} M \EV{ I_P(z / h) \log{\left( \frac{\sigma_D I_P(z_m / h)}{\pi G \Sigma \tau} \right)} }_{z_m} 
+\end{align}
+If we assume that there is sufficient thermodynamic coupling to keep the disk component we are studying in thermal equilibrium, then then $x = z_m / h$ is distributed according to $\sech^2{x}$ for all times. Thus,
+\begin{align}
+\EV{I(z_m / h)}_{z_m} & = \int_0^\infty I(x) \sech^2{x} \d{x} = I_1 \approx 0.759
+\\
+\EV{\deriv{}{t} I(z_m / h) }_{z_m} & = \frac{1}{N} \sum_{i = 1}^N \deriv{}{t} I(z_i / h) = \deriv{}{t} \frac{1}{N} \sum_{i = 1}^N \deriv{}{t} I(z_i / h) = \deriv{}{t} \EV{I(z_m / h)}_{z_m} = 0
+\end{align}
+because the expectation value $\EV{I(z_m / h)}_{z_m}$ is constant. Furthermore,
+\begin{align}
+\EV{ I_P(z_m / h) \log{\left( \frac{\sigma_D I_P(z_m / h)}{\pi G \Sigma \tau} \right)} }_{z_m} & = \EV{I_P(z_m / h)}_{z_m} \log{\left( \frac{\sigma_D}{\pi G \Sigma \tau} \right)}  + \EV{I_P(z_m/h) \log{I_P(z_m / h)}}_{z_m}
+\\
+& = I_2 \log{\left( \frac{\sigma_D}{\pi G \Sigma \tau} \right)} + I_2 \log{I_{\Lambda}} = I_2 \log{\left( \frac{\sigma_D I_{\Lambda}}{\pi G \Sigma \tau} \right)}
+\end{align}
+where,
+\begin{align}
+I_2 & = \EV{I_P(z_m / h)}_{z_m} = \int_0^\infty I_P(x) \sech^2{x} \d{x} \approx 4.79
+\\
+I_{\Lambda} & = \exp{\left( \frac{1}{I_2} \EV{I_P(z_m / h) \log{I_P(z_m / h)} }_{z_m} \right)} = \exp{\left( \frac{1}{I_2} \int_0^\infty I(x) \log{I(x)} \sech^2{x} \d{x} \right)} \approx 4.81
+\end{align}
+Therefore, plugging back into the heating equation,
+\begin{align}
+\frac{3}{2} \deriv{\sigma_D^2}{t} = \sigma_D^2 \deriv{}{t} \log{\Sigma} + \frac{I_2}{8 I_1} M \log{\left( \frac{\sigma_D I_{\Lambda}}{\pi G \Sigma \tau} \right)}
+\end{align}
+We can define some new quantities,
+\begin{align*}
+I_r & = \frac{I_2}{I_1} \approx 6.31
+\\
+\kappa & = \frac{I_r}{12} \approx 0.526
+\end{align*}
+Then the heating equation becomes,
+\begin{equation}
+\deriv{\sigma_D^2}{t} = \frac{2\sigma_D^2}{3} \deriv{}{t} \log{\Sigma} + \kappa M \log{\left( \frac{\sigma_D I_{\Lambda}}{\pi G \Sigma \tau} \right)}
+\end{equation}
+This is almost the same as what we might naively expect,
+\[ \deriv{\sigma_D^2}{t} = M \log{(P / \tau)} \]
+except with three alterations. First, $P$ is replaced by some short of average period over all possible $z_m$ which makes physical sense since our heating formula should not depend on the $z_m$ of a particular star. Furthermore, we get an extra term,
+\[ \frac{2\sigma_D^2}{3} \deriv{}{t} \log{\Sigma} \]
+which is the extra heating due to mass entering the disk we expect to get from looking at the adiabatic invariant. The final change is the factor $\kappa \approx 0.526$ which we naively would have set to $1$. This term reflects the fact that only approximately half (from the Virial theorem) of the energy we supply to the system will show up in its kinetic energy. The other half will show up in the potential of the puffed up disk which does not lead to greater velocity dispersion.   
+\end{document}
+

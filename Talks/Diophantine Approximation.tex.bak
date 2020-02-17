@@ -1,0 +1,461 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge Diophantine Approximation and Transcendence Theory}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+The rational numbers ($\Q$) are incomplete in two different ways. Firstly, $\Q$ is not algebraically closed because there exist polynomials with rational coeficients which have no roots in $\Q$. For example, $x^2 - 2 = 0$. Furthermore, $\Q$ is not complete because there are sequences of rational numbers which converge in the real numbers but not in the rational numbers. For example, let $F_n$ be the $n$-th Fibonacci number then $\lim\limits_{n \to \infty} \frac{F_{n+1}}{F_n} = \varphi$ where $\varphi = \frac{1 + \sqrt{5}}{2} \notin \Q$. If we complete $\Q$ by adding in the limit of every sequence, we get the real numbers $\R$. If take the algebraic closure of $\Q$ by adding in the roots of every polynomial with coeficients in $\Q$ we get the algebraic numbers $\overline{\Q}$. The relationship between these two sets was of great historically importance. In particular, $\overline{\Q}$ contains complex numbers (for example $i$ solves $x^2 + 1 = 0$) and $\R$ does not. The question arises, is $\R$ contained in $\overline{\Q}$. Equivalently, does there exist a non-algebraic real number. Such a number is called \textit{transcendental} because the number ``transcends'' algebraic definition.  
+
+\section{Algebraic Numbers and Cantor's Theorem}
+
+\begin{definition}
+$\Q[X]$ is the set of polynomials with coeficients in $\Q$ and $\Z[X]$ is the set of polynomials with coeficients in $Z$.  
+\end{definition}
+
+\begin{definition}
+A complex number $\alpha \in \C$ is \textit{algebraic} if there exists a polynomial $f \in \Q[X]$ such that $f(\alpha) = 0$. Otherwise, $\alpha$ is \textit{transcendental}. 
+\end{definition}
+
+\begin{proposition}
+$\alpha \in \C$ is algebraic iff there exists a polynomial $f \in \Z[X]$ with \textit{integer} coeficients such that $f(\alpha) = 0$. 
+\end{proposition}
+
+\begin{proof}
+Let $\alpha \in \C$ be a root of a polynomial $f \in \Z[X]$. Because $\Z \subset \Q$ then $\Z[X] \subset \Q[X]$ so $f \in \Q[X]$ so $\alpha$ is algebraic. Conversely, let $\alpha \in \C$ be algebraic. Then $\alpha$ is the root of some polynomial with rational coeficients, 
+\begin{align*}
+f(\alpha) &= \frac{p_n}{q_n} \alpha^n + \cdots + \frac{p_1}{q_1} \alpha + \frac{p_0}{q_0} \\ & = p_n (q_{n-1} q_{n-2} \cdots q_0) \alpha^n + \cdots p_1 (q_n q_{n-1} \cdots q_{2} q_0) \alpha + p_0 (q_{n} q_{n-1} \cdots q_2 q_1) \\ & = 0 
+\end{align*}
+Therefore, $\alpha$ is the root of a polynomial with coeficients in $\Z$. 
+\end{proof}
+
+\begin{definition}
+Let $\alpha \in \C$ be algebraic. The degree of $\alpha$, denoted as $\deg{\alpha}$, is the minimum degree of a polynomial $f \in \Z[X]$ such that $f(\alpha) = 0$.  
+\end{definition}
+
+\begin{definition}
+A function $f : X \to Y$ is a \textit{surjection} if for every $y \in Y$ there exists $x \in X$ such that $f(x) = y$. 
+\end{definition}
+
+\begin{definition}
+A set $X$ is \textit{countable} if there is a surjection $f : \N \to X$. Otherwise, $X$ is \textit{uncountable}. Such a function is called a list of $X$. 
+\end{definition}
+
+\begin{definition}
+The set $\overline{\Q} \subset \C$ is the set of algebraic numbers. That is, given a complex number $\alpha \in \C$ then $\alpha \in \overline{\Q}$ if any only if $\alpha$ is the root of some rational polynomial $p \in \Q[X]$. 
+\end{definition}
+
+\begin{theorem}
+$\overline{\Q}$ is countable.
+\end{theorem}
+
+\begin{proof}
+Every polynomial has a finite number of roots so it suffices to show that we can list all polynomials with integer coeficients. The list goes as follows, list all polynomials with degree less than $n$ and coeficients with absolute value less than $n$. There are a finite number of such polynomials so we will list every polynomial by incimentally increasing $n$. This is surjective becuase given a polynomial of degree $n$ there are a finite number of polynomials with smaller degree and smaller coeficients so the function will reach this given polynomial in a finite number of steps.   
+\end{proof}
+
+\begin{theorem}[Cantor]
+$\R$ is uncountable.
+\end{theorem}
+
+\begin{proof}
+This is a classic proof by contradiction. Suppose I had such a function $f : \N \to \R$. Now, I will construct some $r \in \R$ not in the image of $f$. For simplicty let us only take real numbers on the interval $[0, 1]$ this will suffice. Let $r_i$ be the $i$-th digit of $r$ in some base $b$. Define the number $s \in \R$ by its expansion base $b$ as $s_i = f(i)_i + 1 \: \mathrm{mod} \: b$. This is the $i$-th digit of the $i$-th number plus one reduced by $b$. I claim that there does not exist any $n \in \N$ such that $f(n) = s$. Suppose such and $n$ exists. Then $s_n = f(n)_n + 1 \: \mathrm{mod} \: b$ but $s = f(n)$ so $s_n = f_n$ which is a contradiction. Therefore, $f$ cannot be a bijection.   
+\end{proof}
+
+\begin{corollary}
+Transcendental numbers exist.
+\end{corollary}
+
+\begin{proof}
+If $\R \subset \overline{\Q}$ then because $\overline{\Q}$ is countable then $\R$ would be countable because any sujection onto $\overline{\Q}$ can be reduced to a surjection onto $\R$ by mapping every $x \in \overline{\Q}$ such that $x \notin \R$ to some fixed point of $\R$. However, $\R$ is uncountable so there must be some $r \in \R$ such that $r \notin \overline{\Q}$. 
+\end{proof}
+
+\section{Diophantine Approximation}
+
+Diophantine approximation is the process of finding sucessivly better ratonal approximations to irrational numbers. The fact that any irrational number can be approximated arbitrarily closely by rational numbers is, of course, just the fact that $\Q \subset \R$ is dense. That said, Diophantine approximation is the study of how \textit{well} or \textit{quickly} such approximations can be made. The theory of Diophantine approximation is built on the following fundamental lemma.
+
+\begin{lemma}[Dirichlet]
+For any $\alpha \in \R$ and $N \in \Zplus$ there exists, $p,q \in \Z$ such that $1 \le q \le N$ and,
+\[ |q \alpha - p| < \frac{1}{N} \]
+\end{lemma}
+
+\begin{proof}
+For each $1 \le q \le N$ there is exactly one $p$ such that $0 \le q \alpha - p < 1$. Split the interval $[0, 1)$ into $N$ segments,
+\[ [0, \tfrac{1}{N}) , [\tfrac{1}{N}, \tfrac{2}{N}), \cdots, [\tfrac{N-1}{N}, 1) \]
+Thus $q \alpha - p$ lands in one of these $N$ segments for each $q$ in $1 \le q \le N$. Therefore, by the pigeonhole principle, either for some $q$ we have $q \alpha - p \in [0, \tfrac{1}{N})$ in which case we are done or ther exist two pairs $(p,q)$ and $(p', q')$ which fall in the same interval. We may assume that $1 \le q < q' \le N$ and then,
+\[ |(q' - q) \alpha - (p' - p) | = |(q' \alpha - p') - (q \alpha - p)| < \frac{1}{N} \]
+where $1 \le q' - q \le N$. 
+\end{proof}
+
+\begin{corollary}
+Let $\alpha \in \R$ be irrational then there exist infinitely many $\frac{p}{q} \in \Q$ such that,
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^2} \]
+\end{corollary}
+
+\begin{proof}
+For each $N \in \Zplus$ there exists $p,q \in \Z$ with $1 \le q \le N$ such that,
+\[ |q \alpha - p| < \frac{1}{N} \]
+Since $\alpha \notin \Q$ this difference cannot be zero. Dividing by $q$ we find,
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{Nq} < \frac{1}{q^2} \]
+Therefore the required innequality has a solution for any $N \in \Zplus$. In particular this implies infinitely many solutions since the difference $\alpha - \frac{p}{q}$ is arbitrarily small and thus cannot be bounded below by any best approximation. 
+\end{proof}
+
+\begin{remark}
+The above corollary motivates the following definition. We want to say that any irrational $\alpha \in \R$ is $2$-approxmimable where we define:
+\end{remark}
+
+\begin{definition}
+For $\alpha \in \R$, an $n$-\textit{good} Diophantine approximation is $\frac{p}{q} \in \Q$ so that, 
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^n}\]
+\end{definition}
+
+\begin{definition}
+A number $\alpha \in \R$ is $n$-\textit{approximable} if there exist infinitely many $n$-good Diophantine approximations.  
+\end{definition}
+
+\begin{definition}
+\[G_n(\alpha) = \left\{ \frac{p}{q} \in \Q \: \middle| \: 0 < \Big|\alpha - \frac{p}{q} \Big| < \frac{1}{q^n} \right\}\]
+the set of $n$-good approximations of $\alpha$. $\alpha$ is $n$-approximable when $|G_n(\alpha)| = \infty$.
+\end{definition}
+
+\begin{remark}
+The degree of goodness of an approximation in the above sense does not take into account the constants or tightness of the denominator bound only that infinitely many such solutions exist. In fact one can show that the tightest possible bound is given by the following theorem.
+\end{remark}
+
+\begin{theorem}[Hurwitz]
+For any irrational $\xi \in \R$ there exist infinitely many rational $\frac{p}{q} \in \Q$ such that,
+\[ \Big| \xi - \frac{p}{q} \Big| < \frac{1}{\sqrt{5} \, q^2} \]
+and this does not hold for any constant denominator $C > \sqrt{5}$. 
+\end{theorem}
+
+\begin{definition}
+We say that $\alpha \in \R$ is badly-approximable if there exists some $c > 0$ such that for all $\frac{p}{q} \in \Q$,
+\[ \Big| \alpha - \frac{p}{q} \Big| \ge \frac{c}{q^2} \]
+Otherwise $\alpha$ is well-approximable.
+\end{definition}
+
+\begin{theorem}[Thue–Siegel–Roth, 1955]
+If $\alpha$ is irrational algebraic and $\varepsilon > 0$ then there exists a positive constant $C(\alpha, \varepsilon)$ such that $\forall \frac{p}{q} \in \Q$,
+\[ \Big| \alpha - \frac{p}{q} \Big| > \frac{C(\alpha, \varepsilon)}{q^{2 + \varepsilon}} \]
+\end{theorem}
+
+\begin{remark}
+Klaus Roth was awarded the Fields Medal for the proof of this theorem. Needless to say, we will not prove it here. Instead we will prove a weaker classical result of Liouville.
+\end{remark}
+
+\begin{lemma}[Liouville]
+Let $\alpha$ be a root of $f \in \Z[X]$ with $\deg{f} = n$ then there exists $C \in \Rplus$ such that for every $\frac{p}{q} \in \Q$ such that $\frac{p}{q} \neq \alpha$ we have,
+\[ \Big| \alpha - \frac{p}{q} \Big| > \frac{C}{q^n}\]
+\end{lemma}
+
+\begin{proof}
+Let $f(x) = a_n x^n + \cdots + a_0$ with coeficients $a_i \in \Z$. Take $f(\alpha) = 0$. There are at most $n$ roots of $f$ labled $\alpha_1, \alpha_n, \cdots, \alpha_k$ and $\alpha$. Define, 
+\[r = \min\{|\alpha - \alpha_1|, |\alpha - \alpha_2|, \dots, |\alpha - \alpha_k|\}\]
+Therefore, $f$ has no roots except $\alpha$ on the interval $(\alpha - r, \alpha + r)$. Define, 
+\[ M = \max \{ |f'(x)| \mid x \in (\alpha - r, \alpha + r) \}\]
+and take any positive real number $C < \min\{r, \frac{1}{M}\}$. 
+Now, take any $\frac{p}{q} \in \Q$ with $\frac{p}{q} \neq \alpha$. If $\Big| \alpha - \frac{p}{q} \Big| > C > \frac{C}{q^n}$ then we are done. Otherwise, $\Big| \alpha - \frac{p}{q} \Big| \le C \le r$ so $\frac{p}{q} \in (\alpha - r, \alpha + r)$ but $\alpha \neq \frac{p}{q}$ so $f(\frac{p}{q}) \neq 0$ because there are no other roots on this interval. Consider,
+\[q^n f\left(\frac{p}{q}\right) = a_n p^n + a_{n-1} p^{n-1}q + \cdots + a_0 q^n \in \Z\]
+However, $q^n f(\frac{p}{q}) \neq 0$ so $|q^n f(\frac{p}{q})| \ge 1$ because it is a nonzero positive integer. Thus, $|f(\frac{p}{q})| \ge \frac{1}{q^n}$. By the mean value theorem, there exists $\xi \in (\alpha, \frac{p}{q}) \subset (\alpha - r, \alpha + r)$ such that, \[f'(\xi) = \frac{f(\frac{p}{q}) - f(\alpha)}{\frac{p}{q} - \alpha}\]
+Therefore, 
+\[\Big| \alpha - \frac{p}{q} \Big| = \Bigg| \frac{f(\frac{p}{q})}{f'(\xi)} \Bigg| \] 
+However, $|f'(\xi)| \le M$ and $|f(\frac{p}{q})| \ge \frac{1}{q^n}$ so,
+\[\Big| \alpha - \frac{p}{q} \Big| = \Bigg| \frac{f(\frac{p}{q})}{f'(\xi)} \Bigg| \ge \frac{1}{M q^n} > \frac{C}{q^n} \] 
+\end{proof}
+
+\begin{corollary}
+Let $\alpha$ be algebraic with degree $n$, then for any $k > n$, $\alpha$ is not $k$-approximable. 
+\end{corollary}
+
+\begin{proof}
+Suppose that $k > n$ and $\alpha$ is $k$-approximable then $G_k(\alpha)$ is infinite and thus must contain $\frac{p}{q}$ with arbitrarily large $q$. Therefore, given any $C \in \Rplus$ we can choose $\frac{p}{q} \in G_k(\alpha)$ such that $q^{k-n} > C$ which is possible because $k - n > 0$. Then, because $\frac{p}{q} \in G_k(\alpha)$,
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^k} = \frac{C}{q^n} \cdot \frac{C}{q^{n-k}} < \frac{C}{q^n}\]
+Since $\frac{p}{q} \neq \alpha$, this contradicts the previous lemma because $\alpha$ is a root to some $f \in Z[X]$ with $\deg{f} = n$. However, there could not exist any $C \in \Rplus$ such that, 
+\[ \Big| \alpha - \frac{p}{q} \Big| > \frac{C}{q^n}\]
+for every $\frac{p}{q} \in \Q$ with $\frac{p}{q} \neq \alpha$. Thus, $\alpha$ is not $n$-approximable. 
+\end{proof}
+
+\section{Irrationality Measure} 
+
+We can use the previous definitions and results to define a measure of how irrational a number is. Essentially, the irrationality measure tells us how well a number can be approximated by rational numbers. Perhaps unintuitively, the more irrational the number, the \textit{better} it can be approximated by rationals.
+
+\begin{definition}
+The \textit{irrationality measure} is $\mu(\alpha) = \sup\{n \in \Rplus \mid |G_n(\alpha)| = \infty\}$   
+\end{definition}
+
+
+\begin{proposition}
+If $\alpha \in \Q$ then $\mu(\alpha) = 1$
+\end{proposition}
+
+\begin{proof}
+Take $\epsilon < 1$ and $\alpha = \frac{p}{q}$. Then, for any $n \in \N$ consider $p_n = np + 1$ and $q_n = nq$. Now, $\alpha - \frac{p_n}{q_n} = \frac{np - p_n}{nq} = \frac{1}{nq} = \frac{1}{q_n}$. Also, $q_n^\epsilon < q_n$. Therefore,
+\[  0 < \Big| \alpha - \frac{p_n}{q_n} \Big| = \frac{1}{q_n} < \frac{1}{q_n^\epsilon}\]
+Also, $\frac{p_n}{q_n} = \frac{p}{q} + \frac{1}{nq}$ so these solutions are all distinct. Thus, there are infinitely many $\epsilon$-good approximations of $\alpha$ so $\mu(\alpha) \ge \epsilon$ for every $\epsilon < 1$ so $\mu(\alpha) \ge 1$. Futhermore, $\alpha = \frac{p}{q}$ solves $f(x) = qx - p$ which has degree $1$ so $\mu(\alpha) \le 1$. Therefore, $\mu(\alpha) = 1$. 
+\end{proof}
+
+\begin{proposition}
+If $\alpha \in \R \setminus \Q$ then $\mu(\alpha) \ge 2$. 
+\end{proposition}
+
+\begin{proof}
+This follows immediatly from Dirichlet's approximation lemma. Since $\alpha \in \R \setminus \Q$ then $|G_2(\alpha)| = \infty$ meaning that,
+\[ \mu(\alpha) = \sup\{n \in \Rplus \mid |G_n(\alpha)| = \infty\} \ge 2 \]
+\end{proof}
+
+
+\begin{proposition}
+Let $\alpha$ be algebraic of degree $n$, then $\mu(\alpha) \le n$. 
+\end{proposition}
+
+\begin{proof}
+Suppose that $\mu(\alpha) > n$. Then there would exist some $k > n$ such that $|G_k(\alpha)| = \infty$ else the supremum would be $n$. However, $\mu(\alpha)$ is algebraic of order $n$ and $k > n$ so $\alpha$ is not $k$-approximable. Therefore, $\mu(\alpha) \le n$. 
+\end{proof}
+
+\begin{theorem}[Roth, 1955]
+If $\alpha$ is irrational algebraic then $\mu(\alpha) = 2$.
+\end{theorem}
+
+\begin{example}
+The best known upper bound on the irrationality measure of $\pi$ was given in 2008 by Salikhov as $\mu(\pi) \le 7.6063$ 
+\end{example}
+
+\begin{example}
+Borwein and Borwein proved in 1987 that $\mu(e) = 2$. 
+\end{example}
+
+\begin{theorem}
+The image of the irrationality measure is $\Im{\mu} = \{ 1 \} \cup [2, \infty]$ and is classified for any $\alpha \in \R$ via,
+\[
+\begin{cases}
+\mu(\alpha) = 1 & \alpha \emph{ is rational}
+\\
+\mu(\alpha) = 2 & \alpha \emph{ is irrational algebraic}
+\\
+\mu(\alpha) \ge 2 & \alpha \emph{ is transcendental}
+\\
+\mu(\alpha) = \infty & \alpha \emph{ is Louiville}
+\end{cases}
+ \]
+\end{theorem}
+
+\begin{remark}
+We will now explore that final class of numbers. 
+\end{remark}
+
+\section{Liouville Numbers} 
+
+\begin{definition}
+$L$ is a \textit{Liouville number} if for every $n \in \Zplus$ there exists $\frac{p}{q}  \in \Q$ such that,
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^n} \]
+\end{definition}
+
+\begin{proposition}
+$L$ is Liouville if and only if $\mu(L) = \infty$
+\end{proposition}
+
+\begin{proof}
+Let $\mu(L) = \infty$. then for any $n \in \Zplus$ there must be a $k > n$ such that $L$ is $k$-approximable because $\mu(L) > n$. Therefore, there is a solution $\frac{p}{q} \in \Q$ (in fact infinitely many) to the inequality,
+\[0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^k} < \frac{1}{q^n}\] 
+so $L$ is Liouville. Conversely, suppose that $L$ is Liouville. Then take any $k$ and choose $n > k$ with $n \in \Zplus$. Because $L$ is Liouville, for each $n$ there must be a solution $\frac{p_n}{q_n} \in \Q$ to,
+\[0 < \Big| \alpha - \frac{p_n}{q_n} \Big| < \frac{1}{p_n^n} < \frac{1}{p_n^k}\]
+Therefore, each $\frac{p_n}{q_n} \in G_k(L)$. I claim that this is an infinite number of distinct solutions. Otherwise, there would be a single value $\frac{p'}{q'}$ which appears infinitely many times. Thus,  
+\[0 < \Big| \alpha - \frac{p'}{q'} \Big| < \frac{1}{(q')^n}\]
+for infinitely many values of $n \in \Zplus$ which is impossible because,
+\[\Big| \alpha - \frac{p'}{q'} \Big| \neq 0\]
+but $\frac{1}{(q')^n} \to 0$. Therefore, $|G_k(L)|$ is infinite for every $k \in \Rplus$. Thus, $\mu(L) \ge k$ for all $k \in \Rplus$ so $\mu(L) = \infty$.
+\end{proof}
+
+\begin{theorem}
+Liouville numbers are trancendental. 
+\end{theorem}
+
+\begin{proof}
+Let $L$ be algebraic then there exists some $f \in Z[X]$ such that $f(L) = 0$. However, then $\mu(L) \le \deg{f}$ which is finite so $\mu(L) < \infty$ and thus $L$ is not Liouville. Thus, if $L$ is Liouville, then $L$ is not algebraic so $L$ is trancendental.
+\end{proof}
+
+\begin{theorem}
+Take $b \in \Z$ with $b \ge 2$ and $a_k \in \{0, 1, 2, \cdots, b - 1\}$ for every $k \in \N$, then, the number,
+\[L = \sum_{k = 1}^\infty \frac{a_k}{b^{k!}}\] is Liouville number and thus trancendental. In particular, we have uncountably many explict examples of trancendental numbers. 
+\end{theorem}
+
+\begin{proof}
+Let $q_n = b^{n!}$ and $p_n = q_n \sum\limits_{k = 1}^n \frac{a_k}{b^{k!}}$ then,
+\begin{align*}
+0 < \Big| \alpha - \frac{p}{q} \Big| & = \sum_{k = n + 1}^\infty \frac{a_k}{b^{k!}} <   \sum_{k' = (n + 1)!}^\infty \frac{a_k}{b^{k'}} \le \sum_{k' = (n + 1)!}^\infty \frac{b-1}{b^{k'}} = \frac{b - 1}{b^{(n+1)!}} \sum_{k = 0}^\infty \frac{1}{b^{k}} \\ & = \frac{b - 1}{b^{(n+1)!}} \frac{b}{b-1} = \frac{b}{b^{(n+1)!}} \le \frac{b^{n!}}{b^{(n+1)!}}
+\end{align*}
+Now, $(n+1)! - n! = (n+1) \cdot n! - n! = n \cdot n!$ and thus,
+\[ 0 < \Big| \alpha - \frac{p_n}{q_n} \Big| < \frac{b^{n!}}{b^{(n+1)!}} = \frac{1}{b^{n \cdot n!}} = \frac{1}{(b^{n!})^n} = \frac{1}{q_n^n}\]
+Therefore, the inequality,
+\[0 < \Big| \alpha - \frac{p_n}{q_n} \Big| < \frac{1}{q_n^n}\]
+has a solution for every integer $n$. For any $k$ we can take an integer $n > k$ such that,
+\[0 < \Big| \alpha - \frac{p_n}{q_n} \Big| < \frac{1}{q_n^n} < \frac{1}{q_n^k}\]
+has a solution.  
+\end{proof}
+
+
+\section{Measure Theory of Approximable Numbers}
+
+\begin{definition}
+Let $\psi : \Zplus \to \Rplus$ be a function. We say that $\alpha \in \R$ is $\psi$-approximable if the set of $\psi$-good Diophantine approximations,
+\[ G_\psi(\alpha) = \left\{ \frac{p}{q} \in \Q \: \middle| \: 0 < \Big|\alpha - \frac{p}{q} \Big| < \frac{\psi(q)}{q} \right\} \]
+is infinite. 
+\end{definition}
+
+\begin{theorem}[Khinchin]
+Let $\psi : \Zplus \to \Rplus$ be a function such that the series,
+\[ \sum_{q = 1}^\infty \psi(q) < \infty \]
+converges then almost no real $\alpha \in \R$ is $\psi$-approximable in the sense that,
+\[ A_\psi = \{ \alpha \in \R \mid |G_\psi(\alpha)| = \infty \} \]
+has Lebesgue measure zero. 
+\end{theorem}
+
+\begin{proof}
+Define,
+\[ B(q) = \bigcup_{p \in \Z} \left( \frac{p}{q} - \frac{\psi(q)}{q}, \frac{p}{q} + \frac{\psi(q)}{q} \right) \]
+We know that $\alpha \in A_\psi$ iff $\alpha \in B(q)$ for infinitely many $q$. Thus, $\alpha \notin A_\psi$ iff there exists a maximum $q$ such that $\alpha \in B(q)$ i.e. for some $N$ and any $q \ge N$ that $\alpha \notin B(q)$. Therefore,
+\[ A_\psi^C = \bigcup_{N = 1}^\infty \bigcap_{q = N}^\infty B(q)^C \]
+and thus we may write,
+\[ A_\psi = \bigcap_{N = 1}^\infty \bigcup_{q = N}^\infty B(q) \]
+Because $A_\psi$ is translation invariant, it suffices to consider $\tilde{A}_\psi = A_\psi \cap [0, 1]$. Furthermore, if $\psi(q) \ge \tfrac{1}{2}$ then $B(q) \cap [0, 1] = [0, 1]$ otherwise, 
+\[ B(q) \cap [0,1] = [0, \tfrac{\psi(q)}{q}) \cup (\tfrac{1}{q} - \tfrac{\psi(q)}{q}, \tfrac{1}{q} + \tfrac{\psi(q)}{q}) \cup \cdots \cup (\tfrac{q-1}{q} - \tfrac{\psi(q)}{q}, \tfrac{q-1}{q} + \tfrac{\psi(q)}{q}) \cup (1 - \tfrac{\psi(q)}{q}, 1] \]
+and thus, in either cases, 
+\[ \mu_{\mathcal{L}} \left( B(q) \cap [0, 1]\right) \le 2 \psi(q) \]
+Let,
+\[ W_N = \bigcup_{q = N}^\infty B(q) \cap [0,1] \]
+which by subadditivity satisfy,
+\[ \mu_{\mathcal{L}}(W_N) \le \sum_{q = N} \mu_{\mathcal{L}}(B(q)) \le \sum_{q = N}^\infty 2 \psi(q) \]
+Now,
+\[ \tilde{A}_\psi = \bigcap_{N = 1}^\infty W_N \]
+and therefore we have,
+\[ \mu_{\mathcal{L}}(\tilde{A}_\psi) \le \mu_{\mathcal{L}}(W_N) \le \sum_{q = N}^\infty 2 \psi(q) \xrightarrow{N \to \infty} 0 \]
+because the sum converges and thus,
+\[ \sum_{q = 1}^\infty \psi(q) < \infty \implies \sum_{q = N}^\infty \psi(q) = \left[ \sum_{q = 1}^\infty \psi(q) - \sum_{q = 1}^{N-1} \psi(q) \right] \to  0 \]
+Therefore, 
+\[ \mu_{\mathcal{L}}(\tilde{A}_\psi) = 0 \]
+which implies by translation invariance and countable additivity that,
+\[ \mu_{\mathcal{L}}(A_\psi) = 0 \]
+\end{proof}
+
+\begin{remark}
+This proof is basically an application of Borel-Cantelli.
+\end{remark}
+
+\begin{corollary}
+Almost all real numbers have $\mu(\alpha) = 2$ and the set
+\[ \{ \alpha \in \R \mid \mu(\alpha) > 2 \} \]
+has measure zero. In particular, almost all transcendental $\alpha \in \R$ have $\mu(\alpha) = 2$.  
+\end{corollary}
+
+\begin{proof}
+For $\varepsilon > 0$ let $\psi(q) = q^{-(1 + \varepsilon)}$. The the convergence of,
+\[ \sum_{q = 1}^\infty q^{-(1 + \varepsilon)} < \infty \]
+implies that $A_{2 + \varepsilon} = \{ \alpha \in \R \mid |G_{2 + \epsilon}(\alpha)| = \infty \} = \{ \alpha \in \R \mid \mu(\alpha) \ge 2 + \varepsilon\}$ has measure zero. Therefore, 
+\[ \{ \alpha \in \R \mid \mu(\alpha) > 2 \} = \bigcup_{N = 1}^\infty \{ \alpha \in \R \mid \mu(\alpha) \ge 2 + \tfrac{1}{N} \} \]
+has measure zero. In particular, almost all $\alpha \in \R$ have $\mu(\alpha) \le 2$. However, only countably many $\alpha \in \R$ have $\mu(\alpha) < 2$ (exactly the rational ones) so almost all $\alpha \in \R$ have $\mu(\alpha) = 2$. 
+\end{proof}
+
+
+\begin{lemma}
+For any $\alpha \in \R$ and $r \in \Q$ we have $\mu(\alpha + r) = \mu(r \cdot \alpha) = \mu(\alpha)$. 
+\end{lemma}
+
+\begin{proof}
+Let $r = \frac{a}{b} \in \Q$ and $s = \mu(\alpha)$ then $\forall \varepsilon > 0$ then $|G_{s - \varepsilon}(\alpha)| = \infty$ thus there are infinitely many $\frac{p}{q} \in \Q$ such that,
+\[ 0 < \Big| \alpha - \frac{p}{q} \Big| < \frac{1}{q^{s - \varepsilon}} \]
+and therefore,
+\[ 0 < \Big| \left( \alpha + \frac{a}{b} \right) - \left( \frac{a}{b} + \frac{p}{q} \right) \Big| < \frac{1}{q^{s - \varepsilon}} = \frac{1}{q^{\varepsilon} q^{s - 2\varepsilon}}  \]
+Now choose $q$ sufficienly large such that $q^{\varepsilon} > b^{s}$. Because there are infinitely many solutions we will still have infinitely many solutions with this additional requirement and then,
+\[ 0 < \Big| \left( \alpha + \frac{a}{b} \right) - \frac{aq + pb}{bq} \Big| < \frac{1}{q^{\varepsilon} q^{s - 2\varepsilon}} < \frac{1}{b^s q^{s - 2 \varepsilon}} < \frac{1}{(bq)^{s - 2 \varepsilon}} \]
+Therefore, $|G_{s - 2\varepsilon}(\alpha + r)| = \infty$ so $\mu(\alpha +  r) \ge s - 2 \varepsilon$ for any $\varepsilon > 0$. Thus, $\mu(\alpha + r) \ge \mu(\alpha)$. Since rational addition is invertible we must have $\mu(\alpha + r) = \mu(\alpha)$. Furthermore, consider,
+\[ 0 < \Big|  \frac{a}{b} \alpha - \frac{ap}{bq} \Big| < \frac{a}{b q^{s - \varepsilon}} = \frac{a}{b} \frac{1}{q^\varepsilon} \frac{1}{q^{s - 2 \varepsilon}} \] 
+Again choose $q$ sufficiently large such that $q^\varepsilon > a b^{s - 1}$. Since there are infinitely many solutions we will still have infinitely many solutions with this additional requirement and then,
+\[ 0 < \Big|  \frac{a}{b} \alpha - \frac{ap}{bq} \Big| < \frac{a}{b} \frac{1}{q^\varepsilon} \frac{1}{q^{s - 2 \varepsilon}} < \frac{1}{b^s} \frac{1}{q^{s - 2 \epsilon}} < \frac{1}{(bq)^{s - 2 \varepsilon}} \]
+Therefore, $|G_{s - 2\varepsilon}(r \cdot \alpha)| = \infty$ so $\mu(r\cdot \alpha ) \ge s - 2 \varepsilon$ for any $\varepsilon > 0$ which implies that $\mu(r \cdot \alpha ) \ge \mu(\alpha)$ as before $\mu(r \cdot \alpha) = \mu(\alpha)$ by inversion.
+\end{proof}
+
+
+\begin{corollary}
+For any $m \in \Im{\mu}$ the set $\mu^{-1}(m) = \{ \alpha \in \R \mid \mu(\alpha) = m \}$ is dense. 
+\end{corollary}
+
+\begin{proof}
+Since $m \in \Im{\mu}$ the preimage in nonempty. Choose any nonzero $\alpha \in \mu^{-1}(m)$ (zero is only in preimage of $1$ which also includes all rational numbers). Take any inverval $(a,b) \subset \R$. Then consider the interval $(a/|\alpha|, b/|\alpha|) \subset \R$ which must contain a rational: $r \in (a/|\alpha|, b/|\alpha|) \cap \Q$. Then by the above, $r \cdot \alpha \in (a, b)$ and $\mu(r \cdot \alpha) = \mu(\alpha) = m$ so $\mu^{-1}(m) \cap (a,b) \neq \varnothing$. Thus, $\mu^{-1}(m)$ is dense.   
+\end{proof}
+
+\begin{theorem}
+Liouville numbers form a dense uncountable measure zero transcendental subset of $\R$. 
+\end{theorem}
+
+\begin{remark}
+The Hausdorff (fractal) dimension of $A_{1 + c}$ is $1/c$ showing that $A_2$ which includes almost all numbers has the dimension of the real line. The Hausdorff dimension then decreases as we look at better approximable sets. Finallym the Hausdorff dimension of the Liouville numbers is zero showing that they are measure theoretically pointlike. However, the Hausdorff dimension of the very well-approximable numbers i.e. those with $\mu(\alpha) > 2$ is also one. Finally, almost every number is well-approximable but the Hausdorff dimension of the badly-approximble numbers is one.
+\end{remark}
+
+\end{document}

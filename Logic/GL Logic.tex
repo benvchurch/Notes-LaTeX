@@ -1,0 +1,834 @@
+\documentclass[12pt, leqno]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{proof}
+\makeatletter
+\DeclareFontEncoding{LS1}{}{}
+\DeclareFontSubstitution{LS1}{stix}{m}{n}
+\DeclareMathAlphabet{\mathcal}{LS1}{stixscr}{m}{n}
+\makeatother
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathrsfs}
+
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+
+
+
+\newcommand{\proves}{\vdash}
+\newcommand{\entails}{\models}
+\newcommand{\Mmod}{\mathcal{M}}
+\newcommand{\Nmod}{\mathcal{N}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\maxideal}{\mathfrak{m}}
+\newcommand{\Th}[2]{\mathrm{Th}_{#1} \left( #2 \right)}
+
+\newcommand{\VAR}[1]{\mathrm{VAR}_{#1}}
+\newcommand{\TRM}[1]{\mathrm{TRM}_{#1}}
+\newcommand{\FOR}[1]{\mathrm{FOR}_{#1}}
+\newcommand{\SEN}[1]{\mathrm{FOR}_{#1}}
+\newcommand{\PRF}[1]{\mathrm{PRF}_{#1}}
+
+\newcommand{\uq}[1]{\forall{#1} \:}
+\newcommand{\eq}[1]{\exists{#1} \:}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\DeclareMathOperator{\Prf}{\mathcal{P\mkern-2mu r\mkern-2.5mu f\mkern-2mu}}
+
+\DeclareMathOperator{\Bew}{\mathcal{B\mkern-2.0mu e\mkern-2.0mu w\mkern-1mu}}
+
+\DeclareMathOperator{\Con}{\mathcal{C\mkern-3mu o\mkern-1mu n\mkern-1.5mu}}
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge Provability Logic}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+
+
+\subsection{First-Order Languages}.
+
+\begin{definition}
+A \textit{vocabulary} or \textit{signature} $\sigma$ is a set of ``non-logical'' symbols which may be of three types:
+\begin{enumerate}
+\item Constant symbols (e.g. $0$)
+\item n-ary function symbols (e.g. $+$)
+\item n-ary relation symbols (e.g. $\in$)
+\end{enumerate}
+Along with the signature, a first-order language has a set of ``logical'' symbols:
+\begin{enumerate}
+\item A countable list of variable symbols: $x_1, x_2, x_3, \cdots$
+\item Logical connectives: $\neg, \vee, \wedge, \to$
+\item Quantifiers: $\forall$ (we get $\exists \iff \neg \forall \neg$ for free)
+\item An equality relation: $=$
+\item Punctuation: $( \: ) \: ,$ etc.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+The set of \textit{terms} of a first-order language $L$ with vocabulary $\sigma$ is defined inductively as follows:
+\begin{enumerate}
+\item Any variable or constant symbol is a term.
+\item If $f$ is an n-ary function symbol and $t_1, \dots, t_n$ are terms then $f(t_1, \dots, t_n)$ is a term. For a binary operator (2-ary function), say $\circ$, we will often write $(t_1 \circ t_2)$ to mean $\circ(t_1, t_2)$. 
+\end{enumerate} 
+\end{definition}
+
+\begin{definition}
+The set of \textit{formulas} of a first-order language $L$ with vocabulary $\sigma$ is defined inductively as follows:
+\begin{enumerate}
+\item If $s,t$ are terms then $(s = t)$ is a formula. Furthermore if $R \in \sigma$ is an n-ary relation symbol and $t_1, \dots, t_n$ are terms then $R(t_1, \dots, t_n)$ is a formula. For a 2-ary relation we will often write $s R t$ to mean $R(s, t)$. 
+\item If $A$ and $B$ are formulas then $\neg A$, $(A \vee B)$, $(A \wedge B)$, and $(A \to B)$ are all formulas.
+\item If $x$ is a variable symbol and $\varphi$ a formula in which $x$ is free ($\varphi$ contains $x$ but no quantifiers over $x$) then $\uq{x} \varphi$ and $\eq{x} \varphi$ are formulas. 
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+A \textit{sentence} of a first-order language is a formula with no free variables.  
+\end{definition}
+
+\begin{definition}
+A first-order theory is a first-order language $L$ along with a set $\Gamma$ of first-order $L$-sentences which are referred to as axioms. 
+\end{definition}
+
+\subsection{Proof Theory}
+
+There are many possible first-order deduction systems each with its own unique flavor. A deduction system has logical axioms and rules of inference on formulas of $L$. A formal proof beginning with some assumptions is a sequence of $L$-formulas each of which is either a logical axiom, an assumption, or the result of a rule of inference applied to previous formulas. Here we work with an example which is a variant of Hilbert's propositional logic formal system H extended to first order logic.
+
+\begin{definition}
+Hilbert's system H has logical connectives $\{\neg, \to\}$ and the following axiom schemas: for any formulas $A, B, C$ the following are axioms of H,
+\begin{enumerate}
+\item[(H1)] $A \to (B \to A)$
+\item[(H2)] $(A \to (B \to C)) \to ((A \to B) \to (A \to C))$
+\item[(H3)] $\neg A \to (A \to B)$
+\item[(H4)] $(\neg A \to A) \to A$
+\end{enumerate} 
+The formal system H has one rule of inference known as modus ponens (MP),
+\[ \infer{B}{A & (A \rightarrow B)} \]
+We can define the formulas $A \vee B$ to stand for $\neg A \to B$ and $A \wedge B$ to stand for $\neg (A \to \neg B)$ and $A \leftrightarrow B$ to stand for $(A \to B) \wedge (B \to A)$ etc. 
+\end{definition} 
+
+\begin{definition}
+We say that a first-order theory $\Gamma$ \textit{syntactically entails} or, more simply, \textit{proves} $A$ if there exists a formal proof using axioms of $\Gamma$ and first-order rules of inference. We write this as $\Gamma \proves A$.
+\end{definition}
+
+\begin{example}
+We show that $\proves_{\text{H}} A \to A$ for any formula $A$. 
+\begin{align}
+& [A \to ((A \to A) \to A)] \to [(A \to (A \to A)) \to (A \to A)]  && \text{axiom (L2)}
+\\
+& A \to ((A \to A) \to A)  && \text{axiom (L1)}
+\\
+& (A \to (A \to A)) \to (A \to A)  && \text{MP 1,2}
+\\
+& A \to (A \to A)  && \text{axiom (L1)}
+\\
+& A \to A && \text{MP 3,4}
+\end{align} 
+\end{example}
+
+\begin{remark}
+Clearly, proofs in H are horrible. Luckily the following wonderful theorem means we will rarely need to provide explicit proofs. 
+\end{remark}
+
+\begin{theorem}[G\"{o}del]
+Every propositional tautology is a theorem of H.
+\end{theorem}
+
+\begin{remark}
+By tautology here we mean always evaluates to true under the standard semantics for $\neg$ and $\to$. In these semantics all axioms of $H$ are tautologies and modus ponens is locally sound. 
+\end{remark}
+
+\begin{definition}
+The formal system FO extends H by adding the additional axioms,
+\begin{enumerate}
+\item[(EQ1)] $\uq{x} (x = x)$
+\item[(EQ2)] $\uq{x} [(x = t) \to (A(x) \to A(t))]$
+\item[(FO1)] $\uq{x} A(x) \to A(t)$ where $t$ is any term whose variables are not bound in $A$. 
+\item[(FO2)] $\uq{x} (A \to B(x)) \to (A \to \uq{x} B(x))$ where $x$ is free in $x$ and not in $A$. 
+\end{enumerate}
+and the additional rule of inference called generalization (Gen),
+\[ \infer{\uq{x} A}{A} \]
+\end{definition}
+
+\begin{remark}
+We will use the notation $A(x)$ to denote that $x$ is a free variable in $A$ and then $A(t)$ to denote $A$ with $t$ substituted for $x$. 
+
+\end{remark}
+
+\begin{definition}
+A first-order theory $\Gamma$ is \textit{consistent} if there does not exist a statement $A$ such that $\Gamma \proves A$ and $\Gamma \proves \neg A$. 
+\end{definition}
+
+\begin{definition}
+A first-order theory $\Gamma$ is \textit{complete} if for every $L$-sentence $A$ we have either $\Gamma \proves A$ or $\Gamma \proves \neg A$. 
+\end{definition}
+
+
+\begin{lemma}[Categorization of Consistency]
+$\Gamma$ is proof-theoretically consistent if and only if there exists a first-order sentence $A$ such that $\Gamma \not\proves A$. 
+\end{lemma}
+
+\begin{proof}
+If $\Gamma$ is consistent and $\Gamma \proves A$ then $\Gamma \not\proves \neg A$. If $\Gamma$ is not consistent then $\Gamma \proves A$ and $\Gamma \proves \neg A$ for some $A$. Using (H3), $\Gamma \proves \neg A \to (A \to B)$ so applying MP twice gives $\Gamma \proves B$ for any $B$. 
+\end{proof}
+
+
+\section{A Theory For the Natural Numbers}
+
+\subsection{The Language of Number Theory}
+
+\begin{definition}
+The first-order language $L_{\text{NN}}$ has signature $\sigma = \{\bf{0}, s, +, \cdot\}$ where $\bf{0}$ is a constant symbol, $s$ is a 1-ary function symbol, and $+$ and $\cdot$ are 2-ary function symbols. 
+\end{definition}
+
+\begin{example}
+We be define the abbreviation $x < y$ to mean $\eq{z} (x + s(z) = y)$. 
+\end{example}
+
+\begin{definition}
+For each natural number $i \in \N$ we denote the term $s^i(\bf{0})$ by the bold-face numeral $\bf{i}$. 
+\end{definition}
+
+\subsection{Robinson Arithmetic and Peano Arithmetic}
+
+Now that we have a first-order language in which to do number theory, we need an actual theory. 
+
+\begin{definition}
+Robinson Arithmetic, denoted as $\bf{Q}$, is the first-order theory over $L_{\text{NN}}$ with the set of axioms,
+\begin{enumerate}
+\item[(Q1)] $\uq{x} \neg (s(x) = \bf{0})$
+\item[(Q2)] $\forall x \uq{y} [(s(x) = s(y)) \to (x = y)]$
+\item[(Q3)] $\uq{x} (x + \bf{0} = x)$
+\item[(Q4)] $\forall x \uq{y} (x + s(y) = s(x + y))$
+\item[(Q5)] $\uq{x} (x \cdot \bf{0} = \bf{0})$
+\item[(Q6)] $\forall x \uq{y} (x \cdot s(y) = (x \cdot y) + x)$
+\item[(Q7)] $\uq{x} [(x = \bf{0}) \vee \eq{y} (x = s(y))]$ 
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+We see that $\bf{Q}$ is arithmetic without induction. You might think that we cannot do very much in $\bf{Q}$ since it is a very weak theory. However $\bf{Q}$ is sufficiently powerful to cause its own essential incompleteness. In fact, $\bf{Q}$ is the minimal theory necessary to prove the representability theorem. For completeness, we will now define the more familiar framework for number theory.
+\end{remark}
+
+\begin{definition}
+Peano Arithmetic ($\bf{PA}$) is the first-order theory over $L_{\text{NN}}$ which has axioms (Q1) - (Q6) and additionally the axiom schema of induction,
+\begin{enumerate}
+\item[(PA)] $\varphi(\bf{0}) \to [\uq{x} (\varphi(x) \to \varphi(s(x))) \to \uq{x} \varphi(x)]$
+\end{enumerate}
+for each formula $\varphi$ with $x$ free. Note we have dropped (Q7) since it is a consequence of the induction axiom. 
+\end{definition}
+
+\begin{definition}
+An extension of $\bf{Q}$ is a first-order theory $\Gamma$ over the language $L_{\text{NN}}$ such that $\Gamma \proves \bf{Q}$, in particular if $\Gamma \supset \bf{Q}$. 
+\end{definition}
+
+\begin{remark}
+Clearly $\bf{PA}$ is an extension of $\bf{Q}$. In fact, the extension is proper.
+\end{remark}
+
+\subsection{Representing Functions and Relations}
+
+\begin{definition}
+A relation $R \subset \N^n$ is \textit{strongly representable} or simply \textit{representable} in $\Gamma$, an extension of $\bf{Q}$ if there exists a formula $A(x_1, \dots, x_n)$ in $L_{\text{NN}}$ with $n$ free variables such that for all natural numbers $a_1, \dots, a_n \in \N$ we have,
+\begin{align*}
+R(a_1, \dots, a_n) & \implies \Gamma \proves A(\bf{a_1}, \dots, \bf{a}_n)
+\\
+\neg R(a_1, \dots, a_n) & \implies \Gamma \proves \neg A(\bf{a_1}, \dots, \bf{a}_n)
+\end{align*}
+In this case we say that $A$ \textit{represents} $R$ over $\Gamma$. Furthermore, we say that $A$ \textit{weakly represents} $R$ over $\Gamma$ if only the first condition holds in which case we say that $R$ is \textit{weakly representable}. 
+\end{definition}
+
+\begin{definition}
+An arithmetic function $f : \N^n \to \N$ is representable over $\Gamma$ iff there exists a formula $A(x_1, \dots, x_n, x_{n+1})$ of $L_{\text{NN}}$ with $n+1$ free variables such that for all natural numbers $a_1, \dots, a_n \in \N$ with $b = f(a_1, \dots, a_n)$ we have,
+\[ \Gamma \proves \uq{x} [A(\bf{a}_1, \dots, \bf{a}_n, x) \leftrightarrow (x = \bf{b})] \]
+\end{definition}
+
+\section{Computability Theory}
+
+We would like to construct representable functions. It turns out that there is a deep connection between computability and  representability. More generally, the incompleteness theorems rely on arithmetic capturing the power of computable functions. 
+
+\subsection{$\mu$-Recursive Functions}
+
+The notion of \textit{computability} or an \textit{effective procedure} for computing a function is not a well-defined notion. 
+We begin with a concrete definition for a class of clearly computable arithmetic functions. It turns out that in some sense these are \textit{all} the computable functions. 
+
+\begin{definition}
+An arithmetic function $F : \N^n \to \N$ is \textit{recursive} if $F$ is one of,
+\begin{enumerate}
+\item a starting function: addition ($(a,b) \mapsto a+b$), multiplication ($\cdot$), projection ($U_{n,k}(a_1, \dots, a_n) = a_k$), or less-then characteristic ($K_{<}(a,b) = 1$ if $a < b$ and zero otherwise).
+\item a compositions of recursive functions $F = G \circ (H_1, \dots, H_k)$
+\item a minimalization of a regular recursive function \[ F(a_1, \dots, a_n) = \mu x [G(a_1, \dots, a_n, x) = 0] \] where the regularity condition on $G$ means that such a zero is always required to exist for all natural numbers $a_1, \dots, a_n \in \N$. 
+\end{enumerate}
+\end{definition}
+
+
+\subsection{Recursive and Recursively Enumerable Sets}
+
+\begin{definition}
+A relation $R \subset \N^n$ is \textit{recursive} (R) if there exists a recursive arithmetic function $f : \N^n \to \N$ such that $R = \{ (a_1, \dots, a_n) \in \N^n \mid f(a_1, \dots, a_n) = 0\}$.
+\end{definition}
+
+\begin{definition}
+A relation $R \subset \N^n$ is \textit{recursively enumerable} (RE) if $R$ can be written as $R(a_1, \dots, a_n) \iff \eq{x} Q(a_1, \dots, a_n, x)$ where $Q \subset \N^n$ is a recursive relation.
+\end{definition}
+
+\begin{proposition}
+A set $S \subset \N$ is RE iff it is enumerated by a recursive function.
+\end{proposition}
+
+\begin{remark}
+This proposition explains the terminology \textit{recursively enumerable}.
+\end{remark}
+
+\subsubsection{Church-Turing Thesis}
+
+There is no clear universally agreed upon \textit{a priori} definition for what it means for a function to be \textit{effectively computable}. However, logicians Alonzo Church and Alan Turing proved that a wide class of models of computation ($\mu$-recursive functions, Turning machines, $\lambda$-calculi) are all equivalently powerful. Therefore, we define \textit{effectively computable} functions to be exactly those computable by any of these equivalent models of computation. Often, we will invoke this thesis to show that a given function is recursive if we can find an informal effective procedure for computing it. It should be stressed that such a use of the Church-Turing thesis is never necessary for proving meta-logical theorems it is simply a time-saving device for lazy logicians who don't want to explicitly construct recursive functions. It is only strictly necessary to invoke the Church-Turning thesis when computability is assumed as a hypothesis since we must develop a formal proof using some explicit model of computation. 
+  
+\subsection{The Representability Theorem}
+
+\begin{theorem}
+Let $f : \N^n \to \N$ be recursive function then $f$ is representable over $\bf{Q}$. 
+\end{theorem}
+
+\begin{proof}
+Very technical but conceptually easy. Show that all starting functions are representable and that given representable functions that we can construct representations of their composition and minimization. 
+\end{proof}
+
+\begin{corollary}
+Let $R \subset \N^n$ be a recursive relation then $R$ is representable over $\bf{Q}$.
+\end{corollary}
+
+\begin{proof}
+There exists a recursive $f : \N^n \to \N$ such that $f$ vanishes exactly on $R$. Then $f$ is representable by some $L_{\text{NN}}$ formula $A(x_1, \dots, x_{n+1})$ such that for all natural numbers $a_1, \dots, a_n \in \N$ and $b = f(a_1, \dots, a_n)$ then,
+\[ \bf{Q} \proves \uq{x} [ A(\bf{a}_1, \dots, \bf{a}_n, x) \leftrightarrow (x = \bf{b}) ] \] 
+Let $B(x_1, \dots, x_n) = A(x_1, \dots, x_n, \bf{0})$. Then I claim that,
+\begin{align*}
+R(a_1, \dots, a_n) & \implies \Gamma \proves B(\bf{a_1}, \dots, \bf{a}_n)
+\\
+\neg R(a_1, \dots, a_n) & \implies \Gamma \proves \neg B(\bf{a_1}, \dots, \bf{a}_n)
+\end{align*}
+and thus $B$ represents $R$. 
+\end{proof}
+
+\section{Number Theory Swallows Itself}
+
+\newcommand{\Gnum}[1]{\#_g\left( #1 \right)}
+\newcommand{\Gterm}[1]{\left\ulcorner #1 \right\urcorner}
+
+
+\subsection{G\"{o}del Numbering}
+
+We need some way of expressing the metalanguage of formulas and proofs inside of number theory such that we can use number theory to prove statements of its own meta-theory. This is accomplished by encoding formulas as natural numbers. 
+
+\begin{theorem}
+There exists an injective function $\#_g : \FOR{L_{\mathrm{NN}}} \to \N$ such that its image $S = \Im{\#_g}$ is a recursive set. 
+\end{theorem}
+
+\begin{proof}
+Consider encoding each symbol as a unique integer and then a sequence of symbols via $p_1^{a_1} \cdots p_n^{a_n}$ where $p_i$ is the $i^{\text{th}}$ prime and $a_i$ is the code of the $i^{\text{th}}$ symbol. By uniqueness of prime factorization, this function is injective. Checking its image is recursive is highly technical so I will simply invoke the Church-Turning thesis since there exists an effective procedure to factor a number, translate it into a string of symbols, and check if this string can be produced by the rules for forming well-formed formulas. The last step is effectively computable because there are a finite number of formulas of the correct length or less (restricting to only the variables which appear in the target string) so we can simply try each. 
+\end{proof}
+
+\begin{remark}
+The function $\#_g$ encodes each formula as a natural number such that the set of codes corresponding to well-formed formulas is computable. 
+\end{remark}
+
+\begin{definition}
+Let $A$ be a formula and $a = \Gnum{A}$ its G\"{o}del number. Then let $\Gterm{A}$ be the term $\bf{a}$. 
+\end{definition}
+
+\begin{remark}
+This notation is intentionally suggestive of quotation in natural language. In fact, the G\"{o}del sentence is not best described as saying ``I am provable'' but rather the Quine sentence,
+\begin{center}
+``when preceded by its quotation is unprovable'' \\
+when preceded by its quotation is unprovable.
+\end{center}
+which is self-referential since the object of the sentence ( ``when preceded by its quotation is unprovable'' when preceded by its quotation) is a copy of the entire sentence. This sentence accomplishes self-reference without the self-referential ``machinery'' of the pronoun ``I'' and therefore is a much better model for how such self-reference can unintentionally arise in number theory. 
+\end{remark}
+
+\subsection{The Provability Predicate}
+
+\begin{definition}
+A theory $\Gamma$ with language $L_{\text{NN}}$ is \textit{recursively axiomatized} if $\Gnum{\Gamma}$ is recursive. 
+\end{definition}
+
+\begin{remark}
+Intuitively, a theory $\Gamma$ is axiomatized if there exists an algorithm which can decide if a given string is an axiom of the theory. 
+\end{remark}
+
+\newcommand{\CHKPRF}{\mathrm{CHKPRF}}
+
+\begin{theorem}
+Let $\Gamma$ be recursively axiomatized. We may extend $\#_g^\Gamma : \PRF{\Gamma} \to \N$ to encoding valid $\Gamma$-proofs as a sequence of formulas which, using the technique used above, we can encode in a single number. Again, we require that $g_{\Gamma}$ be injective and have recursive image such that the codes of valid proofs comprise a computable set. Furthermore the relation, $\CHKPRF_{\Gamma} \subset \N^2$ defined to contain $(a, p)$ iff $a$ is the code of a valid formula and $p$ is the code of a valid proof of the formula encoded by $a$ is a recursive relation. 
+\end{theorem}
+
+\begin{proof}
+We rely here on the Church-Turning thesis to show that such relations are recursive. They are effectively computable since checking a proof requires only checking each line to see if it is an axiom (which is decidable by hypothesis) or the result of applying one of finitely many rules of inference to the finitely many preceding sentences. This is clearly computable. 
+\end{proof}
+
+
+\begin{definition}
+Since $\CHKPRF_{\Gamma}$ is recursive it is $\Gamma$-representable. Let $\Prf_{\Gamma}(x,y)$ be a formula of $L_{\text{NN}}$ such that,
+\begin{align*}
+\CHKPRF_{\Gamma}(a,p) & \implies \Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p})
+\\
+\neg \CHKPRF_{\Gamma}(a,p) & \implies \Gamma \proves \neg \Prf_{\Gamma}(\bf{a}, \bf{p})
+\end{align*}
+\end{definition}
+
+\begin{definition}
+The provability predicate $\Bew_\Gamma(x)$ is the formula $\eq{p}\Prf_{\Gamma}(x, p)$.
+\end{definition}
+
+\begin{remark}
+The notation $\Bew$ derives from the German word \textit{Beweis} for proof. 
+\end{remark}
+
+\newcommand{\Thm}[1]{\Bew_{\Gamma}(\Gterm{#1})}
+\newcommand{\G}{\mathcal{G}}
+
+\begin{lemma}[Hilbert-Bernays]
+The provability predicate satisfies,
+\begin{enumerate}
+\item $\Gamma \proves A \implies \Gamma \proves \Thm{A}$ 
+\item $\Gamma \proves \Thm{A \to B} \to (\Thm{A} \to \Thm{B})$
+\item $\Gamma \proves \Thm{A} \to \Thm{\Thm{A}}$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The last two are quite delicate and technical requiring diving into the construction of $\Prf$. However, the first is easy to show. If $\Gamma \proves A$ then there exists a proof of $A$ which has code $p$ and let $A$ have code $a$. Therefore, $\CHKPRF_{\Gamma}(a,p)$ so $\Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p})$. Now the axiom (FO1) gives, 
+\[ \Gamma \proves \uq{y} \neg \Prf_{\Gamma}(\bf{a}, y) \to \neg \Prf_{\Gamma}(\bf{a}, \bf{p}) \] 
+Thus, taking the contrapositive, 
+\[ \Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p}) \to \Thm{A} \]
+so by modus ponens $\Gamma \proves \Thm{A}$. 
+\end{proof}
+
+\begin{remark}
+The first Hilbert-Bernays derivability condition states that $\Bew_{\Gamma}(x)$ \textit{weakly} represents theoremhood (it cannot strongly represent it however as we shall show). The second condition states that modus ponens is \textit{provably (within $\Gamma$)} a rule of inference of $\Gamma$. Finally, the third Hilbert-Bernays derivability condition is the formalization of the first property \textit{within the system $\Gamma$}, saying that $\Gamma$ can prove that if it can prove $A$ then it can prove that it can prove $A$.  
+\end{remark}
+
+\subsection{Self-Reference}
+
+\begin{lemma}[Diagonal]
+Let $F(x)$ be an $L_{\mathrm{NN}}$ formula with one free variable. Then there exists a `fixed-point' sentence $\psi$ such that,
+\[ \bf{Q} \proves \psi \leftrightarrow F(\Gterm{\psi}) \]
+\end{lemma}
+
+\begin{proof}
+There exists a recursive function $d : \N \to \N$ such that when $a = \Gnum{A}$ where $A(x)$ is a formula with at least one free variable then $d(a) = \Gnum{A(\bf{a})} = \Gnum{A(\Gterm{A})}$ (for now we appeal to the Church-Turning thesis). Therefore, $D$ is represented by some formula $D(x, y)$ such that for all $a \in \N$ and $b = d(a)$ we have,
+\[ \bf{Q} \proves \uq{y} [ D(\bf{a}, y) \leftrightarrow (y = \bf{b}) ] \]
+Now define the formula with one free variable,
+\[ \varphi := \uq{y} [D(x, y) \to F(y) ] \]
+Let $a = \Gnum{\varphi}$ be its G\"{o}del number and then substitute $\bf{a} = \Gterm{\varphi}$ for $x$ in $\varphi$,
+\[ \psi := \varphi(\Gterm{\varphi}) := \uq{y} [D(\Gterm{\varphi}, y) \to F(y)] \]
+The G\"{o}del number of $\psi$ is $q = \Gnum{\varphi(\Gterm{\varphi})} = d(a)$ so we apply the representation of $d$ applied at $d(a) = q$,
+\[ \bf{Q} \proves \uq{y} [D(\Gterm{\varphi}, y) \leftrightarrow (y = \Gterm{\varphi(\Gterm{\varphi})})] \] 
+Using the tautology,
+\[ \bf{Q} \proves (A \leftrightarrow B) \to [(A \to C) \leftrightarrow (B \to C)] \]
+we find,
+\[ \bf{Q} \proves \uq{y} [D(\Gterm{\varphi}, y) \to F(y)] \leftrightarrow \uq{y} [(y = \Gterm{\varphi(\Gterm{\varphi})}) \to F(y)] \]
+Which we can write as,
+\[ \bf{Q} \proves \varphi(\Gterm{\varphi}) \leftrightarrow F(\Gterm{\varphi(\Gterm{\varphi})}) \]
+and using $\psi := \varphi(\Gterm{\varphi})$ we have,
+\[ \bf{Q} \proves \psi \leftrightarrow F(\psi) \] 
+\end{proof}
+
+\begin{remark}
+If we interpret $F(\Gterm{\psi})$ to represent ``the formula $\psi$ has property $F$'' then the diagonal lemma proves the existence of self-referential fixed points. $\psi \leftrightarrow F(\Gterm{\psi})$ is a sentence ``saying'' $\psi$ is true if and only if $\psi$ has property $F$. In other words, $\psi$ has an interpretation as the sentence: ``I have property $F$.'' 
+As described earlier, the diagonal sentence is more better modeled in human language a Quine sentence,
+\begin{center}
+``when preceded by its quotation has property $F$''
+\\ when preceded by its quotation has property $F$.
+\end{center}
+In fact, the above proof of the diagonalization lemma closely  resembles the construction of a Quine sentence: we take a sentence which refers to its object applied to (preceded by) its own quotation and apply it to (preceding it by) its own quotation. The predicate $\varphi(x)$ encodes ``$x$ when applied to its quotation (G\"{o}del number) has property $F$'' and the self-referential statement $\psi$ is exactly $\varphi$ applied to its quotation. 
+\end{remark}
+
+\subsection{Godel Incompleteness I}
+
+In this and the following sections, let $\perp$ stand for your favorite contradiction, say $(\bf{0} = \bf{1})$ or $(x = y) \wedge \neg (x = y)$ etc. Any choice is as good as any other as long as $\Gamma \proves \perp$ implies that $\Gamma$ is inconsistent (which the above certainly do). 
+
+\begin{definition} 
+A theory $\Gamma$ is $\omega$-consistent if for all formulas $A(x)$ with one free variable $\Gamma$ cannot simultaneously prove $\eq{x} A(x)$ and $\neg A(\bf{n})$ for each natural number $n \in \N$.
+\end{definition}
+
+\begin{lemma}
+$\omega$-consistency implies consistency.
+\end{lemma}
+
+\begin{proof}
+For each formula with one free variable $A(x)$ either $\Gamma \not\proves \eq{x} A(x)$ or for some $n \in \N$ we have $\Gamma \not\proves \neg A(\bf{n})$. Therefore, there exists some formula that $\Gamma$ cannot prove which implies that $\Gamma$ is consistent. 
+\end{proof}
+
+\begin{lemma}
+If $\Gamma$ is $\omega$-consistent and $\Gamma \not\proves A$ then $\Gamma \not\proves \Thm{A}$. 
+\end{lemma}
+
+\begin{proof}
+Suppose that $\Gamma \not\proves A$ and $a = g(A)$ is the G\"{o}del number. Then for each $n \in \N$ we have $\neg \CHKPRF_{\Gamma}(a, n)$ since there exist no valid proofs of $A$. Therefore we have $\Gamma \proves \neg \Prf_{\Gamma}(\bf{a}, \bf{n})$ for each $n \in \N$ so by $\omega$-consistency $\Gamma \not\proves \Thm{A}$. 
+\end{proof}
+
+\begin{corollary}
+If $\Gamma$ is $\omega$-consistent then $\Gamma$ is consistent so $\Gamma \not\proves \perp$ and thus, by the previous lemma, $\Gamma \not\proves \Thm{\perp}$ and thus $\Gamma \not\proves \Thm{\Thm{\perp}}$ etc. 
+\end{corollary}
+
+\begin{theorem}[G\"{o}del]
+Any $\omega$-consistent recursively axiomatized extension of $\bf{Q}$ is incomplete. 
+\end{theorem}
+
+\begin{proof}
+Let $\Gamma$ be an $\omega$-consistent recursively axiomatized extension of $\bf{Q}$. Since $\Gamma$ is recursively axiomatized $\Prf_{\Gamma}$ and $\Bew_{\Gamma}$ exist. 
+The fixed-point theorem proves the existence of a sentence $\mathcal{G}$ such that,
+\[ \Gamma \proves \mathcal{G} \leftrightarrow \neg \Thm{\mathcal{G}} \]
+Suppose that $\Gamma \proves \mathcal{G}$ then $\Gamma \proves \Thm{\mathcal{G}}$ by HB1 and $\Gamma \proves \neg \Thm{\mathcal{G}}$ by self-reference contradicting the consistency of $\Gamma$. Suppose that $\Gamma \proves \neg \mathcal{G}$ then, by HB1, $\Gamma \proves \Thm{\neg \mathcal{G}}$. However, by self-reference $\Gamma \proves \Thm{\mathcal{G}}$. Furthermore, using axiom (H3),
+\[ \Gamma \proves \neg \mathcal{G} \to (\mathcal{G} \to \perp) \]  
+Therefore, applying HB1 we have,
+\[ \Gamma \proves \Thm{\neg \mathcal{G} \to (\mathcal{G} \to \perp)} \]
+and then by HB2,
+\[ \Gamma \proves \Thm{\neg \mathcal{G} \to (\mathcal{G} \to \perp)} \to (\Thm{\neg \mathcal{G}} \to \Thm{\mathcal{G} \to \perp}) \]
+Applying modus ponens twice we find,
+\[ \Gamma \proves \Thm{\mathcal{G} \to \perp} \]
+so applying HB2 we find,
+\[ \Gamma \proves \Thm{\mathcal{G}} \to \Thm{\perp} \]
+so one last use of modus ponens gives $\Gamma \proves \Thm{\perp}$ contradicting $\omega$-consistency. Therefore, neither $\mathcal{G}$ nor $\neg \mathcal{G}$ is provable in the theory $\Gamma$ so $\Gamma$ is incomplete. 
+\end{proof}
+
+\subsection{L\"{o}b's Theorem}
+
+\begin{remark}
+In this section we assume that $\Gamma$ is a recursively axiomatized extension of $\bf{Q}$. 
+\end{remark}
+
+\begin{theorem}[L\"{o}b]
+If $\Gamma \proves \Thm{A} \to A$ then $\Gamma \proves A$ for any sentence $A$.
+\end{theorem}
+
+\begin{proof}
+Via the fixed point theorem applied to $\Bew_{\Gamma}(x) \to A$, there exists a sentence $B$ such that,
+\[ \Gamma \proves B \leftrightarrow (\Thm{B} \to A) \]
+Applying HB1 to one direction gives,
+\[ \Gamma \proves \Thm{B \to (\Thm{B} \to A)} \]
+and then applying HB2 twice we deduce,
+\[ \Gamma \proves \Thm{B} \to (\Thm{\Thm{B}} \to \Thm{A}) \]
+However, HB3 gives, 
+\[ \Gamma \proves \Thm{B} \to \Thm{\Thm{B}} \]
+and thus putting the previous two together,
+\[ \Gamma \proves \Thm{B} \to \Thm{A} \]
+Now we use the hypothesis $\Gamma \proves \Thm{A} \to A$ to get a proof,
+\[ \Gamma \proves \Thm{B} \to A \]
+but since $\Thm{B} \to A$ is provably equivalent to $B$ we find $\Gamma \proves B$ so by HB1 $\Gamma \proves \Thm{B}$ and thus $\Gamma \proves A$ by modus ponens. 
+\end{proof}
+
+\begin{remark}
+This theorem is truly remarkable because it says that $\bf{Q}$ and all extensions are ``maximally modest'' in the sense that the do not ``believe'' in their own validity (i.e. a proof of $A$ entails $A$) except for statements they already know to be true. Furthermore, it answers the fascinating question posed by Henkin. 
+\end{remark}
+
+\begin{remark}
+After seeing G\"{o}del's proof of the first incompleteness theorem Henkin asked about a subtle modification. What if we apply the fixed-point lemma not to $\neg \Bew_{\Gamma}(x)$ but to simply $\Bew_{\Gamma}(x)$? Then there would exist a sentence $\mathcal{H}$,
+\[ \Gamma \proves \mathcal{H} \leftrightarrow \Thm{\mathcal{H}} \]
+This sentence has the interpretation ``I am provable'' which seems to convey no information at all! However, clearly for such a sentence we have,
+\[ \Gamma \proves \Thm{\mathcal{H}} \to \mathcal{H} \]
+and thus by L\"{o}b's theorem we get $\Gamma \proves \mathcal{H}$. So in fact, such a Henkin sentence which asserts its own provability must actually be provable.  
+\end{remark}
+
+\subsection{Godel Incompleteness II}
+
+Finally, L\"{o}b's theme gives us enough machinery to give an elegant proof of the second incompleteness theorem. 
+
+\begin{definition}
+The sentence $\Con_{\Gamma}$ is given by $\neg \Thm{\perp}$ which expresses the consistency of the theory $\Gamma$.
+\end{definition}
+
+\begin{remark}
+We have shown that if $\Gamma \proves \Con_{\Gamma}$ then $\Gamma$ is not $\omega$-consistent. However, we are about to show the stronger result. 
+\end{remark}
+
+\begin{theorem}[G\"{o}del]
+Let $\Gamma$ be a consistent recursively axiomatized extension of $\bf{Q}$ then $\Gamma$ cannot prove $\Con_{\Gamma}$. 
+\end{theorem}
+
+\begin{proof}
+By L\"{o}b's theorem if $\Gamma \proves \Thm{\perp} \to \perp$ then $\Gamma \proves \perp$. However, $\Thm{\perp} \to \perp$ is equivalent to $\Con_{\Gamma}$. Thus if $\Gamma \proves \Con_{\Gamma}$ then $\Gamma \proves \perp$ contradicting the consistency of $\Gamma$. Taking the contrapositive, $\Gamma \not\proves \perp \implies \Gamma \not\proves \Con_{\Gamma}$ i.e. the consistency of $\Gamma$ implies  that $\Gamma$ cannot prove $\Con_{\Gamma}$.
+\end{proof}
+
+\begin{remark}
+G\"{o}del's second incompleteness theorem is often stated provocatively as: a theory's proof of its own consistency establishes its inconsistency. This makes sense because an inconsistent theory can prove anything including its own consistency. 
+\end{remark}
+
+\subsection{L\"{o}b's Theorem Formalized inside Number Theory}
+
+Wonderfully, we can formalize the proof of L\"{o}b's theorem inside the system $\Gamma$ so that we may apply L\"{o}b \textit{inside} formal proofs.
+
+
+\begin{theorem}[L\"{o}b] 
+For any sentence $A$ of $L_{\mathrm{NN}}$,
+\[ \Gamma \proves \Thm{\Thm{A} \to A} \to \Thm{A} \]
+\end{theorem}
+
+\begin{proof}
+Let $B := \Thm{\Thm{A} \to A}$ and $C := \Thm{A}$. Then HB2 gives,
+\[ \Gamma \proves \Thm{B \to C} \to (\Thm{B} \to \Thm{C}) \]
+Furthermore, since $B := \Thm{C \to A}$,
+\[ \Gamma \proves B \to (\Thm{C} \to \Thm{A}) \]
+and by HB3 (since $B$ begins with $\Bew$),
+\[ \Gamma \proves B \to \Thm{B} \]
+Given $\Thm{B \to C}$ we get $\Thm{B} \to \Thm{C}$. Additionally, given $B$ we get $\Thm{B}$ so we get $\Thm{C}$ but $B$ also gives $\Thm{C} \to \Thm{A}$ so we get $C := \Thm{A}$. Thus by propositional logic,
+\[ \Gamma \proves \Thm{B \to C} \to (B \to C) \]
+Therefore, applying L\"{o}b's theorem,
+\[ \Gamma \proves B \to C \]
+which, expanded out is,
+\[ \Gamma \proves \Thm{\Thm{A} \to A} \to \Thm{A} \]
+\end{proof}
+
+\subsection{G\"{o}del Incompleteness Formalized inside Number Theory}
+
+Much in the way that L\"{o}b theorem can be formalized inside number theory, we can formalize the proofs of the incompleteness theorems inside the formal system itself. In fact, we can further formalize the notion that consistency implies the unprovability of the G\"{o}del sentence and thus its truth to give an alternative proof of the second incompleteness theorem and furthermore a demonstration of the provable logical equivalence of all G\"{o}del sentences.  
+
+\begin{theorem}
+Let $\mathcal{G}$ be a G\"{o}del sentence then,
+\[ \Gamma \proves \Con_{\Gamma} \leftrightarrow \mathcal{G} \]
+In particular, all G\"{o}del sentences are logically equivalent. 
+\end{theorem}
+
+\begin{proof}
+Since $\mathcal{G}$ is a G\"{o}del sentence,
+\[ \Gamma \proves \mathcal{G} \leftrightarrow \neg \Thm{\mathcal{G}} \]
+Therefore, applying HB1 and HB2,
+\[ \Gamma \proves \Thm{\mathcal{G}} \leftrightarrow \Thm{\neg \Thm{\mathcal{G}}} \]
+However, by HB3,
+\[ \Gamma \proves \Thm{\G} \to \Thm{\Thm{\G}} \] 
+Furthermore, since $\Gamma \proves \neg A \to (A \to \perp)$  by HB1 and HB2 twice we get,
+\[ \Gamma \proves \Thm{\neg A} \to (\Thm{A} \to \Thm{\perp}) \]
+Applying this to $A := \Thm{\G}$ we find,
+\[ \Gamma \proves \Thm{\G} \to \Thm{\perp} \]
+However, $\Gamma \proves \perp \to \G$ and thus applying HB1 and HB2 we find,
+\[ \Gamma \proves \Thm{\perp} \to \Thm{\G} \]
+In summary,
+\[ \Gamma \proves \Thm{\G} \leftrightarrow \Thm{\perp} \]
+However, $\Gamma \proves \G \leftrightarrow \neg \Thm{\G}$ and $\Con_{\Gamma} := \neg \Thm{\perp}$ which implies that,
+\[ \Gamma \proves \G \leftrightarrow \Con_{\Gamma} \]
+\end{proof}
+
+\begin{corollary}
+If $\Gamma$ is consistent then by G\"{o}del incompleteness I we know $\Gamma \not\proves \mathcal{G}$ and thus $\Gamma \not\proves \Con_{\Gamma}$ giving an alternative proof of incompleteness II. 
+\end{corollary}
+
+\newcommand{\oCon}{\omega\text{-}\Con_{\Gamma}}
+
+\begin{theorem}[Formalized G\"{o}del I]
+\[ \Gamma \proves \oCon \to (\neg \Thm{\G} \wedge \neg \Thm{\neg \G} ) \]
+Where $\oCon$ is the sentence $\neg \Thm{\Thm{\perp}}$ expressing weak $\omega$-consistency. 
+\end{theorem}
+
+\begin{proof}
+First, by HB3,
+\[ \Gamma \proves \Thm{\perp} \to \Thm{\Thm{\perp}} \]
+and therefore,
+\[ \Gamma \proves \oCon \to \Con_{\Gamma} \]
+We have already proven above that,
+\[ \Gamma \proves \Con_{\Gamma} \to \neg \Thm{\G} \]
+and thus by transitivity of implication,
+\[ \Gamma \proves \oCon \to \neg \Thm{\G} \]
+The negation of the G\"{o}del property gives,
+\[ \Gamma \proves \neg \G \leftrightarrow \Thm{\G} \]
+and thus by HB1 and HB2 we have,
+\[ \Gamma \proves \Thm{\neg \G} \leftrightarrow \Thm{\Thm{\G}} \]
+However, by HB3,
+\[ \Gamma \proves \Thm{\neg \G} \to \Thm{\Thm{\neg \G}} \]
+Furthermore via $\Gamma \proves \neg \G \to (\G \to \perp)$ and HB1 and HB2 repeatedly we find,
+\[ \Gamma \proves \Thm{\Thm{\G}} \to (\Thm{\Thm{\neg \G}} \to \Thm{\Thm{\perp}}) \]
+and thus by transitivity of implications,
+\[ \Gamma \proves \Thm{\neg \G} \to \Thm{\Thm{\perp}} \]
+contradicting $\omega$-consistency. That is, taking the contrapositive,
+\[ \Gamma \proves \oCon \to \neg \Thm{\neg \G} \]
+giving both implications which together show that,
+\[ \Gamma \proves \oCon \to (\neg \Thm{\G} \wedge \neg \Thm{\neg \G}) \]
+\end{proof}
+
+\begin{remark}
+Just as we needed $\omega$-consistency in the standard proof of G\"{o}del Incompleteness I, in the formalized version we require a stronger hypothesis than $\Con_{\Gamma}$, we need $\neg \Thm{\Thm{\G}}$ which expresses the idea that $\omega$-consistency requires $\Gamma$ to be unable to prove that it can prove a contradiction. In fact this hypothesis is somewhat weaker than full $\omega$-consistency so this is an abuse of notation. 
+\end{remark}
+
+\begin{theorem}[Formalized G\"{o}del II]
+\[ \Gamma \proves \neg \Thm{\perp} \to \neg \Thm{\Con_{\Gamma}} \]
+\end{theorem}
+
+\begin{proof}
+Apply formalized L\"{o}b with $A = \perp$ to give,
+\[ \Gamma \proves \Thm{\Thm{\perp} \to \perp} \to \Thm{\perp} \]
+However, $\Thm{\perp} \to \perp$ is logically equivalent to $\neg \Thm{\perp}$ which is $\Con_{\Gamma}$. Furthermore if $\Gamma \proves A \leftrightarrow B$ then $\Gamma \proves \Thm{A} \leftrightarrow \Thm{B}$ by HB1 and HB2 so we have,
+\[ \Gamma \proves \Thm{\Con_{\Gamma}} \to \Thm{\perp} \]
+which is exactly the contrapositive of formalized G\"{o}del incompleteness II. 
+\end{proof}
+
+
+
+\section{GL Provability Logic}
+
+\newcommand{\K}{\mathbf{K}}
+\newcommand{\GL}{\mathbf{GL}}
+\newcommand{\PA}{\mathbf{PA}}
+
+\subsection{Modal Logic}
+
+Modal logics are formal systems given by standard predicate calculus with a modal predicate $\square$ which expresses some form of ``necessity.'' We first define the simplest so called ``normal'' modal logic $\K$ named for Saul Kripke.
+
+\begin{definition}
+The formal system $\K$ has logical connectives $\{ \to, \neg, \square \}$ and sentences are built from an infinite list of propositional variables $p, q, \dots$. It is defined by having as axioms,
+\begin{enumerate}
+\item tautologies of propositional calculus (say take Hilbert's system $H$ for concrete axiomatization) 
+\item the modal distribution axiom (K),
+\[ \square (A \to B) \to (\square A \to \square B) \]
+\end{enumerate}
+and as rules of inference has,
+\begin{enumerate}
+\item modus ponens (MP),
+\[ \infer{B}{A & (A \rightarrow B)} \]
+\item the necessitation rule,
+\[ \infer{\square A}{A} \]
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+$\K$ is the basis for most modal logics, however it is too weak to capture most modal notions. For proability logic we need a stronger extension which is named $\GL$ for G\"{o}del and L\"{o}b.
+\end{remark}
+
+\begin{definition}
+The formal system $\GL$ is simply $\K$ with the added two axioms,
+\begin{enumerate}
+\item[(4)] $\square A \to \square \square A$
+\item[(L)] $\square (\square A \to A) \to \square A$  
+\end{enumerate}
+\end{definition}
+
+\subsection{Modal Semantics}
+
+\subsection{Arithmetic Soundness}
+
+\begin{definition}
+Let $\Gamma$ be We define an \textit{arithmetical realization} to be a logical map $\phi : \GL \to \PA$ (that is a map on sentences which preserves logical connectives i.e. a morphism of the Boolean algebra of sentences) which satisfies the property that for any sentence $A$ of $\GL$,
+\[ \phi(\square A) = \Thm{\phi(A)} \]
+\end{definition}
+
+\begin{remark}
+When the realization $\phi$ is unambiguous we will often write $A^*$ for $\phi(A)$ the realization of $A$.
+\end{remark}
+
+\begin{theorem}[Arithmetical Soundness]
+If $\GL \proves A$ then $\PA \proves A^*$ for any arithmetical realization $*$.
+\end{theorem}
+
+\begin{proof}
+This proceeds by induction of proofs. It suffices to show that the axioms of $\GL$ are realized by provably statments of $\PA$ and that rules of inference in $\GL$ are sound in $\PA$. Since $\PA$ contains axiom schema for all propositional tautologies and the rule of inference MP we simply need to check the necessitation deduction,
+\[ \PA \proves A^* \implies \PA \proves (\square A)^* \]
+and modal axioms,
+\begin{align*}
+\PA & \proves (\square (A \to B) \to (\square A \to \square B))^* 
+\\
+\PA & \proves (\square A \to \square \square A)^*
+\\
+\PA & \proves (\square (\square A \to A) \to \square A)^* 
+\end{align*}
+Using the properties of $*$ we see this is equivalent to asking that,
+\begin{align*}
+\PA & \proves A^* \implies \PA \proves \Thm{A^*}
+\\
+\PA & \proves \Thm{A^* \to B^*} \to (\Thm{A^*} \to \Thm{B^*}
+\\
+\PA & \proves \Thm{A^*} \to \Thm{\Thm{A^*}}
+\\
+\PA & \proves \Thm{\Thm{A^*} \to A^*} \to \Thm{A^*} 
+\end{align*}
+which are exactly the three Hilbert-Bernays derivability conditions and formalized L\"{o}b's theorem which have shown to be probable in $\PA$. 
+\end{proof}
+
+\subsection{The Existence of Modal Fixed Points}
+
+\subsection{Arithmetic Completeness}
+
+\begin{theorem}[Arithmetical Completeness, Solovay, 1976]
+If $\PA \proves A^*$ for any arithmetical realization $*$ then $\GL \proves A$.
+\end{theorem}
+
+
+\begin{remark}
+This theorem is remarkable because it captures the overarching logic of $\PA$ in a modal logic based of propositional calculus without quantifiers. This result is made even more remarkable by the following decidability theorem for $\GL$.
+\end{remark}
+
+\begin{theorem}
+The theoremhood relation for $\GL$ is decidable i.e. the decision problem for $\GL$ is solvable. 
+\end{theorem}
+
+\begin{remark}
+We know by Church and Turring that the decision problem for $\PA$ is unsolvable that there does not exist an algorithm which can decide theoremhood in $\PA$. Therefore, it is suprising and powerful that we can capture probability logic inside $\PA$ with the \textit{decidable} theory $\GL$.
+\end{remark}
+
+\begin{remark}
+We will end with a application of arithmetic completeness to generating undecidable arithmetical sentences. It is not difficult to show that $\GL \not\proves \square p \vee \neg \square p$. Then Solovay's proof alows us to construct a realization such that $\PA \not\proves (\square p \vee \neg \square p)^*$. However,
+\[ (\square p \vee \neg \square p)^* = \Thm{p^*} \vee \neg \Thm{p^*} \]
+so if $\PA \proves p^*$ or $\PA \proves \neg p^*$ then by HB1 we would have $\PA \proves \Thm{p^*}$ or $\PA \proves \Thm{\neg p^*}$ contradicting Solovay's construction. Thus $p^*$ is an undecidable arithmetic sentence giving us further examples of oddities besides G\"{o}del sentences.
+\end{remark}
+
+\end{document}

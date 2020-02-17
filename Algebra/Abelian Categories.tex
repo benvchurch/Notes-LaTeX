@@ -1,0 +1,1582 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\norm}[3]{\mathrm{N}^{#1}_{#2}\left(#3\right)}
+\newcommand{\qnorm}[2]{\mathrm{N}^{#1}_{\Q}\left(#2\right)}
+\newcommand{\quadint}[3]{#1 + #2 \sqrt{#3}}
+\newcommand{\pideal}{\mathfrak{p}}
+\newcommand{\inorm}[1]{\mathrm{N}(#1)}
+\newcommand{\tr}[1]{\mathrm{Tr} \! \left(#1\right)}
+\newcommand{\delt}{\frac{1 + \sqrt{d}}{2}}
+\newcommand{\ch}[1]{\mathrm{char} \: #1}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\coker}[1]{\mathrm{coker} \: #1}
+\newcommand{\minimal}[2]{\mathrm{Min}(#1;#2)}
+\newcommand{\fix}[2]{\mathrm{Fix}_{#1} (#2)}
+\newcommand{\id}{\mathrm{id}}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Homover}[3]{\mathrm{Hom}_{#1} \left( #2, #3 \right)}
+\newcommand{\Frac}[1]{\mathrm{Frac}\left(#1\right)}
+
+\newcommand{\U}[1]{\mathrm{U}(#1)}
+\renewcommand{\O}[1]{\mathrm{O}(#1)}
+\newcommand{\SU}[1]{\mathrm{SU}(#1)}
+\newcommand{\SO}[1]{\mathrm{SO}(#1)}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}(#2)}
+\newcommand{\SL}[2]{\mathrm{SL}_{#1}(#2)}
+\newcommand{\PGL}[2]{\mathrm{PGL}_{#1}(#2)}
+\newcommand{\PSL}[2]{\mathrm{PSL}_{#1}(#2)}
+
+\newcommand{\Hom}[2]{\mathrm{Hom}\left(#1, #2 \right)}
+\newcommand{\Mod}[1]{\mathbf{Mod}_{#1}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+\newcommand{\Ann}[2]{\mathrm{Ann}_{#1}\left(#2\right)}
+\newcommand{\Ass}[2]{\mathrm{Ass}_{#1}\left( #2 \right)}
+\newcommand{\supp}[2]{\mathrm{Supp}_{#1} \left( #2 \right) }
+\newcommand{\Supp}[2]{\mathrm{Supp}_{#1}\left(#2 \right)}
+\newcommand{\spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\Spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\rad}[1]{\mathrm{rad}\left( #1 \right)}
+\newcommand{\nilrad}[1]{\mathrm{nilrad}\left( #1 \right)}
+\newcommand{\gr}[2]{\mathbf{gr}_{#1}\left(#2\right)}
+
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\p}{\mathfrak{p}}
+\renewcommand{\P}{\mathfrak{P}}
+\newcommand{\q}{\mathfrak{q}}
+\newcommand{\m}{\mathfrak{m}}
+\renewcommand{\a}{\mathfrak{a}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\op}{\mathrm{op}}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+
+
+\begin{document}
+
+\section{The Yonenda Embedding}
+
+\begin{lemma}
+Let $\eta : \Hom{A}{-} \to \Hom{B}{-}$ be a natural transformation. Then $\eta$ is uniquely determined by $\eta_A(\id_A)$ via $\eta_X(f) = f \circ \eta_A(\id_A)$ for any $f \in \Hom{A}{X}$.  
+\end{lemma}
+
+\begin{proof}
+Let $f : A \to X$ be some map.
+Consider the naturality diagram,
+\begin{center}
+\begin{tikzcd}
+\Hom{A}{A} \arrow[r, "f_*"] \arrow[d, "\eta_A"] & \Hom{A}{X} \arrow[d, "\eta_X"] 
+\\
+\Hom{B}{A} \arrow[r, "f_*"] & \Hom{B}{X} 
+\end{tikzcd}
+\end{center}
+Consider the element $\id_A \in \Hom{A}{A}$ which, under the upper path, maps to $\eta_X (f_*(\id_A)) = \eta_X(f \circ \id_A) = \eta_X(f)$ and, under the lower path, $f_*(\eta_A(\id_A)) = f \circ \eta_A(\id_A)$. Therefore,
+\[ \eta_X(f) = f \circ \eta_A(\id_A) \]
+\end{proof}
+
+\begin{corollary}
+Natural transformations $\eta : \Hom{A}{-} \to \Hom{B}{-}$ are in one-to-one correspondence with functions $\Hom{B}{A}$. We say $f^*$ is the natural transformation $f^*_X(g) = g \circ f$ for any $g \in \Hom{A}{X}$.  
+\end{corollary}
+
+\begin{theorem}
+Let $\C$ be any category. The functor $Y : \C^{\op} \to \Set^{\C}$ sending $A \mapsto h^A$ where $h^A = \Hom{A}{-}$ and $f \mapsto f^*$ described above is fully faithful.
+\end{theorem}
+
+\begin{proof}
+Clearly $(\id_A)^* = \id_{h^A}$ since $(\id_A)^*(f) = f \circ \id_A = f$ and for $f \in \Hom{B}{A}$ and $g \in \Hom{C}{B}$ then $(f \circ g)^* = g^* \circ f^*$ since for any $q \in \Hom{A}{X}$ we send,
+\[ (f \circ g)^*(q) = q \circ (f \circ g) = (q \circ f) \circ g = g^*(f^*(q)) \]
+The above corollary proves that $Y$ is fully faithful.    
+\end{proof}
+
+\begin{lemma}
+Let $F : \C \to \D$ be fully faithful then $X \cong Y \iff F(X) \cong F(Y)$.
+\end{lemma}
+
+\begin{proof}
+If $F(X) \cong F(Y)$ then there are morphisms $f \in \Hom{F(X)}{F(Y)}$ and $g \in \Hom{F(Y)}{F(X)}$ which are inverses. However, since $F$ is full there exist morphisms $\tilde{f} : \Hom{X}{Y}$ and $g \in \Hom{Y}{X}$ such that $F(\tilde{f}) = f$ and $F(\tilde{g}) = g$. Then,
+\[ F(\tilde{f} \circ \tilde{g}) = F(\tilde{f}) \circ F(\tilde{g}) = f \circ g = \id_{F(Y)} \quad \text{and} \quad F(\tilde{g} \circ \tilde{f}) = F(\tilde{g}) \circ F(\tilde{f}) = g \circ f = \id_{F(X)} \]
+However, since $F$ is faithful then,
+\[ \tilde{f} \circ \tilde{g} = \id_Y \quad \text{and} \quad \tilde{g} \circ \tilde{f} = \id_X \]
+proving that $X \cong Y$. 
+\end{proof}
+
+\begin{definition}
+We say a functor $F : \C \to \Set$ is \textit{representable} if $F \cong h^A$ for some $A \in \C$. 
+\end{definition}
+
+\section{Additive Categories}
+
+\begin{definition}
+A category $\mathcal{C}$ is pre-additive if its hom sets have the structure of an abelian group and composition of maps distributes over addition. Explicitly, for $X, Y, Z \in \mathcal{C}$, there exits a binary operation,
+\[ + :  \Hom{X}{Y} \times \Hom{X}{Y} \to \Hom{X}{Y}\]
+such that $(\Hom{X}{Y}, +)$ is an abelian group and, for $f, g : X \to Y$ and $h, k : Y \to Z$ we have $h \circ (f + g) = h \circ f + h \circ g$ and $(h + k) \circ f = h \circ f + k \circ f$. This is equvalent to the requirement that hom is a functor,
+\[ \Hom{-}{-} : \mathcal{C}^{\mathrm{op}} \times \mathcal{C} \to \Ab \]
+\end{definition}
+
+\begin{lemma}
+In a pre-additive cateogory, there exists an identity element $0 \in \Hom{X}{Y}$ such that $0 + f = f + 0 = f$ for $f \in \Hom{X}{Y}$ and $f \circ 0 = 0$ for $f \in \Hom{Y}{Z}$ and $0 \circ f = 0$ for $f \in \Hom{Z}{X}$.  
+\end{lemma}
+
+\begin{proof}
+The hom sets are abelian groups by definiton and thus must have unique identiy elements satisfying $f + 0 = 0 + f = f$ for all $f \in \Hom{X}{Y}$. Furthermore, for $f \in \Hom{Y}{Z}$ we have $f \circ 0 = f \circ (0 + 0) = f \circ 0 + f \circ 0$ and thus $f \circ 0 = 0_{XZ}$. Furthermore for $f \in \Hom{Z}{X}$ we know that $0 \circ f = (0 + 0) \circ f = 0 \circ f + 0 \circ f$ so $0 \circ f = 0_{ZY}$.  
+\end{proof}
+
+\begin{definition}
+A biproduct of an indexed set $\{X_i\}_I$ is an object $X = \bigoplus_I X_i$ along with projection maps $\pi_i : X \to X_i$ and inclusion maps $\iota_i : X_i \to X$ such that $(X, \{ \pi_i \}_I)$ is the product of $\{X_i\}_I$ and $(X, \{ \iota_i \}_I )$ is the coproduct of $\{ X_i \}_I$.  
+\end{definition}
+
+
+
+\begin{proposition}
+Let $\mathcal{C}$ be a pre-additive category. Every finite product and finite coproduct is a biproduct. In particular, finite products and coproducts are equal. 
+\end{proposition}
+
+\begin{proof}
+Let $X \times Y$ be the product of $X$ and $Y$. Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, "\id_X"] \arrow[rd, "\iota_X"] & & X
+\\
+& X \times Y \arrow[ru, "\pi_X"] \arrow[rd, "\pi_Y"] &
+\\
+Y \arrow[rr, "\id_Y"] \arrow[ru, "\iota_Y"] & & Y 
+\end{tikzcd}
+\end{center}
+where the maps $\iota_X : X \to X \times Y$ and $\iota_Y : Y \to X \times Y$ are defined via the universal property of the product applied to $(\id_X, 0)$ and $(0, \id_Y)$ respectivly where $0 \in \Hom{X}{Y}$ is the identiy element of the abelian group. The universal property gives,
+\begin{align*}
+\pi_X \circ \iota_X = \id_X &\quad \pi_Y \circ \iota_X = 0
+\\
+\pi_X \circ \iota_Y = 0 &\quad \pi_Y \circ \iota_Y = \id_Y 
+\end{align*}
+so the diagram commutes. We need to show that $X \times Y$ is universal with respect to the maps $\iota_X$ and $\iota_Y$. Suppose we have maps $f_X : Z \to X$ and $f_Y : Z \to Y$ then define $\tilde{f} = f_X \circ \pi_X + f_Y \circ \pi_Y$.
+\begin{center}
+\begin{tikzcd}
+& X \arrow[ld, "f_X"'] \arrow[rr, "\id_X"] \arrow[rd, "\iota_X"] & & X
+\\
+Z & & X \times Y  \arrow[ll, dashed, "\tilde{f}"'] \arrow[ru, "\pi_X"] \arrow[rd, "\pi_Y"] &
+\\
+& Y \arrow[lu, "f_Y"'] \arrow[rr, "\id_Y"] \arrow[ru, "\iota_Y"] & & Y 
+\end{tikzcd}
+\end{center}
+This map satisfies the required universal property because,
+\[ \tilde{f} \circ \iota_X = (f_X \circ \pi_X + f_Y \circ \pi_Y) \circ \iota_X = f_X \circ \pi_X \circ \iota_X + f_Y \circ \pi_Y \circ \iota_X = f_X + 0 = f_X \]
+and likewse,
+\[ \tilde{f} \circ \iota_Y = (f_X \circ \pi_X + f_Y \circ \pi_Y) \circ \iota_Y = f_X \circ \pi_X \circ \iota_Y + f_Y \circ \pi_Y \circ \iota_Y = 0 + f_Y = f_Y \]
+Lastly, we must show that $\tilde{f}$ is unique. Suppose there exits a map $\tilde{f} : X \times Y \to Z$ such that $\tilde{f} \circ \iota_X = f_X$ and $\tilde{f} \circ \iota_Y = f_Y$. Consider the map $I : X \times Y \to X \times Y$ given by,
+\[ I = \iota_X \circ \pi_X + \iota_Y \circ \pi_Y \]
+Therefore, 
+\[ \pi_X \circ I = \pi_X \circ \iota_X \circ \pi_X + \pi_X \circ \iota_Y \circ \pi_Y = \pi_X + 0 = \pi_X \]
+and furthermore,
+\[ \pi_Y \circ I = \pi_Y \circ \iota_X \circ \pi_X + \pi_Y \circ \iota_Y \circ \pi_Y = 0 + \pi_Y = \pi_Y \]
+However, by the universal property of the product, there exists a unique map, namely $\id_{X \times Y}$, satisfying these properties. Thus, $I = \id_{X \times Y}$. Thus,
+\[ \tilde{f} = \tilde{f} \circ \id_{X \times Y} = \tilde{f} \circ I = \tilde{f} \circ \iota_X \circ \pi_X + \tilde{f} \circ \iota_Y \circ \pi_Y  = f_X \circ \pi_X + f_Y \circ \pi_Y \]
+so the map we constructed earlier is unique. 
+\bigskip\\
+Similarly, let $X \coprod Y$ be the coproduct of $X$ and $Y$. A similar argument will hold reversing all arrows. 
+\end{proof}
+
+
+\begin{definition}
+A category is additive if it is pre-additive, has a zero object, and has all finite biproducts. The preceding dicussion implies that it is enough to check that either all finite products or all finite coproducts exit.  
+\end{definition}
+
+\begin{proposition}
+In an additive category, the zero map is the indentity obeject of the $\Ab$-enriched hom-sets.
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+A functor $T : \C \to \D$ is \textit{additive} if it preserves finite biproducts.  
+\end{definition}
+
+\begin{proposition}
+A functor $T : \C \to \D$ is additive iff the map on enriched hom-sets,
+\[ T_{X,Y} : \Homover{\C}{X}{Y} \to \Homover{\D}{T(X)}{T(Y)} \]
+is a homomorphism in the category of abelian groups.
+\end{proposition}
+
+\begin{proof}
+A biproduct $X \oplus Y$ with its projections and inclusions is completely characterized by the property $\id_{X \oplus Y} = \iota_X \circ \pi_X + \iota_Y \circ \pi_Y$. Thus $T$ preserves the biproduct structure iff it preserves addition i.e. iff,
+\[ \id_{T(X \oplus Y)} = T(\id_{X \oplus Y}) = T(\iota_X \circ \pi_X + \iota_Y \circ \pi_Y) = T(\iota_X) \circ T(\pi_X) + T(\iota_Y) \circ T(\pi_Y) \]
+\end{proof}
+
+DEF-COMPLEX
+PROP ADD-FUNC PRESERVE COMPLEXES
+
+\section{Abelian Categories}
+
+DEFINE NORMAL CATEGORY
+
+\begin{proposition}
+Let $\A$ be a binormal category. Then any morphism in $\A$ which is both monic and epic is an isomorphism. 
+\end{proposition}
+
+\begin{proof}
+Let $f : A \to B$ be both monic and epic. Since $\A$ is binormal, $f$ must be a kernel and a cokernel of some maps,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+K \arrow[r, "a"] & A \arrow[r, "f"] & B \arrow[r, "b"] & C
+\end{tikzcd}
+\end{center}
+where $f : A \to B$ is the cokernel of $a : K \to A$ and the kernel of $b : B \to C$. Then $f \circ a = 0 = f \circ 0$ so, since $f$ is monic, $a = 0$. Furthermore, $b \circ f = 0 = 0 \circ f$ so, sice $f$ is an epic, $b = 0$. Therefore, consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+K \arrow[r, "0"] & A \arrow[d, "\id_A"'] \arrow[r, "f"] & B \arrow[dl, dashed] \arrow[r, "0"] & C
+\\
+& A & B \arrow[u, "\id_B"'] \arrow[ul, dashed] & 
+\end{tikzcd}
+\end{center} 
+Where $\id_A \circ a = 0$ and $b \circ \id_B = 0$ (since $a = 0$ and $b = 0$) which implies that $\id_A$ factors through the cokernel $f :A \to B$ and $\id_B$ lifts over the kernel $f : A \to B$. Thus $f$ has a left inverse $g_L : B \to A$ and right inverse $g_R : B \to A$ such that $g_L \circ f = \id_A$ and $f \circ g_R = \id_B$. Finally, 
+\[ g_L = g_L \circ \id_B = g_L \circ (f \circ g_R) = (g_L \circ f) \circ g_R = \id_A \circ g_R = g_R \]
+Thus $f$ has a two-sided inverse $g = g_L = g_R$ so $f$ is an isomorphism.
+\end{proof}
+
+DEFINITON OF AB-CAT
+
+DEF OF IM AND COIM
+
+IM = COIM
+
+\begin{definition}
+We say that a sequence,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "f"] & Y \arrow[r, "g"] & Z
+\end{tikzcd}
+\end{center}
+is a complex if $g \circ f = 0$ giving a monomorphism $\Im{f} \to \ker{g}$. We say the sequence is \textit{exact} if this morphism is also epic i.e. an isomorphism by the above lemma. 
+\end{definition}
+
+\begin{proposition}
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & X \arrow[r, "f"] & Y \arrow[r, "g"] & Z
+\end{tikzcd}
+\end{center}
+is exact iff $(X \xrightarrow{f} Y) = \ker{g}$ and, 
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "f"] & Y \arrow[r, "g"] & Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact iff $(Y \xrightarrow{g} Y) = \coker{f}$. 
+\end{proposition}
+
+\begin{proof}
+DO THIS PROOF
+\end{proof}
+
+\begin{definition}
+ABELIAN FUNCTOR
+\end{definition}
+
+\begin{definition}
+Let $F : \A \to \B$ be an additive functor between abelian categories. Then we say that,
+\begin{enumerate}
+\item $F$ is \textit{left-exact} if $F$ preserves kernels
+\item $F$ is \textit{right-exact} if $F$ preserves cokernels
+\item $F$ is \textit{exact} if $F$ preserves exact sequences
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+$F$ is exact iff $F$ is left and right-exact. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+Let $F : \A \to \B$ and $G : \A \to \B$ be an adjoint pair of additive functors between abelian categories. Then $F$ is right-exact and $G$ is left-exact.
+\end{proposition}
+
+\begin{proof}
+Left-adjoints preserve colimits and right-adjionts preserve limits.
+\end{proof}
+
+\section{Homology}
+
+\section{MISC}
+
+\begin{lemma} 
+Let $A$ be a ring and $\a \subset A$ an ideal and $M$ an $A$-module. Then,
+\[ (A / \a) \otimes_A M = M / \a M \]
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \a \arrow[r] & A \arrow[r] & A / \a \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now applying the right-exact functor $(-) \otimes_A M$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\a \otimes_A M \arrow[r] & M \arrow[r] & (A / \a) \otimes_A M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Clearly the image of $\a \otimes_A M \to M$ is $\a M \subset M$ and since $(A / \a) \otimes_A M$ is the cokernel of this map by exactness we find,
+\[ (A / \a) \otimes_A M = M / \a M \]
+\end{proof}
+
+\begin{definition}
+We say a flat $A$-module $M$ is \textit{faithfully flat} iff the following equivalent conditions hold.
+\end{definition}
+
+\begin{proposition}
+Let $M$ be a flat $A$-module. Then the following are equivalent. 
+\begin{enumerate}
+\item for any maximal $\m \subset A$ we have $\m M \neq M$
+\item for any $A$-module $N$ we have $N \otimes_A M = 0 \implies N = 0$
+\item for any map $f : N_1 \to N_2$ if $f \otimes \id_M : N_1 \otimes_A M \to N_2 \otimes_A M$ is an isomorphism then $f$ is an isomorphism.
+\item a sequence $N_1 \to N_2 \to N_3$ is exact iff $N_1 \otimes_A M \to N_2 \otimes_A M \to N_3 \otimes_A M$ is exact. 
+\end{enumerate}
+\end{proposition}
+
+
+\begin{theorem}
+Let $A$ be a ring $B$ an $A$-algebra which is faithfully flat as an $A$-module and $M$ be an $A$-module. Then the following sequence is exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r, "\partial_0"] & M \otimes_A B \arrow[r, "\partial_1"] & M \otimes_A B \otimes_A B 
+\end{tikzcd}
+\end{center}
+via $\partial_0(x) = x \otimes 1$ and $\partial_1(x \otimes b) = x \otimes b \otimes 1 - x \otimes 1 \otimes b$.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+The functor $\mathrm{Spec} : \mathbf{Ring}^{\op} \to \mathbf{LRS}$ is right-adjoint to the global sections functor $\Gamma : \mathbf{LRS} \to \mathbf{Ring}^{\op}$ given by $\Gamma(X) = \mathcal{O}_X(X)$. Therefore,
+\[ \Homover{\mathbf{LRS}}{X}{\Spec{A}} \cong \Homover{\mathrm{Ring}}{A}{\mathcal{O}_X(X)} \] 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{corollary}
+$\Spec{\Z}$ is the terminal object in the category of locally ringed spaces and $\Spec{\{ 0 \}}$ is the initial object in the category of locally ringed spaces. 
+\end{corollary}
+
+\begin{corollary}
+Let $A$ be a ring and $A \to B$ and $A \to C$ be $A$-algebras. Then,
+\[ \Spec{B \otimes_A C} \cong \Spec{B} \times_{\Spec{A}} \Spec{C} \]
+\end{corollary}
+
+\begin{theorem}
+Let $U \subset \Spec{A}$ be an open subset. Suppose that $\forall \p \in \Spec{A} : \p \cap S_U = \varnothing \text{ or } \p \in U$. Then $F_A(U) = \tilde{A}(U)$.  
+\end{theorem}
+
+\begin{proof}
+We can assume that $U = \Spec{A}$ (otherwise replace $A$ with $S_U^{-1} A$). Let $(U_i)_{i \in I}$ be a finite open cover with $U_i = D(s_i)$ for $s_i \in A$. Then let,
+\[ B = \prod_{i \in I} A_{s_i} \]
+which is a faithfully flat $A$-module (PROVE THIS). Therefore, we know there exits an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & B \otimes B
+\end{tikzcd}
+\end{center}
+or equivalently,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \prod_i A_{s_i} \arrow[r] & \prod_{i,j} A_{s_i s_j} 
+\end{tikzcd}
+\end{center}
+is exact where the second map is the difference of the product of maps $A_{s_i} \to A_{s_i s_j}$ and $A_{s_j} \to A_{s_j s_i}$. This identifies $A$ as the kernel of this map and thus the equalizer in the definition of a sheaf. Thus $\tilde{A}(U) = A$.  
+\end{proof}
+
+\section{Categories of Modules}
+
+\begin{definition}
+RING Cat and Module Cat
+\end{definition}
+
+\begin{lemma}
+A ring homomorphism $f : R \to S$ induces an additive functor \[F : \Mod{R} \to \Mod{S}\]
+given by $ (-) \otimes_{R} S$ where $S$ is an $R$-module under the action $r \cdot s = f(r)s$. 
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+$\GL{n}{-} : \Ring \to \Grp$ is a functor
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+$\det : \GL{n}{-} \Longrightarrow (-)^\times$ is a natrual transformation. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+
+\section{Derived Functors}
+
+\subsection{Chain Complexes}
+
+\newcommand{\Ch}[1]{\mathbf{Ch}\left( #1 \right)}
+
+\begin{definition}
+A chain complex $C$ is a diagram,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] & C_n \arrow[r, "\partial_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+such that $\partial_{n} \circ \partial_{n+1} = 0$ or equivalently $\Im{\partial_{n+1}} \subset \ker{\partial_{n}}$ for each $n$. We call $\partial$ the boundary map.
+\bigskip\\
+Similarly, a cochain complex $D$ is equivalent but with increasing lables, 
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & D^{n-1} \arrow[r, "d^{n-1}"] & D^n \arrow[r, "d^n"] & D^{n+1} \arrow[r, "d^{n+1}"] & \cdots
+\end{tikzcd}
+\end{center}
+such that $d^{n+1} \circ d^{n} = 0$ or equivalently $\Im{d^n} \subset \ker{d^{n+1}}$ for each $n$. We call $d$ the coboundary map.
+\end{definition}
+
+\begin{remark}
+Complexes are ``half exact'' sequences. 
+\end{remark}
+
+\begin{definition}
+A map $f : C \to D$ of (co)chain complexes is a sequnces of maps, $f_n : C_n \to D_n$ such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] \arrow[d, "f_{n+1}"] & C_n \arrow[r, "\partial_n"] \arrow[d, "f_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] \arrow[d, "f_{n-1}"] & \cdots
+\\
+\cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}"] & D_n \arrow[r, "\partial_n"] & D_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+commutes.
+\end{definition}
+
+\begin{definition}
+Let $\A$ be an abelian cateogy then $\Ch{\A}$ is the category of chain complexes with components in $\A$. 
+\end{definition}
+
+\begin{remark}
+Since complexes are ``half exact'' sequences, we would like a way to measure how far a given complex is from being exact. This is accomplished via (co)homology. 
+\end{remark}
+
+\begin{definition}
+Let $C$ be a chain complex in $\Ch{\A}$. The homology of the complex $C$ is the sequence of $\A$ objects (usually abelian groups or $R$-modules),
+\[ H_n(C) = \ker{\partial_n} / \Im{\partial_{n+1}} \]
+We can describe this categorically via,
+\begin{center}
+\begin{tikzcd}
+C_{n+1} \arrow[rd, dashed] \arrow[r, "\partial_{n+1}"] & C_n \arrow[r, "\partial_n"] & C_{n-1}
+\\
+& \ker{\partial_n} \arrow[u] \arrow[rd, dashed]
+\\
+& & H_n(C) 
+\end{tikzcd}
+\end{center}
+where $\partial_{n} \circ \partial_{n+1} = 0$ so $\partial_{n+1}$ lifts to the kernel and $H_n(C)$ is the cokernel of this map. 
+\bigskip\\
+Similarly, given a cochain complex $D$, the cohomology is the sequence 
+\[ H^n(D) = \ker{d^{n}} / \Im{d^{n-1}} = 0 \] 
+which is constructed identically.
+\end{definition}
+
+\begin{proposition}
+Taking (co)homology is a functor $H_n : \Ch{\A} \to \A$.
+\end{proposition}
+
+\begin{proof}
+A chain map $f : C \to D$ is a diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] \arrow[d, "f_{n+1}"] & C_n \arrow[r, "\partial_n"] \arrow[d, "f_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] \arrow[d, "f_{n-1}"] & \cdots
+\\
+\cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}"] & D_n \arrow[r, "\partial_n"] & D_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+so if $x \in \ker{\partial_n}$ then $\partial_n \circ f(x) = f(\partial_n x) = 0$ so $f(x) \in \ker{\partial_n}$. Furthermore, if $x \in \Im{\partial_{n+1}}$ then $f(x) \in f(\Im{\partial_{n+1}}) = \Im{\partial_{n+1} \circ f_{n+1}} \subset \Im{\partial_{n+1}}$. Therefore, $f_* : H_n(C) \to H_n(D)$ is a well-defined map taking $[x] \mapsto [f(x)]$. Clearly $\id_* = \id_{H_n}$ and $(f \circ g)_* = f_* \circ g_*$.
+\bigskip\\
+Categorically,   
+(DO THIS)
+\end{proof}
+
+\begin{definition}
+Let $f, g : C \to D$ be morphisms of chain complexes. A \textit{chain homotopy} $p : f \implies g$ is a sequence of maps $p_n : C_n \to D_{n+1}$ such that, 
+\[ \partial \circ p + p \circ \partial = f - g \]
+or more explicitly,
+\[ 
+\partial^D_{n+1} \circ p_n + p_{n-1} \circ \partial^C_{n} = f_n - g_n \] 
+in the following diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}^C"] \arrow[ld, "p_{n+1}"'] \arrow[d, "f_{n+1}"', shift right = 0.5ex] \arrow[d, "g_{n+1}", shift left = 0.5ex] & C_n \arrow[r, "\partial_n^C"]  \arrow[ld, "p_{n}"'] \arrow[d, "f_{n}"', shift right = 0.5ex] \arrow[d, "g_{n}", shift left = 0.5ex] & C_{n-1} \arrow[r]  \arrow[ld, "p_{n-1}"'] \arrow[d, "f_{n-1}"', shift right = 0.5ex] \arrow[d, "g_{n-1}", shift left = 0.5ex] & \cdots  \arrow[ld, "p_{n-2}"']
+\\
+ \cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}^D"] & D_n \arrow[r, "\partial_n^D"] & D_{n-1} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{lemma}
+Let $f,g : C \to D$ be chain homotopic then $f_* = g_*$ on homology.
+\end{lemma}
+
+\begin{proof}
+Let $p : f \implies g$ be a chain homotopy. It suffices to show that if $\alpha \in \ker{\partial}$ is a cycle then $(f_* - g_*)(\alpha) = 0$ which is equivalent to $(f - g)(\alpha) \in \Im{\partial}$ is a boundary. Suppose that $\partial \alpha = 0$. Then, 
+\[ (f - g)(\alpha) = (\partial \circ p + p \circ \partial)(\alpha) = \partial(p(\alpha)) \]
+and therefore $(f - g)(\alpha)$ is a boundary. Therefore $f_* = g_*$. 
+\end{proof}
+
+\begin{corollary}
+A chain homotopy equivalence is a quasi-isomorphism i.e. an isomorphism on homology.
+\end{corollary}
+
+\begin{theorem}
+Given a short exact sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r, "i"] & B \arrow[r, "j"] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & H_{n+1}(A) \arrow[r] & H_{n+1}(B) \arrow[r] & H_{n+1}(C) \arrow[r] & H_n(A) \arrow[r] & H_n(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H_n(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H_{n-1}(A) \arrow[r] & H_{n-1}(B) \arrow[r] & H_{n-1}(C) \arrow[r] & H_{n-2}(A) \arrow[r] & H_{n-2}(B) \arrow[r] & H_{n-2}(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+functorially.
+\end{theorem}
+
+\begin{proof}
+Consider the diagram with exact rows,
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = large]
+& \vdots \arrow[d, "\partial^A_{n+2}"] & \vdots \arrow[d, "\partial^B_{n+2}"] & \vdots \arrow[d, "\partial^C_{n+2}"] & 
+\\
+0 \arrow[r] & A_{n+1} \arrow[d, "\partial^A_{n+1}"] \arrow[r, "i"] & B_{n+1} \arrow[d, "\partial^B_{n+1}"] \arrow[r, "j"] & C_{n+1} \arrow[d, "\partial^C_{n+1}"] \arrow[r] & 0
+\\
+0 \arrow[r] & A_n \arrow[d, "\partial^A_{n}"] 
+\arrow[r, "i"] & B_n \arrow[d, "\partial^B_n"] \arrow[r, "j"] & C_n \arrow[d, "\partial^C_n"] \arrow[r] & 0
+\\
+0 \arrow[r] & A_{n-1} \arrow[d, "\partial^A_{n-1}"] \arrow[r, "i"] & B_{n-1} \arrow[d, "\partial^B_{n-1}"] \arrow[r, "j"] & C_{n-1} \arrow[d, "\partial^C_{n-1}"] \arrow[r] & 0
+\\
+& \vdots & \vdots & \vdots & 
+\end{tikzcd}
+\end{center} 
+An application of the snake lemma gives an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \ker{\partial_{n+2}^A} \arrow[r] & \ker{\partial_{n+2}^B} \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & \ker{\partial_{n+2}^C}
+\arrow[dll, "\delta"',
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\  
+& A_{n} / \Im{\partial^A_{n+1}} \arrow[r] & B_{n} / \Im{\partial^B_{n+1}}  \arrow[r] & C_{n} / \Im{\partial^C_{n+1}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I haved added the leading and trailing zeros by by the following observations.
+The map $B_{n+1} / \Im{\partial^B_{n+2}} \to C_{n+1} / \Im{\partial^C_{n+2}}$ simply takes $[x] \mapsto [j(x)]$ and thus is clearly surjective because $j$ is. Furthermore the map $\ker{\partial_{n}^A} \to \ker{\partial_{n}^B}$ is simply the restriction of $\iota$ which is still injective. Therefore, we can arrange these exact rows into a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+& A_{n+1} / \Im{\partial^A_{n+2}} \arrow[d] \arrow[r] & B_{n+1} / \Im{\partial^B_{n+2}} \arrow[d] \arrow[r] & C_{n+1} / \Im{\partial^C_{n+2}} \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \ker{\partial_n^A} \arrow[r] & \ker{\partial^B_n} \arrow[r] & \ker{\partial^C_n}
+\end{tikzcd}
+\end{center}
+where the vertical maps are simply restrictions of the boundary maps whose images lie inside the respective kernels since each column is a chain complex. Another application of the snake lemma gives the exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\ker{\partial_{n+1}^A} / \Im{\partial^A_{n+2}} \arrow[r] & \ker{\partial^B_{n+1}} / \Im{\partial^B_{n+2}} \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & \ker{\partial^C_{n+1}} / \Im{\partial^C_{n+2}} 
+\arrow[dll, "\delta"',
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\  
+\ker{\partial_n^A} / \Im{\partial_{n+1}^A} \arrow[r] & \ker{\partial^B_n} . \Im{\partial_{n+1}^B} \arrow[r] & \ker{\partial^C_n} / \Im{\partial_{n+1}^C}
+\end{tikzcd}
+\end{center}
+Stringing together these long exact sequences (which we can do because they overlap at two points) gives the required long exact sequence. 
+\end{proof}
+
+\subsection{Injective and Projective Resolutions}
+
+\begin{definition}
+$P$ is a projective object if for any map $f : P \to X$ and epimorphism (surjection) $g : Y \to X$ the map $f$ lifts to $Y$. This means there always exists a map such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& Y \arrow[d, two heads, "g"] 
+\\
+P \arrow[r, "f"] \arrow[ru, dashed, "\tilde{f}"] & X
+\end{tikzcd}
+\end{center}
+commutes. The slogan is: ``projective objects lift over surjections''.
+\end{definition}
+
+
+\begin{lemma}
+Any exact sequence ending in a projective object splits.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence where $P$ is projective,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& & & P \arrow[d, "\id_P"] \arrow[ld, dashed]
+\\
+0 \arrow[r] & A \arrow[r] & B \arrow[r, "f", two heads] & P \arrow[r]  & 0
+\end{tikzcd}
+\end{center}
+The induced map is a right inverse of $f$ so the sequence is right-split.
+\end{proof}
+
+\begin{definition}
+A projective resolution of $A$ is an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & P_3 \arrow[r, "\partial_3"] & P_2 \arrow[r, "\partial_2"] & P_1 \arrow[r, "\partial_1"] & P_0 \arrow[r, "p_0"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that each $P_i$ is projective.
+We will write this situation schematically as,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\mathbf{P}^A \arrow[r, "p_0"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\end{definition}
+
+\begin{proposition}
+The category $\Mod{R}$ has \textit{enough} projectives. i.e. every $R$-module has a projective resolution
+\end{proposition}
+
+\begin{proof}
+We will use the fact that for any $R$-module $M$ there exists a free module $F$ and a surjection $F \to M$ (take the free module on all the elements of $M$). Furthermore free modules are projective because any map can be defined by sending the generators to arbitrary lifts. 
+\bigskip\\
+Let $P_0 = F$ and consider the kernel $K_0$ of $P_0 \to M$. Then, we can construct a free module surjecting onto $K_0$ call this $P_1$. We repeat this process inductivly to get the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[rr] && P_3 \arrow[rd] \arrow[rr, "\partial_3"] && P_2 \arrow[rd] \arrow[rr, "\partial_2"] && P_1 \arrow[rd] \arrow[rr, "\partial_1"] && P_0 \arrow[rr, "\epsilon"] && M \arrow[rr] && 0
+\\
+&&& K_2 \arrow[ru] \arrow[rd] && K_1 \arrow[ru] \arrow[rd] && K_0 \arrow[ru] \arrow[rd]
+\\
+&& 0 \arrow[ru] & & 0 \arrow[ru] & & 0 \arrow[ru] & & 0
+\end{tikzcd}
+\end{center}
+where the diagonals are exact. The map $P_{n+1} \to P_n$ factors through the kernel $K_n$ and thus goes to zero under $P_n \to P_{n-1}$. Furthermore, $P_{n+1} \to K_n$ is a surjection so the map $P_{n+1} \to P_n$ surjects onto the kernel. Thus the top row is exact.  
+\end{proof}
+
+\begin{proposition}
+Every projective module is a direct factor of a free module.
+\end{proposition}
+
+\begin{proof}
+Let $P$ be projective and $F$ be a free module surjecting onto $P$. Then we know that the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\phi} \arrow[r] & F \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+splits because $P$ is projective. Thus, $F \cong \ker{\phi} \oplus P$. 
+\end{proof}
+
+\begin{definition}
+$I$ is an injective object if for any map $f : X \to I$ and monomorphism (injection) $g : X \to Y$ the map $f$ extends to $Y$. This means there always exists a map such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+I & X \arrow[l, "f"] \arrow[d, hook, "g"] 
+\\
+& Y \arrow[ul, "\tilde{f}", dashed]
+\end{tikzcd}
+\end{center}
+commutes. The slogan is: ``injective objects extend over injections.''
+\end{definition}
+
+\begin{definition}
+An injective resolution of $A$ is an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & A \arrow[r, "\iota_0"] & I^0 \arrow[r, "d^0"] & I^1 \arrow[r, "d^1"] & I^2 \arrow[r, "d^2"] & I^3 \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+such that each $I^i$ is projective. We will write this situation schematically as,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & A \arrow[r, "\iota_0"] & \mathbf{I}_A
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{lemma}
+Any exact sequence begining with an injective object splits.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence where $I$ is projective,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & I \arrow[r, hook,  "f"] \arrow[d, "\id_I"'] & A \arrow[dl, dashed] \arrow[r, two heads] & B \arrow[r] & 0
+\\
+& I
+\end{tikzcd}
+\end{center}
+The induced map is a left inverse of $f$ so the sequence is left-split.
+\end{proof}
+
+\begin{proposition}
+The category $\Mod{R}$ has \textit{enough} injectives i.e. every $R$-module has an injective resolution.
+\end{proposition}
+
+\begin{proof}
+If for any module $M$ we can find and injection $M \to I$ into an injective module than we can repeat the argument for the projective case. This is true but harder; a proof can be found in Godement. 
+\end{proof}
+
+\begin{lemma} \label{lifting_over_exact}
+Suppose we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "f"] \arrow[dl, dashed]
+\\
+A \arrow[r, "\alpha"] & B \arrow[r, "\beta"] & C
+\end{tikzcd}
+\end{center}
+such that $P$ is projective $\beta \circ f = 0$ and the bottom row is exact. Then there is a map $P \to A$ which makes the diagram commute.
+\bigskip\\
+Similarly,
+suppose we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+A \arrow[r, "\alpha"] & B \arrow[d, "f"] \arrow[r, "\beta"] & C \arrow[dl, dashed]
+\\
+& I
+\end{tikzcd}
+\end{center}
+such that $I$ is injective, $f \circ \alpha = 0$, and the top row is exact. Then there is a map $C \to I$ which makes the diagram commute.
+\end{lemma}
+
+\begin{proof}
+In the first case, since $\beta \circ f = 0$ we have $\Im{f} \subset \ker{\beta} = \Im{\alpha}$ so we may replace $B$ with $\Im{\alpha}$,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "f"] \arrow[dl, dashed, "\tilde{f}"]
+\\
+A \arrow[r, "\alpha'"] & \Im{\alpha} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $\alpha'$ is surjective so we get a lift $\tilde{f}$ to $A$ of $f$ and $\alpha \circ \tilde{f} = f$.
+\bigskip\\
+Similarly, since $f \circ \alpha = 0$ then $\ker{\beta} = \Im{\alpha} \subset \ker{f}$. Thus, $f$ factors through the quotient $B / \ker{\alpha}$ to get,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& B \arrow[d, "\pi"] \arrow[rd, "\beta"]
+\\
+0 \arrow[r] & B / \ker{\beta} \arrow[d, "\bar{f}"] \arrow[r, "\beta'"] & C \arrow[dl, dashed]
+\\
+& I
+\end{tikzcd}
+\end{center}
+where $\beta'$ is injective so we can extend $f$ to C over $\beta'$. Thus, $f$ lifts over $\beta$.  
+\end{proof}
+
+\begin{lemma}
+Given projective or injective resolutions of both objects $A$ and $B$ and a map $f : A \to B$ there exists a unque lift up to chain homotopy to a chain map on the resolutions. 
+\end{lemma}
+
+\begin{proof}
+Let $\mathrm{P}^A$ and $\mathrm{P}^B$ be projective resolutions of $A$ and $B$ respectivly. 
+We will construct the chain map inductivly. First, we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_0 \arrow[d, dashed, "f_0"] \arrow[r] & A \arrow[r] \arrow[d, "f"] & 0 
+\\
+P^B_0 \arrow[r] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so we have a map $P_0^A \to B$ which lifts over the surjective map $P_0^B \to B$ since $P_0^A$ is projective. Now assume we have constructed the map up to $n - 1$, 
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_{n+1} \arrow[d, dashed, "f_{n+1}"] \arrow[r, "\partial_{n+1}^A"] & P^A_n \arrow[r, "\partial_{n}^A"] \arrow[d, "f_{n}"] & P^A_{n-1} \arrow[d, "f_{n-1}"] 
+\\
+P^B_{n+1} \arrow[r, "\partial_{n+1}^B"] & P^B_n \arrow[r, "\partial_{n}^B"] & P^B_{n-1}
+\end{tikzcd}
+\end{center}
+However, the map $(f_n \circ \partial^A_{n+1})$ satisfies $\partial_n^B \circ (f_n \circ \partial^A_{n+1}) = f_{n-1} \circ \partial_n^A \circ \partial_{n+1}^A = 0$ by commutativity and exactness of the top row. Since the bottom row is also exact, by Lemma \ref{lifting_over_exact}, we get a lift to $P^A_{n+1}$ such that the diagram commutes. Thus, we get a chain map $\mathbf{P}^A \to \mathbf{P}^B$. 
+\bigskip\\
+Now, suppose we have two chain maps $f,g : \mathbf{P}^A \to \mathbf{P}^B$ which are lifts of $f$. At first, we have,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_1 \arrow[r, "\partial_1^A"] & P^A_0 \arrow[dl, dashed, "s_0"'] \arrow[d, "f_0", shift left = 1ex] \arrow[d, "g_0"', shift right = 1ex] \arrow[r, "\epsilon"] & A \arrow[r] \arrow[d, "f"] & 0 
+\\
+P^B_1 \arrow[r, "\partial_1^B"] & P^B_0 \arrow[r, "\epsilon'"] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Because $\epsilon' \circ (f_0 - g_0) = 0$, the bottom row is exact, and $P^A_0$ is projective, we get a lift $s_0$ such that $\partial_1^B \circ s_0 = f_0 - g_0$. Let $\Delta_n = f_n - g_n$. Now, suppose we have a chain homotopy up to position $n$ and consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_{n+1} \arrow[d, "\Delta_{n+1}"] \arrow[r, "\partial_{n+1}^A"] & P^A_n \arrow[r, "\partial_{n}^A"] \arrow[dl, "s_{n}", dashed] \arrow[d, "\Delta_n"] & P^A_{n-1} \arrow[d, "\Delta_{n-1}"] \arrow[dl, "s_{n-1}"] \arrow[r, "\partial_{n-1}^A"] & P_{n-2}^A \arrow[d, "\Delta_{n-2}"] \arrow[dl, "s_{n-2}"]
+\\
+P^B_{n+1} \arrow[r, "\partial_{n+1}^B"] & P^B_n \arrow[r, "\partial_{n}^B"] & P^B_{n-1} \arrow[r, "\partial_{n-2}"] & P^B_{n-2} 
+\end{tikzcd}
+\end{center} 
+There is a map $(\Delta_n - s_{n-1}) \circ \partial_n^A : P_n^A \to P_n^B$. 
+Furthermore, 
+\[ \partial_n^B \circ (\Delta_n - s_{n-1} \circ \partial_n^A) = \Delta_{n-1} \circ \partial_n^A - \partial_n^B \circ s_{n-1} \circ \partial_n^A \]
+where I have used commutativity to show,
+\[ \partial^B_n \circ \Delta_n = \partial^B_n \circ (f_n - g_n) = f_{n-1} \circ \partial^A_n - g_{n-1} \circ \partial^A_n = \Delta_{n-1} \circ \partial^A_n \]
+By the induction hypothesis, $\Delta_{n-1} = s_{n-2} \circ \partial_{n-1}^A + \partial_{n}^B \circ s_{n-1}$. Therefore,
+\begin{align*}
+\partial_n^B \circ (\Delta_n - s_{n-1} \circ \partial_n^A) & = s_{n-2} \circ \partial_{n-1}^A \circ \partial_{n}^A + \partial_{n}^B \circ s_{n-1} \circ \partial_{n}^A - \partial_n^B \circ s_{n-1} \circ \partial_n^A = 0
+\end{align*}
+because $\partial_{n-1}^A \circ \partial_{n}^A = 0$. Thus, we get a lift $s_n$ of this map to $P_{n+1}^B$. Furthermore,
+\[ \partial_{n+1}^B \circ s_n + s_{n-1} \circ \partial_n^A = \Delta_n - s_{n-1} \circ \partial_n^A + s_{n-1} \circ \partial_n^A = \Delta_n \]
+so we have constructed a chain homotopy up to position $n$. By induction, $s : \mathbf{P}^A \to \mathbf{P}^B$ is a chain homotopy between $f, g$. The proof for the injective case is very similar.   
+\end{proof}
+
+\begin{corollary}
+All projective resolutions of a given object are chain homotopic. Likewise, all injective resolutions of a given object are chain homotpic. 
+\end{corollary}
+
+\begin{proof}
+Let $\mathbf{P}^A \longrightarrow A \longrightarrow 0$ and $\mathbf{Q}^A \longrightarrow A \longrightarrow 0$ be two projective resolutions of $A$. Then the identitiy map $\id_A : A \to A$ gives lifts to chain maps $f : \mathbf{P}^A \to \mathbf{Q}^A$ and $g : \mathbf{Q}^A \to \mathbf{P}^A$. Then, the compositions $g \circ f : \mathbf{P}^A \to \mathbf{P}^A$ and $f \circ g : \mathbf{Q}^A \to \mathbf{Q}^A$ are lifts of the identity. The idenity chain maps are also lifts of the identiy from each resolution to itself so we must have $g \circ f \sim \id_{\mathbf{P}^A}$ and $f \circ g \sim \id_{\mathbf{Q}^A}$ via chain homotopies. Thus the two complexes are chain homotopic.   
+\end{proof}
+
+\begin{lemma}[Horseshoe]
+If we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and projective resolutions $\mathbf{P}^A \longrightarrow A \longrightarrow 0$ and $\mathbf{P}^C \longrightarrow C \longrightarrow 0$ then there exists a projective resolution $\mathbf{P}^B \longrightarrow B \longrightarrow 0$ and chain maps lifting the short exact sequnce such that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{P}^A \arrow[r] & \mathbf{P}^B \arrow[r] & \mathbf{P}^C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an exact sequence of chain complexes. The same is true of injective resolutions.
+\end{lemma}
+
+\begin{proof}
+The proof follows from the nine lemma and can be found in Rotman.
+\end{proof}
+
+\subsection{Derived Functors}
+
+\begin{definition}
+Let $T : \mathcal{A} \to \mathcal{B}$ be an additive functor between abelian categories with enough projectives and injectives. Then for any object $A$ in the category $\A$ we first take a projective resolution $\mathbf{P}^A \to A \to 0$ of $A$ and also an injective resolution $0 \to A \to \mathbf{I}_A$. Then we can form two chain complexes by applying the functor $T$,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & T(P^A_3) \arrow[r] & T(P^A_2) \arrow[r] & T(P^A_1) \arrow[r] & T(P^A_0) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\begin{center}
+and
+\end{center} 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(I_A^0) \arrow[r] & T(I_A^1) \arrow[r] & T(I_A^2) \arrow[r] & T(I_A^2) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center} 
+note that I have conventionally removed the $A$ term and sent the last map to zero.
+These are chain complexes because additive functors preserve the zero map so the composition of two maps remains zero after we apply $T$. Thus we can take the (co)homology of these complexes. We define, the left and right derived functors of $T$,
+\[ L_n T(A) = H_n(T(\mathbf{P}^A)) \quad \text{and} \quad R^n T(A) = H^n(T(\mathbf{I}_A)) \]
+Given a map $f : A \to B$ we can lift this map to any two projective or injective resolutions of $A$ and $B$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] \arrow[d, "f"] & I_A^0 \arrow[r] \arrow[d] & I_A^1 \arrow[r] \arrow[d] & I_A^2 \arrow[r] \arrow[d] & I_A^3 \arrow[r] \arrow[d] & \cdots 
+\\
+0 \arrow[r] & B \arrow[r] & I_B^0 \arrow[r] & I_B^1 \arrow[r] & I_B^2 \arrow[r] & I_B^3 \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+If we hit this diagram with $T$ and replace the first column with $0$ then we get a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(I_A^0) \arrow[r] \arrow[d] & T(I_A^1) \arrow[r] \arrow[d] & T(I_A^2) \arrow[r] \arrow[d] & T(I_A^3) \arrow[r] \arrow[d] & \cdots 
+\\
+0\arrow[r] & T(I_B^0) \arrow[r] & T(I_B^1) \arrow[r] & T(I_B^2) \arrow[r] & T(I_B^3) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+which gives a chain map $T(\mathbf{I}_A) \to T(\mathbf{I}_B)$. Such a chain map induces a map on the homology $H^n(T(\mathbf{I}_A)) \to H^n(T(\mathbf{I}_B))$ which we call the induced map
+\[ f_* : R^n T(A) \to R^n T(B) \]
+on the derived functors. 
+\end{definition}
+
+\begin{proposition}
+Derived functors are indeed functors and are well-defined up to natural isomorphism with respect to choices of resolution. 
+\end{proposition}
+
+\begin{proof}
+Given $A$ we know that any two projective or injective resolutions of $A$ are chain homotopy equivalent. Since $T$ is an additive functior, applying $T$ to a chain homotopy diagram gives a chain homotopy of the new complexes. Therefore, the two resolutions have isomorphic homology so $L_n T(A) = H_n(T(\mathbf{P}^A)$ and $R^n T(A) = H^n(T(\mathbf{I}_A))$ are well-defined up to isomorphisms which, one can show with far too much notation, are natural in $A$. Furthermore, given a map $f : A \to B$ and resolutions of both $A$ and $B$ we know that any two lifts of $f$ to chain maps are chain homotopic and therefore induce the same map on homology. Thus, the induced maps,
+\[ 
+f_* : L_n T(A) \to L_n T (B) \quad \text{and} \quad f_* : R^n T(A) \to R^n T(B) 
+\]
+are well-defined with respect to the choice of lift. 
+\bigskip\\
+If we have two maps $f : A \to B$ and $g : B \to C$ then the composition of the lifted chain maps of $f$ and $g$ to the respective resolutions clearly compose to give a lift of $g \circ f$. Therefore, $(g \circ f)_* = g_* \circ f_*$. Furthermore, $\id_{\mathbf{P}^A}$ is a lift of $\id_{A} : A \to A$ so $(\id_A)_* = \id$. 
+\end{proof}
+
+\begin{proposition}
+If $T$ is left-exact then $R^0 T \cong T$ and if $T$ is right exact then $L_0 T \cong T$ naturally. 
+\end{proposition}
+
+\begin{proof}
+Suppose $T$ is left-exact and take an injective resolution of $A$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \mathbf{I}_A
+\end{tikzcd}
+\end{center}
+which is an exact sequence. Applying $T$ and envoking left-exactness we get the exact seqeunce,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(A) \arrow[r] & T(I^0_A) \arrow[r, "T(d^0)"] & T(I^1_A) 
+\end{tikzcd}
+\end{center}
+Thus, $\ker{T(d^0)} = T(A)$. However, 
+\[ R^0 T(A) = \ker{T(d^0)} / \Im{0} = T(A) \]
+Furthermore given a map $f : A \to B$ we get a lift,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(A) \arrow[d, "T(f)"] \arrow[r] & T(I^0_A) \arrow[d] \arrow[r, "T(d_A^0)"] & T(I^1_A)  \arrow[d]
+\\
+0 \arrow[r] & T(B) \arrow[r] & T(I^0_B) \arrow[r, "T(d_B^0)"] & T(I^1_B) 
+\end{tikzcd}
+\end{center}
+Thus, taking kernels we have the commutative square,
+\begin{center}
+\begin{tikzcd}
+T(A) \arrow[d, "T(f)"] \arrow[r, "\sim"] & \ker{T(d_A^0)} \subset T(I^0_A) \arrow[d]
+\\
+T(A) \arrow[r, "\sim"] & \ker{T(d_B^0)} \subset T(I^0_A) 
+\end{tikzcd}
+\end{center}
+and thus $f_* : R^0 T(A) \to R^0 T(B)$ is identified with $T(f)$ under the isomorphisms $R^0 T(A) \cong T(A)$ and $R^0 T(B) \cong T(B)$. 
+\bigskip\\
+Likewise, suppose that $T$ is right-exact and take a projective resolution of $A$,
+\begin{center}
+\begin{tikzcd}
+\mathbf{P}_0^A \arrow[r] & A \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+which is an exact sequence. Applying $T$ and envoking right-exactness we get the exact sequence,
+\begin{center}
+\begin{tikzcd}
+T(P^A_1) \arrow[r, "T(\partial_1)"] & T(P^A_0) \arrow[r] & T(A) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Thus, $T(A) = T(P^A_0) / \Im{T(P^A_1)}$. However, 
+\[ L_0 T(A) = \ker{T(\partial_0)} / \Im{T(\partial_1)} = \ker{T(P^A_0)} / \Im{T(P^A_1)} = T(A) \]
+Furthermore given a map $f : A \to B$ we get a lift,
+\begin{center}
+\begin{tikzcd}
+T(P^A_1) \arrow[d] \arrow[r, "T(\partial^A_1)"] & T(P^A_0) \arrow[d] \arrow[r] & T(A) \arrow[d, "T(f)"] \arrow[r] & 0
+\\
+T(P^B_1) \arrow[r, "T(\partial^B_1)"] & T(P^B_0) \arrow[r] & T(B) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Thus, taking cokernels we have the commutative square,
+\begin{center}
+\begin{tikzcd}
+T(P^A_0) / \Im{T(P^A_1)} \arrow[d] \arrow[r, "\sim"] & T(A) \arrow[d, "T(f)"] 
+\\
+T(P^A_0) / \Im{T(P^A_1)} \arrow[r, "\sim"] & T(B)
+\end{tikzcd}
+\end{center}
+and thus $f_* : L_0 T(A) \to L_0 T(B)$ is identified with $T(f)$ under the isomorphisms $L_0 T(A) \cong T(A)$ and $L_0 T(B) \cong T(B)$. 
+\end{proof}
+
+\begin{theorem}
+Given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and and additive functor $T : \mathcal{A} \to \mathcal{B}$ we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & L_3 T(A) \arrow[r] & L_3 T(B) \arrow[r] & L_3 T(C) \arrow[r] & L_2 T(A) \arrow[r] & L_2 T(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & L_2 T(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& L_1 T(A) \arrow[r] & L_1 T(B) \arrow[r] & L_1 T(C) \arrow[r] & L_0 T(A) \arrow[r] & L_0 T(B) \arrow[r] & L_0 T(C) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of left-derived functors and a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & R^0 T(A) \arrow[r] & R^0 T(B) \arrow[r] & R^0 T(C) \arrow[r] & R^1 T(A) \arrow[r] & R^1 T(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & R^1 T(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& R^2 T(A) \arrow[r] & R^2 T(B) \arrow[r] & R^2 T(C) \arrow[r] & R^3 T(A) \arrow[r] & R^3 T(B) \arrow[r] & R^3 T(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+of right-derived functors. Furthermore, a morphism of short exact sequences will induce a morphisms of the long exact sequences. 
+\end{theorem}
+
+\begin{proof}
+By the Horseshoe lemma, there exists an exact sequence of projective resolutions of $A$, $B$, and $C$ respectivly,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{P}^A \arrow[r] & \mathbf{P}^B \arrow[r] & \mathbf{P}^C \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Each row of this sequence of chain maps is a short exact sequence of projectives and thus split. However, additive functors preserve splitting so the sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(\mathbf{P}^A) \arrow[r] & T(\mathbf{P}^B) \arrow[r] & T(\mathbf{P}^C) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+is short exact. Finally, this short exact sequence of chain complexes gives rise to a long exact sequence of homology which are exactly the left-derived functors.
+\bigskip\\
+Similarly, by the Horseshoe lemma, there exists an exact sequence of injective resolutions of $A$, $B$, and $C$ respectivly,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{I}^A \arrow[r] & \mathbf{I}^B \arrow[r] & \mathbf{I}^C \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Each row of this sequence of chain maps is a short exact sequence of injectives and thus split. However, additive functors preserve splitting so the sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(\mathbf{I}^A) \arrow[r] & T(\mathbf{I}^B) \arrow[r] & T(\mathbf{I}^C) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+is short exact. Finally, this short exact sequence of chain complexes gives rise to a long exact sequence of homology which are exactly the right-derived functors.
+\end{proof}
+
+\begin{remark}
+In practice, we will only are about left-derived functors of right-exact functors and right-derived functors of left-exact functors because for the long exact sequences to be of use we need to have $T$ applied to the original objects appear in it somewhere. 
+\end{remark}
+
+\begin{proposition} \label{derived_functor_applied_to_proj_or_inj}
+Let $T : \mathcal{A} \to \mathcal{B}$ be an additive functor between abelian categories with enough projectives and injectives. If $I$ is projective then $R^n T(I) = 0$ and if $P$ is projective then $L_n T(P) = 0$ for all $n > 0$.
+\end{proposition}
+
+\begin{proof}
+If $I$ is injective then
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & I \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an injective resolution of $I$ where $I^0 = I$ and $I^n = 0$ for $n > 0$. Thus, for $n > 0$, $R^n T(I) = \ker{T(d^n)} / \Im{T(d^{n-1})} = 0$
+because $d^n = 0$.
+\bigskip\\
+If $P$ is projective then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & P \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an injective resolution of $P$ where $P_0 = P$ and $P_n = 0$ for $n > 0$. Thus, for $n > 0$, $L_n T(P) = \ker{T(\partial_n)} / \Im{T(\partial_{n+1})} = 0$
+because $\partial_n = 0$.
+\end{proof}
+
+\subsection{Ext and Tor}
+
+\begin{proposition}[Tensor-Hom Adjunction]
+\[ \Homover{A}{M \otimes N}{P} = \Homover{A}{M}{\Homover{A}{N}{P}} \]
+That is, the functor $(-) \otimes_R N$ is a left-adjoint of the functor $\Homover{R}{N}{-}$. 
+\end{proposition}
+
+\begin{remark}
+Since $(-) \otimes_R N$ is a left-adjoint it is cocontinuous and thus right-exact. Furthermore, $\Hom{R}{N}{-}$ is a right-adjoint so it is continuous and thus left-exact. However, we will prove these facts explicitly without too much appeal to abstract nonsense. 
+\end{remark}
+
+\begin{lemma}
+The functor $(-) \otimes_R N$ is right-exact.
+\end{lemma}
+
+\begin{proof}
+Let
+\begin{center}
+\begin{tikzcd}
+K \arrow[r, "i"] & L \arrow[r, "j"] & M \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+be exact. Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+K \otimes N \arrow[r, "i \otimes \id_N"] & L \otimes N \arrow[r, "j \otimes \id_N"] & M \otimes N \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Construct a map $\phi : M \times N \to L \otimes N / (i \otimes \id_N)(K \otimes M)$ by $\phi(m,n) = \ell \otimes n$ where $j(\ell) = m$ where I have used the fact that $j$ is surjective. If $\ell, \ell' \in L$ where $j(\ell) = j(\ell')$ then,
+\[ \ell \otimes n - \ell' \otimes n = (\ell - \ell') \otimes n \]
+However, $\ell - \ell' \in \ker{j} = \Im{i}$ so take $k \in K$ such that $i(k) = \ell - \ell'$. Thus,
+\[  \ell \otimes n - \ell' \otimes n = i(k) \otimes n = (i \otimes \id_N)(k \otimes n) = 0 \]
+in the quotient. By the universal property of the tensor product, there exists a linear map,
+\[ \tilde{\phi} : M \otimes N \to  L \otimes N / (i \otimes \id_N)(K \otimes M) \]
+Furthermore, $\tilde{\phi}$ is the inverse map to $\j \otimes \id_N$ on the quotient. Therefore, $\ker{j \otimes \id_N}$ is exactly $\Im{i \otimes \id}$. 
+\end{proof}
+
+
+\begin{definition}
+Define, $\Tor{R}{n}{-}{N}$ to be the $n^\mathrm{th}$ left-derived functor of $(-) \otimes_R N$.
+\end{definition}
+
+
+\begin{proposition}
+$\mathrm{Tor}$ is symmetric, $\Tor{R}{n}{M}{N} \cong \Tor{R}{n}{N}{M}$.
+\end{proposition}
+
+\begin{proposition}
+Properties of the $\mathrm{Tor}$ functor,
+\begin{enumerate}
+\item If $M$ or $N$ is projective then $\Tor{R}{n}{M}{N} = 0$ for $n > 0$.
+
+\item $\Tor{R}{n}{\bigoplus_{\alpha} M_\alpha}{N} \cong \bigoplus_{\alpha} \Tor{R}{n}{M_\alpha}{N}$
+
+\item If $r \in R$ is not a zero divisor, then,
+\[ \Tor{R}{1}{R/(r)}{N} \cong \{n \in N \mid rn = 0 \} \]
+the $r$-torsion of $N$ and,
+\[ \Tor{R}{n}{R/(r)}{N} = 0 \]
+for $n > 1$.
+
+\item If $R$ is a PID then $\Tor{R}{n}{M}{N} = 0$ for $n > 1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+I will sketch each:
+\begin{enumerate}
+\item If $M$ is projective then $\Tor{R}{n}{M}{N} = 0$ for $n > 0$ by Proposition \ref{derived_functor_applied_to_proj_or_inj}. Otherwise use symmetry.
+
+\item This follows from the fact that direct sum and tensor product commute.
+
+\item (DO THIS)
+
+\item If $R$ is a PID then submodules of free modules are free. Therefore given any $R$-module $M$ we can chose a projective resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & F \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $F \to M$ is the surjection of a free $R$-module and $K \to F$ is the inclusion of the kernel which is also free since $K \subset F$ and $F$ is a free $R$-module. Thus, the left derived functors vanish after $n = 1$ since $P^M_n = 0$ for $n > 1$ and thus the kernels of the boundary maps are zero.
+\end{enumerate} 
+\end{proof}
+
+\begin{proposition}
+Given a short exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & L \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & \Tor{R}{1}{K}{N} \arrow[r] & \Tor{R}{1}{L}{N} \arrow[r] & \Tor{R}{1}{M}{N} \arrow[r] & K \otimes N \arrow[r] & L \otimes N \arrow[r] & M \otimes N \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\end{proposition}
+
+\begin{lemma}
+The functor $\Hom{A}{-}$ is left-exact.
+\end{lemma}
+
+\begin{proof}
+$\Hom{A}{-}$ is a continuous functor and therefore preserves kernels. 
+\end{proof}
+
+\begin{lemma}
+The functor $\Hom{P}{-}$ is exact if and only if $P$ is projective. Similarly, the functor $\Hom{-}{I}$ is exact if and only if $I$ in injective.
+\end{lemma}
+
+\begin{proof}
+Since $\Hom{P}{-}$ is always left-exact, we need only that $\Hom{P}{-}$ takes surjections to surjections. Thus if $f : A \to B$ is a surjection, we need that any map $g : P \to B$ can lift to a map $\tilde{g} : P \to A$ such that $f \circ \tilde{g} = g$.
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "g"] \arrow[dl, "\tilde{g}"', dashed]
+\\
+A \arrow[r, "f"] & B
+\end{tikzcd}
+\end{center} 
+This is exactly the definition of $P$ being projective. The injective case is similar.
+\end{proof}
+
+
+\begin{definition}
+Let $M$ be an $R$-module. Define $\Ext{n}{R}{M}{-}$ to be the $n^{\mathrm{th}}$ right-derived functor of $\Homover{R}{M}{-}$. 
+\end{definition}
+
+\begin{proposition}
+Properties of the $\mathrm{Ext}$ functor,
+\begin{enumerate}
+\item $\Ext{n}{R}{A}{B} = 0$ for $n > 0$ if either $A$ is projective or $B$ is injective.
+\item 
+\begin{align*}
+\Ext{n}{R}{\bigoplus_\alpha A_{\alpha}}{B} & \cong \prod_\alpha \Ext{n}{R}{A_{\alpha}}{B} 
+\\
+\Ext{n}{R}{A}{\prod_{\beta} B_{\beta}} & \cong \prod_{\beta} \Ext{n}{R}{A}{B_{\beta}} 
+\end{align*} 
+\item If $R$ is a PID then $\Ext{n}{R}{A}{B} = 0$ for $n > 1$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+I will sketch each:
+\begin{enumerate}
+\item If $P$ is projective then $\Homover{R}{P}{-}$ is exact so its derived functors are trivial. If $I$ is injective then $\Ext{n}{R}{A}{I} = 0$ by Lemma \ref{derived_functor_applied_to_proj_or_inj}.
+
+\item This follows from the fact that $\Hom{A}{-}$ is contious and thus commutes with products so a resolution of the product is sent to a complex of products. Furthermore, $\Hom{-}{B}$ takes colimts to limits and thus 
+\[ \Hom{\bigoplus_{\alpha} A_{\alpha}}{-} \cong \prod_{\alpha} \Hom{A_{\alpha}}{-} \]
+and its derived functors will also be products since it takes each injective to a product. 
+
+\item (DO THIS)
+\end{enumerate} 
+\end{proof}
+
+\begin{proposition}
+Given a short exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & L \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \Homover{R}{N}{K} \arrow[r] & \Homover{R}{N}{L} \arrow[r] & \Homover{R}{N}{M} \arrow[r] & \Ext{1}{R}{N}{K} \arrow[r] & \Ext{1}{R}{N}{L} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center} 
+\end{proposition}
+
+\section{Flatness}
+
+\begin{definition}
+An $A$-module $Q$ is said to to be $A$-flat if $(-) \otimes_A Q$ is exact. Thus, $Q$ is $A$-flat iff $\Tor{A}{n}{-}{Q} = 0$ for $n > 0$. Furthermore if $\Tor{A}{1}{-}{Q} = 0$ then $(-) \otimes_A Q$ is exact by the long exact sequence. Thus, $Q$ is $A$-flat iff $\Tor{A}{1}{-}{Q} = 0$.   
+\end{definition}
+
+\begin{proposition}
+\[ \Tor{A}{n}{\varinjlim M_i}{P} = \varinjlim \Tor{A}{n}{M_i}{P} \]
+\end{proposition}
+
+\begin{proof}
+The functor $\varinjlim$ is exact. Furthermore, 
+\begin{align*}
+\Homover{A}{(\varinjlim M_i) \otimes_A P}{N} & = \Homover{A}{\varinjlim M_i}{\Homover{A}{P}{N}} = \varprojlim \Homover{A}{M_i}{\Homover{A}{P}{N}} 
+\\
+& = \varprojlim \Homover{A}{M_i \otimes_A P}{N} = \Homover{A}{\varinjlim (M_i \otimes_A P)}{N}
+\end{align*} 
+Then since the Yonenda embedding is injective,
+\[ (\varinjlim M_i) \otimes_A P = \varinjlim (M_i \otimes_A P) \]
+\end{proof}
+
+\begin{proposition}
+If $Q$ is projective then $Q$ is $A$-flat. 
+\end{proposition}
+
+\begin{proof}
+Since $Q$ is projective $\Tor{A}{n}{-}{Q} = 0$ for $n > 0$. 
+\end{proof}
+
+\begin{proposition}
+Let $M$ be an $A$-module then the following are equivalent.
+\begin{enumerate}
+\item The $A$-module $M$ is $A$-flat.
+
+\item The functor $(-) \otimes_A M$ preserves monomorphisms.
+
+\item Every finitely generated ideal $I \subset A$ satisfies $I \otimes_A M = I M$. 
+
+\item $\Tor{A}{1}{M}{A/I} = 0$ for all finitely generated ideals $I \subset A$. 
+
+\item $\Tor{A}{1}{M}{N} = 0$ for any finitely generated $A$-module $N$.
+
+\item For all $a_i \in A$ and $x_i \in M$ with $\sum_{i = 1}^r a_i x_i = 0$ there exists $b_{ij} \in A$ such that $\sum_{i = 1}^r b_{ij} = 0$ for all $j$ and there exist $y_i \in M$ such that $x_i = \sum_{j = 1}^s b_{ij} y_j$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+Let $B$ be an $A$-algebra which is flat as an $A$-module and $M$ is a $B$-flat $B$-module then $M$ is an $A$-flat $A$-module.
+\end{proposition}
+
+\begin{proof}
+Let $S$ be an $A$-module. Then,
+\[ S \otimes_A M = S \otimes_A (B \otimes_B M) = (S \otimes_A B) \otimes_B M \]
+However, $(-) \otimes_A B$ and $(-) \otimes_B M$ are exact so the composition $(-) \otimes_A M$ is exact. 
+\end{proof}
+
+
+\begin{proposition}
+Suppose $B$ is an $A$-algebra then if $M$ is $A$-flat then $B \otimes_A M$ is $B$-flat.
+\end{proposition}
+
+\begin{proof}
+Suppose $S$ is a $B$-module then,
+\[ S \otimes_B (B \otimes_A M) = (S \otimes_B B) \otimes_A M = S \otimes_A M \]
+However, $(-) \otimes_A M$ is exact so $(-) \otimes_B (B \otimes_A M)$ is exact. 
+\end{proof}
+
+\begin{proposition}
+If $S \subset A$ is multiplicative then $S^{-1} A$ is $A$-flat.
+\end{proposition}
+
+\begin{proof}
+Notice that if $M$ is an $A$-module then $S^{-1} M \cong M \otimes_A S^{-1} A$ and localization is exact so $(-) \otimes_A S^{-1} A$ is exact.
+\end{proof}
+
+\begin{proposition}
+Let $M,N$ be $A$-modules and assume $B$ is a flat $A$-algebra then,
+\[ \Tor{B}{i}{M \otimes_A B}{N \otimes_A B} \cong \Tor{A}{i}{M}{N} \otimes_A B \]
+and similarly,
+\[ \Ext{i}{B}{M \otimes_A B}{N \otimes_A B} \cong \Ext{i}{A}{M}{N} \otimes_A B \]
+\end{proposition}
+
+\begin{proof}
+Let $\mathbf{P} \to N \to 0$ be a projective resolution of $N$. Because $B$ is $A$-flat then $\mathbf{P} \otimes_A B \to N \otimes_A B \to 0$ is a projective resolution. Thus,
+\begin{align*}
+\Tor{B}{i}{M \otimes_A B}{N \otimes_A B} & = H_i((M \otimes_A B) \otimes_B (\mathbf{P} \otimes_A B))
+\\
+& = H_i((M \otimes_A \mathbf{P}) \otimes_A B) = \Tor{A}{i}{M}{N} \otimes_A B 
+\end{align*} 
+where again I have used the exactness of $(-) \otimes_A B$ to pull it out of the homology since it preserves kernels and images. 
+\end{proof}
+
+\begin{proposition}
+Let $A$ be a local ring and $M$ a finitely generated $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is free
+
+\item $M$ is projective
+
+\item $M$ is flat
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The first and second implications are true in general. Suppose $\m \subset A$ is the maximal ideal and $k = A / \m$. Then $M \otimes_A k = M / (\m M)$ is a finite-dimensional $k$-vectorspace. There exist $x_1, \dots, x_r \in M$ such that their image $\bar{x}_1, \dots, \bar{x}_r \in M$ is a basis of $M \otimes_A k$. Consider the  span map $\phi : A^r \to M$ then $\phi \otimes \id : k^r \to M \otimes_A k = M / (\m M)$ is surjective so $\Im{\phi} + \m M = M$. By Nakayama, $M = \Im{\phi}$.  
+\end{proof}
+
+\begin{lemma}
+Let $\phi : A \to B$ be a ring map. Take $\mathfrak{P} \in \spec{A}$ and $\p = \phi^{-1}(\mathfrak{P})$ and $N$ an $A$-module. Then,
+\[ \Tor{A_{\p}}{i}{B_{\mathfrak{P}}}{N_{\p}} = \Tor{A}{i}{B}{N}_{\mathfrak{P}} \]
+\end{lemma}
+
+\begin{proposition}
+Let $\phi : A \to B$ be a ring map then the following are equivalent,
+\begin{enumerate}
+\item $B$ is $A$-flat
+\item $B_{\mathfrak{P}}$ is $A_{\p}$-flat for all primes $\p = \phi^{-1}(\mathfrak{P})$
+\item $B_{\mathfrak{P}}$ is $A_{\p}$-flat for all maximal ideals $\p = \phi^{-1}(\mathfrak{P})$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+First, $B_\p = B \otimes_A A_\p$ which is clearly flat over $A_\p$ by change of base. Furthermore, $B_{\mathfrak{P}}$ is flat over $B_\p$ because $B_{\mathfrak{P}} = S^{-1} B_\p$ for $S = B_\p \setminus \mathfrak{P} B_\p$. By transitivity, $B_{\mathfrak{P}}$ is $A_\p$-flat. Clearly, the second implies the third. Take $Q = \Tor{A}{i}{B}{N}$ using the above lemma,
+\[ Q_{\mathfrak{P}} = \Tor{A_\p}{i}{B_{\mathfrak{P}}}{N_\p} = 0 \]
+because $B_{\mathfrak{P}}$ is $A_\p$-flat. Thus, $\forall \mathfrak{P} \in \spec{A}$ which are maximal we have $Q_{\mathfrak{P}} = 0$ which implies that $Q = 0$. 
+\end{proof}
+
+\begin{definition}
+Let $M$ be an $A$-module. We say that $M$ is \textit{faithfully flat} over $A$ if the sequence,
+\begin{center}
+\begin{tikzcd}
+N \arrow[r] & P \arrow[r] & Q
+\end{tikzcd}
+\end{center}
+is exact if and only if the sequence,
+\begin{center}
+\begin{tikzcd}
+N \otimes_A M \arrow[r] & P \otimes_A M \arrow[r] & Q \otimes_A M
+\end{tikzcd}
+\end{center}
+is exact.  
+\end{definition}
+
+\begin{theorem}
+Let $M$ be an $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is faithfully flat over $A$
+\item $M$ is $A$-flat and for any $A$-module $N \neq 0$ we have $N \otimes_A M \neq 0$. 
+\item $M$ is $A$-flat an $\forall m \subset A$ maximal we have $M \neq \m M$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Faithfully flat implies flatness. Furhtermore, consider the sequence 
+\[ 0 \to N \to 0\]
+If $M \otimes_A N = 0$ then clearly the sequence 
+\[ 0 \to M \otimes_A N \to 0\]
+is exact. Thus, 
+\[ 0 \to N \to 0 \] must be exact so $N = 0$. 
+\bigskip\\
+Now suppose 2. and let,
+\begin{center}
+\begin{tikzcd}
+N \arrow[r, "f"] & P \arrow[r, "g"] & Q
+\end{tikzcd}
+\end{center}
+be a sequence such that,
+\begin{center}
+\begin{tikzcd}
+N \otimes_A M \arrow[r] & P \otimes_A M \arrow[r] & Q \otimes_A M
+\end{tikzcd}
+\end{center}
+is exact. However, $g \circ f = 0$ by exactness and the flatness of $M$. Furthermore, 
+\[ \ker{g \otimes_A \id_M} = \ker{g} \otimes_A M \quad \quad \Im{f \otimes_A \id_M} = \Im{f} \otimes_A M \]
+by flatness. However, exactness implies that $\ker{g} \otimes_A M = \Im{f} \otimes_A M$ which implies that $(\ker{g} / \Im{f}) \otimes_A M  = 0$ so $\ker{g} = \Im{f}$ because $(-) \otimes_A M$ is injective. Furthermore, assuming 2. take $\m \subset A$ maximal then $M \otimes A / \m \neq 0$ implies that $M \neq \m M$. Now assume 3. and take $N \neq 0$ with $x \in N$ nonzero. Let $I = \Ann{A}{x} \subset \m$ for some maximal ideal. Consider the map $\iota : A / I \xrightarrow{\sim} A x \subset N$. Then $A / \m \otimes_A M \neq 0$ implies tht $A / I \otimes M \neq 0$ so $A x \otimes_A M \neq 0$ by 3. Then $A x \otimes_A M$ embedds inside $N \otimes_A M$ because $M$ is $A$-flat. Thus $N \otimes_A M \neq 0$. 
+\end{proof}
+
+\begin{corollary}
+Let $A$ and $B$ be local rings and $A \to B$ a local map. Let $M$ be a nontrivial finitely generated $B$-module, then $M$ if $A$-flat $\iff$ $M$ of faithfully flat over $A$.
+\end{corollary}
+
+\begin{proof}
+Consider the maximal ideal $\m_B \subset B$ then $M$ is $A$-flat implies that $M \otimes_B B / \m_B \neq 0$ by Nakayama, $M \otimes_B B / \m_A B \neq 0$. However, this equals $M \otimes_A A / \m_A$ which must be nonzero so $M \neq \m_A M$. Thus, by above, $M$ is faithfully flat.
+\end{proof}
+
+\begin{proposition}
+Let $A \to B$ be a map of rings. If $M$ is faithfully flat over $A$ then $M_B = M \otimes_A B$ is faithfully flat over $B$. 
+\end{proposition}
+
+\begin{proposition}
+Let $M$ be a $B$-module and $A \to B$ a map of rings. Suppose that $M$ is faithfully flat over $B$ and faithfully flat over $A$ then $B$ is faithfully flat over $A$. 
+\end{proposition}
+
+\begin{proposition}
+Let $\phi: A \to B$ be a map of rings with $B$ faithfully flat over $A$ then,
+\begin{enumerate}
+\item For any $A$-module $N$, the canonical map,
+\[ N \to N \otimes_A B \]
+is injective. In particular, $\phi$ is injective.
+\item For any ideal $I \subset A$, we have $I B \cap A = I$.
+\item $\phi^{-1} : \spec{B} \to \spec{A}$ is surjective. 
+\end{enumerate} 
+\end{proposition}
+
+\begin{proof}
+Let $x \neq 0$ take $x \otimes 1 \neq 0$ since $A x \otimes_A B \neq 0$ because $B$ is faithfully flat. Thus, $x \mapsto x \otimes 1$ is injective, Now consider the map,
+\[ A / I \to A / I \otimes_A B = B / IB \]
+which is injective by the above argument. Thus we have a diagram,
+\begin{center}
+\begin{tikzcd}
+A / I \arrow[r, "\tilde{\phi}"] & A / I \otimes_A B \arrow[d]
+\\
+A \arrow[u] \arrow[r, "\bar{\phi}"] & B / IB 
+\end{tikzcd}
+\end{center}
+Then $IB \cap A = \ker{ \bar{\phi}}$ and $\ker{\tilde{\phi}} = \ker{\bar{\phi}} / I = IB \cap A / I = 0$. Thus $I B \cap A = I$. 
+Furthermore, consider $\phi^{-1} : \spec{B} \to \spec{A}$ and take $\p \in \spec{A}$. Consider,
+\[ A_\p / \p A_\p \otimes_A B \neq 0 \]
+which is nonzero because $B$ is faithfully flat. Thus $B_\p \supsetneq \p B_\p$ which implies that there exists $\m$ a maximal ideal of $B_\p$ containing $\p B_\p$. Furthermore, $\m \cap A_\p \supset \p A_\p$ which implies that $\m \cap A_\p = \p A_\p$. Then $\mathfrak{P} = \m \cap B$ so 
+\[ \mathfrak{P} \cap A = \m \cap A = (\m \cap A_\p) \cap A = (\p A_\p) \cap A = \p \]
+\end{proof}
+
+\begin{proposition}
+Let $B$ be a faithfully flat $A$-algebra and $M$ an $A$-module then,
+\begin{enumerate}
+\item $M$ is flat (resp. faithfully flat) over $A$ $\iff$ $M_B$ is flat (resp. faithfully flat) over $B$.
+\item If $A$ is local and $M$ is a finitly generated $A$-module then $M$ is free over $A$ $\iff$ $M_B$ is free over $B$.   
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The 
+\end{proof}
+
+\begin{theorem}
+Let $\varphi : A \to B$ be a ring map thn the following are equivalent,
+\begin{enumerate}
+\item $B$ is faithfully flat over $A$ i.e. $\varphi$ is faithfully flat.
+
+\item $\varphi$ is flat and $\spec{B} \to \spec{A}$ is a surjection.
+
+\item $\varphi$ is flat and for any maximal ideal $\m$ of $A$ there exists a maximal ideal $\m'$ of $B$ such that $\varphi^{-1}(\m') = \m$.
+\end{enumerate}
+\end{theorem}
+
+
+
+\end{document}

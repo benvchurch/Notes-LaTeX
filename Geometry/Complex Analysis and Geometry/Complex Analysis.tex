@@ -1,0 +1,410 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\Xcut}{X_{\text{cut}}}
+
+\begin{document}
+
+\title{Introduction to Complex Analysis and Riemann Surfaces}
+\author{Ben Church}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Holomorphic Maps}
+
+\begin{definition}
+A subset $\Omega \subset \C$ is a domain if $\Omega$ is open and connected.
+\end{definition}
+
+\begin{definition}
+A map $f : \Omega \to \C$ is holomorphic at $z \in \Omega$ if the limit,
+\[ f'(z) = \lim_{h \to 0} \frac{ f(z + h) - f(z) }{h} \]
+exists. The map $f$ is holomorphic on $\Omega$ if it is holomorphic at each $z \in \Omega$. 
+\end{definition}
+
+\begin{proposition}
+Let $f : \Omega \to \C$ be holomorphic at $z \in \Omega$. Then we may write $f$ as a function of two real variables as, $f(x, y) = f(x + i y)$. This done,
+\[ f'(z) = \pderiv{f}{x} = \frac{1}{i} \pderiv{f}{y} \]
+and thus,
+\[ \pderiv{f}{x} + i \pderiv{f}{y} = 0 \] 
+\end{proposition}
+
+
+\begin{proposition}
+\[ \pderiv{f}{z} = \frac{1}{2} \left[ \pderiv{f}{x} - i \pderiv{f}{y} \right] \quad \text{and} \quad \pderiv{f}{\bar{z}} = \frac{1}{2} \left[ \pderiv{f}{x} + i \pderiv{f}{y} \right] \]
+Therefore, if $f$ is holomorphic then 
+\[ \pderiv{f}{z} = f'(z) \quad \text{and} \quad \pderiv{f}{\bar{z}} = 0 \]
+\end{proposition}
+
+
+\begin{definition}
+Let $U \subset \R^m$ then denote the vectorspace of continuous functions $U \to \C$ by $\Class{0}{U}$ and for $n > 0$ define, 
+\[ \Class{n}{U} = \{ f : U \to \R^m \mid \forall p \in U : f'_p \text{ exists and } \forall \bf{v} \in \R^n : f'(\bf{v}) \in \Class{n-1}{U} \} \] 
+where $f' \cdot \bf{v}$ is the map $p \mapsto f'_p(\bf{v})$. Furthermore, the space of smooth functions is,
+\[ \Class{\infty}{U} = \bigcap_{k} \Class{k}{U} \] 
+\end{definition}
+
+
+\begin{theorem}
+Let $\Omega$ be a domain and $f : \Omega \to \C$. Then the following are equivalent,
+\begin{enumerate}
+\item $f : \Omega \to \C$ is holomorphic.
+\item $f \in \Class{1}{\Omega}$ and 
+\[ \pderiv{f}{\bar{z}} = 0 \]
+\item $f \in \Class{1}{\Omega}$ and for $D \subseteq \Omega$ with piecewise $\Class{1}{\Omega}$ boundary we have \[ \oint_{\partial D} f(z) \d{z} = 0 \]
+\item $\forall B_{r}(w) \subsetneq \Omega$ we have,
+\[ f(z) = \frac{1}{2 \pi i} \oint_{\partial B_{r}(w)} \frac{f(\zeta)}{\zeta - z} \d{\zeta} \] 
+for all $z \in B_r(w)$. 
+\item $\forall w \in \Omega \exists r > 0$ such that whenever $|z - w| < r$ we have,
+\[ f(z) = \sum_{n = 0}^\infty a_n(x - w)^n \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We will show that,
+\[ (2) \iff (3) \implies (4) \implies (5) \implies (1) \implies (2) \]
+\begin{enumerate}
+\item[$(4) \implies (5) $]
+We assume that,
+\[ f(z) = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \frac{f(\zeta)}{\zeta - z} 
+\d{\zeta} \]
+We express the function,
+\[ \frac{1}{\zeta - z} = \frac{1}{\zeta - w - (z - w)} = \frac{1}{\zeta - w} \frac{1}{1 - \left( \frac{z -w}{\zeta - w} \right)} = \frac{1}{\zeta - w} \sum_{n = 0}^\infty \left( \frac{z - w}{\zeta - w} \right)^n = \sum_{n = 0}^{\infty} \frac{(z - w)^n}{(\zeta - w)^{n+1}} \]
+Then, formally,
+\[ f(z) = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} f(\zeta) \left( \sum_{n = 0}^{\infty} \frac{(z - w)^n}{(\zeta - w)^{n+1}} \right) \d{\zeta} = \sum_{n = 0}^\infty \left( \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} f(\zeta) \frac{\d{\zeta}}{(\zeta - w)^{n+1}} \right) (z - w)^n \]
+However, to interchange the sum and integral we must establish uniform and absolute convergence. We know that $| \zeta - w | = r$ and $z \in B_r(w)$ so $|z - w| < r$ and thus the sum,
+\[ \sum_{n = 0}^\infty \left| \frac{z - w}{\zeta - w} \right|^n  \]
+converges. Furthermore, 
+\[ \left| \left( \frac{z - w}{\zeta - w} \right)^n \right| = \left| \frac{z - w}{\zeta - w} \right|^n < \left| \frac{z - w}{\zeta - w} \right| = M < 1 \]
+so the functions are bounded by $M^n$ whose sum coverges and thus by the Weierstrass $M$-test the series converges absolutly and uniformly. Therefore,
+take,
+\[ a_n = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \frac{f(\zeta) \d{\zeta}}{(\zeta - w)^{n+1}} \]
+\item[$(5) \implies (1)$]
+It is clear that if,
+\[ f(z) = \sum_{n = 0}^\infty a_n(x - w)^n \]
+then,
+\[ f'(z) = \sum_{n = 1}^\infty n a_n(x - w)^{n-1} \]
+exists. 
+\item[$(1) \implies (2)$]
+Suppose that $\Omega = B_{\delta}(w)$. For each $z \in \Omega$, let $\ell_z$ be the segment joining $w$ to $z$ and define,
+\[ F(z) = \int_{\ell_z} f(\zeta) \d{\zeta} \] 
+Now compute the ratio,
+\[ \frac{F(z + h) - F(z)}{h} = \frac{1}{h} \left[ \int_{\ell_z} f(\zeta) \d{\zeta} - \int_{\ell_{z + h}} f(\zeta) \d{\zeta} \right] \]
+(PROGRESS)
+Because the integral over the tringle is zero, we have,
+\[ \frac{1}{h} \left[ \int_{\ell_z} f(\zeta) \d{\zeta} - \int_{\ell_{z + h}} f(\zeta) \d{\zeta} \right] = \frac{1}{h} \int_{z}^{z + h} f(\zeta) \d{\zeta} = \int_0^1 f(z + th) \d{t} \to f(z) \]
+where we have parametrized the path $z$ to $z + h$ by $z + th$ for $0 \le t \le 1$. 
+Thus, $F'(z) = f(z)$ which implies that $F$ is $\Class{1}{\Omega}$ and holomorphic so,
+\[ \partial{f}{\bar{z}} = 0 \]
+and thus satisfies (2). Therefore, by $(2) \implies (5)$ we have that $F$ is a power seies and thus $f = F'$ is a power series so $f$ is $\Class{1}{\Omega}$. Furthrermore, $f$ is holomorphic which implies that 
+\[ \pderiv{f}{\bar{z}} = 0 \].
+Therefore, we have (2). 
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+For any $z_0 \in \Omega$, either $f \equiv 0$ in a neighborhood of $z_0$ or we can express $f = (z - z_0)^n u(z)$ for $u(z)$ holomorphic and $u(z) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+In a neighborhood of $z_0$, we can write,
+\[ f(z) = \sum_{n = 0}^\infty n_n(z - z_0)^n\]
+Either $c_n = 0$ for each $n$ so $f = 0$ or $c_N \neq 0$ for some $n$ and $c_n - 0$ for $n < N$. Therefore,
+\[ f(z) = \sum_{n \ge N}^\infty c_n(z - z_0)^n = (z - z_0)^N \left( \sum_{m = 0}^\infty c_{N + m} (z - z_0)^m \right) = (z - z_0)^N u(z) \]
+Furthermore, $u(z_0) = c_N \neq 0$ so, by continuity, there exists a neighborhood of $z_0$ on which $n(z) \neq 0$.  
+\end{proof}
+
+
+\begin{theorem}
+Let $f$ be holomorphic on a domain $\Omega$. If $f \equiv 0$ on some open set inside $\Omega$ then $f \equiv 0$ on all of $\Omega$. 
+\end{theorem}
+
+\begin{proof}
+Define,
+\[ \Omega' = \{ z \in \Omega \mid f \equiv 0 \text{ on an open neighborhood of } z \} \]
+Clearly $\Omega'$ is open in $\Omega$ because each $z \in \Omega'$ in inside an open neighborhood of $\Omega$ on which $f$ vanishes so is contained in an open neighborhood of $\Omega'$.
+\\
+Take $z_1 \notin \Omega'$. Thus, $f$ does not vanish identically on every neighborhood of $z$ so there exists a neighborhood $U$ such that $f(z) = (z - z_1)^N u(z)$ for $u(z) \neq 0$. Then $f(z) \neq 0$ on $U \setminus \{z_1\}$. Therefore, $U \subset (\Omega')^C$ because $f$ is nonzero on $U \setminus \{z\}$ and thus cannot be identically zero on any neighborhood of any point of $U$. Thus, $(\Omega')^C$ is open so $\Omega'$ is clopen. However, $\Omega$ is connected and thus $\Omega' = \Omega$.  
+\end{proof}
+
+
+\begin{example}
+Consider the solution to the equation $w^2 = z$. First take the open domain $U = \C \setminus \{ z \in \R \mid z \ge 0 \}$ and for $z = r e^{i \theta}$ with $0 < \theta < 2 \pi$ define $w = r^{1/2} e^{i \theta / 2} = \sqrt{z}$. The function $f(z) = w$ is perfectly holomorphic on $U$. However, the line we choose to remove is artificial, any cut will work with a redefinition of the angular interval. We solve this problem by taking two copies of $U$ called (I) and (II) and then constructing a surface $X$ by gluing (I) and (II) along the cuts such that moving across the cut in $\C$ corresponds to changing sheets. We can define $w$ on all of $X$ by $w(p) = w(z) = \sqrt{z}$ if $p$ is on sheet (I) at position $z$ and otherwise $w(p) = - w(z) = - \sqrt{z}$ if $p$ is on sheet (II) at position $z$.  
+\bigskip\\
+Topologically, $X$ is a sphere minus two points. We call $\hat{X}$ the compactified version of $X$ constrcuted by adding back the two points such that $\hat{X} \cong S^2$. 
+\end{example}
+
+
+\section{Meromorphic Functions}
+
+\begin{definition}
+A function $f : \Omega \to \C$ is meromorphic if, near any $z_0 \in \Omega$, it can be written as,
+\[ f(z) = \sum_{n \ge - N} c_n (z - z_0)^n \] 
+We call $N$ the order of the pole (assuming that $c_n \neq 0$) and $c_{-1}$ the residue at $z_0$. 
+\end{definition}
+
+
+\begin{theorem}[Residue]
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise smooth boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i  \sum_{p \in D} \Res{f(p)} \]
+\end{theorem}
+
+\begin{proof}
+We can deform the path $\partial D$ to a sum of small circles of radius $r$ surrounding each pole. Since $f$ is holomorphic on the region $D$ minus these circles the two integrals along these paths (whose difference is the integral over the boundary) are equal. Thus,
+\begin{align*}
+\oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} & = \sum_{p \in D} \left[ \oint_{\partial B_r(p)}  f(p + z) \d{z}  - 2 \pi i \Res{p}{g}   \right]
+\\
+& = \sum_{p \in D} \left[ \int_0^{2\pi} i \bigg( f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{g} \bigg) \d{\theta}   \right]
+\end{align*}
+However,
+\[ \Res{p}{f} = \lim_{z \to p} (z - p) f(z) = \lim_{h \to 0} f(p + h) h \]
+and thus, for each $\epsilon > 0$ we can choose some $\delta$ such that $r < \delta$ implies that,
+\[ \left| f(z + r r^{i \theta}) r e^{i \theta} - \Res{p}{f} \right| < \epsilon \]
+Therefore,
+\begin{align*}
+\left| \oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} \right| & \le \sum_{p \in D} \left[ \int_0^{2\pi} \Big| f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{g} \Big| \d{\theta}   \right]
+\\
+\le \sum_{p \in D} \int_0^{2 \pi} \epsilon = 2 \pi N \epsilon 
+\end{align*}
+where $N$ is the number of poles. Since $\epsilon$ is arbitrary,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i \sum_{p \in D} \Res{p}{f} \]
+\end{proof}
+
+\begin{theorem}
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise $\mathcal{C}^1$ boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ 
+\frac{1}{2 \pi i} \oint_{\partial D} \frac{f'(z)}{f(z)} \d{z} = \text{(\# of zeros)} - \text{(\# of poles)}
+\]
+\end{theorem}
+
+\begin{theorem}
+At each point $p \in D$ we can expand,
+\[ f(z) = (z - p)^N u(z) \]
+where $u$ is holomorphic and nonvanishing. Therefore,
+\[ \frac{f'(z)}{f(z)} = \deriv{}{z} \log{f(z)} = \deriv{}{z} \left[ (z - p)^N u(z) \right] = \frac{N}{x - p} + \frac{u'(z)}{u(z)} \]
+Thus when $f$ has either a zero ($N > 0$) or a pole ($N < 0$) the logarithmic derivative has residue,
+\[ \Res{p}{\left(\frac{f'}{f}\right)} = N \]
+Therefore the result holds by the residue theorem. 
+\end{theorem}
+
+\begin{corollary}
+Let $f : \Omega \to \C$ be holomorphic take $w \in \C$, then the number of solutions in $D$ to the equation $f(z) - w = 0$ is equal to,
+\[ \#\{ z \in D \mid f(z) = w \} = \oint_{\partial D} \frac{f'(z)}{f(z) - w} \d{z}  \]
+\end{corollary}
+
+\begin{proof}
+Since $f - w$ is holomorphic on $\Omega$ is has no poles. Therefore, the only residues are from roots of $f - w$ i.e. solutions to $f(z) - w = 0$. As above, the integral of the logarithmic derivative counts the number of such poles.  
+\end{proof}
+
+
+\section{Taylor's Theorem}
+
+\begin{theorem}
+A function $f : U \to \C$ of a real variable defined on open $U \subset \R$ is the restriction of some holomorphic function $f : \Omega \to \C$ on a domain $\Omega$ containing $U \subset \R$ iff $f$ is (real) analytic.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}[Cauchy]
+Let $f : \Omega \to \C$ be holomorphic, for any subset $D \subset \Omega$ homeomorphic to a disc with $\Class{1}{I}$ boundary and $w \in D^\circ$ we have,
+\[ f^{(n)}(w) = \frac{n !}{2 \pi i} \oint_{\partial D} \frac{f(z)}{(z - w)^{n+1}} \d{z} \]
+\end{theorem}
+
+\begin{corollary}[Cauchy Estimate]
+Let $f : \Omega \to \C$ be holomorphic and $w \in \Omega$. Let $r > 0$ be such that $B_r(w) \subset \Omega$ then,
+\[ \frac{|f^{(n)}(w)|}{n!} \le \frac{\sup \{ |f(z)| \mid z \in \partial B_r(w) \}}{r^n} \]
+\end{corollary}
+
+\begin{proof}
+Via the Cauchy derivative formula,
+\[ f^{(n)}(w) = \frac{n !}{2 \pi i} \oint_{\partial B_r(w)} \frac{f(z)}{(z - w)^{n+1}} \d{z}  \]
+Taking the norm of both sides,
+\begin{align*}
+\frac{|f^{(n)}(w)|}{n!} & = \frac{1}{2 \pi} \left| \oint_{\partial B_r(w)} \frac{f(z)}{(z - w)^{n+1}} \d{z} \right| 
+\\
+& = \frac{1}{2 \pi} \left| \int_0^{2\pi} \frac{f(z)}{(r e^{i \theta})^{n+1}} i r e^{i \theta} \d{t} \right| \le \frac{1}{2 \pi} \int_0^{2 \pi} \frac{|f(z)|}{r^n} \d{t} \le \frac{\sup \{ |f(z)| \mid z \in \partial B_r(w) \}}{r^n}
+\end{align*}
+\end{proof}
+
+\begin{corollary}
+Let $f : \Omega \to \C$ be holomorphic and $w \in \Omega$. If $B_r(w) \subset \Omega$ then the talor series about $w$ has radius of convergence at least $r$.
+\end{corollary}
+
+\begin{proof}
+Consider,
+\[ T_{N,w}(z) = \sum_{n = 0}^N \frac{f^{(n)}(w)}{n!} (z - w)^n \] 
+For $z \in B_r(w)$ consider,
+\[ \sum_{n = 0}^N \left| \frac{f^{(n)}(w)}{n!} (z - w)^n \right| = \sum_{n = 0}^N \frac{|f^{(n)}(w)| r^n}{n!} \left( \frac{|z - w|}{r} \right)^n \le \sum_{n = 0}^N M_r x^n \]
+where $M_r = \sup \{ |f(z)| \mid z \in \partial B_r(w) \}$ and $x = |z - w|/r < 1$ since $z \in B_r(w)$. Then, 
+\[ \sum_{n = 0}^N M_r x^n = M_r \sum_{n = 0}^N x^n \]
+converges for $N \to \infty$ so $\lim\limits_{N \to \infty} T_{N,w}(z)$ converges absolutly on $B_r(w)$. 
+\end{proof}
+
+\begin{theorem}
+An entire function $f : \C \to \C$ is globally a power series. In particular, $f$ is everywhere equal to its taylor series about any point. 
+\end{theorem}
+
+\begin{proof}
+Since for any $r > 0$ and $w \in \C$ we have $B_r(w) \subset \C$ the above argument shows that the radius of convergence of $T_w(z)$ is infinite. 
+\end{proof}
+
+\begin{remark}
+This is completely false for everywhere real analytic functions. For example,
+\[ f(x) = \frac{1}{1 + x^2} \]
+is analytic but has finite radius of covergence about each point. This is because its extension to the complex plane has poles at $x = \pm i$ and thus is not entire. 
+\end{remark}
+
+\begin{theorem}
+Let $f : \Omega \to \C$ be holomorphic and take $w \in \Omega$ and $r > 0$ s.t. $B_r(w) \subset \Omega$. Then, for all $z \in B_r(w)$,
+\[ T_w(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(w)}{n!} (z - w)^n = f(z) \]
+Furthermore, the error term,
+\[ R_{N, w}(z) = f(z) - T_{N, w}(z) = \frac{}{} \]
+\end{theorem}
+
+\begin{proof}
+We know that the sum,
+\[ T_w(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(w)}{n!} (z - w)^n \]
+is absolutly and uniformly convergent. By the Cauchy integral formula,
+\[ \frac{f^{(n)}(w)}{n!} = \frac{1}{2 \pi i} \oint_{\partial B_r(w)} \frac{f(\zeta)}{(\zeta - w)^{n+1}} \d{\zeta} \]
+and thus,
+\begin{align*}
+T_w(z) & = \sum_{n = 0}^\infty \frac{f^{(n)}(w)}{n!} (z - w)^n = \sum_{n = 0}^\infty  \left( \frac{1}{2 \pi i} \oint_{\partial B_r(w)} \frac{f(\zeta)}{(\zeta - w)^{n+1}} \d{\zeta} \right) (z - w)^n
+\\
+& = \frac{1}{2 \pi i } \left( \oint_{\partial B_r(w)} f(\zeta) \sum_{n = 0}^\infty \left[ \frac{(z - w)^n}{(\zeta - w)^{n+1}}   \right] \d{\zeta} \right)
+\\
+& = \frac{1}{2 \pi i} \oint_{\partial B_r(w)}  \frac{f(\zeta)}{(\zeta - w) - (z - w)} \d{\zeta} = \frac{1}{2 \pi i} \oint_{\partial B_r(w)} \frac{f(\zeta)}{\zeta - z} \d{\zeta} = f(z) 
+\end{align*}
+where I may interchange the integrals and sums by uniform convergence. Furthermore, I have used the series,
+\[  \frac{(z - w)^n}{(\zeta - w)^{n+1}} = \frac{1}{\zeta - w} \frac{(z - w)^n}{(\zeta - w)^{n}} =  \frac{1}{\zeta - w} \cdot \frac{1}{1 - \frac{z - w}{\zeta - w}} = \frac{1}{(\zeta - w) - (z - w)} \]
+which converges because $\zeta \in \partial B_r(w)$ so $|\zeta - w| = r$ and $z \in B_r(w)$ so $|z - w| < r$ and thus,
+\[ \left| \frac{z - w}{\zeta - w} \right| < 1 \]
+Now we may compute the error term as follows,
+\begin{align*}
+R_{w, N}(z) & = f(z) - T_{w, N}(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(w)}{n!} (z - w)^n  - \sum_{n = 0}^N \frac{f^{(n)}(w)}{n!} (z - w)^n 
+\\
+& = \sum_{n = {N+1}}^\infty \frac{f^{(n)}(w)}{n!} (z - w)^n  = \sum_{n = {N+1}}^\infty  \left( \frac{1}{2 \pi i} \oint_{\partial B_r(w)} \frac{f(\zeta)}{(\zeta - w)^{n+1}} \d{\zeta} \right) (z - w)^n
+\\
+& = \frac{1}{2 \pi i } \left( \oint_{\partial B_r(w)} f(\zeta) \sum_{n = {N+1}}^\infty \left[ \frac{(z - w)^n}{(\zeta - w)^{n+1}}   \right] \d{\zeta} \right)
+\\
+& = \frac{(z - w)^{N+1}}{2 \pi i} \left( \oint_{\partial B_r(w)}  \frac{f(\zeta)}{(\zeta - w)^{N+1} (\zeta - z)}  \d{\zeta} \right) 
+\end{align*}
+where,
+\begin{align*}
+\sum_{n = {N+1}}^\infty \left[ \frac{(z - w)^n}{(\zeta - w)^{n+1}}   \right] & = \frac{(z - w)^{N+1}}{(\zeta - w)^{N+2}} \sum_{n = 0}^\infty \left[ \frac{z - w}{\zeta - w} \right]^n 
+\\
+& = \frac{(z - w)^{N+1}}{(\zeta - w)^{N+2}} \cdot \frac{1}{1 - \frac{z - w}{\zeta - w}} = \frac{(z - w)^{N+1}}{(\zeta - w)^{N+1} (\zeta - z)} 
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+Let $f : \R \to \R$ be $(n+1)$-differentiable on $[a, b]$ and $f^{(k)}(a) = 0$ for each $n \le k$. Then there exists some $\xi \in [a,b]$ such that,
+\[ f(b) = \frac{f^{(n+1)}(\xi)}{(n+1)!} (b - a)^{n + 1} \] 
+\end{lemma}
+
+\begin{proof}
+Suppose that $f$ is $(n+1)$-differentiable on $[a,b]$ and $f^{(n)}(a) = 0$. Consider the function,
+\[ g(x) = f(x) - \frac{f(b)}{(b - a)^{n+1}} (x - a)^{n+1} \]
+Then $g$ satisfies the same condition that $g^{(k)}(a) = 0$ for $k \le n$ and $g$ is $(n+1)$-differentiable on $[a,b]$ but also $g(b) = 0$. Now, for each $k \le n + 1$ I claim that there exists $\xi_k \in [a, b]$ such that $g^{(k)}(\xi_k) = 0$. For $k = 0$, by the mean value theorem, there exists $\xi_0 \in [a, b]$ such that,
+\[ g'(\xi_0) = \frac{g(b) - g(a)}{b - a} = 0 \]
+Now we proceed by induction. Suppose we have $\xi_k \in [a,b]$ such that $g^{(k)}(\xi_k) = 0$. Then for $k \le n$ we also know that $g^{(k)}(a) = 0$. Then, since $g^{(k)}$ is differentiable for $k \le n$, by the mean value theorem, there exists $\xi_{k + 1} \in [a, \xi_k] \subset [a, b]$ such that,
+\[ g^{(k+1)}(\xi_{k+1}) = \frac{g^{(k)}(\xi_k) - g^{(k)}(b)}{b - a} = 0 \]
+Proving the claim by induction. Finally,
+\[ g^{(n+1)}(\xi_{n+1}) = f^{(n+1)}(\xi_{n+1}) - f(b) \frac{(n+1)!}{(b - a)^{n+1}}  = 0 \] 
+which implies that,
+\[ f(b) = \frac{f^{(n+1)}(\xi_{n+1})}{(n+1)!} (b - a)^{n+1} \]
+\end{proof}
+
+\begin{theorem}[Lagrange Error Form]
+Let $f : \R \to \R$ be $(n+1)$-differentiable on $[a, b]$. Then the remainder term,
+\[ R_{a,n}(b) = f(b) - T_{a,n}(b) = \frac{f^{(n+1)}(\xi)}{(n + 1)!} (b - a)^{n + 1} \]
+for some $\xi \in (a, b)$. 
+\end{theorem}
+
+\begin{proof}
+Consider the function,
+\[ R_{a,n}(x) = f(x) - T_{a,n}(x) \]
+which is $(n+1)$-differentiable on $[a,b]$ and satisfies $R^{(k)}_{a,n}(a) = 0$ for each $k \le n$ so by the lemma, there exists $\xi \in [a,b]$ such that,
+\[ R_{a,n}(b) = \frac{f^{(n+1)}(\xi)}{(n + 1)!} (b - a)^{n + 1}  \]
+Because $R_{a,n}^{(n+1)}(b) = f^{(n+1)}(b)$ since the Taylor partial sum has order $n$.
+\end{proof}
+
+\end{document}
+

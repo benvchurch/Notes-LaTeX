@@ -1,0 +1,176 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\include{TopologyCommands}
+\usepackage{subcaption}
+\usepackage{float}
+\floatplacement{figure}{H}
+\usepackage{tikz-feynman}
+\tikzfeynmanset{compat=1.0.0} 
+
+\begin{document}
+\atitle{4}
+
+Note. My order of path concatenation follows Hatcher,
+\[\gamma * \delta(x) = \begin{cases}
+\gamma(2x) & x \le \tfrac{1}{2} \\
+\delta(2x - 1) & x \ge \tfrac{1}{2}
+\end{cases}\]
+ 
+\section*{Problem 1.}
+
+Let $X$, $Y$, and $Z$ be topological spaces with maps $f : X \to Z$ and $g : Y \to Z$. Then, define the pullback,
+\[ X \times_Z Y = \{ (x, y) \in X \times Y \mid f(x) = g(y) \} \]
+To show that $X \times_Z Y$ with the maps $\pi_1$ and $\pi_2$ is the limit of the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+X \arrow[r, "f"] & Z & Y \arrow[l, "g"]
+\end{tikzcd}
+\end{center}
+we first must show that any cone at $X \times_Z Y$ commutes. There are exactly two such cones, one for each map $f : X \to Z$ and $g : Y \to Z$. Now, for any $(x, y) \in X \times_Z Y$ we have, 
+\[f \circ \pi_1(x, y) = f(x) = g(x) = g \circ \pi_2(x, y)\]
+and thus $f \circ \pi_1 = g \circ \pi_2$. Take the map from $X \times_Z Y \to Z$ to be given by $f \circ \pi_1 = g \circ \pi_2$ which makes these cones commute. This fact is expressed by the commuting square in the below diagram. Next,
+take any space $A$ with maps $a_X : A \to X$ and $a_Y : A \to Y$ such that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+A \arrow[rdd, "a_X", bend right] \arrow[rrd, "a_Y", bend left] \arrow[rd, dashed, "F"] & & \\
+& X \times_Z Y \arrow[d, "\pi_1"] \arrow[r, "\pi_2"] & Y \arrow[d, "g"] \\
+& X \arrow[r, "f"] & Z
+\end{tikzcd}
+\end{center}
+Construct the map $F : A \to X \times_Z Y$ by $F(s) = (a_X(s), a_Y(s))$. This map is continuous by the univeral property of the product space and well-defined because $f \circ a_X = g \circ a_Y$ so $f(a_x(s)) = g(a_Y(s))$. Clearly, $\pi_1 \circ F = a_X$ and $\pi_1 \circ F = a_Y$. Because the square commutes, we have shown that the entire diagram commutes. 
+Furthermore, given any $F$ which makes this diagram commute, $\pi_1 \circ F = a_X$ and $\pi_2 \circ F = a_Y$. Therefore, $F(s) \in X \times_Z Y$ so $F(s) = (u, v)$ and thus $\pi_1 \circ F(s) = u = a_X(s)$ and $\pi_2 \circ F(s) = v = a_Y(s)$ so $F(s) = (a_X(s), a_Y(s))$. Thus, our construction of $F$ is in fact unique. Therefore, $X \times_Z Y$ is the limit of this diagram. 
+
+\section*{Problem 2.}
+
+Let $X$, $Y$, and $Z$ be topological spaces with maps $f : Z \to X$ and $g : Z \to Y$. Then, define the pushout,
+\[ X \coprod_Z Y =  \left(X \coprod Y \middle/ f(x) \sim g(x) \right) \]
+To show that $X \coprod_Z Y$ with the maps $\iota_1$ and $\iota_2$ is the colimit of the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+X  & Z \arrow[l, "f"] \arrow[r, "g"] & Y 
+\end{tikzcd}
+\end{center}
+we first must show that any cone at $X \coprod_Z Y$ commutes. There are exactly two such cones, one for each map,  $f : Z \to X$ and $g : Z \to Y$. Now, for any 
+$z \in Z$ we have $\iota_1 \circ f(z) = \iota_2 \circ g(z)$ because $f(z) \sim g(z)$ under the quotient. Take the map from $Z \to X \coprod_Z Y$ to be given by $\iota_1 \circ f = \iota_2 \circ g$ which makes these cones commute. This fact is expressed by the commuting square in the below diagram. Next,
+take any space $A$ with maps $a_X : X \to A$ and $a_Y : Y \to A$ such that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+A  & & \\ 
+& X \coprod_Z Y  \arrow[ul, dashed, "F"] & Y  \arrow[llu, "a_Y", bend right] \arrow[l, "\iota_1"]   \\
+& X \arrow[luu, "a_X", bend left] \arrow[u, "\iota_1"] & Z \arrow[l, "f"] \arrow[u, "g"]
+\end{tikzcd}
+\end{center}
+Construct the map $F : X \coprod_Z Y \to A$ by $F(x) = a_X(x)$ and $F(y) = a_Y(y)$. This map is continuous by the universal property of the coproduct and descends to the quotient since $a_X \circ f = a_Y \circ g$ so $F$ is constant on equivalence classes. Clearly, $F \circ \iota_1 = a_X$ and $F \circ \iota_2 = a_Y$. Because the square commutes, we have shown that the entire diagram commutes. 
+Furthermore, given any $F$ which makes this diagram commute, $F \circ \iota_1 = a_X$ and $F \circ \iota_2 = a_Y$. Therefore, $F(x) = F(\iota_1(x)) = a_X(x)$ and $F(y) = F(\iota_2(y)) = a_Y(y)$ and thus $F$ is determined everywhere. Thus, our construction of $F$ is in fact unique. Therefore, $X \coprod_Z Y$ is the limit of this diagram. 
+
+\section*{Problem 3.}
+Because colimits are unique, the construction in problem \#2 is unique up to homeomorphism. Thus, fiven a map $f : X \to Y$, the pushout of the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+X \times I  & X \arrow[l, "\iota_0"] \arrow[r, "f"] & Y 
+\end{tikzcd}
+\end{center}
+where $\iota_0(x) = (x, 0)$, is the space,
+\[ M_f = \left(X \times I \coprod Y \middle/ (x, 0) \sim f(x) \right)  \]
+which is exactly the definition of the mapping cylinder $M_f$ given in class. 
+
+\section*{Problem 4.}
+\begin{enumerate}
+\item Given two zero-cells and two one-cells there are exactly four choices of glueing maps up two swapping the zero-cells. The first one-cell must be glued to one of the zero-cells arbitrarily. Then, for the next three endpoints (one for the first zero-cell and two for the second) there are exactly two choices, which of the two zero-cells to glue it to. This gives eight possibilities but they come in pairs which simply swap the order of the choosen endpoints of the second one-cell. Schematically, these possibilities are, 
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+No two of these are homeomorphic. The first two are not connected but the last two are. Furthermore, the fundamental group (of the left component) of the first space is $\Z * \Z$ but he fundamental group of each component of the second is $\Z$. The last two have equal fundamental group. However, the fourth space can be  disconnected by removing the first zero-cell while the third space cannot becuase $S^1 \sm \{x \} \cong I$. Therefore, no two are homeomorphic.
+
+\item The first and second spaces have different fundamental groups and therefore cannot be homotopy equivalent. However, the thrid and fourth spaces are clearly homotopy equivalent by retracting the second zero-cell allong the connecting path onto the circle. Therefore, there are three homotopy classes,
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\end{enumerate}
+\section*{Problem 5.}
+
+\begin{enumerate}
+\item Take $X^0 = \Z \times \Z \subset \R \times \R$ which is discrete. Now, for every pair of adjacent grid-points $(x, y)$ and $(x \pm 1, y)$ or $(x, y \pm 1)$   glue a one-cell between them to form $X^1$. Finally, for each unit grid-square, glue a two-cell allong the boundary of the cell to form $X^2 \cong \R^2$.  
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+
+\item This space is constructed from 6 zero-cells, 7 one-cells, and 2 two-cells as follows,
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\end{enumerate}
+
+\section*{Problem 6.}
+
+For any $\bf{x} \in \R^n \sm \{0\}$ define $[\bf{x}]$ to the be equivalence class of $\bf{x}$ under the equivalence relation $\bf{x} \sim \lambda \bf{x}$ for $\lambda \in \R$. Then, $\rp^{n}$ is the quotien space of $\R^{n + 1} \sm \{0\}$ under this equivalence relation. Consider the space $\rp^{n} \sm {[\bf{y}]}$ for a particular $\bf{y} \in \R^{n + 1}$. Then, write any vector in the orthogonal decomposition, $\bf{x} = \bf{x}^\perp + c \bf{y}$ where $\bf{x}^\perp \in (\vspan{\bf{y}})^\perp$. The map $p : \bf{x} \mapsto \bf{x} - \bf{y} \frac{\bf{x} \cdot \bf{y}}{|\bf{y}|^2} = \bf{x}^\perp$ is continuous. Furthermore, since $p$ is linear we have $p(\lambda \bf{x}) = \lambda p(\bf{x})$ and thus if $\bf{x} \sim \bf{x'}$ then $p(\bf{x}) \sim p(\bf{x'})$. Therefore, $p$ decends to a map $f : \rp^{n} \sm \{[\bf{y}]\} \to \rp^{n - 1}$ where we have identified, $\rp^{n-1} \cong (\vspan{\bf{y}})^\perp / \sim$ because $(\vspan{\bf{y}})^\perp \cong \R^{n}$.
+Furthermore, let $g  : \rp^{n - 1} \to \rp^{n} \sm \{[\bf{y}]\}$ be the inclusion. \bigskip \\
+Because if $\bf{x} \in (\vspan{\bf{y}})^\perp$ then $p(\bf{x}) = \bf{x}$ so $f \circ g = \id_{\rp^{n - 1}}$. Futhermore, define the homotopy, $H : \rp^n \sm \{[\bf{y}]\} \times I \to \rp^{n - 1}$ by, $H([\bf{x}], t) = [\bf{x}^\perp + tc \bf{y}]$ which is continuous because it is the composition of continuous maps $\pi \circ (p + t \bf{y})$. This map is well-defined because $[\bf{x}] \neq [\bf{y}]$ and thus $\bf{x} \notin \vspan{\bf{y}}$ so $\bf{x}^\perp + tc \bf{y} \neq 0$. \bigskip \\
+Also, $H([\bf{x}], 0) = [\bf{x}^\perp] = g \circ f([\bf{x}])$ and $H([\bf{x}], 0) = [\bf{x}^\perp + c \bf{y}] = [\bf{x}]$. Thus, $H$ is a homotopy between $g \circ f$ and $\id_{\rp^{n}}$. Therefore, $f$ is a homotopy equivalence between $\rp^{n} \sm \{[\bf{y}]\}$ and $\rp^{n-1}$.  
+
+\section*{Problem 7.}
+
+\begin{enumerate}
+\item Given a map $f : S^1 \to S^1$ first construct the one-skeleton made from two zero-cells with three one-cells to form two copies of $S^1$ connected by a strip. Call the point on the first $S^1$ at which the strip is connected $x_0$ and identify the point on the other copy of $S^1$ at which the stip is attached as $f(x_0)$. Now, let $\gamma$ be the path which traverses the first $S^1$ once and let $\mu$ be the path from $x_0$ to $f(x_0)$ allong the connecting strip. Finally, glue a two-cell onto the path $\gamma * \mu * (f \circ \gamma) * \mu^{-1}$. This CW-complex is homeomorphic to the mapping cylinder $M_f$.
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+
+\item We must first show that a mobius strip is a CW-complex with a one-cell forming the loop $\gamma$ running around the center of the strip. Given this cell-complex $X$, consider the mapping cylinder $M_f$ of the map $f : S^1 \to X$ which sends $S^1$ to this one-cell which traverses $\gamma$ . I claim that $M_f$ satisfies the required properties. There is a natural deformation retract $r : M_f \to X$ sending $s \mapsto f(s)$ for $s \in S^1$ and $x \mapsto x$ for $x \in X$ which colapses the cylinder onto the space $X$. This map gives a retract from $M_f$ to the mobius strip $X$. Furthermore, a mobius strip can be retracted onto $\gamma$ by contracting the band. This gives a retract from $M_f \to M_{f}'$ where $M_f'$ is the mapping cylinder of $f' : S^1 \to S^1$ which has domain restricted to $\gamma$. However, $M_f' \cong S^1 \times I$ which is an annulus because the entire space $S^1$ is contained in the image of $f'$ and the $S^1$ is glued once around one boundary of $S^1 \times I$ which does not change the space. Now, we must construct the mobius strip $X$. Take $3$ zero-cells, $5$ one-cells and $2$ two-cells. The construction proceeds as follows,   
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\end{enumerate}
+
+\newpage
+
+\section*{Problem 8.}
+
+\begin{enumerate}
+\item The inclusion $\{x_0 \} \hookrightarrow S^n$ is a cofibration because it is a closed inclusion map of a CW-pair. We can write $S^n$ as a CW complex with two cells and nontrivial skeletons, $X^0 = \{x_0\}$ and $S^n = X^n = (D^n \sqcup \{x_0\}) / (\partial D^n \sim \{x_0\})$. Thus, $\{x_0\} \subset S^n$ is a closed subset of cells of $S^n$ and therefore a subcomplex. Therefore, the inlusion map is a cofibration.
+
+\item The inclusion $(0, 1] \mapsto [0, 1]$ is not a cofibration. Take the map $f : [0, 1] \to [0, 1]$ given by $f(x) = 0$ and the homotopy $h : (0, 1] \times I$ given by $h(x, t) = t/x$ which is continuous because $x \neq 0$. Clearly, $h(x, 0) = f(x)$ but there cannot be an extension of $h$ to $[0, 1]$ because then we would have a continuous map $\tilde{h}(x, 1) : [0, 1] \to [0, 1]$ such that $\tilde{h}(x, 1) = 1/x$ for $x \neq 0$ which violates the boundedness of continuous functions on compact sets.  
+
+\item The inclusion $\Z \hookrightarrow \R$ is a cofibration. This is because we can retract $\R \times I$ onto the come $\R \times \{0\} \cup \Z \times I$. Consider the following schematic for the retraction via projections,
+\bigskip \\
+\bigskip \\
+\bigskip \\
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+\bigskip \\ 
+
+\item The inclusion $\Q \hookrightarrow \R$ is not a cofibration. Consider the zero map $f : \R \to \R$ given by $f(x) = 0$ and a homotopy $h : \Q \times I \to \R$ given by $h(x, t) = t/(x - \pi)$. Since $x \in \Q$ this map is continuous. Furthermore, $h(x, 0) = 0 = f(x)$. However, $h(x, 1) = 1/(x - \pi)$ which has no lift to a continuous map on $\R$ because it would be unbounded on the compact interval $[3, 4]$.  
+
+\item The map $X \hookrightarrow CX$ is a cofibration. To see this, consider the constant map $f : X \to \{x_0\}$. The mapping cylinder $M_f = (X \times I) \sqcup \{x_0\} / (X \times \{0\} \sim f(x)) = (X \times I)/(X \times \{0\}) $ is the cone of $X$. However, we know that the inclusion $X \hookrightarrow M_f$ is a cofibration. 
+\end{enumerate}
+
+
+
+
+\end{document}

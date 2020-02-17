@@ -1,0 +1,206 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\include{AstroCommands}
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{fullpage,todonotes,enumitem,amsmath}
+\usepackage{braket}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\renewcommand{\d}[1]{\mathrm{d} #1 \;}
+
+\begin{document}
+
+\atitle{4}
+
+\section{Problem 1}
+
+Consider an atmosphere of uniform temperature and uniform composition which is emitting, absorbig, and scattering. We write the equation of radiative diffusion,
+\[ \frac{1}{3} \nderiv{2}{J_\nu}{\tau_\nu} = \epsilon_\nu (J_\nu - B_\nu) \]
+where,
+\[ \epsilon_\nu = \left( \frac{\alpha_\nu}{\sigma_\nu + \alpha_\nu} \right) \]
+
+
+\subsection*{(a)}
+
+Consider the difference $D_\nu = B_\nu - J_\nu$. Since we assume that the atmosphere has uniform temperature,
+\[ \nderiv{2}{D_\nu}{\tau_\nu} = - \nderiv{2}{J_\nu}{\tau_\nu} = - 3 \epsilon_\nu (J_\nu - B_\nu) = 3 \epsilon_\nu D_\nu \]
+This has solutions,
+\[ D_\nu = C_1 e^{\sqrt{3 \epsilon_\nu} \tau_\nu} + C_2 e^{-\sqrt{3 \epsilon_\nu} \tau_\nu} \]
+Since the atmosphere is semi-infinite we must have $C_1 = 0$ since otherwise in the limit $\tau_\nu \to \infty$ we would have $J_\nu \to \infty$ which is unphysical. Therefore, we simply need to consider the boundary conditions at $\tau_\nu = 0$.
+In the two stream approximation, we have an incoming ray $I_0$, reflected ray $I_R$ and a pair of internal rays $I^{\pm}_\nu$ at angles $\mu = \pm \frac{1}{\sqrt{3}}$. 
+Then, internally, we have,
+\begin{align*}
+J_\nu &= \tfrac{1}{2} (I_\nu^+ + I_\nu^-)
+\\
+F_\nu & = \frac{2 \pi}{\sqrt{3}} (I_\nu^+ - I_\nu^-)
+\\
+P_\nu & = \frac{2 \pi}{3c} (I_\nu^+ + I_\nu^-) = \frac{4 \pi}{3c} J_\nu
+\end{align*} 
+We can solve these equations to give,
+\[ I^\pm_\nu = J_\nu \pm \frac{\sqrt{3}}{4 \pi} F_\nu \] 
+Furthermore, from the first moment equation,
+\[ c \deriv{P_\nu}{\tau_\nu} = F_\nu \]
+however, in the Eddington approximation,
+\[ P_\nu = \frac{4 \pi}{3 c} J_\nu \]
+which implies that,
+\[ F_\nu = \frac{4 \pi}{3} \deriv{J_\nu}{\tau_\nu} \]
+Thus the two-stream rays take the form,
+\[ I^\pm_\nu = J_\nu \pm \frac{1}{\sqrt{3}} \deriv{J_\nu}{\tau_\nu} \] 
+Now at the surface $\tau_\nu = 0$ we impose continuity of the specific intensity so the outgoing intensities match, $I_R = I^+_\nu(0)$, and the incoming intensities match, $I^-_\nu(0) = 0$, which must be zero since we assume there is no radiation incident on the atmosphere. Thus,
+\[ I^{-}_\nu(0) = J_\nu(0) - \frac{1}{\sqrt{3}} \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} = 0 \]
+which implies that,
+\[ J_\nu(0) = \frac{1}{\sqrt{3}} \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} \]
+Now we use our solution,
+\[ J_\nu(\tau_\nu) = C_\nu e^{-\sqrt{3 \epsilon_\nu} \tau_\nu} + B_\nu \]
+so we must match,
+\[ J_\nu(0) = C_\nu + B_\nu = \frac{1}{\sqrt{3}}  \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} = - \sqrt{\epsilon_\nu} C_\nu \]
+which implies that,
+\[ C_\nu = - \frac{B_\nu}{1 + \sqrt{\epsilon_\nu}} \]
+In particular,
+\[ D_\nu = B_\nu - J_\nu = - C_\nu e^{-\sqrt{3 \epsilon_\nu} \tau_\nu} = \frac{B_\nu}{1 + \sqrt{\epsilon_\nu}} e^{-\sqrt{3 \epsilon_\nu} \tau_\nu} \]
+Since $D_\nu > 0$ for all $\tau_\nu$ we have demonstrated that $J_\nu < B_\nu$ at all optical depths.
+
+\subsection*{(b)}
+
+The outgoing intensity at the surface is given by,
+\[ I^{+}_\nu(0) = J_\nu(0) + \frac{1}{\sqrt{3}} \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} \]
+Our previous solution gives,
+\[ J_\nu(\tau_\nu) = C_\nu e^{-\sqrt{3 \epsilon_\nu} \tau_\nu} + B_\nu = B_\nu \left[ 1 - \frac{e^{-\sqrt{3 \epsilon_\nu} \tau_\nu}}{1 + \sqrt{\epsilon_\nu}} \right]  \]
+Thus, using the boundary conditions,
+\[ J_\nu(0)= \frac{1}{\sqrt{3}} \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} = B_\nu \left[ \frac{\sqrt{\epsilon_\nu}}{1 + \sqrt{\epsilon_\nu}} \right] \]
+\begin{align*}
+I^{+}_\nu(0) & = B_\nu \left[ \frac{2 \sqrt{\epsilon_\nu}}{1 + \sqrt{\epsilon_\nu}} \right]
+\end{align*}
+Note that in the limit of weak scattering $\sigma_\nu \to 0$ thus $\epsilon_\nu \to 0$ and then ,
+\[ I^+_\nu(0) \to B_\nu \]
+so the atmosphere becomes a blackbody in the limit of no scattering. Furthermore, for strong scattering, $\sigma_\nu \gg \alpha_\nu$ then $\epsilon_\nu \ll 1$ which implies that,
+\[ I^{+}_\nu(0) \approx 2 \sqrt{\epsilon_\nu} B_\nu \]
+is highly suppressed from an ideal blackbody. 
+
+\subsection*{(c)}
+
+We have derived a formula for the total flux in the Eddington approximation,
+\[ F_\nu = \frac{4 \pi}{3} \deriv{J_\nu}{\tau_\nu} \]
+However, at the boundary $\tau_\nu = 0$, in our two-stream approximation, we have shown that the incoming ray vanishes so the entirety of the flux at the boundary is from the outgoing ray and thus is emergent so,
+\[ F_\nu^+ = F_\nu(0) = \frac{4 \pi}{3} \deriv{J_\nu}{\tau_\nu} \bigg|_{\tau_\nu = 0} = \frac{4 \pi}{\sqrt{3}} \cdot  \left[ \frac{\sqrt{\epsilon_\nu}}{1 + \sqrt{\epsilon_\nu}} \right] B_\nu \]
+In the strong scattering limit we have,
+\[ F^+_\nu = \frac{4 \pi}{\sqrt{3}} \sqrt{\epsilon_\nu} B_\nu \]
+which is much less than the blackbody flux $F^B_\nu = \pi B_\nu$. However, in the weak scattering limit we have $\epsilon_\nu \to 1$ and so we find,
+\[ F^+_\nu \to \frac{2\pi}{\sqrt{3}} B_\nu \]
+which slightly exceeds the blackbody flux $F^B_\nu = \pi B_\nu$. This cannot be correct since we know that a blackbody emitts the greatest possible intensity in each part of the spectrum of any body in thermal equilibirum at a given temperature. Since this does not seem right I may have made a mistake or it may be related to the two-stream approximation since the outgoing radiation is fixed with angle $\mu = \frac{1}{\sqrt{3}}$ unlike that of a blackbody with isotropic emergent radiation giving the $F^B_\nu = \pi B_\nu$ relation. In fact, the factor $\frac{2 \pi}{\sqrt{3}}$ is exactly the integration factor computing the flux from a cone of rays at fixed angle $\mu = \frac{1}{\sqrt{3}}$ while $\pi$ is the integration factor for isotropic emerging radiation given that both have the same (constant) specific intensity (over angles where it is nonzero). 
+
+\section{Problem 2}
+
+Consider a plane EM wave propagating in the $z$-direction of the form,
+\[ \vec{E}(z, t) = (\varepsilon_1 e^{i \phi_1} \hat{x} + \varepsilon_2 e^{i \phi_2} \hat{y}) e^{i (kz - \omega t)} \]
+Now, evaluating near an observer at $z = 0$ the electric field is,
+\[ \vec{E}(0, t) = (\varepsilon_1 e^{i \phi_1} \hat{x} + \varepsilon_2 e^{i \phi_2} \hat{y}) e^{-i\omega t} \] 
+Now we define the following Stokes parameters,
+\begin{align*}
+I & = \varepsilon_1^2 + \varepsilon_2^2
+\\
+Q & = \varepsilon_1^2 - \varepsilon_2^2 
+\\
+U & = 2 \varepsilon_1 \varepsilon_2 \cos{(\phi_1 - \phi_2)}
+\\
+V & = 2 \varepsilon_1 \varepsilon_2 \sin{(\phi_1 - \phi_2)}
+\end{align*}
+
+We need to relate these quantities to the intensities which pass through various polarizers. First note that we measure the energy flux via the Poynting vector,
+\[ S = c ( E \times B) = c \hat{z} E^2 \]
+so we simply need to consider the time-averaged square of the field to get,
+\[ \left< |S| \right> = c \left< E^2 \right> \] 
+However, we need to be somewhat careful to use the \textit{real} fields in this calculation since taking real parts does not commute with complex multiplication. Therefore, consider,
+\begin{align*}
+\left< E^2 \right> & = \tfrac{1}{4} \left< (E_\C + \bar{E}_\C) \cdot (E_\C + \bar{E}_\C) \right>
+\\
+& = \tfrac{1}{4}  \left< E_\C^2 \right> + \tfrac{1}{2}  \left< E_\C \cdot \bar{E}_\C \right> + \tfrac{1}{4}  \left< \bar{E}_\C^2 \right>
+\end{align*}
+where $E_\C$ is the complex field given above. However, the first and last terms will have pure phase time dependence and therefore time-average to zero. Only the middle term remains,
+\begin{align*}
+\left< E^2 \right>  & = \tfrac{1}{2}  \left< E_\C \cdot \bar{E}_\C \right>
+\\
+& = \tfrac{1}{2} (\varepsilon_1 e^{i \phi_1} \hat{x} + \varepsilon_2 e^{i \phi_2} \hat{y}) \cdot (\varepsilon_1 e^{-i \phi_1} \hat{x} + \varepsilon_2 e^{-i \phi_2} \hat{y})
+\\
+& = \tfrac{1}{2} (\varepsilon_1^2 + \varepsilon_2^2)
+\end{align*}
+and thus,
+\[ I = 2 \left< E^2 \right> \]
+is proportional to the total intensity. 
+\bigskip\\
+Now we consider various polarizing filters $L_\theta$ which only permit radiation linearly polarized at $\theta$ pass through and $C_\pm$ which only permit circularly polarized light of a certain handedness to pass. To accomplish such a filtering we simply need to expand the electric field in the corresponding polarization basis. For linear polarization, this corresponds to finding the component of $\vec{E}$ at an angle $\theta$ in the $x$-$y$ plane. Thus,
+\[ I_\theta \vec{E} = \vec{E} \cdot \hat{n}_\theta = (\varepsilon_1 e^{i \phi_1} \cos{\theta} + \varepsilon_2 e^{i \phi_2} \sin{\theta}) e^{-i \omega t} \]
+Thus, the corresponding intensity is proportional to,
+\begin{align*}
+P_\theta = \left< (L_\theta \vec{E})^2 \right> & = \tfrac{1}{2} \left< (L_\theta E_\C)(L_\theta \bar{E}_\C) \right> 
+\\
+& = \tfrac{1}{2} (\varepsilon_1 e^{i \phi_1} \cos{\theta} + \varepsilon_2 e^{i \phi_2} \sin{\theta}) (\varepsilon_1 e^{-i \phi_1} \cos{\theta} + \varepsilon_2 e^{-i \phi_2} \sin{\theta})
+\\
+& = \tfrac{1}{2} \left[ \varepsilon_1^2 \cos^2{\theta} + \varepsilon_2^2 \sin^2{\theta} + 2 \varepsilon_1 \varepsilon_2 \sin{\theta} \cos{\theta} \cos{(\phi_1 - \phi_2)} \right] 
+\end{align*}
+Consider now,
+\[ 2(I_0 - I_{\frac{\pi}{2}}) = \varepsilon_1^2 - \varepsilon_2^2 = Q \]
+so $Q$ is the difference in intensity between vertical and horizontal polarization. Furthermore, consider,
+\[ 2 (I_{\frac{\pi}{4}} - I_{\frac{3 \pi}{4}}) = 2 \varepsilon_1 \varepsilon_2 \cos{(\phi_1 - \phi_2)} = U \]
+so $U$ is the difference in intensity between $45^\circ$ and $135^\circ$ polarization.
+Finally, we need to consider circular polarizers. We expand in the basis,
+\[ \hat{e}_\pm = \tfrac{1}{\sqrt{2}} (\hat{x} \pm i \hat{y}) \]
+which are pure circular polarization states. We can write,
+\[ \hat{x} = \tfrac{1}{\sqrt{2}} (\hat{e}_+ + \hat{e}_-) \quad \quad \hat{y} = \tfrac{1}{i \sqrt{2}} (\hat{e}_+ - \hat{e}_-) \]
+and therefore,
+\begin{align*}
+\vec{E} = \left[ \tfrac{1}{\sqrt{2}} (\varepsilon_1 e^{i \phi_1} - i \varepsilon_2 e^{i \phi_2}) \hat{e}_+ + \tfrac{1}{\sqrt{2}} (\varepsilon_1 e^{i \phi_1} + i \varepsilon_2 e^{i \phi_2}) \hat{e}_-  \right] e^{-i \omega t}
+\end{align*}
+Therefore,
+\[ \vec{E}_{\pm} = \tfrac{1}{\sqrt{2}} (\varepsilon_1 e^{i \phi_1} \mp i \epsilon_2 e^{i \phi_2} ) \hat{e}_{\pm} e^{- i \omega t} \]
+so the power in each circularly polarized component is,
+\begin{align*}
+2 I_{\pm} & = 2 \left< E_{\pm}^2 \right> = \left< E_{\pm} \cdot \bar{E}_{\pm} \right>
+\\
+& = \tfrac{1}{2} (\varepsilon_1 e^{i \phi_1} \mp i \varepsilon_2 e^{i \phi_2}) (\varepsilon_1 e^{-i \phi_1} \pm i \varepsilon_2 e^{-i \phi_2}) \hat{e}_{\pm} \cdot \bar{\hat{e}}_{\pm}
+\end{align*}
+Now,
+\[ \hat{e}_{\pm} \cdot \bar{\hat{e}}_{\pm} = \tfrac{1}{2} (\hat{x} \pm i \hat{y}) \cdot (\hat{x} \mp i \hat{y}) = \tfrac{1}{2} (1 + 1) = 1 \]
+Therefore,
+\begin{align*}
+2 I_{\pm} & = \tfrac{1}{2} \left( \varepsilon_1^2 + \varepsilon_2^2 \mp i \varepsilon_1 \varepsilon_2 e^{i (\phi_2 - \phi_1)} \pm i \varepsilon_1 \varepsilon_2 e^{i (\phi_1 - \phi_2)} \right)
+\\
+& = \tfrac{1}{2} \left( \varepsilon_1^2 + \varepsilon_2^2  \mp 2 \varepsilon_1 \varepsilon_2 \sin{(\phi_1 - \phi_2)}  \right)
+\end{align*}
+Therefore,
+\[ 2 (I_{-} - I_{+}) = 2 \varepsilon_1 \varepsilon_2 \sin{(\phi_1 - \phi_2)} = V \]
+so $V$ measures the difference in intensity between the two circular polarizations. 
+
+\section{Problem 3}
+
+The differential Thomson cross section for unpolarized light is,
+\[ \deriv{\sigma}{\Omega} = r_0^2 \cdot \frac{1 + \cos^2{\phi}}{2} \]
+where $r_0$ is the effective electron radius,
+\[ r_0 = \frac{e^2}{mc^2} \]
+We can compute the total cross section integrating in spherical coordinates alinged along the incident directon,
+\begin{align*}
+\sigma_T & = r_0^2  \int  \frac{1 + \cos^2{\phi}}{2} \d{\Omega}
+\\
+& = r_0^2 \int_0^{\pi} \int_0^{2 \pi} \frac{1 + \cos^2{\phi}}{2} \sin{\phi} \: \d{\gamma} \d{\phi}
+\\
+& = \pi r_0^2 \int_0^\pi (1 + \cos^2{\phi}) \sin{\phi} \: \d{\phi}
+\\
+& = \pi r_0^2 \int_{-1}^1 (1 + \mu^2) \: \d{\mu} = \frac{8 \pi r_0^2}{3}
+\end{align*}
+For totally linearly polarized light with polarization vector $\hat{E}$, the differential cross section for Thomson scattering is,
+\[ \deriv{\sigma}{\Omega} = r_0^2 (1 - (\hat{r} \cdot \hat{E})^2) \]
+where $\hat{r}$ is the unit vector in the direction of scattering. We can compute the total scattering cross section by integrating in spherical coordinates aligned along the direction of polarization,
+\begin{align*}
+\sigma_T & = r_0^2 \int (1 - (\hat{r} \cdot \hat{E})^2) \: \d{\Omega}
+\\
+& = r_0^2 \int_0^\pi \int_0^{2 \pi} (1 - \cos^2{\theta}) \sin{\theta} \: \d{\phi} \d{\theta}
+\\
+& = 2 \pi r_0^2 \int_{-1}^1 (1  - \mu^2) \: \d{\mu}
+\\
+& = \frac{8 \pi r_0^2}{3}
+\end{align*}
+which agrees with the earlier computation of the total cross section. 
+
+\end{document}
