@@ -1,0 +1,78 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={7in, 9.5in}]{geometry}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+\newcommand{\sm}{\! \setminus \!}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+
+
+\newcommand{\atitle}[1]{\title{% 
+	\large \textbf{Mathematics GU4042 Modern Algebra II
+	\\ Assignment \# #1} \vspace{-2ex}}
+\author{Benjamin Church }
+\maketitle}
+
+ 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\begin{document}
+\atitle{4}
+\textbf{Page 147. \# 1} Let $R$ be a Noetherian ring and $I \subset R$ be an ideal. Let $\eta : R \rightarrow R/I$ be the canonical ring homomorphism given by $\eta : r \mapsto r + I$. Trivially, $\eta$ is a surjective ring homomorphism. Thus, for any ideal $J \subset R/I$ we have that $\invI{\eta}{J} \subset R$ is an ideal of $R$. Thus, because $R$ is Noetherian, $\invI{\eta}{J}$ is finitely generated i.e. $\invI{\eta}{J} = (a_1, \dots, a_n)$. Therefore, by Lemma \ref{genhomo}, $\eta(\invI{\eta}{J}) = (\eta(a_1), \dots, \eta(a_n))$. However, $\eta$ is surjective so, by Lemma \ref{invsurj}, $\eta(\invI{\eta}{J}) = J$. Therefore, $J = (\eta(a_1), \dots, \eta(a_n))$ which means that $J$ is finitely generated. Since any ideal of $R/I$ is finitely generated, $R/I$ is a Noetherian ring. 
+\\ \\
+
+Now suppose that $R[X]$ is a Noetherian ring. Consider the natural embedding of $R$ in $R[X]$ given by the projection homomorphism: $\pi : R[X] \rightarrow R$ which acts as $\pi : a_n X^n + \dots + a_1 X + a_0 \mapsto a_0$. Then,
+\begin{align*}
+\pi(a_n X^n + \dots + a_1 X + a_0) = 0_R & \iff a_0 = 0_R \iff a_n X^n + \dots + a_1 X + a_0 = (a_n X^{n-1} + \dots + a_1) X \\ & \iff a_n X^n + \dots + a_1 X + a_0 \in (X)
+\end{align*}
+where the final equivalence holds by the fact that $X$ commutes with every element of $R[X]$. Thus, $\ker{\pi} = (X)$. Also, $\pi$ is clearly sujective because for any $r \in R$ take $r \in R[X]$ (a degree zero polynomial) so $\pi : r \mapsto r$. By the first isomorphism theorem, $R[X]/(X) \cong R$. Since $R[X]$ is Noetherian every quotient of $R[X]$ is also Noetherian. In particular, $R[X]/(X) \cong R$ is Noetherian.    
+\section*{Lemmas}
+
+\begin{lemma} \label{genhomo}
+Let $\phi : R \rightarrow S$ be a surjective ring homomorphism then $\phi((a_1, \dots , a_n)) = (\phi(a_1), \dots , \phi(a_n))$.
+\end{lemma}
+\begin{proof}
+Consider an ideal $I = (a_1, \dots, a_n) \subset R$. Then take $y \in \phi(I)$ so $\exists x \in I$ s.t. $\phi(x) = y$. By definition, $x = r_1 a_1 s_1 + \dots + r_n a_n s_n$ with $r_1, s_1, \dots, r_n , s_n \in R$. Thus, \[\phi(x) = \phi(r_1) \phi(a_1) \phi(s_1) + \dots + \phi(r_n) \phi(a_n) \phi(s_n) \in (\phi(a_1), \dots, \phi(a_n))\] Thus, $\phi(I) \subset (\phi(a_1), \dots, \phi(a_n))$. However, for each $a_i \in I$, we have $\phi(a_i) \in \phi(I)$ but because $\phi$ is surjective $\phi(I)$ is an ideal in $S$ so by closure and absorption, $(a_1, \dots, a_n) \subset \phi(I)$. Therefore, $\phi(I) = (\phi(a_1), \dots, \phi(a_n))$.
+\end{proof}
+
+\begin{lemma} \label{invsurj}
+If $f : X \rightarrow Y$ is an sujective function and $A \subset Y$ then $f(\invI{f}{A}) = A$. 
+\end{lemma}
+\begin{proof}
+If $y \in A$ then, by surjectivity, $\exists x \in X : f(x) = y \in A$ so $x \in \invI{f}{A}$ and thus, \\ $f(x) = y \in f(\invI{f}{A})$ so $A \subset f(\invI{f}{A})$. Now take $y \in f(\invI{f}{A})$ then $\exists x \in \invI{f}{A}$ s.t. $f(x) = y$ but $x \in \invI{f}{A}$ so $f(x) = y \in A$ so $f(\invI{f}{A}) \subset A$. 
+\end{proof}
+
+\end{document}
