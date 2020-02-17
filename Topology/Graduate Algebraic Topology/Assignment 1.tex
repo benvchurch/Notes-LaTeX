@@ -1,184 +1,223 @@
 \documentclass[12pt]{extarticle}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\include{TopologyCommands}
-\usepackage{subcaption}
-\usepackage{float}
-\floatplacement{figure}{H}
+\usepackage{import}
+\import{./}{Includes}
 
 \begin{document}
 \atitle{1}
 
-Note. My order of path concatenation follows Hatcher,
-\[\gamma * \delta(x) = \begin{cases}
-\gamma(2x) & x \le \tfrac{1}{2} \\
-\delta(2x - 1) & \ge \tfrac{1}{2}
-\end{cases}\]
- 
-\section*{Problem 1.}
-Let $X$ be a contractible space. Then, there exists a homotopy $H : X \times I \to X$ between $\id_X$ and constant map $f : X \to \{x_0\} \subset X$. For any $x \in X$ consider the path $\gamma : I \to X$ given by $\gamma(t) = H(x, t)$ which satisfies $\gamma(0) = H(x, 0) = \id_X(x) = x$ and $\gamma(1) = H(x, 1) = x_0$. Therefore, any $x$ is path connected to $x_0$. However, because path connection is an equivalence relation on points, any $x, y \in X$ are path connected by transitivity.  
+\section{Chapter 0}
 
-\section*{Problem 2.}
-Let $f, f' : X \to Y$ and $g, g' : Y \to Z$ be pairs of homotopic maps. Then, there exist homotopies, $F : X \times I \to Y$ and $G : Y \times I \to Z$ between these maps. Consider the function $H : X \times I \to Z$ given by $H(x, t) = G(F(x, t), t)$ which is continuous by composition of continuous maps. Now, $H(x, 0) = G(F(x, 0), 0) = G(f(x), 0)  = g \circ f (x)$ and $H(x, 1) = G(F(x, 1), 1) = G(f'(x), 1) = g' \circ f'(x)$. Therefore, $H$ is a homotopy between $g \circ f$ and $g' \circ f'$.  
+\subsection{Problem 26}
 
-\section*{Problem 3.}
-\begin{enumerate}
-\item Let $f : X \to Y$ and $g : Y \to Z$ be homotopy equivalences with homotopy ``inverses'' such that the compositions are homotopy equivalent to identity maps, $f' : Y \to X$ and $g' : Z \to Y$. Consider the maps $g \circ f$ and $f' \circ g'$. Now, using the result of problem 2,
-\[(g \circ f) \circ (f' \circ g') = g \circ ((f \circ f') \circ g') \simeq g \circ (\id_Y \circ g') = g \circ g' \simeq \id_Y\]
-and similarly,
-\[(f' \circ g') \circ (g \circ f) = f' \circ ((g' \circ g) \circ f) \simeq f' \circ (\id_Y \circ f) = f' \circ f \simeq \id_X\]
-therefore $g \circ f$ is a homotopy equivalence. Therefore, $\simeq$ is an equivalence relation on topological spaces because $X \simeq X$ under the identity map. If $X \simeq Y$ then there are maps $f : X \to Y$ and $g : Y \to X$ which are homotopy ``inverses'' and thus $Y \simeq X$ by swapping $f$ and $g$. And finally, if $X \simeq Y$ and $Y \simeq Z$ then by above the composition of homotopy equivalences gives a homotopy equivalence $X \simeq Z$ so the relation is transitive. 
+Let the pair $(X, A)$ have the homotopy extension property. I will use the following proposition, 
 
-\item Consider the maps from $X$ to $Y$ under homotopy. Clearly, $f \simeq f$ under the homotopy $H(x, t) = f(x)$. If $f \simeq g$ then there exists a homotopy $H : X \times I \to Y$ then consider the map $H'(x, t) = H(x, 1 - t)$. Now, $H'(x, 0) = H(x, 1) = g(x)$ and $H'(x, 1) = H(x, 0) = f(x)$ so $g \simeq f$. Finally, let $f \simeq g$ and $g \simeq h$. Then, we have homotopies $F, G : X \times I \to Y$ between $f$ and $g$ and between $g$ and $h$ respectively. Define the map $H : X \times I \to Y$ given by,
-\[ H(x, t) = \begin{cases}
-F(x, 2t) & t \in [0, \tfrac{1}{2}] \\
-G(x, 2t - 1) & t \in [\tfrac{1}{2}, 1]
-\end{cases}\]
-At $t = \tfrac{1}{2}$ the maps $F(x, 1) = g(x) = G(x, 0)$ so the map $H$ is continous by the gluing lemma. Furthermore, $H(x, 0) = F(x, 0) = f(x)$ and $H(x, 1) = G(x, 1) = h(x)$ so $H$ is a homotopy between $f$ and $h$. Thus, $f \simeq h$ so $\simeq$ is transitive and then an equivalence relation on maps with common domains and codomains. 
-\item Let $f : X \to Y$ be a homotopy equivalence with homotopy ``inverse'' $g : Y \to X$ and let $h \simeq f$. Then, by problem 2, $h \circ g \simeq f \circ g \simeq \id_Y$ so by transitivity, $h \circ g \simeq \id_Y$. Similarly, $g \circ h \simeq g \circ f \simeq \id_X$ so $g \circ h = \id_X$. Therefore, $h$ is a homotopy equivalence with homotopy ``inverse'' $g$. 
-\end{enumerate}
+\begin{proposition}[Hatcher 0.20]
+If $(X, A)$ satisfies the homotopy extension property and the inclusion map $A \embed X$ is a homotopy equivalence then it is a homotopy equivalence $\mathrm{rel} \: A$ or equivalently that $A$ is a deformation retract of $X$. 
+\end{proposition}
+\noindent
+In particular, I will apply this proposition to the pair $(X \times I, X \times \{ 0 \} \cup A \times I)$ to show that $X \times I$ deformation retracts onto $X \times \{ 0 \} \cup A \times I$. By the proposition, it suffices to show that $(X \times I, X \times \{ 0 \} \cup A \times I)$ has the homotopy extension property and that $X \times \{ 0 \} \cup A \times I \embed X \times I$ is a homotopy equivalence. 
+\bigskip\\
+The homotopy extension property for $(X \times I, X \times \{ 0 \} \cup A \times I)$ follows directly from the homotopy extension property for $(X, A)$. Recall that the homotopy extension property is equivent to the existence of a retract $r : X \times I \to X \times \{ 0 \} \cup A \times I$. So we need to find a retract,
+\[ r' : X \times I \times I \to X \times I \times \{ 0 \} \cup (X \times \{ 0 \} \cup A \times I) \times I = X \times (I \times \{ 0 \} \cup \{ 0 \} \times I) \cup A \times I \times I \]
+However, we may deform the corner $(I \times \{ 0 \} \cup \{ 0 \} \times I)$ to a single edge $I \times \{ 0 \}$ so the subspace becomes,
+\[ X \times I \times \{ 0 \} \cup A \times I \times I \]
+so it suffices to show that $(X \times I, A \times I)$ has the homotopy extension property which is clear since we can take the retract $X \times I \to X \times \{0\} \cup A \times I$ and multiply by $I$ to get a retract $X \times I \times I \to X \times I \times \{ 0 \} \cup A \times I \times I$. 
+\bigskip\\
+Now we need to show that $\iota : X \times \{0 \} \cup A \times I \embed X \times I$ is a homotopy equivalence. We already have a retract $r : X \times I \to X \times \{ 0 \} \cup A \times I$ via the homotopy extension property such that $r \circ \iota = \id$. Thus it suffices to show that $\iota \circ r \sim \id$. Consider the following homotopy $h : X \times I \times I \to X \times I$,
+\[ h(x, s, t) =  
+\begin{cases}
+(x, s (1 - 2t)) &  t \in [0, \tfrac{1}{2}] 
+\\
+\iota \circ r(x, s (2 t - 1)) & t \in [\tfrac{1}{2}, 1]
+\end{cases} \] 
+which is continuous at $t = \tfrac{1}{2}$ since $\iota \circ r(x, 0) = \iota(x, 0) = (x, 0)$ because $(x, 0) \in X \times \{ 0 \} \cup A \times I$ on which it is trivial since it is a retract. Thus $h$ is a homotopy from $h(-,-,0) = \id$ to $h(-,-,1) = \iota \circ r$. Thus $\iota : X \times \{ 0 \} \cup A \times I \embed X \times I$ is a homotopy equivalence. 
+\bigskip\\
+Now let $(X_1, A)$ be a pair satisfing the homotopy extension property and $f,g : A \to X_0$ are homotopic attaching maps. Consider a homotopy $F : A \times I \to X_0$ between $f$ and $g$ then $X_1 \sqcup_F (A \times I)$ contains $X_0 \sqcup_f X_1$ and $X_0 \sqcup_g X_1$. We have shown that there is a deformation retract,
+\[ X_1 \times I \to X_1 \times \{ 0 \} \cup A \times I \]
+This deformation retract gives a pair of deformation retracts $X_0 \sqcup_F (X_1 \times I) \to X_0 \sqcup_f X_1$ and $X_0 \sqcup_F (X_1 \times I) \to X_0 \sqcup_g X_1$ and thus a homotopy equivalence $X_0 \sqcup_f X_1 \sim X_0 \sqcup_g X_1 \: \: \mathrm{rel} \: X_0$ proving proposition 0.18 in general for a pair $(X, A)$ with the homotopy extension property. 
 
-\section*{Problem 4.}
+\subsection{Problem 29}
 
-If every map $f : X \to Y$ for any $Y$ is nullhomotopic then in particular, $\id_X : X \to X$ is nullhomotopic so $X$ is contractable. Conversely, if $X$ is contractable then $\id_X : X \to X$ is homotopic to some constant map $g : X \to X$. For any map, $f : X \to Y$ we have $f = f \circ \id_X \simeq f \circ g$ which is a constant map because $g$ is constant. Thus, $f$ is nullhomotopic.  \bigskip \\
+Let $X$ be a CW complex obtained from a subcomplex $A$ by attaching an $n$-cell $D^n$ via an attaching map $g : S^{n-1} \to A$. Consider a homotopy $f_t : A \to Y$ and a map $f_0' : D^n \to Y$ such that $f_0 \circ g$ and $f_0' |_{S^{n-1}}$ agree. Using the projection idea to form a deformation retract $D^n \times I \to D^n \times \{ 0 \} \cup S^{n-1} \times I$ we get the following explicit homotopy extension to $f' : D^n \times I \to Y$ via,
+\[ f'_t(x) = 
+\begin{cases}
+f_{t'(x)} \circ g \left( \tfrac{x}{|x|} \right) & 2|x| > (2 - t)
+\\
+f_0' \left( \tfrac{2x}{2 - t} \right) & 2|x| \le (2 - t)
+\end{cases} \]
+where we have defined,
+\[ t'(x) = \frac{2|x| - (2 - t)}{|x|} \]
+Note that when $2 |x| = (2 - t)$ then $y = \frac{2 x}{2 - t} = \frac{x}{|x|} \in S^{n-1}$ so $f_0'(y) = f_0 \circ g(y)$ and $t' = 0$ and thus the maps glue to give a continuous homotopy extension. 
 
-If every map $f : Y \to X$ for any $Y$ is nullhomotopic then in particular, $\id_X : X \to X$ is nullhomotopic so $X$ is contractable. Conversely, if $X$ is contractable then $\id_X : X \to X$ is homotopic to some constant map $g : X \to X$. For any map, $f : Y \to X$ we have $f = \id_X \circ f \simeq g \circ f$ which is a constant map because $g$ is constant. Thus, $f$ is nullhomotopic. \bigskip \\
+\section{Chapter 4.1}
 
-\section*{Problem 5.}
+\subsection{Problem 3}
 
-Suppose there exist map $f : X \to Y$ and $g,h : Y \to X$ such that $f \circ g \simeq \id_Y$ and $h \circ f \simeq \id_X$. Then consider the composition,
-\[h = h \circ \id_Y \simeq h \circ (f \circ g) = (h \circ f) \circ g \simeq \id_X = g\]
-Therefore, by transitivity, $h \simeq g$. Thus, $g \circ f \simeq h \circ f \simeq \id_X$. However, $f \circ g \simeq \id_Y$ so $f$ is a homotopy equivalence. \bigskip \\
-Let $f \circ g$ and $h \circ f$ be homotopy equivalences with homotopy ``inverses'' $a : Y \to X$ and $b : X \to Y$ respectively. Therefore, $f \circ (g \circ a) = (f \circ g) \circ a \simeq \id_Y$ and $(b \circ h) \circ f = b \circ (h \circ f) \simeq \id_X$. Therefore, by the above argument, $f$ is a homotopy equivalence.
- 
-\section*{Problem 6.}
-Let $X$ be path-connected. Suppose that $\pi_1(X)$ is abelian and thus $\pi_1(X, x)$ is abelian at any point $x \in X$ because these groups are isomorphic on path-connected points. Now, let $h, h' : I \to X$ be paths with equal endpoints $x_0, x_1 \in X$ and let $\beta_h$ and $\beta_{h'}$ be the respective basepoint change isomorphisms. Take any loop $[\gamma] \in \pi_1(X, x_1)$. The maps $\bar{h} * h'$ and $\bar{h'} * h$ are loops at $x_1$ satisfying, \[(\bar{h} * h') * (\bar{h'} * h) = \bar{h} * ((h' * \bar{h'}) * h) \simeq \bar{h'} * h' \simeq e_{x_1}\]    
-Therefore, $[\gamma] = [(\bar{h} * h') * (\bar{h'} * h) * \gamma] = [(\bar{h} * h') * \gamma * (\bar{h'} * h)]$ using the commutativity of $\pi_1(X, x_1)$. Then,
-\[\beta_h([\gamma]) = \beta_h([(\bar{h} * h') * \gamma * (\bar{h'} * h)]) = [h *(\bar{h} * h') * \gamma * (\bar{h'} * h) * \bar{h}] = [h' * \gamma * \bar{h'}] = \beta_{h'}([\gamma])\]
-and therefore, $\beta_h = \beta_{h'}$. \bigskip \\
-Conversely, suppose that for any two paths with equal endpoints $h$ and $h'$ the change of basepoint maps are equal i.e. $\beta_h = \beta_{h'}$. In particular, take $x_0 \in X$ and let $h$ be any loop at $x_0$. Also, set $h' = e_{x_0}$ the constant loop at $x_0$. Then, for any loop $[\gamma] \in \pi_1(X, x_0)$ we know that,
-\[ \beta_h([\gamma]) = [h * \gamma * \bar{h}] = [h] [\gamma] [h]^{-1} = \beta_{h'}([\gamma]) = [e_{x_0} * \gamma * \bar{e_{x_0}}] = [\gamma]\]
-because $e_{x_0} * \gamma * \bar{e_{x_0}} \simeq \gamma$. Therefore, conjugation by $[h] \in \pi_1(X, x_0)$ is trivial for any $h$ so the group is abelian.
-\section*{Problem 7.}
-
-To show that the three conditions are equivalent, I will show that $(a) \implies (b) \implies (c) \implies (a)$. \bigskip \\
-
-\subsection*{$(a) \implies (b)$}
-Suppose that every map $f : S^1 \to X$ is homotopic to a constant map $g : S^1 \to \{p\}$. Then, there exists a homotopy $F : S^1 \times I \to X$ such that $F(x, 0) = f(x)$ and $F(x, 1) = p$. Now, identify all the points $S^1 \times {1}$ in the cylinder $S^1 \times I$. Under this identification of gluing together one end of the cylinder, the quotient space is the disk $D^2$. Now, $F(x, 1) = p$ so $F$ is constant on $S^1 \times \{1\}$ and thus constant on all equivalence classes.
+Let $X$ be an H-space i.e. a pointed space $(X, x_0)$ with a multiplication map $\mu : X \times X \to X$ which is unital in the homotopy category meaning $\mu \circ (\id \times e) \sim \mu \circ (e \times \id) \sim \id$ where $e : * \to X$ is the inclusion of the identity at the basepoint $x_0$.
+\bigskip\\
+Now consider the induced group map $\mu_* : \pi_n(X \times X) \to \pi_n(X)$ which gives,
 \begin{center}
-\begin{tikzcd}[column sep = huge, row sep = large]
-S^1 \arrow[r, "\iota"] \arrow[rr, "f", bend left = 20] \arrow[rd, "\tilde{\iota}"] & S^1 \times I \arrow[d, "\pi"] \arrow[r, "F"] & X \\
-& D^2 \cong S^1 \times I / \sim \arrow[ru, "\tilde{F}"]
+\begin{tikzcd}
+\pi_n(X \times X) \arrow[r, "\mu_*"] \arrow[r] \arrow[d, "\sim"] &  \pi_n(X)
+\\
+\pi_n(X) \oplus \pi_n(X) \arrow[ru, "\mu_*"] 
 \end{tikzcd}
 \end{center}
-Therefore, $F$ descends to the quotient space giving a map $\tilde{F} : D^2 \to X$ such that, \[\tilde{F}|_{S^1 \times \{0\} } = \tilde{F} \circ \tilde{\iota} = \tilde{F} \circ \pi \circ \iota = F \circ \iota = f\]
-where $\iota : S^1 \to S^1 \times I$ is the inclusion onto $S^1 \times \{0\}$ on which $F(x, 0) = f(x)$ and $\pi : S^1 \times I \to D^2$ is the projection onto the quotient. \bigskip \\
-\subsection*{$(b) \implies (c)$}
-Suppose that every map $f : S^1 \to X$ extends to a map $F : D^2 \to X$. For any loop $\gamma : I \to X$ based at $x_0$, because $\gamma(0) = \gamma(1)$ the map $\gamma : I \to X$ descends to a map $f : I/\sim \to X$ on quotient space under the identification $0 \sim 1$. However, $I/\{0, 1\} \cong S^1$ so $f : S^1 \to X$ maps the generator of the fundamental group of $S^1$ to $\gamma$. Now, let $\iota : S^1 \to D^2$ be the inclusion onto the boundary of $D^2$. Then, $F \circ \iota(x) = f(x)$ because $F$ is an extension of $f$. The functor $\pi_1$ takes this diagram in Top to the analogous diagram in Grp,
-\begin{figure}
-\centering
-\begin{subfigure}{.5\textwidth}
-	\begin{center}
-	\begin{tikzcd}[column sep = huge, row sep = large]
-	S^1 \arrow[d, "\iota"] \arrow[r, "f"] & X \\
-	D^2 \arrow[ru, "F"]
-	\end{tikzcd}
-	\end{center}
-	\caption{Top}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-	\begin{center}
-	\begin{tikzcd}[column sep = huge, row sep = large]
-	\pi_1(S^1, s_0) \arrow[d, "\iota_*"] \arrow[r, "f_*"] & \pi_1(X, x_0) \\
-	\pi_1(D^2, \iota(s_0)) \arrow[ru, "F_*"]
-	\end{tikzcd}
-	\end{center}
-	\caption{Grp}
-\end{subfigure}
-\end{figure}
-\noindent However, $D^2$ is homeomorphic to a convex subset of $\R^2$ and is thus contractable. Therefore, $\pi_1(D^2) = 0$ and thus $i_*(\pi_1(S^1, s_0)) \subset \pi_1(D^2, \iota(s_0)) = 0$ so $i_*(\pi_1(S^1, s_0)) = 0$. Therefore, $f_*(\pi_1(S^1, s_0)) = F_* \circ \iota_*(\pi_1(S^1, s_0)) = 0$. However, letting $[1]$ generate $\pi_1(S^1, s_0) \cong \Z$, we have $f_*([1]) = [\gamma]$ so $[\gamma] = [e_{x_0}]$ because $f_*$ is the zero map. Therefore, $[\gamma]$ is trivial so $\pi_1(X, x_0) = 0$.
-\bigskip \\
-\subsection*{$(c) \implies (a)$}
-Suppose that $\pi_1(X, x_0) = 0$ for any $x_0 \in X$. Given any map $f : S^1 \to X$, take the map $\pi : I \to S^1$ given by the quotient map under the identification $0 \sim 1$. Then, $f \circ \pi$ is a loop in $X$ at some basepont $f \circ \pi(0) = x_0 = f \circ \pi(1)$. Because $X$ is simply connected, this loop is path-homotopic to the constant loop at $x_0$ under a homotopy $H : I \times I \to X$. Because $H(0, t) = H(1, t) = x_0$ the map descends to a map $\tilde{H} : S^1 \times I \to X$ on the quotient space under the same identification. $\tilde{H}$ is a homotopy between $f$ and a constant map, $\tilde{H}(x, 1) = x_0$. Thus, every map $f : S^1 \to X$ is homotopic to a constant map.  
-\bigskip \\
-Therefore, \[(a) \iff (b) \iff (c)\] 
-\subsection*{simply connected $\iff$ all maps $S^1 \to X$ are homotopic:}
-If all maps $f : S^1 \to X$ are homotopic then, in particular, every map $f : S^1 \to X$ is homotopic to a constant map. Using $(a) \implies (c)$ we conclude that $\pi(X, x_0) = 0$ at any basepoint. Furthermore, all constant maps from $S^1$ are homotopic which implies that $X$ is path-connected. Thus, $X$ is simply connected. 
-\bigskip \\
-Conversely, if $X$ is simply connected then $\pi_1(X, x_0) = 0$ for any basepoint $x_0 \in X$. From the result, $(c) \implies (a)$ we have that every map $f : S^1 \to X$ is homotopic to some constant map $f_c : S^1 \to \{c\} \subset X$. However, since $X$ is path connected, all constant maps are homotopic. Therefore, given two maps $f_1, f_2 : S^1 \to X$, we know that $f_1 \simeq f_{c_1}$ and $f_2 \simeq f_{c_2}$ and $f_{c_1} \simeq f_{2}$ because both are constant maps. Thus, $f_1 \simeq f_{c_1} \simeq f_{c_2} \simeq f_{c_2}$ because homotopy is an equivalence relation on maps. Therefore, any two maps $f : S^1 \to X$ are homotopic. \bigskip \\    
+Since $\mu_*$ is a group homomorphism, we have (denoting multiplication / addition in $\pi_n$ as $*$),
+\[ \mu_*((\gamma_1, \gamma_2) * (\delta_1, \delta_2)) = \mu_*(\gamma_1, \gamma_2) * \mu_*(\delta_1, \delta_2) \]
+However, by definition of the product group,
+\[ (\gamma_1, \gamma_2) * (\delta_1, \delta_2) = (\gamma_1 * \delta_1, \gamma_2 * \delta_2) \]
+which gives,
+\[ \mu_*(\gamma_1 * \delta_1, \gamma_2 * \delta_2) = \mu_*(\gamma_1, \gamma_2) * \mu_*(\delta_1. \delta_2) \]
+To clarify the notation, I will write $\gamma_1 \circ \gamma_2 : = \mu_*(\gamma_1. \gamma_2)$ which denotes the map sending a pair of classes of maps to the class of their ``product'' under $\mu$ i.e. $(\gamma_1 \circ \gamma_2)(t) = \gamma_1(t) \circ \gamma_2(t) = \mu(\gamma_1(t), \gamma_2(t))$. Using this notation, we have,
+\[ (\gamma_1 * \delta_1) \circ (\gamma_2 * \delta_2) = (\gamma_1 \circ \gamma_2) * (\delta_2 \circ \delta_2) \]
+Furthermore, both operations are unital, letting $e$ denote the class of the constant map at $x_0$ then $\gamma * e = \gamma * e = \gamma$ (here these represent classes of paths) and we know $\mu_* \circ (\id \times e) = \mu_* \circ (e \times \id) = \id$ so $\gamma \circ e = e \circ \gamma = \gamma$ (since $* \to X$ gives the map including the class of the constant map into $\pi_n(X)$). 
+\bigskip\\
+The Eckmann-Hilton argument (proved in Lemma \ref{Eckmann_Hilton}) shows that any pair of unital operations which satisfy the above intertwining relation must agree and further must be commutative and associative. Therefore, $\circ = *$ so we find that $\gamma_1 * \gamma_2 = \mu_*(\gamma_1, \gamma_2)$ and we also get for free that $\pi_1(X)$ is abelian for any H-space $X$. 
 
-At last, we have shown that $X$ is simply-connected iff all maps $f : S^1 \to X$ are homotopic. 
+\subsection{Problem 10}
 
-\section*{Problem 8.}
-Let $\gamma : I \to X$ be a loop at $x_0$ and $\delta : I \to Y$ be a loop at $y_0$. Then, consider the map, $H : I \times I \to X \times Y$ given by,
-\[H(x, t) = \begin{cases}
-(\gamma(3xt), y_0) & x \le \tfrac{1}{3} \\
-(\gamma(t), \delta(3x - 1)) & x \in [\tfrac{1}{3}, \tfrac{2}{3}] \\ 
-(\gamma((3x - 2)(1 - t) + t), y_0) & x \ge \tfrac{2}{3}
-\end{cases}\]
-First, consider the overlaps. At $x = \tfrac{1}{3}$, we have, $(\gamma(3xt), y_0) = (\gamma(t), y_0)$ and $(\gamma(t), \delta(0)) = (\gamma(t), y_0)$. At $x = \tfrac{2}{3}$, we have, $(\gamma(t), \delta(1)) = (\gamma(t), y_0)$ and $(\gamma((2 -2)(1 - t) + t), y_0) = (\gamma(t), y_0)$ so by the glueing lemma, $H$ is a continuous map. Futhermore, $H(0, t) = (\gamma(0), y_0) = (x_0, y_0)$ and $H(1, t) = (\gamma(1), y_0) = (x_0, y_0)$. Also,
-\[H(x, 0) = \begin{cases}
-(x_0, y_0) & x \le \tfrac{1}{3} \\
-(x_0, \delta(3x - 1)) & x \in [\tfrac{1}{3}, \tfrac{2}{3}] \\ 
-(\gamma(3x - 2), y_0) & x \ge \tfrac{2}{3}
-\end{cases}\]
-which is the path (using a triple concatenation with time divided into 1/3 intervals) $e_{(x_0, y_0)} * (\{x_0\} \times \delta) * (\gamma \times \{y_0\}) \simeq (\{x_0\} \times \delta) * (\gamma \times \{y_0\})$. Likewise,
-\[H(x, 1) = \begin{cases}
-(\gamma(3x), y_0) & x \le \tfrac{1}{3} \\
-(x_0, \delta(3x - 1)) & x \in [\tfrac{1}{3}, \tfrac{2}{3}] \\ 
-(x_0, y_0) & x \ge \tfrac{2}{3}
-\end{cases}\]
-which is the path $(\gamma \times \{y_0\}) * (\{x_0\} \times \delta) * e_{(x_0, y_0)} \simeq  (\gamma \times \{y_0\}) * (\{x_0\} \times \delta)$.
-Thus, $H$ is a path-homotopy from $e_{(x_0, y_0)} * (\{x_0\} \times \delta) * (\gamma \times \{y_0\})$ to $e_{(x_0, y_0)} * (\{x_0\} \times \delta) * (\gamma \times \{y_0\}) $ \bigskip \\ These paths are themselves easily equivalent via reparametrization to $(\{x_0\} \times \delta) * (\gamma \times \{y_0\})$ and $(\{x_0\} \times \delta) * (\gamma \times \{y_0\})$. 
 
-\section*{Problem 9.}
-
-Let $p : \tilde{X} \to X$ be a covering map and $A \subset X$ have the subspace topology. Then, consider $\tilde{A} = p^{-1}(A)$ and $p' = p|_{\tilde{A}} : \tilde{A} \to A$. For each $x \in X$ there is an evenly covered neighborhood $U$ such that $\invI{p}{U}$ is a disjoint union of sets $W_\lambda$ each of which is homeomorphic to $U$ under $p$. Now, for $x \in A$ consider $\invI{p|_{\tilde{A}}}{U \cap A} = \invI{p|_{\tilde{A}}}{U} \cap \invI{p|_{\tilde{A}}}{A} = \invI{p}{U} \cap \tilde{A} = \bigsqcup\limits_{\lambda \in \Lambda} W_\lambda \cap \tilde{A}$. The sets $W_\lambda \cap \tilde{A}$ are disjoint because $W_\lambda$ are. Also, $p$ is a homeomorphism on $W_\lambda$ to $U$ and thus $p|_{\tilde{A}}$ is a homeomorphism restricted to $W_\lambda \cap \tilde{A}$ to its image $p(W_\lambda \cap \tilde{A}) = p(W_\lambda) \cap p(\tilde{A}) = U \cap A$ by properties of a bijection. Thus, $X \cap A$ is evenly covered by $p|_{\tilde{A}}$. Thus, $p|_{\tilde{A}} : \tilde{A} \to A$ is a covering map.
-
-\section*{Problem 10.}
-
-Let $X$ and $Y$ be path-connected and locally path-connected and let $\tilde{X}$ and $\tilde{Y}$ be simply-connected covering spaces with covering maps $p : \tilde{X} \to X$ and $q : \tilde{Y} \to Y$. Also let $f : X \to Y$ be a homotopy equivalence with homotopy ``inverse'' $g : Y \to X$. Now, by Lemma \ref{locpathcover}, the covering spaces, $\tilde{X}$ and $\tilde{Y}$ are locally path-connected. Since they are also simply-connected, all maps from $\tilde{X}$ or $\tilde{Y}$ to $X$ or $Y$ satisfy the lifting criterion. This is because $f_*(\pi_1(\tilde{X}, \tilde{x_0})) = 0$ which is trivially a subgroup of any group. \bigskip \\
-Now, consider lifts of the maps $f \circ p : \tilde{X} \to Y$ and $g \circ q : \tilde{Y} \to X$, namely, $\wtilde{f \circ p} : \tilde{X} \to \tilde{Y}$ and $\wtilde{g \circ q} : \tilde{X} \to \tilde{Y}$ which satisfy 
-\[p \circ \wtilde{g \circ q} = g \circ q \quad \quad q \circ \wtilde{f \circ p} = f \circ p\]
+Consider the quasi-circle $X$ which contains an arc and $S$ the graph of $\sin{(1/x)}$ on $(0, \pi]$ completed with the interval $L = [-1, 1]$ at zero. Thus the map $\R \to X$ sarting at $0$ going around the arc and tracing the $\sin{(1/x)}$ curve hits everything except for $L = [-1,1]$. Call the image of this map $C \subset X$ then $X = C \cup L$. 
+\bigskip\\
+Consider a map $f : S^n \to X$. I claim that any such map has image contained in $X_a = X \setminus \{ (x, \sin{(1/x)}) \mid 0 < x < a \}$ for some $a > 0$ which is contractible and thus $f$ is nullhomotopic implying that $\pi_n(X) = 0$. To show this suppose that $S^n$ hits  points $(x, \sin{(1/x)})$ for arbitrarily small $x$. By connectivity of $S^n$ then $f$ must hit $\{ (x, \sin{(1 / x)} \mid 0 < x \le 1 \}$. Choose a point $y \in L$ and an open neighborhood $V$ of $y$ which is not connected (this will hold as long as it does not wrap around the arc) such that $X \setminus X_a \subset V$. Then consider the connected components $U_i$ of $f^{-1}(V)$ which are open since $S^n$ is locally path-connected. Now $\overline{U}_i$ is also path-connected so $f(\overline{U_i})$ must be contained in a path component of $V$ and thus either hits $L$ or is contained entirely in $S$. However, in the latter case, since $\overline{U}_i$ is compact then $f(\overline{U}_i) \subset \{ (x, \sin{(1/ x)} \mid [a_i, b_i] \}$ for some closed interval $[a_i, b_i]$ with $a_i, b_i > 0$ since it must be compact and thus closed so $f(\overline{U}_i)$ must hit any limit points so it cannot get arbitrarily close to $L$ since $L$ is not in the image. Finally, let $W = f^{-1}(X_{a/2}^\circ)$ then since $X_{a/2}^\circ$ and $V$ cover $X$ we get an open cover $U_i$ and $W$ of $S^n$ such that $f(U_i) \subset X_{a_i}$ and $f(W) \subset X_{a/2}$. Since $S^n$ is compact we cana take this cover to be finite. Then taking $b = \min \{ a_i, a/2 \}$ which is positive for finitely many $a_i$ we find that $f(U_i) \subset X_{a_i} \subset X_{b}$ and $f(W) \subset X_{a/2} \subset X_b$. Since these opens form a cover of $S^n$ we find that $f(S^n) \subset X_b$ which is contractible and thus $f : S^n \to X$ is nullhomotopic so $\pi_n(X) = 0$ for $n > 0$. 
+\bigskip\\
+However, I claim that $X$ is not contractible showing, by Whitehead's theorem that $X$ is not homotopy equivalent to a CW complex. If $X$ we contractible then the map $f : X \to S^1$ given by projecting down the sine curve and contracting $L$ would be nullhomotopic. However, such a nullhomotopy would imply the existence of a lift $\tilde{f} : X \to \R$ over $p : \R \to S^1$ by the homotopy lifting property (since constant maps trivially have lifts). However, exercise 7 of $\S 1.3$ asks us to show this is impossible. $f : C \to S^1$ is the identity loop minus the base point and thus must lift to the injective increasing path $(0, 2\pi) \subset \R$ (up to choice of basepoint). However, $X$ is compact (closed and bounded in $\R^2$) so its image under $\tilde{f}$ must be compact and thus contain $[0, 2\pi] \subset \R$ so $\tilde{f}(L) \supset \{ 0, 2 \pi \}$. However, $f(L) = x_0$ is the basepoint of $S^1$ so $\tilde{f}(L) \subset p^{-1}(x_0)$ which is discrete and $L$ is connected so $\tilde{f}$ must be a single point contradicting the fact that $\tilde{f}(L) \supset \{ 0, 2 \pi \}$ showing that no lift,
 \begin{center}
-\begin{tikzcd}[column sep = huge, row sep = large]
-\tilde{X} \arrow[d, "p"] \arrow[dashed, r, "\wtilde{f \circ p}", bend left = 20]  & \tilde{Y} \arrow[d, "q"] \arrow[dashed, l, "\wtilde{g \circ q}", bend left = 20 ]\\
-X \arrow[r, "f", bend left = 20] & Y \arrow[l, "g", bend left = 20]
+\begin{tikzcd}
+& \R \arrow[d, "p"]
+\\
+X \arrow[ru, dashed, "\tilde{f}"] \arrow[r, "f"'] & S^1
 \end{tikzcd}
 \end{center}
-Now, consider the composition,
-\[p \circ (\wtilde{g \circ q} \circ \wtilde{f \circ p}) = g \circ q \circ \wtilde{f \circ p} = g \circ f \circ p = (g \circ f) \circ p \simeq \id_X \circ p = p\]
-Therefore, by homotopy lifting, $(\wtilde{g \circ q} \circ \wtilde{f \circ p})$ is homotopic to some lift of $p$, namely, $r_p : \tilde{X} \to \tilde{X}$. Because $r_p$ is a lift of $p$, we must have that $p \circ r_p = p$ so $r$ is a deck transformation. However, the deck transformations form a group so if $(\wtilde{g \circ q} \circ \wtilde{f \circ p}) \simeq r_p$ then $(r_p^{-1} \circ \wtilde{g \circ q}) \circ \wtilde{f \circ p} \simeq \id_{\tilde{X}}$. \bigskip \\
-Similarly,
-\[q \circ (\wtilde{f \circ p} \circ \wtilde{g \circ q} ) = f \circ p \circ \wtilde{g \circ q} = f \circ g \circ q = (f \circ g) \circ q \simeq \id_Y \circ q = q\]
-Therefore, by homotopy lifting, $(\wtilde{f \circ p} \circ \wtilde{g \circ q})$ is homotopic to some lift of $q$, namely, $r_q : \tilde{Y} \to \tilde{Y}$. Because $r_q$ is a lift of $q$, we must have that $q \circ r_q = q$ so $r$ is a deck transformation. 
-However, the deck transformations form a group so if $(\wtilde{f \circ p} \circ \wtilde{g \circ q}) \simeq r_q$ then $\wtilde{f \circ p} \circ (\wtilde{g \circ q} \circ r_q^{-1}) \simeq \id_{\tilde{Y}}$. \bigskip \\
-Therefore, by problem 5, we know that $\wtilde{f \circ p}$ is a homotopy equivalence.
+can exist. Thus $X$ is not contractible. 
 
+\subsection{Problem 14}
 
-\section*{Problem 11.}
+Let $f : X \to Y$ be a homotopy equivalence between CW complexes with no $(n+1)$-cells and let $g : Y \to X$ be a homotopy inverse. By cellular approximation we may take these maps to be cellular $f : X^n \to Y^n$ and $g : X^n \to Y^n$. Furthermore, we have homotopies $h_1 : X \times I \to X$ and $h_2 : Y \times I \to Y$ taking $g \circ f$ and $f \circ g$ to the identities. Again by cellular approximation we may take these maps to be cellular (note that on $X \times \{ 0, 1 \} \subset X \times I$ this map is cellular since it is $g \circ f$ and $\id$ then we can take our homotopy rel $X \times \{ 0, 1 \}$ meaning that our new cellular homotopy still takes $g \circ f$ to $\id$). Thus we get a homotopy $h_1 : (X \times I)^{n+1} \to X^{n+1}$. But since $X$ has no $(n + 1)$-cells we have $X^{n+1} = X^n$ and $(X \times I)^{n+1} = X^n \times I$ so we have a homotopy $h_1 : X^n \times I \to X^n$ from $g \circ f$ to $\id$. We similarly get a cellular homotopy $h_2 : Y^n \times I \to Y^n$ from $f \circ g$ to $\id$. Thus $X^n \sim Y^n$. 
 
-\begin{enumerate}
-\item Let $p : \tilde{X} \to X$ be a covering map and let $X$ be path-connected, locally path-connected, and semi-locally simply-connected. Since $X$ is locally path-connected, the path-components and components correspond. Let $x \sim y$ iff there is a path connecting $x$ and $y$ in $X$. Take $\tilde{x} \in \invI{p}{x_0}$ and consider the orbit $\orb{\tilde{x}}$ under the action of $\pi_1(X, x_0)$ via $[\gamma] \cdot \tilde{x} = \wtilde{\gamma}(1)$ where $\wtilde{\gamma}$ is the unique lift of $\gamma$ with initial point $\tilde{x}$. Now, assosicate, $\orb(\tilde{x})$ with $[\tilde{x}]$ under $\sim$. We need to show that this assoication is well-defined and one-to-one. \bigskip \\
-If $\orb{\tilde{x}} = \orb{\tilde{x}'}$ then there must exist a path $\gamma$ in $X$ such that $[\gamma] \cdot \tilde{x} = \tilde{x}'$ because they lie in the same orbit. Thus, $\tilde{\gamma}(0) = \tilde{x}$ and $\tilde{\gamma}(1) = \tilde{x}'$ so the lift is a path between $\tilde{x}$ and $\tilde{x}'$. Thus, $\tilde{x} \sim \tilde{x}'$ and equivalently $[\tilde{x}] = [\tilde{x}']$. Conversely, if $[\tilde{x}] = [\tilde{x}']$ then these points must be equivalent under path-connection i.e. there exists a path $\delta : I \to \tilde{X}$ taking $\tilde{x}$ to $\tilde{x}'$. Consider, $p \circ \delta$ which is a loop in at $x_0$ in $X$ because $\delta(0) = \tilde{x} \in \invI{p}{x_0}$ and $\delta(1) = \tilde{x}' \in \invI{p}{x_0}$ so $p \circ \delta(0) = p \circ \delta(1) = x_0$. However, $[p \circ \delta] \cdot \tilde{x} = \tilde{x}'$ because $\delta$ is already the unique lift of $p \circ \delta$ at $\tilde{x}$ and thus $\orb{\tilde{x}} = \orb{\tilde{x}'}$.
+\subsection{Problem 20}
 
-\item Take $Z \subset \tilde{X}$ to be the component containing $\tilde{x}_0$. Under the Galois correspondence, $Z$ corresponds to $p_*(\pi_1(Z, \tilde{x}_0))$. Now, take $[\gamma] \in p_*(\pi_1(Z, \tilde{x}_0))$ then $[\gamma] = [p \circ \delta]$ for some loop $[\delta] \in \pi_1(Z, \tilde{x}_0)$. Consider, $[\gamma] \cdot \tilde{x}_0 = \tilde{\gamma}(1)$. However, $\delta$ is already the unique lift at $\tilde{x}_0$ because $\gamma = p \circ \delta$ and $\delta$ is based at $\tilde{x}_0$. Thus, $\tilde{\gamma} = \delta$ and $\delta$ is a loop at $\tilde{x}_0$ so $\tilde{\gamma}(1) = \tilde{x}_0$. Therefore, $[\gamma] \in \stab{\tilde{x}_0}$. \bigskip \\ 
-Conversely, if $[\gamma] \in \stab{\tilde{x}_0}$ then $[\gamma] \cdot \tilde{x}_0 = \tilde{x}_0$ so the lift $\tilde{\gamma}$ at $\tilde{x}_0$ is a loop at $\tilde{x}_0$ because $\tilde{\gamma}(1) = [\gamma] \cdot \tilde{x}_0 = \tilde{x}_0$. Furthermore, $\tilde{\gamma}$ must be resticted to $Z$ because the image of any path must be contained in a single path component. Therefore, $[\tilde{\gamma}] \in \pi_1(Z, \tilde{x}_0)$ and thus, $[p \circ \tilde{\gamma}] \in p_*(\pi_1(Z, \tilde{x}_0))$ but $p \circ \tilde{\gamma} = \gamma$ so $[\gamma] \in p_*(\pi_1(Z, \tilde{x}_0))$. Therefore,
-\[p_*(\pi_1(Z, \tilde{x}_0)) = \stab{\tilde{x}_0}\]
+Suppose that $X$ is a finite connected CW complex of dimension $\dim{X} = n$ and $\pi_i(Y)$ is finite for $i \le n$. First note that $X$ is path-connected so its image must land in a path component $Y_i \in \pi_0(Y)$. Thus,
+\[ [X, Y] = \bigcup_{Y_i \in \pi_0(Y)} [X, Y_i] \]
+Since $\pi_0(Y)$ is finite by assumption, it suffices to show that each $[X, Y_i]$ is finite so we may reduce to the case that $Y$ is path-connected. Further, when $Y$ is path-connected $\left< X, Y \right> = [X, Y] / \pi_1(Y, y_0)$ but $\pi_1(Y, y_0)$ is finite so $[X, Y]$ is finite iff $\left< X, Y \right>$ is finite so it suffices to show the pointed version. We will induct on the number of (positive dimensional) cells of $X$. If $X$ has a single (positive dimensional) then $X \cong S^n$ in which case $\left< X, Y \right> = \pi_n(Y)$ which we assume is finite. Now suppose that $X$ is constructed by attaching a $k$-cell  $D^k$ for $k \le n$ to a subcomplex $A$ via an attaching map $a : S^{k-1} \to A$. Then $X = A \sqcup_a D^k$ and we get maps $S^{k-1} \to A \to X$. The inclusion induces a map,
+\[ [X, Y] \to [A, Y] \]
+Consider the kernel, if a map $f: X \to Y$ restricts to $f|_A : A \to Y$ which is homotopic tvia $(f|_A)_t : A \times I \to Y$ then by the homotopy extension property of the CW pair $(X, A)$ we may extend this to a homotopy $f_t : X \times I \to Y$ such that $f_1 |_A$ is constant i.e. $f : X \to Y$ is homotopic to a pair $(f', c)$ with $c : A \to Y$ constant and $f' : D^k \to Y$ restricted such that $f'|_{S^{k-1}} = c \circ a$ a constant. Therefore, $f'$ defines a class in $\pi_n(Y)$ since as we homotope it we must fix its value on $\partial D^{k} = S^{k-1}$ to be exactly the point $c(A)$. A similar argument shows that the fibres of $[X, Y] \to [A, Y]$ correspond exactly to classes $[S^k, Y]$. Since $\pi_k(Y)$ is finite by assumption then the fibre $[S^k, Y]$ is also finite (using $Y$ path-connected) and thus the map $[X, Y] \to [A, Y]$ has finite fibres. Furthermore, by induction we assume that $[A, Y]$ is finite which implies that $[X, Y]$ is finite as well since it maps onto a finite set with finite fibres proving by induction that $[X, Y]$ is finite for any finite connected CW complex $X$ with $\dim{X} = n$.  
 
-\end{enumerate}
-     
-              
-\section*{Lemmas}
+\section{Chapter 4.2}
 
-\begin{lemma} \label{locpathcover}
-If $p : \tilde{X} \to X$ is a covering map and $X$ is locally path-conected then $\tilde{X}$ is locally path connected. 
+\subsection{Problem 2}
+
+First note that the action of paths $[\gamma]$ on $\pi_n$ is natural in the following sense: given a map $f : X \to Y$ we get a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+\pi_n(X, x_0) \arrow[d, "f_*"] \arrow[r, "\gamma"] & \pi_n(X, x_1) \arrow[d, "f_*"]
+\\
+\pi_n(Y, f(x_0)) \arrow[r, "f_*(\gamma)"] & \pi_n(Y, f(x_1))
+\end{tikzcd}
+\end{center}
+We might say that this forms a functor of groupoid actions. Restricting to the case of a covering map $p : \tilde{X} \to X$ and paths $\gamma$ between points on the same fibre $\tilde{x}_0, \tilde{x}_1 \in p^{-1}(x_0)$ we get,
+\begin{center}
+\begin{tikzcd}
+\pi_n(\tilde{X}, \tilde{x}_0) \arrow[d, "p_*"] \arrow[r, "\gamma"] & \pi_n(\tilde{X}, \tilde{x}_1) \arrow[d, "p_*"]
+\\
+\pi_n(X, x_0) \arrow[r, "p_*(\gamma)"] & \pi_n(X, x_0)
+\end{tikzcd}
+\end{center}
+However, the two vertical isomorphisms are not clearly commensurable since they have non-canonically isomorphic source groups. However, if the vertical maps on $\pi_1$ have the same immage (which always happens for the universal cover since $\pi_1(\tilde{X}) = 0$) i.e. $p_* \pi_1(\tilde{X}, \tilde{x}_0) = p_*(\tilde{X}, \tilde{x}_1)$ there there is a deck transformation $f : \tilde{X} \to \tilde{X}$ which takes $\tilde{x}_1$ to $\tilde{x}_0$. Furthermore, since by definition, $p \circ f = p$ we may extend the diagram to,
+\begin{center}
+\begin{tikzcd}
+\pi_n(\tilde{X}, \tilde{x}_0) \arrow[d, "p_*"] \arrow[r, "\gamma"] & \pi_n(\tilde{X}, \tilde{x}_1) \arrow[d, "p_*"] \arrow[r, "f_*"] & \pi_n(\tilde{X}, \tilde{x}_0) \arrow[d, "p_*"]
+\\
+\pi_n(X, x_0) \arrow[r, "p_*(\gamma)"] & \pi_n(X, x_0) \arrow[r, "\id"] & \pi_n(X, x_0)
+\end{tikzcd}
+\end{center}
+Then the leftmost and rightmost maps are, for $n \ge 2$, the fixed isomorphism $\pi_n(\tilde{X}, \tilde{x}_0) \to \pi_n(X, x_0)$ and the bottom map is exactly the action of the loop $p_*(\gamma) \in \pi_1(X, x_0)$ on $\pi_n(X, x_0)$ so using the isomorphism we can describe this action as the composition $f_* \circ \gamma$ acting on $\pi_n(\tilde{X}, \tilde{x}_0)$. Finally, by the path-lifting property, $\pi_1(X, x_0)$ is surjected onto by loops of the form $p_*(\gamma)$ for paths with endpoints in the fibre $p^{-1}(x_0)$.
+\bigskip\\
+Now consider the covering map $p : S^n \to \RP^n$ and choose a basepoint $x_0 \in \RP^n$ in the image of the north and south poles $N,S \in S^n$. There are two homotopy classes of paths with endpoints in the fibre $p^{-1}(x_0) = \{ N, S \}$, constant loops which clearly act trivially, and paths which go from one pole to the other. Let $\gamma$ be a path from $N$ to $S$ in $S^n$ and let $f : S^n \to S^n$ be the corresponding deck transformation which swaps these poles, namely the antipodal map $f = - \id$. Thus we only need to compute $f_* \circ [\gamma] : \pi_n(S^n, N) \to \pi_n(S^n, N)$. The group $\pi_n(S^n, N)$ is generated by the class $g = [ \id : S^n \to S^n ]$ so it suffices to check where this generator ends up. First, $[\gamma](g)$ corresponds to the map $R_\pi : S^n \to S^n$ which rotates the $n$-sphere by a half-turn as to swap $N$ and $S$ this corresponds to inverting a pair of axes one through the poles and one perpendicularly. Then the map $f_*([\gamma](g)) = f_* \circ R_\pi$ applies another inversion to each of the $n+1$ coordinates such that $f_* \circ R_\pi : S^n \to S^n$ is based at $N$. Furthermore, since inverting any coordinate of the class $g$ sends it to its inverse $-g$ then we see that $f_* \circ R_\pi = (-1)^{n + 3} g$. Therefore, when $n$ is odd the action of $[p \circ \gamma]$ on $\pi_n(\RP^n)$ is trivial and when $n$ is even it is the negation map $\Z \to \Z$. Since $\pi_1(\RP^n) = \Z / 2 \Z$ generated by this loop $[p \circ \gamma]$ we see that $\pi_1(\RP^n) \acts \pi_n(\RP_n)$ trivially when $n$ is odd and via negation when $n$ is even. 
+
+\subsection{Problem 12} 
+
+Let $f : X \to Y$ be a map of connected CW complexes such that $f_* : \pi_1(X) \xrightarrow{\sim} \pi_1(Y)$ is an isomorphism. Consider universal covers $p_X : \tilde{X} \to X$ and $p_Y : \tilde{Y} \to Y$  which we may give CW complex structures. Since $f \circ p_X : \tilde{X} \to Y$ is a map from a simply-connected (connected and locally-path-connected) space we get a lift,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\tilde{X} \arrow[d, "p_X"'] \arrow[r, dashed, "\tilde{f}"] & \tilde{Y} \arrow[d, "p_Y"] 
+\\
+X \arrow[r, "f"'] & Y
+\end{tikzcd}
+\end{center}
+We further assume that $\tilde{f}_* : H_i(\tilde{X}, \Z) \xrightarrow H_i(\tilde{Y}, \Z)$ is an isomorphism. Since $\tilde{X}$ and $\tilde{Y}$ are simply-connected CW complexes we may apply the homological version of Whithead's theorem to conclude that $\tilde{f}$ is a homotopy equivalence. Now consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\pi_n(\tilde{X}) \arrow[d, "(p_X)_*"'] \arrow[r, dashed, "\tilde{f}_*"] & \pi_n(\tilde{Y}) \arrow[d, "(p_Y)_*"] 
+\\
+\pi_n(X) \arrow[r, "f_*"'] & \pi_n(Y)
+\end{tikzcd}
+\end{center}
+but $\tilde{f} : \tilde{X} \to \tilde{Y}$ is a homotopy equivelnce so $\tilde{f}_* : \pi_n(\tilde{X}) \xrightarrow{\sim} \pi_n(\tilde{Y})$ is an isomorphism. Furthermore since $p_X$ and $p_Y$ are covering maps, for $n \ge 2$ they induce isomorphism $(p_X)_* : \pi_n(\tilde{X}) \xrightarrow{\sim} \pi_n(X)$ and $(p_Y)_* : \pi_n(\tilde{Y}) \xrightarrow{\sim} \pi_n(Y)$. Thus by commutativity of the diagram $f_* : \pi_n(X) \xrightarrow{\sim} \pi_n(Y)$ is an isomorphism for $n \ge 2$ and since we already know this map is an isomorphism for $n = 1$ then we may apply the standard Whitehead's theorem to show that $f : X \to Y$ is a homotopy equivalence. 
+ 
+\subsection{Problem 14}
+
+Let $X$ be a CW complex of dimension $\dim{X} = n$ and $Y$ a subcomplex of $X$ which is homotopy equivalent to $S^n$. Then consider the natruality square of the Hurewicz map,
+\begin{center}
+\begin{tikzcd}
+\pi_n(Y) \arrow[r] \arrow[d, "h_n"] & \pi_n(X) \arrow[d, "h_n"]
+\\
+H_n(Y) \arrow[r] & H_n(X)
+\end{tikzcd}
+\end{center}
+However, since $Y \sim S^n$ we know that $Y$ is $(n-1)$-connected so $h_n : \pi_n(Y) \xrightarrow{\sim} H_n(Y)$ is an isomorphism. Furthermore, the homological LES associated to the pair $(X, Y)$ gives,
+\begin{center}
+\begin{tikzcd}
+H_{n+1}(X, Y) \arrow[r] & H_n(Y) \arrow[r] & H_n(X) \arrow[r] & H_n(X, Y) 
+\end{tikzcd}
+\end{center} 
+But since $(X, Y)$ is a CW pair (and thus good) we have $H_{n+1}(X, Y) = \tilde{H}_{n+1}(X / Y) = 0$ since $\dim{X / Y} = n$. Therefore the map $H_{n}(Y) \hookrightarrow H_n(X)$ is an injection. Returning to the Hurewicz diagram, the left and bottom maps are injective which implies that the top map $\pi_n(Y) \to \pi_n(X)$ must be injective as well. 
+
+\subsection{Problem 15}
+
+Let $M$ be a closed simply-connected 3-manifold. First I argue that $M$ must be orientable since $M$ is simply-connected via Lemma \ref{orientable_if_simply_connected}.  By Hurewicz theorem for $1$-connected spaces we find that $H_1(M, \Z) = 0$ and $h_2 : \pi_2(M) \xrightarrow{\sim} H_2(M, \Z)$ is an isomorprhism. Furthermore, by Poincare duality, there is a fundamental class $[M] \in H_d(M, \Z)$ and the map $H^i(M, \Z) \xrightarrow{\sim} H_{d-i}(M, \Z)$ defined by the cap product $\alpha \mapsto [M] \frown \alpha$ is an isomorphism. Furthermore, the universal coefficent theorem for cohomology, giving the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Ext{1}{\Z}{H_{i-1}(M, \Z)}{\Z} \arrow[r] & H^i(X, \Z) \arrow[r] & \Hom{\Z}{H_i(X, \Z)}{\Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Thus, since $H_1(X, \Z) = 0$ and $H_0(X, \Z) = \Z$ and $\Ext{1}{\Z}{\Z}{\Z} = 0$ because $\Z$ is projective as a $\Z$-module the exact sequence gives $H^1(X, \Z) = 0$. Then applying Poincare duality shows that $H_2(M, \Z) = 0$ so by Hurewicz $\pi_2(M) = 0$. Therefore, $M$ is 2-connected so we get a Hurewicz isomorphism $h_3 : \pi_3(M) \to H_3(M, \Z) = [M] \Z$. 
+\bigskip\\
+Recall that the Hurewicz map $h_n : \pi_n(X) \to H_n(X, \Z)$ is defined via $[f] \mapsto f_*([S^n])$. Since $h_3 : \pi_3(M) \to H_3(M, \Z)$ is an isomorphism there is some $f : S^3 \to M$ such that $h_3([f]) = f_*([S^n]) = [M]$. Since $H_3(S^3, \Z) = [S^n] \Z$ then $f_* : H_3(S^3, \Z) \to H_3(M, \Z)$ takes the generator to the generator and thus is an isomorphism. Furthermore, for $0 < i < 3$ we know that $H_i(S^3, \Z) = H_i(M, \Z) = 0$ so $f_* : H_i(S^3, \Z) \xrightarrow{\sim} H_i(M, \Z)$ is an isomorphism for all $i$ (since both vanish above $\dim{S^3} = \dim{M} = 3$). Now we use the fact that every manifold has the homotopy type of a CW complex to replace $M$ by some homotopy equivalent CW complex $X$ thus $f_* : H_i(S^3, \Z) \xrightarrow{\sim} H_i(X, \Z)$ is an isomorphism of simply-connected CW complexes and thus $f : S^3 \to X$ is a homotopy equivalence by the homological version of Whitehead's theorem. Therefore, $M \sim X \sim S^3$. 
+
+\section{Lemmas}
+
+\label{Eckmann_Hilton}
+\begin{lemma}[Eckmann-Hilton]
+Suppose that $*$ and $\circ$ are untial operations satisfing the following intertwining relation,
+\[ (a * b) \circ (c * d) = (a \circ c) * (b \circ d) \]
+Then $* = \circ$ and both are commutative and associative. 
 \end{lemma}
 
 \begin{proof}
-Take $\tilde{x} \in \tilde{X}$ and an open $\tilde{x} \in A \subset \tilde{X}$. Now, consider $x = p(\tilde{x}) \in X$ which has an evenly covered neighborhood $x \in U$. Furthermore, because $X$ is locally path-connected, there is a path-connected neighborhood $V$ of $x$ such that, $x \in V \subset U \cap p(A)$ because $p(A)$ is open since every covering map is an open map. However, $\invI{p}{U}$ is a disjoint union of $W_\alpha$ on each of which $p$ restricts to a homeomorphism. Therefore, since $\tilde{x} \in \invI{p}{U \cap p(A)}$ take $W_\lambda$ to be the slice containing $\tilde{x}$. Then, $p$ restricted to $W_\lambda$ is a homeomorphism and therefore must take the path connected neighborhood $V$ of $x$ to a path connected neighborhood $\tilde{x} \in p|_{W_\lambda}^{-1}(V) \subset A$ where the final inclusion follows because $V \subset p(A)$ and $p$ is a homeomorphism on $W_\lambda$.  
+First we need to show that the units agree i.e. $1_* = 1_\circ$. We simply plug into the relation,
+\[ (1_* * 1_\circ) \circ (1_\circ * 1_*) = (1_* \circ 1_\circ) * (1_\circ \circ 1_*) \]
+The left-hand side is $1_\circ \circ 1_\circ = 1_\circ$ and the right-hand side is $1_* * 1_* = 1_*$ so indeed $1_\circ = 1_*$. 
+\bigskip\\
+Now apply the relation to get,
+\[ (a * 1) \circ (1 * b) = (a \circ 1) * (1 \circ b) \]
+but since the units agree this is simply $a \circ b = a * b$ so the operations agree. For commutativity, note that,
+\[ (1 \circ a) \circ (b \circ 1) = (1 \circ b) \circ (a \circ 1) \]
+so applying the unit properties $a \circ b = b \circ a$. Finally, for associativity, note that,
+\[ (a \circ b) \circ (1 \circ c) = (a \circ 1) \circ (b \circ c) \]
+gives,
+\[ (a \circ b) \circ c = a \circ (b \circ c) \]
 \end{proof}
 
 
+\label{orientable_if_simply_connected}
+\begin{lemma}
+Let $M$ be a simply-connected manifold then $M$ is orientable.
+\end{lemma}
+
+\begin{proof}
+If $M$ were not orientable then it would have a connected orientation double cover $p : \tilde{M} \to M$ but since $\pi_1(M) = 0$, by the classiciation of covering spaces, $M$ has no nontrivial (in paricular two-sheeted) connected covering spaces (in the case that $M$ is orientable the orientation cover degenerates to the trivial disconnected two sheeted cover).
+\end{proof}
 
 \end{document}
