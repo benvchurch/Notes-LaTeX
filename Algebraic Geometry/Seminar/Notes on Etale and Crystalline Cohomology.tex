@@ -1,0 +1,195 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Regularity}
+
+\begin{definition}
+A ring map $\varphi : A \to B$ is \textit{flat} if it makes $B$ a flat $A$-module.
+\end{definition}
+
+\begin{definition}
+A morphism of schemes $f : X \to Y$ is \textit{flat} if for each $x \in X$ the stalk map $f_x : \stalk{Y}{f(x)} \to \stalk{X}{x}$ is a flat ring map.
+\end{definition}
+
+\begin{definition}
+A scheme $X$ is regular at $x \in X$ the local ring $\stalk{X}{x}$ is regular i.e. $\dim_{\kappa(x)} \m_x / \m_x^2 = \dim{\stalk{X}{x}}$. 
+\end{definition}
+
+\begin{definition}
+A scheme $X$ is regular if it is regular at each $x \in X$.
+\end{definition}
+
+\begin{lemma}
+The localization of a local regular ring is regular.
+\end{lemma}
+
+\begin{corollary}
+A noetherian scheme $X$ is regular iff it is regular at each closed point.
+\end{corollary}
+
+\begin{proof}
+On a noetherian scheme every point $x$ specializes to a closed point $y$ and thus $\stalk{X}{y}$ localizes to $\stalk{X}{x}$ so $\stalk{X}{x}$ is regular.
+\end{proof}
+
+\begin{definition}
+We say that a $k$-scheme $X$ is \textit{geometrically regular} if $X \times_{\Spec{k}} \Spec{\overline{k}}$ is regular where $\bar{k}$ is the algebraic closure of $k$. We say that $X$ is geometrically regular at $x \in X$ if $\stalk{X}{x} \otimes_k \overline{k}$ is regular.
+\end{definition}
+
+\subsection{Normal Rings and Schemes}
+
+\begin{definition}
+A ring $A$ is normal if each of its localizations $A_\p$ is a local integrally closed domain. 
+\end{definition}
+
+\begin{lemma}
+Let $A$ be a domain then inside $K = \Frac{A}$,
+\[ A = \bigcap_{\m \in \mSpec{A}} A_\m \] 
+\end{lemma}
+
+\begin{proof}
+Suppose that $z \in K \setminus A$ then the ideal define $I = \{ a \in A \mid a z \in A \}$. Since $1 \notin I$ it is proper and thus there exists a maximal ideal $I \subset \m$. If $z \in A_\m$ then there must exist $s \notin \m$ such that $sz \in A$ but then $s \in I \subset \m$ a contradiction so $z \notin A_\m$. 
+\end{proof}
+
+\begin{lemma}
+A domain $A$ is normal iff it is integrally closed.
+\end{lemma}
+
+\begin{proof}
+If $A$ is an integrally closed domain then $A_\p$ is an integrally closed domain so $A$ is normal. Conversely, suppose that $A_\p$ is an integrally closed domain for each prime $\p \subset A$. Since $A$ is a domain, inside $K = \Frac{A}$,
+\[ A = \bigcap_{\m \in \mSpec{A}} A_\m \] 
+Thus if $a \in K$ is integral over $A$ then it is integral over $A_\m$ and thus $a \in A_\m$ for each $\m$ since we assume that each $A_\m$ is integrally closed. Thus $a \in A$ so $A$ is integrally closed.
+\end{proof}
+
+\begin{proposition}
+If $A$ is a UFD then $A$ is normal.
+\end{proposition}
+
+\begin{proof}
+Since $A$ is a domain it suffices to show that $A$ is integrally closed. Consider a monic $f \in A[X]$,
+\[ f(X) = X^n + a_{n-1} X^{n-1} + \cdots + a_0 \]
+and suppose that $\frac{\alpha}{\beta} \in K$ is a root of $f$. Then,
+\[ \alpha^n + a_{n-1} \alpha^{n-1} \beta + \cdots + a_0 \beta^n = 0 \]
+Therefore, $\beta \divides \alpha^n$. Since $A$ is a UFD then $\beta \divides \alpha$ so $\frac{\alpha}{\beta} \in A$. 
+\end{proof}
+
+\begin{definition}
+A scheme $X$ is normal if for each $x \in X$ the local ring $x \in \stalk{X}{x}$ is a local integrally closed domain.  
+\end{definition}
+
+\begin{proposition}
+A scheme $X$ is normal iff $\struct{X}(U)$ is normal for each $U \subset X$.
+\end{proposition}
+
+\begin{proof}
+The ring $\struct{X}(U)$ is normal iff its localization at each prime $\stalk{X}{x}$  for $x \in U$ is a normal domain by definition.
+\end{proof}
+
+\section{Smooth Morphims}
+
+\begin{definition}
+A ring map $\phi : A \to B$ is of \textit{finite presentation} if $B$ is a f.g $A$-algebra and $\ker{(A[x_1, \dots, x_n] \to B)}$ is finitely generated. This is equivalent to asking that,
+\[ B \cong A[x_1, \dots, x_n]/(f_1, \dots, f_k) \]
+for finitely may polynomials in finitely many variables. 
+\end{definition}
+
+\begin{definition}
+A morphism of schemes $f : X \to Y$ is \textit{locally of finite presentation} at $x \in X$ if there exist affine neighbrohoods $x \in U = \Spec{B}$ and $f(x) \in V = \Spec{A}$ with $f : U \to V$ such that $A \to B$ is of finite presentation. 
+\end{definition}
+
+\begin{remark}
+If $\phi : A \to B$ is of finite type and $A$ is Noetherian (so $B$ is also Noetherian) then $\phi$ is automatically of finite presentation. This gives the following which will be the generic case we work under.
+\end{remark}
+
+\begin{proposition}
+Let $f : X \to Y$ be locally of finite-type and $X$ be locally Noetherian. Then $f$ is locally of finite presentation. 
+\end{proposition}
+
+\begin{definition}
+$f : X \to Y$ is smooth at $x$ if,
+\begin{enumerate}
+\item $f$ is flat at $x$
+\item $f$ is locally of finite presentation at $x$
+\item $f$ has geometrically regular fibers at $x$ i.e.
+ $\stalk{X}{x} \otimes_{\stalk{Y}{f(x)}} \overline{\kappa(f(x))}$ is regular.
+\end{enumerate}
+
+\begin{definition}
+
+\end{definition}
+The  relative dimension of $f : X \to Y$ at $x$ is $\dim_x {(f)} = \dim X_{f(x)}$.
+\end{definition}
+
+\begin{proposition}
+A morphism $f :X \to Y$ is smooth at $x$ iff,
+\begin{enumerate}
+\item $f$ is flat at $x$
+\item $f$ is locally of finite presentation at $x$
+\item $\Omega_{X/Y}$ is a locally free $\struct{X}$-module in a neighbrohood of $U$ of rank $\dim_x {f}$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}
+Therefore, quantifying over all $x \in X$, we get.
+\end{remark}
+
+\begin{proposition}
+A morphism $f : X \to Y$ is smooth of relative dimension $n$ iff,
+\begin{enumerate}
+\item $f$ is flat
+\item $f$ is locally of finite presentation
+\item $\Omega_{X / Y}$ is locally free of rank $n$
+\item $f$ has constant relative dimension $\dim_x{f} = n$.
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}
+We say a scheme $X$ over $S$ is smooth if the structure morphism $X \to S$ is smooth.
+\end{definition}
+
+\begin{definition}
+Let $X$ be a scheme of finite type over $k$. Then $X$ is smooth iff $\Omega_{X / k}$ is locally free of rank $n = \dim{X}$.
+\end{definition}
+
+\begin{proof}
+Any finite type map $X \to \Spec{k}$ is automatically flat and locally of finite presentation. Furthermore $X_{f(x)} = X$. Therefore, smoothness is equivalent having $\Omega_{X / Y}$ be locally free of rank $n = \dim{X_{f(x)}} = \dim{X}$.
+\end{proof}
+
+\section{Etale Morphims}
+
+\begin{definition}
+A morphism $f : X \to Y$ is \textit{\etale} if it is smooth of relative dimension zero. 
+\end{definition}
+
+\begin{lemma}
+Let $A$ be a $K$-algebra. Then $\Spec{A} \to \Spec{K}$ is \etale iff $A$ is a finite product of finite seperable extensions $L_i / K$,
+\[ A = \prod_{i = 1}^n L_i \]
+\end{lemma}
+
+\begin{proposition}
+A morphism $X \to \Spec{K}$ is \etale iff $X$ is $\Spec{L_1 \otimes \cdots \otimes L_n}$ where $L_i / K$ is a finite seperable extension.
+\end{proposition}
+
+
+\begin{corollary}
+Irreducible \etale covers of $\Spec{K}$ correspond exactly to finite seperable extensions $L / K$. 
+\end{corollary}
+
+\begin{corollary}
+Let $f : X \to Y$ be \etale then the fibre $X_{y} \to \Spec{\kappa(y)}$ is \etale and thus $X_{y} = \Spec{L_1 \otimes \cdots \otimes L_n}$ where $L_i / \kappa(y)$ is a finite seperable extension.
+\end{corollary}
+
+\section{Sites}
+
+
+\section{The \'{E}tale Site}
+
+\section{$\ell$-adic Cohomology}
+
+\section{The Crystalline and Infinitessimal Sites}
+
+\section{Crystalline Cohomology}
+
+\end{document}

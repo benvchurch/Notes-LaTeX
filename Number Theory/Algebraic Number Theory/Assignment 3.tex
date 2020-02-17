@@ -1,0 +1,160 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={7in, 9.5in}]{geometry}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\norm}[3]{\mathrm{N}^{#1}_{#2}\left(#3\right)}
+\newcommand{\qnorm}[2]{\mathrm{N}^{#1}_{\Q}\left(#2\right)}
+\newcommand{\quadint}[3]{#1 + #2 \sqrt{#3}}
+\newcommand{\pideal}{\mathfrak{p}}
+\newcommand{\inorm}[1]{\mathrm{N}(#1)}
+\newcommand{\tr}[1]{\mathrm{Tr} \! \left(#1\right)}
+
+\newcommand{\atitle}[1]{\title{% 
+	\large \textbf{Mathematics W4043 Algebraic Number Theory
+	\\ Assignment \# #1} \vspace{-2ex}}
+\author{Benjamin Church \\ \textit{Worked With Matthew Lerner-Brecher} }
+\maketitle}
+
+ 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\begin{document}
+\atitle{3}
+ 
+\begin{enumerate}
+\item Let $\alpha$ be algebraic over $\Q$ with minimal polynomial:
+\[P(X) = X^d + a_{d-1} X^{d-1} + \dots + a_0 = (X - \alpha_1) \dots (X - \alpha_d)\]
+Also, let $\alpha \in K$ with $[K : \Q(\alpha)] = m$. Then there must exist a basis of length $m$ of $K$ over $\Q(\alpha)$ which we write as $\{k_1, \dots, k_m\}$. Now, since $\{1, \alpha, \alpha^2, \dots , \alpha^{d-1} \}$ is a basis for $\Q(\alpha)$ over $\Q$ then an arbitrary element $k \in K$ can uniquely be wirtten as,
+\[k = \sum_{i = 1,j = 0}^{m, d-1} k_i \alpha^j c_{ij} \]
+for $c_{ij} \in \Q$. Thus, $\{k_1 , k_1 \alpha, \dots k_1 \alpha^{d-1}, \dots , k_m \alpha^{d-1} \}$ is a basis for $K$. We express the transformation $A_\alpha$ in this basis. Now, $A_\alpha \left(d_i \alpha^j \right) = d_i \alpha^{j+1}$ but for any $j$, $\alpha^{j+1} \in \vspan{1, \alpha, \dots, \alpha^{d-1}}$ thus, $A_\alpha \left(d_i \alpha^j \right) \in \vspan{d_i, d_i \alpha, \dots, d_i \alpha^{d-1}}$ and therefore, so is $A_\alpha$ acting on any linear combination in $\vspan{d_i, d_i \alpha, \dots, d_i \alpha^{d-1}}$. So $A_\alpha$ acts invariantly on the subspace $\vspan{d_i, d_i \alpha, \dots, d_i \alpha^{d-1}}$ and thus is represented by a block diagonal matrix with $m$ blocks of size $d \times d$. Also, each block has identical matrix elements because each $d_i \neq 0$ so,
+\[A_\alpha \left(d_i \alpha^j \right) = d_i \alpha^{j+1} = \sum_{l = 0}^{d-1} A_{lj} d_i \alpha^j \iff  A_\alpha \alpha^j = \alpha^{j+1} = \sum_{l = 0}^{d-1} A_{lj} \alpha^j\]
+Thus, each block has identical matrix elements to $A_\alpha$ acting on $\Q(\alpha)$. Thus the trace of each block is $\alpha_1 + \dots + \alpha_d$ and the determinant of each block is $\alpha_1 \cdots \alpha_d$. Since the trace of a block diagonal matrix is the sum of the traces of its blocks and likewise the determinant is the products of the block determinants, we conclude that: \[\mathrm{Tr}_\Q^{K} (\alpha) = m(\alpha_1 + \dots + \alpha_d) \quad \text{and} \quad \qnorm{K}{\alpha} = (\alpha_1 \cdots \alpha_d)^m\]
+\item Let $K = \quadfield{-14}$ and because $\mod{-14}{2}{4}$ we have that $\ints{K} = \Z[\sqrt{-14}]$
+\begin{enumerate}
+\item $\qnorm{K}{3 + \sqrt{-14}} = 3^2 + 14 = 23$. If $3 + \sqrt{-14} = \alpha \beta$ with $\alpha, \beta \in \ints{k}$ then $\qnorm{K}{3 + \sqrt{-14}} = \qnorm{K}{\alpha} \qnorm{K}{\beta} = 23$ but $23$ is prime so either $\qnorm{K}{\alpha} = 1$ or $\qnorm{K}{\beta} = 1$ thus one is a unit. Therefore, $3 + \sqrt{-14}$ is irreducible. 
+
+\item Suppose that for $x \in \ints{K}$ that $\qnorm{K}{x} = 3$ then $x = a + b\sqrt{-14}$ and $\qnorm{K}{x} = a^2 + 14 b^2 = 3$ with $a, b \in \Z$. Since both terms are positive, $b > 0$ implies that $a^2 + 14 b^2 \ge 14$ so we must have $b = 0$. Thus, $a^2 = 3$. However, $3$ is square free so we reach a contradiction.  
+
+\item $\qnorm{K}{3} = 3^2 = 9$ so if $\alpha \beta = 3$ for $\alpha, \beta \in \ints{K}$ then $\qnorm{K}{\alpha} \qnorm{K}{\beta} = 9$. Therefore, if neither is a unit (so neither has norm 1) then $\qnorm{K}{\alpha} = \qnorm{K}{\beta} = 3$ which is impossible. Thus, $3$ is irreducible. 
+
+\item The ideal $(3)$ is not prime because the product $(1 + \sqrt{-14}) \cdot (1 - \sqrt{-14}) = 15 = 5 \cdot 3 \in (3)$ however, $\qnorm{K}{1 \pm \sqrt{-14}} = 15$ which is not divisible by $\qnorm{K}{3} = 9$ so $1 \pm \sqrt{-14} \notin (3)$. I claim that $(3) = (3, 1 + \sqrt{-14}) (3, 1 - \sqrt{-14})$ and that the ideals $(3, 1 + \sqrt{-14})$ and $(3, 1 - \sqrt{-14})$ are prime. \\\\
+An arbitrary element of $(3, 1 \pm \sqrt{-14})$ is: \[3x_1 + 3y_1 \sqrt{-14} + (x_2 + y_2 \sqrt{-14})(1 \pm \sqrt{-14}) = (3x_1 + x_2 \mp 14 y_2) + (3y_1 + y_2 \pm x_2) \sqrt{-14}\] 
+Reducing the coeficients modulo $3$,
+\[3x_1 + 3y_1 \sqrt{-14} + (x_2 + y_2 \sqrt{-14})(1 \pm \sqrt{-14}) = (x_2 \pm y_2) + (y_2 \pm x_2) \sqrt{-14} \quad ( \text{mod} \: 3) \] 
+Since $x_2$ and $y_2$ are arbitary we can make any element of $\finfield{3}$ subject to the constraints that the two terms are, in the plus case, congruent modulo $3$, and in the minus case, congruent to minus eachother. By adding multiples of $3$ to either component (which we can do because $3$ is in both ideals) we recover any pair of coeficients subject to this constraint modulo $3$. \\ \\
+Then, for $\alpha = a_1 + a_2 \sqrt{-14} \in (3, 1 + \sqrt{-14})$ and $\beta = b_1 + b_2 \sqrt{-14} \in (3, 1 - \sqrt{-14})$ take:
+\[\alpha \beta = (a_1 b_1 - 14 a_2 b_2) + (b_1 a_2 + a_1 b_2) \sqrt{-14} = (a_1 b_1 + a_2 b_1) + (b_1 a_2 + a_1 b_2) \sqrt{-14} \quad ( \text{mod} \: 3) \]
+But $\mod{a_1}{a_2}{3}$ and $\mod{b_1}{-b_2}{3}$ so $\mod{a_1 b_1}{-a_2 b_2}{3}$ and $\mod{b_1 a_2}{-a_1 b_2}{3}$ thus $3 \divides \alpha \beta$ so $(3, 1 + \sqrt{-14}) (3, 1 - \sqrt{-14}) \subset (3)$. Also, \[3 = 3 \cdot [3 - [1  - \sqrt{-14}]] + [1 + \sqrt{-14}] \cdot (-3) \in (3, 1 + \sqrt{-14}) (3, 1 - \sqrt{-14})\]
+Thus, $(3) \subset (3, 1 + \sqrt{-14}) (3, 1 - \sqrt{-14})$ so $(3) = (3, 1 + \sqrt{-14}) (3, 1 - \sqrt{-14})$. \\ \\
+It remains to show that these ideals are prime. If we add any disjoint element to $(3, 1 \pm \sqrt{-14})$ we are adding an element whose coeficients modulo $3$ do not satisfy the above criteria (for the plus and minus cases seperately) i.e. if $\gamma = g_1 + g_2 \sqrt{-14}$ and $\nmod{g_1}{\pm g_2}{3}$ then $\gamma \mp g_2 (1 \pm \sqrt{-14}) = (g_1 \mp g_2) \in (3, 1 + \sqrt{-14}, \gamma)$ which is an integer that is non-zero modulo $3$ and thus coprime to $3$. By Bezout, there exist integers $x,y$  such that $1 = 3 x + (g_1 \mp g_2) y \in (3, 1 + \sqrt{-14}, \gamma)$ and thus $(3, 1 + \sqrt{-14}, \gamma) = \ints{K}$. Thus, adding any element to $(3, 1 \pm \sqrt{-14})$ gives the entire ring i.e. $(3, 1 + \sqrt{-14})$ is maximal and thus prime.
+\end{enumerate}
+
+\item Let $K = \quadfield{-d}$ for various values of $d$. Now, \[\ints{K} = \begin{cases} \Z[\sqrt{-d}] & \nmod{d}{-1}{4} \\ \Z\left[\frac{1+\sqrt{-d}}{2}\right] & \mod{d}{-1}{4} \end{cases} \]
+\begin{enumerate}
+\item[\textit{i})] Take $\alpha, \beta \in \ints{K}$ with $\beta \neq 0$ then, $\frac{\alpha}{\beta} \in K$ thus $\frac{\alpha}{\beta} = p + q \sqrt{-d}$ with $p, q \in \Q$. \\ \\
+In the case $\nmod{d}{-1}{4}$, take $n,k \in \Z$ to be the best integer approximations of $p,q$ respectively i.e. $|p - n| \le \frac{1}{2}$ and $|q - k| \le \frac{1}{2}$. This is possible by Lemma \ref{approx}. Now, define $\gamma = n + k \sqrt{-d} \in \ints{K}$ and $\delta = \alpha - \beta \gamma \in \ints{K}$. Thus,
+\begin{align*}
+\qnorm{K}{\delta} &= \qnorm{K}{\beta} \qnorm{K}{\frac{\alpha}{\beta} - \gamma} = \qnorm{K}{\beta} \qnorm{K}{(p - n) + (q - k)\sqrt{-d}} \\ &= \qnorm{K}{\beta} \cdot \left((p - n)^2 + d (q - k)^2 \right) \le \qnorm{K}{\beta}\left(\frac{1}{4} + \frac{d}{4} \right) = \qnorm{K}{\beta} \frac{1 + d}{4}
+\end{align*}
+Therefore, if $d < 3$ then $\forall \alpha, \beta \in \ints{K}$ with $\beta \neq 0$ we have $\exists \gamma, \delta \in \ints{K} : \alpha = \beta \gamma + \delta$ and $\qnorm{K}{\delta} < \qnorm{K}{\beta}$ so $\ints{K}$ is Euclidean and thus a PID. These conditions holds for $d = 1,2$. \\ \\
+In the case $\mod{d}{-1}{4}$, take $k \in \Z$ to be the best integer approximations of $2q$ and $n$ to be the best integer approximation of $p - \frac{k}{2}$ i.e. $|2q - k| \le \frac{1}{2}$ and $|p - \frac{k}{2} - n| \le \frac{1}{2}$. This is possible by Lemma \ref{approx}. Now, define $\gamma = n + k \frac{1 + \sqrt{-d}}{2} \in \ints{K}$ and $\delta = \alpha - \beta \gamma \in \ints{K}$. Thus,
+\begin{align*}
+\qnorm{K}{\delta} &= \qnorm{K}{\beta} \qnorm{K}{\frac{\alpha}{\beta} - \gamma} = \qnorm{K}{\beta} \qnorm{K}{ \left(p - n - \frac{k}{2} \right) + \left(q - \frac{k}{2} \right)\sqrt{-d}} \\ &= \qnorm{K}{\beta} \cdot \left(\left(p - n - \frac{k}{2} \right)^2 + \frac{d}{4} (2q - k)^2 \right) \le \qnorm{K}{\beta}\left(\frac{1}{4} + \frac{d}{16} \right) = \qnorm{K}{\beta} \frac{4 + d}{16}
+\end{align*}
+Therefore, if $d < 12$ then $\forall \alpha, \beta \in \ints{K}$ with $\beta \neq 0$ we have $\exists \gamma, \delta \in \ints{K} : \alpha = \beta \gamma + \delta$ and $\qnorm{K}{\delta} < \qnorm{K}{\beta}$ so $\ints{K}$ is Euclidean and thus a PID. These conditions holds for $d = 3, 7, 11$.
+
+\item[\textit{ii})] For $d = 19, 43, 67, 163$ the norm $\qnorm{K}{\frac{1 + \sqrt{-d}}{2}} = \frac{1+19}{4} = 5, \frac{1+43}{4} = 11, \frac{1 + 67}{4} = 17, \frac{1 + 163}{4} = 41$ which are all prime. We are asked to establish that every prime $p \le \qnorm{K}{\frac{1 + \sqrt{-d}}{2}}$ is inert in $\ints{K}$. This is equivalent to $\legsym{-d}{p} = -1$ which is equivalent to $\legsym{d}{p} = -(-1)^{\frac{p-1}{2}}$. By quadratic reciprocity, $\legsym{p}{d} = (-1)^{\frac{p-1}{2} \frac{d-1}{2}} \legsym{d}{p} $ but every $d$ in the list is $1$ modulo $4$ so $\legsym{p}{d} = -1$. This must be checked for every prime $p < \frac{1+d}{4}$ which is tedious by hand but easily done with a computer and turns out to be true.   
+
+\item[\textit{iii})] Let $\pideal$ be a prime ideal of $\ints{K}$ with $\mathrm{N}(\pideal) < \frac{2 \sqrt{d}}{\pi}$. Now, every non-zero ideal of $\ints{K}$ contains an elelment of $\Zplus$ (because for any $a \in I \sm \{0\}$, $a \bar{a} \in I \cap \Zplus$). Let $z \in \pideal \cap \Zplus$. By the fundamental theorem of arithmetic, $z = q_1^{k_1} \cdots q_n^{k_n}$ for primes $q_1, \dots, q_n$. Thus, $\pideal \supset (z) = (q_1)^{k_1} \cdots (q_n)^{k_n}$ so there exists and ideal $I$ s.t. $\pideal I = (q_1)^{k_1} \cdots (q_n)^{k_n}$ and thus by Dedekind unique prime factorization, $\pideal$ must appear in the prime factorization of some $(q_i)$. However, because $K$ is a quadratic extension of $\Q$, one of $(q_i) = \pideal \pideal'$ or $(q_i) = \pideal$ or $(q_i) = \pideal^2$ must hold (since we established that $\pideal$ is one of the factors and the factorization is unique). In all of these cases, $\mathrm{N}(\pideal) = q_1$ or $q_1^2$ so $q_1 \le \mathrm{N}(\pideal_i) < \frac{2 \sqrt{d}}{\pi} < \frac{1 + d}{2}$. By part (\textit{ii}) this implies that $q_1$ is inert i.e. $(q_1) = \pideal$ so $\pideal$ is principal. Now, consider any ideal $I$ with $\mathrm{N}(I) < \frac{2 \sqrt{d}}{\pi}$ then by Dedekind prime factorization, $I = \pideal_1  \cdots \pideal_k$ and $\mathrm{N}(I) = \mathrm{N}(\pideal_i) \cdots \mathrm{N} (\pideal_k)$ so each $\pideal_i$ has norm less than $\frac{2 \sqrt{d}}{\pi}$ and thus is principal i.e. $\pideal_i = (q_i)$. Therefore, $I = (q_1) \cdots (q_k) = (q_1 \cdots q_k)$ so $I$ is principal. \\ \\
+Now Corollary 5.10 states that every ideal class contains an ideal with norm less than Minkowski’s constant $c_1 = (4/\pi)^{r_2} \frac{n!}{n^n} \sqrt{\Delta_K}$. In this case, the minimal polynomial of $\sqrt{-d}$ is $X^2 + d$ which has no real root and one pair of complex roots so $r_2 = 1$. Also, $\{1, \frac{1 + \sqrt{-d}}{2}\}$ is a basis of $\ints{K}$ because $\mod{d}{-1}{4}$ and the embeddings of $K$ in $\C$ are $\mathrm{id} : x \mapsto x$ and $\sigma : x \mapsto \bar{x}$ thus \[ \Delta_K = \det{
+\begin{pmatrix}
+1 & \frac{1 + \sqrt{-d}}{2} \\
+1 & \frac{1 - \sqrt{-d}}{2}
+\end{pmatrix}}^2 = d
+\]
+Therefore, $c_1 = \frac{4}{\pi} \frac{2}{4} \sqrt{d} = \frac{2 \sqrt{d}}{\pi}$. Thus each ideal class contains an ideal with norm less than $\frac{2 \sqrt{d}}{\pi}$ which is therefore principal. Thus, by Lemma \ref{idealclassprincipal}, every ideal class contains only principal ideals so $\ints{K}$ is a PID.  
+
+\end{enumerate}
+
+\item
+
+\begin{enumerate}
+\item Let $f \in \Q[X]$ have degree three and let $K/\Q$ be the splitting field of $f$ with $[K : \Q] = 3$. Let $\sigma : K \rightarrow K$ denote the automorphism given by $\sigma(x) = \bar{x}$ which fixes $\Q$ so $\sigma \in \galgroup{K/\Q}$. If for some $x \in K$, $\sigma(x) \neq x$ then $\sigma \neq \mathrm{id}_K$ so $\ord{\sigma} > 1$. However, $\sigma^2 = \mathrm{id}$ thus, $\ord{\sigma} = 2$ so $\left< \sigma \right>$ is a subgroup of $\galgroup{K/\Q}$ of order $2$. However, because $K$ is a splitting field, $K/\Q$ is Galois and thus $|\galgroup{K/\Q}| = [K : \Q] = 3$. But then $|\left< \sigma \right> | \ndivides |\galgroup{K/\Q}|$ which contradicts Lagrange's Theorem. Thus, $\forall x \in K : \sigma(x) = x$. In paricular, because $K$ is the splitting field of $f$, every root $r$ of $f$ is contained in $K$ and thus satisfies $\sigma(r) = \bar{r} = r$ which means that $r$ is real.    
+
+\item Consdier the polynomial $f(X) = X^3 + X^2 - 2X - 1 \in \Q[X]$. Let $\xi = \zeta + \zeta^6$ where $\zeta$ is a generator of the seventh roots of unity. Now, $\xi$ is a root of $f$ because,
+\begin{align*}
+& (\zeta + \zeta^6)^3 + (\zeta + \zeta^6)^2 - 2 (\zeta + \zeta^6) - 1  = \\
+& \zeta^3 + \zeta^4 + 3 \zeta + 3 \zeta^6 + \zeta^2 + 2 + \zeta^5 - 2 (\zeta + \zeta^6) - 1 = \\
+& 1 + \zeta + \zeta^2 + \zeta^3 + \zeta^4 + \zeta^5 + \zeta^6 = 0  
+\end{align*}
+There are three such distinct choices: $\xi = \zeta_7 + \zeta_7^6, \: \zeta_7^2 + \zeta_7^5, \: \zeta_7^3 + \zeta_7^4$. Thus, these are the three roots of $f$. Furtheremore, $(\zeta_7 + \zeta_7^6)^2 - 2 = \zeta_7^2 + \zeta_7^5$ and $(\zeta_7 + \zeta_7^6)^3 - 3(\zeta_7 + \zeta_7^6) = \zeta_7^3 + \zeta_7^4$ and thus, $\zeta_7 + \zeta_7^6, \: \zeta_7^2 + \zeta_7^5, \: \zeta_7^3 + \zeta_7^4 \in \Q(\zeta_7 + \zeta_7^6)$. Therefore, $\Q(\zeta_7 + \zeta_7^6)$ is the splitting field of $f$. Since $\Q(\zeta_7 + \zeta_7^6)$ is extended by a single element, $[\Q(\zeta_7 + \zeta_7^6) : \Q] = 3$ because $f$ is the minimal polynomial for $\zeta_7 + \zeta_7^6$ (because any $f$ with $\zeta_7 + \zeta_7^6$ as a root must have at least three roots by the above) and $f$ has degree three. Now, $f$ has no roots in $\finfield{5}$ because:
+\begin{align*}
+f(1) &= 1^3 + 1^2 - 2\cdot 1 - 1 = 4 \: (\mathrm{mod} \: 5) \\
+f(2) &= 2^3 + 2^2 - 2\cdot 2 - 1 = 2 \: (\mathrm{mod} \: 5) \\
+f(3) &= 3^3 + 3^2 - 2\cdot 3 - 1 = 4 \: (\mathrm{mod} \: 5) \\
+f(4) &= 4^3 + 4^2 - 2\cdot 4 - 1 = 1 \: (\mathrm{mod} \: 5) \\
+f(0) &= 0^3 + 0^2 - 2\cdot 0 - 1 = 4 \: (\mathrm{mod} \: 5)
+\end{align*}
+Finally, consider the prime factorization of $(5)$ in $\ints{K}$. $(5) = \prod\limits_{i = 1}^{k} \mathfrak{p}_i^{e_i}$. For each $\mathfrak{p}_i$, we have, $\xi + \mathfrak{p}_i \notin \finfield{5} \subset \ints{K}/\mathfrak{p}_i$. If this were true, then consider the map $\pi : \alpha \mapsto \mathfrak{p}_i + \alpha$ which is a ring homomorphism. Thus, \[f(\pi(\xi)) = \pi(f(\xi)) = \pi(0) = 0_{\ints{K}/\mathfrak{p}_i}\]
+Because the coeficients map into $\finfield{5}$ if $\pi(\xi) \in \finfield{5}$ then $f(\pi(\xi)) = 0$ which we know is impossible. Therefore, $\ints{K}/\mathfrak{p}_i \supset \finfield{5}[\xi]$ but since $f$ is irreducible over $\finfield{5}$ (since it has degree 3 and no roots) we have $[\finfield{5} [\xi] : \finfield{5} ] = 3$ and thus $[\ints{K} / \pideal_i : \finfield{5} ] \ge 3$ so $f_i \ge 3$. However, \[\mathrm{N}(5) = \qnorm{K}{5} = 5^3\]
+because $5$ is fixed by all three galois automorphisms. Therefore,
+\[3 = \sum\limits_{i = 1}^{k} e_i f_i\] so the only possibility is that $k = 1$ with $e_1 = 1$ and $f_1 = 3$ (because each $f_i \ge 3$). This implies that there is exctly one prime factor with multiplicity one so $(5)$ must itself be a prime ideal, $(5) = \pideal$ i.e. $5$ is inert in $\ints{K}$. Furthermore, the residue field at $(5)$ is $\ints{K}/(5)$. The order of this residue field is $[\ints{K} : (5)] = \mathrm{N}(5\ints{K}) = \qnorm{K}{5} = 5^3 = 125$.
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{Lemmas}
+
+
+\begin{lemma} \label{approx} $\forall r \in \R : \exists z \in \Z$ s.t. $|z - r| \le \frac{1}{2}$. In particular, this holds for $r \in \Q$.
+\end{lemma}
+\begin{proof}
+Consider $S = \{n \in \Z \mid r < n + 1 \}$. $S$ is non-empty because $\Z$ is unbounded but $S$ is bounded below by $r$ so by well ordering, $S$ has a least element $z$. Since $z \in S$, $r < z + 1$. Suppose that $r < z$ then $z - 1 \in S$ contradicting the fact that $z$ is the least element. Thus, $z \le r < z + 1$. \bigskip \\
+Now if $|r - z| < \frac{1}{2}$ then we are done. Else, $|r - z| = r - z \ge \frac{1}{2}$ so $1 -  \frac{1}{2} \ge z + 1 - r$ so $(z + 1) - r \le \frac{1}{2}$. However, $z + 1 > r$ so $|(z + 1) - r| \le \frac{1}{2}$ and $z + 1 \in \Z$. 
+\end{proof}
+
+\begin{lemma} \label{idealclassprincipal} If an ideal class contains a principal ideal, then every ideal in the class is principal. Furthermore, the set of non-zero principal ideals is an ideal class.  
+\end{lemma}
+\begin{proof}
+Let $I$ be an ideal in the same class as $(a)$. Then $I \sim (a)$ so there exist $\alpha, \beta \in \ints{K}$ s.t. $\alpha I = \beta (a)$. Thus, $\beta a \in \alpha I$ so for some $k \in I$, we have $\beta a = \alpha k$. Now for any $r \in I$ we have $\alpha r \in \beta (a)$ so $\alpha r = \beta s a$ for $s \in \ints{K}$. Thus, $\alpha r = \alpha k s$ so because $\ints{K}$ is a domain, $r = k s$ so $I \subset (k)$. But $k \in I$ so by closure and absorption, $(k) \subset I$. Thus, $I = (k)$ is principal. Also, $\alpha (\beta) = \beta (\alpha)$ so all non-zero principal ideals are equivalent. Thus, an ideal $I$ is in the same class as $(a)$ iff $I$ is principal.   
+\end{proof}
+
+\end{document}

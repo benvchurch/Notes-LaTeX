@@ -1,0 +1,489 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\begin{document}
+\author{Benjamin Church and Matthew Lerner-Brecher}
+\title{\Huge Introduction to $p$-adic Numbers}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+Consider the infinite sum (series):
+
+\[1 + 2 + 4 + 8 + 16 + \cdots = S\]
+
+we want to find the value of this expression. Undaunted by the criticism ``you can't count up infinitely many things'' , we proceed by taking, 
+\[S - 2S = (1 + 2 + 4 + \cdots) - 2 (1 + 2 + 4 + \cdots) = (1 + 2 + 4 + 8 + \cdots) - (2 + 4 + 8 + \cdots) = 1\]
+Therefore, $-S = 1$ so $S = -1$ so we have the marvelous result that,
+
+\[1 + 2 + 4 + 8 + 16 + \cdots = -1\] 
+
+This is an application of the more general formula that,
+\[ 1 + x + x^2 + x^3 + \cdots = \frac{1}{1 - x}\]
+were we have plugged in $x = 2$. Now, your calculus teacher may object that this formula is only defined for $|x| < 1$ but if we listened to every naysayer screaming that our ideas don't quite make sense how far can we really get? In this class we are going to consider an alternative to the real numbers in which this formula makes sense. First, we need to think about what an infinite sum really means and how we can define its value. 
+
+\section{Equivalence Relations}
+
+\begin{definition}
+A relation $\sim$ on a set $X$ is an equivalence relation if for every $a,b,c \in X$,
+\begin{enumerate}
+\item $a \sim a$
+\item if $a \sim b$ then $b \sim a$
+\item if $a \sim b$ and $b \sim c$ then $a \sim c$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Under and equivalence relation $\sim$ on the set $X$, the equivalence class of $x \in X$ is $[x] = \{y \in X \mid x \sim y\}$ the set of all equivalent elements.
+\end{definition}
+
+\begin{lemma}
+if $x \sim y$ then $[x] = [y]$.
+\end{lemma}
+
+\begin{proof}
+If $a \in [x]$ then $a \sim x$ but $x \sim y$ so $a \sim y$ so $a \in [y]$. Likewise, if $a \in [y]$ then $a \sim y$ but $y \sim x$ so $a \sim x$ so $a \in [x]$. Therefore, $[x] = [y]$.
+\end{proof}
+
+\begin{lemma}
+If $[x] \cap [y] \neq \empty$ then $[x] = [y]$.
+\end{lemma}
+
+\begin{proof}
+Take $a \in [x] \cap [y]$ then $a \sim x$ and $a \sim y$ so $x \sim y$. Therefore, $[x] = [y]$.
+\end{proof}
+
+\begin{lemma}
+If $a \in [x]$ then $[a] = [x]$.
+\end{lemma}
+
+\begin{proof}
+Since $a \in [x]$ we have $a \sim x$ so $[a] = [x]$. 
+\end{proof}
+
+\begin{lemma}
+Equivalence classes of $\sim$ over a set $X$ partition $X$. 
+\end{lemma}
+
+\begin{proof}
+Because for any $x \in X$, $x \sim x$ so $x \in [x]$ and therefore, the union of all equivalence classes is $X$. Also, if $[x] \cap [y] \neq \empty$ then $[x] = [y]$. Therefore, distinct equivalence classes are disjoint. 
+\end{proof}
+
+\section{Norms} 
+We begin by defining a notion of distance from 0 in the rational numbers $\Q$.
+\begin{definition}
+A $\textit{norm}$ on $\mathbb{Q}$ is a function $||\cdot ||: \Q \to \Q$ satisfying:
+\begin{enumerate}
+\item $||x|| \ge 0$
+\item $||x|| = 0$ if and only if $x = 0$
+\item $||xy|| = ||x||\cdot||y||$
+\item (Triangle Inequality) $||x+y|| \le ||x|| + ||y||$
+\end{enumerate}
+\end{definition}
+
+\begin{remark} 
+We have $||-x|| = ||x||$
+\end{remark}
+
+\begin{example} 
+The standard absolute value:
+\[||x|| = |x|\]
+\end{example}
+
+\begin{example} 
+The $p$-adic norm: Let $x = \frac{a}{b}$ where $a,b\in \mathbb{Z}$. Let $v_p(a), v_p(b)$ be the exponent of highest power of $p$ dividing $a,b$ respectively, then:
+\[||x|| = |x|_p = p^{v_p(b) - v_p(a)}\]
+
+For example,
+
+\begin{itemize}
+\item $54 = 2 \cdot 3^3$ so $v_3(54) = 3$ and therefore $|54|_3 = \frac{1}{3^3}$ 
+
+\item $\frac{24}{25} = \frac{2^3 \cdot 3}{5^2}$ so $v_3(\frac{24}{25}) = 3$ and therefore $|\frac{24}{25}|_3 = \frac{1}{3^3}$
+
+\item $\frac{24}{25} = \frac{2^3 \cdot 3}{5^2}$ so $v_5(\frac{24}{25}) = -2$ and therefore $|\frac{24}{25}|_5 = 5^2$
+
+\end{itemize}
+
+\end{example}
+
+\begin{proposition}
+The $p$-adic norm is non-archimedean, that is, $|a + b|_p \le \max\{|a|_p, |b|_p\}$.  
+\end{proposition}
+
+\begin{proof}
+First, write the numbers in reduced form, $a = p^{v_p(a)} a'$ and $b = p^{v_p(b)} b'$ where $a$ and $b$ are rational numbers with both numerator and denominators not containing multiples of $p$. Now, because $v_p(a), v_p(b) \ge \min\{v_p(a), v_p(b)\}$ we can write $a + b = p^{\min\{v_p(a), v_p(b)\}} (a' p^x + b' p^y)$ where $x$ and $y$ are nonnegative. Thus, $v_p(a+b) \ge \min\{v_p(a), v_p(b)\}$ because $(a' p^x + b' p^y)$ can only contain positive powers of $p$. Therefore, 
+\[|a+b|_p \le p^{-\min\{v_p(a), v_p(b)\}} = \max\{p^{-v_p(a)}, p^{-v_p(b)}\} = \max\{|a|_p, |b|_p\}\]
+where I have used the fact that $-\min\{x,y\} = \max\{-x, -y\}$. 
+\end{proof}
+
+
+\begin{theorem}[Ostrowski]
+The only norms on $\Q$ are the $p$-adic norms for any prime $p$ and the absolute value norm up to raising a given norm to a power greater than one.
+\end{theorem}
+\noindent
+We will not provide a proof of this deep result here, however, Ostrowski's Theorem motivates the study of the $p$-adic numbers. Together with the real numbers, they exhaust the possible normed completions of the rational numbers. \bigskip  \\
+This notion of distance from 0, gives us a notion of distance between any two points $x,y$ through the expression $||x - y||$. We'll now use this notion of 0, to define more rigorously the notion of the terms of a sequence approaching some value. The intuition here is that the distance between points of the sequence and the value has to get closer and closer to zero.
+
+
+\section{Cauchy Sequences and Completion} 
+\begin{definition}
+A \textit{metric space} is a set $M$ and a function $d : M \times M \to \R$ which satisfies the following properties for any $x,y \in M$,
+\begin{enumerate}
+\item $d(x,y) \ge 0$
+\item $d(x, y) = 0$ if and only if $x = y$
+\item $d(x, y) = d(y, x)$
+\item for any $z \in M$, $d(x,y) \le d(x,z) +  d(z,y)$
+\end{enumerate}
+\end{definition} 
+
+\begin{example} 
+Any norm on $\Q$ gives a metric defined by $d(x, y) = ||x - y||$. In particular, the standard distance on $\Q$ is given by taking the metric defined by the absolute value norm, $d(x, y) = |x - y|$. 
+\end{example}
+
+\begin{definition}
+A sequence $a_n$ tends to a value $a$ (written $a_n \to a$) if for all $\epsilon > 0$, there exists $N$ such that for all $n \ge N$ we have
+\[d(a_n, a) < \epsilon\]
+\end{definition}
+\begin{example}
+For sequences in $\Q$ with respect to the absolute value norm, the sequences $\frac{1}{n} \to 0$ and $\sum\limits_{k = 0}^{n} \frac{1}{2^k} \to 2$
+\end{example}
+
+\begin{remark}
+If the sequence $\sum\limits_{k = 0}^{n} a_k \to L$ then we write $\sum\limits_{k = 0}^{\infty} \frac{1}{2^k} = L$. 
+\end{remark}
+
+This gives us a notion of some sequence approaching a value. However, we want a further notion of $\textit{convergence}$ which loosely means that the sequence should approach a value, we just don't necessarily know what that value is. Such a sequence is known as a Cauchy sequence:
+\begin{definition}
+A sequence $a_n$ is called a \textit{Cauchy sequence} if for all $\epsilon$ there exists $N$ such that for all $m,n \ge N$ we have:
+\[d(a_n, a_m) < \epsilon\]
+\end{definition}
+\begin{theorem}
+If $a_n \in M$ is a sequence such that there exists $a \in M$ for which $a_n\to a$, then $a_n$ is a Cauchy sequence.
+\end{theorem}
+\begin{proof}
+Take the $N$ such that for all $k \ge N$ we have $d(a_k - a) \le \frac{\epsilon}{2}$. If $m,n \ge N$ we have by the triangle inequality:
+\[d(a_m, a_n) \le d(a_m, a) + d(a, a_n) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+\end{proof}
+\bigskip Now we feel like if we have a Cauchy sequence, there should be some value it approaches. Cauchy is the technical way of capturing the idea that a sequence \textit{should} converge. We define a complete set to reflect this:
+
+\begin{definition}
+A set is $\textit{complete}$ if all Cauchy sequences converge to some value. A $\textit{completion}$ of $\mathbb{Q}$ with respect to some norm, is the set of all possible values a Cauchy sequence could converge to.
+\end{definition} 
+\begin{remark} A more rigorous way to do this is to define the completion as the set of all possible Cauchy sequences and call two sequences equivalent if they tend to the same value.
+\end{remark}
+
+\begin{example} An important thing to note though is that all Cauchy sequences tend to some value in $\mathbb{R}$. For instance, partial expressions for $\pi$ and the newton's method approximation for $\sqrt{2}$. This means that $\R$ is a complete metric space. 
+\end{example}
+
+
+\begin{definition}
+Sequences $a_n$ and $b_n$ are equivalent if $d(a_n, b_n) \to 0$ as a sequence in $\Q$ with the standard absolute value distance. We write $a_n \sim b_n$. Note that $d(a_n, b_n) \to 0$ is equivalent to the statement: for any $\epsilon > 0$ there exists $N$ such that for all $n \ge N$ we have,
+\[d(a_n, b_n) < \epsilon\]
+\end{definition}
+
+\begin{proposition}
+Sequence equivalence is an equivalence relation.
+\end{proposition}
+
+\begin{proof}
+$d(a_n, a_n) = 0$ so clearly $d(a_n, a_n) \to 0$ therefore $a_n \sim a_n$. Let $a_n \sim b_n$ then $d(a_n, b_n) = d(b_n, a_n)$ so $d(b_n, a_n) \to 0$ and thus $b_n \sim a_n$. \bigskip \\ Suppose that $a_n \sim b_n$ and $b_n \sim c_n$ then for any $\epsilon > 0$, by the definition of convergence, there exist $N_1, N_2$ corresponding to $\frac{\epsilon}{2}$ such that $n > N_1 \implies d(a_n, b_n) < \frac{\epsilon}{2}$ and $n > N_2 \implies d(b_n, c_n) < \frac{\epsilon}{2}$. Thus for any $n > N$ we have, 
+\[d(a_n, c_n) \le d(a_n, b_n) + d(b_n, c_n) < \epsilon\]
+so $d(a_n, c_n) \to 0$ and thus $a_n \sim c_n$.  
+\end{proof}
+
+\begin{definition}
+The metric completion of a metric space is the set of equivalence classes of Cauchy sequences under sequence equivalence. 
+\end{definition}
+
+\begin{remark}
+The set $\mathbb{R}$ can be defined as the completion of $\mathbb{Q}$ with respect to the distance given by the standard absolute value. This is one of many equivalent constructions of the real numbers from $\Q$. 
+\end{remark}
+
+
+\section{The $p$-adic Numbers}
+
+\begin{definition}
+The set $\mathbb{Q}_p$ is the completion of $\mathbb{Q}$ with respect to the $p$-adic norm.
+\end{definition}
+
+\begin{remark}
+Two sequences are $p$-adic equivalent $a_n \sim b_n$ if $|a_n - b_n|_p \to 0$ as a sequence of distances in $\Q$ with the standard absolute value notion of convergence. This is equivalent to the statement that the sequence $(a_n - b_n) \to 0$ under the metric derived from the $p$-adic norm. 
+\end{remark}
+
+\begin{definition}
+The set $\mathbb{Z}_p$ is the completion of $\mathbb{Z}$ with respect to the $p$-adic norm. Equivalently, it is the set of all $\alpha \in \Q_p$ such that $\alpha$ can be represented by a Cauchy sequence with only integer terms. 
+\end{definition}
+
+\begin{remark}
+There is no equivalent notion of "real" integers in $\R$ viewed as the completion of $\Q$. The only Cauchy sequences with integer terms under the absolute value distance are eventually constant and therefore approach a standard integer in $\Z$. This is because no distinct integers get arbitrarily close under the usual notion of distance. However, under the $p$-adic notion of distance, powers of $p$ do get arbitrarily close so we can have always non-constant Cauchy sequences with integer terms. Therefore, there can be $p$-adic integers which are not standard integers in $\Z$.      
+\end{remark}
+
+
+\begin{example} 
+As $2$-adic numbers, $1 + 2 + 4 + 8 + \cdots = -1$. The technical statement is that the sequence $a_n = \sum_{k = 0}^{n} 2^k$ and the sequence $b_n = -1$ are equivalent so the equivalence classes are equal: $\left[\sum_{k = 0}^{n} 2^k \right] = [-1]$. \\ To prove this fact, note that,
+\[a_n = \sum_{k = 0}^{n} 2^k = 2^{n+1} - 1\]
+Therefore, $|a_n - (-1)|_2 = |2^{n+1}|_2 = \frac{1}{2^{n+1}} \to 0$ so the sequences are equivalent. 
+\end{example}
+
+\begin{example} 
+In general, in the $p$-adics, $1 + p + p^2 + p^3 + \cdots = \frac{1}{1 - p}$.  \\ To prove this fact, note that,
+\[a_n = \sum_{k = 0}^{n} p^k = \frac{p^{n+1} - 1}{p - 1}\]
+Therefore, $|a_n - \frac{1}{1-p}|_p = |\frac{p^{n+1}}{p-1}|_p = \frac{1}{p^{n+1}} \to 0$ so the sequences $a_n$ and $\frac{1}{1-p}$ are equivalent. Thus, 
+\[ \sum_{k = 0}^{n} p^k \to \frac{1}{1-p}\] so we can say,
+\[\sum_{k = 0}^{\infty} p^k = 1 + p + p^2 + p^3 + \cdot = \frac{1}{1 - p} \]
+This fact shows that the validity of the formula $1 + x + x^2 + x^3 + \cdots = \frac{1}{1 - x}$ extends somewhat beyond its interpretation as a Taylor series or a convergent sum in $\R$. 
+\end{example}
+
+\begin{lemma}
+If $a_n \to a$ and $b_n \to b$ for $a, b \in \Q$ then $(a_n + b_n) \to a + b$. 
+\end{lemma}
+
+\begin{proof}
+Let $\epsilon > 0$ then, by the definition of convergence, there exist $N_1, N_2$ corresponding to $\frac{\epsilon}{2}$ such that $n > N_1 \implies ||a_n - a|| < \frac{\epsilon}{2}$ and $n > N_2 \implies ||b_n - b|| < \frac{\epsilon}{2}$. Then for any $n > N$ we have, 
+\[|(a_n + b_n) - (a + b)|_p \le |a_n - a|_p + |b_n - b|_p < \epsilon\] so $(a_n + b_n) \to a + b$. 
+\end{proof}
+
+A similar result holds for the product of two sequences. This suggests the following definition of the sums and products of $p$-adic numbers. 
+
+\begin{definition}
+Let $\alpha, \beta \in \Q_p$ so there are Cauchy sequences $a_n$ and $b_n$ such that $\alpha = [a_n]$ and $\beta = [b_n]$ then $\alpha + \beta = [a_n + b_n]$ and similarly $\alpha \beta = [a_n b_n]$.
+\end{definition}
+
+It follows immediately from this definition that if $f$ is a polynomial and $\alpha \in \Q_p$ then $f(\alpha) = [f(a_n)] \in \Q_p$.  
+
+\begin{theorem}
+The series $\sum\limits_{n = 0}^\infty a_n$ exists if and only if the sequence $a_n \to 0$.
+\end{theorem}
+
+\begin{proof}
+First suppose that the sum exists. Then, because the sum exists, its terms form a Cauchy sequence. For any $\delta > 0$ we can choose $N$ so that $k - 1, k  > N$ implies that 
+\[ \bigg|\sum\limits_{n = 0}^{k} a_n - \sum\limits_{n = 0}^{k-1} a_n \bigg|_p = |a_{k}|_p < \delta \]
+which is exactly the definition of $a_k \to 0$. Conversely, let $a_n \to 0$ then for any $\delta > 0$ there exists $N$ such that $n > N \implies |a_n|_p < \delta$. Now, we apply the ultrametric inequality. Suppose that $m > n > N$ then, 
+\[|a_{n+1} + a_{n+2} + \cdots + a_{m}|_p \le \max\{|a_{n+1}|_p, |a_{n+2}|_p, \cdots, |a_m|_p \} < \delta\]
+because each term is less than $\delta$. Therefore,
+
+\[ \bigg|\sum\limits_{n = 0}^{m} a_n - \sum\limits_{n = 0}^{n} a_n \bigg|_p = |a_{k}|_p < \delta \] 
+which implies that $\left\{  \sum\limits_{n = 0}^{k} a_n \right\}$ is a Cauchy sequence. However, the $p$-adics are complete meaning that every Cauchy sequence converges to some limit. Therefore, the series $\sum\limits_{n = 0}^{\infty} a_n$ exists. 
+\end{proof}
+
+\begin{remark}
+For those who have studied the convergence of series in the real numbers, this theorem should come as quite a shock. In $\R$, the conditions for when a given series converges are extremely subtle and complex. However, in $\Q_p$ there is a simple to check necessary and sufficient condition. The analogous statement for the real numbers is emphatically false. For example, $\frac{1}{n} \to 0$ but $\sum\limits_{n = 1}^\infty \frac{1}{n} \to \infty$. Due it its marvelous simplicity and power compared to the much less appealing situation for the more widely studied series over $\R$, this theorem is sometimes referred to as ``The Freshman's Dream''.
+\end{remark}
+
+\begin{example} 
+In the $p$-adics, the sequence $p^n \to 0$ because $|p^n|_p = p^{-n} \to 0$ in the real numbers. Therefore, $\sum\limits_{n = 0}^\infty p^n$ exists and in fact equals $-1$ 
+\end{example}
+
+\begin{example} 
+In the $p$-adics, the sequence $\frac{p^n}{n!} \to 0$ because $n!$ has at most $\frac{n}{p-1}$ powers of $p$ so $v_p(\frac{p^n}{n!}) > n \frac{p-2}{p-1}$ and therefore the sequence goes to zero. Therefore, $e^p = \sum\limits_{n = 0}^\infty \frac{p^n}{n!}$ exists in the $p$-adics
+\end{example}
+
+\section{Ultrametric Geometry}
+We have seen that the $p$-adic norm satisfies a stronger version of the triangle inequality than the standard euclidean ``length'' does, namely, $|a + b|_p \le \max\{|a|_p, |b|_p\}$. A space with a distance function which satisfies this inequality is called an 
+\textit{ultrametric space}. Formally,
+
+\begin{definition}
+An \textit{ultrametric space} is a metric space satisfying the ultrametric inequality: $d(x,y) \le \max\{d(x,z), d(z,y)\}$ for any $x,y,z$. Explicitly, an \textit{ultrametric space} is a set $M$ and a function $d : M \times M \to \R$ which satisfies the following properties for any $x,y \in M$,
+\begin{enumerate}
+\item $d(x,y) \ge 0$
+\item $d(x, y) = 0$ if and only if $x = y$
+\item $d(x, y) = d(y, x)$
+\item for any $z \in M$, $d(x,y) \le \max\{d(x,z), d(z,y)\}$
+\end{enumerate}
+\end{definition} 
+\bigskip 
+The $p$-adic numbers with the function $d(x,y) = |x-y|_p$ satisfies these conditions. We will deduce geometric properties of a general ultrametric space.  
+  
+\begin{definition}
+A \textit{ball} centered at $x$ with radius $\delta$ is $\ball{\delta}{x} = \{y \in M \mid d(x, y) < \delta\}$ 
+\end{definition}
+
+\begin{proposition}
+In an ultrametric space, all triangles are isosceles.
+\end{proposition}
+
+\begin{proof}
+Take three points $x,y,z \in M$ and let the side lengths of the triangle be $a = d(x,y), b = d(y, z), c = d(z, x)$. We can suppose without loss of generality that $a \le b \le c$. Using the Ultrametric inequality, $c \le \max\{a,b\} = b$ so $c \le b$. Therefore, $c \le b$ and $b \le c$ so $c = b$. Therefore, two sides of the triangle have equal lengths. Furthermore, $a \le b = c$ so no isosceles triangles that are more obtuse than an equilateral triangle exist.
+\end{proof}
+
+\begin{proposition}
+In an ultrametic space, every point inside a ball is the center.
+\end{proposition}
+
+\begin{proof}
+Take the ball $\ball{\delta}{c}$ and the point $a \in \ball{\delta}{c}$. I claim that $a$ is the center. This is true if $\ball{\delta}{a} = \ball{\delta}{c}$. We know that $d(a,c) < \delta$ because $a \in \ball{\delta}{c}$. Take any $x \in \ball{\delta}{a}$ then $d(a, x) < \delta$ but $d(c, x) < \max\{d(c, a), d(a, x)\} < \delta$ because both terms are less than $\delta$. Thus, $d(c, x) < \delta$ so $x \in \ball{\delta}{c}$. We have shown that every point in $\ball{\delta}{a}$ is in $\ball{\delta}{c}$. The reverse holds by the exact same argument. Take any $x \in \ball{\delta}{c}$ then $d(c, x) < \delta$ but $d(a, x) < \max\{d(a, c), d(c, x)\} < \delta$ because both terms are less than $\delta$. Thus, $d(a, x) < \delta$ so $x \in \ball{\delta}{a}$. Therefore $\ball{\delta}{a} = \ball{\delta}{c}$. 
+\end{proof}
+
+\begin{definition}
+The boundary of a set $A$, denoted by $\partial A$, is the set of points $x$ such that for any positive radius $\delta$, the ball $\ball{\delta}{x}$ contains points in $A$ and points not in $A$.
+\end{definition} 
+
+\begin{proposition}
+In an ultrametric space, no ball has boundary points.
+\end{proposition}
+
+\begin{proof}
+Let $x$ be a boundary point of $\ball{r}{c}$ then for any $\delta > 0$ we must have $a,b \in \ball{\delta}{x}$ with $a \in \ball{r}{c}$ and $a \notin \ball{r}{c}$. Therefore, $d(x, a) < \delta$ and $d(x, b) < \delta$ so $d(a,b) \le \max\{d(a,x), d(x,b)\} < \delta$. We take $\delta < r$ so $d(c, b) \le \max\{d(c, a), d(a, b)\} < r$ because $d(c, a) < r$ (since $a \in \ball{r}{c}$) and $d(a,b) < \delta < r$. Therefore $d(c, b) < r$ so $b \in \ball{r}{c}$ which contradicts the definition of a boundary point. Therefore, no ball can have any boundary points. 
+\end{proof}
+
+The property that no balls have a boundary makes the topology of an ultrametric space \textit{totally disconnected}. Basically this means that any subset that contains more than one point is disconnected in the sense that it can be broken up into disjoint parts that have no boundary points. 
+
+\section{Polynomials with roots in $\mathbb{Q}_p$}
+
+\begin{lemma}[Bezout]
+There exists $x, y \in \Z$ such that $ax + by = \gcd(a,b)$.
+\end{lemma}
+
+\begin{proof}
+Consider the set, 
+\[T_{a,b} = \{ax + by \mid x, y \in \Z \text{ and } ax + by > 0 \}\]
+Because $T_{a,b} \subset \Zplus$ it has a least element, namely $g = ax_0 + by_0 \in T_{a,b}$. Consider any element $ax + by \in T_{a,b}$. Because $g > 0$, by the division algorithm, we can write,
+\[ ax + by = qg + r\]
+where $0 \le r < g$.
+Therefore, 
+\[r = ax + by - gq = (ax + by) - q(ax_0 + b y_0) = a(x - q x_0) + b (y - qy_0)\]
+Thus, if $r > 0$ then $r \in T_{a,b}$. However, $r < g$ which is the least element of $T_{a,b}$. This is a contradiction unless $r = 0$. Therefore the remainder is zero so, $g \divides ax + by$.  In particular, $a,b \in T_{a,b}$ so $g \divides a$ and $g \divides b$. Furthermore, if any $c \divides a$ and $c \divides b$ then $c \divides ax_0 + b y_0 = g$. Thus, any divisor of both $a$ and $b$ is a divisor of $g$ so $g$ is maximal. Thus, $g = \gcd(a,b)$. 
+\end{proof}
+
+\begin{lemma}
+If $a$ and $n$ are coprime, which means $\gcd(a,b) = 1$, then there exists $s \in \Z$ such that $as \equiv 1 \pmod{n}$ so we can write, $s \equiv a^{-1} \pmod{n}$.
+\end{lemma}
+
+\begin{proof}
+If $a$ and $n$ are coprime then by Bezout's identity, there are integers $x, y \in \Z$ such that $ax + ny = 1$. Therefore, $n \divides ax - 1$ so $ax \equiv 1 \pmod{n}$.
+\end{proof}
+
+\begin{theorem}[Hensel] If $f(x) \in \mathbb{Z}_p[x]$ and $a \in \mathbb{Z}_p$ satisfies
+\begin{align*}
+f(a) &\equiv 0 \pmod p \\
+f'(a) &\not\equiv 0 \pmod p
+\end{align*}
+then there exists a $p$-adic integer $\alpha$ such that $f(\alpha) = 0$ and $\alpha \equiv a \pmod p$
+\end{theorem}
+\begin{proof}
+We construct a series $r_n$ such that $r_1 = a$ and for $n \ge 1$ we have:
+\[r_{n+1} = r_n - f(r_n) \cdot s\]
+where $s \equiv [f'(r_n)]^{-1} \pmod{p^{n+1}}$. We'll show by induction that 
+\[f(r_{n}) \equiv 0 \pmod{p^{n}}\]
+and that such an integer $s$ exists at every step. 
+Our base case holds because $f(a) \equiv 0 \pmod{p}$ and $f'(a) \not\equiv 0 \pmod p$ implies that $f'(a)$ is coprime with $p$ and therefore an inverse exists modulo $p^2$. We'll now do the inductive step. Assume that for all $k \le n$ for some $n$ the above equation holds. By hypothesis, \[f(r_n) \equiv 0 \pmod{p^n}\]
+Therefore, we can write,
+\[f(r_n) \cdot s + m p^n = 0 \]
+and thus
+\[ r_{n + 1} = r_n - f(r_n) \cdot s = r_n + m p^n \]
+for some integer $m$. In particular, 
+\[r_{n+1} \equiv r_n \pmod{p^n}\]
+Now consider the polynomial in $t$: $f(r_n + tp^n)$. Suppose $f$ is of degree $d$ and let $a_i$ be the coefficients of $f$. Then we have:
+\[f(r_n + tp^n) = \sum_{k = 0}^d a_k(r_n + tp^n)^k\]
+This can be written as 
+\[f(r_n + tp^n) = \sum_{k = 0}^{d} c_k (tp^n)^k\]
+for some terms $c_k$. We can get $c_0$ by just plugging in $t = 0$. This gives: $f(r_n) = c_0$ Now if we take the derivative with respect to $t$, the constant term goes to 0 so we get:
+\[f'(r_n + tp^n) = \sum_{k = 1}^{d} kc_k (tp^n)^{k-1}\]
+If we plug in $t = 0$ this time we get: $c_1 = f'(r_n)$. First, we use this to show that $s \equiv [f'(r_{n+1})]^{-1} \pmod{p^{n+2}}$ exists. We know that $r_{n+1} = r_{n} + mp^n$ so,
+\[f'(r_{n+1}) = f'(r_n + mp^n) = \sum_{k = 1}^{d} kc_k (mp^n)^{k-1} \]
+every term past $k = 1$ contains a factor of $p$ so, 
+\[f'(r_{n+1}) \equiv c_1 = f'(r_n) \not\equiv 0 \pmod{p}\]
+therefore, $f'(r_{n+1})$ is coprime with $p$ and therefore also coprime with every power of $p$. In particular, $s \equiv [f'(r_{n+1})]^{-1} \pmod{p^{n+2}}$ exists. \bigskip \\
+Now, taking the next term in the sequence modulo $p^{n+1}$:
+\begin{align*}
+f(r_{n+1}) &= f(r_n + mp^n) \\
+&= f(r_n) + f'(r_n)mp^n + \sum_{k = 2}^d c_km^k(p^n)^k \\
+&\equiv f(r_n) + f'(r_n)mp^n \pmod {p^{n+1}}
+\end{align*}
+From its definition:
+\[mp^n = -f(r_n)s\]
+So we get:
+\begin{align*}
+f(r_{n+1})  &\equiv f(r_n) + f'(r_n)(-f(r_n)s) \pmod {p^{n+1}} \\
+&\equiv f(r_n)-f(r_n)f'(r_n)[f'(r_n)]^{-1} \pmod {p^{n+1}}  \\
+&\equiv f(r_n) - f(r_n) \pmod {p^{n+1}} \\
+&\equiv 0 \pmod {p^{n+1}}
+\end{align*}
+As desired. Now note that $r_{n+1} \equiv r_n \pmod {p^n}$. This means for all $m,n \ge N$ we have $r_m \equiv r_n \pmod{p^N}$. Thus, \[|r_m - r_n|_p \le \frac{1}{p^N}\]
+Because the sequence is Cauchy, $r_n$ converges to some $p$-adic number $\alpha = [r_n]$. The $p$-adic number $f(\alpha)$ is defined (by the definitions of multiplication and addition of $p$-adic numbers) as the limit of the sequence $f(r_n)$ (technically $f(\alpha) = [f(r_n)]$ the equivalence class of this sequence). However, we know that $f(r_n) \equiv 0 \pmod{p^n}$ so $|f(r_n)| \le \frac{1}{p^n}$ implying $f(r_n) \to 0$. Thus, $f(\alpha) = 0$. 
+\end{proof}
+\begin{example} The cool thing about Hensel's Lemma is it implies that $\sqrt{-1}$ is a $p$-adic number if $p \equiv 1 \pmod 4$. If we let $f(x) = x^2 + 1$. If $p \equiv 1 \pmod 4$ then there exists $a$ such that
+\[a^2 + 1 \equiv 0 \pmod p\]
+Furthermore $f'(x) = 2x$, and we cannot have $2a \equiv 0 \pmod p$. By Hensel's lemma the function $f(x) = x^2 + 1$ has a root in the $p$-adics.
+\end{example}
+
+\section{Appendix: Derivatives of Polynomials}
+
+\begin{definition} A derivative $\frac{d}{dx}$ is a function that takes polynomials to other polynomials that satisfies
+\begin{enumerate}
+\item $\frac{d}{dx} x^n = nx^{n - 1}$
+\item $\frac{d}{dx} cP = c \cdot \frac{d}{dx} P$
+\item $\frac{d}{dx} (P + Q) = \frac{d}{dx} P + \frac{d}{dx} Q$
+\end{enumerate}
+\end{definition}
+\begin{remark} For simplicity sake, we often denote $\frac{d}{dx} P$ as $P'$
+\end{remark}
+\begin{example} The derivative of $x^2 + 2x + 1$.
+\end{example}
+
+
+\end{document}

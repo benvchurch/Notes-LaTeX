@@ -1,0 +1,1081 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+
+
+\include{QuantumCommands}
+ 
+
+
+\begin{document}
+
+
+\section{Path Integral Fomulation}
+
+\subsection{One-Dimensional QM}
+
+Consider a Hamiltonian,
+\[ \hamilt = \frac{\hat{p}^2}{2m} + V(\hat{q}) \]
+Then there exists a complete set of states given by,
+\[ \hat{q} \ket{q} = q \ket{q} \quad \hat{p} \ket{p} = p \ket{p} \]
+with overlap,
+\[ \inner{q}{p} = \frac{1}{2 \pi} e^{i p q} \]
+and completeness relations,
+\[ \int \d{q} \ket{q} \bra{p} \quad \int \d{p} \ket{p} \bra{p} \]
+We want to find the probability for a particle at $(q_i, t_i)$ to arrive at $(q_f, t_f)$ which we denote by the ``propagator'' given by,
+\[ K(q_f, t_f ; q_i, t_i) = \inner{q_f, t_f}{q_i, t_i} \]
+in the Heisenberg picture and by,
+\[ \bra{q_f} e^{i (t_f - ti) \hamilt} \ket{q_i} \]
+Let $t = t_f - t_i$. Then we have the following formula.
+\begin{theorem}
+\[ K(q_f, t_f ; q_i, f_i) = \int \pathd{q} e^{i S[q]} \]
+where $S$ is the classical action given by,
+\[ S[q] = \int_{t_i}^{t_f} \d{t} \lagrange = \int_{t_i}^{t_f} \d{t} \left( \frac{1}{2} m \dot{q}^2 - V(q) \right) \]
+\end{theorem}
+\begin{proof}
+Let $\epsilon = t / N$. Notice that,
+\[ \bra{q} \hamilt \ket{p} = \left( \frac{\hat{p}^2}{2m} + V(\hat{q}) \right) \inner{q}{p} = H(p, q) \frac{e^{ipq}}{\sqrt{2 \pi}} \]
+and thus,
+\[ \bra{q} e^{-i \epsilon \hamilt} \ket{p} = \bra{q} 1 -i \epsilon \hamilt \ket{p} + O(\epsilon^2) = -i \epsilon \bra{q} \hamilt \ket{p} = \inner{q}{p} \left(1 - i \epsilon H(p, q) + O(\epsilon^2) \right) = \inner{q}{p} e^{- i \epsilon H(p, q)} \]
+Now we can expand,
+\begin{align*}
+\bra{q_f} e^{- i \hamilt t} \ket{q_i} & = \bra{q_f} e^{-i \epsilon \hamilt} \cdots e^{-i \epsilon \hamilt} \ket{q_i}
+\\
+& = \int \d{p_1} \cdots \d{p_N} \d{q_1} \cdots \d{q_{N-1}}  \bra{q_f} e^{-i \epsilon \hamilt} \ket{p_N} \inner{p_N}{q_{N-1}}  \cdots \bra{q_1} e^{-i \epsilon \hamilt} \ket{p_1} \inner{p_1}{q_i}
+\\
+& = \int \frac{\d{p_1} \d{q_1}}{2 \pi} \cdots \frac{\d{p_N}}{\sqrt{2 \pi}} \exp{\left( i\left[ p_N (q_N - q_{N-1}) + \cdots + p_1 (q_1 - q_0) - \epsilon \left( H(p_N, q_N) + \cdots H(p_1, q_1) \right) \right] \right)}
+\\
+& = \int \pathd{p} \pathd{q} e^{i \int \d{t} \left( p \dot{q} - H(p,q) \right) }
+\end{align*}
+\end{proof}
+We should remark that in the stationary phase approximation of $e^{i S[q]}$ we recover the classical principal of least action,
+\[ \frac{\delta S[q]}{\delta q} = 0 \]
+which reproduces classical mechanics. 
+
+\subsection{Extracting the Propagator}
+
+There is an analogy of the path-integral formulation for quantum fields. Let $\ket{\phi, t}$ be the state of a given \text{spatial} field $\phi(\vec{x})$ at time $t$ in the Heisenberg picture and $\ket{\phi}$ is the Schrodinger picture such that $\hat{\phi}(t, \vec{x}) \ket{\phi, t} = \phi(\vec{x})$. In these variables,
+\[ \inner{\phi_f, t_f}{\phi_i, t_i} = \bra{\phi_f} e^{- i (t_f - t_i) \hamilt} \bra{\phi_i, t_i} = \int \pathd{\phi} e^{i S[\phi]} \]
+where the action is given by the classical value,
+\[ S[\phi] = \int \dn{4}{x} \lagrange \]
+for a Lagrangian which is quadratic in $\dot{\phi}$. For example, the scalar $\phi^4$ theory,
+\[ S[\phi] = \int \dn{4}{x} \left[ \tfrac{1}{2} \partial_\mu \phi \partial^\mu \phi - \tfrac{1}{2} m^2 \phi^2 - \tfrac{1}{4!} \lambda \phi^4 \right] \]
+Furthermore, I claim that, assuming $x_1^0 < x_2^0$,
+\begin{align*}
+\int \pathd{\phi} e^{i S[\phi] } \phi(x_1) \phi(x_2) & = \bra{\phi_f} e^{- i \hamilt ( t_f - x_2^0 )}  \field(\vec{x_2}) e^{- i \hamilt ( x_2^0 - x_1^0 )} \field(\vec{x_1}) e^{- i \hamilt ( x_1^0 - t_i^0 )}  \ket{\phi_i} 
+\\
+& = \bra{\phi_f} e^{- i \hamilt t_f}  \field(x_2) \field(x_1) e^{i \hamilt t_i^0 }  \ket{\phi_i} 
+\\
+& = \bra{\phi_f, t_f} \field(x_2) \field(x_1) \ket{\phi_i, t_i}
+\end{align*}
+Thus, if general,
+\[ \int \pathd{\phi} e^{i S[\phi] } \phi(x_1) \phi(x_2) = \bra{\phi_f, t_f} \mathbf{T} \left[ \field(x_2) \field(x_1) \right] \ket{\phi_i, t_i} \]
+To exact the true vacuum state we make a small Wick rotation $t_f = (1 - i \epsilon) T$ and $t_i = -(1 - i \epsilon) T$ and take the limit in large $T$. In this case,
+\begin{align*} 
+e^{i \hamilt T} \ket{\phi_i} & = e^{-i \hamilt T - \epsilon \hamilt T} \ket{\phi_i} 
+\\
+& = \sum_E \ket{E} \bra{E} e^{-i \hamilt T} e^{-\epsilon T \hamilt} \ket{\phi_i}
+\\
+& = \sum_E e^{- i E T - i \epsilon E T} \inner{E}{\phi_i} \ket{E}
+\\
+& \rightarrow e^{- i E_0 T - \epsilon E_0 T} \inner{\Omega}{\phi_i} \ket{\Omega}    
+\end{align*}
+Therefore,
+\[ \frac{ \int \pathd{\phi} e^{i S\phi]} \phi(x_1) \phi(x_2) }{\int \pathd{\phi} e^{i S[\phi]}} = \bra{\Omega} \mathbf{T} \left[ \field(x_2) \field(x_1) \right] \ket{\Omega}  \] 
+
+\subsection{Some Finite-Dimensional Integrals}
+
+
+First, consider the finite-dimensional Gaussian integral,
+\[ \Znorm = \int \dn{N}{q} e^{-\frac{1}{2} q^i A_{ij} q^j} = \sqrt{\frac{(2 \pi)^N}{\det{A}}}\]
+
+\begin{definition}
+We will denote the exponential argument in these integrals by,
+\[ S_0 = \frac{1}{2} q \cdot A \cdot q \]
+then the generating function for the Gaussian integral $S_0$ is,
+\[ Z[J] = \frac{1}{\Znorm} \int \dn{N}{q} e^{-S_0 + J \cdot q} = \exp{\left[\tfrac{1}{2} J \cdot A^{-1} \cdot J \right]} \]
+\end{definition}
+Now we will consider modified Gaussian integrals.
+\begin{theorem}
+\[ \left< q^k q^{\ell} \right>_0 = \frac{1}{\Znorm} \int \dn{N}{q} e^{- \frac{1}{2} q^i A_{ij} q^j} q^k q^{\ell} = (A^{-1})^{k \ell} \]
+\end{theorem}
+
+\begin{proof}
+Consider the generating function,
+\[ Z[J] = \frac{1}{\Znorm} \int \dn{N}{q} e^{-\frac{1}{2} q \cdot A \cdot q + J \cdot q} = \exp{\left[\tfrac{1}{2} J \cdot A^{-1} \cdot J \right]} \]
+Then we find,
+\[ \left< q^k q^{\ell} \right>_0  = \left( \frac{\partial^2}{\partial J_k \partial J_{\ell}} Z[J] \right)_{J = 0} = (A^{-1})^{k \ell} \]
+We can give an alternative proof by noting that,
+\begin{align*}
+0 = \int \dn{N}{q} \pderiv{}{q^i} \left( e^{-S_0} q^j \right) = \int \dn{N}{q} e^{-S_0} \left[ \left( - A_{ik} q^k \right) q^j + \delta^j_i \right] = - A_{ik} \Znorm \left< q^k q^j \right>_0 + \Znorm \delta^j_i 
+\end{align*}
+Therefore,
+\[ \left< q^j q^j \right>_0 = (A^{-1})^{j k} \]
+\end{proof}
+We will now consider ``interactions'' in Gaussian integrals. Take $S_{\interact} =  B_{ijkl}q^i q^j q^k q^l$ and consider,
+\[ \Znorm = \int \dn{N}{q} e^{-(S_0 + S_{\int}} = \Znorm_0 \left< e^{- S_{\interact} } \right> \]
+Furthermore,
+\[ 
+\EV{e^{-S_{\interact}}}_0 = \sum_n \frac{1}{n!} (-1)^n \EV{S_{\interact}^n}_0 
+\]
+which must be calculated via Wick's Theorem. Furthermore, we wish to compute correlation functions in the interacting theory. This follows from,
+\[ \EV{q^i q^j} = \frac{1}{\Znorm} \int \dn{N}{q} e^{-(S_0 + S_{\interact})} = \frac{\EV{e^{-S_{\interact}} q^i q^j}_0}{\EV{e^{-S_{\interact}}}_0} = \frac{\sum_n \frac{1}{n!} (-1)^n \EV{S_{\interact}^n q^i q^j}_0}{\sum_n \frac{1}{n!} (-1)^n \EV{S_{\interact}^n}_0 } \]
+which gives a perturbation expansion. 
+
+\subsection{Computing Path-Integrals}
+
+The free action is given by,
+\[ S_0 = -\frac{1}{2} \int \dn{4}{x} \phi(x) \left( \partial^2 + m^2 \right) \phi(x) \]
+Then we get,
+\begin{align*}
+\bra{\Omega} \mathbf{T} \left[ \field(x_2) \field(x_1) \right] \ket{\Omega} & = \frac{1}{ \Znorm } \int \pathd{\phi} e^{-\frac{i}{2}  \int \dn{4}{x} \phi(x) \left( \partial^2 + m^2 \right) } \phi(x_1) \phi(x_2)
+\\
+& = -i \left( \partial^2 + m^2 \right)^{-1}(x_1, x_2) = \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i}{k^2 - m^2 + i \epsilon} e^{- ik \cdot (x_1 - x_2) } 
+\end{align*}
+The $i \epsilon$ prescription here comes from the fact that we take the limit as $T \to \infty$ in the expression $t = (1 - i\epsilon) T$.
+
+\subsection{Grassman Algebra}
+
+Let $V$ be a $\C$-vectorspace with basis $\{\theta_i\}$. Then the Grassmann algebra of $V$ is the exterior algebra,
+\[ \Lambda(V) = T(V) / I \]
+where $T(V)$ is the tensor algebra,
+\[ T(V) = \bigoplus_{n = 0}^{\infty} T^nV = \bigoplus_{n = 0}^\infty V^{n \otimes} \]
+and the ideal $I$ is generated by all elements of the form $x \otimes x$ for $x \in V$. For $\alpha, \beta \in \Lambda(V)$ we write,
+\[ \alpha \beta = \alpha \wedge \beta = [\alpha \otimes \beta]_I \]
+Since $\tfrac{1}{2} (\alpha + \beta) \otimes (\alpha + \beta) - \tfrac{1}{2} (\alpha - \beta) \otimes (\alpha - \beta) =  \alpha \otimes \beta + \beta \otimes \alpha \in I$ we find that,
+\[ \alpha \beta + \beta \alpha = 0\]
+for all Grassmann numbers. Furthermore, if $V$ has dimension $n$ then there do not exist $m$ linearly independent vectors for $m > n$. Therefore, all products of the form,
+\[ \alpha_1 \wedge \alpha_2 \wedge \dots \wedge \alpha_m \sum_{i = 0}^n \sum c_{i} \theta_1 \wedge \theta_2 \wedge \dots \wedge \theta_n \wedge \dots \wedge \theta_n = 0\]
+Therefore,
+\[ \Lambda(V) = \C \oplus V \oplus (V \wedge V) \oplus (V \wedge V \wedge V) \oplus \dots \oplus (V^{n\wedge}) \]
+
+\subsection{Grassmann Integration and Differentiation}
+
+We define,
+\[ \pderiv{}{\theta_i}{\theta_j} = \delta_{ij} \]
+and 
+\[ \int \d{\theta_i} \deriv{}{\theta_i} g(\theta_i) = 0 \]
+and
+\[ \int \d{\theta_i} \theta_i = 1 \]
+Notice that integration and differentiation are equivalent.
+Consider the Gaussian integral,
+\[ \int \d{\bar{\theta}} \d{\theta} e^{- \bar{\theta} A \theta} = \int \d{\bar{\theta}} \d{\theta} \left( 1 - \bar{\theta} A \theta \right) = \pderiv{}{\bar{\theta}} \pderiv{}{\theta} \left(1 - \bar{\theta} A \theta \right) = A \]
+
+\subsection{Grassmann Path Integrals}
+
+In quantum mechanics,
+\[ \EV{\psi(t_1) \bar{\psi}(t_2)}_0 = \frac{1}{\Znorm}  \int \pathd{\psi} e^{i S_0[\psi]} \psi(t_1) \bar{\psi}(t_2) \]
+where 
+\[ \Znorm = \int \pathd{\psi} e^{i S_0[\psi]}  \]
+and the action is,
+\[ S_0[\psi] = \int \d{t} \left[ i \bar{\psi} \psi - \omega \bar{\psi} \psi \right] \]
+I claim that,
+\[ \EV{\psi(t_1) \bar{\psi}(t_2)} = \bra{\Omega} \mathbf{T} \left[ \hat{\psi}(t_1) \hat{\bar{\psi}}(t_2) \right] \ket{\Omega}  \]
+with quantum mechanics defined by $\left\{ \hat{\psi}, \hat{\bar{\psi}} \right\} = 1$ and $\left\{ \psi, \psi \right\} = \left\{ \bar{\psi}, \bar{\psi} \right\} = 0$ with a Hamiltonian,
+\[ \hamilt = \frac{\omega}{2} \left(\hat{\bar{\psi}} \hat{\psi} - \hat{\psi} \hat{\bar{\psi}} \right) \]
+and $\hat{\bar{\psi}} = \hat{\psi}^\dagger$. 
+In this QM we can identify, $\hat{\psi} =\hat{b} e^{-i \omega t}$ and $\hat{\bar{\psi}}(t) = \hat{b}^\dagger e^{i \omega t}$ where $\hat{b} \ket{\Omega} = 0$ with vacuum energy $\hamilt \ket{\Omega} = - \tfrac{1}{2} \omega \ket{\Omega}$. If we take $\ket{1} = \hat{b}^\dagger \ket{\Omega}$ and the energy $\hamilt \ket{1} = \tfrac{1}{2} \omega \ket{1}$. 
+
+
+\subsection{Schwinger-Dyson Equations}
+
+Given an action $S$ the classical equations of motion are obtained by taking $\delta S = 0$ or using the functional derivative with respect to the fields,
+\[ \frac{\delta S[\phi]}{\delta \phi} = 0 \]
+The quantum mechanical analog of these classical equations of motion are given by,
+\begin{align*}
+\bra{\Omega} \Torder{ \frac{\delta S}{\phi(y)} \phi(x_1) \cdots \phi(x_n)} \ket{\Omega} & = i \delta^4(y - x_1) \bra{\Omega} \Torder{\phi(x_2) \cdots \phi(x_n)} \ket{\Omega} 
+\\
+&  + \cdots
+\\
+& + i \delta^4(y - x_n) \bra{\Omega} \Torder{\phi(x_1) \cdots \phi(x_{n-1})} \ket{\Omega} 
+\end{align*} 
+\begin{proof}
+We prove this formula using path-integrals. Consider the change of variablse $\phi'(x) = \phi(x) + \epsilon(x)$. The path-integral becomes,
+\begin{align*}
+\int \pathd{\phi} e^{i S[\phi]} \phi(x_1) \phi(x_2) &= \int \pathd{\phi'} e^{i S[\phi']} \phi'(x_1) \phi'(x_2) 
+\\
+&= \int \pathd{\phi} e^{i S[\phi] + \int \dn{4}{y} \epsilon(y) \frac{\delta S}{\delta \phi(y)}} \left( \phi(x_1) + \epsilon(x_1) \right) \left( \phi(x_2) + \epsilon(x_2) \right)
+\end{align*}
+Therefore, the first order in $\epsilon$ difference is zero,
+\begin{align*}
+\int \pathd{\phi} e^{i S[\phi]} \left( i \int \dn{4}{y} \epsilon(y) \frac{\delta S}{\delta \phi(y)} \phi(x_1) \phi(x_2) + \epsilon(x_1) \phi(x_2) + \phi(x_1) \epsilon(x_2) \right) = 0
+\end{align*}
+Which implies that,
+\begin{align*}
+i \int \dn{4}{y} \epsilon(y) \EV{ \frac{\delta S}{\delta \phi(y)} \phi(x_1) \phi(x_2) } = - \epsilon(x_1) \EV{\phi(x_2)} - \epsilon(x_2) \EV{\phi(x_1)} 
+\end{align*}
+for any trial function $\epsilon$ which implies the original statement for distributions. 
+\end{proof}
+For example, if a free Bosonic QFT, take $S = \tfrac{1}{2} \partial_\mu \phi \partial^\mu \phi - \tfrac{1}{2} m^2 \phi^2$. Then we know,
+\[ \frac{\delta S[\phi]}{\delta \phi(y)} = - (\partial^2 + m^2) \phi(y) \]
+Therefore, applying the Schwinger-Dyson equation for a single insertion,
+\[ (\partial^2 + m^2) \bra{\Omega} \Torder{ \phi(x) \phi(y) } \ket{\Omega} = - i \delta^4(x - y) \inner{\Omega}{\Omega} = - i \delta^4(x - y) \]
+which implies that the Feynman propagator is the Greens function for the Klien-Gordon operator.  
+
+\subsection{Symmetries and Ward Identities}
+
+Consider the variation, $\delta \phi(x) = \epsilon \Delta \phi(x)$. We call such a variation a symmetry of the theory if $\delta S = 0$. Now we suppose that the scalar $\epsilon$ depends on position i.e. $\delta \phi(x) = \epsilon(x) \Delta \phi(x)$. We can write the variation of the action as,
+\[ \delta S = \int \dn{4}{x} \delta \lagrange = \int \dn{4}{x} \left[ \epsilon(x) \rho(x) + \partial_\mu \epsilon(x) J^\mu(x) \right] \]
+However, if the variation is a symmetry then $\rho(x) = 0$ because $\delta S = 0$ for constant $\epsilon$. Thus,
+\begin{align*}
+\delta S =  \int \dn{4}{x} \partial_\mu \epsilon(x) J^\mu(x) = - \int \dn{4}{x} \epsilon(x) \partial_\mu J^\mu(x)
+\end{align*}
+but along classical trajectories $\delta S = 0$ for any $\epsilon(x)$ which implies that $\partial_\mu J^\mu(x) = 0$. 
+The analog in QFT of Noether's Theorem are the Ward Identities,
+\begin{align*}
+\pderiv{}{y^\mu} \EV{ J^\mu(y) \phi(x_1) \cdots \phi(x_n) }  = & - i \delta^4(y - x_1) \EV{\Delta \phi(x_1) \cdots \phi(x_n) } 
+\\
++ \cdots + 
+& 
+\\
+& - i \delta^4(y - x_n) \EV{\phi(x_1) \cdots \Delta \phi(x_n) } 
+\end{align*}
+
+\begin{proof}
+For the symmetry $\delta \phi(x) = \epsilon \Delta \phi(x)$ to be valid quantum mechanically we need the measure to be invariant along with the action,
+\[ \delta \left( \pathd{\phi} e^{i S} \right) = 0 \]
+Now consider $\delta \phi(x) = \epsilon(x) \Delta \phi(x)$ which implies that,
+\[ \delta \left( \pathd{\phi} e^{i S} \right) = \pathd{\phi} e^{i S} \left( i \int \dn{4}{x} \partial_{\mu} \epsilon(x) J^\mu(x) \right) \]
+If we do the change of variables $\phi'(x) = \phi(x) + \epsilon(x) \Delta \phi(x)$ then the value of the path-integral must be constant. Therefore,
+\begin{align*}
+0 = \delta \int \pathd{\phi} e^{i S[\phi]} \phi(x_1) \cdots \phi(x_n) & = \int \delta \left( \pathd{\phi} e^{i S[\phi]} \right) \phi(x_1) \phi(x_2) + \int \pathd{\phi} e^{i S[\phi]} \left[ \delta \phi(x_1) \phi(x_2) + \phi(x_1) \delta \phi(x_2) \right]
+\end{align*}
+Which equals 
+\begin{align*}
+& = \int \pathd{\phi} e^{i S[\phi]} \left( i \int \dn{4}{y} \partial_\mu \epsilon(x) J^\mu(x) \right) \phi(x_1) \phi(x_2)
++ \int \pathd{\phi} e^{i S[\phi]} \left[ \epsilon(x_1) \Delta \phi(x_1) \phi(x_2) + \phi(x_1) \epsilon(x_2) \Delta\phi(x_2) \right]
+\\
+& = \int \pathd{\phi} e^{i S[\phi]} \left( -i \int \dn{4}{y} \epsilon(y) \partial_\mu J^\mu(y) \right) \phi(x_1) \phi(x_2)
++ \epsilon(x_1) \EV{\Delta \phi(x_1) \phi(x_2)} + \epsilon(x_2) \EV{\phi(x_1) \Delta \phi(x_2)}
+\\
+& =  -i \int \dn{4}{y} \epsilon(y) \pderiv{}{y^\mu} \int \pathd{\phi} e^{i S[\phi]} J^\mu(y) \phi(x_1) \phi(x_2)
++ \epsilon(x_1) \EV{\Delta \phi(x_1) \phi(x_2)} + \epsilon(x_2) \EV{\phi(x_1) \Delta \phi(x_2)}
+\end{align*}
+This implies that, as distributions,
+\[ \pderiv{}{y^\mu} \EV{J^\mu(y) \phi(x_1) \phi(x_2)} = - i \delta^4(y - x_1) \EV{\Delta \phi(x_1) \phi(x_2)} - i \delta^4(y - x_2) \EV{\phi(x_1) \Delta \phi(x_2)} \]
+Defining the total charge, with the $U(1)$ symmetry $\Delta \phi(x) = i \phi(x)$,
+\[ Q(t) = \int \dn{3}{x} J^0(t, x) \]
+then we find,
+\begin{align*}
+\deriv{}{t} \EV{Q(t) \phi^*(x_1) \phi(x_2) } & = - i \delta(t - x_1^0) \EV{\Delta \phi^*(x_1) \phi(x_2) } - i \delta(t - x_2^0) \EV{\phi^*(x_1) \Delta \phi(x_2)} 
+\\
+& = - \delta(t - x_1^0) \EV{ \phi^*(x_1) \phi(x_2) } + \delta(t - x_2^0) \EV{\phi^*(x_1) \phi(x_2)} 
+\end{align*}
+\end{proof}
+
+\section{Quantization of Gauge Theories}
+
+\subsection{QED}
+
+Consider the QED action,
+\[ S = - \frac{1}{2} \int \dn{4}{x} F_{\mu \nu} F^{\mu \nu} \]
+where $F_{\mu \nu} = \partial_\mu A_\nu - \partial_{\nu} A_\mu$.
+Define,
+\begin{align*}
+Z & = \int \pathd{A} e^{i S[A] } 
+= \int \pathd{A} \exp{\left[ \frac{i}{2} \int \dn{4}{x} A_\mu(x) \left( \eta^{\mu \nu} \partial^2 - \partial^\mu \partial^\nu \right) A_\nu(x) \right]}
+\\
+& = \int \pathd{A} \exp{\left[ \frac{i}{2} \int \frac{\dn{4}{k}}{(2 \pi)^4} A_\mu(-k) \left( -\eta^{\mu \nu} k^2 + k^\mu k^\nu \right) A_\nu(k) \right]}
+\end{align*}
+However, consider $\left( -\eta^{\mu \nu} k^2 + k^\mu k^\nu \right)k_{\nu} = - k^2 k^\mu + k^2 k^\mu = 0$ for any $k$ (including a nonzero vector $k$).
+Therefore, the quadratic operator is not invertible so we cannot use the Gaussian integrals to solve this problem. 
+
+\subsubsection{Renormalization of Electric Charge}
+
+\subsubsection{Vertex Corrections and The Anomalous Magnetic Moment}
+
+At one-loop, the vertex function in QED is given by the diagrams,
+
+\subsubsection{Radiative Corrections}
+
+\subsection{Gauge Fixing}
+
+Consider the function, $P(x) = e^{-\frac{1}{2} A_{ij} x^i x^j}$ where $A$ is not invertible and has a basis of its nullspace $\{ v_a \}$. We have the ``Gauge Symmetry'' $x \mapsto x + \sum \lambda_a v_a$. Thus, $P(x + \lambda \cdot v) = P(x)$. Now consider the integral,
+\[ Z = \int \dn{N}{x} P(x) \]
+We use the fact that,
+\[ \int \dn{n}{\lambda} \delta^n(F(\lambda)) \left| \det{\pderiv{F}{\lambda}} \right| = 1 \]
+to write this integral as,
+\begin{align*}
+Z & = \int \dn{N}{x} P(x) \int \dn{n}{\lambda} \delta^n(f(x + \lambda v) - c)   \left| \det{\pderiv{}{\lambda} f(x + \lambda \cdot v)} \right|   
+\\
+& = \int \dn{n}{\lambda} \int \dn{N}{x} P(x)  \delta^n(f(x) - c)   \left| \det{\Delta(x)} \right|   
+\end{align*}
+Now we multiply by a Gaussian,
+\begin{align*}
+Z &= \frac{1}{(2 \pi \xi)^{n/2}} \int \dn{n}{\xi} e^{-\frac{c^2}{2 \xi^2}} \int \dn{n}{\lambda} \int \dn{N}{x} P(x)  \delta^n(f(x) - c)   \left| \det{\Delta(x)} \right|   
+\\
+&= \frac{1}{(2 \pi \xi)^{n/2}} \int \dn{n}{\lambda} \int \dn{N}{x} P(x) \exp{\left[-\frac{f(x)^2}{2 \xi^2} \right]}  \left| \det{\Delta(x)} \right|  
+\end{align*}
+Finally, we introduce a Grassmann integral,
+\[ \int \dn{2n}{\theta} e^{- \bar{\theta}^a \Delta_{ab}(x) \theta^b} = \det{\Delta} \]
+and thus we can write,
+\[ Z = \frac{1}{(2 \pi \xi)^{n/2}} \int \dn{n}{\lambda} \int \dn{N}{x} \dn{n}{\theta} P(x) \exp{\left[-\frac{f(x)^2}{2 \xi^2} - \bar{\theta}^a \Delta_{ab}(x) \theta^b \right]} \]
+which has a trivial integral over $\dn{n}{\lambda}$ which is simply a factor of the volume of the gauge group. 
+
+\subsubsection{Partition Function of Ideal Photon Gas}
+
+We need to calculate the partition function,
+\begin{align*}
+Z = \Tr{e^{- \beta \hamilt}} = \int \pathd{A} e^{- S_E[A]} 
+\end{align*}
+where the Euclidean action is,
+\begin{align*}
+S_E[A] & = \frac{1}{4} \int \dn{4}{x} F_{\mu \mu'} F^{\nu \nu'} \delta^{\mu \nu'} \delta_{\nu \nu'} = \frac{1}{2} \int \dn{4}{x} \left( \partial_\mu A_{\nu} - \partial_\nu A_\mu \right) A^\mu A^\nu = \frac{1}{2} \int \dn{4}{x} \left[ \partial_\mu A_\nu \partial^\mu A^\nu - ( \partial^\mu A_{\mu})^2 \right]
+\\
+& = \frac{1}{2} \dn{4}{x} A_\mu \left( - \delta^{\mu \nu} \partial^2 + \partial^\mu \partial^\nu \right) A_\nu = \frac{1}{2} \sum_{k} A_\mu(-k) \left( \delta^{\mu \nu} k^2 - k^\mu k^\nu \right) A_\nu(k)
+\end{align*} 
+Suppose the Gas is in a cubic box with side length $L$ and take periodic boundary conditions $\tau \mapsto \tau + \beta$ and $x_i \mapsto x_i + L$. 
+Due to gauge symmetry, we need to make a gauge fixing condition. We choose the gauge fixing function $f_x(A) = \partial_\mu A^\mu(x)$. We require this function to satisfy the condition that there exists a unique gauge transformation taking $A_\mu$ to $\tilde{A}_\mu$ such that $\partial_\mu \tilde{A}^\mu(x) = c(x)$. We solve the equation in Euclidean momentum space,
+\begin{align*}
+\partial_\mu A^\mu - \partial^2 \lambda = c \implies - k^2 \lambda = - i k_\mu A^\mu - c(k)
+\end{align*}
+we we get a unique gauge transformation,
+\[ \lambda(k) = \frac{1}{k^2} \left( i k_\mu A^\mu + c(k) \right) \]
+which is unique because we are in Euclidean signature so no wave equation solutions. Furthermore, $\delta_{\epsilon} A_\mu(x) = - \partial_\mu \epsilon(x)$ and thus,
+\[ \delta_{\epsilon} f(x) = \delta_{\epsilon} \partial_\mu A^\mu = - \partial^2 \epsilon \]
+Thus, $\Delta = - \partial^2$. Then, we get the gauge fixed patition function,
+\newcommand{\GF}{\mathrm{GF}}
+\begin{align*}
+Z_{\GF} & = \int \pathd{A} e^{- S_E[A] } e^{- \frac{1}{2 \xi} \int \dn{4}{x} \left( \partial_\mu A^\mu(x) \right)^2} \det{(- \partial^2) }
+\end{align*}
+Pick $\xi = 1$, the Feynman Gauge. Then,
+\begin{align*}
+Z_{\GF} & = \int \pathd{A} e^{-\frac{1}{2} \int \dn{4}{x} A_\mu (- \partial^2) A^\mu } \det{(-\partial^2)} = \left[ \det{(-\partial^2)} \right]^{-\frac{1}{2} \cdot 4} \cdot \det{( - \partial^2 ) } = \left[ \det{(-\partial^2)} \right]^{-1}
+\end{align*}
+This is exactly the partition function of two real massless scalar fields representing the two photon polarizations. 
+
+\subsection{Quantum Electrodynamics}
+
+We have the QED action,
+\[ S_{\mathrm{QED}} = - \frac{1}{4} \int \dn{4}{x} F_{\mu \nu} F^{\mu \nu} + \int \dn{4}{x} \bar{\psi} \left( i \gamma^\mu \covD_\mu - m \right) \psi \]
+We have the local gauge transformation $A_\mu \to A_\mu - \partial_\mu \lambda$ and $\psi(x) \mapsto e^{i e \lambda(x)} \psi(x)$. 
+The free propagators, using the previous gauge fixing condition, can be written as,
+\begin{align*}
+\left< A_\mu(x) A_\nu(y) \right> & = \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i}{q^2 + i \epsilon} \left( - \eta_{\mu \nu} + (1 - \xi) \frac{k_\mu k_\nu}{k^2}  \right) e^{-i k (x - y) } 
+\\
+\left< \psi(x) \bar{\psi}(y) \right> & = \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i}{\slashed{k} - m + i \epsilon} e^{-i k (x - y)} 
+\end{align*} 
+Correlation functions of $A$ fields are clearly not gauge invariant. However, the field strength tensor is a gauge invariant object and, thankfully, its correlation functions are gauge invariant. The interaction vertex factor is $- ie \gamma^\mu$. 
+
+\subsubsection{Election-Election Scattering}
+
+\begin{center}
+\feynmandiagram [horizontal=a to b] {
+  i1 -- [fermion, edge label' = $e^{-}$, momentum = $p_1$] a -- [fermion, edge label = $e^{-}$] i2,
+  a -- [photon, momentum = $p$] b,
+  f1 -- [fermion, edge label = $e^{-}$] b -- [fermion, edge label = $e^{-}$] f2,
+};
+\end{center} 
+ 
+ 
+\subsection{Non-Abelian Gauge Theories}
+
+\subsubsection{U(2) Gauge Theory}
+
+Consider a spinor field $\psi^a(x)$ with an extra index $a$. The group $\mathrm{U}(2)$ acts on $\psi$ by $\psi(x) \mapsto g(x) \cdot \psi(x)$ with $e^{i \Lambda(x)}$ for Hermitian $\Lambda$. 
+Consider a covariant derivative of the form $\covD_\mu = \partial_\mu - i A_\mu$ where $A_\mu$ is Hermitian for each $\mu$. We need,
+\[ \covD_\mu' \psi' = g \cdot \covD_\mu \psi \]
+Therefore,
+\begin{align*}
+(\partial_\mu - i A'_\mu) g \cdot \psi = g (\partial_\mu - i A_\mu) \psi 
+\end{align*} 
+and thus,
+\[ (\partial_\mu g) \psi + g \partial_\mu \psi - i A_\mu' g \psi = g \partial_{\mu} \psi - i g A_\mu \psi \]
+and therefore,
+\[ A_\mu' = g A_\mu g^{-1} - i (\partial_\mu g) g^{-1} \]
+Now we can define the field strength tensor as a curvature form,
+\begin{align*} 
+F_{\mu \nu} & = i [\covD_\mu, \covD_\nu] 
+\\
+& = i [\partial_\mu - i A_\mu, \partial_\nu - i A_\nu] = \partial_\mu A_\nu - \partial_\nu A_\mu - i [ A_\mu, A_\nu ] 
+\end{align*}
+The field strength transforms under gauge transformations as,
+\begin{align*}
+F_{\mu \nu}' = - i [ \covD'_\mu, \covD'_\nu] = -i [g \covD_\mu g^{-1}, g \covD_\nu g^{-1}] = - i g [ \covD_\mu, \covD_\nu ] g^{-1} = g F_{\mu \nu} g^{-1}
+\end{align*}
+Since $\covD$ transforms by conjugation with is an automorphism so products of covariant derivates will also transform by conjugation. Then the trace of products of field strength tensors is gauge invariant because conjugation preserves trace. Thus we can write down a gauge invariant action,
+\[ S = - \frac{1}{4} \int \dn{4}{x} \Tr{F_{\mu \nu} F^{\mu \nu}} + \int \dn{4}{x} \bar{\psi} \left( i \slashed{\covD} - m \right) \psi \]
+
+\subsection{Yang-Mills Theory}
+
+Let $G$ be a finite-dimensional Lie group and consider its Lie algebra $\mathfrak{g}$. Take a basis $t^a$ of $\mathfrak{g}$ for $a = 1, \dots, \dim{G}$. The Lie algebra is uniquely determined by the structure constants,
+\[ [t^a, t^b] = i f^{abc} t^c \]
+We can always choose a basis in which $\Tr{t^a t^b} = A \delta^{ab}$ for some constant $A$. Then $f^{abc}$ is totally antisymmetric because,
+\[ \Tr{[t^a, t^b] t^c} = \Tr{i f^{abc'} t^{c'} t^c} = i f^{abc} A \]
+But $\Tr{[t^a, t^b] t^c}$ is antisymmetric in $a,b$ and cyclic in $a,b,c$ meaning that $f^{abc}$ is totally antisymmetric. We define a fundamental representation $U = e^{i \epsilon_a(x) t^a}$ to act on the fields. Then,
+\[ \psi \mapsto U \cdot \psi \quad \text{so} \quad \delta \phi(x) = i \epsilon_a(x) t^a \psi(x) \]
+The Guage fields $A_\mu$ can be decomposed in the basis of the Lie algebra $A_\mu = A_\mu^a t^a$. In order that the covariant derivative, defined as,
+\[ \covD_\mu \psi = \partial_\mu \psi - i g A_\mu \psi \]
+satisfy the transformation property $\covD_\mu \mapsto U \covD U^{-1}$ we need the Gauge field to transform as,
+\[ A_\mu' = U A_\mu U^{-1} - \frac{i}{g} \partial_\mu (U) U^{-1} \]
+Therefore,
+\[ \delta A_\mu(x) = \frac{1}{g} \partial_\mu \epsilon(x) + i [ \epsilon, A_\mu] = \frac{1}{g} [ \covD_\mu, \epsilon ] \]
+In coordinates,
+\[ \delta A^a_\mu(x) = \frac{1}{g} \partial_\mu \epsilon^a + f^{abc} A_\mu^b \epsilon^c \]
+Now, the field strength tensor is given by the curvature form,
+\[ F_{\mu\nu} = \frac{i}{g} [ \covD_\mu, \covD_\nu ] = \partial_\mu A_\nu - \partial_\nu A_\mu - i g [ A_\mu, A_\nu] \]
+In components,
+\[ F^a_{\mu \nu} = \partial_\mu A^a_\nu - \partial_\nu A^a_\mu + g f^{abc} A_\mu^b A_\nu^c \]
+The field strength tensor transforms as,
+\[ F_{\mu \nu}' = U F_{\mu \nu} U^{-1} \]
+and thus,
+\[ 
+\delta F_{\mu \nu} = i [ \epsilon, F_{\mu \nu} ] \]
+Using these transformation properties, we can write down a Lorentz-invariant Gauge-invariant scalar action,
+\[ S = - \frac{1}{4} \int \dn{4}{x} \left[ \Tr{F_{\mu \nu} F^{\mu \nu}} + \bar{\psi} \left( i \slashed{\covD} - m \right) \psi \right] \]
+There is a very restrictive class of actions wich are low order, Lorentz-invariant, and Gauge-invariant.
+We expand,
+\[ \lagrange_{\mathrm{YM}} = \tfrac{1}{2} A^a_\mu \left( \eta^{\mu \nu} \partial^2 - \partial^\mu \partial^\nu \right) A^a_\nu - g f^{abc} \left( \partial_\mu A^a_\nu \right) A^{b \mu} A^{c \nu} - \tfrac{1}{4} g f^{abc} f^{ade} A^b_\mu A^c_\nu A^{d \mu} A^{e \nu} \]
+The first term is Maxwellian. The second term gives rise to a three-point self-interaction vertex. Finally, the third term gives rise to a four-point self-interaction vertex. However, to derive the propagator, we need to perform gauge fixing. 
+
+\subsubsection{Gauge Fixing}
+
+Choose the gauge fixing function $G(A) = \partial^\mu A_\mu$. Then we have
+\[ \delta_{\epsilon} G = \frac{1}{g} \partial^\mu [\covD_\mu, \epsilon ] \]
+Therefore,
+\[ g \delta_{\epsilon} G^a = \partial^2 \epsilon^a 
++ g f^{abc} \partial^\mu \left( A^b_\mu \epsilon \right) = - \Delta \cdot \epsilon \]
+where $\Delta = - \partial^\mu \covD_\mu$. 
+Then the gauge fixed action becomes,
+\begin{align*}
+Z_{\mathrm{GF}} & = \int \pathd{A} e^{iS[A]} \exp{\left[-\frac{i}{2 \xi} \int \dn{4}{x} \left( \partial^\mu A_\mu^a \right)^2 \right]} \cdot \det{\Delta} 
+\end{align*}
+However, we can write,
+\[ \det{\Delta} = \int \pathd{c} \pathd{\bar{c}} \exp{\left[i \int \dn{4}{x} \Tr{\bar{c} \left( \partial^\mu \covD_\mu \right) c}\right]} \]
+We call this the Ghost field. Therefore, our Ghost action is,
+\[ S_{\mathrm{GH}} = \int \dn{4}{x} \bar{c}^a \left( - \delta^{ab} \partial^2 - g f^{acb} \partial^\mu \left( A^c_\mu c^b \right) \right) = \int \dn{4}{x} \left[ \partial_\mu \bar{c}^a \partial^\mu c^a + g \partial^\mu \bar{c}^a f^{acb} A^c_\mu c^b \right] \]
+The Ghosts have a propagator $\frac{i \delta^{ab}}{p^2}$ and interaction vertex $-g f^{abc} p^\mu$. 
+
+\subsection{BRST Symmetry}
+
+Consider the Gauge variations:
+\begin{align*}
+\delta_{\epsilon} \psi & = i \epsilon \phi 
+\\
+\delta_{\epsilon} A_\mu & = \frac{1}{g} \left[ \covD_\mu, \epsilon \right] = \frac{1}{g} \partial_\mu \epsilon - i [A_\mu, \epsilon ]
+\\
+\delta_{\epsilon} F_{\mu \nu} & = i [ \epsilon, F_{\mu \nu} ] 
+\end{align*}
+where $\epsilon$ is a vector field on the principle bundle $M \times G$. The statement of Gauge invariance is encapsulated in,
+\[ \delta_{\epsilon} S = 0 \text{ and } \delta_{\epsilon} \left( \pathd{A} \pathd{\psi} \right) = 0 \]
+We can perform Gauge fixing by adding a Ghost action. For Yang-Mills theory, the total Gauge fixed action can be written as,
+\[ S = S_0 + S_{\mathrm{GF}} \quad \text{ with } \quad S_{\mathrm{GF}} = \int \dn{4}{x} \left[ \bar{c} \left( - \partial^\mu \covD_\mu \right) c - \frac{1}{2 \xi} \Tr{ \partial_\mu A^\mu \partial_\nu A^\nu } \right]  \]
+Consider $\epsilon(x) = \eta c(x)$ where $\eta$ is some formal Grassmann parameter. Then we can define the BRST tranformation,
+\begin{align*}
+\delta_{\eta} \psi & = i \eta c \psi
+\\
+\delta_{\eta} A_\mu & = \frac{\eta}{g} \left[ \covD_\mu, c \right] 
+\\
+\delta_{\eta} F_{\mu \nu} & = i \eta \left[ c, F_{\mu \nu} \right]
+\end{align*} 
+This tranformation can also be defined in terms of a tranfromation operator $\hat{Q}$ such that,
+\begin{align*}
+\left\{ \hat{Q}, \hat{\psi} \right\} & = i c \hat{\psi} 
+\\
+\left[ \hat{Q}, \hat{A}_\mu \right] & = \frac{1}{g} \left[ \hat{\covD}_\mu, \hat{c} \right]
+\\
+\left[ \hat{Q}, \hat{F}_{\mu\nu} \right] & = i \left[ \hat{c}, \hat{F}_{\mu \nu} \right]
+\end{align*}
+BRST leaves Gauge invariant terms invariant because its acts analogously to a Gauge transformation. Thus, $S_0$ is invariant under this BRST tranformation but not $S_{\mathrm{GF}}$. We will extend the BRST transformation to the Ghost field to make the entire Gauge fixed action invariant. The critical property of BRST is that $\hat{Q}^2 = 0$. Therefore if $\hat{L} = \hat{Q} \hat{F}$ then $\hat{Q} \hat{L} = \hat{Q}^2 \hat{F} = 0$. Therefore, we know that,
+\begin{align*}
+\delta_{\eta} \delta_{\eta'} \psi & = \delta_{\eta} \left( i \eta' c \psi \right)
+\\
+& = i \eta' \left( \delta_{\eta} c\right) \psi + i \eta' c \delta_{\eta} \psi
+\\
+& =  i \eta' \left( \delta_{\eta} c\right) \psi + i \eta' c (i \eta c) \psi 
+\\
+& =  i \eta' \left( \delta_{\eta} c\right) \psi - i \eta' (i \eta c^2) \psi 
+\end{align*}
+If we want this to be zero we are forced to take,
+\[ \delta_{\eta} c = i \eta c^2 \]
+In components,
+\[ \delta_{\eta} c^c t^c = \tfrac{i}{2} c^a c^b \left[ t^a, t^b \right] = - \tfrac{1}{2} \eta f^{abc} c^a c^b t^c \]
+Furthermore $\delta_{\eta} \bar{c} = \eta B$ where we introduce a new bosonic scalar field on which $G$ acts in the adjoint representation $B$ such that $\delta_{\eta} B = 0$. This is consistent because $\delta_{\eta} \delta_{\eta'} \bar{c} = \eta' \delta_{\eta} B = 0$. Now we define the scalar,
+\[ F = \Tr{\bar{c} \left( \partial^\mu A_\mu + \frac{\xi}{2} B \right)} \]
+which transforms as,
+\begin{align*}
+\delta_{\eta} F & = \Tr{\bar{c} \eta \left( \partial^\mu \frac{1}{g} [ \covD_\mu, c] \right) } + \tr{\eta B \left( \partial^\mu A_\mu + \frac{\xi}{2} B \right)}
+\\
+& = \eta \left[ \frac{\xi}{2} \Tr{B^2} + \Tr{B \partial^\mu A_\mu} - \frac{1}{g} \Tr{\bar{c} \partial^\mu [\covD_\mu, c]} \right]
+\end{align*}
+where the minus sign appears from passing $\eta$ past $\bar{c}$. 
+If we integrate out $B$ from this variation, we get,
+\[ \delta_{\eta} F = - \frac{\xi}{2} \Tr{\left( \partial^\mu A_\mu \right)^2} - \frac{1}{g} \Tr{\bar{c} \left( \partial^\mu \covD_\mu \right) c} \]
+which is the Gauge fixing Lagrangian. Thus, $\lagrange_{\mathrm{GF}} = \delta_{\eta} F$ so $\delta_{\eta} S_{\mathrm{GF}} = 0$. 
+
+\subsubsection{BRST Formalizm for Non-Abelian Gague Theory}
+
+We have the BRST operator $Q$ which satisfies the BRST algebra,
+\begin{align*}
+Q A_\mu^a &= \covD^{ab}_\mu c^b 
+\\
+Q \psi & = i g c^a t^a \psi
+\\
+Q c^a & = -\tfrac{1}{2} g f^{abc} c^b c^c
+\\
+Q \bar{c}^a & = i B^{a}
+\\
+Q B^a & = 0
+\end{align*}
+Furthrmore,
+\[ \covD_\mu \psi = \left( \partial_\mu - i g A_\mu^a t^a \right) \psi \]
+and the covariant derivative acting in the adjoint representation is,
+\[ \covD^{ab}_\mu = \delta^{ab} \partial_\mu + g f^{abc} A^c_\mu \]
+The gauge fixed action becomes,
+\[ S_{\text{GF}} = \frac{1}{4} \int \dn{4}{x} F^a_{\mu \nu} F^{a \mu \nu} + \int \dn{4}{x} \bar{\psi} \left( i \slashed{\covD} - m \right) \psi + \int \dn{4}{x} Q \left( - i \bar{c}^a \left( \partial_\mu A^{a \mu} + \tfrac{1}{2} B^a \right) \right) \]
+which includes the gauge fixing condition and the Ghost fields. The state space given by the corresponding operator algebra is not a Hilbert space because it does not have a well-defined positive-definite inner product. To find the physical Hilbert space we require that $\hat{Q} \ket{\psi} = 0$ to ensure gauge invariance. Moreover, we need to quotient by all states of form $\hat{Q} \ket{\chi}$ since all such states have norm zero because,
+\[ \big|\: \hat{Q} \ket{\chi} \big|^2 = \bra{\chi} \hat{Q} \hat{Q} \ket{\chi} = \bra{\chi} \hat{Q}^2 \ket{\chi} = 0 \]
+Thus, these states must be zero in our Hilbert space. Furthermore, any $Q$-exact quantity gives zero under a path-integral. Thus,
+\[ \mathcal{H}_{\text{phys}} = \ker{\hat{Q}} / \im{\hat{Q}} = H(\hat{Q}) \]
+which is the quantum $Q$-cohomology. 
+\subsection{O(N) Model}
+
+We take the action,
+\[ S = \int \dn{3}{n} \left( \frac{1}{2} \left( \partial \phi^a \right)^2 + \frac{g}{4 N} \left( \phi^a \phi^a \right)^2 \right) \]
+with $O(N)$ representation on $\phi$.
+This theory becomes strongly coupled in the IR limit and free in UV limit. We will use the identity,
+\begin{align*}
+1 = \frac{1}{\sqrt{\pi}} \int_{-\infty}^\infty \d{x} e^{-x^2} = \frac{1}{\sqrt{\pi}} \int_{-\infty}^\infty \d{x} e^{-(x - i \lambda y^2)} = e^{\lambda y^4} \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} \d{x} e^{-x^2 + 2 i \lambda x y^2}
+\end{align*}
+Therefore, we can write the path integral as,
+\begin{align*}
+Z & = \frac{1}{Z_0} \int \pathd{\phi} \exp{\left[- \int \dn{3}{x} \left( \frac{1}{2} (\partial \phi^a)^2 + \frac{g}{4 N} \left( \phi^a \phi^a \right)^2 \right) \right]}
+\\
+& = \frac{1}{Z_0} \int \pathd{\phi} e^{- \frac{1}{2} \int \dn{3}{x} \left( \partial \phi^a \right)^2} e^{- \int \dn{3}{x} \frac{g}{4 N} \left( \phi^a \phi^a \right)^2 }
+\\
+& = \frac{1}{Z_0} \int \pathd{\phi} e^{- \frac{1}{2} \int \dn{3}{x} \left( \partial \phi^a \right)^2 + \frac{i}{\sqrt{N}} \sigma \phi^2 - \int \dn{3}{x} \frac{\sigma^2}{g} } 
+\end{align*} 
+Then,
+\begin{align*}
+Z = \frac{1}{Z_0} \int \pathd{\sigma} \det{\left( - \partial^2 + \frac{ i \sigma }{\sqrt{N}} \right) }^{-N/2} e^{- \int \dn{3}{x} \frac{\sigma^2}{g}} 
+\end{align*}
+Furthermore,
+\begin{align*}
+\log{\det{\left( - \partial^2 + \frac{ 2i \sigma }{\sqrt{N}} \right) }} &= \Tr{\log{\left( - \partial^2 + \frac{2i \sigma}{\sqrt{N}} \right)}}
+\\
+& = \Tr{\log{(-\partial^2)} + \log{\left( 1 + \frac{2i}{\sqrt{N}} (- \partial^2)^{-1} \sigma \right)}}
+\\
+& = \Tr{\log{(- \partial^2 )} + \frac{2 i}{\sqrt{N}} (-\partial^2)^{-1} \sigma + \frac{2}{N} (-\partial^2)^{-1} \sigma (-\partial^2)^{-1} \sigma} 
+\end{align*}
+We can now compute,
+\begin{align*}
+Z & = \frac{1}{Z_0} \int \pathd{\sigma} \exp{\left( - \frac{N}{2} \left[ \log{\det{(-\partial^2)}} + \Tr{\frac{2 i}{\sqrt{N}} (-\partial^2)^{-1} \sigma} + \frac{2}{N} \Tr{( - \partial^2)^{-1} \sigma (-\partial^2)^{-1} \sigma} + O(N^{-1}) \right] \right)}
+\\
+& \approx \int \pathd{\sigma} \exp{\left(- \frac{N}{2} Tr{( - \partial^2)^{-1} \sigma (-\partial^2)^{-1} \sigma} \right)}
+\end{align*}
+
+\section{Quantum Effective Action}
+
+We can write down a generating functional for the path-integral correlation functions,
+\[ Z[J] = \int \pathd{\phi} \exp{\left[ i S[\phi] + i \int \dn{4}{x} J(x) \phi(x) \right]} \]
+which gives correlation functions,
+\[ \EV{\phi(x_1) \cdots \phi(x_n)} = \frac{1}{i^n} \frac{1}{Z[J = 0]} \frac{\delta^n Z[J]}{\delta J(x_1) \cdots \delta J(x_n)} \bigg|_{J = 0} \]
+Then we can express vacuum expectation values with source terms via,
+\[ \frac{1}{i} \frac{1}{Z[J]} \frac{\delta Z}{\delta J(x)} = \EV{\phi(x)}_J \]
+Therefore we can expand the generating functional as,
+\begin{align*}
+Z[J] & = \int \pathd{\phi} \exp{\left[ i S[\phi] + i \int \dn{4}{x} J(x) \phi(x) \right]} 
+\\
+& = \left[ \int \pathd{\phi} e^{i S[\phi]} \right] \left( 1 + i \int \dn{4}{x} J(x) \EV{\phi(x)}_0 + \frac{i^2}{2} \int \dn{4}{x_1} \dn{4}{x_2} J(x_1) J(x_2) \EV{\phi(x_1) \phi(x_2)}_0 + \cdots \right)
+\end{align*}
+If we define a new generating functional $W[J]$ such that,
+\[ e^{i W[J]} = Z[J] \]
+then,
+\[ \frac{\delta W}{\delta J(x)} = \EV{\phi(x)}_J \]
+We can compute $W$ by considering only completely connected diagrams. The quantum effective action is defined as the Legendre transform of $W[J]$. That is, express $J$ in terms of its derivative,
+\[ \frac{\delta W}{\delta J(x)} = \Phi(x) \implies J[\Phi] \]
+and then we write,
+\[ \Gamma[\Phi] = - \int \dn{4}{x} \Phi(x) J[\Phi](x) + W[J[\Phi]] \]
+The Legendre transform gives,
+\[ \frac{\delta \Gamma[\Phi]}{\delta \Phi(x)} = - J(x) - \int \dn{4}{y} \Phi(y) \frac{\delta J[\Phi](y)}{\delta \Phi(x)} + \int \dn{4}{y} \frac{\delta W}{\delta J(y)} \frac{\delta J(y)}{\delta \Phi(x)}  = - J(x) \]
+Therefore, solutions to the equation,
+\[ \frac{\delta \Gamma[\Phi]}{\delta \Phi(x)} = 0 \]
+are exactly field configurations which are permitted with zero source term.
+
+\begin{theorem}
+\[ i W[J] = \int \pathd{\phi} \exp{\left[ i \Gamma[J] + i \int  \dn{4}{x} J(x) \right]} \]
+where we only include completely connected tree-level diagrams. We can write,
+\begin{align*}
+\Gamma[\Phi] & = C + \int \dn{4}{x} G^{(1)}(x) \phi(x) + \frac{1}{2} \int \dn{4}{x_1} \dn{4}{x_2} G^{(2)}(x_1, x_2) \phi(x_1) \phi(x_2) 
+\\
+\quad \quad & + \frac{1}{3!} \int \d{4}{x_1} \dn{4}{x_2} \dn{4}{x_3} G^{(3)}(x_1, x_2, x_3) + \cdots 
+\end{align*}
+\end{theorem}
+
+\begin{theorem}
+
+\end{theorem}
+
+\begin{proof}
+Define,
+\[ Z_B[J] = \int \pathd{\phi} e^{i S[\phi + B] + i \int \dn{4}{x} J(x) \phi(x)} = \int \pathd{\phi} e^{i S[\phi] + i \int \dn{4}{x} J(x) (\phi(x) - B(x))} = Z_0[J] e^{-\int \dn{4}{x} J(x) B(x)} \] 
+Furthermore, take,
+\[ W_B[J] = W_0[J] - \int \dn{4}{x} J(x) B(x) \]
+and thus,
+\[ \Gamma_B[\Phi] = \Gamma_0[B + \Phi] \]
+We know first that,
+\[ \Phi = \frac{\delta W_B}{\delta J(x)} = \frac{\delta W_0}{\delta J(x)} - B(x) \]
+and also that,
+\[ \Gamma_B[\Phi] = - \int \dn{4}{x} \Phi(x) J(x) + W_B[J] = - \int \dn{4}{x} (\Phi(x) + B(x)) J(x) + W_0[J] = \Gamma_0[\Phi + B] \]
+\end{proof}
+
+\subsection{Coleman-Weinberg Effctive Potential}
+
+Consider a scalar field with quartic interaction in 4D,
+\begin{align*}
+S[\Phi] & = \int \dn{4}{x} \left[ \tfrac{1}{2} (\partial \phi)^2 -  \tfrac{1}{2} m^2 \phi^2 - \tfrac{1}{4!} \lambda \phi^4 \right] 
+\end{align*}
+
+We find the effective potential by considering the effective action for a constant field $\Phi$. We have,
+\[ \int \dn{4}{x} V_{\text{eff}}[B] = -\Gamma[B] = \int_{\text{1PIC}} \pathd{\phi} e^{i S[\phi + B]} \]
+We can expand the potential as a series,
+\[ V_0(B + \phi) = \sum_{n = 0}^\infty \frac{V_0^{(n)}(B)}{n!} \phi^n \]
+For the $\phi^4$ theory in question we get,
+\[ V_0(\phi) = V_0(\phi) + (m^2 B + \tfrac{1}{6} \lambda B^3) \phi + \tfrac{1}{2} (m^2 + \tfrac{1}{2} \lambda B^2) \phi^2 + \tfrac{1}{6} \lambda B \phi^3 + \tfrac{1}{4!} \lambda \phi^4 \]
+Define the effective mass,
+\[ M(B) = m^2 + \tfrac{1}{2} \lambda B^2 \]
+We can write the first correction,
+\begin{align*}
+i\Gamma[B] & = \log{\det{\left( \frac{\partial^2 + M^2(B) - i \epsilon}{\Lambda^2} \right)^{-1/2}}}
+\\
+& = -\tfrac{1}{2} \Tr{\log{\left( \frac{\partial^2 + M^2(B) - i \epsilon}{\Lambda^2} \right)}} 
+\\
+& = - \frac{1}{2} \int \frac{\dn{4}{x} \dn{4}{k}}{(2 \pi)^4} \log{\left( \frac{-k^2 + M^2(B) - i \epsilon}{\Lambda^2} \right)} 
+\end{align*}
+Performing a Wick rotation $k^0 = i k^0_E$ rotating from the real axis to the positive imaginary axis we do not hit the branch cut of the logarithm. Thus,
+\begin{align*}
+i\Gamma[B] & = - \frac{i}{2} \int \frac{\dn{4}{x} \dn{4}{k_E}}{(2 \pi)^4} \log{\left( \frac{k_E^2 + M^2(B)}{\Lambda^2} \right)} 
+\end{align*}
+Therefore,
+\[ V_1(B) = \frac{1}{2} \int \frac{\dn{4}{k_E}}{(2 \pi)^4} \log{\left( \frac{k_E^2 + M^2(B)}{\Lambda^2} \right)} \]
+We can calculate the third derivative of $V_1(B)$,
+\[ \frac{\partial^3} V_1(M){(\partial M^2)^3} = \int \frac{\dn{4}{k_E}}{(2 \pi)^4} \frac{1}{(k_E^2 + M^2(B))^3} = \frac{1}{32 \pi^2 M^2} \]
+Therefore,
+\[ V_1(B) = \frac{M^4}{64 \pi^2} \log{\left( \frac{M^2}{\mu^2} \right)} + A + B M^2 + C M^4 \]
+where $A$, $B$, and $C$ are integration constants which are fixed by renormalization. In order to be independent of $\mu$ we have the running requirement,
+\[ \mu \deriv{}{\mu} C(\mu) = \frac{1}{32 \pi^2} \]
+Up to the one-loop level,
+\begin{align*}
+V_1(B) &= \left( \hbar A + \hbar B m^2 + \hbar C m^4 \right) + \tfrac{1}{2} \left( m^2 + \hbar \lambda B + \hbar 2 m^2 \lambda C \right) B^2 + \tfrac{1}{4!} \left( \lambda + \hbar \cdot 6 \lambda^2 \right) B^4 
+\\
+\quad & + \frac{\hbar}{64 \pi^2} \left(m^2 + \tfrac{1}{2} \lambda B^2 \right)^2 \log{\left( \frac{m^2 + \tfrac{1}{2} \lambda B^2}{\mu^2} \right)} 
+\end{align*}
+However, we must renormalized our couplings to get,
+\[ g(\mu) = \hbar A + \hbar B m^2 + \hbar C m^4  \quad \quad m^2(\mu) = m^2 + \hbar \lambda B + \hbar 2 m^2 \lambda C \quad \quad \lambda(\mu) = \lambda + \hbar \cdot 6 \lambda^2 \]
+and thus,
+\[ V_1(B) = g(\mu) + \tfrac{1}{2} m(\mu)^2 B^2 + \tfrac{1}{4!} \lambda B(\mu)^4 + \frac{\hbar}{64\pi^2} \left(m(\mu)^2 + \tfrac{1}{2} \lambda(\mu) B^2 \right)^2 \log{\left( \frac{m^2(\mu) + \tfrac{1}{2} \lambda(\mu) B^2}{\mu^2} \right)}  \] 
+
+\subsection{Interpretation of The Effective Action}
+
+First consider an analog to statistical mechanics. The parition function of an Ising model is,
+\[ Z(\beta, \mu) = \sum_{\{ \sigma \}} e^{- \beta(H - \mu M) } \]
+where the Hamiltonian measures the interaction between nearest neighbors,
+\[ H = - \alpha \sum_{(ij)} \sigma_i \sigma_j \]
+and the magnitization is,
+\[ M = \sum_i \sigma_i \]
+Consider the partition functions over states with a fixed magnetization $M_0$. That is,
+\[ Z'(\beta, M_0) = \sum_{ \{ \sigma \} } e^{- \beta H} \delta(M - M_0) = \frac{\beta}{2 \pi} \int_{\text{Im}} \d{\mu} \sum_{ \{ \sigma \} } e^{- \beta (H - \mu (M -  M_0))} = \frac{\beta}{2 \pi} \int_{\text{Im}} \d{\mu} e^{- \beta \mu M_0} Z(\beta, \mu) \] 
+Define,
+\[ e^{- \beta F(\beta, \mu)} = Z(\beta, \mu) \]
+Then, in the limit, $\beta \to \infty$ we have,
+\[ e^{- \beta E_{\text{min}}} \Big|_{M = M_0} = Z'(\beta, \mu) = \frac{\beta}{2\pi} \int_{\text{Im}} \d{\mu} e^{- \beta \left( F(\beta, \mu) + \mu M_0 \right) } \]
+Using the saddle-point approximation,
+\[ \frac{\beta}{2\pi} \int_{\text{Im}} \d{\mu} e^{- \beta \left( F(\beta, \mu) + \mu M_0 \right) } \approx \exp{\left[ - \beta \left( F(\beta, \mu^*) + \mu^* M_0 \right) \right] } \]
+where
+\[ \pderiv{}{\mu} F(\beta,\mu) \Big|_{\mu^*} = -M_0 \] 
+Thus,
+\[ E_{\text{min}} = F(\beta, \mu^*) + \mu^* M_0 \]
+is the Legendre transform. 
+
+\begin{theorem}
+The quantum effective action has the interpretation that $- \frac{1}{T} \Gamma[\Phi]$ is the minimal energy of a state with $\EV{\phi} = \Phi$ where $T$ is the overall time interval. 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\section{The Renormalization Group}
+
+\subsection{Wilsonian Effective Action and Renormalization Group}
+
+\subsubsection{Effective Interactions}
+
+Consider the theory,
+\[ S = \int \dn{4}{x} \left[ \tfrac{1}{2} \partial_\mu \phi \partial^\mu \phi - \tfrac{1}{2} m^2 \phi^2 - \tfrac{1}{4!} g \phi^4 + \tfrac{1}{2} \partial_\mu \Psi \partial^\mu \Psi - \tfrac{1}{2} M^2 \Psi^2 - g_3 \phi^2 \Psi \right] \]
+Assume $M^2 \gg t$ the effective scattering energy. We have the scattering process,
+\begin{equation*}
+\feynmandiagram [horizontal=a to b, baseline =(a)] {
+i1 -- [fermion] a -- [fermion] i2,
+a -- [fermion, edge label'=$\Psi$, momentum=$k$] b,
+f1 -- [fermion] b -- [fermion] f2,
+}; 
+= -g_3^2 \frac{i}{k^2 - M^2 + i \epsilon} 
+\end{equation*}
+The amplitude of such a diagram gives,
+\[ \mathcal{M} = \frac{ig_3^2}{M^2} \left( 1 + \frac{k^2}{M^2} + \frac{k^4}{M^4} + \cdots \right) \]
+This is given to first-order in $k/M$ by a contact interaction,
+\[ \lagrange^{(1)}_{\text{eff,int}} = \frac{g_3^2}{M^2} \frac{1}{24} \phi^4 \]
+which gives an effective shift of the $\phi^4$ coupling,
+\[ g \mapsto g - \frac{g_3^2}{M^2} \]
+To second order in $k/M$ we need to include the four-valent interaction with amplitude,
+\[ \frac{ig_3^2}{M^2} \frac{k^2}{M^2} \] 
+which requires that,
+\[ \lagrange^{(2)}_{\text{eff,int}} = \frac{g_3^2}{M^2} \phi^2 \partial_\mu \phi \partial^\mu \phi \]
+These effective terms are nonrenormalizable reflecting the fact that this effective theory breaks down at energy scales on the order of $M$. 
+
+\subsubsection{Wilsonian Effective Action}
+
+We want to evaluate the partition function which, after Wick rotation, becomes,
+\[ Z[J] = \int \pathd{\phi} e^{-(S_E[\phi] + \int J \cdot \phi)} \]
+where, for the $\phi^4$-theory,
+\[ S_E[\phi] = \int \dn{4}{x} \left( \tfrac{1}{2} \partial_\mu \phi \partial^\mu \phi + \tfrac{1}{2} m^2 \phi^2 + \tfrac{1}{24} g_4 \phi^4 \right] \]
+We write $\phi = L + H$ where $L$ is band limited such that $|k| > \Lambda$ and $H$ is band limited such that $|k| < \Lambda$. It was necessary to perform such a decomposition in Euclidean space because the Lorentzian norm has null wave vectors representing arbitrarily high frequency oscillations. 
+We can therefore write,
+\[ Z[J] = \int \pathd{L} \int \pathd{L} e^{-S[L + H] - \int J \cdot L}  = \int \pathd{L} e^{- S_{\text{eff}}[L; \Lambda] - \int J \cdot L} \] 
+if we restrict to $J$ such that $J(k) = 0$ when $|k| \ge \Lambda$ i.e. $J$ is also band limited. 
+\bigskip\\
+We wish to investigate the change in the effective action as we slowly lower the cutoff scale via $\Lambda' = e^{-\epsilon} \Lambda \approx (1 - \epsilon) \Lambda$. We now decompose $\phi = L' + M + H$ where $L'$ has $|k| < \Lambda'$ and $M$ is band limited between $\Lambda'$ and $\Lambda$ and $H$ has $|k| > \Lambda$. Therefore,
+\[ e^{-S_{\text{eff}}[L; \Lambda]} = \int \pathd{H} e^{-S[L + H]} \] 
+and furthermore,
+\begin{align*}
+e^{-S_{\text{eff}}[L'; \Lambda']} & = \int \pathd{H'} e^{-S[L' + H']} = \int \pathd{M} \int \pathd{H} e^{-S[L' + M + H]}
+\\
+& = \int \pathd{M} e^{-S_{\text{eff}}[L' + M; \Lambda]}
+\end{align*}
+Therefore, we can write,
+\[ - S_{\text{eff}}[L'; \Lambda'] = \int_{C} \pathd{M} e^{-S_{\text{eff}}[L' + M ; \Lambda] } \]
+where we restrict the path-integral to be only calculated over connected diagrams. 
+
+\subsection{Callan-Symanzik Equation}
+
+Consider the bare correlation functions,
+\[ G_0^{(n)}(x_1, \dots, x_n) = \bra{\Omega} \Torder{\phi_0(x_1) \cdots \phi_n(x_n)} \ket{\Omega} \]
+which should be independent of $M$, the renormalization scale. From field-strength renormalization we find,
+\[ G_0^{(n)}(x_1, \dots, x_n) = Z^{n/2}(M) \bra{\Omega} \Torder{\phi(x_1) \cdots \phi(x_n)} \ket{\Omega} = Z^{n/2} G^{(n)}(x_1, \dots, x_n) \]
+Therefore, we impose the flow equation,
+\begin{align*}
+0 = M \deriv{}{M} \left( Z^{n/2} G^{(n)} \right) & = n Z^{\frac{n-1}{2}} \pderiv{\sqrt{Z}}{\log{M}} G^{(n)} + Z^{n/2} \left( \pderiv{}{\log{M}} + \pderiv{\lambda_r}{\log{M}} \pderiv{}{\lambda_r} \right) G^{(n)} 
+\\
+& = z^{n/2} \left[ n \gamma + \pderiv{}{\log{M}} + \beta(\lambda_r) \pderiv{}{\lambda_r} \right] G^{(n)}
+\end{align*}
+where we have set,
+\[ \gamma = \frac{1}{\sqrt{Z}} \pderiv{\sqrt{Z}}{\log{M}} = \frac{1}{2} \pderiv{\log{Z}}{\log{M}} \]
+Therefore, we find the Callan-Symanzik Equation,
+\[ \left[ n \gamma + \pderiv{}{M} + \beta(\lambda) \pderiv{}{\lambda} \right] G^{(n)} = 0 \]
+
+\subsubsection{On-Loop $\phi^4$ Theory Example}
+
+Consider massless $\phi^4$ theory and the one-loop correction to the four-point function. We have three loop diagrams whose contributions can be written in terms of the function,
+\[ V(s) = \frac{1}{2} \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i}{k^2} \frac{i}{(k + p_1 + p_2)^2}  \]
+where $s = (p_1 + p_2)^2$. Then the four point function is,
+\[ G^{(4)}(p_1, p_2, p_3, p_4) = \left[ - i \lambda + (- i \lambda)^2 \left( V(s) + V(t) + V(u) \right) - i \delta_{\lambda} \right] \frac{i}{p_1} \frac{i}{p_2} \frac{i}{p_3} \frac{i}{p_4} \] 
+Renormaling such that,
+\[ G^{(4)} = -i \lambda \frac{i}{p_1} \frac{i}{p_2} \frac{i}{p_3} \frac{i}{p_4} \]
+at $s = t = u = - M^2$ we find,
+\[ \delta_{\lambda} = (-i \lambda)^2 3 V(-M^2) = \frac{3 \lambda^2}{2 (4 \pi)^{d/2}} \int_0^1 \d{x} \frac{\Gamma(2 - \tfrac{d}{2})}{(x ( 1 - x) M^2)^{2 - \tfrac{d}{2}}} = \frac{3 \lambda^2}{2 (4 \pi)^2} \left( \tfrac{2}{4 - d} - \log{M^2} + \text{finite} \right) \] 
+Furthermore, there is no renormalization of the propagtor at the one-loop level so $\gamma = 0$. Thus we find that,
+\[ \deriv{}{\log{M}} G^{(4)} = i \frac{3 \lambda^2}{16 \pi^2} \]
+Furthermore to first-order in $\lambda$ (since it will be multiplied by the higher-order $\beta$ function) we find,
+\[ \pderiv{}{\lambda} G^{(4)} = - i \]
+Using the Callan-Symanzik Equation we can solve for the beta function via,
+\[ \beta(\lambda) = - \left( \pderiv{}{\lambda} G^{(n)} \right)^{-1} \left( n \gamma + \pderiv{}{\log{M}} G^{(4)} \right) \]
+Therefore,
+\[ \beta(\lambda) = \frac{3 \lambda^2}{16 \pi^2} \]
+
+\subsection{Critical Exponents}
+
+Let $\bar{g}$ be a bare coupling. We can write the bare constant in terms of the renormalized coupling up to one-loop,
+\[ \bar{g}^{\ell} = \mu^{\Delta_{\ell}} \left[ g^{\ell}(\mu) + \hbar b^{\ell}_{km} g^{k}(\mu) g^m(\mu) \log{\frac{\Lambda}{\mu}} + \cdots \right] \]
+Thus,
+\[ \mu \deriv{}{\mu} \bar{g}^{\ell} = 0 \implies \mu \partial_\mu g^{\ell}(\mu) = - \Delta_{\ell} g^{\ell}(\mu) + \hbar b^{\ell}_{km} g^k(\mu) g^m(\mu) + O(\hbar^2) \]
+Therefore,
+\[ \beta^{\ell}(g) = - \Delta_{\ell} g^{\ell}(\mu) + \hbar b^{\ell}_{mk} g^k(\mu) g^m(\mu) + O(\hbar^2) \]
+Suppose there is a fixed point with a codimension $1$ sumanifold of stable flows towards the fixed point under UV to IR flow. If there is a sigle unstable eigenvalue $\nu^{\ell}_R$ then we can write,
+\[ g^{\ell}(\mu) = \nu^{\ell}_R \cdot \mu^{- \lambda_R} \cdot (T - T_C) \]
+We can expand the quantum effective action,
+\[ \Gamma = \sum_n \int_{p_1, \dots, p_n} \Gamma^{(n)}(p_1, \dots, p_n) \phi(p_1) \dots \phi(p_n) \delta p_1 \cdots \delta p_n \]
+Applying the Callan-Symanzik equation,
+\[ \Gamma^{(n)}(p) = |p|^{d - n[\Delta_\phi + \gamma_\phi(g_*)]} F_n(|p|^{- \lambda_R} \cdot (T - T_C)) \]
+which, by dimensional analysis, can be rewritten as,
+\[ \Gamma^{(n)}(p) = (T - T_C)^{- \frac{1}{\lambda_R} \big[d - n[\Delta_\phi + \gamma_\phi(g_*)] \big]} G_n( |p| \cdot (T - T_C)^{-\frac{1}{\lambda_R}}) \]
+
+\subsection{Effective Field Theories}
+
+\subsubsection{Relativistic Theory of Phonons}
+
+Due to global shift symmetry corresponding to translations of the lattice, the Lagrangian may only contain derivative terms. Furthermore, we take $\phi \mapsto - \phi$ to be a symmetry. To leading-order this constrains the Lagrangian to,
+\[ \lagrange = \tfrac{1}{2} (\partial_t \phi)^2 - \tfrac{1}{2} c_s^2 (\nabla \phi)^2  \]
+However, we will require Lorentz-invariance which forces $c_s = 1$ the speed of light. Higher-order terms are also highly constrained by the symmetries to,
+\[ \lagrange = \tfrac{1}{2} \partial_\mu \phi \partial^\mu \phi + a (\partial^2 \phi)^2 + b (\partial_\mu \phi \partial^\mu \phi)^4 \]
+
+\subsubsection{Effective QCD: Pions}
+
+\subsection{1D Ising Model}
+
+Consider a 1D chain of $N$ spins with interaction Hamiltonian,
+\[ H = - J \sum_{j = 1}^N \sigma_j \sigma_{j + 1} - h \sum_{i = 1}^N \sigma_j \]
+where each $\sigma_i = \pm 1$. Define,
+\[ H_0 = - \beta H = k_0 \sum_{j = 1}^N \sigma_j \sigma_{j + 1} + h_0 \sum_{j = 1}^N \sigma_j \]
+The classical partition function is,
+\[ Z = \sum_{\sigma_j = \pm 1} e^{- \beta H} = \sum_{\sigma_1  = \pm 1} \cdots \sum_{\sigma_N = \pm 1} e^{k_0 \sum_{j = 1}^N \sigma_j \sigma_{j + 1} + h_0 \sum_{j = 1}^N \sigma_j} \]
+Now we ``integrate out'' odd-numbered spins,
+\[ Z(N, k_0, h_0) = \prod_{j \text{ odd}} \sum_{\sigma_{j-1} = \pm 1} \sum_{\sigma_j = \pm 1} \sum_{\sigma_{j+1} = \pm 1} e^{k_0 (\sigma_{j-1} \sigma_j + \sigma_j \sigma_{j + 1}) + \tfrac{1}{2} h_0 (\sigma_{j - 1} + 2 \sigma_j + \sigma_{j + 1})} \]
+Summing over $\sigma_j$ we get,
+\[ \sum_{\sigma_j = \pm 1} e^{k_0 (\sigma_{j-1} \sigma_j + \sigma_j \sigma_{j + 1}) + \tfrac{1}{2} h_0 (\sigma_{j - 1} + 2 \sigma_j + \sigma_{j + 1})} = 2 e^{\frac{h_0}{2} (\sigma_{j-1} + \sigma_j)} \cosh{[k_0(\sigma_{j-1} + \sigma_{j+1} + h_0]} \]
+It turns out that, using $\sigma_i^2 = 1$, we can write,
+\[ 2 e^{\frac{h_0}{2} (\sigma_{j-1} + \sigma_j)} \cosh{[k_0(\sigma_{j-1} + \sigma_{j+1} + h_0]} = \exp{[-2 g + k_1 \sigma_{j-1} \sigma_{j+1} = \tfrac{1}{2} (h_1 - h_0) (\sigma_{j-1} + \sigma_{j+1})]} \]
+where,
+\begin{align*}
+g(k_0, h_0) &= - \frac{1}{8} \log{\left[ 16 \cosh{(h_0 + 2 k_0)} \cosh^2{h_0} \cosh{(h_0 - 2 k _0)} \right]}
+\\
+k_1(k_0, h_0) &= \frac{1}{4} \log{\left( \frac{\cosh{(2 k_0 + h_0)} \cosh{(2 k_0 - h_0)}}{\cosh^2{(h_0)}} \right)} = R_k(k_0, h_0)
+\\
+h_1(k_0, h_0) &= h_0 + \frac{1}{2} \log{\left( \frac{\cosh{(2 k_0 + h_0)}}{\cosh{(2 k_0 - h_0)}} \right)} = R_h(k_0, h_0)
+\end{align*}
+Therefore,
+\[ Z(N, k_0, h_0) = e^{-N g(k_0, h_0)} \sum_{\text{even } \sigma_j} e^{k_1 \sum_k \sigma_{2 k} \sigma_{2 k + 2} + h_1 \sum_k \sigma_{2 k}} = e^{- N g(k_0, h_0)} Z(N/2, k_1, h_1) \] 
+We can repeat this argument to find in the limit,
+\[ Z(N, k_0, h_0) = \exp{\left[ - N \sum_{\ell = 0}^{\infty} 2^{-2 \ell} g(k_{\ell}, h_{\ell}) \right]} \]
+where,
+\[ k_{\ell + 1} = R_k(k_{\ell}, h_{\ell}) \quad \text{and} \quad h_{\ell + 1} = R_{h}(k_{\ell}, h_{\ell}) \]
+These are RG flow equations for renormalized quasi-spins. First consider the case of no external field, $h = 0$. The RG flow reduces to,
+\begin{align*}
+k' & = R_k(k, 0) = \frac{1}{2} \log{\cosh{2 k}} 
+\end{align*}
+and $h = 0$ remains. There is a $k$-fixed point when $k = 0$ corresponding to $T = \infty$. For small $k$ we find,
+\[ k' = \frac{1}{2} \log{\left( 1 + \frac{4 k^2}{2} \right)} = k^2 \]
+so $k \to 0$. Thus, the $k = 0$ fixed point is stable. It has zero correlation length. There is another fixed point at $k = \infty$ corresponding to $T = 0$. If $k$ is large then,
+\[ k' = \frac{1}{2} \log{\left( \frac{e^{2k}}{2} \right)} = k - \frac{1}{2} \log{2} \]
+so $k$ will decrease meaning that $k = \infty$ is an unstable fixed point. For $h_0 \neq 0$ there is always a $k = 0$ fixed point. 
+
+\section{Spontaneous Symmetry Breaking}
+
+Consider a theory composed of,
+\begin{enumerate}
+\item $SU(2) \times U(1)'$ Yang-Mills Gauge Field denoted $A^a_\mu$ and $B_\mu$. 
+\item A doublet of complex scalars $\phi^i$ for $i = 1,2$.
+\item A doublet of left-handed Weyl spinors $L^i$ such that $\gamma^5 L^i = - L^i$
+\item A singlet right-handed Weyl spinor $R$ such that $\gamma^i R = R$. 
+\end{enumerate}
+The Gauge group acts on this theory by $\phi$ and $L$ in the spin-$\frac{1}{2}$ representation of $SU(2)$. The $\phi$ transforms under $U(1)'$ with charge $1/2$, $L$ transforms with change $U(1)'$ and $R$ with charge $-1$. Therefore, the covariant derivatives act via,
+\begin{align*}
+\covD_\mu \phi & = \left( \partial_\mu  - i g A_\mu^a \frac{\sigma^a}{2} - i g B_\mu \frac{\sigma^0}{2} \right) \phi
+\\
+\covD L & = \left( \partial_\mu - i g A_\mu^a \frac{\sigma^a}{2} + i g; B_\mu \frac{\sigma^0}{2} \right) L
+\\
+\covD R & = \left( \partial_\mu + i g' B_\mu \right) R
+\end{align*}
+
+Then the Lagrangian for the theory takes the general form,
+\begin{align*}
+\lagrange & = - \frac{1}{4} F_A^2 - \frac{1}{4} F_B^2 + (\covD \phi)^\dagger (\covD \phi) + i \bar{L} \slashed{\covD} L + i \bar{R} \covD R + \mu^2 \phi^\dagger \phi - \lambda (\phi^\dagger \phi)^2 - \lambda_Y  \left( \bar{L} \phi R + \bar{R} \phi^\dagger L \right)
+\end{align*}
+There are no mass terms because these are forbidden by Gauge invariance. There is an additional irrelevant coupling of the form,
+\[ - \frac{\lambda_5}{\Lambda} \epsilon^{ik} \epsilon^{j k} \epsilon^{ab} \phi^i \phi^j L^k_a L^\ell_b + h.c. \]
+
+This theory exhibits spontaneous symmetry breaking since the potential has a minimum at,
+\[ \phi^\dagger_0 \phi_0 = \frac{\mu^2}{2 \lambda} \]
+Given the Gauge transformation we may, without loss of generality, set,
+\[ \phi_0 = \frac{1}{\sqrt{2}} 
+\begin{pmatrix}
+0 
+\\
+v
+\end{pmatrix} \]
+With $v = \mu \lambda^{-\frac{1}{2}}$. The $SU(2) \times U(1)'$ symmetry is broken by expansion about $\phi_0$. However, the entire symmetry group is not broken. The $\frac{1}{2} \sigma^1$ and $\frac{1}{2} \sigma^2$ are borken. Howevr, consider the $\frac{1}{2} \sigma^3$ and $U(1)'$ transformations. We have,
+\[ e^{i(\alpha_0 \frac{\sigma^0}{2} + \alpha_3 \frac{\sigma_3}{2})} \phi_0 = \frac{1}{\sqrt{2}}
+\begin{pmatrix}
+e^{i \frac{\alpha_0 + \alpha_3}{2}} & 0
+\\
+0 & e^{i \frac{\alpha_0 - \alpha_3}{2}} 
+\end{pmatrix}
+\begin{pmatrix}
+0
+\\
+v
+\end{pmatrix} \]
+Therefore, the $U(1)$ action of $\alpha_0 = \alpha_3$ remains unbroken. Under this new $U(1)$ symmetry, the fields now transform as,
+\begin{align*}
+\phi & \mapsto e^{i \alpha \left( \frac{\sigma^0 + \sigma^3}{2} \right)} \phi
+\\
+L & \mapsto e^{i \alpha \left( \frac{-\sigma^0 + \sigma^3}{2} \right)} L
+\\
+R & \mapsto e^{- \alpha} R
+\end{align*}
+There are no Goldstone bosons because these are Pure Gauge fluctuations. We choose the unitary gauge, $\Im{\phi} = 0$ and,
+\begin{align*}
+\phi = \frac{1}{\sqrt{2}}
+\begin{pmatrix}
+0
+\\
+v + h(x)
+\end{pmatrix}
+\end{align*}
+which fixes all symmetry except the unbroken $U(1)$. In these new variables,
+\[ V(\phi) = \mu^2 h^2 + \mu \sqrt{\lambda} h^3 + \frac{\lambda}{4} h^4 + \text{const.} \]
+Furthermore, expanding the kinetic $\phi$-term,
+\begin{align*}
+(\covD \phi)^\dagger (\covD \phi) & = \tfrac{1}{2} \partial_\mu h \partial^\mu h + \tfrac{1}{8} (v + h)^2 (g A^3  - g' B)^2 + \tfrac{1}{8} (v + h)^2 (g^2 (A^1)^2 + g^2 (A^2)^2)
+\end{align*}
+Now we diagonalize the ``mass matrix'' acquired by $h$ taking expectation value $v$. This is achieved by a canonical transformation preserving the kinetic term,
+\begin{align*}
+Z_\mu & = \frac{1}{\sqrt{g^2 + g'^2}} \left( g A_\mu^3 - g' B_\mu \right) 
+\\
+A_\mu & = \frac{1}{\sqrt{g^2 + g'^2}} \left( g' A_\mu^3 + g B_\mu \right)
+\\
+W^{\pm}_\mu & = \frac{1}{\sqrt{2}} \left( W^1_\mu \mp i W_\mu^2 \right) = \frac{1}{2} \left( A^1_\mu \mp i A_\mu^2 \right) 
+\end{align*}
+Then the Lagrangian with Dirac terms removed becomes,
+\begin{align*}
+\lagrange |_{h = 0} = - \frac{1}{4} F_{W,Z}^2 - \frac{1}{4} F_A^2 + \frac{1}{2} \frac{g^2}{4} v^2 \left( (W^1)^2 + (W^2)^2 \right) + \frac{1}{2} \frac{g^2 + g'^2}{4} v^2 Z^2
+\end{align*}
+Therefore,
+\[ m_W = \frac{gv}{2} \quad \text{and} \quad m_Z = \frac{\sqrt{g^2 + g'^2}}{2} v \]
+Now setting $W = Z = 0$ we find,
+\begin{align*}
+A_\mu^3 & = \frac{g'}{\sqrt{g^2 + g'^2}} A_\mu 
+\\
+B_\mu & = \frac{g}{\sqrt{g^2 + g'^2}} A_\mu 
+\end{align*}
+In these new variables, the covariant derivates become,
+\begin{align*}
+\covD_\mu L^1 & = \partial_\mu L^1
+\\
+\covD_\mu L^2 & = \left( \partial_\mu + i e A_\mu \right) L^2
+\\
+\covD_\mu R & = \left( \partial_\mu + i e A_\mu \right) R 
+\end{align*}
+where,
+\[ e = \frac{g g'}{\sqrt{g^2 + g'^2}} \]
+is the charge of the new unbroken $U(1)$. Now define $\psi = L^2 + R$. Then the full Lagrangian becomes,
+\begin{align*}
+\lagrange |_{h = 0} = - \frac{1}{4} F_A^2 + i \bar{\psi} \slashed{\covD} \psi + i \bar{L}^1 \slashed{\partial} L^1 - \frac{\lambda_y}{\sqrt{2}} v \left( \bar{L}^2 R + \bar{R} L^2 \right) 
+\end{align*}  
+This can be rewirtten as,
+\[ \lagrange = - \frac{1}{4} F_A^2 + i \bar{\psi} \left( \slashed{\covD} - m \right) \psi + i \bar{L}^1 \slashed{\partial} L^1 \]
+which is the Lagrangian for QED with a Dirac fermion with charge $e$ and a massless uncharged left-handed neutrino. If we inlcude the higher-dimension irrelevant coupling discoussed above, in our current variables, we get,
+\[ \frac{\lambda_5 v^2}{\Lambda} \epsilon^{ab} L^1_a L^1_b + h.c. \]
+which gives a Majorana mass term for the neutrino.  
+
+\section{Anomalies}
+
+Consider 4D massless QED with the Lagrangian,
+\[ \lagrange = - \frac{1}{4} F_{\mu \nu} F^{\mu \nu} + i \bar{\psi} \slashed{\covD} \psi \]
+There is an additional symmetry in the massless case to the Gauge symmetry in the massless case. There is an axial $U(1)$ symmetry given by,
+\[ \psi \mapsto e^{i \alpha \gamma^5} \psi \]
+Which acts on a Dirac spinor in terms of handed Weyl components as,
+\[ \psi = 
+\begin{pmatrix}
+L 
+\\
+R
+\end{pmatrix}
+\mapsto e^{i \alpha \gamma^5}
+\begin{pmatrix}
+L 
+\\
+R
+\end{pmatrix}
+= 
+\begin{pmatrix}
+e^{- i \alpha} L 
+\\
+e^{i \alpha} R
+\end{pmatrix} \]
+This additional symmetry gives rise to the axial current,
+\[ j_A^\mu = \bar{\psi} \gamma^5 \gamma^\mu \bar{\psi} \]
+which classicaly is conserved,
+\[ \partial_\mu j_A^\mu = 0 \]
+However, quantum mechaincally, the Ward identities replace the classical statment of Noether's theorem. We consider the transformation of fields, $\delta \psi = i \epsilon(x) \gamma^5 \psi$ where $\epsilon$ is a function of space. This amounts simply to a change of variables of the path-integral and therefore the path-integral correlators are constant. The variation in the measure takes the form,
+\[ \delta (\pathd{\bar{\psi}} \pathd{\psi}) = A[\bar{\psi}, \psi]  \pathd{\bar{\psi}} \pathd{\psi} \]
+Furthermore, since the transformation is a symmetry for constant $\epsilon$, the variation in the action takes the form,
+\[ \delta S = \delta \int \dn{4}{x} \lagrange(x) = \int \dn{4}{x} \partial_\mu i \epsilon(x) j_A^\mu(x) = - i \int \dn{4}{x} \epsilon(x) \partial_\mu j_A^{\mu}(x) \]
+Therefore,
+\begin{align*}
+\delta & \left( \int \pathd{\psi} \pathd{\bar{\psi}} e^{i \int \dn{4}{x} \lagrange(x)} \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4) \right) = 0
+\\
+& = \int \pathd{\bar{\psi}} \pathd{\psi} \left[ A[\bar{\psi}, \psi]  + \int \dn{4}{x} \epsilon(x) \partial_\mu j_A^\mu \right] e^{i \int \dn{4}{x} \lagrange(x)} \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4)
+\\
+& + \int \pathd{\bar{\psi}} \pathd{\psi} e^{i \int \dn{4}{x} \lagrange(x)} \delta \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4) + \cdots + \int \pathd{\bar{\psi}} \pathd{\psi} e^{i \int \dn{4}{x} \lagrange(x)} \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \delta \psi(x_4)
+\end{align*}  
+When $A = 0$ this implies the standard Ward identities,
+\begin{align*}
+\EV{\partial_\mu j^\mu_A(x) \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4)} = & -\delta(x - x_1) \EV{ \frac{\delta \bar{\psi}(x_1)}{\delta \epsilon} \psi(x_2) \bar{\psi}(x_3) \psi(x_4) } 
+\\
+& + \cdots +
+\\
+& -\delta(x - x_4) \EV{ \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \frac{ \delta \psi(x_4)}{\delta \epsilon}}
+\end{align*}
+In general, we may write,
+\[ \delta( \pathd{\bar{\psi}} \pathd{\psi} ) = \Tr{ \frac{\delta}{\delta \psi(x)} \delta \psi(y) + \frac{\delta}{\delta \bar{\psi}(x)} \delta \bar{\psi}(y)} \]
+This follows from the classical observation that, under the transformation $\psi \mapsto e^{\epsilon G} \psi$ 
+(CLASSICAL)
+Under the following transformation, $\delta \psi(x) = i \epsilon(x) \gamma^5 \psi(x)$ and therefore, 
+\[ \frac{\delta}{\delta \psi(x)} \psi(y) = i \epsilon(x) \gamma^5  \delta^4(x - y) \]
+Furthermore, 
+\[ \delta \bar{\psi} = (\delta \psi)^\dagger \gamma^0 = - i \epsilon(x) (\gamma^5 \psi)^\dagger \gamma^0 = - i \epsilon(x) \psi^\dagger \gamma^5 \gamma^0 = i \epsilon(x) \gamma^0 \gamma^0 = i \epsilon(x) \bar{\psi} \gamma^5 \]
+Thus,
+\[ \frac{\delta}{\delta \bar{\psi}(x)} \bar{\psi}(y) = i \epsilon \gamma^5 \delta^4(x - y) = i \epsilon \gamma^5 \mathds{1} \]
+We need to compute,
+\[ \Tr{2 i \epsilon(x) \gamma^5 \mathds{1}} = \int \dn{4}{x} \tr{\bra{x} 2 i \epsilon(x) \gamma^5 \ket{x}} = \int \dn{4}{x} \frac{\dn{4}{p}}{(2 \pi)^4} \epsilon(x) \tr{\gamma^5} \]
+But this integral is divergent and $\tr{\gamma^5} = 0$ so we seem to have come to an impass. The solution is that we have been inconsistent in regularization schemes. 
+The standard regularization scheme for loops equivalent to performing Schwinger regularization to integrals is performed by replacing traces by the form,
+\[ \Tr{\frac{i}{-\partial^2 - m^2 + i \epsilon}} \mapsto \Tr{\frac{i}{-\partial^2 - m^2 + i \epsilon} e^{- \Lambda^{-2} (\partial^2 + m^2)} } \]
+adding a diffusion operator to smooth the divergences. However, we need to be careful for spinor loops. The simpliest massive spinor loop amplitude takes the form,
+\begin{align*}
+\int \dn{4}{x} \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i}{\slashed{k} - m + i \epsilon} & = \int \dn{4}{x} \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i (\slashed{k} + m)}{k^2 - m^2 + i \epsilon}
+\end{align*}
+Which is regulated by inserting,
+\[ \int \dn{4}{x} \int \frac{\dn{4}{k}}{(2 \pi)^4} \frac{i (\slashed{k} + m)}{k^2 - m^2 + i \epsilon} e^{- \Lambda^{-2} (-k^2 + m^2)} \]
+We must always be sure that our regulator is Gauge invariant. We can ensure this by inserting the diffusion operator,
+\[ \Tr{\mathcal{O}} \mapsto \Tr{\mathcal{O} e^{- \Lambda^{-2} (i \slashed{\covD})^2}} \]
+For the trace we care about,
+\[ \Tr{2 i \epsilon(x) \gamma^5 \mathds{1}} \mapsto \Tr{2 i \epsilon(x) \gamma^5 \mathds{1} e^{- \Lambda^{-2} (i \slashed{\covD})^2}} \]
+Therefore, we need to compute the traces of such a regulator. First,
+\[ \slashed{\covD}^2 = (\gamma^\mu \covD_\mu)^2 + \tfrac{1}{2} \left\{ \gamma^\mu, \gamma^\nu \right\} \covD_\mu \covD_\nu + \tfrac{1}{2} [\gamma^\mu, \gamma^\nu] \covD_\mu \covD_\nu = \covD_\mu \covD^\mu - i \sigma^{\mu \nu} \tfrac{1}{2} [\covD_\mu, \covD_\nu] = \covD_\mu \covD^\mu - \tfrac{1}{2} \sigma^{\mu \nu} F_{\mu \nu} \]
+Where,
+\begin{align*}
+\sigma^{\mu \nu} & = \tfrac{i}{2} [\gamma^\mu, \gamma^\nu]
+\\
+F_{\mu \nu} & = i [\covD_\mu, \covD_\nu]
+\end{align*}
+Therefore, we need to compute,
+\[ \Tr{2 i \epsilon(x) \gamma^5 \exp{\left[ \frac{\covD_\mu \covD^\mu}{\Lambda^2} - \frac{1}{2 \Lambda^2} \left( F_{\mu \nu} \sigma^{\mu \nu} \right) \right] }} \]
+In the $\Lambda \to \infty$ limit. We can expand the exponential over the field strength tensor, dropping all commutator terms since they enter with higher powers of $\Lambda$. The trace becomes,
+\begin{align*}
+\Tr{2 i \epsilon(x) \gamma^5 \exp{\left[ \frac{\covD_\mu \covD^\mu}{\Lambda^2} - \frac{1}{2 \Lambda^2} \left( F_{\mu \nu} \sigma^{\mu \nu} \right) \right] }} & = \Tr{2 i \epsilon(x) \gamma^5 \frac{1}{8 \Lambda^4} \left( F_{\mu \nu} \sigma^{\mu \nu} \right)^2 e^{\frac{\partial^2}{\Lambda^2}}} + O(\Lambda^{-1})
+\end{align*}
+where other terms vanish because traces of $\gamma^5$ with fewer than four other $\gamma^\mu$ vanish. Furthermore, we can replace $\covD^2$ by $\partial^2$ at this order because the difference enters with a power of $\Lambda^{-2}$. We need to calculate this middle term,
+\begin{align*}
+\Tr{2 i \epsilon(x) \gamma^5 \frac{1}{8 \Lambda^4} \left( F_{\mu \nu} \sigma^{\mu \nu} \right)^2 e^{\frac{\partial^2}{\Lambda^2}}} = \int \dn{4}{x} \frac{\dn{4}{k}}{(2\pi)^4} \frac{2 i \epsilon(x)}{8 \Lambda^4} \tr{\gamma^5 \gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma} F_{\mu \nu} F^{\mu \nu} e^{- \frac{k^2}{\Lambda^2}} 
+\end{align*}
+The Anomaly would vanish  for the Gauge transformation $\psi \mapsto e^{i \alpha} \psi$ (since there would be no additional $\gamma^5$ inside the trace). However, in this case,
+\[ \tr{\gamma^5 \gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma} = - i \epsilon^{\mu \nu \rho \sigma} \tr{(\gamma^5)^2} = - i \epsilon^{\mu \nu \rho \sigma} \tr{\mathds{1}} = - 4 i \epsilon^{\mu \nu \rho \sigma} \]
+Therefore, 
+\begin{align*}
+\Tr{2 i \epsilon(x) \gamma^5 \frac{1}{8 \Lambda^4} \left( F_{\mu \nu} \sigma^{\mu \nu} \right)^2 e^{\frac{\partial^2}{\Lambda^2}}} & = \int \dn{4}{x} \frac{\dn{4}{k}}{(2\pi)^4} \frac{2 i \epsilon(x)}{8 \Lambda^4} \tr{\gamma^5 \gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma} F_{\mu\nu} F_{\rho \sigma} e^{- \frac{k^2}{\Lambda^2}} 
+\\
+& = \frac{1}{(4 \pi)^2} \int \dn{4}{x} \epsilon(x) \epsilon^{\mu \nu \rho \sigma} F_{\mu\nu} F_{\rho \sigma}
+\end{align*}
+Therefore, we find that,
+\begin{align*}
+\int \pathd{\bar{\psi}} \pathd{\psi} \int \dn{4}{x} \epsilon(x) \left[ \partial_\mu j_A^\mu + \frac{1}{16 \pi^2} \epsilon^{\mu \nu \rho \sigma} F_{\mu \nu} F_{\rho \sigma} \right] e^{i \int \dn{4}{x} \lagrange(x)} \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4) = \text{contant terms}
+\end{align*}
+for any $\epsilon$. Therefore, we find that,
+\begin{align*}
+\EV{\partial_\mu j_A^\mu(x) \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4)} & = - \frac{1}{16 \pi^2} \EV{\epsilon^{\mu \nu \rho \sigma} F_{\mu \nu}(x) F_{\rho \sigma}(x) \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \psi(x_4) }
+\\
+& - i \delta(x - x_1) \EV{ \frac{\delta \bar{\psi}(x_1)}{\delta \epsilon} \psi(x_2) \bar{\psi}(x_3) \psi(x_4) } 
+\\
+& + \cdots +
+\\
+& -\delta(x - x_4) \EV{ \bar{\psi}(x_1) \psi(x_2) \bar{\psi}(x_3) \frac{ \delta \psi(x_4)}{\delta \epsilon}}
+\end{align*}
+The first term on the RHS is the anomalous source term leading to an axial current anomaly. Although classically the axial current is conserved, quantum mechainically there is an extra source term. With no insertions,
+\[ \partial_\mu j_A^\mu = - \frac{1}{16 \pi^2} \epsilon^{\mu \nu \rho \sigma} F_{\mu \nu} F_{\rho \sigma} \]
+at the level of correlators away from contact terms. 
+\end{document}
+
+

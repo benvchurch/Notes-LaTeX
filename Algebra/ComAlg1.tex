@@ -1,0 +1,2355 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\norm}[3]{\mathrm{N}^{#1}_{#2}\left(#3\right)}
+\newcommand{\qnorm}[2]{\mathrm{N}^{#1}_{\Q}\left(#2\right)}
+\newcommand{\quadint}[3]{#1 + #2 \sqrt{#3}}
+\newcommand{\pideal}{\mathfrak{p}}
+\newcommand{\inorm}[1]{\mathrm{N}(#1)}
+\newcommand{\tr}[1]{\mathrm{Tr} \! \left(#1\right)}
+\newcommand{\delt}{\frac{1 + \sqrt{d}}{2}}
+\newcommand{\ch}[1]{\mathrm{char} \: #1}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\minimal}[2]{\mathrm{Min}(#1;#2)}
+\newcommand{\fix}[2]{\mathrm{Fix}_{#1} (#2)}
+\newcommand{\id}{\mathrm{id}}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Homover}[3]{\mathrm{Hom}_{#1} \left( #2, #3 \right)}
+\newcommand{\Frac}[1]{\mathrm{Frac}\left(#1\right)}
+
+\newcommand{\U}[1]{\mathrm{U}(#1)}
+\renewcommand{\O}[1]{\mathrm{O}(#1)}
+\newcommand{\SU}[1]{\mathrm{SU}(#1)}
+\newcommand{\SO}[1]{\mathrm{SO}(#1)}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}(#2)}
+\newcommand{\SL}[2]{\mathrm{SL}_{#1}(#2)}
+\newcommand{\PGL}[2]{\mathrm{PGL}_{#1}(#2)}
+\newcommand{\PSL}[2]{\mathrm{PSL}_{#1}(#2)}
+
+\newcommand{\Hom}[2]{\mathrm{Hom}\left(#1, #2 \right)}
+\newcommand{\Mod}[1]{\mathbf{Mod}_{#1}}
+\newcommand{\Grp}{\mathbf{Grp}}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+\newcommand{\Ring}{\mathbf{Ring}}
+
+\newcommand{\Ann}[2]{\mathrm{Ann}_{#1}\left(#2\right)}
+\newcommand{\Ass}[2]{\mathrm{Ass}_{#1}\left( #2 \right)}
+\newcommand{\supp}[2]{\mathrm{Supp}_{#1} \left( #2 \right) }
+\newcommand{\Supp}[2]{\mathrm{Supp}_{#1}\left(#2 \right)}
+\newcommand{\spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\Spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\rad}[1]{\mathrm{rad}\left( #1 \right)}
+\newcommand{\nilrad}[1]{\mathrm{nilrad}\left( #1 \right)}
+\newcommand{\gr}[2]{\mathbf{gr}_{#1}\left(#2\right)}
+
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\p}{\mathfrak{p}}
+\renewcommand{\P}{\mathfrak{P}}
+\newcommand{\q}{\mathfrak{q}}
+\newcommand{\m}{\mathfrak{m}}
+
+
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+
+
+\begin{document}
+\section{Additive Categories}
+
+\begin{definition}
+A category $\mathcal{C}$ is pre-additive if its hom sets have the structure of an abelian group and composition of maps distributes over addition. Explicitly, for $X, Y, Z \in \mathcal{C}$, there exits a binary operation,
+\[ + :  \Hom{X}{Y} \times \Hom{X}{Y} \to \Hom{X}{Y}\]
+such that $(\Hom{X}{Y}, +)$ is an abelian group and, for $f, g : X \to Y$ and $h, k : Y \to Z$ we have $h \circ (f + g) = h \circ f + h \circ g$ and $(h + k) \circ f = h \circ f + k \circ f$. This is equvalent to the requirement that hom is a functor,
+\[ \Hom{-}{-} : \mathcal{C}^{\mathrm{op}} \times \mathcal{C} \to \AbGrp \]
+\end{definition}
+
+\begin{lemma}
+In a pre-additive cateogory, there exists an identity element $0 \in \Hom{X}{Y}$ such that $0 + f = f + 0 = f$ for $f \in \Hom{X}{Y}$ and $f \circ 0 = 0$ for $f \in \Hom{Y}{Z}$ and $0 \circ f = 0$ for $f \in \Hom{Z}{X}$.  
+\end{lemma}
+
+\begin{proof}
+The hom sets are abelian groups by definiton and thus must have unique identiy elements satisfying $f + 0 = 0 + f = f$ for all $f \in \Hom{X}{Y}$. Furthermore, for $f \in \Hom{Y}{Z}$ we have $f \circ 0 = f \circ (0 + 0) = f \circ 0 + f \circ 0$ and thus $f \circ 0 = 0_{XZ}$. Furthermore for $f \in \Hom{Z}{X}$ we know that $0 \circ f = (0 + 0) \circ f = 0 \circ f + 0 \circ f$ so $0 \circ f = 0_{ZY}$.  
+\end{proof}
+
+\begin{definition}
+A biproduct of an indexed set $\{X_i\}_I$ is an object $X = \bigoplus_I X_i$ along with projection maps $\pi_i : X \to X_i$ and inclusion maps $\iota_i : X_i \to X$ such that $(X, \{ \pi_i \}_I)$ is the product of $\{X_i\}_I$ and $(X, \{ \iota_i \}_I )$ is the coproduct of $\{ X_i \}_I$.  
+\end{definition}
+
+
+
+\begin{proposition}
+Let $\mathcal{C}$ be a pre-additive category. Every finite product and finite coproduct is a biproduct. In particular, finite products and coproducts are equal. 
+\end{proposition}
+
+\begin{proof}
+Let $X \times Y$ be the product of $X$ and $Y$. Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, "\id_X"] \arrow[rd, "\iota_X"] & & X
+\\
+& X \times Y \arrow[ru, "\pi_X"] \arrow[rd, "\pi_Y"] &
+\\
+Y \arrow[rr, "\id_Y"] \arrow[ru, "\iota_Y"] & & Y 
+\end{tikzcd}
+\end{center}
+where the maps $\iota_X : X \to X \times Y$ and $\iota_Y : Y \to X \times Y$ are defined via the universal property of the product applied to $(\id_X, 0)$ and $(0, \id_Y)$ respectivly where $0 \in \Hom{X}{Y}$ is the identiy element of the abelian group. The universal property gives,
+\begin{align*}
+\pi_X \circ \iota_X = \id_X &\quad \pi_Y \circ \iota_X = 0
+\\
+\pi_X \circ \iota_Y = 0 &\quad \pi_Y \circ \iota_Y = \id_Y 
+\end{align*}
+so the diagram commutes. We need to show that $X \times Y$ is universal with respect to the maps $\iota_X$ and $\iota_Y$. Suppose we have maps $f_X : Z \to X$ and $f_Y : Z \to Y$ then define $\tilde{f} = f_X \circ \pi_X + f_Y \circ \pi_Y$.
+\begin{center}
+\begin{tikzcd}
+& X \arrow[ld, "f_X"'] \arrow[rr, "\id_X"] \arrow[rd, "\iota_X"] & & X
+\\
+Z & & X \times Y  \arrow[ll, dashed, "\tilde{f}"'] \arrow[ru, "\pi_X"] \arrow[rd, "\pi_Y"] &
+\\
+& Y \arrow[lu, "f_Y"'] \arrow[rr, "\id_Y"] \arrow[ru, "\iota_Y"] & & Y 
+\end{tikzcd}
+\end{center}
+This map satisfies the required universal property because,
+\[ \tilde{f} \circ \iota_X = (f_X \circ \pi_X + f_Y \circ \pi_Y) \circ \iota_X = f_X \circ \pi_X \circ \iota_X + f_Y \circ \pi_Y \circ \iota_X = f_X + 0 = f_X \]
+and likewse,
+\[ \tilde{f} \circ \iota_Y = (f_X \circ \pi_X + f_Y \circ \pi_Y) \circ \iota_Y = f_X \circ \pi_X \circ \iota_Y + f_Y \circ \pi_Y \circ \iota_Y = 0 + f_Y = f_Y \]
+Lastly, we must show that $\tilde{f}$ is unique. Suppose there exits a map $\tilde{f} : X \times Y \to Z$ such that $\tilde{f} \circ \iota_X = f_X$ and $\tilde{f} \circ \iota_Y = f_Y$. Consider the map $I : X \times Y \to X \times Y$ given by,
+\[ I = \iota_X \circ \pi_X + \iota_Y \circ \pi_Y \]
+Therefore, 
+\[ \pi_X \circ I = \pi_X \circ \iota_X \circ \pi_X + \pi_X \circ \iota_Y \circ \pi_Y = \pi_X + 0 = \pi_X \]
+and furthermore,
+\[ \pi_Y \circ I = \pi_Y \circ \iota_X \circ \pi_X + \pi_Y \circ \iota_Y \circ \pi_Y = 0 + \pi_Y = \pi_Y \]
+However, by the universal property of the product, there exists a unique map, namely $\id_{X \times Y}$, satisfying these properties. Thus, $I = \id_{X \times Y}$. Thus,
+\[ \tilde{f} = \tilde{f} \circ \id_{X \times Y} = \tilde{f} \circ I = \tilde{f} \circ \iota_X \circ \pi_X + \tilde{f} \circ \iota_Y \circ \pi_Y  = f_X \circ \pi_X + f_Y \circ \pi_Y \]
+so the map we constructed earlier is unique. 
+\bigskip\\
+Similarly, let $X \coprod Y$ be the coproduct of $X$ and $Y$. A similar argument will hold reversing all arrows. 
+\end{proof}
+
+
+\begin{definition}
+A category is additive if it is pre-additive, has a zero object, and has all finite biproducts. The preceding dicussion implies that it is enough to check that either all finite products or all finite coproducts exit.  
+\end{definition}
+
+\begin{definition}
+A functor $T : \C \to \D$ is additive if it preserves finite biproducts.  
+\end{definition}
+
+\section{Abelian Categories}
+
+ABELIAN FUNCTOR
+
+\section{Categories of Modules}
+
+\begin{definition}
+RING Cat and Module Cat
+\end{definition}
+
+\begin{lemma}
+A ring homomorphism $f : R \to S$ induces an additive functor \[F : \Mod{R} \to \Mod{S}\]
+given by $ (-) \otimes_{R} S$ where $S$ is an $R$-module under the action $r \cdot s = f(r)s$. 
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+$\GL{n}{-} : \Ring \to \Grp$ is a functor
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+$\det : \GL{n}{-} \Longrightarrow (-)^\times$ is a natrual transformation. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Spectra of Rings}
+
+\begin{definition}
+Let $A$ be a ring then $\Spec{A}$ is the set of prime ideals of $A$ with the topology generated by closed sets of the form,
+\[ V(I) = \{ \p \in \Spec{A} \mid \p \supset I \} \]
+for each ideal $I \subset A$. This is known as the Zariski topology.
+\end{definition}
+
+\begin{proposition}
+We have the following properties of Zariski topology,
+\begin{enumerate}
+\item $V(IJ) = V(I) \cup V(J)$
+\item $V(I \cap J) = V(I) \cup V(J)$
+\item $V(I) \subset V(J) \iff \sqrt{I} \supset \sqrt{J}$
+\item For any sequence of ideals $J_i$ for $i \in \mathcal{I}$,
+\[ V \left( \sum_{i \in \mathcal{I}} J_i \right) = \bigcap_{i \in \mathcal{I}} V(J_i) \]
+\item every closed set is of the form $V(I)$ for some ideal $I \subset A$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Clearly if $\p \supset I$ or $\p \supset J$ then clearly $\p \supset IJ$. Furthermore, if $\p \not\supset I$ and $\p \not\supset J$ then ther exists $a \in I$ and $b \in J$ such that $a \notin I$ and $b \notin J$ then $ab \in IJ$ and $ab \notin \p$ since $\p$ is prime. Therefore, $\p \not\supset IJ$ so $V(IJ) = V(I) \cup V(J)$. The exact same argument holds for $V(I \cap J) = V(I) \cup V(J)$.
+\bigskip\\
+If $V(I) \subset V(J)$ then for each prime $\p \supset I$ we have $\p \supset J$. Therefore,
+\[  \sqrt{I} = \bigcap_{\p \supset I} \p \supset \bigcap_{\p \supset J} \p = \sqrt{J} \]
+since the left is an intersection over a subset. Furthermore, if $\sqrt{I} \supset \sqrt{J}$ then clearly $V(\sqrt{I}) \subset V(\sqrt{J})$ since $\p \supset \sqrt{I} \supset \sqrt{J}$ implies $\p \supset \sqrt{J}$. However, $V(I) = V(\sqrt{I})$ for any ideal. Together, this implies that $V(I) \subset V(J)$. 
+\bigskip\\
+Now consider,
+\[ \p \supset \sum_{i \in \mathcal{I}} J_i \]
+then $\p \subset J_i$ for each $i \in \mathcal{I}$. Otherwise, then there exists $f_{i_1} \in J_{i_1}, \cdots f_{i_n} \in J_{i_n}$ such that, $f_{i_1} + \cdots + f_{i_n} \notin \p$. Therefore, at least one $f_{i_j} \notin \p$ so $J_{i_j} \not\supset J_{i_j}$ and thus $\p \notin V(J_{i_j})$ so it cannot lie in the intersection.
+\bigskip
+Because $V(I)$ form a basis of closed sets, any closed set can be written as an intersection of such sets which we have shown is again of the form $V(I)$. 
+\end{proof}
+
+\newcommand{\Top}{\mathbf{Top}}
+
+\begin{proposition}
+A ring map $f : A \to B$ induces a continuous map of spectra, $f^* : \Spec{B} \to \Spec{A}$ via $f^*(\P) = f^{-1}(\p)$. Furthermore, $\Spec{-} : \Ring \to \Top$ is a contravariant functor.
+\end{proposition}
+
+\begin{proof}
+Let $A \to B$ be a ring map and $I \subset A$ an ideal. Consider, $\P \in (f^*)^{-1}(V(I))$ i.e. $f^*(\p) \in V(I)$ so $f^{-1}(\p) \supset I$. Therefore, $\p \supset \left< f(I) \right>$ the ideal generated by $f(I)$ so $\p \in V(\left< f(I) \right>)$. Furthermore, if $\p \in V(\left< f(I) \right>)$ then $f^{-1}(\p) \supset f^{-1}(\left< f(I) \right>) \supset I$ so $\p \in (f^*)^{-1}(V(I))$. Therefore,
+\[ (f^*)^{-1}(V(I)) = V(\left< f(I) \right>) \]
+so $f^* : \Spec{B} \to \Spec{A}$ is continuous. Furthermore, consider $\id_A : A \to A$ then $\id_A^*(\p) = \id_A^{-1}(\p) = \p$ so $\id_A^* = \id_{\Spec{A}}$. Lastly, consider $f : A \to B$ and $g : B \to C$ then,
+\[ (g \circ f)^*(\P) = (g \circ f)^{-1}(\P) = f^{-1}(g^{-1}(\P)) = f^* \circ g^*(\P) \]
+Therefore, $(g \circ f)^* = f^* \circ g^*$ so $\Spec{-}$ is a functor. 
+\end{proof}
+
+\begin{definition}
+Let $f \in A$ then $D(f) = V((f))^C = \{ \p \in \Spec{A} \mid f \notin \p \}$ is called a distinguished open set of $\Spec{A}$.
+\end{definition}
+
+\begin{proposition}
+The following properties of distinguished open sets hold,
+\begin{enumerate}
+\item $D(f) \cap D(g) = D(fg)$
+\item given a ring map $f : A \to B$ then $(f^*)^{-1}(D(x)) = D(f(x))$. 
+\item The distinguished opens form a basis for the Zariski topology.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+First,
+\begin{align*}
+D(f) \cap D(g) & = V((f))^C \cap V((g))^C = \left( V((f)) \cup V((g)) \right)^C 
+\\\
+& = V((f)(g))^C = V((fg))^C = D(fg) 
+\end{align*}
+Furthermore, if $\p \in D(f) \cap D(g)$ exactly when $f \notin \p$ and $g \notin \p$ iff $fg \notin \p$ i.e. $\p \in D(fg)$ since $\p$ is prime. 
+\bigskip\\
+Let $f : A \to B$ be a ring map. Then,
+\[ \p \in (f^*)^{-1}(D(x)) \iff f^{-1}(\p) \in D(x) \iff x \notin f^{-1}(\p) \iff f(x) \notin \p \iff \p \in D(f(x)) \]
+In particular, $f^*$ is continuous. 
+\bigskip\\
+Finally, the sets $D(f)$ form an open basis since they are closed under intersection, cover $\Spec{A}$ since $D(1) = \Spec{A}$, and for each $\p \in V(I)^C$ for some ideal $I \subset A$ (any closed is of the form $V(I)$) we have $\p \not\supset I$ so $\exists f \in I$ with $f \notin \p$ i.e. 
+\[ \p \in D(f) \subset V(I)^C \]
+since if $f \notin \q$ then $\q \not\supset I$. Thus the sets $D(f)$ are a basis of Zariski opens which generate the Zariski topology.
+\end{proof}
+
+\begin{proposition}
+Let $A$ be a ring, The topological space $\Spec{A}$ is compact.
+\end{proposition}
+
+\begin{proof}
+Let $\mathfrak{U}$ be an open cover of $\Spec{A}$. Since the distinguished opens form a basis of open sets, then for each $\p \in \Spec{A}$ there is $f_\p \in \Spec{A}$ such that $D(f_\p) \subset U_\p$ for some $U \in \mathfrak{U}$ and $\p \in D(f_\p)$. Therefore,
+\[ \bigcup_{\p \subset A} D(f_\p) = \Spec{A} \implies \bigcap_{\p \subset A} V((f_\p)) = \varnothing \]
+Therefore,
+\[ V \left( \sum_{\p \subset A} (f_\p) \right) = \varnothing \]
+However, every proper ideal is contained in a maximal ideal so we must have,
+\[ \sum_{\p \subset A} (f_\p) = A \]
+if no primes lie above it. In particular, 
+\[ 1 \in  \sum_{\p \subset A} (f_\p) \implies a_1 f_1 + \cdots a_n f_n = 1 \]
+for some finite list $f_1, \cdots, f_n$ of elements, $a_i \in A$ and $f_i = f_{\p_i}$. Therefore, 
+\[ (f_1) + \cdots + (f_n) = (1) = A \] 
+and thus,
+\[ V( (f_1) + \cdots + (f_n) ) = \varnothing \implies V((f_1)) \cap \cdots V((f_n)) = \varnothing \]
+Taking the complement,
+\[ D(f_1) \cup \cdots D(f_n) = \Spec{A} \]
+and thus there exists a finite subcover, $U_1, \dots, U_n$ since,
+\[ U_1 \cup \cdots U_n \supset D(f_1) \cup \cdots D(f_n) = \Spec{A} \]
+
+\end{proof}
+
+\section{Local Rings}
+
+
+\begin{definition}
+A ring is local if it has a unique maximal ideal $\m$. In that case, $A^\times = A \setminus \m$. A ring map $f : A \to A'$ of local rings is a local map if $f(\m) \subset \m'$. Furthermore, the residue field is 
+\[ k = A / \m \]  
+Thus a local map $f : A \to A'$ induces a map $\bar{f} : k \to k'$ such that,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "f"] \arrow[d] & A' \arrow[d]
+\\
+k \arrow[r, "\bar{f}"'] & k'
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{proposition}
+For a map of rings $\phi : A \to B$ inducing $\phi^* : \spec{B} \to \spec{A}$ we have $A_{\phi^*(\mathfrak{p})} \to A_{\mathfrak{P}}$ is a local map of local rings.
+\end{proposition}
+
+\begin{proposition}
+There is a factorization,
+\begin{center}
+\begin{tikzcd}
+A_{\phi^*(\mathfrak{P})} \arrow[rr] \arrow[rd] & & B_{\mathfrak{P}} 
+\\
+& A_{\phi^*(\mathfrak{P})} \otimes_A B \arrow[ru]
+\end{tikzcd}
+\end{center}
+\end{proposition}
+
+
+\begin{lemma}
+Let 
+\begin{center}
+\begin{tikzcd}
+M \arrow[r, "\phi"] & M \arrow[r, "\psi"] & P
+\end{tikzcd}
+\end{center}
+be an exact sequence of $A$-modules. Then if $S \subset A$ is mutiplicative then the localization,
+\begin{center}
+\begin{tikzcd}
+S^{-1} M \arrow[r, "\phi"] & S^{-1} M \arrow[r, "\psi"] & S^{-1} P
+\end{tikzcd}
+\end{center}
+is an exact sequence of $S^{-1} A$-modules. 
+\end{lemma}
+
+\begin{definition}
+Let $M$ be an $A$-module and $x \in A$ we say that $x$ is $M$-regular if $m \mapsto x \cdot m$ is injective.
+\end{definition}
+
+\begin{proposition}
+Let $S =\{ x \in A \mid x \text{ is } A-\text{regular} \}$ then $S$ is multiplicative and $S^{-1} A$ is the total ring of fractions of $A$. 
+\end{proposition}
+
+\section{Jacobin Radical}
+
+\begin{definition}
+The radical of a ring $A$ is the intersection of all maximal ideals,
+\[ \rad{A} = \bigcap_{\m} \m \]
+\end{definition}
+
+\begin{proposition}
+$x \in \rad{A} \iff \forall a \in A : 1 + ax \in A^\times$
+\end{proposition}
+
+\begin{proof}
+Let $x \in \rad{A}$ then suppose that $(1 + ax) A \subsetneq A$ and thus $(1 + ax)A \subset \m$ for some maximal ideal. But $x \in \rad{A} \subset \m$ so $ax \in \m$ and thus $1 \in \m$ contradicting the fact that $\m$ is proper. Thus, $( 1 + a x) A = A$ so $1 + ax$ is a unit. 
+\bigskip\\
+Assuming that $1 + a x$ is always a unit, suppose that $x \notin \m$ we would have $\bar{x} \in A / \m$ is not zero and thus inveritble because $A / \m$ is a field. Thus, $\exists b \in A $ such that $\bar{x}\bar{b} = \bar{1}$ and thus $1 - xb \in \m$ so $1 - x b \notin A^\times$ because $\m$ is proper. Thus $x \in \rad{A}$. 
+\end{proof}
+
+
+\begin{lemma}[Nakayama]
+Let $M$ be an $A$-module of finite type then if $I M = M$ for some ideal $I \subset A$ then exists $x \in I$ such that $(1 + x) M = 0$. In particular, if $I \subset \rad{A} \implies M = (0)$. 
+\end{lemma}
+
+
+\begin{proof}
+$M$ is finite type so there exist $m_1, \dots, m_r \in M$ such that $M = A m_1 + \cdots + m_r A$. Proceed by induction on $r$. For the case $r = 1$, we have $M = (m_1)$ and thus $IM = M$ implies that $I m_1 = M$ so $m_1 = x m_1$ for some $x \in I$ and thus $(1 - x) m_1 = 0 \implies (1 - x) M = 0$. 
+\bigskip\\
+Suppose the lemma is true for $r-1$. The consider the module $\bar{M} = M / A m_r$ which is generated by $r-1$ elements. Then $IM = M \implies I \bar{M} = \bar{M}$. By hypothesis, $\exists x \in I : (1 + x) \bar{M} = 0$ and thus $(1 + x) M \subset A m_r$. Therefore, $(1 + x) IM = (1 + x) M \subset I m_r$ so $\exists x' \in I$ such that $(1 + x) m_r = x' m_r$ and thus $(1 + x - x') m_r = 0$.
+Next, $(1 + x)(1 + x - x') M \subset (1 + x - x') A m_r = 0$. Thus, take $x'' = 2x - x' + x(x - x')$ and we have $(1 - x') M = 0$. Thus, the lemma holds by induction. 
+\end{proof}
+
+\begin{corollary}
+Let $M$ be an $A$-module and $N,N'$ two submodules of $M$ such that $M = N + I N'$ such that either $I$ is nilpotent or $N'$ a finitely generated $A$-module and $I \subset \rad{A}$ then $M = N$. 
+\end{corollary}
+
+\begin{proof}
+Consider $\bar{M} = M / N$. From $M = N + I N'$ we have that $\bar{M} = I \bar{N}'$. We want to show that $\bar{M} = 0$ which implies that $M = N$. First,
+\[ \bar{M} = I \bar{N}' \subset I \bar{M} \subset \bar{M} \]
+and thus $I \bar{M} = \bar{M}$
+In the case that $N'$ is finitely generated then $\bar{N}'$ and $\bar{M}$ are also finitely generated so by Nakayama, $\bar{M} = 0$. In the case that $I$ is nilpotnent, by substitution,
+\[ \bar{M} = I \bar{M} = I^2 \bar{M} = I^3 \bar{M} = \cdots = I^n \bar{M} = 0 \]   
+where $I^n = 0$.
+\end{proof}
+
+\section{Noetherian and Artinian Rings}
+
+\begin{definition}
+An $A$-module satisfies the ascending (ACC) / descending (DCC) chain condition if any increasing / decreasing sequence of submodules of $M$ achieves a maximum / minimum.
+\end{definition}
+
+\begin{definition}
+$M$ is Noetherian if $M$ satisfies ACC and Artinian if $M$ satisfies DCC. 
+\end{definition}
+
+\begin{proposition}
+Let 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & N \arrow[r] & P \arrow[r] & 0 
+\end{tikzcd}
+\end{center} 
+be a short exact sequence of $A$-modules. Then $N$ is Noetherian / Artinian if and only if both $M$ and $P$ are. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+The ring $A$ is called Noetherian / Artinian if it is Noetherian / Artinian as an $A$-module. 
+\end{definition}
+
+\begin{corollary}
+If $A$ is Noetherian / Artinian then any finitely generated $A$-module is Noetherian / Artinian.
+\end{corollary}
+
+\begin{proof}
+If $M$ is a finitely generated $A$-module then $M = A m_1 + \cdots + A m_n$. Then we have the short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & A^r \arrow[r] & M \arrow[r] & 0 
+\end{tikzcd}
+\end{center} 
+And use the fact that $A^r$ is Neotherian / Artinian using the following exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & A^r \arrow[r] & A^{r-1} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}  
+which shows that $A^r$ is Noetherian / Artinian iff $A^{r-1}$ is. Thus $A^{r}$ is Noetherian / Artinian by induction. 
+Thus we get that $N, M$ are both Noetherian / Artinian. 
+\end{proof}
+
+\begin{lemma}
+$A$ is Noetherian iff every ideal of $A$ is finitly generated.
+\end{lemma}
+
+\begin{proof}
+Take $I_1 \subset I_2 \subset I_3 \subset \cdots $. 
+Consider the ideal,
+\[ I = \bigcup_i I_i \]
+Therefore if $I$ is finitly generated then each generator must appear at a finite stage so the chain terminates. Furthermore if each chain terminates then for an ideal $I$ consider the chain
+\[ (a_1) \subset (a_1, a_2) \subset(a_1, a_2, a_3) \subset \cdots \]
+where $a_i \in I \setminus (a_1, \dots, a_{i-1})$. This chain must achive a maximum meaning that it must exhaust $I$. 
+\end{proof}
+
+\begin{proposition}
+Let $A$ be Noetherian and $S$ a multiplicative subset of $A$ then $S^{-1}A$ is Noetherian. 
+\end{proposition}
+
+\begin{theorem}
+If $A$ is Noetherian then $A[x]$ is Noetherian.
+\end{theorem}
+
+\begin{proof}
+Take $I \subset A[x]$ and define,
+\[ I_n = \{ a \in A \mid \exists Q(x) \in I : Q(x) = a x^n + \cdots + c \} \]
+Thus we have an ascending chain,
+\[ I_0 \subset I_1 \subset I_2 \subset I_3 \subset \cdots \]
+Thus, $I_n = (a_1, \dots, a_r)$ and take $Q_i(x) = a_i x^{n_i} + \cdots + c_i \in I$ and take $P(x) = a x^n + \cdots + c$ in $I$ such that $a \in I_k$ for all $k$. We take,
+\[ a = \sum_{i = 1}^r \alpha_i a_i \]
+if $m > N = \sup{(m_i, i = 1, \dots, r)}$ 
+Then,
+\[ P(x) - \sum_{i = 1}^r \alpha_i x^{n - n_i} Q_i(x) \]
+has degree less than $n - 1$ because,
+\[ \sum_{i = 1}^r \alpha_r x^{n - n_i} a_i x^{n-i} = a x^n \]
+Repeating this process, we can find coeficients $s_1, \dots, s_r \in A[x]$ such that,
+\[ P(x) - \sum_{i = 1}^N s_i(x) Q_i(x) \]
+has degree less than $N$. Let $A[x]_N$ denote the space of polynomials of degree less than $N$. 
+Then, $I = (Q_1, Q_2, \dots, Qr) + A[x]_N \cap I$ but $A[x]_N \cong A^{n+1}$ which is Noetherian so $A[x]_N \cap I$ is a finitely generated $A$-module. Thus, $I$ is finitely generated. 
+\end{proof}
+
+\begin{lemma}
+If $A \to B$ is a surjective morphism of rings and $A$ is Noetherian then $B$ is Noetherian. 
+\end{lemma}
+
+\begin{proof}
+Every ascending chain in $B$ pulls back to an ascending chain in $A$ which must terminate. 
+\
+\end{proof}
+
+\begin{definition}
+Let $A$ be a ring and $B$ an $A$-algebra. We say that $B$ is finitely generated as an $A$-algebra if there exists elements $x_1, \dots, x_r \in B$ such that every element of $B$ is a linear combination with coeficients in $A$ finite products of $x_1, \dots, x_r$. In other words, there exists a surjective homomorphism of rings,
+\begin{center}
+\begin{tikzcd}
+A[x_1, \dots, x_r] \arrow[r] &  B
+\end{tikzcd}
+\end{center}  
+\end{definition}
+
+\begin{corollary}
+If $A$ is Noetherian, then 
+any finitely generated $A$-algebra is Noetherian.
+\end{corollary}
+
+\begin{corollary}
+Any finitely generated $k$-algebra is Noetherian.
+\end{corollary}
+
+
+\begin{proposition}
+Assume that we have an inclusion of rings,
+\[ A \subset B \subset C \]
+and that $A$ is Noetherian and $C$ is a finitely generated $A$-algebra and $C$ is a finitely generated $B$-module then $B$ is a finitely generated $A$-algebra. 
+\end{proposition}
+
+\begin{proof}
+We can write,
+\[ C \cong A[x_1, \dots, n_m] \]
+for some $x_1, \cdots, x_m \in C$ and,
+\[ C = B c_1 + \cdots + B c_{\ell} \]
+then we may express,
+\[ x_i  = \sum_{j = 1}^{\ell} b_{ij} c_j \]
+and furthermore,
+\[ c_i c_j = \sum_{k = 1}^{\ell} b_{ijk} c_k \]
+Now define,
+\[ B_0 = A[b_{ij}, b_{ijk} ] \subset B \]ian so 
+and thus $C$ is a finitely generated $B_0$-module but $A$ and thus $B_0$ are Noetherian so any $B_0$-submodule of $C$ is also finitely generated. In particular, $B \subset C$ is a finitely generated $B_0$-module and thus $B$ is a finitely generated $A$-algebra since $B_0$ is. 
+\end{proof}
+
+\begin{theorem}[Nullstellensatz]
+Let $k$ be a field and $E$ a finitely generated $k$-algebra. If $E$ is a field, then $E$ is a finite extension of $k$ and thus is algebraic. 
+\end{theorem}
+
+\begin{proof}
+$E$ is a finitely generated $k$-algebra and a field so $E = k[x_1, \dots, x_n]$ for $x_1, \dots, x_n \in E$. If all $x$ are algebraic over $k$ then $k[x_1, \dots, x_n]$ is finite-dimensional over $k$. Othersie, assume that $x_1, \dots, x_r$ are algebraically independent and $E$ is algebraic over $k(x_1, \dots, x_r) = F$ and thus a finitely generated $F$-module. Since, $k \subset F \subset E$, by the above corollary, $F$ must be a finitely generated $k$-algebra. However, if $F = k[y_1, \dots, y_m]$ with $y_i = f_i / g_i$ for $f_i, g_i \in k[x_1, \dots, x_r]$ then any element of $F$ can be written as a polynomial in then $y_i$ and thus as,
+\[ \frac{Q(x_1, \dots, x_r)}{\left( \prod_{i = 1}^N g_i \right)^N} \]
+with $Q \in k[x_1, \dots, x_r]$. However,
+\[ \prod\limits_{i = 1}^m g_i + 1 \in F \implies \frac{1}{\prod\limits_{i = 1}^m g_i + 1} \in F \implies \frac{1}{\prod\limits_{i = 1}^m g_i + 1} = \frac{Q(x_1, \dots, x_r)}{\left( \prod_{i = 1}^N g_i \right)^N}\]
+Therefore, 
+\[ \left(\prod_{i = 1}^m g_i + 1 \right) \: \bigg| \: \left( \prod_{i = 1}^N g_i \right)^N \]
+but the polynomials are coprime which is a contradiction. 
+\end{proof}
+
+\begin{corollary}
+Let $A$ be a finitely generated $k$-algebra and $\m$ a maximal ideal of $A$ then $A / \m$ is a finite extension of $k$. 
+\end{corollary}
+
+\begin{proof}
+Since $A$ is a finitely generated $k$-module, there exists a surjective ring maps,
+\begin{center}
+\begin{tikzcd} 
+k[x_1, \dots, x_n] \arrow[r, two heads] & A \arrow[r, two heads] & A / \m
+\end{tikzcd}
+\end{center}
+and thus $A / \m$ is a finitely generated $k$-module. However, $\m$ is maximal and therefore $A / \m$ is a field. Therefore, by the Nullstellensatz, $A / \m$ is a finite extension of $E$.
+\end{proof}
+
+\begin{remark}
+Let $k$ be a field and $\bar{k}$ its algebraic closure. Consider $f_1, \dots, f_r \in k[x_1, \dots, x_m]$ and the ideal $I = (f_1, \dots, f_r) \subset k[x_1, \dots, x_m]$. Consider the zero locus,
+\[ Z(f_1, \dots, f_r) = \{ p \in \bar{k}^m \mid f(p) = 0 \;\; \forall i \} = V \]
+For $p \in V$, consder the map,
+\begin{center}
+\begin{tikzcd} 
+k[x_1, \dots, x_m] \arrow[rd] \arrow[rr, "\ev_p"] && \bar{k}
+\\
+& A = k[x_1, \dots, x_m] / I \arrow[ru, "\ev_p"]
+\end{tikzcd}
+\end{center}
+which factors through the quotient because $f_i(p) = 0$ and thus $\ev_p(I) = 0$. We know that $\Im{\ev_p}$ is contained in a finite extension of $k$ and thus a field so $\ker{\ev_p}$ is a maximal ideal. Conversely, if $\m \subset A$ is a maximal ideal then $A \to A / \m$ is a finite extension of $k$ embedded in $\bar{k}$ up to an automorphism $\galgroup{\bar{k}/k}$. In conclusion, there is a bijection between maximal ideals of $k[x_1, \dots, x_m] / I$ and $V(I) / \galgroup{\bar{k} / k}$
+\end{remark}
+
+\begin{definition}
+An ideal $\mathfrak{a} \subset A$ is irreducible if,
+\[ \mathfrak{a} = \mathfrak{b} \cap \mathfrak{c} \implies \mathfrak{a} = \mathfrak{b} \text{ or } \mathfrak{a} = \mathfrak{c} \]
+\end{definition}
+
+\begin{lemma}
+If $\mathfrak{p}$ is a prime ideal then $\mathfrak{p}$ is irreducible. 
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proof}
+An ideal $\mathfrak{a} \subset A$ is primary if whever $xy \in \mathfrak{a}$ with $x \notin \mathfrak{a}$ then $\exists n : y^n \in \mathfrak{a}$ i.e. $y \in \sqrt{\mathfrak{a}}$. Equivalently, all zero divisors of $A / \mathfrak{a}$ are nilpotents. 
+\end{proof}
+\renewcommand{\a}{\mathfrak{a}}
+\renewcommand{\b}{\mathfrak{b}}
+
+
+\begin{lemma}
+If $\a$ is primary then $\sqrt{\a}$ is a prime ideal. 
+\end{lemma}
+
+\begin{proof}
+If $x,y \in \sqrt{\a}$ then for some $n$, $x^n y^n \in \a$ so either $x^n \in \a$ or $y^{nm} \in \a$ for some $m$. Thus, either $x \in \sqrt{a}$ or $y \in \sqrt{a}$. 
+\end{proof}
+
+\begin{remark}
+The converse is false. Take $A[x,y,z] / (xy - z^2)$ and $\mathfrak{p} = (\bar{x}, \bar{z})$ then $A / \mathfrak{p} \cong k[\bar{y}]$ is a domain so $\mathfrak{p}$ is prime. However, $\bar{x} \cdot \bar{y} = \bar{z}^2$ and $\bar{x} \notin \mathfrak{p}^2$ and $\bar{y}^m \notin \mathfrak{p}^2$ for all $m$. However, if $\m \subset A$ is maximal then $\m^m$ is primary because if $y \in A / \m^m$ is a zero divisor then ...
+\end{remark}
+
+\begin{lemma}
+Let $A$ be Noetherian then any irreducible ideal of $A$ is primary.
+\end{lemma}
+
+
+\begin{proof}
+Let $\mathfrak{a} \subset A$ be an irreducible ideal. Then $(0) \subset A / \mathfrak{a}$ is irreducible. Consider a zero divisor $x$ such that $xy = 0$ with $y \neq 0$ then,
+\[ \Ann{A}{x^n} = \left\{ z \in A \mid z \cdot x^n = 0 \right\} \]
+and,
+\[ \Ann{A}{x^n} \subset \Ann{A}{x^{n+1}} \]
+but since $A$ is Noetherian, this chain must terminate so there exits $m$ such that $\Ann{A}{x^m} = \Ann{A}{x^{m+1}}$. I claim that $(x^n) \cap (y) = (0)$. If $a x^m = by$ then $a x^{m+1} = b xy = 0$ so $a \in \Ann{A}{x^m} = \Ann{A}{x^{m+1}}$ but then $a x^{m} = 0$ proving the claim. Since $(0)$ is irreducible and $(y) \neq 0$ we have $(x^m) = 0$ so $x$ is nilpotent.  
+\end{proof}
+
+
+\begin{definition}
+We say that $I \subset A$ has a primary decomposition if we can write,
+\[ I = \a_1 \cap \a_2 \cap \cdots \cap \a_m \]
+where each $\a_i$ is primary. 
+\end{definition}
+
+\begin{lemma}
+$A$ is Noetherian if and only if every nonempty set of ideals of $A$ has a maximial element. 
+\end{lemma}
+
+\begin{proof}
+If $A$ is noetherian and $S \neq \varnothing$ then if $\in S$ is not maximal there must exist $\a_1 \in S$ such that $\a \subsetneq \a_1$ and if $\a_1$ is not maximal then there must exist $\a_2 \in S$ such that $\a \subset \a_1 \subset \a_2$. Therefore, we can produce an strictly increasing chain of ideals contradicting the Noetherian assumption unless $S$ has a maximal element. Conversely, any chain which does not terminate will give a set $S$ with no maximal element. 
+\end{proof}
+
+\begin{remark}
+$A$ is Artinian if and only if every nonempty set of ideals of $A$ has a minimal element. The proof is identical. 
+\end{remark}
+
+\begin{corollary}
+If $A$ is Noetherian then any ideal has a primary decomposition.
+\end{corollary}
+
+\begin{proof}
+Let $S$ be a the set of proper ideals that cannot be written as an intersection of irreducible ideals. Assume that $S \neq \varnothing$. Because $A$ is Noetherian, we can find $I \in S$ which is maximal in $S$. Since $I \in S$ then $I$ is not irreducible so we can write $I = \a \cap \b$ with $\a, \b$ strictly above $I$ so $\a, \b \notin S$ by maximality and thus $\a$ and $\b$ are the intersection of irreducible ideals and thus so is $S$ which is a contradiction. Thus, every ideal of $A$ is the intersection of irreducibles but since $A$ is Noetherian, every irreducible is primary. 
+\end{proof}
+
+\subsection{Results on Artinian Rings}
+
+
+\begin{lemma}
+Suppose that $IJ \subset \p$ where $\p$ is prime then either $I \subset \p$ or $J \subset \p$. 
+\end{lemma}
+
+\begin{proof}
+Assume that $J \not\subset \p$ then for each $x \in I$ take some $y \in J \setminus \p$. We know that $xy \in \p$ but $y \notin \p$ and $\p$ is prime so $x \in \p$. Thus, $I \subset \p$. 
+\end{proof}
+
+\begin{corollary}
+If $\m_1, \cdots, \m_n$ are (not necessarily distinct) maximal ideals and $\m$ is maximal such that $\m_1, \cdots, \m_n \subset \m$ then $\m = \m_i$ for some $i \in \{ 1, \dots, n \}$.
+\end{corollary}
+
+\begin{proof}
+Since $\m$ is maximal it is also prime and thus either $\m_1, \cdots, \m_{n-1} \subset \m$ or $\m_n \subset \m$. By induction, there is some $i \in \{1, \dots, n\}$ such that $\m_i \subset \m$. However, $\m_i$ is maximal and $\m$ is proper so $\m_i = \m$. 
+\end{proof}
+
+
+\begin{proposition}
+Assume $A$ is Artinian then,
+\begin{enumerate}
+\item Every prime ideal is maximal ($\dim{A} = 0$). In particular, $\rad{A} = \nilrad{A}$. 
+
+\item $A$ has finitely many maximal ideals.
+
+\item $\rad{A}$ is nilpotent. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Let $\p \subset A$ be prime and $B = A / \p$. Take $x \in B \setminus \{0\}$. Since $\pi : A \to B$ is a surjection, $B$ inherits the Artinian property. We have a chain,
+\[ B \supset (x) \supset (x^2) \supset (x^3) \supset \cdots\]
+which must become stationary at some $n$. Thus $(x^{n+1}) = (x^n)$ so $\exists u \in B^\times : u x^{n+1} = x^n$. Thus, $(x u - 1) x^n = 0$ but $B$ is an integral domain since $\p$ is prime so $xu = 1$ in $B$. Therefore, $B$ is a field. Therefore $\p$ is maximal.
+\bigskip\\
+Suppose that $\m_1, \m_2, \dots$ are maximal ideals. Consider the chain,
+\[ \m_1 \supset \m_1 \m_2 \supset \m_1 \m_2 \m_3 \supset \cdots \]
+which must become stationary. Therefore, there exists a number $k$ such that for all $n > k$,
+\[\m_1 \cdots \m_k = \m_1 \cdots \m_k \m_{k+1} \cdots \m_{n} \subset \m_{n}\]
+Thus, there must be some $i \in \{ 1, \dots, k \}$ such that  $\m_i \subset \m_{n}$ because $\m_{n}$ is prime. This implies that $\m_i= \m_{n}$ by maximality. Thus, there are only finitly many maximal ideals.
+\bigskip\\
+Let $I = \rad{A}$ and consider the chain,
+\[ I \supset I^2 \supset I^3 \supset \cdots \]
+which must become stationary. Thus, for some $n > 0$ we have $I^n = I^{n+1}$. Consider,
+\[ J = \left\{ x \in A \mid x \cdot I^n = 0 \right\} \]
+we want to show that $J = A$. Asume $J \subsetneq A$ let $J' \supsetneq J$ be minimal for ideals above $J$ which exists because $A$ is Artinian. Then take $x \in J' \setminus J$ so,
+\[ J' \supset Ax + J \supsetneq J \implies J' = Ax + J \] 
+by minimailty. Furthermore,
+\[ J \subset Ix + J \subset J' \]
+so by minimality one inclusion must be equality. However if $Ix + J = J'$ then by Nakayama $J = J'$ which is false. Thus, $Ix + J = J$ so $x I \subset J$. Therefore, 
+\[ x \cdot I^{n+1} \subset J I^n = (0) \]
+which implies that,
+\[ x \cdot I^{n+1} = 0 \implies x \cdot I^n = 0 \implies x \in J \]
+contradicting the fact that we choose $x \notin J$. Thus, $J = A$ so $1 \in J$ and thus $I^n = 0$ so $I$ is nilpotent. 
+\end{proof}
+
+\newcommand{\len}[2]{\mathrm{length}_{#1}\left(#2\right)}
+
+\begin{definition}
+Let $A$ be a ring. 
+\begin{enumerate}
+\item We say that an $A$-module $M \neq (0)$ is irreducible if any submodule $N \subset M$ is either $N = (0)$ or $N = M$. 
+\item We say that an $A$-module $M$ is of finite length if there exists a filtration
+\[M = M_0 \supset M_1 \supset \cdots \supset M_{n} \supset M_{n+1} = 0\]
+such that $M_i / M_{i+1}$ is irreducible for each $u$. In that case $\len{A}{M} = n$. If $A$ is not finite length then $\len{A}{M} = \infty$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Given ideals $I, J \subset A$ such that $I + J = A$ then,
+\[ A / IJ \cong (A / I) \times (A / J) \]
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{corollary}
+If $\a_1, \a_2, \dots, \a_n \subset A$ are pairwise coprime ideals i.e. $\a_i + \a_j = A$ for all $i \neq j$ then,
+\[ A / (\a_1 \a_2 \cdots \a_n) \cong \prod_{i = 1}^n A / \a_i \]
+\end{corollary}
+
+\begin{lemma}
+
+\end{lemma}
+
+\begin{proposition}
+$A$ is Artinian iff $\len{A}{A}$ is finite.
+\end{proposition}
+
+\begin{proof}
+Assume that $\len{A}{A} < \infty$ then we have a filtration
+\[ A \supset M_1 \supset M_2 \supset \cdots \supset M_n \supset M_{n + 1}  = (0) \]
+with $M_i / M_{i+1}$ irreducible. Let $\a_1 \supset \a_2 \supset \a_3 \supset \cdots$ be a decreasing chain of ideals in $A$. Consider, 
+\end{proof}
+
+\begin{remark}
+If $A$ is a field then $\len{A}{M} = \dim{M}$. 
+\end{remark}
+
+\begin{lemma}
+If we have an exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & N \arrow[r] & P \arrow[r] & 0 
+\end{tikzcd}
+\end{center} 
+then $N$ has finite length $\iff$ $P$ and $M$ do as well and
+\[ \len{A}{N} = \len{A}{M} + \len{A}{P}\] 
+\end{lemma}
+
+\begin{lemma}
+If 
+\[ M = M_0 \supset M_1 \supset \cdots \supset M_n \supset M_{n+1} = 0 \]
+then $M_i / M_{i + 1}$ has finite length for all $i$ if and only if $M$ has finite length.
+\end{lemma}
+
+\begin{theorem}
+$A$ is Artinian $\iff$ $A$ is Noetherian and any prime ideal is maximal. 
+\end{theorem}
+
+\begin{proof}
+Since $A$ is Artinian we know that $A$ has finite length
+\end{proof}
+
+
+\begin{proposition}
+Let $A$ be a Noetherian local ring with maxmal ideal $\m$. Then exactly one of the two holds.
+\begin{enumerate}
+\item $\m^{n+1} \subsetneq \m^{n}$ for all $n \ge 0$.
+\item $\m^n = 0$ for some $n \ge 1$ and $A$ is Artinian.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The descending chain of powers of $\m$ does indeed stabilize at $n$ then take $B = A / \m^n$ which has finite length. Furthermore, by Nakayama, $\m^n = 0$. Thus, $A$ is Artinian.
+\end{proof}
+
+\begin{proposition}
+An Artinian ring is isomorphic to a finite product of local Artinian rings.
+\end{proposition}
+
+\begin{proof}
+Let $I = \rad{A}$ then $I^n = 0$ for some $n \ge 1$. Since $A$ is Artinian, it must have a finite number of maximal ideals,
+\[ \m_1^n \cdots \m_r^n = 0 \]
+Since the ideal is zero,
+\[ A = A / \prod_{i = 1}^r \m_i^n = \prod_{i = 1}^r A / \m_i^n \]
+However, $A / \m_i^n$ is a local ring. Suppose that $\a \subset A / \m_i^n$ is maximal. The projection map $\pi : A \to A / \m_i^n$ is surjective so $\pi^{-1}(\a)$ is maximal and contains $\m_i^n$ so $\pi^{-1}(\a) = \m_i$. Since $\pi$ is surjective, $\pi(\pi^{-1}(\a)) = \a = \pi(\m)$ so the maximal ideal is unique. 
+\end{proof}
+
+\section{Primary Decomposition}
+
+\subsection{Associated Primes}
+
+
+\begin{definition}
+Let $A$ be Noetherian and $M$ an $A$-module we say that a prime ideal $\p \subset A$ is an associated prime of $M$ if there exists an injective map of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+A / \p \arrow[r, hook] & M
+\end{tikzcd}
+\end{center}
+We say that $\Ass{A}{M}$ is the set of associated primes to $M$. 
+\end{definition}
+
+\begin{lemma}
+$\p \in \Ass{A}{M} \iff \exists m \in M : \p = \Ann{A}{m}$
+\end{lemma}
+
+\begin{proof}
+If $\p \in \Ass{A}{M}$ then there is a map $\phi : A /\p \to M$ and take $m = \phi(1)$. If $x \in \p$ then $[x] = 0$ in $A / \p$ so $x \cdot m = \phi(x \cdot 1) = 0$. Furthermore, if $x \cdot m = 0$ in $M$ then $x \cdot \phi(1) = 0$ so $\phi(x \cdot 1) = 0 \implies x \cdot 1 = x = 0$ in $A / \p$ by injectivity. Thus, $x \in \p$ so $\p = \Ass{A}{M}$. Likewise, if there exists $m$ such that $\p = \Ann{A}{m}$ then take the map $A \to M$ given by $x \mapsto xm$. Since the kernel of this map is $\p = \Ann{A}{m}$ its factors through an injective map,
+\begin{center}
+\begin{tikzcd}
+A / \p \arrow[r, hook] & M
+\end{tikzcd}
+\end{center}
+which implies that $\p \in \Ass{A}{M}$.
+\end{proof}
+
+
+\begin{lemma}
+The set $\{ \Ann{A}{m} \mid m \in M \setminus \{0\} \} = S_M$ then any maximal element in $S_M$ a prime ideal. In particular if $M \neq (0)$ then $\Ass{A}{M} \neq 0$.
+\end{lemma}
+
+\begin{proof}
+Let $\p \in S_M$ be maximal and take $a,b \in A$ then $\p = \Ann{A}{m}$ for $m \neq 0$. Suppose $ab \in \p$. If $b m = 0 \implies b \in \p$ and if $b m \neq 0$ then $\Ann{A}{m} \subset \Ann{A}{bm} \in S_M$ so $\Ann{A}{bm} = \p$ by maximality. Therfore, $a b m = 0 \implies a \in \Ann{A}{bm} = \p$. 
+\end{proof}
+
+\begin{corollary}
+Let $A$ be Noetherian and $M$ an $A$-module. We have the following,
+\begin{enumerate}
+\item 
+\[M \neq (0) \iff \Ass{A}{M} \neq \varnothing\]
+
+\item 
+\[ \bigcup_{\p \in \Ass{\p}{M}} \p = \{ a \in A \mid \exists m \neq 0 : a m = 0 \} \]
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+Since $M$ is Noetherian and $M \neq (0)$ then $S_M$ has a maximal element since every chain has a maximum by the Noetherian property. Thus $\Ass{A}{M} \neq \varnothing$. The second follows from the maximality of the associated primes in the set of annihilators and the fact that the zero divisors are those annilatred by some element and thus the union over all annihilators. 
+\end{proof}
+
+\begin{lemma}
+Let $S \subset A$ be a multiplicative subset and $M$ and $A$-module. Then,
+\[ \Ass{A}{S^{-1}M} = \pi^{-1} \left( \Ass{S^{-1} A}{S^{-1} M} \right) = \Ass{A}{M} \cap \{ \p \mid \p \cap S = \varnothing \} \] 
+\end{lemma}
+
+\begin{proof}
+Take $\p \in \Ass{A}{S^{-1} M}$ then $\p = \Ann{A}{\frac{m}{1}} = \Ann{A}{\frac{m}{s}}$ for any $s \in S$ since $\frac{am}{1} = 0 \iff \frac{am}{s} = 0$ in $S^{-1} M$. Suppose that $\p \cap S = \varnothing$ otherwise $\exists s \in \p \cap S$ which implies that $\frac{sm}{1} = 0$ so $\frac{m}{1} = 0$ but $\p = \Ann{A}{0} = A$ is not prime. The set $\{ \Ann{A}{sm} \mid s \in S \}$ has a maximal element $\m = \Ann{A}{s_0 m}$. We know that $\m$ annihilates $\frac{s_0 m}{1}$ and thus $\frac{m}{1}$ so $\m \subset \p$. Furthermore, if $a \in \p = \Ann{A}{\frac{m}{1}}$ then $\frac{am}{1} = 0 \implies \exists s \in S : asm = 0$ so, by maximality,
+\[ a \in \Ann{A}{sm} \subset \Ann{A}{ss_0 m} = \Ann{A}{s_0 m} = \m \]
+so $a \in \m$. Thus, $\p = \m \in \Ass{A}{M}$. Now, take $\p_0 \in \Ass{S^{-1} A}{S^{-1} M}$ such that,
+\[ \p_0 = \{ x \in S^{-1} A \mid x \cdot \tfrac{m}{1} = 0 \} \]
+for some $m \in M$. Then we have,
+\[ \pi^{-1}(\p_0) = \Ann{A}{\frac{m}{1}} \implies \pi^{-1}(\p_0) \in \Ass{A}{S^{-1} M} \] 
+\end{proof}
+
+
+\begin{definition}
+Let $M$ an $A$-module,
+\[ \supp{A}{M} = \{ \p \in \spec{A} \mid M_{\p} \neq 0 \} \]
+\end{definition}
+
+\begin{proposition}
+Let $M$ be a finitely generated $A$-module then
+$\Supp{A}{M} = V(\Ann{A}{M})$.
+\end{proposition}
+
+\begin{proof}
+$M_\p = (0)$ exactly when $(m, s) \sim (0, 1)$ for all $m$ and $s$. This happens when $\exists u \in A \setminus \p$ such that $um = 0$ i.e. $u \in \Ann{A}{m}$. Thus, for each $m \in M$ we have $\p \not\supset \Ann{A}{m}$. Therefore, 
+\[ \p \in \Supp{A}{M} \iff M_\p \neq (0) \iff \exists m \in M : \p \supset \Ann{A}{m} \]
+I claim that, $\p \supset \Ann{A}{M} \iff \exists m \in M : \p \supset \Ann{A}{m}$. If $\p \supset \Ann{A}{M}$ then, 
+\[ \p \supset \bigcap_{m \in M} \Ann{A}{m} = \bigcap_{i = 1}^n \Ann{A}{m_i} \]
+where $M = A m_1 + \cdots + A m_n$ which implies $\p \supset \Ann{A}{m_i}$ for some $i$. Also, if $\p \supset \Ann{A}{m}$ then $\p \supset \Ann{A}{m} \supset \Ann{A}{M}$. Therefore,
+\[ \p \in \Supp{A}{M} \iff \p \supset \Ann{A}{M} \]
+\end{proof}
+
+\begin{remark}
+If $M$ is not necessarily finitely generated, we still have,
+\[ \Supp{A}{M} \subset V(\Ann{A}{M}) \]
+\end{remark}
+
+\begin{theorem}
+Let $A$ be Noetherian and $M$ an $A$-module. Then,
+\[ \Ass{A}{M} \subset \supp{A}{M} \]
+and any minimal element in $\supp{A}{M}$ is an associated prime. 
+\end{theorem}
+
+
+\begin{proof}
+Let $\p \in \Ass{A}{M}$ then $M_{\p} \neq 0$ since an injective map $A /\p \to M$ means that $M_{\p} \neq 0$ since $A_{\p} / \p A_{\p} \neq 0$ lies inside.  Pick $\p \in \supp{A}{M}$ minimal so $M_{\p} \neq 0$ then there exists $\q_0 \in \Ass{A_{\p}}{M_{\p}} \neq \varnothing$ so $\q_0 = \q A_{\p}$ for some prime ideal $\q \subset \p$ so $\q_0 \in \Supp{A_{\p}}{M_{\p}} \implies (M_{\p})_{q_0} = M_{\q} \neq 0$. However, $\p$ is minimal in $\Supp{A}{M}$ so $\q = \p \implies \q_0 = \p A_{\p}$ so $\p A_{\p} \in \Ass{A_{\p}}{M_{\p}}$ so $\p \in \Ass{A}{M_{\p}}$ so $\p \in \Ass{A}{M}$ by the previous lemma for $S = A \setminus \p$. 
+\end{proof}
+
+
+\begin{proposition}
+Let $A$ be Noetherian and $M$ an $A$-module then $\p \in \Supp{A}{M}$ if and only if there exists $\q \subset \p$ with $\q \in \Ass{A}{M}$. Therefore, \[ \bigcap_{\p \in \Supp{A}{M}} \p = \bigcap_{\p \in \Ass{A}{M}} \p \]
+\end{proposition}
+
+\begin{proof}
+Take $\p \in \Supp{A}{M}$ so $M_\p \neq 0$. Thus, since $A$ is Noetherian, $\Ass{A}{M_\p} \neq \varnothing$ so there exists $\q \in \Ass{A}{M_\p} = \Ass{A}{M} \cap \{ \q \mid \q \subset \p \}$. Furthermore, if $\q \subset \p$ and $\q \in \Supp{A}{M}$ then $\q \supset \Ann{A}{x}$ for some $x \in M$ and thus $\p \supset \Ann{A}{x}$ so $\p \in \Supp{A}{M}$. The support is an upward set. Furthermore, if we have $\q \subset \p$ with $\q \in \Ass{A}{M} \subset \Supp{A}{M}$ then $\p \in \Supp{A}{M}$.  
+\end{proof}
+
+\begin{lemma}
+Assume that we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & M \arrow[r] & P
+\end{tikzcd}
+\end{center} 
+of $A$-modules. Then,
+\[ \Ass{A}{M} \subset \Ass{A}{N} \cup \Ass{A}{P} \]
+\end{lemma}
+
+\begin{proof}
+If $\p \in \Ass{A}{M}$ then we have an embedding
+\begin{center}
+\begin{tikzcd}
+A / \p \arrow[r, hook] & M
+\end{tikzcd}
+\end{center}
+which is injective and $\iota(A / \p) \cap N = (0)$
+then we get an injective map $A / \p \to P$ so $\p \in \Ass{A}{P}$. If $\iota(A / \p) \cap N \neq (0)$ then take nonzero $n \in \iota(A / \p) \cap N$. Then $\Ann{A}{n} = \Ann{A}{\iota(x)}$ for $x \in A / \p$ nonzero. However, if $a \cdot \iota(x) = 0$ then $\iota(a \cdot x) = 0$ but $\iota$ is injective so $a \cdot x = 0$ and thus $\Ann{A}{\iota(x)} = \Ann{A}{x} = \p$ because if $a \cdot x \in \p$ for $x \notin \p$ then $a \in \p$. 
+\end{proof}
+
+\begin{proposition}
+Let $A$ be Noetherian and $M$ a finitely generated $A$-module. Then,
+\begin{enumerate}
+\item Ther exists a filtration $(0) = M_0 \subsetneq M_1 \subsetneq M_2 \subsetneq \cdots \subsetneq M_n = M$ such that $M_{i + 1} / M \cong A / \p_{i+1}$ for some $\p_i \in \supp{A}{M}$.
+\item $\Ass{A}{M} \subset \{ \p_1, \p_2, \dots, \p_n\}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Take $\p \in \Ass{A}{M}$ so we have an injection $A / \p \to M$ let $M_1 \subset M$ be the image of this map so $M_1 / M_0 \cong A / \p_1$. Now take $M / M_1$ and $\p_2 \in \Ass{A}{M/M_1}$ then we have an injection $A / \p_2 \to M/M_1$ so take $\bar{M}_2$ to be the image inside $M/M_1$ and $M_2$ its preimage in $M$.
+Since $M_{i+1}/M_i = A / \p_i$ then 
+\[ \p_i \in \Ass{A}{M_{i+1}/M_{i}} \subset \Supp{A}{M_{i+1}/M_i} \subset \Supp{A}{M} \]
+Then we construct a sequence,
+\[ 0 \subsetneq M_1 \subsetneq M_2 \subsetneq M_3 \subsetneq \cdots \]
+However, $M$ is Noetherian so this sequence must stabilize but it is striclty increasing when $M_i$ is proper. Thus, $M_n  = M$ for some $n$. 
+\bigskip\\
+Using the filtration, we have,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_i \arrow[r] & M_{i+1} \arrow[r] & A / \p_{i+1} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Assume for induction that $\Ass{A}{M_i} \subset \{\p_1, \dots, \p_i \}$ then, using the above lemma,
+\[ \Ass{A}{M_{i+1}} \subset \Ass{A}{M_i} \cup \Ass{A}{A / \p_{i+1}} \subset \{\p_1, \dots, \p_{i+1} \} \]
+proving (2) by induction. 
+\end{proof}
+
+\begin{definition}
+An $A$-module $M$ is called coprimary if $\Ass{A}{M} = \{\p\}$ and if $N \subset M$ we say that $N$ is $\p$-primary if $M / N$ is coprimary with $\Ass{A}{M/N} = \{ \p \}$.  
+\end{definition}
+
+\begin{lemma}
+$M$ is coprimary iff any zero divisor of $M$ is locally nilpotent i.e. if $a \cdot m = 0$ for some $m \in M \setminus \{0\}$ then $\forall m' \in M : a^n \cdot m' = 0$ for some $n$. 
+\end{lemma}
+
+\begin{proof}
+Assume that $M$ is coprimary, $\Ass{A}{M} = \{ \p \}$. If $x \in M$ is nonzero then $Ax$ is a nonzero submodule of $M$ so $\Ass{A}{Ax} = \{ \p \}$ since it is nonempty. Therefore, $\p$ is a minimal element in $\Supp{A}{A x} = V(\Ann{A}{x})$
+because $Ax \cong A / \Ann{A}{x}$. Thus, $\sqrt{\Ann{A}{x}} = \p$. If $a$ is a zero divisor of $M$ then $a \in \p$ so $a^n \in \Ann{A}{x}$ so $a$ is locally nilpotent. Converely, assume that the set of zero divisors equals the set of locally nilpotent elements. Take $\p$ to be the ideal of all locally nilpotents. Take $\q \in \Ass{A}{M}$ then $\q = \Ann{A}{x}$ for some $x$ and $a \in \p$ then $a^n \cdot x = 0$ for some $n$ implies that $a^n \in \q$ so $a \in \q$. so $\p \subset \q$. Furthermore,
+\[ \bigcup_{\q \in \Ass{A}{M}} \q = \{ \text{zero divisors} \} = \p \]
+so for any $\q \in \Ass{A}{M}$ we have $\q \subset \p$. Thus, $\p = \q$ so $\Ass{A}{M}$ constains a unique prime.
+\end{proof}
+
+\begin{corollary}
+If $I \subset A$ is an ideal then $\Ass{A}{A / I} = \{ \p \}$ if and only if $I$ is a primary ideal and in that case $\sqrt{I} = \p$. 
+\end{corollary}
+
+\begin{proof}
+Consider $I \subset A$ and $A / I$ is coprimary then take $x,y \in A$ such that $y \notin I$ and $\bar{x} \cdot \bar{y} = 0$ in $A / I$. Then $\bar{x}$ is a zero divisor of $A / I$ so it is locally nilpotent by the above. Thus, $\bar{x}^n \cdot 1 = 0$ for some $n$ so $x^n \in I$ so $x \in \sqrt{I}$ and thus $I$ is primary. Furthermore,
+\[ \sqrt{I} = \bigcap_{\p \in V(I)} \p = \bigcap_{\p \in \Supp{A}{A / I}} \p = \bigcap_{\p \in \Ass{A}{A / I}} \p = \p \]
+since $\Ass{A}{M}$ is the set of minimal primes of $\Supp{A}{M}$ and $\Ass{A}{A / I} = \p$.  
+\end{proof}
+
+\begin{corollary}
+Let $\p \subset A$ be prime. Then $\Ass{A}{A/\p} = \{ \p \}$.
+\end{corollary}
+
+\begin{definition}
+Le $M$ be an $A$-module and $N \subset M$ we say that $N$ has a primary decomposition if,
+\[ N = Q_1 \cap Q_2 \cap \cdots \cap Q_n \]
+where each $Q_i$ is primary. Moreover, we say that this decomposition is irredundant if 
+\begin{enumerate}
+\item if $i \neq j$ then $\Ass{A}{M / Q_i} \neq \Ass{A}{M / Q_j}$ 
+
+\item we cannot remove any $Q_j$ from the intersection.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Let $M$ be an $A$-module then,
+\begin{enumerate}
+\item If $Q_1, Q_2 \subset M$ are $\p$-primary then $Q_1 \cap Q_2$ is $\p$-primary.  
+
+\item If $N = Q_1 \cap \cdots \cap Q_n$ is a irredundant primary decomposition and for each $i$, $Q_i$ is $\p_i$-primary then,
+\[ \Ass{A}{M / N} = \{ \p_1, \dots, \p_n \} \] 
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider the injection,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M / Q_1 \cap Q_2 \arrow[r, hook] & M / Q_1 \oplus M / Q_2
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{M / Q_1 \cap Q_2} \subset \Ass{A}{M / Q_1 \oplus M / Q_2} = \Ass{A}{M/Q_1} \cup \Ass{A}{M/Q_2} = \{ \p \} \]
+proving the first.
+For the second, consider the injection,
+\begin{center}
+\begin{tikzcd}
+M / N \arrow[r, hook] & M / Q_1 \oplus \cdots \oplus M / Q_n 
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{M / N} \subset \Ass{A}{M/Q_1} \cup \cdots \cup \Ass{A}{M/Q_n} \subset \{ \p_1, \dots, \p_n \} \]
+We need to show that $\p_i \in \Ass{A}{M / N}$ for each $i$.
+We have the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & Q_2 \cap \cdots \cap Q_n \arrow[r] & M / Q_1
+\end{tikzcd}
+\end{center}
+and therefore,
+\begin{center}
+\begin{tikzcd}
+(Q_2 \cap \cdots \cap Q_n) / N \arrow[r, hook] & M / Q_1
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{(Q_2 \cap \cdots \cap Q_n) / N} \subset \Ass{A}{M / Q_1} = \{ \p_1 \} \]
+so since it is nonempy we have,
+\[ \{ \p_1 \} = \Ass{A}{(Q_2 \cap \cdots \cap Q_n) / N} \subset \Ass{A}{M / N} \]
+where the inclusion holds via the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & Q_2 \cap \cdots \cap Q_n \arrow[r] & M / N
+\end{tikzcd}
+\end{center}
+The same argument holds for each $i$. 
+\end{proof}
+
+\begin{theorem}
+Let $M$ be an $A$-module and $A$ Noetherian. For each $\p \in \Ass{A}{M}$, there exist $Q_{\p} \subset M$ which are $\p$-primary such that,
+\[ \bigcap_{\p \subset \Ass{A}{M}} Q_{\p} = 0 \]
+\end{theorem}
+
+\begin{proof}
+Fix $\p \in \Ass{A}{M}$ and consider the set $S_{\p} = \{ Q \subset M \mid \p \notin \Ass{A}{Q} \} \neq \varnothing$ since we have the zero ideal. If we have a chain $\mathcal{Q} \subset S_{\p}$ then their union,
+\[ U = \bigcup_{Q \in \mathcal{Q}} Q \]
+is an ideal. Since $A$ is Noetherian this union stabilizes and equals the maximal $Q \in \mathcal{Q}$. Therefore,
+\[ \Ass{A}{U} = \bigcup_{Q \in \mathcal{Q}} \Ass{A}{Q} \]
+So $\p \notin \Ass{A}{U}$ so $U \in S_\p$. Thus by Zorn's lemma there exists a maximal element $Q_\p \in S_\p$. We know,
+\[ \Ann{A}{M / Q_\p}  \neq \varnothing \]
+since we have $M / Q_\p \neq (0)$. Otherwise, $M = Q_\p$ which implies $\p \in \Ass{A}{Q_\p}$ but $Q_\p \in S_\p$. Let $\p' \in \Ass{A}{M / Q_\p}$ and suppose that $\p' \neq \p$ then we have,
+\begin{center}
+\begin{tikzcd}
+A / \p' \arrow[r, hook] & M / Q_\p
+\end{tikzcd}
+\end{center}    
+The image of this embedding is a submodule, $Q_\p \subsetneq Q' \subset M$ such that $Q' / Q_\p \cong A / \p'$ implying that,
+\[ \Ass{A}{Q' / Q_\p} = \{ \p' \} \]
+Thus we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & Q_\p \arrow[r] & Q' \arrow[r] & A / \p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which implies that $\Ass{A}{Q'} \subset \Ass{A}{Q_\p} \cup \Ass{A}{A / \p'} =  \Ass{A}{Q_\p} \cup \{ \p' \}$.
+However, this contradicts the fact that $Q_\p$ is maximal in $S_\p$ since $Q' \in S_\p$ as long as $\p' \neq \p$. Therefore, $\p' = \p$ so $\Ass{A}{A / Q_\p} = \{ \p \}$. Now consider,
+\[ \Ass{A}{\bigcap_{\p \in \Ass{A}{M}} Q_\p} \subset \bigcap_{\p \in \Ass{A}{M}} \Ass{A}{Q_\p} = \varnothing \]
+because for any $\p$ we know $\p \notin \Ass{A}{Q_\p}$. Therefore,
+\[ \bigcap_{\p \in \Ass{A}{M}} Q_\p = (0) \]
+since it has no associated primes. 
+\end{proof}
+
+\begin{corollary}
+If $M$ has finite type then any submodule has a primary decomposition. 
+\end{corollary}
+
+\begin{proof}
+Let $N \subset M$ be a submodule. 
+Apply the theorem to $\bar{M} = M / N$ which has finite type so $\Ass{A}{M / N}$ is finite. Write, $\Ass{A}{M / N} = \{ \p_1, \dots, \p_r \}$. Therefore, there exist primary ideals $Q_i$ such that,
+\[ Q_{\p_1} \cap \cdots \cap Q_{\p_r} = (0) \]
+in $M / N$. Take $Q_i$ to be the preimage of $Q_{\p_i}$. Thus,
+\[ Q_1 \cap \cdots \cap Q_r = N \]
+and 
+\[ M / Q_i \cong \bar{M} / Q_{\p_i} \implies \Ass{A}{M / Q_i} = \{ \p_i \} \]
+\end{proof}
+
+\section{Derived Functors}
+
+\subsection{Chain Complexes}
+
+\newcommand{\Ch}[1]{\mathbf{Ch}\left( #1 \right)}
+
+\begin{definition}
+A chain complex $C$ is a diagram,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] & C_n \arrow[r, "\partial_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+such that $\partial_{n} \circ \partial_{n+1} = 0$ or equivalently $\Im{\partial_{n+1}} \subset \ker{\partial_{n}}$ for each $n$. We call $\partial$ the boundary map.
+\bigskip\\
+Similarly, a cochain complex $D$ is equivalent but with increasing lables, 
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & D^{n-1} \arrow[r, "d^{n-1}"] & D^n \arrow[r, "d^n"] & D^{n+1} \arrow[r, "d^{n+1}"] & \cdots
+\end{tikzcd}
+\end{center}
+such that $d^{n+1} \circ d^{n} = 0$ or equivalently $\Im{d^n} \subset \ker{d^{n+1}}$ for each $n$. We call $d$ the coboundary map.
+\end{definition}
+
+\begin{remark}
+Complexes are ``half exact'' sequences. 
+\end{remark}
+
+\begin{definition}
+A map $f : C \to D$ of (co)chain complexes is a sequnces of maps, $f_n : C_n \to D_n$ such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] \arrow[d, "f_{n+1}"] & C_n \arrow[r, "\partial_n"] \arrow[d, "f_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] \arrow[d, "f_{n-1}"] & \cdots
+\\
+\cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}"] & D_n \arrow[r, "\partial_n"] & D_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+commutes.
+\end{definition}
+
+\newcommand{\A}{\mathcal{A}}
+
+\begin{definition}
+Let $\A$ be an abelian cateogy then $\Ch{\A}$ is the category of chain complexes with components in $\A$. 
+\end{definition}
+
+\begin{remark}
+Since complexes are ``half exact'' sequences, we would like a way to measure how far a given complex is from being exact. This is accomplished via (co)homology. 
+\end{remark}
+
+\begin{definition}
+Let $C$ be a chain complex in $\Ch{\A}$. The homology of the complex $C$ is the sequence of $\A$ objects (usually abelian groups or $R$-modules),
+\[ H_n(C) = \ker{\partial_n} / \Im{\partial_{n+1}} \]
+We can describe this categorically via,
+\begin{center}
+\begin{tikzcd}
+C_{n+1} \arrow[rd, dashed] \arrow[r, "\partial_{n+1}"] & C_n \arrow[r, "\partial_n"] & C_{n-1}
+\\
+& \ker{\partial_n} \arrow[u] \arrow[rd, dashed]
+\\
+& & H_n(C) 
+\end{tikzcd}
+\end{center}
+where $\partial_{n} \circ \partial_{n+1} = 0$ so $\partial_{n+1}$ lifts to the kernel and $H_n(C)$ is the cokernel of this map. 
+\bigskip\\
+Similarly, given a cochain complex $D$, the cohomology is the sequence 
+\[ H^n(D) = \ker{d^{n}} / \Im{d^{n-1}} = 0 \] 
+which is constructed identically.
+\end{definition}
+
+\begin{proposition}
+Taking (co)homology is a functor $H_n : \Ch{\A} \to \A$.
+\end{proposition}
+
+\begin{proof}
+A chain map $f : C \to D$ is a diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}"] \arrow[d, "f_{n+1}"] & C_n \arrow[r, "\partial_n"] \arrow[d, "f_n"] & C_{n-1} \arrow[r, "\partial_{n-1}"] \arrow[d, "f_{n-1}"] & \cdots
+\\
+\cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}"] & D_n \arrow[r, "\partial_n"] & D_{n-1} \arrow[r, "\partial_{n-1}"] & \cdots
+\end{tikzcd}
+\end{center}
+so if $x \in \ker{\partial_n}$ then $\partial_n \circ f(x) = f(\partial_n x) = 0$ so $f(x) \in \ker{\partial_n}$. Furthermore, if $x \in \Im{\partial_{n+1}}$ then $f(x) \in f(\Im{\partial_{n+1}}) = \Im{\partial_{n+1} \circ f_{n+1}} \subset \Im{\partial_{n+1}}$. Therefore, $f_* : H_n(C) \to H_n(D)$ is a well-defined map taking $[x] \mapsto [f(x)]$. Clearly $\id_* = \id_{H_n}$ and $(f \circ g)_* = f_* \circ g_*$.
+\bigskip\\
+Categorically,   
+(DO THIS)
+\end{proof}
+
+\begin{definition}
+Let $f, g : C \to D$ be morphisms of chain complexes. A \textit{chain homotopy} $p : f \implies g$ is a sequence of maps $p_n : C_n \to D_{n+1}$ such that, 
+\[ \partial \circ p + p \circ \partial = f - g \]
+or more explicitly,
+\[ 
+\partial^D_{n+1} \circ p_n + p_{n-1} \circ \partial^C_{n} = f_n - g_n \] 
+in the following diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+\cdots \arrow[r] & C_{n+1} \arrow[r, "\partial_{n+1}^C"] \arrow[ld, "p_{n+1}"'] \arrow[d, "f_{n+1}"', shift right = 0.5ex] \arrow[d, "g_{n+1}", shift left = 0.5ex] & C_n \arrow[r, "\partial_n^C"]  \arrow[ld, "p_{n}"'] \arrow[d, "f_{n}"', shift right = 0.5ex] \arrow[d, "g_{n}", shift left = 0.5ex] & C_{n-1} \arrow[r]  \arrow[ld, "p_{n-1}"'] \arrow[d, "f_{n-1}"', shift right = 0.5ex] \arrow[d, "g_{n-1}", shift left = 0.5ex] & \cdots  \arrow[ld, "p_{n-2}"']
+\\
+ \cdots \arrow[r] & D_{n+1} \arrow[r, "\partial_{n+1}^D"] & D_n \arrow[r, "\partial_n^D"] & D_{n-1} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{lemma}
+Let $f,g : C \to D$ be chain homotopic then $f_* = g_*$ on homology.
+\end{lemma}
+
+\begin{proof}
+Let $p : f \implies g$ be a chain homotopy. It suffices to show that if $\alpha \in \ker{\partial}$ is a cycle then $(f_* - g_*)(\alpha) = 0$ which is equivalent to $(f - g)(\alpha) \in \Im{\partial}$ is a boundary. Suppose that $\partial \alpha = 0$. Then, 
+\[ (f - g)(\alpha) = (\partial \circ p + p \circ \partial)(\alpha) = \partial(p(\alpha)) \]
+and therefore $(f - g)(\alpha)$ is a boundary. Therefore $f_* = g_*$. 
+\end{proof}
+
+\begin{corollary}
+A chain homotopy equivalence is a quasi-isomorphism i.e. an isomorphism on homology.
+\end{corollary}
+
+\begin{theorem}
+Given a short exact sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r, "i"] & B \arrow[r, "j"] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & H_{n+1}(A) \arrow[r] & H_{n+1}(B) \arrow[r] & H_{n+1}(C) \arrow[r] & H_n(A) \arrow[r] & H_n(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H_n(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H_{n-1}(A) \arrow[r] & H_{n-1}(B) \arrow[r] & H_{n-1}(C) \arrow[r] & H_{n-2}(A) \arrow[r] & H_{n-2}(B) \arrow[r] & H_{n-2}(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+functorially.
+\end{theorem}
+
+\begin{proof}
+Consider the diagram with exact rows,
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = large]
+& \vdots \arrow[d, "\partial^A_{n+2}"] & \vdots \arrow[d, "\partial^B_{n+2}"] & \vdots \arrow[d, "\partial^C_{n+2}"] & 
+\\
+0 \arrow[r] & A_{n+1} \arrow[d, "\partial^A_{n+1}"] \arrow[r, "i"] & B_{n+1} \arrow[d, "\partial^B_{n+1}"] \arrow[r, "j"] & C_{n+1} \arrow[d, "\partial^C_{n+1}"] \arrow[r] & 0
+\\
+0 \arrow[r] & A_n \arrow[d, "\partial^A_{n}"] 
+\arrow[r, "i"] & B_n \arrow[d, "\partial^B_n"] \arrow[r, "j"] & C_n \arrow[d, "\partial^C_n"] \arrow[r] & 0
+\\
+0 \arrow[r] & A_{n-1} \arrow[d, "\partial^A_{n-1}"] \arrow[r, "i"] & B_{n-1} \arrow[d, "\partial^B_{n-1}"] \arrow[r, "j"] & C_{n-1} \arrow[d, "\partial^C_{n-1}"] \arrow[r] & 0
+\\
+& \vdots & \vdots & \vdots & 
+\end{tikzcd}
+\end{center} 
+An application of the snake lemma gives an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \ker{\partial_{n+2}^A} \arrow[r] & \ker{\partial_{n+2}^B} \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & \ker{\partial_{n+2}^C}
+\arrow[dll, "\delta"',
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\  
+& A_{n} / \Im{\partial^A_{n+1}} \arrow[r] & B_{n} / \Im{\partial^B_{n+1}}  \arrow[r] & C_{n} / \Im{\partial^C_{n+1}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I haved added the leading and trailing zeros by by the following observations.
+The map $B_{n+1} / \Im{\partial^B_{n+2}} \to C_{n+1} / \Im{\partial^C_{n+2}}$ simply takes $[x] \mapsto [j(x)]$ and thus is clearly surjective because $j$ is. Furthermore the map $\ker{\partial_{n}^A} \to \ker{\partial_{n}^B}$ is simply the restriction of $\iota$ which is still injective. Therefore, we can arrange these exact rows into a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+& A_{n+1} / \Im{\partial^A_{n+2}} \arrow[d] \arrow[r] & B_{n+1} / \Im{\partial^B_{n+2}} \arrow[d] \arrow[r] & C_{n+1} / \Im{\partial^C_{n+2}} \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \ker{\partial_n^A} \arrow[r] & \ker{\partial^B_n} \arrow[r] & \ker{\partial^C_n}
+\end{tikzcd}
+\end{center}
+where the vertical maps are simply restrictions of the boundary maps whose images lie inside the respective kernels since each column is a chain complex. Another application of the snake lemma gives the exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\ker{\partial_{n+1}^A} / \Im{\partial^A_{n+2}} \arrow[r] & \ker{\partial^B_{n+1}} / \Im{\partial^B_{n+2}} \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & \ker{\partial^C_{n+1}} / \Im{\partial^C_{n+2}} 
+\arrow[dll, "\delta"',
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\  
+\ker{\partial_n^A} / \Im{\partial_{n+1}^A} \arrow[r] & \ker{\partial^B_n} . \Im{\partial_{n+1}^B} \arrow[r] & \ker{\partial^C_n} / \Im{\partial_{n+1}^C}
+\end{tikzcd}
+\end{center}
+Stringing together these long exact sequences (which we can do because they overlap at two points) gives the required long exact sequence. 
+\end{proof}
+
+\subsection{Injective and Projective Resolutions}
+
+\begin{definition}
+$P$ is a projective object if for any map $f : P \to X$ and epimorphism (surjection) $g : Y \to X$ the map $f$ lifts to $Y$. This means there always exists a map such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& Y \arrow[d, two heads, "g"] 
+\\
+P \arrow[r, "f"] \arrow[ru, dashed, "\tilde{f}"] & X
+\end{tikzcd}
+\end{center}
+commutes. The slogan is: ``projective objects lift over surjections''.
+\end{definition}
+
+
+\begin{lemma}
+Any exact sequence ending in a projective object splits.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence where $P$ is projective,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& & & P \arrow[d, "\id_P"] \arrow[ld, dashed]
+\\
+0 \arrow[r] & A \arrow[r] & B \arrow[r, "f", two heads] & P \arrow[r]  & 0
+\end{tikzcd}
+\end{center}
+The induced map is a right inverse of $f$ so the sequence is right-split.
+\end{proof}
+
+\begin{definition}
+A projective resolution of $A$ is an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\cdots \arrow[r] & P_3 \arrow[r, "\partial_3"] & P_2 \arrow[r, "\partial_2"] & P_1 \arrow[r, "\partial_1"] & P_0 \arrow[r, "p_0"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that each $P_i$ is projective.
+We will write this situation schematically as,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\mathbf{P}^A \arrow[r, "p_0"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\end{definition}
+
+\begin{proposition}
+The category $\Mod{R}$ has \textit{enough} projectives. i.e. every $R$-module has a projective resolution
+\end{proposition}
+
+\begin{proof}
+We will use the fact that for any $R$-module $M$ there exists a free module $F$ and a surjection $F \to M$ (take the free module on all the elements of $M$). Furthermore free modules are projective because any map can be defined by sending the generators to arbitrary lifts. 
+\bigskip\\
+Let $P_0 = F$ and consider the kernel $K_0$ of $P_0 \to M$. Then, we can construct a free module surjecting onto $K_0$ call this $P_1$. We repeat this process inductivly to get the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[rr] && P_3 \arrow[rd] \arrow[rr, "\partial_3"] && P_2 \arrow[rd] \arrow[rr, "\partial_2"] && P_1 \arrow[rd] \arrow[rr, "\partial_1"] && P_0 \arrow[rr, "\epsilon"] && M \arrow[rr] && 0
+\\
+&&& K_2 \arrow[ru] \arrow[rd] && K_1 \arrow[ru] \arrow[rd] && K_0 \arrow[ru] \arrow[rd]
+\\
+&& 0 \arrow[ru] & & 0 \arrow[ru] & & 0 \arrow[ru] & & 0
+\end{tikzcd}
+\end{center}
+where the diagonals are exact. The map $P_{n+1} \to P_n$ factors through the kernel $K_n$ and thus goes to zero under $P_n \to P_{n-1}$. Furthermore, $P_{n+1} \to K_n$ is a surjection so the map $P_{n+1} \to P_n$ surjects onto the kernel. Thus the top row is exact.  
+\end{proof}
+
+\begin{proposition}
+Every projective module is a direct factor of a free module.
+\end{proposition}
+
+\begin{proof}
+Let $P$ be projective and $F$ be a free module surjecting onto $P$. Then we know that the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\phi} \arrow[r] & F \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+splits because $P$ is projective. Thus, $F \cong \ker{\phi} \oplus P$. 
+\end{proof}
+
+\begin{definition}
+$I$ is an injective object if for any map $f : X \to I$ and monomorphism (injection) $g : X \to Y$ the map $f$ extends to $Y$. This means there always exists a map such that the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+I & X \arrow[l, "f"] \arrow[d, hook, "g"] 
+\\
+& Y \arrow[ul, "\tilde{f}", dashed]
+\end{tikzcd}
+\end{center}
+commutes. The slogan is: ``injective objects extend over injections.''
+\end{definition}
+
+\begin{definition}
+An injective resolution of $A$ is an exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & A \arrow[r, "\iota_0"] & I^0 \arrow[r, "d^0"] & I^1 \arrow[r, "d^1"] & I^2 \arrow[r, "d^2"] & I^3 \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+such that each $I^i$ is projective. We will write this situation schematically as,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & A \arrow[r, "\iota_0"] & \mathbf{I}_A
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{lemma}
+Any exact sequence begining with an injective object splits.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence where $I$ is projective,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+0 \arrow[r] & I \arrow[r, hook,  "f"] \arrow[d, "\id_I"'] & A \arrow[dl, dashed] \arrow[r, two heads] & B \arrow[r] & 0
+\\
+& I
+\end{tikzcd}
+\end{center}
+The induced map is a left inverse of $f$ so the sequence is left-split.
+\end{proof}
+
+\begin{proposition}
+The category $\Mod{R}$ has \textit{enough} injectives i.e. every $R$-module has an injective resolution.
+\end{proposition}
+
+\begin{proof}
+If for any module $M$ we can find and injection $M \to I$ into an injective module than we can repeat the argument for the projective case. This is true but harder; a proof can be found in Godement. 
+\end{proof}
+
+\begin{lemma} \label{lifting_over_exact}
+Suppose we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "f"] \arrow[dl, dashed]
+\\
+A \arrow[r, "\alpha"] & B \arrow[r, "\beta"] & C
+\end{tikzcd}
+\end{center}
+such that $P$ is projective $\beta \circ f = 0$ and the bottom row is exact. Then there is a map $P \to A$ which makes the diagram commute.
+\bigskip\\
+Similarly,
+suppose we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+A \arrow[r, "\alpha"] & B \arrow[d, "f"] \arrow[r, "\beta"] & C \arrow[dl, dashed]
+\\
+& I
+\end{tikzcd}
+\end{center}
+such that $I$ is injective, $f \circ \alpha = 0$, and the top row is exact. Then there is a map $C \to I$ which makes the diagram commute.
+\end{lemma}
+
+\begin{proof}
+In the first case, since $\beta \circ f = 0$ we have $\Im{f} \subset \ker{\beta} = \Im{\alpha}$ so we may replace $B$ with $\Im{\alpha}$,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "f"] \arrow[dl, dashed, "\tilde{f}"]
+\\
+A \arrow[r, "\alpha'"] & \Im{\alpha} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $\alpha'$ is surjective so we get a lift $\tilde{f}$ to $A$ of $f$ and $\alpha \circ \tilde{f} = f$.
+\bigskip\\
+Similarly, since $f \circ \alpha = 0$ then $\ker{\beta} = \Im{\alpha} \subset \ker{f}$. Thus, $f$ factors through the quotient $B / \ker{\alpha}$ to get,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& B \arrow[d, "\pi"] \arrow[rd, "\beta"]
+\\
+0 \arrow[r] & B / \ker{\beta} \arrow[d, "\bar{f}"] \arrow[r, "\beta'"] & C \arrow[dl, dashed]
+\\
+& I
+\end{tikzcd}
+\end{center}
+where $\beta'$ is injective so we can extend $f$ to C over $\beta'$. Thus, $f$ lifts over $\beta$.  
+\end{proof}
+
+\begin{lemma}
+Given projective or injective resolutions of both objects $A$ and $B$ and a map $f : A \to B$ there exists a unque lift up to chain homotopy to a chain map on the resolutions. 
+\end{lemma}
+
+\begin{proof}
+Let $\mathrm{P}^A$ and $\mathrm{P}^B$ be projective resolutions of $A$ and $B$ respectivly. 
+We will construct the chain map inductivly. First, we have the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_0 \arrow[d, dashed, "f_0"] \arrow[r] & A \arrow[r] \arrow[d, "f"] & 0 
+\\
+P^B_0 \arrow[r] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so we have a map $P_0^A \to B$ which lifts over the surjective map $P_0^B \to B$ since $P_0^A$ is projective. Now assume we have constructed the map up to $n - 1$, 
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_{n+1} \arrow[d, dashed, "f_{n+1}"] \arrow[r, "\partial_{n+1}^A"] & P^A_n \arrow[r, "\partial_{n}^A"] \arrow[d, "f_{n}"] & P^A_{n-1} \arrow[d, "f_{n-1}"] 
+\\
+P^B_{n+1} \arrow[r, "\partial_{n+1}^B"] & P^B_n \arrow[r, "\partial_{n}^B"] & P^B_{n-1}
+\end{tikzcd}
+\end{center}
+However, the map $(f_n \circ \partial^A_{n+1})$ satisfies $\partial_n^B \circ (f_n \circ \partial^A_{n+1}) = f_{n-1} \circ \partial_n^A \circ \partial_{n+1}^A = 0$ by commutativity and exactness of the top row. Since the bottom row is also exact, by Lemma \ref{lifting_over_exact}, we get a lift to $P^A_{n+1}$ such that the diagram commutes. Thus, we get a chain map $\mathbf{P}^A \to \mathbf{P}^B$. 
+\bigskip\\
+Now, suppose we have two chain maps $f,g : \mathbf{P}^A \to \mathbf{P}^B$ which are lifts of $f$. At first, we have,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_1 \arrow[r, "\partial_1^A"] & P^A_0 \arrow[dl, dashed, "s_0"'] \arrow[d, "f_0", shift left = 1ex] \arrow[d, "g_0"', shift right = 1ex] \arrow[r, "\epsilon"] & A \arrow[r] \arrow[d, "f"] & 0 
+\\
+P^B_1 \arrow[r, "\partial_1^B"] & P^B_0 \arrow[r, "\epsilon'"] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Because $\epsilon' \circ (f_0 - g_0) = 0$, the bottom row is exact, and $P^A_0$ is projective, we get a lift $s_0$ such that $\partial_1^B \circ s_0 = f_0 - g_0$. Let $\Delta_n = f_n - g_n$. Now, suppose we have a chain homotopy up to position $n$ and consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+P^A_{n+1} \arrow[d, "\Delta_{n+1}"] \arrow[r, "\partial_{n+1}^A"] & P^A_n \arrow[r, "\partial_{n}^A"] \arrow[dl, "s_{n}", dashed] \arrow[d, "\Delta_n"] & P^A_{n-1} \arrow[d, "\Delta_{n-1}"] \arrow[dl, "s_{n-1}"] \arrow[r, "\partial_{n-1}^A"] & P_{n-2}^A \arrow[d, "\Delta_{n-2}"] \arrow[dl, "s_{n-2}"]
+\\
+P^B_{n+1} \arrow[r, "\partial_{n+1}^B"] & P^B_n \arrow[r, "\partial_{n}^B"] & P^B_{n-1} \arrow[r, "\partial_{n-2}"] & P^B_{n-2} 
+\end{tikzcd}
+\end{center} 
+There is a map $(\Delta_n - s_{n-1}) \circ \partial_n^A : P_n^A \to P_n^B$. 
+Furthermore, 
+\[ \partial_n^B \circ (\Delta_n - s_{n-1} \circ \partial_n^A) = \Delta_{n-1} \circ \partial_n^A - \partial_n^B \circ s_{n-1} \circ \partial_n^A \]
+where I have used commutativity to show,
+\[ \partial^B_n \circ \Delta_n = \partial^B_n \circ (f_n - g_n) = f_{n-1} \circ \partial^A_n - g_{n-1} \circ \partial^A_n = \Delta_{n-1} \circ \partial^A_n \]
+By the induction hypothesis, $\Delta_{n-1} = s_{n-2} \circ \partial_{n-1}^A + \partial_{n}^B \circ s_{n-1}$. Therefore,
+\begin{align*}
+\partial_n^B \circ (\Delta_n - s_{n-1} \circ \partial_n^A) & = s_{n-2} \circ \partial_{n-1}^A \circ \partial_{n}^A + \partial_{n}^B \circ s_{n-1} \circ \partial_{n}^A - \partial_n^B \circ s_{n-1} \circ \partial_n^A = 0
+\end{align*}
+because $\partial_{n-1}^A \circ \partial_{n}^A = 0$. Thus, we get a lift $s_n$ of this map to $P_{n+1}^B$. Furthermore,
+\[ \partial_{n+1}^B \circ s_n + s_{n-1} \circ \partial_n^A = \Delta_n - s_{n-1} \circ \partial_n^A + s_{n-1} \circ \partial_n^A = \Delta_n \]
+so we have constructed a chain homotopy up to position $n$. By induction, $s : \mathbf{P}^A \to \mathbf{P}^B$ is a chain homotopy between $f, g$. The proof for the injective case is very similar.   
+\end{proof}
+
+\begin{corollary}
+All projective resolutions of a given object are chain homotopic. Likewise, all injective resolutions of a given object are chain homotpic. 
+\end{corollary}
+
+\begin{proof}
+Let $\mathbf{P}^A \longrightarrow A \longrightarrow 0$ and $\mathbf{Q}^A \longrightarrow A \longrightarrow 0$ be two projective resolutions of $A$. Then the identitiy map $\id_A : A \to A$ gives lifts to chain maps $f : \mathbf{P}^A \to \mathbf{Q}^A$ and $g : \mathbf{Q}^A \to \mathbf{P}^A$. Then, the compositions $g \circ f : \mathbf{P}^A \to \mathbf{P}^A$ and $f \circ g : \mathbf{Q}^A \to \mathbf{Q}^A$ are lifts of the identity. The idenity chain maps are also lifts of the identiy from each resolution to itself so we must have $g \circ f \sim \id_{\mathbf{P}^A}$ and $f \circ g \sim \id_{\mathbf{Q}^A}$ via chain homotopies. Thus the two complexes are chain homotopic.   
+\end{proof}
+
+\begin{lemma}[Horseshoe]
+If we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and projective resolutions $\mathbf{P}^A \longrightarrow A \longrightarrow 0$ and $\mathbf{P}^C \longrightarrow C \longrightarrow 0$ then there exists a projective resolution $\mathbf{P}^B \longrightarrow B \longrightarrow 0$ and chain maps lifting the short exact sequnce such that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{P}^A \arrow[r] & \mathbf{P}^B \arrow[r] & \mathbf{P}^C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an exact sequence of chain complexes. The same is true of injective resolutions.
+\end{lemma}
+
+\begin{proof}
+The proof follows from the nine lemma and can be found in Rotman.
+\end{proof}
+
+\subsection{Derived Functors}
+
+\begin{definition}
+Let $T : \mathcal{A} \to \mathcal{B}$ be an additive functor between abelian categories with enough projectives and injectives. Then for any object $A$ in the category $\A$ we first take a projective resolution $\mathbf{P}^A \to A \to 0$ of $A$ and also an injective resolution $0 \to A \to \mathbf{I}_A$. Then we can form two chain complexes by applying the functor $T$,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & T(P^A_3) \arrow[r] & T(P^A_2) \arrow[r] & T(P^A_1) \arrow[r] & T(P^A_0) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\begin{center}
+and
+\end{center} 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(I^A_0) \arrow[r] & T(I^A_1) \arrow[r] & T(I^A_2) \arrow[r] & T(I^A_2) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center} 
+note that I have conventionally removed the $A$ term and sent the last map to zero.
+These are chain complexes because additive functors preserve the zero map so the composition of two maps remains zero after we apply $T$. Thus we can take the (co)homology of these complexes. We define, the left and right derived functors of $T$,
+\[ L_n T(A) = H_n(T(\mathbf{P}^A)) \quad \text{and} \quad R^n T(A) = H^n(T(\mathbf{I}_A)) \]
+Given a map $f : A \to B$ we can lift this map to any two projective or injective resolutions of $A$ and $B$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] \arrow[d, "f"] & I_A^0 \arrow[r] \arrow[d] & I_A^1 \arrow[r] \arrow[d] & I_A^2 \arrow[r] \arrow[d] & I_A^3 \arrow[r] \arrow[d] & \cdots 
+\\
+0 \arrow[r] & B \arrow[r] & I_B^0 \arrow[r] & I_B^1 \arrow[r] & I_B^2 \arrow[r] & I_B^3 \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+If we hit this diagram with $T$ and replace the first column with $0$ then we get a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(I_A^0) \arrow[r] \arrow[d] & T(I_A^1) \arrow[r] \arrow[d] & T(I_A^2) \arrow[r] \arrow[d] & T(I_A^3) \arrow[r] \arrow[d] & \cdots 
+\\
+0\arrow[r] & T(I_B^0) \arrow[r] & T(I_B^1) \arrow[r] & T(I_B^2) \arrow[r] & T(I_B^3) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+which gives a chain map $T(\mathbf{I}_A) \to T(\mathbf{I}_B)$. Such a chain map induces a map on the homology $H^n(T(\mathbf{I}_A)) \to H^n(T(\mathbf{I}_B))$ which we call the induced map
+\[ f_* : R^n T(A) \to R^n T(B) \]
+on the derived functors. 
+\end{definition}
+
+\begin{proposition}
+Derived functors are indeed functors and are well-defined up to natural isomorphism with respect to choices of resolution. 
+\end{proposition}
+
+\begin{proof}
+Given $A$ we know that any two projective or injective resolutions of $A$ are chain homotopy equivalent. Since $T$ is an additive functior, applying $T$ to a chain homotopy diagram gives a chain homotopy of the new complexes. Therefore, the two resolutions have isomorphic homology so $L_n T(A) = H_n(T(\mathbf{P}^A)$ and $R^n T(A) = H^n(T(\mathbf{I}_A))$ are well-defined up to isomorphisms which, one can show with far too much notation, are natural in $A$. Furthermore, given a map $f : A \to B$ and resolutions of both $A$ and $B$ we know that any two lifts of $f$ to chain maps are chain homotopic and therefore induce the same map on homology. Thus, the induced maps,
+\[ 
+f_* : L_n T(A) \to L_n T (B) \quad \text{and} \quad f_* : R^n T(A) \to R^n T(B) 
+\]
+are well-defined with respect to the choice of lift. 
+\bigskip\\
+If we have two maps $f : A \to B$ and $g : B \to C$ then the composition of the lifted chain maps of $f$ and $g$ to the respective resolutions clearly compose to give a lift of $g \circ f$. Therefore, $(g \circ f)_* = g_* \circ f_*$. Furthermore, $\id_{\mathbf{P}^A}$ is a lift of $\id_{A} : A \to A$ so $(\id_A)_* = \id$. 
+\end{proof}
+
+\begin{proposition}
+If $T$ is left-exact then $R^0 T \cong T$ and if $T$ is right exact then $L_0 T \cong T$ naturally. 
+\end{proposition}
+
+\begin{proof}
+Suppose $T$ is left-exact and take an injective resolution of $A$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \mathbf{I}_A
+\end{tikzcd}
+\end{center}
+which is an exact sequence. Applying $T$ and envoking left-exactness we get the exact seqeunce,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(A) \arrow[r] & T(I^0_A) \arrow[r, "T(d^0)"] & T(I^1_A) 
+\end{tikzcd}
+\end{center}
+Thus, $\ker{T(d^0)} = T(A)$. However, 
+\[ R^0 T(A) = \ker{T(d^0)} / \Im{0} = T(A) \]
+Furthermore given a map $f : A \to B$ we get a lift,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(A) \arrow[d, "T(f)"] \arrow[r] & T(I^0_A) \arrow[d] \arrow[r, "T(d_A^0)"] & T(I^1_A)  \arrow[d]
+\\
+0 \arrow[r] & T(B) \arrow[r] & T(I^0_B) \arrow[r, "T(d_B^0)"] & T(I^1_B) 
+\end{tikzcd}
+\end{center}
+Thus, taking kernels we have the commutative square,
+\begin{center}
+\begin{tikzcd}
+T(A) \arrow[d, "T(f)"] \arrow[r, "\sim"] & \ker{T(d_A^0)} \subset T(I^0_A) \arrow[d]
+\\
+T(A) \arrow[r, "\sim"] & \ker{T(d_B^0)} \subset T(I^0_A) 
+\end{tikzcd}
+\end{center}
+and thus $f_* : R^0 T(A) \to R^0 T(B)$ is identified with $T(f)$ under the isomorphisms $R^0 T(A) \cong T(A)$ and $R^0 T(B) \cong T(B)$. 
+\bigskip\\
+Likewise, suppose that $T$ is right-exact and take a projective resolution of $A$,
+\begin{center}
+\begin{tikzcd}
+\mathbf{P}_0^A \arrow[r] & A \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+which is an exact sequence. Applying $T$ and envoking right-exactness we get the exact sequence,
+\begin{center}
+\begin{tikzcd}
+T(P^A_1) \arrow[r, "T(\partial_1)"] & T(P^A_0) \arrow[r] & T(A) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Thus, $T(A) = T(P^A_0) / \Im{T(P^A_1)}$. However, 
+\[ L_0 T(A) = \ker{T(\partial_0)} / \Im{T(\partial_1)} = \ker{T(P^A_0)} / \Im{T(P^A_1)} = T(A) \]
+Furthermore given a map $f : A \to B$ we get a lift,
+\begin{center}
+\begin{tikzcd}
+T(P^A_1) \arrow[d] \arrow[r, "T(\partial^A_1)"] & T(P^A_0) \arrow[d] \arrow[r] & T(A) \arrow[d, "T(f)"] \arrow[r] & 0
+\\
+T(P^B_1) \arrow[r, "T(\partial^B_1)"] & T(P^B_0) \arrow[r] & T(B) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Thus, taking cokernels we have the commutative square,
+\begin{center}
+\begin{tikzcd}
+T(P^A_0) / \Im{T(P^A_1)} \arrow[d] \arrow[r, "\sim"] & T(A) \arrow[d, "T(f)"] 
+\\
+T(P^A_0) / \Im{T(P^A_1)} \arrow[r, "\sim"] & T(B)
+\end{tikzcd}
+\end{center}
+and thus $f_* : L_0 T(A) \to L_0 T(B)$ is identified with $T(f)$ under the isomorphisms $L_0 T(A) \cong T(A)$ and $L_0 T(B) \cong T(B)$. 
+\end{proof}
+
+\begin{theorem}
+Given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and and additive functor $T : \mathcal{A} \to \mathcal{B}$ we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & L_3 T(A) \arrow[r] & L_3 T(B) \arrow[r] & L_3 T(C) \arrow[r] & L_2 T(A) \arrow[r] & L_2 T(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & L_2 T(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& L_1 T(A) \arrow[r] & L_1 T(B) \arrow[r] & L_1 T(C) \arrow[r] & L_0 T(A) \arrow[r] & L_0 T(B) \arrow[r] & L_0 T(C) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of left-derived functors and a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & R^0 T(A) \arrow[r] & R^0 T(B) \arrow[r] & R^0 T(C) \arrow[r] & R^1 T(A) \arrow[r] & R^1 T(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & R^1 T(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& R^2 T(A) \arrow[r] & R^2 T(B) \arrow[r] & R^2 T(C) \arrow[r] & R^3 T(A) \arrow[r] & R^3 T(B) \arrow[r] & R^3 T(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+of right-derived functors. Furthermore, a morphism of short exact sequences will induce a morphisms of the long exact sequences. 
+\end{theorem}
+
+\begin{proof}
+By the Horseshoe lemma, there exists an exact sequence of projective resolutions of $A$, $B$, and $C$ respectivly,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{P}^A \arrow[r] & \mathbf{P}^B \arrow[r] & \mathbf{P}^C \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Each row of this sequence of chain maps is a short exact sequence of projectives and thus split. However, additive functors preserve splitting so the sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(\mathbf{P}^A) \arrow[r] & T(\mathbf{P}^B) \arrow[r] & T(\mathbf{P}^C) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+is short exact. Finally, this short exact sequence of chain complexes gives rise to a long exact sequence of homology which are exactly the left-derived functors.
+\bigskip\\
+Similarly, by the Horseshoe lemma, there exists an exact sequence of injective resolutions of $A$, $B$, and $C$ respectivly,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathbf{I}^A \arrow[r] & \mathbf{I}^B \arrow[r] & \mathbf{I}^C \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Each row of this sequence of chain maps is a short exact sequence of injectives and thus split. However, additive functors preserve splitting so the sequence of chain complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(\mathbf{I}^A) \arrow[r] & T(\mathbf{I}^B) \arrow[r] & T(\mathbf{I}^C) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+is short exact. Finally, this short exact sequence of chain complexes gives rise to a long exact sequence of homology which are exactly the right-derived functors.
+\end{proof}
+
+\begin{remark}
+In practice, we will only are about left-derived functors of right-exact functors and right-derived functors of left-exact functors because for the long exact sequences to be of use we need to have $T$ applied to the original objects appear in it somewhere. 
+\end{remark}
+
+\begin{proposition} \label{derived_functor_applied_to_proj_or_inj}
+Let $T : \mathcal{A} \to \mathcal{B}$ be an additive functor between abelian categories with enough projectives and injectives. If $I$ is projective then $R^n T(I) = 0$ and if $P$ is projective then $L_n T(P) = 0$ for all $n > 0$.
+\end{proposition}
+
+\begin{proof}
+If $I$ is injective then
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & I \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an injective resolution of $I$ where $I^0 = I$ and $I^n = 0$ for $n > 0$. Thus, for $n > 0$, $R^n T(I) = \ker{T(d^n)} / \Im{T(d^{n-1})} = 0$
+because $d^n = 0$.
+\bigskip\\
+If $P$ is projective then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & P \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an injective resolution of $P$ where $P_0 = P$ and $P_n = 0$ for $n > 0$. Thus, for $n > 0$, $L_n T(P) = \ker{T(\partial_n)} / \Im{T(\partial_{n+1})} = 0$
+because $\partial_n = 0$.
+\end{proof}
+
+\subsection{Ext and Tor}
+
+\begin{proposition}[Tensor-Hom Adjunction]
+\[ \Homover{A}{M \otimes N}{P} = \Homover{A}{M}{\Homover{A}{N}{P}} \]
+That is, the functor $(-) \otimes_R N$ is a left-adjoint of the functor $\Homover{R}{N}{-}$. 
+\end{proposition}
+
+\begin{remark}
+Since $(-) \otimes_R N$ is a left-adjoint it is cocontinuous and thus right-exact. Furthermore, $\Hom{R}{N}{-}$ is a right-adjoint so it is continuous and thus left-exact. However, we will prove these facts explicitly without too much appeal to abstract nonsense. 
+\end{remark}
+
+\begin{lemma}
+The functor $(-) \otimes_R N$ is right-exact.
+\end{lemma}
+
+\begin{proof}
+Let
+\begin{center}
+\begin{tikzcd}
+K \arrow[r, "i"] & L \arrow[r, "j"] & M \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+be exact. Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+K \otimes N \arrow[r, "i \otimes \id_N"] & L \otimes N \arrow[r, "j \otimes \id_N"] & M \otimes N \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Construct a map $\phi : M \times N \to L \otimes N / (i \otimes \id_N)(K \otimes M)$ by $\phi(m,n) = \ell \otimes n$ where $j(\ell) = m$ where I have used the fact that $j$ is surjective. If $\ell, \ell' \in L$ where $j(\ell) = j(\ell')$ then,
+\[ \ell \otimes n - \ell' \otimes n = (\ell - \ell') \otimes n \]
+However, $\ell - \ell' \in \ker{j} = \Im{i}$ so take $k \in K$ such that $i(k) = \ell - \ell'$. Thus,
+\[  \ell \otimes n - \ell' \otimes n = i(k) \otimes n = (i \otimes \id_N)(k \otimes n) = 0 \]
+in the quotient. By the universal property of the tensor product, there exists a linear map,
+\[ \tilde{\phi} : M \otimes N \to  L \otimes N / (i \otimes \id_N)(K \otimes M) \]
+Furthermore, $\tilde{\phi}$ is the inverse map to $\j \otimes \id_N$ on the quotient. Therefore, $\ker{j \otimes \id_N}$ is exactly $\Im{i \otimes \id}$. 
+\end{proof}
+
+
+\begin{definition}
+Define, $\Tor{R}{n}{-}{N}$ to be the $n^\mathrm{th}$ left-derived functor of $(-) \otimes_R N$.
+\end{definition}
+
+
+\begin{proposition}
+$\mathrm{Tor}$ is symmetric, $\Tor{R}{n}{M}{N} \cong \Tor{R}{n}{N}{M}$.
+\end{proposition}
+
+\begin{proposition}
+Properties of the $\mathrm{Tor}$ functor,
+\begin{enumerate}
+\item If $M$ or $N$ is projective then $\Tor{R}{n}{M}{N} = 0$ for $n > 0$.
+
+\item $\Tor{R}{n}{\bigoplus_{\alpha} M_\alpha}{N} \cong \bigoplus_{\alpha} \Tor{R}{n}{M_\alpha}{N}$
+
+\item If $r \in R$ is not a zero divisor, then,
+\[ \Tor{R}{1}{R/(r)}{N} \cong \{n \in N \mid rn = 0 \} \]
+the $r$-torsion of $N$ and,
+\[ \Tor{R}{n}{R/(r)}{N} = 0 \]
+for $n > 1$.
+
+\item If $R$ is a PID then $\Tor{R}{n}{M}{N} = 0$ for $n > 1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+I will sketch each:
+\begin{enumerate}
+\item If $M$ is projective then $\Tor{R}{n}{M}{N} = 0$ for $n > 0$ by Proposition \ref{derived_functor_applied_to_proj_or_inj}. Otherwise use symmetry.
+
+\item This follows from the fact that direct sum and tensor product commute.
+
+\item (DO THIS)
+
+\item If $R$ is a PID then submodules of free modules are free. Therefore given any $R$-module $M$ we can chose a projective resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & F \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $F \to M$ is the surjection of a free $R$-module and $K \to F$ is the inclusion of the kernel which is also free since $K \subset F$ and $F$ is a free $R$-module. Thus, the left derived functors vanish after $n = 1$ since $P^M_n = 0$ for $n > 1$ and thus the kernels of the boundary maps are zero.
+\end{enumerate} 
+\end{proof}
+
+\begin{proposition}
+Given a short exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & L \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & \Tor{R}{1}{K}{N} \arrow[r] & \Tor{R}{1}{L}{N} \arrow[r] & \Tor{R}{1}{M}{N} \arrow[r] & K \otimes N \arrow[r] & L \otimes N \arrow[r] & M \otimes N \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\end{proposition}
+
+\begin{lemma}
+The functor $\Hom{A}{-}$ is left-exact.
+\end{lemma}
+
+\begin{proof}
+$\Hom{A}{-}$ is a continuous functor and therefore preserves kernels. 
+\end{proof}
+
+\begin{lemma}
+The functor $\Hom{P}{-}$ is exact if and only if $P$ is projective. Similarly, the functor $\Hom{-}{I}$ is exact if and only if $I$ in injective.
+\end{lemma}
+
+\begin{proof}
+Since $\Hom{P}{-}$ is always left-exact, we need only that $\Hom{P}{-}$ takes surjections to surjections. Thus if $f : A \to B$ is a surjection, we need that any map $g : P \to B$ can lift to a map $\tilde{g} : P \to A$ such that $f \circ \tilde{g} = g$.
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+& P \arrow[d, "g"] \arrow[dl, "\tilde{g}"', dashed]
+\\
+A \arrow[r, "f"] & B
+\end{tikzcd}
+\end{center} 
+This is exactly the definition of $P$ being projective. The injective case is similar.
+\end{proof}
+
+
+\begin{definition}
+Let $M$ be an $R$-module. Define $\Ext{n}{R}{M}{-}$ to be the $n^{\mathrm{th}}$ right-derived functor of $\Homover{R}{M}{-}$. 
+\end{definition}
+
+\begin{proposition}
+Properties of the $\mathrm{Ext}$ functor,
+\begin{enumerate}
+\item $\Ext{n}{R}{A}{B} = 0$ for $n > 0$ if either $A$ is projective or $B$ is injective.
+\item 
+\begin{align*}
+\Ext{n}{R}{\bigoplus_\alpha A_{\alpha}}{B} & \cong \prod_\alpha \Ext{n}{R}{A_{\alpha}}{B} 
+\\
+\Ext{n}{R}{A}{\prod_{\beta} B_{\beta}} & \cong \prod_{\beta} \Ext{n}{R}{A}{B_{\beta}} 
+\end{align*} 
+\item If $R$ is a PID then $\Ext{n}{R}{A}{B} = 0$ for $n > 1$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+I will sketch each:
+\begin{enumerate}
+\item If $P$ is projective then $\Homover{R}{P}{-}$ is exact so its derived functors are trivial. If $I$ is injective then $\Ext{n}{R}{A}{I} = 0$ by Lemma \ref{derived_functor_applied_to_proj_or_inj}.
+
+\item This follows from the fact that $\Hom{A}{-}$ is contious and thus commutes with products so a resolution of the product is sent to a complex of products. Furthermore, $\Hom{-}{B}$ takes colimts to limits and thus 
+\[ \Hom{\bigoplus_{\alpha} A_{\alpha}}{-} \cong \prod_{\alpha} \Hom{A_{\alpha}}{-} \]
+and its derived functors will also be products since it takes each injective to a product. 
+
+\item (DO THIS)
+\end{enumerate} 
+\end{proof}
+
+\begin{proposition}
+Given a short exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & L \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then we get a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \Homover{R}{N}{K} \arrow[r] & \Homover{R}{N}{L} \arrow[r] & \Homover{R}{N}{M} \arrow[r] & \Ext{1}{R}{N}{K} \arrow[r] & \Ext{1}{R}{N}{L} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center} 
+\end{proposition}
+
+\section{Flatness}
+
+\begin{definition}
+An $A$-module $Q$ is said to to be $A$-flat if $(-) \otimes_A Q$ is exact. Thus, $Q$ is $A$-flat iff $\Tor{A}{n}{-}{Q} = 0$ for $n > 0$. Furthermore if $\Tor{A}{1}{-}{Q} = 0$ then $(-) \otimes_A Q$ is exact by the long exact sequence. Thus, $Q$ is $A$-flat iff $\Tor{A}{1}{-}{Q} = 0$.   
+\end{definition}
+
+\begin{proposition}
+\[ \Tor{A}{n}{\varinjlim M_i}{P} = \varinjlim \Tor{A}{n}{M_i}{P} \]
+\end{proposition}
+
+\begin{proof}
+The functor $\varinjlim$ is exact. Furthermore, 
+\begin{align*}
+\Homover{A}{(\varinjlim M_i) \otimes_A P}{N} & = \Homover{A}{\varinjlim M_i}{\Homover{A}{P}{N}} = \varprojlim \Homover{A}{M_i}{\Homover{A}{P}{N}} 
+\\
+& = \varprojlim \Homover{A}{M_i \otimes_A P}{N} = \Homover{A}{\varinjlim (M_i \otimes_A P)}{N}
+\end{align*} 
+Then since the Yonenda embedding is injective,
+\[ (\varinjlim M_i) \otimes_A P = \varinjlim (M_i \otimes_A P) \]
+\end{proof}
+
+\begin{proposition}
+If $Q$ is projective then $Q$ is $A$-flat. 
+\end{proposition}
+
+\begin{proof}
+Since $Q$ is projective $\Tor{A}{n}{-}{Q} = 0$ for $n > 0$. 
+\end{proof}
+
+\begin{proposition}
+Let $M$ be an $A$-module then the following are equivalent.
+\begin{enumerate}
+\item The $A$-module $M$ is $A$-flat.
+
+\item The functor $(-) \otimes_A M$ preserves monomorphisms.
+
+\item Every finitely generated ideal $I \subset A$ satisfies $I \otimes_A M = I M$. 
+
+\item $\Tor{A}{1}{M}{A/I} = 0$ for all finitely generated ideals $I \subset A$. 
+
+\item $\Tor{A}{1}{M}{N} = 0$ for any finitely generated $A$-module $N$.
+
+\item For all $a_i \in A$ and $x_i \in M$ with $\sum_{i = 1}^r a_i x_i = 0$ there exists $b_{ij} \in A$ such that $\sum_{i = 1}^r b_{ij} = 0$ for all $j$ and there exist $y_i \in M$ such that $x_i = \sum_{j = 1}^s b_{ij} y_j$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+Let $B$ be an $A$-algebra which is flat as an $A$-module and $M$ is a $B$-flat $B$-module then $M$ is an $A$-flat $A$-module.
+\end{proposition}
+
+\begin{proof}
+Let $S$ be an $A$-module. Then,
+\[ S \otimes_A M = S \otimes_A (B \otimes_B M) = (S \otimes_A B) \otimes_B M \]
+However, $(-) \otimes_A B$ and $(-) \otimes_B M$ are exact so the composition $(-) \otimes_A M$ is exact. 
+\end{proof}
+
+
+\begin{proposition}
+Suppose $B$ is an $A$-algebra then if $M$ is $A$-flat then $B \otimes_A M$ is $B$-flat.
+\end{proposition}
+
+\begin{proof}
+Suppose $S$ is a $B$-module then,
+\[ S \otimes_B (B \otimes_A M) = (S \otimes_B B) \otimes_A M = S \otimes_A M \]
+However, $(-) \otimes_A M$ is exact so $(-) \otimes_B (B \otimes_A M)$ is exact. 
+\end{proof}
+
+\begin{proposition}
+If $S \subset A$ is multiplicative then $S^{-1} A$ is $A$-flat.
+\end{proposition}
+
+\begin{proof}
+Notice that if $M$ is an $A$-module then $S^{-1} M \cong M \otimes_A S^{-1} A$ and localization is exact so $(-) \otimes_A S^{-1} A$ is exact.
+\end{proof}
+
+\begin{proposition}
+Let $M,N$ be $A$-modules and assume $B$ is a flat $A$-algebra then,
+\[ \Tor{B}{i}{M \otimes_A B}{N \otimes_A B} \cong \Tor{A}{i}{M}{N} \otimes_A B \]
+and similarly,
+\[ \Ext{i}{B}{M \otimes_A B}{N \otimes_A B} \cong \Ext{i}{A}{M}{N} \otimes_A B \]
+\end{proposition}
+
+\begin{proof}
+Let $\mathbf{P} \to N \to 0$ be a projective resolution of $N$. Because $B$ is $A$-flat then $\mathbf{P} \otimes_A B \to N \otimes_A B \to 0$ is a projective resolution. Thus,
+\begin{align*}
+\Tor{B}{i}{M \otimes_A B}{N \otimes_A B} & = H_i((M \otimes_A B) \otimes_B (\mathbf{P} \otimes_A B))
+\\
+& = H_i((M \otimes_A \mathbf{P}) \otimes_A B) = \Tor{A}{i}{M}{N} \otimes_A B 
+\end{align*} 
+where again I have used the exactness of $(-) \otimes_A B$ to pull it out of the homology since it preserves kernels and images. 
+\end{proof}
+
+\begin{proposition}
+Let $A$ be a local ring and $M$ a finitely generated $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is free
+
+\item $M$ is projective
+
+\item $M$ is flat
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The first and second implications are true in general. Suppose $\m \subset A$ is the maximal ideal and $k = A / \m$. Then $M \otimes_A k = M / (\m M)$ is a finite-dimensional $k$-vectorspace. There exist $x_1, \dots, x_r \in M$ such that their image $\bar{x}_1, \dots, \bar{x}_r \in M$ is a basis of $M \otimes_A k$. Consider the  span map $\phi : A^r \to M$ then $\phi \otimes \id : k^r \to M \otimes_A k = M / (\m M)$ is surjective so $\Im{\phi} + \m M = M$. By Nakayama, $M = \Im{\phi}$.  
+\end{proof}
+
+\begin{lemma}
+Let $\phi : A \to B$ be a ring map. Take $\mathfrak{P} \in \spec{A}$ and $\p = \phi^{-1}(\mathfrak{P})$ and $N$ an $A$-module. Then,
+\[ \Tor{A_{\p}}{i}{B_{\mathfrak{P}}}{N_{\p}} = \Tor{A}{i}{B}{N}_{\mathfrak{P}} \]
+\end{lemma}
+
+\begin{proposition}
+Let $\phi : A \to B$ be a ring map then the following are equivalent,
+\begin{enumerate}
+\item $B$ is $A$-flat
+\item $B_{\mathfrak{P}}$ is $A_{\p}$-flat for all primes $\p = \phi^{-1}(\mathfrak{P})$
+\item $B_{\mathfrak{P}}$ is $A_{\p}$-flat for all maximal ideals $\p = \phi^{-1}(\mathfrak{P})$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+First, $B_\p = B \otimes_A A_\p$ which is clearly flat over $A_\p$ by change of base. Furthermore, $B_{\mathfrak{P}}$ is flat over $B_\p$ because $B_{\mathfrak{P}} = S^{-1} B_\p$ for $S = B_\p \setminus \mathfrak{P} B_\p$. By transitivity, $B_{\mathfrak{P}}$ is $A_\p$-flat. Clearly, the second implies the third. Take $Q = \Tor{A}{i}{B}{N}$ using the above lemma,
+\[ Q_{\mathfrak{P}} = \Tor{A_\p}{i}{B_{\mathfrak{P}}}{N_\p} = 0 \]
+because $B_{\mathfrak{P}}$ is $A_\p$-flat. Thus, $\forall \mathfrak{P} \in \spec{A}$ which are maximal we have $Q_{\mathfrak{P}} = 0$ which implies that $Q = 0$. 
+\end{proof}
+
+\begin{definition}
+Let $M$ be an $A$-module. We say that $M$ is \textit{faithfully flat} over $A$ if the sequence,
+\begin{center}
+\begin{tikzcd}
+N \arrow[r] & P \arrow[r] & Q
+\end{tikzcd}
+\end{center}
+is exact if and only if the sequence,
+\begin{center}
+\begin{tikzcd}
+N \otimes_A M \arrow[r] & P \otimes_A M \arrow[r] & Q \otimes_A M
+\end{tikzcd}
+\end{center}
+is exact.  
+\end{definition}
+
+\begin{theorem}
+Let $M$ be an $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is faithfully flat over $A$
+\item $M$ is $A$-flat and for any $A$-module $N \neq 0$ we have $N \otimes_A M \neq 0$. 
+\item $M$ is $A$-flat an $\forall m \subset A$ maximal we have $M \neq \m M$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Faithfully flat implies flatness. Furhtermore, consider the sequence 
+\[ 0 \to N \to 0\]
+If $M \otimes_A N = 0$ then clearly the sequence 
+\[ 0 \to M \otimes_A N \to 0\]
+is exact. Thus, 
+\[ 0 \to N \to 0 \] must be exact so $N = 0$. 
+\bigskip\\
+Now suppose 2. and let,
+\begin{center}
+\begin{tikzcd}
+N \arrow[r, "f"] & P \arrow[r, "g"] & Q
+\end{tikzcd}
+\end{center}
+be a sequence such that,
+\begin{center}
+\begin{tikzcd}
+N \otimes_A M \arrow[r] & P \otimes_A M \arrow[r] & Q \otimes_A M
+\end{tikzcd}
+\end{center}
+is exact. However, $g \circ f = 0$ by exactness and the flatness of $M$. Furthermore, 
+\[ \ker{g \otimes_A \id_M} = \ker{g} \otimes_A M \quad \quad \Im{f \otimes_A \id_M} = \Im{f} \otimes_A M \]
+by flatness. However, exactness implies that $\ker{g} \otimes_A M = \Im{f} \otimes_A M$ which implies that $(\ker{g} / \Im{f}) \otimes_A M  = 0$ so $\ker{g} = \Im{f}$ because $(-) \otimes_A M$ is injective. Furthermore, assuming 2. take $\m \subset A$ maximal then $M \otimes A / \m \neq 0$ implies that $M \neq \m M$. Now assume 3. and take $N \neq 0$ with $x \in N$ nonzero. Let $I = \Ann{A}{x} \subset \m$ for some maximal ideal. Consider the map $\iota : A / I \xrightarrow{\sim} A x \subset N$. Then $A / \m \otimes_A M \neq 0$ implies tht $A / I \otimes M \neq 0$ so $A x \otimes_A M \neq 0$ by 3. Then $A x \otimes_A M$ embedds inside $N \otimes_A M$ because $M$ is $A$-flat. Thus $N \otimes_A M \neq 0$. 
+\end{proof}
+
+\begin{corollary}
+Let $A$ and $B$ be local rings and $A \to B$ a local map. Let $M$ be a nontrivial finitely generated $B$-module, then $M$ if $A$-flat $\iff$ $M$ of faithfully flat over $A$.
+\end{corollary}
+
+\begin{proof}
+Consider the maximal ideal $\m_B \subset B$ then $M$ is $A$-flat implies that $M \otimes_B B / \m_B \neq 0$ by Nakayama, $M \otimes_B B / \m_A B \neq 0$. However, this equals $M \otimes_A A / \m_A$ which must be nonzero so $M \neq \m_A M$. Thus, by above, $M$ is faithfully flat.
+\end{proof}
+
+\begin{proposition}
+Let $A \to B$ be a map of rings. If $M$ is faithfully flat over $A$ then $M_B = M \otimes_A B$ is faithfully flat over $B$. 
+\end{proposition}
+
+\begin{proposition}
+Let $M$ be a $B$-module and $A \to B$ a map of rings. Suppose that $M$ is faithfully flat over $B$ and faithfully flat over $A$ then $B$ is faithfully flat over $A$. 
+\end{proposition}
+
+\begin{proposition}
+Let $\phi: A \to B$ be a map of rings with $B$ faithfully flat over $A$ then,
+\begin{enumerate}
+\item For any $A$-module $N$, the canonical map,
+\[ N \to N \otimes_A B \]
+is injective. In particular, $\phi$ is injective.
+\item For any ideal $I \subset A$, we have $I B \cap A = I$.
+\item $\phi^{-1} : \spec{B} \to \spec{A}$ is surjective. 
+\end{enumerate} 
+\end{proposition}
+
+\begin{proof}
+Let $x \neq 0$ take $x \otimes 1 \neq 0$ since $A x \otimes_A B \neq 0$ because $B$ is faithfully flat. Thus, $x \mapsto x \otimes 1$ is injective, Now consider the map,
+\[ A / I \to A / I \otimes_A B = B / IB \]
+which is injective by the above argument. Thus we have a diagram,
+\begin{center}
+\begin{tikzcd}
+A / I \arrow[r, "\tilde{\phi}"] & A / I \otimes_A B \arrow[d]
+\\
+A \arrow[u] \arrow[r, "\bar{\phi}"] & B / IB 
+\end{tikzcd}
+\end{center}
+Then $IB \cap A = \ker{ \bar{\phi}}$ and $\ker{\tilde{\phi}} = \ker{\bar{\phi}} / I = IB \cap A / I = 0$. Thus $I B \cap A = I$. 
+Furthermore, consider $\phi^{-1} : \spec{B} \to \spec{A}$ and take $\p \in \spec{A}$. Consider,
+\[ A_\p / \p A_\p \otimes_A B \neq 0 \]
+which is nonzero because $B$ is faithfully flat. Thus $B_\p \supsetneq \p B_\p$ which implies that there exists $\m$ a maximal ideal of $B_\p$ containing $\p B_\p$. Furthermore, $\m \cap A_\p \supset \p A_\p$ which implies that $\m \cap A_\p = \p A_\p$. Then $\mathfrak{P} = \m \cap B$ so 
+\[ \mathfrak{P} \cap A = \m \cap A = (\m \cap A_\p) \cap A = (\p A_\p) \cap A = \p \]
+\end{proof}
+
+\begin{proposition}
+Let $B$ be a faithfully flat $A$-algebra and $M$ an $A$-module then,
+\begin{enumerate}
+\item $M$ is flat (resp. faithfully flat) over $A$ $\iff$ $M_B$ is flat (resp. faithfully flat) over $B$.
+\item If $A$ is local and $M$ is a finitly generated $A$-module then $M$ is free over $A$ $\iff$ $M_B$ is free over $B$.   
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The 
+\end{proof}
+
+\begin{theorem}
+Let $\varphi : A \to B$ be a ring map thn the following are equivalent,
+\begin{enumerate}
+\item $B$ is faithfully flat over $A$ i.e. $\varphi$ is faithfully flat.
+
+\item $\varphi$ is flat and $\spec{B} \to \spec{A}$ is a surjection.
+
+\item $\varphi$ is flat and for any maximal ideal $\m$ of $A$ there exists a maximal ideal $\m'$ of $B$ such that $\varphi^{-1}(\m') = \m$.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Integral Domains}
+
+\begin{definition}
+Take $A \subset B$ and $x \in B$. We say that $x$ is integral over $A$ if it satisfies a monic polynomial $p \in A[X]$ with $p(x) = 0$. 
+\end{definition}
+
+\begin{definition}
+We say, for $A \subset B$, that $B$ is integral over $A$ if every $x \in B$ is integral over $A$.
+\end{definition}
+
+\begin{proposition}
+The following are equivalent,
+\begin{enumerate}
+\item $x \in B$ is integral over $A$
+
+\item $A[x] \subset B$ is a finitely generated $A$-module.
+
+\item $A[x] \subset C \subset B$ where $C$ is finitely generated over $A$ and a subring of $B$.  
+
+\item There exists a faithfull $A[x]$-module $M$ of finite type over $A$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+If $x \in B$ is integral with $t \in A[X]$ then any polynomial $p(X) \in A[X]$ can be reduced to $p = tq + r$ with lower degree than $t$. Thus, we have a surjective map $A[x_0, \dots, x_d] \to A[x]$. Now suppose that $A[x] \subset C \subset B$ for some finitely generated $A$-module. Then $x \in A[x] \subset C$ so the map $m_x : C \to C$ given by multiplication by $x$ is given by some matrix $M$ in an $A$-basis of $C$. Then $(M - x I_n)$ is the zero map so $\det{(M - x I_n)} = 0$. This says that $x$ solves a monic polynomial $p(X) = \det{(M - X I_n)}$ which has coefficients in $A$. 
+\end{proof}
+
+\begin{corollary}
+For $A \subset B$ if $y_1, \dots, y_n \in B$ are integral over $A$ then $A[y_1, \dots, y_n]$ is a finite $A$-module and is integral over $A$. 
+\end{corollary}
+
+\begin{corollary}
+For $A \subset B$ then the set $C$ of elements of $B$ which are integral over $A$ is a subring of $B$ constaining $C$.
+\end{corollary}
+
+\begin{proof}
+Clearly $C \supset A$. If $x, y \in C$ then $A[x,y]$ is a finite $A$-module so $A[x,y] \subset C$ and thus $xy, x + y \in C$. 
+\end{proof}
+
+\begin{corollary}
+For $A \subset B \subset C$ if $C$ is integral over $B$ and $B$ is integral over $A$ then $C$ is integral over $A$. 
+\end{corollary}
+
+\begin{corollary}
+Suppose $A \subset B$ is such that $B$ is a finitely generated $A$-algebra then $B$ is integral over $A$ if and only if $B$ is finite over $A$. 
+\end{corollary}
+
+\begin{proof}
+If $B$ is a finite $A$-module then it is integral by above. Since $B$ is finitely generated over $A$ then $B = A[y_1, \dots, y_n]$ and $y_i$ are integral over $A$ so $B$ is finite over $A$. 
+\end{proof}
+
+\begin{definition}
+Let $A \subset B$ then the set,
+\[ C = \{ x \in B \mid x \text{ is integral over } A\} \]
+is called the integral closure of $A$ inside $B$.
+\end{definition}
+
+\begin{definition}
+If $A$ is a domain we say that $A$ is integrally closed if $x \in \Frac{A}$ is integral over $A$ implies that $x \in A$. That is, $A$ is equal to its integral closure inside $\Frac{A}$. 
+\end{definition}
+
+\begin{corollary}
+Let $A \subset B$ be domains such that $A$ is integrally closed then the integral closure of $A$ inside $B$ is integrally closed.
+\end{corollary}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{remark}
+Let $A \subset B \subset C$ with $A$ Noetherian and $C$ finitely generated $A$-algebra ad $C$ is finitely generated over $B$ then $B$ is a finitely generated $A$-algebra. 
+\end{remark}
+
+\begin{lemma}
+Suppose $B$ is integral over $A$ and $B$ is a domain then $A$ is a field if and only if $B$ is a field.
+\end{lemma}
+
+\begin{proof}
+Suppose that $A$ is a field and take $x \in B$ with $x \neq 0$. We know that $x$ is integral over $A$ so $x$ solves some monic,
+\[ x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0 = 0 \]
+for $a_i \in A$. If $a_0 = 0$ then since $B$ is a domain we may eliminate a factor of $x$. Assume that $a_0 \neq 0$ then,
+\[ x (x^{n-1} + a_{n-1} x^{n-2} + \cdots + a_1) = - a_0 \]
+but $a_0 \neq 0$ and $A$ is a field so $a_0$ is invertible. Thus,
+\[ x \tfrac{1}{-a_0} (x^{n-1} + a_{n-1} x^{n-2} + \cdots + a_1) = 1 \]
+so $x$ is invertible. Thus $B$ is a field. 
+\bigskip\\
+Now assume that $B$ is a field. For any nonzero $a \in A$ we must have $a^{-1} \in B$ since $B$ is a field. However, $B$ is integral over $A$ so there must exist a monic polynomial such that,
+\[ a^{-n} + a_{n-1} a^{-(n-1)} + \cdots + a_1 a^{-1} + a_0 = 0 \]
+which implies that,
+\[ a^{-1} + a_{n-1} + \cdots + a_1 a^{n-2} + a_0 a^{n-1} = 0 \]
+However,
+\[ a_{n-1} + \cdots + a_1 a^{n-2} + a_0 a^{n-1} \in A \]
+and thus $a^{-1} \in A$ so $A$ is a field. 
+\end{proof}
+
+\begin{corollary}
+Suppose $B$ is integral over $A$ with $\varphi : A \to B$ then the map $\phi^{-1} : \spec{B} \to \spec{A}$ satisfies the property that $\mathfrak{P} \subset B$ is maximal if and only if $\p = \varphi^{-1}(\mathfrak{P})$ is maximal. 
+\end{corollary}
+
+\begin{proof}
+$B / \mathfrak{P}$ is integral over $A / \p$ with the map $A / \p \hookrightarrow B / \mathfrak{P}$ and both are domains. Therefore $A / \p$ is a field if and only if $B / \mathfrak{P}$ is a field and thus $\p$ is maximal if and only if $\mathfrak{P}$ if maximal. 
+\end{proof}
+
+\begin{definition}
+Given a ring map $\varphi : A \to B$ we say that $\varphi$ has the going up property if whenever $\p \subset \p' \in \spec{A}$ and we have $\mathfrak{P} \mapsto \p$ then there exists $\mathfrak{P}' \in \spec{B}$ above $\mathfrak{P}$ such that $\mathfrak{P}' \mapsto \p'$. Similarly, $\varphi$ has the going down property if whenever we have $\mathfrak{P}' \mapsto \p'$ then there exists $\mathfrak{P} \in \spec{B}$ inside $\mathfrak{P}'$ such that $\mathfrak{P} \mapsto \p$. 
+\end{definition}
+
+\begin{theorem}
+If $\varphi : A \to B$ is flat then $\varphi$ has the going down property. 
+\end{theorem}
+
+\begin{proof}
+Take $\p \subset \p'$ in $\spec{A}$ and take $\mathfrak{P}' \in \spec{B}$ such that $\varphi^{-1}(\mathfrak{P}') = \p'$. Consider the localization $\spec{A_{\p'}}$ which is exactly the subset of $\spec{A}$ which lies below $\p'$. Furthermore, $B_{\p'}$ is flat over $A_{\p'}$ and $B_{\mathfrak{P}'}$ is flat over $A_{\p'}$ so $A_{\p'} \to B_{\mathfrak{P}'}$ is local and flat so faithfully flat. Thus the map $\spec{B_{\mathfrak{P}'}} \to \spec{A_{\p'}}$ is surjective. Thus for any prime below $\p'$ we get a prime below $\mathfrak{P}'$ mapping to it. 
+\end{proof}
+
+\begin{theorem}[Cohen]
+Let $A \subset B$ and $B$ is integral over $A$ then the following hold,
+\begin{enumerate}
+\item The map $\spec{B} \to \spec{A}$ is surjective.
+\item There is no inclusion relatons between two prime ideals of $B$ above the same ideal of $A$. 
+\item The going up property holds. 
+\item If $A$ is local with maximal ideal $\p$ the maximal ideals of $B$ are exactly those prime ideals with preimage $\p$. 
+\item If $A$ and $B$ are integral domains then the going down property holds.  
+\item If $A$ and $B$ are integral domains with $K = \Frac{A}$. Suppose $L$ is a normal extension of $K$ and $B$ is the integral closure of $A$ inside $L$ then two prime ideals of $B$ lieing over the same prime ideal of $A$ are conjugated by an automorphism of $L / K$.  
+\end{enumerate}
+\end{theorem}
+
+\end{document}

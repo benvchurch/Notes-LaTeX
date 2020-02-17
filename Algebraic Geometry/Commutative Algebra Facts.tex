@@ -1,0 +1,145 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\begin{remark}
+Unless otherwise stated, all rings are commutative and unital.
+\end{remark}
+
+\section{Definitions}
+
+\begin{definition}
+An element $p \in A$ is prime if $(p)$ is a prime ideal. Equivalently $p$ is prime if whenever $p \divides xy$ either $p \divides x$ or $p \divides y$.
+\end{definition}
+
+\begin{definition}
+An element $r \in A$ which is nonzero and not a unit is irreducible if whenever $r = xy$ either $x \in A^\times$ or $y \in A^\times$. 
+\end{definition}
+
+\section{Domains}
+
+\begin{definition}
+A ring $A$ is a domain if $A$ has no zero divisors i.e. if $ab = 0$ then $a = 0$ or $b = 0$.
+\end{definition}
+
+\begin{proposition}
+Let $A$ be a domain then any nonzero prime element is irreducible. 
+\end{proposition}
+
+\begin{proof}
+Let $p \in A$ be a prime. Now suppose that $p = xy$ for $x,y \in A$. Thus, $p \divides xy$ so (WLOG) we have $p \divides x$ so $x = pz$ and thus $p = pzy$. However, $p$ is nonzero and $A$ is a domain so $zy = 1$ and thus $y \in A^\times$ proving that $p$ is irreducible. 
+\end{proof}
+
+\section{Principal Ideal Domains}
+
+\begin{definition}
+A principal ideal domain (PID) is a domain $A$ such that every ideal is principal. 
+\end{definition}
+
+\begin{lemma}
+If $A$ is a PID then $A$ is Noetherian.
+\end{lemma}
+
+\begin{proof}
+Every ideal is principal and thus finitely generated.
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a PID and $r \in A$ irreducible then $(r)$ is maximal and thus $r$ is prime. 
+\end{lemma}
+
+\begin{proof}
+Consider an intermediate ideal $(r) \subset J \subset A$ then since $A$ is a PID we have $J = (a)$ so $r \in (a)$ and thus $r = ac$ so either $a \in A^\times$ in which case $J = A$ or $c \in A^\times$ in which case $J = (r)$ so $(r)$ is maximal and thus a prime ideal.
+\end{proof}
+
+\begin{theorem}
+Let $A$ be a PID and not a field then $\dim{A} = 1$.
+\end{theorem}
+
+\begin{proof}
+Any prime ideal $\p \subset A$ is principal so $\p = (p)$ and $p$ is prime. Either $p = 0$ which is prime since $A$ is a domain or $p$ is irreducible and so we have shown $(p)$ is maximal. So every prime ideal is zero or maximal and thus $\dim{A} \le 1$. If $\dim{A} = 0$ then $(0)$ is maximal so $A$ is local and any nonzero element is thus invertible so $A$ is a field. 
+\end{proof}
+
+\begin{theorem}[Kaplansky]
+Let $A$ be Noetherian then $A$ is a principal ideal ring iff every maximal ideal is prime.
+\end{theorem}
+
+\begin{theorem}[Cohen]
+A ring $A$ is Noetherian iff every prime ideal is finitely generated.
+\end{theorem}
+
+\begin{corollary}
+A ring $A$ is a principal ideal ring iff every prime ideal is principal. 
+\end{corollary}
+
+\section{Unique Factorization Domains}
+
+\begin{definition}
+A domain $A$ is a unique factorization domain (UFD) if every nonzero element has a unique factorization into irreducible elements. 
+\end{definition}
+
+\begin{definition}
+A factorization ring $A$ is a ring such that every nonzero element has a factorization into irreducible elements.
+\end{definition}
+
+\begin{lemma}
+If $A$ is a Noetherian domain then it is a factorization domain.
+\end{lemma}
+
+\begin{proof}
+Take $a_0 \in A$. If $a$ is irreducible, zero, or a unit then we are done. Then we can write, $a = a^{(1)}_1 a^{(1)}_2$ for $a_1, b_1 \notin A^\times$. Continuing in this manner we get,
+\[ (a) \subsetneq (a^{(1)}_1, a^{(1)}_2) \subsetneq (a^{(2)}_1, a^{(2)}_2, a^{(2)}_3, a^{(3)}_4) \subsetneq \cdots \]
+(CHECK THIS)
+This sequence is proper since if $a = bc$ and $b \in (a)$ then $a = arc$ so $rc = 1$ and thus $c \in A^\times$ contradicting our construction. However, $A$ is Noetherian then the sequence must terminate so at some point the factorization must become irreducible. 
+\end{proof}
+
+\begin{theorem}
+Let $A$ be a factorization domain. Then $A$ is a UFD iff every irreducible is prime. 
+\end{theorem}
+
+\begin{proof}
+If $A$ is a UFD and $p$ an irreducible. Let $x, y \in A$ and $p \divides xy$ then $p$ is in the factorization of $xy$ and thus, by uniqueness must be in the factorization of either $x$ or $y$ so $p \divides x$ or $p \divides y$.
+\bigskip\\
+Conversely, if $A$ is a factorization domain and every irreducible is prime then given two factorizations of $x$ each irreducible must, by primality, divide an irreducible in the other factorization so they are equal. 
+(DO THIS BETTER)
+\end{proof}
+
+\begin{corollary}
+If $A$ is a PID then $A$ is a UFD.
+\end{corollary}
+
+\begin{proof}
+If $A$ is a PID then it is Noetherian and thus a factorization domain. Furthermore, every irreducible is prime so $A$ is a UFD.
+\end{proof}
+
+\subsection{Height One Prime Ideals}
+
+\begin{proposition}
+Let $A$ be a Noetherian ring. Then any principal prime ideal has height at most one.
+\end{proposition}
+
+\begin{proof}
+Let $\p = (p) \subset A$ be a principal prime ideal. Then consider the localization which is $A_{(p)}$ Noetherian and the unique maximal ideal $p A_{(p)}$ is principal. Take $N = \nilrad{A_{(p)}}$ then,
+\[ \dim{A_{(p)}/N} = \dim{A_{(p)}} = \height{\p} \]
+but $A_{(p)} / N$ is a Noetherian domain and the unique maximal ideal $p A_{(p)}$ is principal so $A_{(p)} / N$ is a PID and thus $\dim{A_{(p)} / N} \le 1$. 
+\end{proof}
+
+\begin{proposition}
+If $A$ is a UFD then every prime ideal of height one is principal.
+\end{proposition}
+
+\begin{proof}
+Let $\p \subset A$ be a prime ideal with $\height{\p} = 1$. Take any nonzero element $x \in \p$ and consider its factorization into irreducibles. Since $\p$ is prime some irreducible factor $p \divides x$ must be in $\p$ so $(p) \subset \p$. Since $A$ is a UFD all irreducibles are prime so $(p) \subset \p$ is prime. However $\height{\p} = 1$ and $(p) \neq (0)$ so $(p) = \p$ and thus $\p$ is principal.
+\end{proof}
+
+\begin{theorem}
+Let $A$ be a Noetherian domain. Then $A$ is a UFD iff every height one prime ideal is principal. 
+\end{theorem}
+
+\begin{theorem}[Krull's Hauptidealsatz]
+Let $I \subset A$ be an ideal in a Noetherian ring $A$ with $n$ generators then any minimal prime ideal $\p \supset I$ has height at most $n$.
+\end{theorem}
+
+\end{document}

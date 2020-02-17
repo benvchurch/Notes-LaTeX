@@ -1,0 +1,3008 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathrsfs} 
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\renewcommand{\d}[1]{\mathrm{d} #1}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\Aut}[1]{\mathrm{Aut}\left( #1 \right)}
+\newcommand{\End}[1]{\mathrm{End}\left( #1 \right)}
+
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Gm}{\mathbb{G}_m}
+\newcommand{\Vol}[2]{\mathrm{Vol}_{#1}\left( #2 \right)}
+\newcommand{\mVol}[1]{\mathrm{mVol}\left( #1 \right)}
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\newcommand{\epigraph}[1]{\mathrm{epigraph} \left( #1 \right)}
+
+\begin{document}
+
+\section{Convext Sets}
+
+\section{Convex Optimization}
+
+\subsection{Motivation}
+
+\begin{definition}
+$\T^n = (\Gm)^n = (\C^\times)^n$
+\end{definition}
+
+\begin{remark}
+This torus is noncompact (i.e. not proper) so we compactify it to recover a toric variety. The compactification $X_\Sigma = \overline{\T}^\Sigma$ is given by a fan $\Sigma \subset N \otimes_\Z \R$ where $N = \Hom{\Gm}{\T} \cong \Z^n$ is a lattice. 
+\end{remark}
+
+\begin{remark}
+Consider an ample line bundle $L \to X_\Sigma$ which is compatible with the toric structure. We can associate each line bundle $L$ with a convex polytope $\Delta_{L, X_\Sigma}$ in the vectorspace $N^\vee \otimes_\Z \R = (N \otimes_\Z \R)^*$. Furthermore,
+\[ \left< L \cdot L \cdots L \right> = \Vol{}{L} = \deg_L X_\Sigma = n! \: \Vol{n}{\Delta_{L, X_\Sigma}} \]
+\end{remark}
+
+\begin{remark}
+Given line bundles $L_i \to X_\Sigma$ over a toric variety then we have many polytopes $\Delta_i \subset N^\vee \otimes_\Z \R^n$. Consider the mixed intersection numbers,
+\[ \left< L_{i_1} \cdot L_{i_2} \cdots L_{i_n} \right> \]
+give mixed volumes of the polytopes $\Delta_i$. Look for inequalities between mixed intersection numbers. Thus we need to study inequalities for mixed volumes of convext polytopes. 
+\end{remark}
+
+\subsection{Convex Functions}
+
+\begin{definition}
+A function $f : V \to \R$ is convex if it satisfies Jensen's inequality:
+\[ \forall x,y \in V : \forall \lambda \in [0, 1] : f(\lambda x + (1 - \lambda) y) \le \lambda f(x) + (1 - \lambda) f(y) \]
+In general, if $K \subset V$ is convex then we may define a function $f : K \to \R$ to be convex.
+\end{definition}
+
+\begin{remark}
+We can relate convext functions and sets to eachother. 
+\bigskip\\
+On a convex set $K \subset V$, a function $f : K \to \R$ is convex iff
+\[ \mathrm{epigraph} (f) = \{ (x, r) \mid x \in K \text{ and } r \ge f(x) \] 
+is convex in $V \times \R$. 
+\bigskip\\
+Futhermore, given a convex function $f : K \to \R$ then the set,
+\[ L(f, t) = \{ x \in K \mid f(x) \le t \} \subset K \]
+is convex in $V$.
+\bigskip\\
+Let $K \subset V$ be convex then the function,
+\[ - \log{(1_K)} = 
+\begin{cases}
++\infty & V \setminus K
+\\
+0 & K
+\end{cases} \]
+is convex.
+\end{remark}
+
+\begin{definition}
+A nonegative function $f : K \to \R$ is log-convex (concave) if $\log{f}$ is convex (concave). Equivalently,
+\[ \forall x, y \in K : \forall \lambda \in [0,1] : f(\lambda x + (1 - \lambda)y) \le f(x)^\lambda \cdot f(y)^{1 - \lambda} \]
+\end{definition}
+
+\begin{definition}
+A supporting hyperplane for $f : K \to \R$ given by $\xi \in V^*$ is such that,
+\[ \forall y \in K : f(y) - f(x) \ge \inner{\xi}{y - x} \]
+\end{definition}
+
+\begin{lemma}
+The function $f$ is convex iff $\forall x \in K : f$ has a supporting hyperplane at $x$. 
+\end{lemma}
+
+\begin{lemma}[Operations on Convex Functions]
+Let $f_1, f_2 : V \to \R$ be convex. Then the following functions are convex,
+\begin{enumerate}
+\item $\max\{ f_1, f_2 \}$
+\item $f_1 + f_2$
+\item $g(f_1)$ for $g$ any increasing function
+\item $f_1 \boxplus f_2 (z) = \sup \{ \lambda f_1(x) + (1 - \lambda) f_2(y) \mid \lambda x + (1- \lambda)y = z \}$ here,
+ \[ \epigraph{f_1 \boxplus f_2} = \epigraph{f_1} + \epigraph{f_2} \]
+\end{enumerate}
+\end{lemma}
+
+\subsection{Legendre - Fenchel Transform}
+
+\begin{definition}
+Let $f : V \to \R$ be any function. Then we define the convex dual $f^\vee : V^* \to \R$ via,
+\[ f^\vee(\xi) = \sup_x \left( \inner{\xi}{x} - f(x) \right) \]
+\end{definition}
+
+\begin{remark}
+If $f$ is differentiable at $x$ then $x_\xi$ is such that,
+\[ \nabla_x \left( \inner{\xi}{x} - f(x) \right) \Big|_{x = x_\xi} = 0 \]
+meaning that,
+\[ \nabla f (x_\xi) = \xi \]
+in $V^*$ where we have defined the gradient as a dual vector via,
+\[ x \mapsto \nabla f(x) : v \mapsto \inner{\nabla f(x)}{v} = \nabla_v f(x) \]
+\end{remark}
+
+\begin{lemma}
+Suppose that $f : K \to \R$ is lower-semicontinuous on a compact convex set $K$. Then $f^\vee : V^* \to \R$ is convex and lower-semicontinuous.
+\end{lemma}
+
+\begin{proof}
+For $\lambda \in [0, 1]$. 
+\end{proof}
+
+\begin{corollary}
+The double dual $f^{\vee \vee}$ is convex.
+\end{corollary}
+
+\begin{proposition}
+In general, $f^{\vee \vee}(x) \le f(x)$ and $f^{\vee \vee}$ is the largest convex function below $f$ i.e. the convex envelope of $f$. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+$f^{\vee \vee}(x) = f(x) \iff f$ has a supporting hyperplane at $x$.
+\end{theorem}
+
+\begin{proof}
+$f$ has a supporting hyperplane at $x$ given by $\xi$ iff $f^\vee$ has a supporting hyperplane at $\xi$ given by $x$ since,
+\begin{align*}
+f^\vee(\eta) = \sup_y \left( \inner{\eta}{y} - f(y) \right) & \ge \inner{\eta}{x_\xi} - f(x_\xi) 
+\\
+& = \inner{\eta - \xi}{x_\xi} + \inner{\eta}{x_\xi} - f(x_\xi) 
+\\
+& = \inner{\eta - \xi}{x_\xi} + f^\vee(\xi) 
+\end{align*}
+Therefore,
+\[ f^\vee(\eta) - f^\vee(\xi) \ge \inner{\eta - \xi}{x_\xi} \]
+\end{proof}
+
+
+\begin{corollary}
+$f^{\vee \vee} = f \iff f$ is convex.
+\end{corollary}
+
+\begin{remark}
+The involution $f^{\vee \vee} = f$ encodes the convexity of $f$ in the convexity of $f^\vee$. If $f$ is strictly convex and differentiable then the map $\xi \to x_\xi$ is bijective. 
+\end{remark}
+
+\begin{remark}
+Otherwise then corners of $f$ are sent to affine parts of $f^\vee$ i.e. dualizing replaces failure to be differentiable with failure to be \textit{strictly} convex.
+\end{remark}
+
+\begin{proposition}
+$\forall x \in V, \xi \in V^* : \inner{\xi}{x} \le f(x) + f^\vee(\xi)$
+\end{proposition}
+
+\subsection{Some Ineqaulities}
+
+\begin{theorem}[Pakopa - Lindler Inequality]
+Consider positive $f,g,h : V \to \R$ such that,
+\[ \forall x,y \in V : h(\lambda x + (1- \lambda)y) \ge f(x)^{\lambda} \cdot g(y)^{1 - \lambda} \]
+for a fixed $\lambda \in [0,1]$. Then,
+\[ \int_V h(z) \d{z} \ge \left( \int_V f(x) \d{x} \right)^\lambda \cdot \left( \int_V g(y) \d{y} \right)^{1- \lambda} \]
+\end{theorem}
+
+\begin{theorem}[Brunn-Minkowski Inequality I]
+Let $X, Y \subset V$ be convex bodys then,
+\[ \Vol{n}{\lambda X + (1 - \lambda) Y} \ge \Vol{n}{X}^\lambda \cdot \Vol{n}{Y}^{1 - \lambda} \]
+\end{theorem}
+
+\begin{theorem}[Brunn-Minkowski Inequality II]
+Let $X, Y \subset V$ be convex bodys then,
+\[ \Vol{n}{\lambda X + (1 - \lambda) Y}^{1/n} \ge \lambda \Vol{n}{X}^{1/n} + (1 - \lambda) \Vol{n}{Y}^{1/n} \]
+\end{theorem}
+
+\begin{remark}
+We will prove these innequalities in the following way,
+\[ \text{1D BM} \implies \text{1D PL} \implies \text{nD PL} \implies \text{nD BM} \]
+\end{remark}
+
+\begin{proof}[Proof of 1D BM]
+Consider the $n = 1$ case. We need to prove that,
+\[ \Vol{n}{\lambda X + (1 - \lambda)Y} \ge \lambda \Vol{n}{X} + (1 - \lambda) Y \]
+Suppose that $X$ and $Y$ are compact then $X + Y$ is compact. We may translate without changing the volumes such that $X \subset \R_{\le 0}$ and $Y \subset \R_{\ge 0}$ and $X \cap Y = \{0 \}$. Now,
+\[ \lambda X + (1 - \lambda) Y \supset \lambda X \cup (1 - \lambda) Y  \]
+which implies that,
+\[ \Vol{n}{\lambda X + (1 - \lambda) Y} \ge \Vol{n}{\lambda X} + \Vol{n}{(1 - \lambda) Y} = \lambda \Vol{n}{X} + (1 - \lambda) \Vol{n}{Y} \]
+\end{proof}
+
+
+\begin{proof}[Proof of 1D PL]
+Via Lebesgue integration,
+\[ \int_{\R} h(z) \d{z} = \int_0^\infty \mu(\{ z \in \R \mid h(z) \ge t \}) \d{t} \]
+However, 
+\end{proof}
+
+\begin{proof}[Proof of nD PL]
+Assume for induction that PL is true in $\R^n$. Now, $\R^{n+1} = \R^n \times \R$. Define $h_c(z) = h(c, z)$ for $c \in \R$ and $z \in \R^n$. Then,
+\[ h(\lambda (a, x) + (1 - \lambda) (b, y)) = h_{\lambda a + (1 - \lambda) b}(\lambda x + (1 - \lambda) y) \]
+However, by assumption,
+\[ h(\lambda (a, x) + (1 - \lambda) (b, y)) \ge f(a, x)^\lambda \cdot g(b, y)^{1 - \lambda} = f_a(x)^\lambda \cdot g_b(y)^{1 - \lambda} \]
+By nD PL we have,
+\[ \int_{\R^n} h_{\lambda a + (1 - \lambda) b}(z) \d{z} \ge \left( \int_{\R^n} f_a(x) \d{x} \right)^\lambda \cdot \left( \int_{\R^n} g_b(y) \d{y} \right)^{1 - \lambda} \]
+Denote,
+\[ H(c) = \int_{\R^n} h_c(z) \d{z} \quad \quad F(a) = \int_{\R^n} f_a(z) \d{z} \quad \quad G(b) = \int_{\R^n} g_b(y) \d{y} \]
+Thus we have shown that,
+\[ H(\lambda a + (1 - \lambda) b) \ge F(a)^\lambda \cdot G(b)^{1 - \lambda} \]
+Therefore, by 1D PL we have,
+\[ \int_\R H(c) \d{c} \ge \left( \int_\R F(a) \d{a} \right)^\lambda \cdot \left( \int_\R G(b) \d{b} \right)^{1 - \lambda} \]
+Then, reparametrizing the integrals by Fubini's theorem,
+\[ \int_{\R^{n+1}} h(z) \d{z} \ge \left( \int_{\R^{n+1}} f(x) \d{z} \right)^\lambda \cdot \left( \int_{\R^{n+1}} g(y) \d{y} \right)^{1 - \lambda} \]
+\end{proof}
+
+\begin{proof}[Proof of nD BM]
+
+\end{proof}
+
+\begin{theorem}[Isoperimetric Inequality]
+\[ \frac{1}{n} \lim_{\epsilon \to 0} \frac{\Vol{n}{X + \epsilon Y} - \Vol{n}{X}}{\epsilon} \ge \Vol{n}{X}^{\frac{n-1}{n}} \cdot \Vol{n}{Y}^{\frac{1}{n}} \]
+\end{theorem}
+
+\section{Mixed Volumes}
+
+\subsection{Scaling Volumes}
+
+Consider a measureable set $S \subset V$ with measure $\Vol{n}{S}$. Given $\lambda \in \R_{\ge 0}$ then $\Vol{n}{\lambda \cdot S} = \lambda^n \Vol{n}{S}$. We want to understand the volume of the Minkowski sum of two shapes. We define,
+\[ \Vol{n}{S, T} = \tfrac{1}{2} \left[ \Vol{n}{S + T} - \Vol{n}{S} - \Vol{n}{T} \right] \]
+In general, $\Vol{n}{\lambda S + \mu T}$ is a homogeneous polynomial of degree $n$. 		
+
+\begin{theorem}
+Let $S_1, \dots, S_r \subset V$ be compact convex measureable subsets and $\lambda_1, \dots, \lambda_n \in \R_{\ge 0}$. Then, $\Vol{n}{\lambda_1 S_1 + \cdots + \lambda_r S_n}$ is a homogeneous polynomial of degree $n$ i.e.
+\[  \Vol{n}{\lambda_1 S_1 + \cdots + \lambda_r S_r} = \sum_{i_1, \dots, i_n = 1}^r \Vol{n}{S_i, \dots, S_{i_n}} \lambda_{i_1} \cdots \lambda_{i_n} \]
+\end{theorem}
+
+\begin{proof}
+Assume for now that $S_1, \dots, S_r$ are polytopes and by shifting that each contains the origin in its interior. Set $K_\lambda = \lambda_1 S_1 + \cdots + \lambda_r S_r$. We proceed by induction on $\dim{V} = n$. First, for $n = 1$ polytopes are intervals $S_i = [a_i, b_i]$ for $a_i \le 0 \le b_i$. Then, $K_\lambda = [\lambda_1 a_1 + \cdots + \lambda_r a_r, \lambda_1 b_1 + \cdots + \lambda_r b_r]$ so we find,
+\[ \Vol{1}{K_\lambda} = (\lambda_1 b_1 + \cdots + \lambda_r b_r) - (\lambda_1 a_1 + \cdots + \lambda_r b_r) = \sum_{i = 1}^r (b_i - a_i) \lambda_r \]
+proving the theorem in the case $n = 1$. 
+\bigskip\\
+For $n > 1$, we write the boundary of $K_\lambda$ as the union of the facets. Let $\mathrm{pyr}_0(F_i)$ be the convex hull of $F_i \cup \{ 0 \}$ which is the pyramid with base $F_i$ and apex $0$. Thus,
+\[ K_\lambda = \bigcup_{i = 1}^s \mathrm{pyr}_0(F_i) \]
+Furthermore, the pyramids intersect in lower dimensional faces and thus their intersections have zero Lebesgue measure. Therefore,
+\[ \Vol{n}{K_\lambda} = \sum_{i = 1}^s \frac{1}{n} \: h_i \: \Vol{n-1}{F_i} \]
+Now, if $K = S_1 + \cdots + S_r$ then the faces of $K$ are $F = F_1 + \cdots + F_r$ are sums of faces $F_i \subset S_i$. Furthermore, the heights from $0 \in K$ to $F$ decomposes as $h = h_1 + \cdots + h_r$ where $h_i$ is the height from $0 \in S_i$ to $F_i$. Therefore,
+\begin{align*}
+\Vol{n}{K_\lambda} = \sum_{i = 1}^s \frac{1}{n} \: h_i \: \Vol{n-1}{F_i} = \frac{1}{n} \sum_{i = 1}^n (\lambda_1 h_{i_1} + \cdots + \lambda_r h_{i_r} ) \Vol{n-1}{\lambda_1 F_{i_1} + \cdots \lambda_r F_{i_r}} 
+\end{align*}
+By the induction hypothesis, $\Vol{n-1}{\lambda_1 F_{i_1} + \cdots \lambda_r F_{i_r}}$ is a homogeneous polynomial of degree $n - 1$. Therefore, $\Vol{n}{K_\lambda}$ is a homogeneous polynomial of degree $n$. 
+\end{proof}
+
+\begin{example}
+Let $\lambda_1, \dots, \lambda_r \in \R_{\ge 0}$ s.t. $\lambda_1 + \cdots + \lambda_r = 1$ then,
+\begin{align*}
+\Vol{n}{S} & = \Vol{n}{\lambda_1 S + \cdots + \lambda_r S} = \sum_{i_1, \dots, i_n = 1}^r \mVol{S, \dots, S} \lambda_{i_1} \cdots \lambda_{i_n}
+\\
+& = \mVol{S, \dots, S} \left( \lambda_1 + \cdots + \lambda_r \right)^n = \mVol{S, \dots, S} 
+\end{align*}
+Therefore, $\mVol{S, \dots, S} = \Vol{n}{S}$. 
+\end{example}
+
+\begin{proposition}
+Properties of Mixed Volumes:
+\begin{enumerate}
+\item $\mVol{S, \dots, S} = \Vol{n}{S}$
+\item Symmetric, $\mVol{S_1, \dots, S_n} = \mVol{S_{\pi(1)}, \dots, S_{\pi(n)}}$
+\item Multilinear: $\mVol{\lambda S + \lambda' S', S_2, \cdots, S_n} = \lambda \mVol{S, S_2, \dots, S_n} + \lambda' \mVol{S', S_2, \dots, S_n}$
+\item Nonegative: $\mVol{S_1, \dots, S_n} \ge 0$
+\item Monotonic: if $S \subset S'$ then $\mVol{S, S_2, \dots, S_n} \le \mVol{S', S_2, \dots, S_n}$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+To prove $(3)$, consider, $K_\lambda = \lambda_1 (\lambda S + \lambda' S') + \lambda_2 S_2 + \cdots + \lambda_r S_n$. Thus we find,
+\[ \Vol{n}{K_\lambda} = \sum_{i_1, \dots, i_n = 1}^n \mVol{S_{i_1}, \dots, S_{i_n}} \lambda_{i_1} \cdots \lambda_{i_n} \]
+Consider the $\lambda_1 \dots \lambda_n$ term which has coefficient $n! \: \mVol{S_1, \dots, S_n}$. Furthermore,
+\[ \Vol{n}{K_\lambda} = \sum_{i_1, \dots, i_n = 0}^{n} \mVol{S_{i_1}, \dots, S_{i_n}} \alpha_{i_1} \cdots \alpha_{i_n} \]
+where now $\alpha_0 = \lambda_1 \lambda$ and $\alpha_1 = \lambda_1 \lambda'$ and for $i > 2$, $\alpha_i = \lambda_i$.  
+\end{proof}
+
+\begin{theorem}[Alexandrov-Fenchel Inequality]
+Let $A, B, S_3, \dots, S_n \subset V$ be compact convex measurable sets. Then,
+\[ \mVol{A, B, S_3, \dots, S_n}^2 \ge \mVol{A, A, S_3, \dots, S_n} \cdot \mVol{B, B, S_3, \cdots, S_n} \] 
+\end{theorem}
+
+\begin{definition}
+A sequence $\{ a_n \}$ is log-concave iff $a_i^2 \ge a_{i - 1} a_{i+1}$ for all $i > 0$. 
+\end{definition}
+
+\begin{lemma}
+Fix $1 \le m \le n$ and take some compact convex measurable sets $A, B, S_{m + 1}, \dots, S_n \subset V$. Then, let $a_i = \mVol{A^{m-i} B^i, S_\bullet}$ for $i = 0,1, \dots, m$. Then the sequence $\{ a_n \}$ is log-concave.
+\end{lemma}
+
+\begin{proof}
+By AF, 
+\begin{align*}
+a_i^2 & = \mVol{A^{m-i} B^i, S_\bullet}^2 = \mVol{A, B, A^{m-i-1} B^{i-1}, S_\bullet}^2 
+\\
+& \ge \mVol{A^{m-i+1}, B^{i-1}, S_\bullet} \cdot \mVol{A^{m - i - 1}, B^{i + 1}, S_\bullet} = a_{i-1} \cdot a_{i + 1}
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Generalized Brunn--Minkowski inequality]
+Fix $1 \le m \le n$ and convex compact measureable bodies $A, B, S_{m + 1}, \dots, S_n \subset V$. Set $S_\lambda = (1 - \lambda) A + \lambda B$ for $\lambda \in [0, 1]$ and consider the function $f : [0, 1] \to \R$ given via,
+\[ f(\lambda) = \mVol{S_\lambda^m, S_\bullet}^{\frac{1}{m}} \]
+then $f$ is concave on $[0, 1]$. 
+\end{theorem}
+
+\begin{proof}
+Consider,
+\begin{align*}
+f''(0) & = (m - 1) \: \mVol{B, B, B^{m - 2}, S_\bullet}^{\frac{1}{m} - 2} 
+\\
+& \cdot \left( \mVol{A, A, B^{m-2}, S_\bullet} \mVol{B, B, B^{m-2}, S_\bullet} - \mVol{A, B, B^{m-2}, S_\bullet}^2 \right)
+\\
+& = (m - 1) \: a_0^{\frac{1}{m} - 2} \left( a_0 a_2 - a_1^2 \right) \le 0
+\end{align*}
+via the previous lemma. Thus $f'' \le 0$ so $f$ is concave. 
+\end{proof}
+
+\begin{corollary}
+$\Vol{n}{A + B}^{\frac{1}{n}} \ge \Vol{n}{A}^{\frac{1}{n}} + \Vol{n}{B}^{\frac{1}{n}}$ 
+\end{corollary}
+
+\begin{definition}
+Let $S \subset V$ be a compact convex set. The \textit{support function} of $S$ is $h_S : V^* \to \R$ via $u \mapsto \sup_{x \in S} \inner{u}{x}$. 
+\end{definition}
+
+\begin{remark}
+For each $u \in V^*$ the set $\{ v \in V \mid \inner{u}{v} = h_S(u) \}$ is a supporting hyperplane for $S$ and all such supporting hyperplanes arise this way. 
+\end{remark}
+
+\begin{lemma}
+$h_{A + B} = h_A + h_B$.
+\end{lemma}
+
+\begin{proof}
+\begin{align*}
+h_{A + B}(u) & = \sup_{\substack{x \in A \\ y \in B}} \inner{u}{x + y}
+\\
+& = \sup_{x \in A} \inner{u}{x} + \sup_{y \in B} \inner{u}{y}  = h_A(u) + h_B(u) 
+\end{align*}
+\end{proof}
+
+\section{Sheaves}
+
+\subsection{Categories}
+
+\newcommand{\Cat}{\mathcal{C}}
+
+\begin{definition}
+A class of of objects $\C$ and for each $X, Y \in \Cat$ a set of morphisms $\Cat(X, Y)$ and $\forall X, Y, Z \in \Cat^3$ a map $\C(X, Y) \times \Cat(Y, Z) \to \Cat(X, Z)$ via $(f, g) \mapsto g \circ f$ such that,
+\begin{enumerate}
+\item $\forall X \in \Cat \exists 1_X \in \C(X, X)$ such that,
+\[ \forall f \in \Cat(X, Y) : f \circ 1_X = f \quad \text{  and  } \quad \forall g \in \Cat(Y, X) : 1_X \circ g = g \]
+\item for $f \in \Cat(X, Y), g \in \C(Y, Z), h \in \Cat(Z, W) : h \circ (g \circ f) = (h \circ g) \circ f$
+\end{enumerate}
+\end{definition}
+
+\section{Scheme Theory}
+
+\newcommand{\LRS}{\mathbf{LRS}}
+\newcommand{\Ring}{\mathbf{Ring}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Homover}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\struct}[1]{\mathcal{O}_{#1}}
+\newcommand{\stalk}[2]{\mathcal{O}_{#1, #2}}
+\newcommand{\Sf}{\mathfrak{S}}
+\newcommand{\Rg}{\mathrm{Rg}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Sch}{\mathbf{Sch}}
+\newcommand{\Alg}{\mathbf{Alg}}
+
+\begin{theorem}
+If $X$ is a locally ringed space and $A$ a ring then,
+\[ \Homover{\mathbf{LRS}}{X}{\Spec{A}} \cong \Homover{\mathbf{Ring}}{A}{\struct{X}(X)} \]
+\end{theorem}
+
+\begin{corollary}
+In particular, for $X = \Spec{B}$ we have,
+\[ \Homover{\mathbf{LRS}}{\Spec{B}}{\Spec{A}} \cong \Homover{\mathbf{Ring}}{A}{B} \]
+and thus the Spec functor is fully faithful giving an antiequivalence of functors between the category of rings and the category of affine schemes.
+\end{corollary}
+
+\subsection{Geometric Realization of Functors}
+
+\begin{definition}
+Let $X$ be a locally ringed sapce. We define a functor,
+\begin{align*}
+\mathfrak{S}_X : \mathbf{Ring} & \to \mathbf{Set}
+\\
+A & \mapsto \Homover{\mathbf{LRS}}{\Spec{A}}{X}
+\end{align*}
+\end{definition}
+
+\begin{remark}
+By Yoneda's lemma $\Sf_X(A) = \Homover{\Set^{\Ring}}{h_A}{\Sf_X}$ 
+\end{remark}
+
+\begin{theorem}
+The functor $X \mapsto \Sf_X$ admits a left adjoint $\Rg : \Set^{\Ring} \to \LRS$ such that,
+\[ \Homover{\LRS}{\Rg(F)}{X} \cong \Homover{\Set^{\Ring}}{F}{\Sf_X} \]
+Furthermore, $\Rg(h_A) = \Spec{A}$.
+\end{theorem}
+
+\begin{proof}
+Define,
+\[ I_F = \{ (A, \rho) \mid A \in \Ring \text{ and } \rho \in F(A) \} \]
+Furthermore, let,
+\[ I_F((A_1, \rho_1), (A_2, \rho_2)) = \{ f : A_1 \to A_2 \mid F(f)(\rho_1) = \rho_2 \} \]
+Now,
+\begin{align*}
+\Homover{\Set^{\Ring}}{F}{\Sf_X} & = \{ \alpha_A : F(A) \to \Sf_X(A) \mid \alpha_{A'} = \Sf_X(f)(\alpha_A(\rho)) \text{ for } f : (A, \rho) \to (A', \rho') \} 
+\\
+& = \varprojlim_{(A, \rho) \in I_F}  \Homover{\Set^\Ring}{h_A}{\Sf_X} = \varprojlim_{(A, \rho) \in I_F} \Sf_X(A)
+\\
+& =  \varprojlim_{(A, \rho) \in I_F} \Homover{\LRS}{\Spec{A}}{X}  = \Homover{\LRS}{\varinjlim_{(A, \rho) \in I_F^\op} \Spec{A}}{X} 
+\end{align*}
+Thus the functor $\Homover{\Set^\Ring}{F}{\Sf_{-}}$ is representable and thus $\Sf_{-}$ admits a left adjoint. 
+\end{proof}
+
+\subsection{Schemes}
+
+\begin{definition}
+We call an \textit{affine scheme} any locally ringed space isomorphic to the spectrum of a ring. We call a \textit{scheme} any locally ringed space which admits an open cover by affine schemes i.e. $\forall x \in X$ there exists an open neighborhood $U$ of $x$ such that $(U, \struct{X}|_U)$ is an affine scheme. Finally, denote the category of schemes with morphisms of locally ringed spaces by $\Sch$. 
+\end{definition}
+
+\begin{proposition}
+If $X$ is a scheme then $\Rg(\Sf_X) = X$. 
+\end{proposition}
+
+\begin{corollary}
+The functor,
+\begin{align*}
+& \Sch \to \Set^{\Ring}
+\\
+& X \mapsto \Sf_X
+\end{align*}
+is fully faithfull because,
+\[ \Homover{\Sch}{X}{Y} \cong \Homover{\Set^\Ring}{\Sf_X}{\Sf_Y} \]
+\end{corollary}
+
+\begin{definition}
+If a functor $F : \Ring \to \Set$ is isomorphic to $\Sf_X$ for some scheme $X$ then we say that $X$ \textit{represents} $F$ or $F$ is \textit{represented} by $X$.
+\end{definition}
+
+\begin{remark}
+The functor $F$ above is not necessarily representable in the category of rings unless $X$ is an affine scheme. 
+\end{remark}
+
+\subsection{Toric Varieties}
+
+Let $N$ be a fixed free $\Z$-module of finite rank $n$ and $M = N^\vee = \Homover{\Z}{N}{\Z}$. Now, consider the rational polyhedral cone,
+\[ \sigma = \R_+ v_1 + \cdots + \R_{+} v_s \]
+for $v_1, \dots, v_s \in \N$. Then,
+\[ \dim{\sigma_r} = \dim_{\R}(\mathrm{Span}_{\R}(\sigma)) \]
+and we may define the dual cone,
+\[ \sigma^\vee = \{ \alpha \in M_\R = N_\R^\vee \mid \forall x \in \sigma \quad \alpha(x) \ge 0 \} \]
+A face is,
+\[ \tau = \sigma \cap \alpha^\perp = \{ x \in \sigma \mid \alpha(x) = 0 \]
+for $\alpha \in \sigma^\vee$.
+
+\begin{lemma}[Gordon]
+$S_\sigma = \sigma^\vee \cap M$ is a finitely-generated moniod. 
+\end{lemma}
+
+\begin{definition}
+Let $k$ be a ring and $\sigma$ a strongly convex rational polyhedral cone. Let $X_\sigma \to \Spec{k}$ be a scheme over $\Spec{k}$ such that,
+\begin{align*}
+\Sf_{X_\sigma} : \Alg_k & \to \Set
+\\
+(k \to A) & \mapsto \Homover{k}{k[S_\sigma]}{A} = \Homover{\mathbf{Mon}}{(S_\sigma, +)}{(A, \times)}
+\end{align*}
+where the functor is represented by,
+\[ k[S_\sigma] = \bigoplus_{m \in \sigma} k \cdot x^m \]
+Then $X_\sigma = \Spec{k[S_\sigma]} \to \Spec{k}$ corresponds to $k \to k[S_\sigma]$. 
+We call $X_\sigma$ an \textit{affine toric variety}.
+\end{definition}
+
+\begin{remark}
+If $\tau$ is a face of $\sigma$ then $S_\tau \supset S_\sigma$ induces $k[S_\sigma] \to k[S_\tau]$ and thus a morphism $X_\tau \to X_\sigma$ which is an open embedding because it at the level of rings it is injective. 
+\end{remark}
+
+\begin{remark}
+The smallest face $\{ 0 \}$ has $\{ 0 \}^\vee = M$ has,
+\[ X_{\{0\}} = \Spec{k[M]} \cong \Spec{k[\Z^n]} = \mathbb{G}_{m,k}^n \]
+which is a torus. 
+\end{remark}
+
+\begin{remark}
+If $\sigma$ and $\tau$ intersect in a common face $S_{\sigma \cap \tau} = S_\sigma + S_\tau$ then the embeddings $X_{\sigma \cap \tau} \to X_{\sigma}, X_{\tau}$ allow gluing. 
+\end{remark}
+
+\begin{definition}
+A \textit{fan} is a collection $\Sigma$ of strongly convex rational polyhedral cones in $N_\R$ such that,
+\begin{enumerate}
+\item $\forall \sigma \in \Sigma$ and any face $\tau$ of $\sigma$ then $\tau \in \Sigma$
+
+\item $\forall \sigma, \tau \in \Sigma$ the intersection $\sigma \cap \tau$ is a common face of $\sigma$ and $\tau$ and $\sigma \cap \tau \in \Sigma$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Given a fan $\Sigma$ we define the toric variety $X_\Sigma$ via gluing $X_\sigma$ for each $\sigma \in \Sigma$. To see that this gluing works, consider the functor,
+\begin{align*}
+\Sf_{X_\Sigma \to \Spec{k}} : \Alg_k & \to \Set
+\\
+A & \mapsto \left\{ \bigcup_{\sigma \in \Sigma} S_\sigma \to A \quad \middle| \quad \forall \sigma \in \Sigma : f|_{S_\sigma} \to (A, \times) \text{ is a morphism of monoids} \right\} 
+\end{align*}
+This functor is represented by the scheme $X_\Sigma$. 
+\end{definition}
+
+\subsection{Divisors}
+
+\subsection{Toric Divisors}
+
+\newcommand{\Rat}[1]{\mathrm{Rat} \left( #1 \right)}
+\newcommand{\Frac}[1]{\mathrm{Frac} \left( #1 \right)}
+
+Let $X_\Sigma \supset X_{\{ 0 \}} = \Spec{k[M]}$ be a toric variety. Then,
+\[ \Rat{X_\Sigma} = \Frac{k[M]} \]
+
+\begin{definition}
+We call toric Cartier divisors of $X_\Sigma$ andy Cartier divisor $D$ which is locally defined by some $\chi^m \in \Frac{k[M]}$ for $m \in M$. 
+\end{definition}
+
+\subsubsection{Combinatorial Interpretation}
+
+First consider the support of the fan,
+\[ | \Sigma | = \bigcup_{\sigma \in \Sigma} \sigma \]
+We define the notion of a vertual support function $\psi : | \Sigma | \to \R$ such that $\psi |_\sigma$ identifies with the restriction of some $m_\sigma \in M$ for any $\sigma \in \Sigma$. 
+
+\begin{remark}
+$m_\sigma$ is unique up to an element of $\sigma^\perp$.
+\end{remark}
+
+\begin{definition}
+$D_\psi = \{ (X_\sigma, \chi^{-m_\sigma}) \}$
+\end{definition}
+
+\begin{theorem}
+$\psi \mapsto D_\psi$ defines a bijection between toric Cartier divisors on $X_\Sigma$ and vertual support functions on $\Sigma$. 
+\end{theorem}
+
+\section{The Open Problem}
+
+Let $X \to \Spec{k}$ be a projective scheme of dimension $d$ over $k$. Given a line bundle $L$ on $X$ we may construct the Okounkov body $\Delta_L \subset \R^d$ a convex body. Then,
+\[ \int_{\Delta_d} 1
+\:  \d{x} = \lim_{n \to \infty} \frac{\dim_k H^0(X, L^{\otimes n})}{n^d} \]
+In particular, given a scheme $\mathcal{X}$ over a projective curve $C$ over $k$ with a line bundle $\mathcal{L}$ on $L$ then condier the diagram,
+\begin{center}
+\begin{tikzcd}
+L \arrow[d] \arrow[r] & \mathcal{L} \arrow[d]
+\\
+X = \mathcal{X}_\eta \arrow[d] \arrow[r] & \mathcal{X} \arrow[d]
+\\
+\eta \arrow[r] & C \arrow[d]
+\\
+& \Spec{k}
+\end{tikzcd}
+\end{center}
+with $L = \mathcal{L}|_X$ and $\eta$ is the generic point of the curve $C$. Then there is a function on the Okounvof bundle $G_{\mathcal{L}} : \Delta_L \to \R$ such that,
+\[ \int_{\Delta_L} \max\{(G_{\mathcal{L}}(x), 0)\} = \lim_{n \to \infty} \frac{\dim_k H^0(\mathcal{X}, \mathcal{L}^{\otimes n})}{n^{d+1}} \]
+For two line bundles $\mathcal{L}_1$ and $\mathcal{L}_2$ form $\mathcal{L}_1 \otimes \mathcal{L}_2$. We have,
+\[ \Delta_{L_1} + \Delta_{L_2} \subset \Delta_{L_1 \otimes L_@} \]
+and also
+\[ \forall (x, y) \in \Delta_{L_1} \times \Delta_{L_2} : G_{\mathcal{L}_1 \otimes \mathcal{L}_2}(x + y) \ge G_{\mathcal{L}_1}(x) + \G_{\mathcal{L}_2}(y) \] 
+
+\section{Line Bundles}
+
+\begin{definition}
+Let $R$ be a ring and $M$ an $R$-module. We say that $M$ is invertible if there exists an $R$-module $N$ such that $M \otimes_R N \cong R$. This is equivalent to the statement that the functor $M \otimes_R (-)$ is an equivalence of categories. 
+\end{definition}
+
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\Pic}[1]{\mathrm{Pic}\left( #1 \right)}
+
+\begin{definition}
+Let $X$ be a locally ringed space and $\L$ an $\struct{X}$-module. We say that $\L$ is an invertible $\struct{X}$-module if there exists an $\struct{X}$-module $\L'$ such that $\L \otimes_{\struct{X}} \L' \cong \struct{X}$ which is equivalent to the statment that the functor $\L \otimes_{\struct{X}} (-)$ is an equivalence of cateogries. 
+\end{definition}
+
+\begin{proposition}
+Let $\L$ be an invertable $\struct{X}$-module. Then,
+\begin{enumerate}
+\item $\L \otimes_{\struct{X}} \L^\vee \cong \struct{X}$ where $\L^\vee = \Homover{\struct{X}}{\L}{\struct{X}}$ is the dual sheaf
+\item given a morphism of locally ringed space $f : X \to Y$ and $\L$ is an invertible $\struct{Y}$-module then $f^* \L$ is an inertible $\struct{X}$-module
+\item $\L$ is locally-free of rank 1 i.e. there exits an open cover of $X$ such that on each open set $\L |_U \cong \struct{X} |_U$
+\item on stalks, $\L_x \cong \stalk{X}{x}$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+A \textit{line bundle} on a locally ringed space is an invertible sheaf on $X$.
+\end{definition}
+
+\begin{proposition}
+Given two invertible sheaves of $\struct{X}$-modules $\L$ and $\L'$ on $X$ their tensor product $\L \otimes_{\struct{X}} L'$ is an invertible $\struct{X}$-module. 
+\end{proposition}
+
+\begin{corollary}
+Isomorphism classes of line bundles on $X$ form a group under tensor product which we denote $\Pic{X}$. 
+\end{corollary}
+
+
+\subsection{Divisors and Line Bundles}
+
+\newcommand{\K}{\mathcal{K}}
+
+Given a Cartier divisor on an integral scheme $X$ which we realize as $D = \{ (U_i, f_i) \}$ where $\{ U_i \}$ is an open cover of $X$ and $f_i \in \Rat{X}$ such that $f_i f_j^{-1} \in \struct{X}^\times(U_i \cap U_j)$. Then we may form an invertible sheaf $\L(D)$ as the subsheaf of $K^\times / \struct{X}^\times$ generated by $\{ (U_i, f_i) \}$. 
+\begin{proposition}
+In the previous situation,
+\begin{enumerate}
+\item $\L(D)$ is an invertible sheaf
+\item $D_1 \sim D_2 \iff \L(D_1) \cong \L(D_2)$
+\item $\mathrm{CaCl}(X) \hookrightarrow \Pic{X}$ as groups
+\item $\mathrm{Cl}(X) \cong \Pic{X}$ when $X$ is integral 
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}
+Consider the exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}^\times \arrow[r] & \K^\times \arrow[r] & K^\times / \struct{X}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then taking cohomology,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \struct{X}^\times) \arrow[r] \arrow[d, equals] & H^0(X, \K_X^\times) \arrow[d, equals] \arrow[r] & H^0(X, \K_X^\times / \struct{X}^\times) \arrow[d, equals] \arrow[r] & H^1(X, \struct{X}^\times) \arrow[d, equals] \arrow[r] & H^1(X, \K_X^\times) \arrow[d, equals]
+\\
+0 \arrow[r] & \struct{X}(X)^\times \arrow[r] & K(X)^\times \arrow[r] & \mathrm{Ca}(X) \arrow[r] & \Pic{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, we get an isomorphism,
+\[ \mathrm{CaCl}(X) \xrightarrow{\sim} \Pic{X} \]
+where $\mathrm{CaCl}(X) = \coker{(K(X)^\times \to H^0(X, \K_X^\times / \struct{X}^\times)}$. To see why $H^0(X, \K_X^\times) = 0$,
+recall that on an integral scheme (actualy any irreducible topological space) all open sets are connected and thus all constant sheaves are flasque and thus have trivial higher cohomology. 
+\end{remark}
+
+\subsection{Examples}
+
+Consider the toric variety $X_\Sigma$ then the picard group of $\Sigma$ is given by virtual support functions modulo global linear functions. Let $h$ be a virtual support function represented by elements $\{ m_\sigma \}_{\sigma \in \Sigma}$ then we may construct $\L(h)$ an $\struct{X}$-module satisfying,
+\begin{enumerate}
+\item $\L(\varphi) = \{ 0 \}$
+\item $\L(U) = z^{m_\tau} \struct{X}(U)$ for $U \subset X_{\tau^\vee}$
+\item $\L(U_1 \cup \cdots \cup U_s) = z^{m_1} \struct{X}(U_1) \cap \cdots \cap z^{m_s} \struct{X}(U_s)$
+\end{enumerate}
+
+\begin{theorem}
+We have,
+\begin{enumerate}
+\item $\L_h \cong \L_{h'} \iff h - h'$ is global linear
+\item every invertible sheaf of $X_\Sigma$ is isomorphic to $\L_h$ for some virtual support function $h$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+For a toric variety $X_\Sigma$ we have,
+\[ \Pic{X} = \Pic{\Sigma} = \frac{\mathrm{VS}(\Sigma)}{\Sigma} = \mathrm{CaCl}(X) \]
+\end{corollary}
+
+\subsection{The Case of Noetherian Domains}
+
+\begin{remark}
+In the affine case $X = \Spec{R}$ then any invertible sheaf is coherent since it is locally $\widetilde{R}$. Therefore it must be $\widetilde{M}$ for some $R$-module $M$ which must be invertible as an $R$-module. Therefore, $\Pic{X} = \Pic{R}$ where $\Pic{R}$ is the group of invertible $R$-modules under tensor product. 
+\end{remark}
+
+\begin{remark}
+Now restrict to the case of $R$ a Noetherian domain.
+\end{remark}
+
+\begin{definition}
+A fractional ideal of $R$ is is a f.g. submodule of $\Frac{R}$. 
+\end{definition}
+
+\begin{theorem}
+Every invertible module is isomorphic to some fractional ideal. The invertable fractional ideals is free abelian group generated by height 1 prime ideas.  
+\end{theorem}
+
+\section{Cohomology of Sheaves}
+
+\subsection{Derived Category of an Abelian Category}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Ch}[1]{\mathbf{Ch}\left( #1 \right)}
+\newcommand{\Chb}[1]{\mathbf{Ch}^b\left( #1 \right)}
+\newcommand{\Chplus}[1]{\mathbf{Ch}^+\left( #1 \right)}
+\newcommand{\Khom}[1]{\mathbf{K}\left( #1 \right)}
+\newcommand{\D}[1]{\mathfrak{D}\left( #1 \right)}
+
+\begin{definition}
+Let $\A$ be an abelian category and $\Ch{A}$ denote the category of cocomplexes in $\A$ i.e. diagrams,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & A^{n-1} \arrow[r, "d^{n-1}"] & A^n \arrow[r, "d^n"] & A^{n+1} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+such that $d^n \circ d^{n-1} = 0$. A morphism $f : A \to B$ in the category $\Ch{A}$ is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & A^{n-1} \arrow[d, "f_{n-1}"] \arrow[r, "d_A^{n-1}"] & A^n \arrow[r, "d_A^n"] \arrow[d, "f_{n}"] & A^{n+1} \arrow[r] \arrow[d, "f_{n+1}"] & \cdots
+\\
+\cdots \arrow[r] & B^{n-1} \arrow[r, "d_B^{n-1}"] & B^n \arrow[r, "d_B^n"] & B^{n+1} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+i.e. such that $f_{n+1} \circ d_A^{n} = d_B^n \circ f_n$. 
+\end{definition}
+
+\begin{definition}
+For any cocomplex $A$ we may shift by $m$ to form the complex $A[m]$ such that $A[m]^n = A^{n - m}$ and $d_{A[m]}^n = (-1)^m d_A^n$. 
+\end{definition}
+
+\begin{definition}
+There exists a cohomology functor $H^n : \Ch{A} \to \A$ defined as follows. Since $d^{n+1} \circ d^n = 0$ we have that $d^{n}$ factors through the kernel of $d^{n+1}$ to give a map $d^{n} : A^n \to \ker{d^{n+1}}$. Then we define $H^n(A) = \coker{d^n : (A^n \to \ker{d^{n+1}})}$. 
+\end{definition}
+
+\begin{definition}
+The homotopy category $\Khom{\A}$ is the quotient of $\Ch{\A}$ by chain homotopy where chain maps $f, g : A \to B$ are chain homotopic via a homotopy $s$ if there exists a diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+\cdots \arrow[r] & A^{n-1} \arrow[d, "\Delta_{n-1}"] \arrow[r, "d_A^{n-1}"] & A^n \arrow[dl, "s_n"'] \arrow[r, "d_A^n"] \arrow[d, "\Delta_{n}"] & A^{n+1} \arrow[dl, "s_{n+1}"'] \arrow[r] \arrow[d, "\Delta_{n+1}"] & \cdots
+\\
+\cdots \arrow[r] & B^{n-1} \arrow[r, "d_B^{n-1}"] & B^n \arrow[r, "d_B^n"] & B^{n+1} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+such that $s_{n+1} \circ d_A^n + d_B^{n-1} \circ s_n = \Delta_n = f_n - g_n$.
+\end{definition}
+
+\begin{proposition}
+The cohomology functor $H^n : \Ch{\A} \to \A$ factors through the quotient functor $\Ch{\A} \to \Khom{\A}$. 
+\end{proposition}
+
+\begin{definition}
+We define the categories $\Chplus{\A}$ of bounded below cocomplexes i.e. cocomplexes $A$ such that $A^n = 0$ for all sufficiently small $n$ and the category $\Chb{\A}$ of bounded cocomplexes i.e. cocomplexes $A$ such that $A^n = 0$ for all but finitely many $n$. 
+\end{definition}
+
+\begin{remark}
+These chain categories are not abelian. We want to fix this issue.
+\end{remark}
+
+\begin{definition}
+Let $A, B \in \Ch{\A}$ and $f : A \to B$. We construct the cone $c(f) \in \Ch{\A}$ via $c(f)^n = A^{n + 1} \oplus B^n$ with a boundary map,
+\[ d_c^n = ( -d_A^{n+1}, -f_{n+1} + d_B^{n} ) \]
+Then we may check,
+\[ d_c^{n+1} \circ d_c^n = ( d_A^{n+1} \circ d_A^n, f_{n+1} \circ d_A^{n+1} - d_A^{n+2} \circ f_{n+1} + d_B^{n+1} \circ d_B^{n}) = 0 \]
+\end{definition}
+
+\begin{proposition}
+There exists an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & B \arrow[r,"g"] & c(f) \arrow[r, "\delta"] & A[-1] \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+where $g = (0, \id)$ and $\delta = - \mathrm{pr}_1$. Such an exact sequence induces a long exact sequenc of cohomology,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^{n-1}(c(f)) \arrow[r] & H^{n-1}(A[-1]) \arrow[r] & H^n(B) \arrow[r] & H^n(c(f)) \arrow[r] & H^{n+1}(A) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+however, $H^{n-1}(A[-1]) = H^n(A)$ and the map $H^{n-1}(A[-1]) \to H^n(B)$ is simply the map induced by $f : A \to B$. Thus we find,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^{n-1}(c(f)) \arrow[r] & H^{n}(A) \arrow[r, "f"] & H^n(B) \arrow[r] & H^n(c(f)) \arrow[r] & H^{n+1}(A) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{proposition}
+
+\begin{corollary}
+We say that $f$ is a quasi-isomorphism if $H^n(f)$ is an isomorphism for each $n$ iff $c(f)$ is exact i.e. acyclic. 
+\end{corollary}
+
+\begin{definition}
+In general, a diagram,
+\begin{center}
+\begin{tikzcd}
+A' \arrow[r, "u"] & B' \arrow[r, "v"] & C' \arrow[r, "w"] & A'[-1]
+\end{tikzcd}
+\end{center}
+is called an \textit{exact triangle} if there exists $f : A \to B$ in $\Ch{\A}$ and $\alpha, \beta, \gamma$ isomorphisms in $\K(\A)$ such that the following diagram commutes in $\K(\A)$,
+\begin{center}
+\begin{tikzcd}
+A' \arrow[r, "u"] \arrow[d, "\alpha"] & B' \arrow[r, "v"] \arrow[d, "\beta"] & C' \arrow[r, "w"] \arrow[d, "\gamma"] & A'[-1] \arrow[d, "\alpha"]
+\\
+A \arrow[r, "f"] & B \arrow[r, "g"] & c(f) \arrow[r, "\delta"] & A[-1]
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{definition}
+The derived category $\D{\A}$ is the category obtained from $\K(\A)$ by inverting all quasi-isomorphisms. 
+\end{definition}
+
+\subsection{Injective Objects}
+
+\begin{definition}
+In an abeian cateogory $\A$ we call an object $I$ injective if the contravariant hom functor $\Homover{\A}{-}{I} : \A^{\op} \to \Ab$ is exact. 
+\end{definition}
+
+\begin{remark}
+This condition is equivalent to the following. For any monomorphism $f : A \to B$ in $\A$ and a morphism $\alpha : A \to I$ there exists a unique extension $\beta : B \to I$ such that $\beta \circ f = \alpha$. 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r, "f"] \arrow[d, "\alpha"'] & B  \arrow[dl, dashed, "\beta"] 
+\\
+& I 
+\end{tikzcd}
+\end{center}
+\end{remark}
+
+\begin{definition}
+We say that $\A$ has \textit{enough injectives} if for any $A \in \A$ there exists an injective object $I \in \A$ and a monomorphism $\alpha : A \to I$. 
+\end{definition}
+
+\begin{theorem}
+Let $A, B \in \A$ be objects and $f : A \to B$ a morphism. Consider two complexes in $\K(A)$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] \arrow[d, "f"] & \bf{M}^\bullet \arrow[d, dashed]
+\\
+0 \arrow[r] & B \arrow[r] & \bf{I}^\bullet
+\end{tikzcd}
+\end{center}
+such that the first is exact and $\bf{I}^\bullet$ is injective. Then there exists a unique morphism in $\Khom{\A}$ between these complexes.
+\end{theorem}
+
+\begin{corollary}
+Let $I \in \Chplus{A}$ consist of injectives. If $f : I \to M$ is a quasi-isomorpihsm then $f$ admits an inverse of the left in the category $\Khom{\A}$. Furthermore, $\Homover{\D{\A}}{M}{I} = \Homover{\Khom{\A}}{M}{I}$.
+\end{corollary}
+
+\subsection{Derived Functors}
+
+\newcommand{\Kplus}[1]{\mathbf{K}^+\left( #1 \right)}
+\newcommand{\Dplus}[1]{\mathfrak{D}^+\left( #1 \right)}
+\newcommand{\I}{\mathfrak{I}}
+\newcommand{\B}{\mathcal{B}}
+
+Let $\A$ be an abelian category with enough injectives. Let $\Kplus{\I}$ be the full subcategory of $\Kplus{\A}$ consisting of complexes of injective objects.
+
+\begin{theorem}
+There is an equivalence of categories $\Dplus{\A} \cong \Kplus{\I}$. 
+\end{theorem}
+
+\begin{proof}
+Consider the inclusion functor $\Kplus{\I} \to \Dplus{\A}$ which is fully faithfull because $\Homover{\Dplus{\A}}{I}{J} = \Homover{\Kplus{\I}}{I}{J}$ when $I,J \in \Kplus{\I}$ are injective complexes. Thus it suffices to show that the functor is essentially surjective i.e. that for any complex $M \in \Dplus{\A}$ there exists an injective resolution $I \in \Dplus{\A}$ with a quasi-isomorphism $q : M \to I$. This is true when $\A$ has enough injectives.
+\end{proof}
+
+\begin{definition}
+Let $\A$ and $\B$ be abelian categories and $F : \Khom{\A} \to \Khom{\B}$ a functor preserving exact triangles. A right derived funtion of $F$ is a functor $RF : \D{\A} \to \D{\B}$ and a morphism of functors $\xi$ from $\Khom{\A} \xrightarrow{F} \Khom{\B} \to \D{\B}$ to $\Khom{\A} \to \D{\A} \xrightarrow{RF} \D{\B}$ which satisfies the following universal property. If $G : \D{\A} \to \D{B}$ is another functor preserving exact triangles with a morphism of functors $\zeta : q \circ F \to G \circ q$ then there exists a unique morphism of functors $\eta : RF \to G$ such that $\zeta = \eta \circ \xi$. 
+\end{definition}
+
+\begin{theorem}
+If $\A$ has enough injectives then $R^+ F : \Dplus{\A} \to \D{B}$ exists. Moreover, for any comlex consisting of injective objects $R^+ F(I) = q \circ F(I) \in \D{B}$. 
+\end{theorem}
+
+\begin{definition}
+We say that $A \in \Khom{\A}$ is $F$-acyclic if $F(A)$ is exact. 
+\end{definition}
+
+\begin{example}
+Let $X$ be a topological space and $\A = \Ab(X)$ the category of sheaves of abelian groups on $X$. If $\F \in \A$ is a sheaf then consider $\F_x$
+\end{example}
+
+\section{$\delta$-functors}
+
+\begin{definition}
+Let $\A$ and $\B$ be abelian categories. A (cohomological) $\delta$-functor is a sequence of additive functors $T^n : \A \to \B$ and associated to each short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+in $\A$ a family of morphisms $\delta^n : T^n(C) \to T^{n+1}(A)$ such that there is a long exact sequnce,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T^0(A) \arrow[r] & T^0(B) \arrow[r] & T^0(C) \arrow[r, "\delta^0"] &  T^1(A) \arrow[r] & T^1(B) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & T^1(C)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}, "\delta^1"]
+\\ 
+& T^2(A) \arrow[r] & T^2(B) \arrow[r] & T^2(C) \arrow[r, "\delta^2"] & T^3(A) \arrow[r] & T^3(B) \arrow[r] & T^3(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Furthermore, associated to each morphism of short exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[d] \arrow[r] & B \arrow[d] \arrow[r] & C \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & A' \arrow[r] & B' \arrow[r] & C' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the induced squares,
+\begin{center}
+\begin{tikzcd}
+T^n(C) \arrow[r, "\delta^n"] \arrow[d] & T^{n+1}(A) \arrow[d]
+\\
+T^n(C') \arrow[r, "\delta^{n}"] & T^{n+1}(A')
+\end{tikzcd}
+\end{center}
+commute such that there is a morphism of long exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T^0(A) \arrow[d] \arrow[r] & T^0(B) \arrow[d] \arrow[r] & T^0(C) \arrow[d] \arrow[r, "\delta^0"] &  T^1(A) \arrow[d] \arrow[r] & T^1(B) \arrow[d] \arrow[r] & T^1(C) \arrow[d] \arrow[r] & \cdots
+\\
+0 \arrow[r] & T^0(A') \arrow[r] & T^0(B') \arrow[r] & T^0(C') \arrow[r, "\delta^0"] &  T^1(A') \arrow[r] & T^1(B') \arrow[r] & T^1(C') \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{definition}
+A morphism of $\delta$-functors $f : S \to T$ is a sequence of natural transformations $f^n : S^n \to T^n$ which, for each short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & B \arrow[r] & C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+commutes with the connecting maps as follows,
+\begin{center}
+\begin{tikzcd}
+S^n(C) \arrow[d, "f^n_C"] \arrow[r, "\delta^n"] \arrow[d] & S^{n+1}(A) \arrow[d, "f^{n+1}_A"]
+\\
+T^n(C) \arrow[r, "\delta^{n}"] & T^{n+1}(A)
+\end{tikzcd}
+\end{center}
+such that there is a morphism of long exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & S^0(A) \arrow[d, "f^0_A"] \arrow[r] & S^0(B) \arrow[d, "f^0_B"] \arrow[r] & S^0(C) \arrow[d, "f^0_C"] \arrow[r, "\delta^0"] &  S^1(A) \arrow[d, "f^1_A"] \arrow[r] & S^1(B) \arrow[d, "f^1_B"] \arrow[r] & S^1(C) \arrow[d, "f^1_C"] \arrow[r] & \cdots
+\\
+0 \arrow[r] & T^0(A) \arrow[r] & T^0(B) \arrow[r] & T^0(C) \arrow[r, "\delta^0"] &  T^1(A) \arrow[r] & T^1(B) \arrow[r] & T^1(C) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{remark}
+Note that, by definition, if $T : \A \to \B$ is a cohomological $\delta$-functor than $T^0 : \A \to \B$ is a left-exact additive functor. A homological $\delta$-functor would give a left-exact additive functor $T^0 : \A \to \B$.
+\end{remark}
+
+\begin{definition}
+We call a $\delta$-functor $S : \A \to \B$ universal if for any other $\delta$-functor $T : \A \to \B$ with a natural transformation $\alpha : S^0 \to T^0$ it extends to a unique morphism of $\delta$-functors $f : S \to T$ with $f^0 = \alpha$.
+\end{definition}
+
+\begin{proposition}
+Universal $\delta$-functors with a given fixed initial additive functor $S^0 : \A \to \B$ are unique up to unique isomorphism. 
+\end{proposition}
+
+\begin{proof}
+Let $S$ and $T$ be two universal $\delta$-functors with a natural isomorphism $\alpha^0 : S^0 \to T^0$. Applying the universal properties of $S$ and $T$ give morphism of $\delta$-functors $f : S \to T$ and $g : T \to S$ such that $f^0 = \alpha$ and $g^0 = \alpha^{-1}$. Thus $g \circ f : S \to S$ is a morphism of $\delta$-functors lifting $\id_{S^0} : S^0 \to S^0$ and thus $g \circ f = \id_S$ by the uniqueness of lifts in the universal property for $S$. Similarly, $f \circ g : T \to T$ is a morphism of $\delta$-functors lifting $\id_{T^0} : T^0 \to T^0$ and thus $f \circ g = \id_{T}$ applying the uniqueness in the universal property for $T$.  
+\end{proof}
+
+\begin{definition}
+Given a left-exact additive functor $F : \A \to \B$ if there exists a universal $\delta$-functor $S : \A \to \B$ such that $S^0 = F$ then we call $S^n$ the right-sattelite functors associated to $F$. 
+\end{definition}
+
+\begin{definition}
+An additive functor $F : \A \to \B$ is called \textit{effaceable} if for each $A \in \A$ there exists a monomorphism $a : A \to M$ for some $M \in \A$ such that $F(a) = 0$. In particular, this is satisfied if $F(M) = 0$. 
+\end{definition}
+
+\begin{theorem}
+Let $S : \A \to \B$ be a $\delta$-functor. If $S^n$ is effaceable for all $n \ge 1$, then $S$ is universal. 
+\end{theorem}
+
+\begin{proof}
+Suppose that $T : \A \to \B$ is a $\delta$-functor and $\alpha : S^0 \to T^0$ is a natural transformation. We construct the morphism of $\delta$-functors $f : S \to T$ by induction. Such a natural transformation is given for $n = 0$ so assume we have constructed $f^n : S^n \to T^n$. Now for any $A \in \A$ since $S^{n+1}$ is effaceable we may choose a monomorphism $a : A \hookrightarrow M$ such that $S^{n+1}(a) = 0$. Now consider the short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r, "a"] & M \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which gives rise to long exact sequences,
+\begin{center}
+\begin{tikzcd}
+S^n(A) \arrow[d, "f^n_A"] \arrow[r, "S^n(a)"] & S^n(M) \arrow[d, "f^n_M"] \arrow[r] & S^n(K) \arrow[d, "f^n_K"] \arrow[r, "\delta^n"] &  S^{n+1}(A) \arrow[d, dashed, "f^{n+1}_A"] \arrow[r, "S^{n+1}(a)"] & S^{n+1}(M)  
+\\
+T^n(A) \arrow[r, "T^n(a)"] & T^n(B) \arrow[r] & T^n(K) \arrow[r, "\delta^n"] &  T^{n+1}(A) \arrow[r, "T^{n+1}(a)"] & T^{n+1}(B) 
+\end{tikzcd}
+\end{center}
+Since the morphism $S^{n+1}(a) : S^{n+1}(A) \to S^{n+1}(M)$ is zero then $S^{n+1}(A)$ is the cokernel of the morphism $S^n(M) \to S^{n}(K)$. By commutativity and exactness of the lower sequence, the morphism $S^n(M) \to S^n(K) \to T^n(K) \to T^{n+1}(A)$ is zero and thus factors uniquely through $f^{n+1}_A : S^{n+1}(A) \to T^{n+1}(A)$ this defines a morphism $f^{n+1} : S^{n+1} \to T^{n+1}$. It suffices to prove that $f^{n+1}$ is natural and well-defined. (SHOW THIS)
+\end{proof}
+
+\begin{corollary}
+Let $S, T : \A \to \B$ be effaceable $\delta$-functors which agree in degree zero i.e. $S^0 \cong T^0$ naturally. Then $S \cong T$ by a unique isomorphism lifting $S^0 \cong T^0$.  
+\end{corollary}
+
+\begin{theorem}
+Let $\A$ be an abelian category with enough injectives and $F : \A \to \B$ an additive functor. Then the right-derived functors $R^i F : \A \to \B$ form a universal $\delta$-functor.
+\end{theorem}
+
+\begin{proof}
+We have already proven that given an additive functor $F : \A \to \B$ on an abelian category $\A$ having enough injectives, the derived functors form a $\delta$-functor. 
+For each $A \in \A$ because $\A$ has enough injectives there exists an injective object $I \in \A$ and a monomorphism $a : A \to I$. Since $I$ is injective $R^i F(I) = 0$ for any $i \ge 1$ and thus $R^iF(a) : R^i F(A) \to R^i F(I)$ is the zero morphism. Thus for each $i \ge 1$, the derived functor $R^i F$ is effaceable. Therefore, right-derived functors $R^i F : \A \to \B$ form a universal $\delta$-functor.
+\end{proof}
+
+\begin{corollary}
+Let $\A$ be an abelian category with enough injectives and $F : \A \to \B$ a left-exact additive functor. Then the right-satellite functors of $F$ exist and are canonically isomorphic to the right-derived functors $R^i F : \A \to \B$.
+\end{corollary}
+
+\begin{corollary}
+Let $\A$ be an abelian category with enough injectives and $\B$ be an abelian category.
+Suppose that $S, T : \A \to \B$ are $\delta$-functors such that $F = S^0 \cong T^0$ naturally and for each injective $I \in \A$ we have $S^n(I) = T^n(I) = 0$ for all $n \ge 1$. Then there are canonical isomorphism of $\delta$-functors, $S \cong T \cong R F$. 
+\end{corollary}
+
+\begin{definition}
+Let $T : \A \to \B$ be a $\delta$-functor. We say that $A \in \A$ is $T$-acyclic if $T^n(A) = 0$ for all $n \ge 1$.
+\end{definition}
+
+\begin{proposition}
+Let $T : \A \to \B$ be a $\delta$-functor and,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & C^0 \arrow[r] & C^1 \arrow[r] & \cdots \arrow[r] & C^n \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+be an exact sequence in which the $C^i$ are $T$-acyclic. Then we have,
+\[ \forall i > n + 1 : T^{i}(A) = T^{i - n}(K) \quad \quad T^{n+1}(A) = \coker{(T^0(C^n) \to T^0(K))} \] 
+\end{proposition}
+
+\begin{proof}
+We proceed by induction. First, consider the case $n = 0$ in which we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & C \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $C$ is $T$-acyclic. This short exact sequence gives a long exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & T^0(A) \arrow[r] & T^0(C) \arrow[r] & T^0(K) \arrow[r] &  T^1(A) \arrow[r] & 0 \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & T^1(K)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& T^2(A) \arrow[r] & 0 \arrow[r] & \cdots \arrow[r] & 0 \arrow[r] & T^i(K) \arrow[r] & T^{i+1}(A) \arrow[r] & 0 \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Thus we find isomorphism $T^{i + 1}(A) = T^i(K)$ for $i \ge 1$ and furthermore,
+\[ T^1(A) = \coker{(T^0(C) \to T^0(K))} \]
+Now assume the statement holds for fixed $n$ and consider the case $n + 1$. We may split the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & C^0 \arrow[r] & C^1 \arrow[r] & \cdots \arrow[r] & C^n \arrow[r] & C^{n+1} \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+into a pair of exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & C^0 \arrow[r] & C^1 \arrow[r] & \cdots \arrow[r] & C^n \arrow[r] & N \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & C^{n+1} \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $N = \ker{(C^{n+1} \to K)}$. By the induction hypothesis applied to the first sequence we have,
+\[ \forall i > n + 1 : T^{i}(A) = T^{i - n}(N) \quad \quad T^{n+1}(A) = \coker{(T^0(C^n) \to T^0(N))} \] 
+and from the $n = 0$ case applied to the second short exact sequence we find,
+\[ \forall i > 1 : T^i(N) = T^{i - 1}(K) \quad \quad T^{1}(N) = \coker{(T^0(C^{n+1}) \to T^0(K))} \] 
+Therefore, for $i > n + 2$ applying the first and then second result we find,
+\[ T^i(A) = T^{i - n}(N) = T^{i - n - 1}(K) \]
+which holds since $i - n > 1$. Furthermore, setting $i = n + 2$ we find,
+\[ T^{n + 2}(A) = T^{1}(N) = \coker{(T^0(C^{n+1}) \to T^0(K))} \]
+proving the result by induction.
+\end{proof}
+
+\begin{proposition}
+Let $T : \A \to \B$ be $\delta$-functor and for $A \in \A$ let,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \bf{C}_A^\bullet
+\end{tikzcd}
+\end{center}
+be an $T$-acylic resultion of $A$ i.e. an exact complex such that $C^i$ is $T$-acylic for each $C^i$. Then for all $n \ge 0$ we may compute the satellite functors as the cohomology,
+\[ T^n(A) = H^n(T^0(\bf{C}_A^\bullet)) \]
+\end{proposition}
+
+\begin{proof}
+First, since $A = \ker{(C^0 \to C^1)}$ and since $T^0$ is left-exact it preserves kernels so $T^0(A) = \ker{(T^0(C^0) \to T^0(C^1))} = H^0(T^0(\bf{C}_A^\bullet))$. For $n \ge 1$ we may terminate the acyclic resoluton at $C^{n-1}$ by adding $K = \coker{(C^{n-2} \to C^{n-1})}$ to form an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & C^0 \arrow[r] & C^1 \arrow[r] & \cdots \arrow[r] & C^{n-1} \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+By the previous proposition $T^n(A) = \coker{(T^0(C^{n-1}) \to T^0(K))}$. However, by the exactnes of the resolution $K = \ker{(C^{n} \to C^{n+1})}$ and thus, again by left-exactness, $T^0(K) = \ker{(T^0(C^n) \to T^0(C^{n+1}))}$. Therefore,
+\[ T^n(A) = \coker{(T^0(C^{n-1}) \to \ker{(T^0(C^n) \to T^0(C^{n+1})})} =  H^n(T^0(\bf{C}^\bullet_A) \]
+\end{proof}
+
+\begin{remark}
+Now we return to the situation of an abelian category $\A$ with enough injectives and an additive functor $F : \A \to \B$ between abelian categories. We say that $C \in \A$ is $F$-acylic if $R^i F(C) = 0$ for all $i > 0$ i.e. if ``all higher-derived vanish''. 
+\end{remark}
+
+\begin{corollary}
+The derived functors of $F$ can be computed as the cohomology of $F$ applied to any $F$-acyclic resolution i.e. if 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \bf{C}_A^\bullet
+\end{tikzcd}
+\end{center}
+is an exact sequence such that $C^n$ is $F$-acyclic for each $n \ge 0$ then, for all $n \ge 0$,
+\[ R^n F(A) = H^n(F(\bf{C}_A^\bullet)) \]
+\end{corollary}
+
+\begin{theorem}[de Rham]
+Let $M$ be a smooth manifold then for each $n \ge 0$ there is a natural isomorphism,
+\[ H_{\text{sing}}^n(M ; \R) = H_{\text{dR}}^n(M) \]
+\end{theorem}
+
+\begin{theorem}
+Consider the complex of sheaves on $M$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \underline{\R} \arrow[r] & \Omega^0 \arrow[r, "\d^0"] & \Omega^1 \arrow[r, "\d^1"] & \Omega^2 \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+where $\Omega^k$ is the sheaf of differential $k$-forms on $M$. The above is clearly a complex because $\d^{n+1} \circ \d^n = 0$ by the definition of the exterior derivative. Furthermore, by the Poincare lemma this complex of sheaves is exact since every $k$-form is locally exact. Furthermore, by taking partitions of unity, we may extend any locally defined $k$-form to a globally defined $k$-form meaning that the restriction maps are surjective. Thus the sheaves $\Omega^k$ are flasque and thus $\Gamma$-acylic so the sheaves of differential forms form a $\Gamma$-acyclic resolution of $\underline{\R}$. Therefore, by the above propositions,
+\[ H^n_{\text{sing}}(X ; \R) = H^n_{\text{sheaf}}(X, \underline{\R}) = R^n \Gamma(X, \underline{\R}) = H^n(\Gamma(X, \Omega^\bullet)) = H^n(\Omega^\bullet(M)) = H_{\text{dR}}^n(M) \]
+\end{theorem}
+
+\section{Cartier Divisors}
+
+\newcommand{\shDiv}{\mathfrak{Div}}
+\newcommand{\Ca}{\mathrm{Ca}}
+\newcommand{\Cl}{\mathrm{Cl}}
+\newcommand{\CaCl}{\mathrm{CaCl}}
+\newcommand{\Div}{\mathrm{Div}}
+\renewcommand{\div}{\mathrm{div}}
+\newcommand{\ord}{\mathrm{ord}}
+
+\begin{definition}
+Let $X$ be a locally ringed space and $S_X$ the sheaf on $X$ defined by,
+\[ S_X(U) = \{ s \in \struct{X}(U) \mid \struct{X} |_U \xrightarrow{s} \struct{X}|_U \text{ is a monomorphism} \} \]
+Then let $\K_X = (U \mapsto S_X(U)^{-1} \struct{X}(U))^{++}$ be the sheafification. 
+\end{definition}
+
+\begin{definition}
+The sheaf of divisors is defined as the $\struct{X}$-module,
+\[ \shDiv_X =  \K_X^\times / \struct{X}^\times \]
+Then the Cartier divisors on $X$ are the group $\Ca(X) = \Div_X(X) = \Gamma(X, \shDiv_X)$. Furthermore, we define the Cartier divisor class group to be the quotient of Cartier divisors by global invertible rational sections i.e. sheaf map $\K_X^\times \to \K_X^\times / \struct{X}^\times$ giving a map on global sections gives a cokernel sequence,
+\begin{center}
+\begin{tikzcd}
+\Gamma(X, \K_X^\times) \arrow[r] & \Gamma(X, \K_X^\times / \struct{X}^\times) \arrow[r] & \CaCl(X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{proposition}
+There is a monomorphism $\CaCl(X) \to \Pic{X}$ which is an isomorphism whenever $H^1(X, \K_X^\times) = 0$.
+\end{proposition}
+
+\begin{proof}
+Consider the exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}^\times \arrow[r] & \K_X^\times \arrow[r] & \shDiv_X \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Taking the long exact sequence of cohomology we find,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+1 \arrow[r] & H^0(X, \struct{X}^\times) \arrow[r] & H^0(X, \K_X^\times) \arrow[r] & H^0(X, \shDiv_X) \arrow[r] & H^1(X, \struct{X}^\times) \arrow[d, equals] \arrow[r] & H^1(X, \K_X^\times)
+\\
+& & & & \Pic{X} 
+\end{tikzcd}
+\end{center}
+By exactness, 
+\[ \ker{(H^1(X, \struct{X}^\times) \to H^1(X, \K_X^\times))} = \coker{(H^0(X, \K_X^\times) \to H^0(X, \shDiv_X))} = \CaCl(X) \]  
+so we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \CaCl(X) \arrow[r] & \Pic{X} \arrow[r] & H^1(X, K_X^\times) 
+\end{tikzcd}
+\end{center} 
+\end{proof}
+
+\begin{proposition}
+Let $X$ is a reduced scheme with finitely many irreducible components then $H^1(X, \K_X^\times) = 0$. 
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{corollary}
+On a reduced scheme $X$ with finitely many irreducible components, the natural monomorphism $\CaCl(X) \xrightarrow{\sim} \Pic{X}$ is an isomorphism.
+\end{corollary}
+
+\begin{definition}
+On a locally ringed space $X$ we define the sheaf of \textit{effective divisors} by the ``positive subsheaf'' $\shDiv_X^+ = S_X / \struct{X}^\times$ of $\shDiv_X$. Furthermore, we define the \textit{effective Cartier divisors} $\Ca^+(X) = H^0(X, \shDiv_X^+)$.  
+\end{definition}
+
+\begin{remark}
+A Cartier divisor $D$ is effective $\implies \struct{X}(D)$ admits a global nonzero section. If $X$ is an integral scheme and $\struct{X}(D)$ has a non-zero global section then $D$ is equivalent to an effective divisor. There is a non-canonical bijection,
+\[ H^0(X, \struct{X}(D)) = \{ f \in \Rat{X}^\times \mid \div(f) + D \text{ is effective} \} \cup \{ 0 \} \]
+\end{remark}
+
+\subsection{Dimension and Length}
+
+\begin{definition}
+Let $X$ be a noetherian scheme. For any $k \in \N$ define,
+\[ X^{(k)} = \{ x \in X \mid \dim{\stalk{X}{x}} = k \} \]
+and let $Z^k(X)$ be the free abelian group generated by $X^{(k)}$. 
+\end{definition}
+
+\newcommand{\length}[2]{\mathrm{length}_{#1}\left( #2 \right)}
+\newcommand{\p}{\mathfrak{p}}
+
+\begin{definition}
+Let $A$ be a ring and $M$ an $A$-module. Then $\length{A}{M}$ is the largest $n$ such that ther exists a proper chain of submodules,
+\[ 0 = M_0 \subsetneq M_1 \subsetneq  \cdots \subsetneq M_n = M \]
+such that each $M_i / M_{i - 1} \cong A / \p_i$ with $\p_i \in \Spec{A}$ which we call a composition sequence.
+\end{definition}
+
+\begin{proposition}
+If $A$ is Noetherian and $M$ is finite type then $M$ admits a composition sequence. 
+\end{proposition}
+
+\begin{proposition}
+If there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M' \arrow[r] & M \arrow[r] & M'' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+if $M$ has finite length then so does $M'$ and $M''$ and furthermore,
+\[ \length{A}{M} = \length{A}{M'} + \length{A}{M''} \]
+\end{proposition}
+
+\begin{proposition}
+If $A$ is noetherian and $M$ is finitely generated then the following are equivalent,
+\begin{center}
+\begin{enumerate}
+\item $M$ is of finite length
+\item $M$ is artinian
+\item the associate prime ideals of $M$ are maximal
+\item the spectrum of $M$ consists of maximal prime ideals
+\end{enumerate}
+\end{center}
+\end{proposition}
+
+\begin{corollary}
+Let $A$ be a noetherian domain with $\dim{A} = 1$. For any nonzero $a \in A$ then any prime containing $a$ is maximal so $A / (a)$ has finite length. 
+\end{corollary}
+
+\begin{remark}
+The above obervation allows us to define.
+\end{remark}
+
+\begin{definition}
+$\ord_A(a) = \length{A}{A / (a)}$
+\end{definition}
+
+\begin{proposition}
+For any $a,b \in (A \setminus \{ 0 \})^2$ then $\ord_A(ab) = \ord_A(a) + \ord_A(b)$.
+\end{proposition}
+
+\begin{proof}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (b) / (ab) \arrow[r] & A / (ab) \arrow[r] & A /(b) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, since $A$ is a domian, $(b) / (ab) \cong A / (a)$ as $A$-modules so we have an exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A/(a) \arrow[r] & A / (ab) \arrow[r] & A /(b) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which proves that,
+\[ \ord_A(ab) = \length{A}{A /(ab)} = \length{A}{A / (a)} + \length{A}{A/(b)} = \ord_A(a) + \ord_B(b) \]
+\end{proof}
+
+\begin{definition}
+We extend $\ord_A(\cdot)$ to $\Frac{A}^\times \to \Z$ via $\ord_A(\frac{a}{b}) = \ord_A(a) - \ord_A(b)$.
+\end{definition}
+
+\begin{definition}
+Let $X$ be a noetherian integral scheme and $\Rat{X} = \Frac{\stalk{X}{x}}$ the rational functions on $X$ for any $x \in X$. If $x \in X^{(1)}$ is a codimension $1$ point then $\struct{X}{x}$ is a Noetherian integral scheme with $\dim{\stalk{X}{x}} = 1$. Therefore, there is a valuation $\ord_x : \Rat{X}^\times \to \Z$ via $f \mapsto f_x \mapsto \ord_{\stalk{X}{x}}(f)$ since $f_x \in \Frac{\stalk{X}{x}}$. 
+\end{definition}
+
+\begin{proposition}
+If $D$ is a Cartier divisor on $X$ then locally on $x \in X^{(1)}$ the divisor $D$ is defined by a rational function $f_{D,x} \in \Rat{X}^\times$ up to a section $s \in \struct{X}^\times$. However, $s_x \in \stalk{X}{x}^\times$ so $\ord_{x}(s f_{D,x}) = \ord_{x}(s) + \ord_x(f_{D,x}) = \ord_x(f_{D,x})$ since $s_x$ is invertible. Therefore, $\ord_x(D)$ is well-defined.
+\end{proposition}
+
+\begin{definition}
+Each Cartier divisor $D$ defines a cycle in $Z^1$,
+\[ [D] = \sum_{x \in X^{(1)}} \ord_x(f_{D, x}) \cdot [x] \]
+\end{definition}
+
+\subsection{General Intersection}
+
+Let $X$ be a Noetherian scheme $k \in \Z^+$ and $y \in X^{(k-1)}$. If $x \in X^{(k)}$ such that $x \in \overline{\{ y \}} = Y$ then $x \in Y^{(1)}$. Here we consisder $Y$ as an integral closed subscheme of $X$. For any $f \in \Rat{Y}^\times$ we define a $k$-cycle on $X$ as follows,
+\[ \div{(f)} = \sum_{x \in X^{(k)} \cap Y} \ord_x(f) \cdot [x] \in Z^k(X) \]
+Then we define,
+\[ R^k(X) = \sum_{y \in X^{(k-1)}} \Im{(\Rat{\overline{\{y \}}}^\times \to Z^k(X))} \]
+And funally, we define the Chow group of codimension $k$,
+\[ CH^k(X) = Z^k(X) / R^k(X) \]
+
+\begin{proposition}
+Let $X$ be a noetherian integral scheme. Then there is a canonical map $\CaCl(X) \xrightarrow{\sim} CH^1(X)$.
+\end{proposition}
+
+\begin{proof}
+Consider the map $\Ca{X} \to Z^1(X)$ via $D \mapsto [D]$. Then $\forall f \in \Rat{X}^\times$ we have $[f] \in R^1(X)$. Thus the map factors through the quotient $\CaCl(X) \to CH^1(X)$. 
+\end{proof}
+
+\begin{proposition}
+Assume $\forall x \in X$ that $\struct{X}{x}$ is integrally closed. Then the map $[\cdot] : \Pic{X} \to CH^1(X)$ is injective and so is the map $[\cdot] : \Ca(X) \to Z^1(X)$. 
+\end{proposition}
+
+\begin{proposition}
+Assume $\forall x \in X$ then $\struct{X}{x}$ is a UFD. Then the map $[\cdot] : \Pic{X} \to CH^1(X)$ an isomorphism and so is the map $[\cdot] : \Ca(X) \to Z^1(X)$. 
+\end{proposition}
+
+\subsection{Relative Constructions}
+
+Let $X, Y$ be noetherian schemes and $f : X \to Y$ proper. Then we may define,
+\[ f_* : Z(X) = \bigoplus_{k \in \N} Z^k(X) \to Z(Y) \]
+via $f_*([x]) = \deg(x / f(x)) \cdot [f(x)]$ where,
+\[ \deg(x / f(x)) = \begin{cases}
+[\kappa(x) : \kappa(f(x))] & \text{finite}
+\\
+0 & \text{otherwise} 
+\end{cases} \]
+
+\begin{remark}
+Assume that $X$ and $Y$ are integral, $f : X \to Y$ is proper and surjective, and $r \in \Rat{X}^\times$ then $d = [ R(X) : R(Y) ]$. If $d$ is infinite then $f_*(\div(r)) = 0$. If $d$ is finite then $f_*(\div(r)) = \div{N_{R(X) / R(Y)} (r)}$. 
+\end{remark}
+
+\begin{corollary}
+If $f : X \to Y$ is proper and surjective then $f_*$ induces a morphism $f_* : CH(X) \to CH(Y)$. 
+\end{corollary}
+
+\begin{corollary}
+Let $k$ be a field and $\pi : X \to \Spec{k}$ be a proper scheme over $k$ then we get a degree map,
+\[ \deg = \pi_* : Z(X) \to Z(\Spec{k}) = \Z \]
+\end{corollary}
+
+\section{Intersections}
+
+\begin{remark}
+Let $X$ be a Noetherian integral scheme and $D$ a Cartier divisor on $X$. Take $V \in Z^k(X)$ and $x \in X^{(k)}$. Locally, $D$ is defined by $f \in \Rat{X}^\times$. When $f \in \stalk{X}{x}^\times$ then $f$ defines an elment $\bar{f}$ of $\kappa(x)$ so let $Y = \overline{\{ x \}}$ be an integral closed subvariety. Take $\div(\bar{f})$ as $D \cdot x$. In general, this does not work unless we pass to the Chow group. 
+\end{remark}
+
+\begin{definition}
+Let $\L$ be a line bundle on $X$ representing the class $[D]$ in $\Pic{X}$. Let $\L|_Y$ be its restriction as a line bundle on $Y$. Take a nonzero section $s \in \L \otimes_{\struct{Y}} \K(Y)$ then,
+\[ \div{(s)} = \sum_{y \in Y^{(1)}} \ord_r(s) \cdot [y] \]
+This divisor class is independent of the choice of section $s$ in the Chow group. Thus we define $D \cdot [x] = [\div{(s)}]$ giving a map $D \cdot : CH(X) \to CH(X)$ given by,
+\[ [v] = \left[ \sum_{x \in X} \alpha_{V, x} x \right] \mapsto \sum_{x \in X} \alpha_{V, x} D \cdot [x] \]
+\end{definition}
+
+\subsection{The Toric Case}
+
+Let $\Sigma$ be a fan i.e. a collection of strictly convext rational polyhedral cones such that $\sigma, \tau \in \Sigma \implies \sigma \cap \tau \in \Sigma$ and is a face of each. Let $k$ be a field. Then we may construct the toric variety $X_\Sigma$. Now,
+\[ \Rat{X_\Sigma} = \Frac{k[M]} \cong k(T_1, \dots, T_n) \]
+We have the notion of a toric divisor, $D_\psi$ where $\psi$ is a vertual support functo $\psi : |\Sigma | \to \R$. For $\sigma \in \Sigma$ we have $\psi |_\sigma = m_\sigma \in M_\sigma$. On $X_\sigma$ the divisor $D_\psi$ is defined by $\chi^{-m_\sigma}$. Then we may construct a line bundle $L_\psi = \struct{X}(D)$ and furthermore, $D_{\psi_1} \sim D_{\psi_2} \iff \psi_1 - \psi_2 = m |_{|\Sigma|}$ for $m \in M$. 
+\bigskip\\
+Now consider,
+\[ \Sigma^{(k)} = \{ \sigma \in \Sigma \mid \sigma \text{ has dimension } k \} \]
+For each $\tau \in \Sigma^{(1)}$ we can choose a vector $v_\tau \in N$ which generates $\tau \subset N_\R$ and is of minimal length. Consider $V(\tau) = X_\Sigma \setminus X_\tau \subset X_\Sigma$ is irreducible and closed so take $x_\tau$ its generic point. 
+There is a map,
+\begin{align*}
+\Div(X_\Sigma) & \to Z^1(X_\Sigma)
+\\
+D_\psi & \mapsto \sum_{\tau \in \Sigma} - \psi(v_\tau) \cdot x_\tau 
+\end{align*}
+For $\sigma \in \Sigma$ we choose $m_\sigma \in M$ such that $\psi |_\sigma = m_\sigma |_\sigma$. Take $\psi' = \psi - m_\sigma |_{|\Sigma|}$ then clearly $D_\psi \sim D_{\psi'}$ furthermore for any face $\tau \in \Sigma^{(1)}$ we have $\psi' |_\sigma = 0$ and thus $\psi'(v_\tau) = 0$. 
+
+
+\subsection{NEEDS Work}
+
+\begin{theorem}
+$\dim_k H^0(D_\psi) = \# \left( \Delta_\psi \cap M \right)$
+\end{theorem}
+
+\begin{corollary}
+For higher twists,
+\[ \dim_k H^0(n \Delta_\psi) = \# \left( n \Delta_\psi \cap M \right) = \# \left( \Delta_\psi \cap \frac{1}{n} M \right) \to n^d \Vol{d}{\Delta_\psi} \]
+\end{corollary}
+
+\begin{theorem}
+We have the following properties. If $d = \mathrm{rk}_\Z(N)$ then,
+\begin{enumerate}
+\item For higher tensor powers,
+\[ \lim_{n \to \infty} \frac{\dim_k (H^0(n D_\psi))}{n^d} = \Vol{d}{\Delta_\psi} \]
+\item The bundle $\struct{X_\Sigma}(D_\psi)$ is generated by global sections iff $\psi$ is convave.
+\item The bundle $\struct{X_\Sigma}(D_\psi)$ is ample iff $\psi$ is strictly concave.
+\item By Riemann-Roch,
+\[ \Vol{d}{\Delta_\psi} = \frac{1}{d!} \deg{\left( D_\psi^d [X_\Sigma] \right)} \]
+\end{enumerate}
+\end{theorem}
+
+\subsection{Absolute Value}
+
+\begin{definition}
+Let $K$ be a field. A \textit{absolute value} on $K$ is a map $| \bullet | : K \to \R_{\ge 0}$ such that,
+\begin{enumerate}
+\item $|x| = 0 \iff x = 0$
+\item $|x \cdot y| = |x| \cdot |y|$
+\item there exists $c > 0$ s.t. $|1 + x| \le c$ for all $|x| \le 1$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+If $| \bullet | : K \to \R_{\ge 0}$ is an absolute value then so is $| \bullet |^\alpha$ for any positive real number $\alpha \in \R_{+}$. 
+\end{remark}
+
+\begin{example}
+The following are absolute values,
+\begin{enumerate}
+\item Trivial: $|0| = 0$ and $|x| = 1$ for $x \in K^\times$.
+\item Real $K = \R$ we have,
+\[ |x| = \begin{cases}
+x & x \ge 0
+\\
+-x & x < 0
+\end{cases} \]
+\item $p$-adic for $K = \mathbb{Q}$ write,
+\[ x = \prod_{p \in \Spec{\Z}} p^{v_p(x)} \]
+with $v_p(x) \in \Z$. Then $v_p(x)$ has finite support on $\Spec{\Z}$ (it is the closed set $V((x))$ which is always finite) then take,
+\[ |x|_p = p^{-v_p(x)} \] 
+\end{enumerate}
+\end{example}
+
+\begin{remark}
+By definition $|1| = |1 \cdot 1| = |1| \cdots |1|$ so $|1| = 1$. Let $x \in K^\times$ such that $x^n = 1$ then $|x|^n = |x^n| = |1| = 1$. In particular, there is only the trivial absolute value on finite fields.
+\end{remark}
+
+\begin{definition}
+The pair $(K, | \bullet|)$ is called a valued field. If $k \subset K$ is a subfield then we may restric the absolute value to $(k, | \bullet |)$ to make $k$ a valued field.
+\end{definition}
+
+\begin{definition}
+Let $| \bullet |_1$ and $| \bullet |_2$ be absolute values on $K$. We say these absolute values are equivalent if there exists a positive real constant $c \in \R_+$ such that,
+\[ | \bullet |_1 = | \bullet |_2 \]
+\end{definition}
+
+\begin{definition}
+Let $(K, | \bullet |)$ be a valued field. The norm of $| \bullet |$ is,
+\[ N(| \bullet |) = \sup_{|x| \le 1} | 1  + x | \]
+Note that for $x = 0$ we fine $|1 + x | = 1$ so $N(| \bullet |) \ge 1$.
+\end{definition}
+
+\begin{proposition}
+Let a map $| \bullet | : K \to \R_{+}$ verify (1) and (2) in the definition. Then following are equivalent,
+\begin{enumerate}
+\item $\exists c \in \R_{+} : \forall |x| \le 1 : |1 + x| \le c$
+\item $\forall x, y \in K : |x + y| \le c \max{\{ |x|, |y| \}}$
+\end{enumerate}
+In particular, if $| \bullet |$ is an absolute value then,
+\[ \forall x,y \in K : | x + y | \le N(| \bullet |) \max{\{ |x|, |y| \}} \]
+\end{proposition}
+
+\begin{definition}
+A map $| \bullet | : K \to \R_+$ satisfies the triangle innequality if,
+\[ \forall x,y \in K : |x + y| \le |x| + |y| \]
+\end{definition}
+
+\begin{remark}
+If $| \bullet | : K \to \R_{+}$ satisfing (1) an (2) satisfies the triangle innequality then $| \bullet |$ is an absolute value.
+\end{remark}
+
+\begin{proposition}
+Let $(K, |\bullet|)$ be a valued field. Then $N(| \bullet |) \le 2 \iff | \bullet |$ satisfies the triangle innequality.
+\end{proposition}
+
+\begin{corollary}
+Every absolute value on $K$ is equivalent to one which satisfies the trangle inequality. 
+\end{corollary}
+
+\subsection{Topology on Valued Fields}
+
+\begin{definition}
+Let $(K, | \bullet |)$ be a valued field. Then $d(x, y) = | x - y|$ is a metric on $K$ which thus induces the metric (in this case value) topology. A basis for this topology is the set of open balls,
+\[ \mathcal{B} = \{ B_\epsilon(x) \mid \epsilon \in \R_{+} \text{ and } x \in K \} \]
+where,
+\[ B_\epsilon(x) = \{ y \in K : d(x, y) < \epsilon \} \]
+Under this topology, the maps,
+\begin{align*}
+(x, y) & \mapsto x + y
+\\
+(x, y) & \mapsto xy
+\\
+x & \mapsto x^{-1}
+\\
+x & \mapsto - x
+\\
+x & \mapsto |x|
+\end{align*}
+are continuous. 
+\end{definition}
+
+\subsection{Archemedean and Non-Archemedean Absolute Values}
+
+\begin{definition}
+Let $M_K$ be the equivalence classes of absolute values on $K$ each class is called a \textit{place} of $K$. In each class choose a representative for the place which satisfies the triangle inequality. 
+\end{definition}
+
+\begin{definition}
+An absolute value $| \bullet |$ is nonarchemedean if it satisfies the ultrametric inequality,
+\[ \forall x,y : |x + y| \le \max{\{ |x|, |y| \}} \]
+This is equivalent to $N(| \bullet |) = 1$. Otherwise, if $N(| \bullet|) > 1$ then we say that $|\bullet|$ is archemedean. 
+\end{definition}
+
+\begin{remark}
+If $| \bullet |$ is nonarchemedean then we have,
+\[ |x + y| = \max{\{ |x|, |y| \}} \]
+\end{remark}
+
+\begin{example}
+For the following absolute values,
+\begin{enumerate}
+\item $(\R, | \bullet |)$ is archemedean with $N(| \bullet |) = 2$
+\item $(K, | \bullet |_{\text{triv}})$ is nonarchemedean.
+\item $(\mathbb{Q}, | \bullet |_p)$ is nonarchemedean.
+\end{enumerate}
+\end{example}
+
+\newcommand{\m}{\mathfrak{m}}
+
+\begin{definition}
+Let $(K, |\bullet |)$ be a valued nonarchemedean field. Then define,
+\begin{align*}
+A & = \{ x \in K \mid |x| \le 1 \}
+\\
+\m & = \{ x \in L \mid |x| < 1 \}
+\\
+U & = \{ x \in K \mid |x| = 1 \}
+\end{align*}
+\end{definition}
+
+\begin{proposition}
+$A = U \cup \m$ is a subring of $K$ with $K = \Frac{A}$ called the valuation ring which is local with maximal ideal $\m$. Thus $A^\times = U$ and finally, $A$ is integrally closed. Finally define the residue field $k = A / \m$.
+\end{proposition}
+
+\subsection{Valuations}
+
+\begin{definition}
+Let $A$ be a commutative ring. Then a valuation on $A$ is a map $v : A \to \R \cup \{ \infty \}$ satisfing,
+\begin{enumerate}
+\item $v(x) = \infty \iff x = 0$
+\item $v(xy) = v(x) + v(y)$
+\item $v(x + y) \ge \min{\{ v(x), v(y) \}}$
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+$v(1) = 0$ and we may extend $v : \Frac{A} \to \R$ via $v(x/y) = v(x) - v(y)$. 
+\end{remark}
+
+\begin{proposition}
+Let $K$ be a field. Then there is bijection between valuations on $K$ and nonarchemedean absolute values on $K$ by the mappings,
+\[ v \mapsto \exp \circ (-v) \quad \quad \quad |\bullet| \mapsto - \log \circ | \bullet | \]
+\end{proposition}
+
+\begin{remark}
+Given a nonarchemedean valued field $(K, | \bullet |)$ with corresponding valuation $v$ then we have,
+\begin{align*}
+A & = \{ x \in K \mid v(x) \ge 0 \}
+\\
+\m & = \{ x \in L \mid v(x)  > 0 \}
+\\
+U & = \{ x \in K \mid v(x) = 0 \}
+\end{align*}
+\end{remark}
+
+\begin{remark}
+We have a submonoid $v(K^\times) \subset (\R, +)$. If this submonoid is discrete then we may normalize such that $v(K^\times) = \Z$. 
+\end{remark}
+
+\begin{definition}
+Let $(K, |\bullet|)$ be a nonarchemedean valued field. Then, $| \bullet |$ is discrete iff $\m$ is a principal ideal. In that case $\m = (\varpi)$ and thus is $A$ is a discrete valuation ring.
+\end{definition}
+
+\begin{theorem}
+$A$ is a discrete valuation ring iff $A$ is a local Dedekind domain. 
+\end{theorem}
+
+\newcommand{\Q}{\mathbb{Q}}
+
+\subsection{Completion of Valued Fields}
+
+\begin{theorem}
+Let $M$ be a metric space. Then there exists a completion $\hat{M}$ and a continuous isometric embedding $M \hookrightarrow \hat{M}$ such that $\hat{M}$ is a complete metric space and $M \hookrightarrow \hat{M}$ is dense.  
+\end{theorem}
+
+\begin{definition}
+Let $(K, | \bullet |)$ be a valued field. Then there exists a complete valued field $(\hat{K}, | \bullet |)$ containing it isometrically. If $v \in M_v$ then we denote this completion as $K_v$. 
+\end{definition}
+
+\begin{definition}
+We say that a valued field $K$ is a local field if it is a locally compact topological fiel.
+\end{definition}
+
+\begin{theorem}
+Every local field is complete.
+\end{theorem}
+
+\begin{theorem}
+Let $(k, |\bullet|)$ be a local field and $[ K : k ]$ is finite then there exists a unique absolute value on $K$ which extends $| \bullet |$ defined by,
+\[ | x |_K = | N_{K/k}(x)|^{1/[K : k]} \]
+\end{theorem}
+
+\section{Isodida's Theorem and the Todd genus}
+
+\subsection{Polyhedral Laurent Series}
+
+
+\begin{definition}
+Let $A$ be a unital commutative ring and $M$ a free $\Z$-module of rank $r$. Let $N = M^\vee$ and $M_{\R} = M \otimes_\Z \R$ and $N_\R = N \otimes_\Z \R$. Also denote $A[M]$ to be the $A$-algebra generated by $M$ as a monoid and $A(M)$ its qutient ring. Finally, we define the laurent series $A[[M]] = \Homover{\mathrm{Mod}_A}{A[M]}{A}$. 
+\end{definition}
+
+\renewcommand{\gen}[1]{\mathrm{gen}\left( #1 \right)}
+
+\begin{definition}
+Let $\sigma$ be a polyhedral cone in $M_\R$. Then $\sigma$ is nonsingular if $\sigma = \R_{+} m_1 + \cdots + \R_{+} m_r$ such that $\{ m_1, \dotsm m_r \}$ is a masis for $M$. Then $\gen{\sigma} = \{ m_1, \dots, m_r \}$.
+\end{definition}
+
+\begin{definition}
+Let $\sigma$ be a nonsingular cone in $M_\R$. Then,
+\[ q_0(\sigma) = \sum_{m \in \iota(\sigma) \cap M} \chi^m \]
+Then $PL_A(M)$ is generated by,
+\[ \{ q_0(\sigma) \mid \sigma \textit{ is a nonsingular cone} \} \]
+Then,
+\[ Q_0(\sigma) = \prod_{m \in \gen{\sigma}} \frac{\chi^m}{1 - \chi^m} \]
+\end{definition}
+
+\begin{remark}
+Let $\sigma$ be a nonsingular cone then,
+\[ \prod_{m \in \gen{\sigma}} (1 - \chi^m) \cdot q_0(\sigma) = \prod_{m \in \gen{\sigma}} \chi^m \]
+\end{remark}
+
+\begin{theorem}
+There exists a unique map $\psi : PL_A(M) \to A(M)$ sendig $q_0(\sigma) \mapsto Q_0(\sigma)$.
+\end{theorem}
+
+\begin{definition}
+For $S \subset M_\R$ and,
+\[ q(S) = \sum_{m \in M \cap S} \chi^m \]
+if $q(S) \in PL_A(M)$ then we defne $Q(S) = \psi(q(S))$
+\end{definition}
+
+\subsection{Brion's Inequality}
+
+Let $\Sigma$ be a fan in $N_\R$ and $\Sigma(n) =\{ \sigma \in \Sigma \mid \dim{\sigma} = n \}$. Let $\psi$ be a support function of $\Sigma$. 
+
+\begin{remark}
+We want to show that $q(\Delta_{\psi}) \sim q(\Delta_\psi(\sigma))$
+\end{remark}
+
+\begin{lemma}
+Let $c$ be a rational polyhedral cone which is not strongly convex ($\dim{(c \cap (-c))} > 0$). Then $Q(c) =0$.
+\end{lemma}
+
+\begin{proof}
+Take $m \in M \cap (c \cap (-c))$. Then $m + c = c$ so $q(m + c) = q(c)$. However, $q(m + c) = \chi^m q(c)$. Thus $\chi^m Q(c) = Q(c)$ so $Q(c) = 0$. 
+\end{proof}
+
+\begin{theorem}
+If $\pi \subset \Sigma$ is a rational polyhedral cone of dimension r we define,
+\[ K(\Sigma, \pi) = \{ \sigma \in \Sigma \mid \sigma \cap \pi^\circ \neq \varphi \} \]
+Then,
+\[ \sum_{\sigma \in K(\Sigma, \pi)} (-1)^{\dim{\sigma}} = (-1)^r \]
+\end{theorem}
+
+\begin{definition}
+The support function $\psi$ is convex if $\psi(a) + \psi(b) \le \psi(a + b)$. Furthermore,
+\[ \Delta_\psi(\sigma) = \{ x \in M_\R \mid \forall u \in \sigma, x(y) \ge \psi(y) \} \]
+Furthermore,
+\[ \Delta_\psi = \bigcap_{\sigma \in \Sigma} \Delta_\psi(\sigma) \]
+\end{definition}
+
+\begin{remark}
+$\Delta_\psi(\sigma) = m + \sigma^\vee$ for some $m \in M$. 
+\end{remark}
+
+\begin{lemma}
+Suppose that $\Sigma$ is convex (i.e. $|\Sigma|$ is convex) of dimension $r$ an $\psi$ is a convex support function then,
+\[ q(\Delta_\psi) = \sum_{\sigma \in K(\Sigma, |\Sigma|)} (-1)^{r - \dim{\sigma}} q(\Delta_\psi(\sigma)) \]
+\end{lemma}
+
+\begin{theorem}
+Let $\Sigma$ be convex and $\dim{\Sigma} = r$. Let $\psi$ be a convex support function. Then,
+\[ Q(\Delta_\psi) = \sum_{\sigma \in \Sigma(r)} Q(\Delta_\psi(\sigma)) \]
+\end{theorem}
+
+\begin{proof}
+By the lemma,
+\[ q(\Delta_\psi) = \sum_{\sigma \in K(\Sigma, | \Sigma |)} (-1)^{r - \dim{\sigma}} q(\Delta_\psi(\sigma)) \]
+We need to show thaat if $\dim{\sigma} < r$ then $\sigma^\vee$ is not strongly convex then $Q(\sigma^\vee) = 0$ and thus, since $\Delta_\psi(\sigma) = m + \sigma^\vee$ so $Q(\Delta_\psi(\sigma)) = \chi^m Q(\sigma^\vee) = 0$. Therefore,
+\[ Q(\Delta_\psi) = \sum_{\sigma \in \Sigma(r)} Q(\Delta_\psi(\sigma)) \] 
+\end{proof}
+
+\begin{corollary}
+For $\psi = 0$ then,
+\[ Q(|\Sigma|^\vee) = \sum_{\sigma \in \Sigma(r)} Q(\sigma^\vee) \]
+In particular, if $\Sigma$ is complete then $|\Sigma|^\vee = 0$ thus,
+\[ Q(|\Sigma|^\vee) = 1 = \sum_{\sigma \in \Sigma(r)} Q(\sigma^\vee) \]
+\end{corollary}
+
+\subsection{Ishida's Theorem}
+
+Let $A = \Q$ a toric variety above a field $k$, $\Sigma$ a finite nonsingular fan in $N_\R$. Notation,
+\[ \Sigma[\rho] = \{ \sigma \in \Sigma \mid \sigma \supset \rho \} \] 
+
+\begin{definition}
+Let $\sigma$ be a nonsingular cone in $\Sigma$ such that $\dim{\sigma} = r$. Then consider the map $x(\sigma, -) : \gen{\sigma} \to \gen{\sigma^\vee}$ such that $x(\sigma, a)(b) = \delta(a,b)$. 
+\end{definition}
+
+\begin{remark}
+Let $\rho$ be a nonsingular cone in $M_\R$ then,
+\begin{align*}
+Q(\rho) & = \prod_{a \in \gen{\rho}} \frac{1}{1 - \chi^a} 
+\\
+Q_0(\rho) & = \prod_{a \in \gen{\rho}} \frac{\chi^a}{1 - \chi^a} 
+\end{align*}
+Now consider the map $\mathcal{E} : \C \otimes_\Z N \to \C^\times \otimes_\Z N$ via $z \otimes m \mapsto \exp{(-z)} \otimes m$. 
+Then,
+\begin{align*}
+\mathcal{E}^* Q(\rho) = \prod_{a \in \rho \cap M} \frac{1}{1 - \exp{-a}}
+\\
+\mathcal{E}^* Q_0(\rho) = \prod_{a \in \rho \cap M} \frac{1}{\exp{-a} - 1}
+\end{align*}
+\end{remark}
+
+\begin{remark}
+\[ \frac{1}{1 - \exp{x}} = \sum_{n = 0}^\infty \frac{B_n}{n!} x^{n-1} \]
+where $B_n$ is the $n^{\text{th}}$ Bernuli number.
+\end{remark}
+
+\begin{definition}
+Let $\sigma \in \Sigma$ then define,
+\[ V(\gamma) = \Im{( X_{\Sigma[\gamma]} \to X_\Sigma)} \]
+which is a closed subvariety. 
+\end{definition}
+
+\begin{theorem}
+If $\Sigma$ is a complete fan then,
+\[ \prod_{\sigma \in \Sigma(1)} \frac{V(\sigma)}{1 - \exp{(-V(\sigma))}} = \prod_{\sigma \in \Sigma(1)} \sum_{n = 0}^\infty \frac{B_n}{n!} V(\sigma)^n \]
+and,
+\[ \left[ \prod_{\sigma \in \Sigma(1)} \frac{V(\sigma)}{1 - \exp{(-V(\sigma))}} \right]_r = 1 \]
+\end{theorem}
+
+\section{Vanishing of Cohomology}
+
+Let $N$ be a lattice and $\Delta \subset N \otimes_\Z  \R$ be a fan whose cones are generated by lattice points i.e. are rational conces. Let $M = N^\vee$ be the dual lattice. Then $\C[M]$ is the character algebra. Then the dual cone is,
+\[ \sigma^\vee = \{ u \in M \otimes_\Z \R \mid \forall v \in \sigma : \inner{u}{v} \ge 0 \} \]
+Next, the semigroup algebra is,
+\[ A_\sigma = \C[M \cap \sigma^\vee ] \]
+and the open set $X_\sigma = \Spec{A_\sigma}$ with the torus $T_N = \Spec{\C[M]}$. Then the toric variety $X_\Delta$ is obtained by gluing these open sets $X_\sigma$ for all $\sigma \in \Delta$. 
+\bigskip\\
+To each $\rho \in \Delta(1)$ we can associate a torus-invariant Weil divisor $V(\rho) \subset X_\Delta$. 
+
+\begin{proposition}
+Consider a ray $\rho \in \Delta(1)$ with minimal generator $n_\rho$ in $N$ then,
+\[ \ord_{V(\rho)}(\chi^u) = \inner{u}{n_\rho} \]
+\end{proposition}
+
+\begin{proof}
+If $n_\rho$ is minimap then $\Z[n_\rho]$ is a direct summand of $N$ so $n_\rho$ can be extended to a basis $\{ e_1, \dots, e_n \}$ of $N$ with $e_1 = n_\rho$. Take the dual basis $\{ e_1^*, \dots, e_n^* \}$. Then $\rho^\vee$ is the half space defined by the line $\rho$ such that the semi-group algebra can be written as,
+\[ A_\rho = \C[ x_1, x_2^{\pm 1}, \cdots, x_n^{\pm 1}] \]
+Then $X_\rho = \mathbb{A}^1_\C \times \mathbb{G}_{m,\C}^{n-1}$. Then $V(\rho)$ is the closure of the orbit under $T(N)$ of the distinguished point $x_\rho \in X_\rho$ equal to $(0, 1, \dots, 1)$. Thus, $V(\rho) = \overline{\{ x_1 = 0 \}}$. For a function $f \in \C(x_1, \dots, x_n)^\times$ then $\ord(f)$ in the local ring $\C[x_1, \dots, x_n]_{(x_1)}$ of $V(\rho)$. Thus,
+\[ \ord(f) = v \iff f = x_1^v \frac{g}{h} \quad \text{where} \quad g,h \in \C[x_1, \cdots, x_n] \text{ are coprime to } x_1 \]
+In particular, $\chi^u = x_1^{u_1} \cdots x_n^{u_n}$ and thus,
+\[ \ord{\chi^u} = u_1 = \inner{u}{e_1} = \inner{u}{n_\rho} \]
+\end{proof}
+
+\begin{proposition}
+Let $D$ be a Weil divisor which is $T_N$-stable. Consider the action of $T_N$ on $H^0(X, \struct{X}(D))$ by composition. Then $H^0(X, \struct{X}(D))$ is $T_N$-invariant. 
+\end{proposition}
+
+\begin{proof}
+Let $t \in T_N$ and $f \in H^0(X, \struct{X}(D))$. We need to show that $t \cdot f \in H^0(X, \struct{X}(D))$. It suffices to prove this holds for each affine open $X_\sigma$. Let,
+\[ D|_{X_\sigma} = \sum_{\rho \in \sigma(1)} - a_\rho V(\rho) \]
+We need to show that $t \cdot f$ has vanishing order at least $a_\rho$ on $V(\rho)$. Choose $u \in M$ such that $\ord_{V(\rho}(f) = \frac{1}{\ell} \inner{u}{n_\rho}$ for some $\ell \in \Z$ because $N_\Q$ and $M_\Q$ are dual as vectorspaces. Then consider the function $\chi^{-u} f^\ell$ which has no zeros nor poles on $V(\rho)$. Thus $t \cdot \chi^{-u} f^\ell$ has no zeros nor poles on $V(\rho)$ becaue the action of $t$ is an automorphism of $V(\rho)$. Thus $\ord_{V(\rho)}(f \cdot \chi^{-u} f^\ell) = 0$. Furthermore, $t \cdot \chi^u(p) = \chi^u(t \cdot p) = \chi^u(t) \chi^u(p)$ which is a scalar multiple and thus has the same order of vanishing on any divisor. Thus,
+\begin{align*}
+\ell \: \ord_{V(\rho)}(t \cdot f) & = \ord_{V(\rho)}(t \cdot f^\ell) = \ord_{V(\rho)}(t \cdot (\chi^u \chi^{-u} f^\ell))
+\\
+& = \ord_{V(\rho)}(t \cdot \chi^u) + \ord_{V(\rho)}(t \cdot \chi^{-u} f^\ell) 
+= \ord_{V(\rho)}(t \cdot \chi^u) 
+\\
+& = \ord_{V(\rho)}(\chi^u) = \inner{u}{n_\rho} = \ell \: \ord_{V(\rho)}(f)
+\end{align*}
+Thus $\ord_{V(\rho)}(t \cdot f) = \ord_{V(\rho)}(f)$ proving the claim. 
+\end{proof}
+
+\begin{proposition}
+Let $D$ be a $T(N)$-invariant Weil divisor on $X = X_\Delta$. Then we may decompose the $T_N$-module $H^0(X, \struct{X}(D))$ as,
+\[ H^0(X, \struct{X}(D)) = \bigoplus_{\chi^u \in H^0(X, \struct{X}(D))} \C \cdot \chi^u \]
+We write formally that $\C \cdot \chi^u = H^0(X, \struct{X}(D))_u$. 
+\end{proposition}
+
+\begin{proposition}
+A Cartier divisor $D$ which is invariant by $T(N)$ is equal to $\div(\chi^{-u(\sigma)})$ on each $X_\sigma$ where $u(\sigma)$ is well-defined up to $M(\sigma) = \sigma^\perp \cap M$. 
+\end{proposition}
+
+\begin{definition}
+A support function is a continuous map $\psi : | \Delta | \to \R$ such that $\psi$ takes rational values on lattice points and is linear on each cone of $\Delta$. Let $D$ be a $T_N$-invariant Cartier divisor then there is a collection $u(\sigma) \in M / M(\sigma)$ then we get a collection of $\psi_\sigma = \inner{u(\sigma)}{-}$ defined on $|\sigma| \subset |\Delta|$ (well-defined because $M(\sigma) \subset \sigma^\perp$) which agree on the overlaps and thus glue. Indeed, consider the characters $\chi^{-u(\sigma)} |_{X_\tau}$ and $\chi^{-u(\tau)}_{X_\sigma}$ and they conicde up to $M(\sigma \cap \tau) = M(\sigma) = M(\tau)$ thus on $\sigma \cap \tau$ we have $\inner{u(\sigma)}{-} = \inner{u(\tau)}{-}$. Thus these glue to the support function $\psi_D$. This correspondence is a bijection. The inverse take,
+\[ \psi \mapsto \sum_{\rho \in \Delta(1)} - \psi(n_\rho) V(\rho) \]
+\end{definition}
+
+\begin{corollary}
+$\chi^u \in H^0(X, \struct{X}(D)) \iff \inner{u}{n_\rho} \ge \psi_D(n_\rho)$
+\end{corollary}
+
+\begin{definition}
+Take a fixed divisor $D$. For each $u \in M$ then,
+\[ Z_D(u) = \{ v \in |\Delta| \mid \inner{u}{v} \ge \psi_D(v) \} \]
+is a closed cone equal to a hull of cones in $\Delta$. 
+\end{definition}
+
+\begin{corollary}
+$\chi^u \in H^0(X, \struct{X}(D)) \iff Z_D(u) = |\Delta|$
+\end{corollary}
+
+\begin{example}
+If $\Delta = \sigma$ then
+\[ H^0(X_\sigma, \struct{X_\sigma}(D)) = \bigoplus \C \cdot \chi^u \]
+where $u$ is such that $Z_D(u) \cap |\sigma| = |\sigma|$. 
+\end{example}
+
+\begin{definition}
+Let $M$ be a topological space and $\F$ a sheaf on $M$. For $Z \subset M$ define the sections over $U$ of $\F$ with support in $Z$ is,
+\[ H^0_Z(U, \F) = \{ s \in H^0(U, \F) \mid \forall V \subset U \cap (M \setminus Z) : s|_V = 0 \} \]
+If $Z \subset M$ is closed then $H^0_Z(U, \F) = \ker{(H^0(U, \F) \to H^0(U \setminus Z, \F))}$. 
+\end{definition}
+
+\begin{example}
+f $M = |\Delta|$ and $\F = \underline{\C}$ then either,
+\begin{enumerate}
+\item $Z \subsetneq |\Delta|$ then let $s \in H^0(|\Delta|, \underline{\C})$ but since $|\Delta|$ is path-connected (since it is star shaped at zero) so $H^0(|\Delta|, \underline{\C}) = \C$. Thus if $s|_V = 0$ then $s = 0$ for any $V \neq \varnothing$. Thus $H_Z^0(|\Delta|, \underline{\C}) = 0$.
+\item $Z = |\Delta|$ in which case $H_Z^0(|\Delta|, \underline{\C}) = H^0(|\Delta|, \underline{\C}) = \C$. 
+\end{enumerate}
+\end{example}
+
+\begin{proposition}
+$H^0(X, \struct{X}(D))_u = H^0_{Z_D(u)}(|\Delta|, \underline{\C})$ 
+\end{proposition}
+
+\begin{definition}
+Consider the functor $H^0_Z(U, -)$ which has $p^{\text{th}}$-derived functors $H_Z^p(U, -)$ called cohomology with support in $Z$. 
+\end{definition}
+
+\begin{theorem}
+There is a canonical decomposition,
+\[ H^p(X, \struct{X}(D)) = \bigoplus_{u \in M} H^p_{Z_D(u)}(|\Delta|, \underline{\C}) \]
+we notate, $H^p(X, \struct{X}(D))_u = H^p_{Z(u)}(|\Delta|, \underline{\C})$.
+\end{theorem}
+
+\begin{corollary}
+If $|\psi|$ is concave then $H^i(X, \struct{X}(D)) = 0$ for all $i > 0$. 
+\end{corollary}
+
+\begin{proof}
+The set $|\Delta| \setminus Z_D(u) = \{ v \in |\Delta| \mid \inner{u}{v} < \psi_D(v) \}$ is convex because $\inner{u}{-}$ is convex and $-\psi$ is convex. Now apply the long exact sequence noting that $H^i(|\Delta|, \underline{\C}) = 0$ and $H^i(|\Delta| \setminus Z_D(u), \underline{\C}) = 0$ for $i > 0$ since both are contractible and $H^1_Z(|\Delta|, \underline{\C}) = 0$ since the map $H^0(|\Delta|, \underline{\C}) \to H^0(|\Delta| \setminus Z, \underline{\C})$ is surjective since both sets are connected. 
+\end{proof}
+
+\begin{proposition}
+$\struct{X}(D)$ is generated by global sections iff $\psi_D$ is concave and $\struct{X}(D)$ is ample iff $\psi_D$ is strictly concave
+\end{proposition}
+
+\begin{theorem}[Demazure]
+If $\struct{X}(D)$ is generated by global sections (in particular ample) then,
+\[ \forall p > 0 : H^p(X, \struct{X}(D)) = 0 \]
+\end{theorem}
+
+\section{Cohen's Structure Theorem}
+
+\begin{remark}
+All rings are commutative and with identity.
+\end{remark}
+
+\subsection{Topological Rings}
+
+\begin{definition}
+We say a ring $A$ is noetherian if it the satisfies one of the following equivalent conditions,
+\begin{enumerate}
+\item any ascending chain of ideals $I_0 \subset I_1 \subset I_2 \subset \cdots $ must satbiliize
+\item every nonempty set of ideals has a maximal element (w.r.t. inclusion)
+\item every ideal of $A$ is finitely generated as an $A$-module
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Hilber]
+If $A$ is noetherian then $A[x]$ is noetherian. 
+\end{theorem}
+
+\begin{definition}
+A ring $A$ is local if it has a unique maximal ideal $\m \subset A$. We denote the local ring by $(A, \m, \kappa)$ where $\kappa = A / \m$. 
+\end{definition}
+
+\begin{theorem}[Krull Intersection]
+Let $A$ be noetherian with an ideal $I \subset A$ and $M$ an $A$-module. Then consider the submodule,
+\[ N =  \bigcap_{n = 0}^\infty I^n \cdot M \]
+Then $I \cdot N = N$. 
+\end{theorem}
+
+\begin{corollary}
+If $I \subset \mathrm{rad}(A)$ then $N = 0$. Furthermore, in the case $M = A$ and $A$ is a domain then we find,
+\[ \bigcap_{n = 0}^\infty I^n = (0) \]
+for any proper ideal $I \subset A$ by Nakayama. 
+\end{corollary}
+
+\begin{lemma}
+Let $M = M_0 \supset M_1 \supset M_2 \supset M_3 \supset \cdots$ be a filtration. Then the sets $\{ x + M_n \mid n \in \N \quad x \in M \}$ form the basis for a topology on $M$.
+\end{lemma}
+
+\begin{proof}
+Consider $z \in (x + M_n) \cap (y + M_m)$ and $r = \max{\{n, m \}}$. Then $z - x \in M_n$ and $z - y \in M_m$. Consider $p \in (z + M_r)$ then $p - z \in M_r \subset M_n, M_m$ so $(p - z) - (z - x) = p - x \in M_n$ and $(p - z) - (z - y) \in M_m$ thus $p \in (x + M_n) \cap (x + M_m)$. Therefore, $(z + M_r) \subset (x + M_n) \cap (y + M_m)$. Furthermore, $x \in (x + M_n)$ so the sets clearly cover $M$ prving that they form a basis for a topology.
+\end{proof}
+
+\begin{definition}
+Let $A$ be a ring and $M$ an $A$-module. We set that a sequence $(u_n)$ of $M$ is \textit{Cauchy} if $\forall n \in \N : \exists N \in \N : \forall i, j > N : u_i - u_j \in M_n$. We say that $M$ is \textit{complete} if every Cauchy sequence is convergent.
+\end{definition}
+
+\begin{proposition}
+The topology induced on $M$ by a filtration is Haudorff iff,
+\[ \bigcap_{n = 0}^\infty M_n = (0) \]
+in which case we say the filtration is \textit{seperated}.
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{remark}
+Given a filtration $M = M_0 \supset M_1 \supset M_2 \supset M_3 \supset \cdots$ then the function $d' : M \times M \to \N$ via $d'(x, y) = \mathrm{argmax}{n \in \N} (x - y \in M_n)$ defines a pseudo-ultrametric on $M$ via $d(x, y) = 1/N^{d'(x,y)}$ and we set,
+\[ d(x, y) = 0 \iff x - y \in \bigcap_{n \in \N} M_n \]
+whose metric topology coincides with the topology defined above. 
+\begin{enumerate}
+\item $d(x, y) = d(y, x)$ since $x - y \in M_n \iff y - x \in M_n$
+\item Let $'d(x, z) = n$ and $d'(z, y) = m$ then $(x - z) \in M_n$ and $(z, y) \in M_m$. Therefore, $(x - z) - (z - y) = x - y \in M_{\min{\{ n, m \}}}$ so $d'(x, y) \ge \min{\{n , m \}}$ which implies that,
+\[ d(x, y) \le \max{\{ d(x, z), d(z, y) \}} \]
+\end{enumerate}
+\end{remark}
+
+\begin{remark}
+This pseudometric is a metric iff the filtration is seperated. 
+\end{remark}
+
+
+\begin{definition}
+Given a filtration and the induced topology, the completion of $M$ with respect to this completion is,
+\[ \hat{M} = \varprojlim_{n \in \N} M / M_n \]
+with respect to projection maps $M / M_{n+1} \to M / M_n$. Giving each quotient $M / M_n$ the discrete topology (which is the topology induced by the filtration) makes $\hat{M}$ a topological $A$-module whose topology agrees with the completion of $M$ with respct to the above metric topology. Furthermore, there is a continuous map $M \to \hat{M}$ with kernel $\bigcap M_n$. 
+\end{definition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+The completion of $A$ with respect to $I$ is,
+\[ \hat{A}^I = \varprojlim_{n \in \N} A / I^n \]
+This is the completion of $A$ with respect to the $I$-adic topology defined by the filtration $A \supset I \supset I^2 \supset I^3 \supset \cdots$. 
+\end{definition}
+
+\begin{example}
+We may complete the following rings,
+\begin{enumerate}
+\item take $A = k[x_1, \cdots, x_n]$ then with respect to $I = (x_1, \dots, x_n)$ the completion is $\hat{A}^I = k[[x_1, \dots, x_n]]$
+\item take $A = \Z$ then with respect to $I = (p)$ the competion is $\hat{A}^I = \Z_p$. 
+\end{enumerate}
+\end{example}
+
+\subsection{Power Series Rings}
+
+\begin{lemma}
+Let $A$ be a ring and $a \in A[[X]]$. Then $a \in A[[X]]^\times \iff a_0 \in A^\times$.
+\end{lemma}
+
+\begin{corollary}
+The units of $A[[X_1, \dots, X_n]]$ are exactly those whose image in $A = A[[X_1, \cdots, X_n]] \to A[X_1, \dots, X_n]/(X_1, \dots, X_n) = A$ is a unit.
+\end{corollary}
+
+\begin{example}
+Power series does not preserve many nice properties,
+\begin{enumerate}
+\item $\Z$ is a PID but $\Z[[x]]$ is not a PID since $(2, x)$ is not principle.
+\item $\Z$ is euclidean but $\Z[[x]]$ is not euclidean (since it is not a PID).
+\end{enumerate}
+\end{example}
+
+\subsection{Field of Representatives}
+
+\begin{definition}
+Let $(A, \m, \kappa)$ be a local ring. Then $A$ is \textit{regular} if $\dim{A} = \dim_{\kappa} \m / \m^2$. 
+\end{definition}
+
+\begin{example}
+The following are regular local rings,
+\begin{enumerate}
+\item any field $k$ since $\dim{k} = 0$ and $\m = 0$ so $\dim_{\kappa} \m / \m^2 = 0$.
+\item any DVR $R$ since $\dim{R} = 1$ and $\m = (\varpi)$ so $\dim_{\kappa} (\varpi) / (\varpi^2) = \dim_{\kappa} A / (\varpi) = 1$
+\end{enumerate}
+\end{example}
+
+\begin{definition}
+A local ring $(A, \m, \kappa)$ is \textit{equicharacteristic} if $A$ and $\kappa$ have the same characteristic otherwise it has \textit{mixed characteristic}.
+\end{definition}
+
+\begin{example}
+The following local rings satisfy,
+\begin{enumerate}
+\item $k$ is equicharacteristic since $\kappa = k$
+\item $\Z_p$ has mixed characteristic since $\kappa = \mathbb{F}_p$
+\item $k[[X_1, \dots, X_n]]$ is equicharacteristic since $\kappa = k$
+\end{enumerate}
+\end{example}
+
+\begin{definition}
+Let $(A, \m, \kappa)$ be a local ring and $\pi : A \to A / \m$ the projection. Suppose that there exists a subring $L \subset A$ s.t. $\pi|_L : L \to A / \m$ is an isomorphism then $L$ is the \textit{field of representatives} of $A$. 
+\end{definition}
+
+\begin{theorem}[Cohen 1]
+Let $(A, \m, \kappa)$ be a noetherian, complete, equicharacteristic, local ring then $A \cong \kappa[[X_1, \dots, X_n]] / I$ for some ideal $I$.
+\end{theorem}
+
+\begin{proof}
+Since $A$ is equicharacteristic, $A$ is a $\kappa$ algebra (PROVE THIS).
+Let $\m = (a_1, \dots, a_n)$. Consider the map $\kappa[X_1, \dots, X_N] \to A$ via $X_i \mapsto a_i$ which is continuous since it preserves the valuation. Since $A$ is complete this extends to a map on the completion $\kappa[[X_1, \dots, X_N]] \to A$. I claim that this map is surjective proving the theorem.  
+\end{proof}
+
+\begin{theorem}
+In the case above that $A$ is regular then $I = (0)$ so we have $A \cong \kappa[[X_1, \dots, X_n]]$ where $n = \dim{A}$.  
+\end{theorem}
+
+\begin{corollary}
+If $A$ is noetherian, complete, equicharacteristic regular local ring, then $A$ is a unique factorization domain.
+\end{corollary}
+
+\begin{theorem}[Cohen 2]
+Let $(A, \m, \kappa)$ be a noetherian, complete, local ring of dimension $d$. Then there exists a Cohen ring $B$ s.t. $A \cong B[[X_1, \cdots, X_d]] / I$ for some ideal $I$.
+In particular, when $A$ is equicharacteristic, then $B = \kappa$. If $A$ is regular then $A = B[[X_1, \dots, X_d]]$. 
+\end{theorem}
+
+\section{Okunkov Bundles}
+
+\begin{remark}
+Let $X$ be a smooth projective variety of dimension $d$. 
+\end{remark}
+
+\subsection{Positivity}
+
+
+\begin{definition}
+Let $\L \to X$ be a line bundle. We say that,
+\begin{enumerate}
+\item $\L$ is \textit{very ample} if there exists a closed embedding $\iota : X \hookrightarrow \mathbb{P}^N$ such that $\L = \iota^* \mathcal{O}(1)$. 
+\item $\L$ is \textit{ample} if $\L^{\otimes n}$ is very ample for some $n \in \Z^{+}$
+\end{enumerate}
+We also say that a divisor $D$ is (very) ample when $\struct{X}(D)$ is (very) ample. 
+\end{definition}
+
+\begin{theorem}
+A line bundle $\L \to X$ is ample iff for every positive dimension subvariety $V \subset X$ that $V \cdot \L^{\otimes \dim{V}} = 0$.
+\end{theorem}
+
+\begin{theorem}
+A line bundle $\L \to X$ is ample iff for every coherent sheaf $\F$ on $X$ there exists $n \in \Z^{+}$ s.t. $H^i(X, \F \times \L^{\otimes n}) = 0$ for all $i > 0$.
+\end{theorem}
+
+\begin{definition}
+Two divisors $D, D' \in \Div{X}$ are \textit{numerically equivalent} if for every curce $C \subset X$ then $D \cdot C = D' \cdot C$. We say a divisor $D \in \Div{X}$ is nef (numerically effective) if $C \cdot D \ge 0$ for each curve $C \subset X$. The Neron-Severi group of $X$ is $N^1(X) = \Div{X} / \{ \text{numverically trivial divisors} \}$. 
+\end{definition}
+
+\begin{definition}
+A divisor $D$ is \textit{big} if there exists $C > 0$ such that $h^0(X, \struct{X}(m D)) \ge C \cdot m^d$. 
+\end{definition}
+
+\begin{theorem}
+If $D$ is big then there exists an ample divisor $A$ and $m > 0$ and an effective divisor $N$ such that $m D \sim A + N$. The bigness depends only on numerical equivalence class. 
+\end{theorem}
+
+\renewcommand{\Big}{\mathrm{Big}}
+\newcommand{\Eff}{\mathrm{Eff}}
+
+\begin{definition}
+We define $K$-numverical equivalence classe $N^1(X)_K = N^1(X) \times_\Z \Q$. A $K$-divisor $D \in \Div{(X)}_K$ is big it it can be written as $\sum a_i D_i$ for $a_i > 0$ and $D_i$ big intergral divisor. Then $\Big(X) \subset N^!(X)_\R$ is the convx cone of all big $\R$-divisor classes on $X$. Furthermore, the effecitve cone,
+\[ \overline{\Eff}(X) \subset N^1(X)_\R \]
+is the closure of cone spanned by the classes of effective $\R$-divisors. 
+\end{definition}
+
+\begin{theorem}
+$\Big(X) = (\overline{\Eff}(X))^\circ$
+\end{theorem}
+
+\begin{definition}
+Let $D$ be a divisor and $\L = \struct{X}(D)$. Then the volume of $\L$ is,
+\[ \Vol{X}{L} = \limsup_{m \to \infty} \frac{h^0(X, \L^{\otimes m})}{m^d / d !} \]
+\end{definition}
+
+\begin{theorem}
+Let $D$ be a nef $\Q$-divisor. Then $\Vol{X}{D} = D^d$ in the sence of intersection number.
+\end{theorem}
+
+\begin{definition}
+Let $D$ be a divisor. A \textit{complete linear system} $|D|$ is the set of effective divisors linearly equivalent to $D$.
+\end{definition}
+
+\begin{definition}
+Let $\L$ be a line bundle on $X$ and $s \in H^0(X, \L) \setminus \{ 0 \}$. The \textit{divisor of zeros} $D = (s)_0$ of $s$ is defined as follows: on each open $U \subset X$ such that $\L |_U \cong \struct{X}|_U$ let $(s)_0 |_U = \div{(s)}$ viewing $s|_U \in \struct{X}(U)$. 
+\end{definition}
+
+\begin{proposition}
+Furthermore, there is a bijection $|D| \to (H^0(X, \struct{X}(D)) \setminus \{ 0 \}) / \C^\times$ given by sending a section to its vanish divisor.
+\end{proposition}
+
+\newcommand{\Bs}{\mathrm{Bs}}
+\newcommand{\Supp}[2]{\mathrm{Supp}_{#1}(#2)}
+
+\begin{definition}
+The \textit{base locus} $\Bs(D)$ of a divisor $D$ is defined as,
+\[ \Bs(D) = \bigcap_{D_{\text{eff}} \in |D|} \Supp{}{D_{\text{eff}}} \]
+The \textit{stable base locus} if,
+\[ \mathrm{B}(D) = \bigcap_{m \ge 1} \Bs(m D) \]
+The \textit{augmented base locus} of a $\Q$-divisor is $\mathrm{B}_+(D) = \mathrm{B}(D - A)$ is a sufficiently small ample $\Q$-divisor. 
+\end{definition}
+
+\subsection{Construction}
+
+\begin{definition}
+An \textit{admissible flag} $Y_\bullet$ of $X$ is a sequence $X = Y_0 \supset Y_1 \supset \cdots \supset Y_d$ of irreducible closed subvarieties of $X$ s.t. $\mathrm{codim}_{X}(Y_i) = i$ and each $i$ is smooth at the point $Y_d$.
+\end{definition}
+
+\begin{definition}
+Let $X$ be a locally noetherian integral scheme, $\L \to X$ a line bundle, and $s \in H^0(X, \L) \setminus \{ 0 \}$. Let $Z$ be a prime divisor on $X$ (i.e. a integral irreducible closed subscheme). Then the \text{order of vanishing} of $s$ along $Z$ is $\ord_{\L,Z}(s) = \ord_{\stalk{X}{\eta}}(s / s_\eta)$ where $\eta \in Z$ is the generic point of $Z$ and $s_\eta \in \L_\eta$ generates it as a $\stalk{X}{\eta}$-module.
+\end{definition}
+
+\begin{remark}
+For any $s \in H^0(X, \struct{X}(D)) \setminus \{ 0 \}$ then $s / s_\eta \in \stalk{X}{\eta}$ so $\ord_Z(s) \ge 0$. 
+\end{remark}
+
+\begin{definition}
+Given an admissible flag and a divisor $D$ we define a valuation $\nu_{Y_\bullet, D} = H^0(X, \struct{X}(D)) \setminus \{ 0 \} \to \Z^d$ as follows. First let $v_1(s) = \ord_{D, Y_1}(s)$. Choosing a local equition $f$ for $Y_1$ in $X$ we get a section $\tilde{s}_1 = s / f^{v_1(s)} \in H^0(X, \struct{X}(D - v_1 Y_1)) \setminus \{ 0 \}$. Then consider $s_1 \in H^0(Y_1, \struct{Y_1}(D - v_1 Y_1))$ and $v_2(s) = \ord_{D, Y_2}(s_1)$. Repeating this process we get a sequence $v_1, v_2, \dots, v_d$. 
+\end{definition}
+
+\begin{remark}
+Generally, for any integres $a_1, \dots, a_i \ge 0$ we let,
+\[ \struct{Y_i}(D - (a_1 Y_1 + \cdots + a_i Y_i)) = \struct{X}(D)|_{Y_i} \otimes \struct{X}(-a_1 Y_1) |_{Y_i} \otimes \cdots \otimes \struct{Y_{i-1}}(-a_i Y-i) \] 
+\end{remark}
+
+\begin{proposition}
+The above valuation satisfies the properties,
+\begin{enumerate}
+\item $v_{Y_\bullet}(s) \in \Z_{\ge 0}^d$
+\item Ordering $\Z^d$ lexicographically we have $v_{Y_\bullet}(s_1 + s_2) \ge \min{ \{ v_{Y_\bullet}(s_1), v_{Y_\bullet}(s_2) \} }$
+\item If nonvero $s_1, s_2, s_3$ are linearly independent and $s_i \neq c s_j$ (for $i \neq j$) then then smallest two values of $v_{Y_\bullet}(s_i)$ are equal.
+\item For each $s \in H^0(X, \struct{X}(D_1)) \setminus \{ 0 \}$ and $t \in H^0(X, \struct{X}(D_2)) \setminus \{ 0 \}$ then,
+\[ v_{Y_\bullet, D_1 + D_2}(s \otimes t) = v_{Y_\bullet, D_1}(s) + v_{Y_\bullet, D_2}(t) \]
+\end{enumerate}
+\end{proposition}
+
+\begin{example}
+Let $X = \mathrm{P}^d$ and $Y_\bullet$ the flag defined as $Y_i = \{ X_0 = \cdots = X_i = 0 \}$. Then $D$ is a degree $m$ divisor implies that,
+\[ v_{Y_\bullet}(X_0^{a_1} \cdots X_d^{a_d}) = (a_0, \dots, a_d) \]
+Thus,
+\[ v_{Y_\bullet}(\sum c_a X^a) = \min\{ \{ a \mid c_a \neq 0 \} \} \]
+\end{example}
+
+\begin{lemma}
+Let $W \subset H^0(X, \struct{X}(D))$ be a subspace. Fix $a = (a_1, \dots, a_d) \in \Z^d$. Then let $W_{\ge a} = \{ s \in W \mid v_{Y_\bullet}(s) \ge a \}$ and likewise for $W_{> a}$. Then,
+\[ \dim (W_{\ge a} / W_{> a}) \le 1 \]
+In particular, if $W$ is finite dimensional then $\# \left( \Im{W \setminus \{ 0 \} } \xrightarrow{\nu} \Z^d \right)$. 
+\end{lemma}
+
+\begin{definition}
+The \textit{graded semigroup} of $D$ is the subsemigroup,
+\[ \Gamma_{Y_\bullet}(D) = \{ (v_{Y_\bullet}(s), m) \mid s \in H^0(X, \struct{X}(mD) \text{ and } m \in \Z_{\ge 0} \} \subset N^\d \times \N = \N^{d + 1} \]
+Then let $\Sigma(\Gamma_{Y_\bullet}(D))$ be the closed convex cone of $\Gamma_{Y_\bullet}(D)$ in $\N^{d+1} \otimes_\Z \R = \R_{\ge 0}^{d+1}$.
+\end{definition}
+
+\begin{definition}
+The Okounkov body of $D$ is is the conpact convex set,
+\[ \Delta_{Y_\bullet}(D) = \Sigma(\Gamma_{Y_\bullet}(D)) \cap (\R^d \times \{ 1 \}) \]
+This is equivalent to the closed covex hull of,
+\[ \bigcup_{m = 1}^\infty \tfrac{1}{m} \Gamma_{Y_\bullet}(D)_m \quad \text{where} \quad \Gamma_{Y_\bullet}(D)_m = \Im{(H^0(X, \struct{X}(mD)) \setminus \{ 0 \} \xrightarrow{v_{Y_\bullet}} \Z^d)} \]
+\end{definition}
+
+\begin{remark}
+The Okounkov body $\Delta(D)$ lies in the nongeative orthant of $\R^d$. For a fixed divisor $D$, for very ``general'' choices of $Y_\bullet$ the the Okounkov bodies correspond. 
+\end{remark}
+
+\begin{proposition}
+The body $\Delta(D)$ is bounded and thus compact. 
+\end{proposition}
+
+\begin{proof}
+It suffices to show that $\exists b > 0$ s.t.
+\[ \forall i : \forall m > 0:  \forall s \in H^0(X, \struct{X}(m D)) \setminus \{ 0 \} :  v_i(s) < m b \] 
+Fix an ample divisor $H$ then $Y \cdot H^{d - 1} > 0$. Thus, there exists $b_1 > 0$ such that $(D - b_1 Y_1) \cdot H^{d - 1} < 0$. Therefore, $v_1(s) < m b_1$. (READ THIS CLAIM)
+\end{proof}
+
+\begin{example}
+Let $X = \mathbb{P}^d$ and $D$ the hyperplane divisor and $Y_\bullet$ as before. Then,
+\begin{align*}
+\Delta(D) & = \Sigma\left( \bigcup_{ m \ge 1} \{ \tfrac{1}{m} (a_1, \dots, a_d) \mid a_i \ge 0, a_1 + \cdots + a_d = m \} \right) 
+\\
+& = \{ (\xi_1, \dots, \xi_d) \in \R^d \mid \xi_i \ge 0, \xi_1 + \cdots + \xi_d \le 1 \}
+\end{align*}
+so $\Delta(D) = \Delta^d$, the standard $d$-simplex. 
+\end{example}
+
+\subsection{Properties}
+
+Let $\Gamma \subset \N^{d+1}$ be a semigroup and $\Sigma = \Sigma(\Gamma)$ the closed cone then
+
+\section{Okounkov Bodies in the Toric Case}
+
+\subsection{Review}
+
+We fix $d$-dimensional lattice $N \cong \Z^d$ and let $\Sigma$ be a fan in $N_\R = N \otimes_\Z \R$. That is a set $\Sigma$ such that,
+\begin{enumerate}
+\item each $\sigma \in \Sigma$ is a strongly convex ($\sigma \cap (-\sigma) = \{ 0 \}$) rational polyhedral cone in $N_\R$ 
+\item if $\tau \subset \sigma \in \Sigma$ is a face then $\tau \in \Sigma$
+\item $\forall \sigma, \tau \in \Sigma$ their intersection $\sigma \cap \tau \in \Sigma$ and is a shared face of both $\sigma$ and $\tau$.
+\end{enumerate}
+Then set $M = N^\vee = \Homover{\Z}{N}{\Z}$. 
+\bigskip\\
+Recall the following notation,
+\[ \Sigma(k) = \{ \sigma \in \Sigma \mid \dim{\sigma} = k \} \]
+and the affine open sets,
+\[ U_\sigma = \Spec{\C[\sigma^\vee \cap M]} \]
+glue to form the toric variety $X_\Sigma$ with the torus $T(N) = N \otimes_\Z \C^\times \subset X_\Sigma$ corresponding to the open set $U_{0} = \Spec{\C[M]}$. 
+\bigskip\\
+Recall that there is a correspondence between cones $\sigma \in \Sigma$ and $T$-orbits $O \subset X_\Sigma$ such that,
+\begin{enumerate}
+\item $\sigma \subset \tau$ iff $\overline{O_\tau} \subset \overline{O_\sigma}$
+\item $\dim{\sigma} + \dim{O_\sigma} = d$
+\end{enumerate}
+Furthermore, taking the closure $\sigma \mapsto V(\sigma) = \overline{O_\sigma}$ gives a correspondence between cones of dimension $i$ and closed $T(N)$-invariant codimension $i$, subvarieties (i.e. toric subvarieties of codimension $i$). For $\sigma \in \Sigma(1)$ then $D_\sigma = V(\sigma)$ gives the set of $T(N)$-invariant prime divisors on $X_\Sigma$.
+
+\begin{theorem}
+The following hold,
+\begin{enumerate}
+\item $X_\Sigma$ is normal and Cohen-Macaulay
+\item $X_\Sigma$ is complete (i.e. proper) iff $\Sigma$ is complete i.e. $|\Sigma| = N_\R$
+\item $X_\Sigma$ is smooth iff $\Sigma$ is smooth i.e. each cone $\sigma \in \Sigma$ is has gerators which may be extended to 
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Recall the relationships between various notions of divisors, line bundles, and support funtions.
+\end{remark}
+
+
+\begin{definition}
+Let $X$ be any scheme. Then a \textit{Cartier divisor} on $X$ is a section of the quotient, $\xi \in H^0(X, \K_X^\times / \struct{X}^\times)$ which is a set of pairs $\{ (U_i, f_i) \}$ where $U_i$ cover $X$ and $f_i \in \K_X(U_i)$ s.t. $f_i / f_j \in \struct{X}(U_i \cap U_j)^\times$. The epimorphism of sheaves $K_X^\times \to \K_X^\times / \struct{X}^\times$ defines the Cartier class group as the cokernel on global sections i.e. Cartier divisors modulo global rational functions,
+\begin{center}
+\begin{tikzcd}
+H^0(X, \K_X^\times) \arrow[r] & H^0(X, \K_X^\times / \struct{X}^\times) \arrow[r] & \CaCl(X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{proposition}
+There is an injective homomorphism $\CaCl{(X)} \to \Pic{X}$ wich can be described by sedning a Cartier divisor $D = \{ (U_i, f_i) \} \mapsto \struct{X}(D)$ the invertible subsheaf of $\K_X$ generated on $U_i$ by $f_i^{-1}$ i.e.
+\[ \struct{X}|_{U_i} \xrightarrow{f_i^{-1}} \struct{X}(D) |_{U_i} \] is an isomorphism. This is well-defined because $f_i / f_j$ is a unit on $U_i \cap U_j$ so they generate the same sheaf. When $X$ is integral, $\CaCl{(X)} \to \Pic{X}$ is an isomorphism. 
+\end{proposition}
+
+\begin{definition}
+Let $X$ be an integral noetherian scheme. Then a \textit{prime divisor} on $X$ is an integral closed subscheme $Y \subset X$ of codimension $1$ and a \textit{Weil divisor} is a finite formal sum of prime divisors,
+\[ D = \sum_{Y \subset X} n_Y \: Y \]
+Principal divisors correspond to rational functions $f \in \Rat{X}^\times$ where we set,
+\[ \div{(f)} = \sum_{Y \subset X} \ord_{Y}(f) \: Y \]
+The map $\Rat{X}^\times \to \Div{(X)}$ defines the Weil class group as the cokernel i.e. divisors modulo principal divisors,
+\begin{center}
+\begin{tikzcd}
+\Rat{X}^\times \arrow[r] & \Div{(X)} \arrow[r] & \Cl(X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+
+\begin{proposition}
+Let $X$ be an integral noetherian scheme. There is a homomorphism $\Ca{(X)} \to \Div{(X)}$ descending to $\CaCl{(X)} \to \Cl{(X)}$ given by mapping,
+\[ \{ (U_i, f_i) \} \mapsto \sum_{Y \subset X} \frac{1}{\# \left\{ U_i \cap Y \neq \varnothing \right\} }\sum_{U_i \cap Y \neq \varnothing} \ord_{Y}(f_i) \: Y \]
+This is well-defined because $f_i / f_j \in \struct{X}^\times(U_i \cap U_j)$ so $\ord_{Y}(f_i) = \ord_{Y}(f_j)$ since they differ by a unit.
+\bigskip\\
+If $X$ is locally factorial (in particular if $X$ is smooth) then this map is an isomophism. 
+\end{proposition}
+
+\begin{proposition}
+Given a Weil divisor $D$ there is a corresponding line bundle $\struct{X}(D)$ via,
+\[ \struct{X}(D)(U) = \{ f \in \Rat{X} \mid (D + \div{(f)})|_U \ge 0 \} \]
+Conversely, given a line bundle $\L$ we may assign a Weil divisor $c_1(\L)$ to it via,
+\[ c_1(\L) = \sum_{Y \subset X} \ord_{\L, Y}(s) \: Y \]
+for some nonzero meromorphic section $s$ of $\L$. This is independent of the choice of section $s$. 
+\end{proposition}
+
+\begin{definition}
+A \textit{support function} is a continous function $\psi : |\Sigma| \to \R$ such that on each cone $\sigma \in \Sigma$ the restriction $\psi |_\sigma(x) = \inner{m_\sigma}{x}$ is linear. A global support function is a function of the form $\inner{m}{-}$ for  a global choice of $m \in M$. We define the Picard group of the fan to be the quotient by global support functions $\Pic{\Sigma} = SF(\Sigma) / M$. 
+\end{definition}
+
+\begin{proposition}
+On a toric variety $X_\Sigma$, there is a correspondence between $T(N)$-invariant Cartier divisors $D$ and support functions $\psi_D$. Given by,
+\[ D \mapsto \psi_D \text{ such that } \psi|_\sigma = \inner{u(\sigma)}{-} \text{ where } D |_{U_\sigma} =  \div{(\chi^{-u(\sigma)})} \]
+and
+\[ \psi \mapsto \{ (U_\sigma, \chi^{-m_\sigma}) \mid \sigma \in \Sigma \} \] 
+We may furthermore assign a Weil divisor to $\psi$ via the map $\Ca{(X)} \to \Div{(X)}$,
+\[ \psi \mapsto \sum_{\rho \in \Sigma(1)} \ord_{Y}(\chi^{-m_\rho}) \: V(\rho) = \sum_{\rho \in \Sigma(1)} -\inner{m_\rho}{n_\rho} \: V(\rho) = \sum_{\rho \in \Sigma(1)} -\psi(n_\rho) \: V(\rho) \] 
+where we recall that $\Sigma(1)$ corresponds to the set of $T(N)$-invariant prime divisors.
+\end{proposition}
+
+\begin{remark}
+The scheme $X_\Sigma$ is a variety so, in particular, it is noetherian and integral so Weil divisors are defined and $\CaCl{(X_\Sigma)} \xrightarrow{\sim} \Pic{X_\Sigma}$ is an isomorphism. However, unless $X_\Sigma$ is locally factorial (in particular when $X_\Sigma$ is not smooth) then the canonical map $\Ca{(X_\Sigma)} \to \Div{(X_\Sigma)}$ may not be surjective i.e. they can be Weil divisors which do not correspond to a Cartier divisor and $T(N)$-invariant Weil divisors which do not correspond to a support function. 
+\end{remark}
+
+\begin{remark}
+Recall the following properties of sections of toric line bundles which we will make repeated use of in the following sections.
+\end{remark}
+
+\begin{proposition}
+Consider a ray $\rho \in \Sigma(1)$ with minimal generator $n_\rho$ in $N$ then,
+\[ \ord_{V(\rho)}(\chi^u) = \inner{u}{n_\rho} \]
+\end{proposition}
+
+
+\begin{proposition}
+Let $D$ be a $T(N)$-invariant Weil divisor on $X = X_\Sigma$. Then we may decompose the $T(N)$-module $H^0(X, \struct{X}(D))$ as,
+\[ H^0(X, \struct{X}(D)) = \bigoplus_{\chi^u \in H^0(X, \struct{X}(D))} \C \cdot \chi^u \]
+We write formally that $\C \cdot \chi^u = H^0(X, \struct{X}(D))_u$. 
+\end{proposition}
+
+\begin{proposition}
+$\chi^u \in H^0(X, \struct{X}(D)) \iff \inner{u}{n_\rho} \ge \psi_D(n_\rho)$ for each $\rho \in \Sigma(1)$
+\end{proposition}
+
+\begin{proof}
+The chacters $\chi^u$ are invertible rational functions $\chi^u \in \Rat{X_\Sigma}^\times$. By definition $\chi^u \in H^0(X, \struct{X}(D)) \iff \div(\chi^u) + D \ge 0$. However, by above,
+\[ \div{(\chi^u)} = \sum_{\rho \in \Sigma(1)} \inner{u}{n_\rho} V(\rho) \]
+so by the definition of $\psi_D$ we have,
+\[ \div(\chi^u) + D = \sum_{\rho \in \Sigma(1)} \inner{u}{n_\rho} V(\rho) + \sum_{\rho \in \Sigma(1)} -\psi_D(n_\rho) V(\rho) \ge 0 \iff \inner{u}{n_\rho} \ge \psi_D(n_\rho) \]
+\end{proof}
+
+
+\subsection{Construction of the Rational Polytope Corresponding to a Toric Divisor}
+
+\begin{definition}
+Let $X_\Sigma$ be a toric variety and $D$ a $T(N)$-invariant divisor on $X_\Sigma$. Then we construct the set,
+\[ P_D = \{ x \in M_\R \mid \forall \rho \in \Sigma(1) : \inner{x}{n_\rho} \ge \psi_D(n_\rho) \} = \bigcap_{\rho \in \Sigma(1)} H^+(n_\rho, \psi_D(n_\rho)) \]
+Since this set is a finite intersection of integral halfspaces, it is clearly a rational polyhedron.
+\end{definition}
+
+\begin{proposition}
+If $X_\Sigma$ is complete then $P_D$ is bounded and thus a rational polytope. 
+\end{proposition}
+
+\begin{proof}
+$X_\Sigma$ is complete exactly when $|\Sigma| = N_\R$ in which case,
+\[ \mathrm{Cone}(\{ n_\rho \mid \rho \in \Sigma(1) \}) = N_\R \]
+Therefore, the vectors $n_\rho$ span $N$ with positive coefficents impling that $P_D$ is bounded.
+\end{proof}
+
+\begin{proposition}
+For a $T(N)$-invariant divisor, the polytopes $P_D$ satisfy the following properties,
+\begin{enumerate}
+\item $P_{D + \div{(\chi^u)}} = P - u$
+\item $P_{n D} = n P_D$
+\item $\dim_\C H^0(X, \struct{X}(D)) = \# \left( P \cap M \right)$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We know that $\psi_D |_\rho = \inner{u(\rho)}{-}$ where $u(\rho)$ is such that $D |_{U(\rho)} = \div{(\chi^{-u(\rho)})}$. Let $D' = D + \div{(\chi^u)}$. Then,
+\[ D' |_{U(\rho)} = \div{(\chi^{-u(\rho)})} + \div{(\chi^u)} = \div{(\chi^{-u(\rho) + u})} \]
+so $u'(\sigma) = u(\sigma) - u$ meaning that $\psi_{D'}(n_\rho) = \inner{u(\sigma) - u}{n_\rho} = \psi_D(n_\rho) - \inner{u}{n_\rho}$. Therefore,
+\begin{align*}
+x \in P_{D'} & \iff \forall \rho \in \Sigma(1) : \inner{x}{n_\rho} \ge \psi_{D'}(n_\rho) = \psi_D(n_\rho) - \inner{u}{n_\rho}
+\\
+& \iff \forall \rho \in \Sigma(1) : \inner{x + u}{n_\rho} \ge \psi_D(n_\rho) \iff x + u \in P_D 
+\end{align*}
+Next, consider $\psi_{nD} = n \psi_D$ since on each cone $\psi_D |_{U_\sigma} = \inner{nu(\sigma)}{-} = n \inner{n(\sigma}{-}$ where $D |_{U_\sigma} = \div{(\chi^{-n u(\sigma)})}$. Therefore,
+\begin{align*}
+x \in P_{nD} & \iff \forall \rho \in \Sigma(1) : \inner{x}{n_\rho} \ge n \psi_{D}(n_\rho)
+\\
+& \iff \forall \rho \in \Sigma(1) : \inner{x/n}{n_\rho} \ge \psi_D(n_\rho) \iff x/n \in P_D \iff x \in n P_D 
+\end{align*}
+Now finally, we use the decomposition,
+\[ H^0(X, \struct{X}(D)) = \bigoplus_{\chi^u \in H^0(X, \struct{X}(D))} \C \cdot \chi^u \]
+to show that,
+\[ \dim_{\C} H^0(X, \struct{X}(D)) = \# \{ u \in M \mid \chi^u \in H^0(X, \struct{X}(D)) \} \]
+However, we have shown that,
+\[ \chi^u \in H^0(X, \struct{X}(D)) \iff \forall \rho \in \Sigma(1) : \inner{u}{n_\rho} \ge \psi_D(n_\rho) \iff u \in P_D \]
+Therefore,
+\[ \dim_{\C} H^0(X, \struct{X}(D)) = \# \{ u \in M \mid u \in P_D \} = \# (P \cap M) \]
+\end{proof}
+
+
+\subsection{Identification with the Okounkov Body}
+
+\begin{remark}
+To consider the Okounkov body we need to fix a abmissible flag on $X_\Sigma$. In this section, we assume that $X_\Sigma$ is smooth. 
+\end{remark}
+
+\begin{definition}
+Because $X_\Sigma$ is smooth, we can fix some ordering of $\rho \in \Sigma(1)$ i.e. order the $T(N)$-invariant prime divsors $D_i = V(\rho_i)$ such that the minimal genreators $n_i = n_{\rho_i}$ for $i = 1, \dots, d$ form a bais of $N$. Then the cones $\rho_i$ generate a maximal cone $\sigma_m$. Then we define a flag,
+\[ Y_i = D_1 \cap \cdots \cap D_i \quad \quad X = Y_0 \supset Y_1 \supset \cdots \supset Y_d \]
+Furthermore, the basis $n_1, \dots, n_d$ defines an isomorphism $N \cong \Z^d$ and a dual isomorphism $\phi : M \to \Z^d$ given by $m \mapsto (\inner{m}{n_i})_{i}$. 
+\end{definition}
+
+\begin{theorem}
+Let $X_\Sigma$ be a smooth projective toric variety and let $\L \to X$ be a big line bundle on $X$. Let $D$ be the unique $T(N)$-invariant divisor $D$ on $X$ such that $\L \cong \struct{X_\Sigma}(D)$ and $D|_{U_{\sigma_m}} = 0$. Then,
+\[ \Delta_{Y_\bullet}(D) = \phi(P_D) \]
+\end{theorem}
+
+\begin{proof}
+Recall that given a section of a line bundle $s \in \Gamma(X, \L)$ there is a divisor of zero $(s)_0$ defined as follows. Let $U_i$ be a cover of $X$ such that $\struct{X}|_{U_i} \xrightarrow{f_i} \L |_{U_i}$ is an isomorphism. Then $\{ (U_i, s|_{U_i} / f_i) \}$ is the Cartier divisor $(s)_0$. Now this Cartier divisor defines the Weil divisor,
+\[ (s)_0 = \sum_{Y \subset X_\Sigma} \ord_{Y}(s|_{U_i} / f_i) \: Y \]
+Then $v_{Y_\bullet}(s) = (a_1, \dots, a_d)$ where $a_i = (s)_0 |_{D_i}$. 
+In our case, $\L = \struct{X_\Sigma}(D)$ then $s \in \Gamma(X_\Sigma, \struct{X_\Sigma}(D)) \subset \Rat{X_\Sigma}$. Now,
+\[ (s)_0 = \sum_{Y \subset X_\Sigma} \ord_{Y}(s / f_i) \: Y = \sum_{Y \subset X_\Sigma} \ord_{Y}(s) \: Y - \sum_{Y \subset X_\Sigma} \ord_{Y}(f_i) \: Y = \div{(f)} + D \]
+since the bundle $\struct{X_\Sigma}(D)$ is generated locally by $f_i$ where $D = \{(U_i, f_i^{-1})\}$. In particular, consider the $T(N)$-invariant sections $\chi^u \in H^0(X_\Sigma, \struct{X_\Sigma}(D))$ then,
+\[ (\chi^u)_0 =  D + \sum_{\rho \in \Sigma(1)} \inner{u}{n_\rho} D_\rho \]
+However, $D |_{U_{\sigma_m}} = 0$ and $D_i \subset U_\sigma$ for $i = 1, \dots, d$ implying that,
+\[ v_{Y_\bullet}(\chi^u) = (\inner{u}{n_i})_i = \phi(u) \]
+Now recall that $\chi^u \in H^0(X_\Sigma, \struct{X_\Sigma}(mD)) \iff u \in m P_D \cap M$  implying that,
+\[ \Gamma(D)_m = \Im{( H^0(X_\Sigma, \struct{X_\Sigma}(m D)) \setminus \{ 0 \} \xrightarrow{v_{Y_\bullet}} \Z^d )} \supset \phi(m P_D \cap M) \] 
+However, because $\phi$ is injective and $m P_D \cap M$ contains prcisely $h^0(X_\Sigma, \struct{X_\Sigma}(m D))$ lattice points, this inclusion is an equality,
+\[ \Gamma(D)_m = \phi(m P_D \cap M) \]
+Therefore,
+\[ \Delta_{Y_\bullet}(D) = \Sigma \left( \bigcup_{m \ge 1} \tfrac{1}{m} \Gamma(D)_m \right) = \Sigma \left( \bigcup_{m \ge 1} \tfrac{1}{m} \phi(m P_D \cap M) \right) \]
+Let $m$ be any positive integer such that $m P_D$ has all its vertices on lattice points in which case $\phi_\R(m P_D)$ is also a lattice polytope because $\phi_\R : M_\R \to \R^d$ takes lattice points to integer points. Thus the convex hull of $\phi(m P_D \cap M)$ is $\phi_{\R}(m P_D) = m \phi_{\R}(P_D)$ meaning that $\phi_\R(P_D)$ is the convex hull of the subset $\frac{1}{m} \phi(m P_D \cap M)$. Furthermore, for any $m$ we have,
+\[ m P_D \cap M \subset m P_D \implies \tfrac{1}{m} \phi(m P_D \cap M) \subset \phi_{\R}(P_D) \]
+Therefore, since it is the convex hull of a subset of the points and contains all of them, $\phi_\R(P_D)$ is the smallest closed convex set containing, 
+\[ \bigcup_{m \ge 1} \tfrac{1}{m} \phi(m P_D \cap M) \]
+meaning that,
+\[ \Delta_{Y_\bullet}(D) = \phi(P_D) \]
+\end{proof}
+
+\begin{remark}
+We can think of the condition $D|_{U_{\sigma_m}} = 0$ as centering the body $P_B$ such that it lies in the positive orthant. It corresponds to multipling the Cartier divisor $D = \{ (U_i, f_i) \}$ by the global section $f_{\sigma_m}^{-1}$ i.e. subtracting $\div{(f_{\sigma_m})}$. This corresponds to subtracting a suitable global support function to set a given support funtion equal to zero on the distinguished maximal cone $\sigma_m$.
+\end{remark}
+
+\subsection{Construction of a Toric Divisor from a Rational Polytope}
+
+\begin{definition}
+There are a few equivalent characterizations of integral or lattice polytopes. Given a lattice $M$ we say that a lattice polytope $P \subset M \otimes_\Z \R$ is one of,
+\begin{enumerate}
+\item the convext hull of a finite subset of $M$
+\item a finite intersection of integral halfspaces,
+\[ P = \bigcap_F \{ m \in M \mid \inner{n_F}{m} \ge - a_F \} \]
+where $F$ are the facets of $P$ and $u_F \in M^\vee$ and $a_F \in \Z$. We may assume that $u_F$ is the minimal inward normal in $M^\vee$.
+\end{enumerate}
+\end{definition}
+
+\newcommand{\Cone}{\mathrm{Cone}}
+
+\begin{definition}
+Given a lattice polytope $P \subset M_\R$ we define the \textit{normal fan} $\Sigma_P \subset N_\R$ as follows. For each face $A \subset P$ (not necessarily a facet, not including $A = P$ but including $A = \varnothing$) define,
+\[ \sigma_A = \Cone( \{ n_F \mid F \subset P \text{ is a facet s.t. } A \subset F \} ) \]
+Then let $\Sigma_P = \{ \sigma_A \mid A \subset P \text{ is a face} \}$.
+\end{definition}
+
+\begin{proposition}
+Given a lattice polytope $P$, the set $\Sigma_P$ is a fan in $N_\R$.
+\end{proposition}
+
+\begin{proposition}
+There is a duality between $P$ and $\Sigma_P$ given the inclusion reversing correspondence $A \subset P \leftrightarrow \sigma_A \in \Sigma_P$ satisfying,
+\begin{enumerate}
+\item inclusion reversing, $A \subset B \iff \sigma_B \subset \sigma_A$
+\item $\dim{A} + \dim{\sigma_A} = \dim{P}$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+$A \subset B$ implies that if $F$ is a face containing $B$ then $F$ contains $A$ so $\sigma_B \subset \sigma_A$. Furthermore, a face $A \subset P$ is contained in exactly $\dim{P} - \dim{A}$ facets giving the second property. 
+\end{proof}
+
+\begin{definition}
+Let $P$ be a lattice polytope. Define the proper toric variety $X_P = X_{\Sigma_P}$. Via the above correspondence and the cone - orbit correspondence there is an inclusion preserving correspondence between dimension $i$ faces $A \subset P$ and dimension $i$ torus orbits. In particular,
+\begin{enumerate}
+\item vertices of $P \leftrightarrow$ fixed points of the torus action on $X_P$
+\item facets of $P \leftrightarrow$ T-invariant irreducible divisors in $X_P$
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+Therefore we have a construction, given a lattice polytope $P$, of a proper toric variety $X_P = X_{\Sigma_P}$ of the normal fan. In fact, the following theorem classifies toric varieties arrising from a normal fan.
+\end{remark}
+
+\begin{theorem}
+A toric variety $X$ is projective iff $X = X_P$ for some lattice polytope $P$ i.e. if $X = X_\Sigma$ where $\Sigma = \Sigma_P$ is a normal fan of some lattic polytope $P$.
+\end{theorem}
+
+\begin{definition}
+Given a lattice polytope $P$, we construct a toric variety - toric divisor pair $(X_P, D_P)$ via $X_P = X_{\Sigma_P}$ and summing over the facets $F \subset P$ take,
+\[ D_P = \sum_{\substack{F \subset P \\ \text{a facet}}} a_F \: V(\sigma_F) \]
+Recall that if $F$ is a facet then $\sigma_F \in \Sigma_P(1)$ so the above definition makes sense. 
+\end{definition}
+
+\begin{proposition}
+The divisor $D_P$ is an ample Cartier divisor (and thus big) divisor on $X_P$.
+\end{proposition}
+
+\begin{proof}
+Let $m$ be a vertex of $P$ and $\sigma_m$ the corresponding maximal cone. Now I claim that for any facet $F$,
+\[ D_F \cap U_{\sigma_m} \neq \varnothing \iff m \in F \]
+Indeed,
+\[ m \in F \iff \sigma_F \subset \sigma_m \iff \sigma_m \in \Sigma[\sigma_F] \iff D_F \cap U_{\sigma_m} \neq \varnothing \]
+Therfore,
+\[ \div{(\chi^{-m})} |_{U_{\sigma_m}} = \sum_{m \in F} - \inner{m}{n_F} D_F = \sum_{m \in F} a_F D_F  = - D_P |_{U_{\sigma_m}} \]
+because $\inner{m}{n_F} = - a_F$ by the defining representation of $P$ since $m$ is a vertex and $F$ is a facet containing $m$.
+Thus, $D_P$ is Cartier since it is principal on the open cover of maximal conces. Therefore, we may consider $\psi_D$ which satisfies $\psi_{D_P} |_{\sigma_m} = \inner{m}{-}$. Finally, $\psi_{D_P}$ is stricly concave meaning that $D_P$ is ample. 
+\end{proof}
+
+\begin{theorem}
+The polytope associated to the divisor $D_P$ on $X_P$ is $P_{D_P} = P$ therefore the mapping,
+\[ \{ (X, D) \mid \dim{X} = d \} \to \{ \text{integral polytopes of dimension } d \} \]
+sending projective toric varieties of dimension $d$ with T-invariant divisors to integral polytopes is surjective. 
+\end{theorem}
+
+\begin{proof}
+Recall that the cones $\rho \in \Sigma_P(1)$ correspond to facets $F \subset P$. 
+The divisor $D_P$ corresponds to the support function $\psi_{D_P}$ with $\psi_{D_P}(n_\rho) = - a_F$. Therefore,
+\[ P_{D_P} = \bigcap_{\substack{F \subset P \\ \text{a facet}}} H^+(n_F, - a_F) = P \]
+\end{proof}
+
+\begin{remark}
+We can use the theory of toric geometry to give a highly amusing proof of a powerful elementary result in convex geometry.
+\end{remark}
+
+\begin{theorem}[Ehrhart Polynomial]
+Let $P$ be an $d$-dimensionaly lattice polytope in $M_\R$. Then there exists a unique polynomial with rational coefficients $E_P \in \Q[x]$ ssatsfying:
+\begin{enumerate}
+\item For any integer $\nu \in \N$,
+\[ E_P(\nu) = \# \left( (\nu P) \cap M \right) \]
+\item The leading coefficient of $E_P$ is $\Vol{M}{P}$ i.e. the volume of $P$ normalized to the lattice cell volume of $M$.
+\item There is a reciprocity law for positive integers $\nu > 0$,
+\[ E_P(-\nu) = (-1)^d \# \left( \nu P^\circ \cap M \right) \] 
+\end{enumerate} 
+\end{theorem}
+
+\begin{proof}
+Given the lattice polyheron $P$ we have constructed a toric variety $X_P$ with an ample divisor $D_P$. Furthermore, the lattice polyope of $D_P$ is exactly $P$. Therefore,
+\[ \dim_{\C} H^0(X_P, \struct{X_P}(\nu D_P)) = \# \left( \nu P \cap M \right) \]
+Recall that the Euler characteristic of the cohernt sheaf $\struct{X_P}(\nu D_P)$ is,
+\[ \chi(X_P, \struct{X_P}(\nu D_P)) = \sum_{i = 0}^d (-1)^i \dim_{\C} H^i(X_P, \struct{X_P}(\nu D_P)) \]
+By the Hirzbruch-Riemann-Roch theorem we have,
+\[ \chi(X_P, \struct{X_P}(\nu D_P)) = \int_{X_P} \mathrm{ch}(\struct{X_P}(\nu D_P)) \: \mathrm{Td}(\mathcal{T}_{X_P}) \]
+Recall that the Chern character is,
+\[ \mathrm{ch}(\struct{X_P}(\nu D_P)) = \exp{(c_1(\struct{X_P}(\nu D_P)))} = \sum_{m = 0}^d \frac{c_1(\struct{X_P}(\nu D_P))^m}{m!} \] 
+where the sum terminates at $d = \dim{X_P}$ since higher intersections vanish. Recall that the Chern class $c_1$ is a homomorphism $c_1(\L_1 \otimes \L_2) = c_1(\L_1) + c_1(\L_2)$. Thus, since $\struct{X_P}(\nu D_P) = \struct{X_P}(D_P)^{\otimes \nu}$,
+\[ \mathrm{ch}(\struct{X_P}(\nu D_P)) = \sum_{m = 0}^d \frac{c_1(\struct{X_P}(D_P)^{\otimes \nu})^m}{m!} =  \sum_{m = 0}^d c_1(\struct{X_P}(D_P))^m \frac{\nu^m}{m!} \] 
+Therefore,
+\begin{align*}
+\chi(X_P, \struct{X_P}(\nu D_P)) & = \int_{X_P} \left( \sum_{m = 0}^d c_1(\struct{X_P}(D_P))^m \frac{\nu^m}{m!} \right) \: \mathrm{Td}(\mathcal{T}_{X_P}) 
+\\
+& = \sum_{m = 0}^d \frac{\nu^m}{m!} \left( \int_{X_P} c_1(\struct{X_P}(D_P))^m \: \mathrm{Td}(\mathcal{T}_{X_P}) \right) = h(\nu) 
+\end{align*}
+is a degree at most $d$ polynomial in $\nu$. Now recall Demazure's theorem on the vanishing of cohomology on toric varieties which states that if $\L$ is ample or generated by global sections then,
+\[ \forall p > 0 : H^p(X_P, \L) = 0 \]
+Since $\struct{X_P}$ is generated by global sections and $\struct{X_P}(\nu D_P)$ is ample for $\nu > 0$ we have shown that for $\nu \ge 0$ that,
+\[ \chi(X_P, \struct{X_P}(\nu D_P)) = \dim_{\C} H^0(X_P, \struct{X_P}(\nu D_P)) = \# \left( \nu P \cap M \right) \]
+This implies that for $\nu \in \N$ we have proven there is a polynomial,
+\[ E_P(\nu) = h(\nu) = \chi(X_P, \struct{X_P}(\nu D_P)) = \dim_{\C} H^0(X_P, \struct{X_P}(\nu D_P)) = \# \left( \nu P \cap M \right) \]
+Furthermore, since $D_P$ is big and $E_P(m)$ counts sections of $\struct{X_P}(m D_P)$, we know that the leading term must be $m^d$ so $\deg{E_P} = d$. Writing,
+\[ E_P(x) = a_n x^n + \cdots + a_0 \]
+we may isolate the leading coefficient as follows,
+\[ a_n = \lim_{\nu \to \infty} \frac{E_P(\nu)}{\nu^d} = \lim_{\nu \to \infty} \frac{\# \left( \nu P \cap M \right)}{\nu^d} = \Vol{M}{P} \] 
+Lastly, to prove the duality property, we apply Serre duality. On $X_P$, the dualizing sheaf is equal to the canonical sheaf,
+\[ \omega_{X_P} = \struct{X_P}( - \sum_F D_F) \]
+where $D_F$ is the divisor $V(\sigma_F)$ for each facet $F \subset P$. Since $X_P$ is a projective Cohen–Macaulay variety (and thus irreducible over $k$), Serre duality sates that, for any locally free sheaf $\F$ on $X_P$,
+\[ H^i(X_P, \F^\vee) = H^{d - i}(X_P, \F \otimes_{\struct{X_P}} \omega_{X_P})^\vee \]
+which, by computing dimensions and reordering, implies that,
+\[ \chi(X_P, \F^\vee) = (-1)^d \chi(X_P, \F \otimes_{\struct{X_P}} \omega_{X_P}) \]
+In particular, for $\F = \struct{X_P}(\nu D_P)$ we have,
+\[ E_P(-\nu) = \chi(X_P, \struct{X_P}(- \nu D_P)) = (-1)^d \chi(X_P, \struct{X_P}(\nu D_P) \otimes_{\struct{X_P}} \omega_{X_P}) \]
+By the Kodaria vanishing theorem, since $\nu D_P$ is ample for $\nu > 0$, 
+\[ \chi(X_P, \struct{X_P}(\nu D_P) \otimes_{\struct{X_P}} \omega_{X_P}) = \dim_\C H^0(X_P, \struct{X_P}(\nu D_P) \otimes_{\struct{X_P}} \omega_{X_P}) \]
+Now we consider the invertible sheaf,
+\[ \struct{X_P}(\nu D_P) \otimes_{\struct{X_P}} \omega_{X_P} = \struct{X_P}(\nu D_P - \sum_F D_F) = \struct{X_P}(\sum_F (\nu a_F - 1) D_F) \]
+which means we should consider the divisor,
+\[ D' = \sum_F (\nu a_F - 1) D_F \]
+which corresponds to the support function $\psi_{D'}$ satisfying $\psi_{D'}(n_F) = -(\nu a_F - 1)$ (recall that cones $\rho \in \Sigma_P(1)$ correspond to facets $F \subset P$). Therefore, the polytope for the divisor $D'$ is,
+\[ P_{D'} = \bigcap_{\substack{F \subset P \\ \text{a facet}}} H^+(n_F, \psi_{D'}(n_F)) = \bigcap_{\substack{F \subset P \\ \text{a facet}}} H^+(n_F, 1 - \nu a_F) \]
+Recall that,
+\[ \nu P = \bigcap_{\substack{F \subset P \\ \text{a facet}}} H^+(n_F, -a_F) = \bigcap_{\substack{F \subset P \\ \text{a facet}}} \{ x \in M_\R \mid \forall F : \inner{x}{n_F} \ge - \nu a_F \} \]
+Therefore, the interior is,
+\[ \nu P^\circ  = \bigcap_{\substack{F \subset P \\ \text{a facet}}} \{ x \in M_\R \mid \forall F : \inner{x}{n_F} > - \nu a_F \} \]
+Therefore, intersecting with the lattice,
+\[ \nu P^\circ \cap M = \bigcap_{\substack{F \subset P \\ \text{a facet}}} \{ m \in M \mid \forall F : \inner{m}{n_F} \ge - \nu a_F + 1 \} = P_{D'} \cap M \]
+because the inner product is integer valued on the lattice so,
+\[ \inner{m}{n_F} > - \nu a_F \iff \inner{n}{n_F} \ge - \nu a_F + 1 \]
+Thus,
+\[ E_P(-\nu) = \dim_{\C} H^0(X_P, \struct{X_P}(D')) = \# \left( P_{D'} \cap M \right) = \# \left( \nu P^\circ \cap M \right) \]
+\end{proof}
+
+\begin{remark}
+Note that $E_P(0) = \#((0 \cdot P) \cap M) = 1$ so the constant term is $1$. Furthermore, in the limit $\nu \to \infty$ if $\dim{P} = d$ then $E_P(\nu) \in O(\nu^d)$ so $\deg{E_P} = d$.  
+\end{remark}
+
+\begin{remark}
+To prove the power of this theorem, we can easily derive the classical Pick's theorem as a special case.
+\end{remark}
+
+\begin{theorem}[Pick]
+Let $\dim{M} = 2$ and $P \subset M_\R$ be a lattice polygon. Then,
+\[ \# (P \cap M) = \Vol{M}{P} + \tfrac{1}{2} \# (\partial P \cap M) + 1 \] 
+\end{theorem}
+
+\begin{proof}
+Consider the Ehrhart polynomial which takes the form,
+\[ E_P(x) = \Vol{M}{P} x^2 + B x + 1 \]
+Now we can decompose $P = P^\circ \cup \partial P$ which implies that,
+\[ E_P(1) = \# \left( P \cap M \right) = \# \left( P^\circ \cap M \right) + \# \left( \partial P \cap M \right) \]
+Furthermore, by the reciprocity law,
+\[ E_P(-1) = \# \left( P^\circ \cap M \right) \]
+Putting these together, we find,
+\[ E_P(1) - E_P(-1) = \# \left( \partial P \cap M \right) \]
+However, applying the polynomial form,
+\[ E_P(1) - E_p(-1) = 2 B \implies B = \tfrac{1}{2} \# \left( \partial P \cap M \right) \]
+Thus the Ehrhart polynomial is,
+\[ E_P(x) = \Vol{M}{P} x^2 + \tfrac{1}{2} \# \left( \partial P \cap M \right) x + 1 \]
+Which, for $x = 1$ we find,
+\[ E_P(1) = \# \left( P \cap M \right) = \Vol{M}{P} + \tfrac{1}{2} \# \left( \partial P \cap M \right)  + 1 \]
+giving Pick's formula. 
+\end{proof}
+
+\subsection{Examples}
+
+
+\subsection{The Picard Group of a Toric Variety}
+
+\begin{theorem}
+Let $X_\Sigma$ be a smooth toric variety and $\#(\Sigma(1)) = s$. Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & \Z^s \arrow[r] & \Pic{X_\Sigma} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $\Pic{X_\Sigma}$ is torsion free so the sequence splits. 
+\end{theorem}
+
+\begin{proof}
+The map $\Z^s \to \Pic{X_\Sigma}$ sends $v \mapsto \struct{X_\Sigma}(\sum v_i V(\rho_i))$ where $\phi_i \in \Sigma(1)$ ranges over the rays of $\Sigma$. This map is surjective because $X_\Sigma$ is smooth and integral so $\Cl{(X)} \xrightarrow{\sim} \Pic{X}$ is an isomorphism and $\Cl{(X)}$ is generated by $T(N)$-invariant prime divisors. Furthermore, the kernel $\Z^s \to \Div{(X)} \to \Cl{(X)}$ are the $T(N)$-invariant principal divisors i.e. the characters,
+\[ \div{(\chi^u)} \in \Div{(X)} \]
+Therefore, this kernel is $\iota : M \to \Z^s$ via,
+\[ \iota(u) = \div{(\chi^u)} = \sum_{i = 1}^s \inner{u}{n_i} \: D_i \]
+since the map $n \mapsto (\inner{u}{n_i})_i$ is injective since $\{ n_i \}$ forms a basis of $N$. (FINISH PROOF)
+\end{proof}
+
+\section{Hodge Index Theorem for Surfaces}
+
+\begin{definition}
+Denote a nonsigular projective variety of dimension two over an algebraically closed field as a \textit{surface} and effective divisor on a surface as a \textit{curve}. 
+\end{definition}
+
+\begin{definition}
+Let $X$ be a surface and $C, C'$ curves on $X$. For $p \in X$, choose an open neighborhood of $U$ of $p$ such that $C, C'$ are the vanishing of $(f, g)$ on $U$. Then consider $A = (f_p, g_p) \subset \stalk{X}{p}$. I claim that $\stalk{X}{p} / A$ is finite dimensional. Then we define the intersection multiplicity,
+\[ \iota(C, C', p) = \dim \left( \stalk{X}{p} / A \right) \]
+We define the intersection number,
+\[ C \cdot C' = \sum_{p \in X} \iota(C, C', p) \]
+\end{definition}
+
+\begin{remark}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-C) \arrow[r] & \struct{X} \arrow[r] & \struct{C} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then there is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-C) \oplus \struct{X}(-C') \arrow[r] & \struct{X} \arrow[r] & \struct{C \cap C'} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Taking the stalk at $p$ and summing over the two curves gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \stalk{X}{p} \arrow[r] & \stalk{C \cap C'}{p} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{remark}
+
+\begin{remark}
+Note that,
+\[ h^0(\struct{C \cap C'}) = \sum_{p \in X} \iota(C, C', p) = C \cdot C' \]
+Since $C \cdot C'$ is zero dimensional its higher cohomology vanishes so,
+\[ C \cdot C' = \chi(C \cap C', \struct{C \cap C'}) \]
+\end{remark}
+
+\begin{definition}
+The intersection from $\Pic{X} \times \Pic{X} \to \Z$ is,
+\[ \xi \cdot \xi' = \chi(\struct{X}) - \chi(-\xi) - \chi(-\xi') + \chi(- \xi - \xi') \]
+\end{definition}
+
+\begin{definition}
+Let $C$ be a smooth irreducible curve on $S$. For any line bundle $\xi$ then,
+\[ \struct{X}(C) \cdot \xi = \deg(\xi|_U) \]
+\end{definition}
+
+\begin{theorem}
+If $\xi = \struct{X}(C)$ and $\xi' = \struct{X}(C')$ then,
+\[ \xi \cdot \xi' = C \cdot C' \] 
+\end{theorem}
+
+\begin{remark}
+Consider the self-intersection $D^2 = D \cdot D$. The self-intersection of $C \subset X$ can be given the following interpretation. Let $N_{X/C}$ be the normal bundle which fits in the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T_C \arrow[r] & (T_X)|_C \arrow[r] & N_{C/X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then $N_{C/X}$ is the self-intersection of $\xi|_C = \struct{C}(C)$ i.e. $C^2 = \deg(\xi|_C) = \deg(N_{C/X})$. 
+\end{remark}
+
+\begin{example}
+Let $C, C'$ be two plane curves of degree $m$ and $n$. Take a line $\ell$ and $C \sim \ell m$ and $C' \sim \ell n$ with $\ell^2 = 1$. Then $C \cdot C' = m n$. 
+\end{example}
+
+\begin{theorem}[Hodge Index]
+Let $H$ be an ample divisor $D \cdot H = 0$ and $D \neq 0$ then $D^2 < 0$. 
+\end{theorem}
+
+\begin{definition}
+Two divisors $D, D'$ are numberically equivalent if for all divisors $H$ we have $D \cdots H = D' \cdots H$. Then $N^1(X)$ is $\Pic{X}$ modulo numerical equivalence. 
+\end{definition}
+
+\begin{lemma}
+Let $H$ be an ample divisor. For any effective divisor $D$ we have $D \cdot H > 0$. 
+\end{lemma}
+
+\begin{lemma}
+Let $H$ be an ample divisor on $X$. Then $\exists m_0 \in N$ s.t. for any $D$ if $D H > m_0$ then $H^2(X, \struct{X}(D)) = 0$. 
+\end{lemma}
+
+\begin{lemma}
+Let $H$ be an ample divisor and $D$ such that $D \cdot H > 0$ and $D^2 > 0$. Then for all $m \gg 0$ we have $m D$ is linearly equivalent to an effective divisor.
+\end{lemma}
+
+\begin{proof}[Proof of Theorem]
+Suppose not i.e. $D^2 \ge 0$,
+\bigskip\\
+First case, $D^2 > 0$. Let $H' = D + m H $ for sufficiently large $m$. Then $H'$ is ample. Now,
+\[ H' \cdot D = D^2 + m H \cdot D = D^2 > 0 \]
+Then $m D$ is effective by previous case. But $md \cdot H > 0$. so $D \cdot H > 0$ which is a contradiction.
+\bigskip\\
+Second case, $D^2 = 0$. Since $D \neq 0$ there is a divisor $E$ s.t. $D \cdot E \neq 0$. Let $E' = (H^2) E  - (E \cdot H) H$. Then $E' \cdot H = 0$. In addition, $D' = m D + E'$ and $D' \cdot H = m D' + E'$. Then
+\[ D' \cdot H = m D +  E' \cdot H = 0 \]
+Furthermore,
+\[ (D')^2 = m^2 D^2 + 2 m D \cdot E' + (E')^2 = 2 m D \cdot E' + (E')^2 \]
+Choose $m$ s.t. $(D')^2 > 0$. We apply the first case to $D'$ and get a contradicton. 
+\end{proof}
+
+\section{Alexandrov - Fenchel Inequality}
+
+
+\subsection{Review}
+
+Fix $n \in \Z^{+}$ and let $\kappa$ be the set of convex bodies in $\R^n$ and $\kappa_V$ the set of integral polytopes. Take scalars $\lambda_1, \lambda_2, \dots, \lambda_s > 0$ and $\Delta_1, \Delta_2, \dots, \Delta_s \in \kappa$. Then,
+\[ \Vol{n}{\lambda_1 \Delta_1 + \cdots + \lambda_s \Delta_s} = \sum_{i_1, \dots, i_s = 1}^s \mVol{\Delta_1, \dots, \Delta_s} \lambda_{i_1} \cdots \lambda_{i_n} \]
+For any convext sets $\S_1, \dots, \S_n$ the mixed volume satisfies,
+\begin{proposition}
+Properties of Mixed Volumes:
+\begin{enumerate}
+\item $\mVol{S, \dots, S} = \Vol{n}{S}$
+\item Symmetric, $\mVol{S_1, \dots, S_n} = \mVol{S_{\pi(1)}, \dots, S_{\pi(n)}}$
+\item Multilinear: $\mVol{\lambda S + \lambda' S', S_2, \cdots, S_n} = \lambda \mVol{S, S_2, \dots, S_n} + \lambda' \mVol{S', S_2, \dots, S_n}$
+\item Nonegative: $\mVol{S_1, \dots, S_n} \ge 0$
+\item Monotonic: if $S \subset S'$ then $\mVol{S, S_2, \dots, S_n} \le \mVol{S', S_2, \dots, S_n}$
+\end{enumerate}
+\end{proposition}
+
+\begin{theorem}[Alexandrov - Fenchel]
+For any $\Delta_1, \dots, \Delta_s \in \kappa$ we have,
+\[ \mVol{\Delta_1, \dots, \Delta_s} \ge \mVol{\Delta_1, \Delta_1, \Delta_3, \dots, \Delta_s} \cdots \mVol{\Delta_2, \Delta_2, \Delta_3, \dots, \Delta_s} \]
+\end{theorem}
+
+\begin{definition}
+A bilinear form $B : V \times V \to \R$ is hyperbolic if there exists $v \in V$ s.t. $B(v,v) > 0$ but there does not exist a subspace $W \subset V$ s.t. $B|_W \ge 0$ and $\dim{W} > 1$.
+\end{definition}
+
+\begin{proposition}
+Let $B : V \times V \to \R$ be a hyperbolic form and $v \in V$ s.t. $B(v, v) > 0$. Then for any $y \in V$,
+\[ B(x,y)^2 \ge B(x,x) B(y,y) \]
+\end{proposition}
+
+\begin{theorem}[Hodge Index]
+The intersection form $\inner{-}{-} : \Pic{X} \times \Pic{X} \to \Z$ is hyperbolic.
+\end{theorem}
+
+
+\subsection{Hausdorff Distance}
+
+\begin{definition}
+Let $B \subset \R^n$ denote the unit ball and $K, L \in \kappa_n$ convex bodies in $\R^n$. Then consider the $\lambda$-parallet body $K + \lambda B$. We define the Hausdroff distance,
+\[ d(K, L) = \inf \{\lambda \ge 0 \mid L \subset K + \lambda B \text{ and } K \subset L + \lambda B \} \]
+\end{definition}
+
+\begin{lemma}
+The Hausdorff distance is a metric. 
+\end{lemma}
+
+\begin{remark}
+The Hausdorff distance induces a topology on the space of convex bodies $\kappa_n$. 
+\end{remark}
+
+\begin{proposition}
+Mixed volumes are continous functions in the Hausdorff topology.
+\end{proposition}
+
+\begin{theorem}
+For any covex body $K \in \kappa_n$ there exists an increasing sequence $\Delta_1 \subset \Delta_2 \subset \Delta_3 \subset \cdots$ of polytopes which converge to $K$ in the Hausdorff topology. 
+\end{theorem}
+
+\subsection{Proof of the Main Theorem} 
+
+Consider some integral polytopes $\Delta_1, \dots, \Delta_n \in \kappa_n$. 
+
+\begin{remark}
+An integral polytope $\Delta$ is exactly the convex hull of its vertices $\{ v^1, \dots, v^s \}$ which is a finite set. To this set we may associate a Laurent polynomial,
+\[ p_\Delta(X_1, \dots, X_n) = \sum_{i = 1}^s X_1^{v^i_1} \cdots X_n^{v^i_n} \]
+\end{remark}
+
+\begin{theorem}[Khovanski]
+If we consider a general system if polynomial equaltions $p_1 = \cdots = p_n = 0$ whose newton polytopes are $\Delta_1, \dots, \Delta_n$ then the number of complex solutions equals $n! \: \mVol{\Delta_1, \dots, \Delta_n}$. 
+\end{theorem}
+
+\begin{remark}
+Now we prove the theorem.
+\end{remark}
+
+\begin{proof}
+Consider $\Delta_1, \dots, \Delta_n$ and $f_1, \dots, f_n$ their associated Laurent polynomials. Then let $M_\Sigma$ be the toric compactification under the fan,
+\[ \Sigma = \left \{ \sum_{i = 1}^n \lambda_i \Delta_i \quad \middle| \quad \lambda_i \ge 0 \right\} \]
+We construct a surface $F$ and a family of curves $\Gamma_f$ on $F$. First consider the affine surface,
+\[ F' = \Spec{\C[X_1, \dots, X_n] / (f_3, \dots, f_n)} \]
+Then we let $F$ be its toric closured. Then $F$ is a connected and nonsingular surface so we may apply hodge theory. The curves are constructed via the closure in $F$ of the affine curve,
+\[ \Gamma_f' = \Spec{\C[X_1, \dots, X_n] / (f, f_3, \dots, f_n)} \]
+If the Newton polytope associated to $f$ is contained in $\Sigma$ then the curve $\Gamma_f$ is nonsingular. 
+
+\begin{proposition}
+Let $g,h$ be Laurent polynomials. If $\Delta_g$ and $\Delta_h$ are non-singular then $\inner{\Gamma_g}{\Gamma_h} = n! \: \mVol{\Delta_g, \Delta_h, \Delta_3, \dots, \Delta_n}$. 
+\end{proposition}
+
+\begin{proof}
+All the roots of $g = h = f_3 = \cdots = f_n = 0$ are contained in $\C^\times$ (why?) so we conclude that,
+\[ \inner{\Gamma_g}{\Gamma_h} = n! \: \mVol{\Delta_g, \Delta_h, \Delta_3, \dots, \Delta_n} \]
+being the number of intersection points. 
+\end{proof}
+
+Therefore, for the surface $F$ and the curves $\Gamma_f$ and $\Gamma_f$ associated to $\Delta_1$ and $\Delta_2$. Applying the Hodge index theorem,
+\[ \inner{\Gamma_{f_1}}{\Gamma_{f_2}} \ge \inner{\Gamma_{f_1}}{\Gamma_{f_1}} \cdot \inner{\Gamma_{f_2}}{\Gamma_{f_1}} \]
+Therefore we get,
+\[ \mVol{\Delta_1, \Delta_2, \dots, \Delta_n}^2 \ge \mVol{\Delta_1, \Delta_1, \Delta_3, \dots, \Delta_n} \cdot \mVol{\Delta_2, \Delta_2, \Delta_3, \dots, \Delta_n} \]
+Then by using the continuity of the mixed volumes we can apply this to arbitrary convex bodies by approximation via a convergent sequence of polytopes. 
+
+\end{proof}
+
+
+\section{Brenier Maps}
+
+\begin{definition}
+Given two measure spaces $(X, \Sigma_X, \mu_X)$ and $(Y, \Sigma_Y, \mu_Y)$, a transfer problem consider the set of measures,
+\[ \Pi(\mu_X, \mu_Y) = \{ \nu \mid \text{ measure on } X \times Y \text{ s.t. } (\pi_X)_* \nu = \mu_X \text{ and } (\pi_Y)_* \nu = \nu_Y \} \]
+on the product measureable space $(X \times Y, \Sigma_X \times \Sigma_Y)$ with marginals $\mu_X$ and $\mu_Y$. For example, we might consider the Kantorovich tranport problem which is to attain the infimum,
+\[ \inf \left\{ \int_{X \times Y} c(x, y) \: \d{\nu} \quad \middle| \quad \nu \in \Pi(\mu_X, \mu_Y) \right\} \] 
+for some cost function $c(x, y)$. Our problem in question is to achieve the infimum,
+\[ \inf \left\{ \mathrm{ess} \sup \left( \frac{\d{s_* (\nu)}}{\d{\mu}} \right) \quad \middle| \quad \nu \in \Pi(\mu_X, \mu_Y) \right\} \]
+where $X$ and $Y$ are convex bodies and $\mu_X$ and $\mu_Y$ and $\mu$ are the Lebesgue measures on $X$, $Y$, and $X + Y$ respectivly and $s : X \times Y \to X + Y$ is the sum map. 
+\end{definition}
+
+\begin{definition}
+A Monge transport problem is a specialization of the Kantorovich formulation in which we restrict the allowed measures on the product to be diagonal. In particular, we are asked to acheive the infimum,
+\[ \inf \left\{ \int_{X} c(x, T(y)) \: \d{\mu_X} \quad \middle| \quad T : X \to Y \text{ measureable and } T_* (\mu_X) = \mu_Y \right\} \] 
+This is equivalent to restricting to measures on $X \times Y$ of the form $\nu = (\id \times T)_* (\mu_X)$. 
+\end{definition}
+
+\begin{remark}
+Given two convex bodies, $\Delta_1, \Delta_2$, we are interested in measure-preserving bijections $f : \Delta_1 \to \Delta_2$ which have ``nice'' extensions $\id + f : \Delta_1 \to \Delta_1 + \Delta_2$. Ideally, such an extension would also be a measure-preserving bijection. In such a case we make take the transer measure $\nu = (\id \times f)_* \mu_1$ have $\rho(\Delta_1, \Delta_2) = 1$. 
+\end{remark}
+
+\begin{proposition}
+If $\id + f : \Delta_1 \to \Delta_1 + \Delta_2$ is measure-preserving then 
+\[ \rho(\Delta_1, \Delta_2) = 1 \]
+is achieved by $\nu = (\id \times f)_*(\mu_X)$.
+\end{proposition}
+
+\begin{proof}
+Consider the measure $\nu = (\id \times f)_*(\mu_X)$. Then we have $(\pi_X)_* \nu = \mu_X$ since $\pi_X \circ (\id \times f) = \id$ and $(\pi_Y)_* \nu = \mu_Y$ since $\pi_Y \circ (\id \times f) = f$ and $f_*(\mu_X) = \mu_Y$. Finally, 
+\[ s_*(\nu) = (s \circ (\id \times f))_*(\mu_X) = (\id + f)_* (\mu_X) = \mu \]
+\end{proof}
+
+\begin{theorem}[Knothe]
+Let $\Delta_1$ and $\Delta_2$ be convex bodies. Then there exists a measure-preserving bijection $f_K : \Delta_1 \to \Delta_2$ s.t. $\det{\d{f}} = |\Delta_2|/|\Delta_1|$ is constant everywhere and $\d{f}$ is upper triangular and $\id + f$ is injective. 
+\end{theorem}
+
+\begin{theorem}[Brenier]
+Let $\Delta_1$ and $\Delta_2$ be convex bodies and consider the quadratic cost $c(x,y) = |x - y|^2$ via the Euclidean norm. If $\mu_X$ is compactly supported and absolutly continuous with respect to the Lebesgue measure then the Monge problem has a solution $T : \Delta_1 \to \Delta_2$ called the Brenier map which is characterized as the unique measure-preserving bijection s.t. there exists a convex function $\phi : \Delta_1 \to \R$ with $T = \nabla  \phi$. 
+\end{theorem}
+
+\begin{theorem}
+Given convex bodies $\Delta_1$ and $\Delta_2$, there exists a measure preserving bijection $\Phi : \Delta_1 \to \Delta_2$ s.t. $\id + \Phi : \Delta_1 \to \Delta_1 + \Delta_2$ is surjective.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{definition}
+Let $\Omega \subset \R^n$ be open. Then a Monge-Ampere equation is of the form,
+\[ \det{(D^2 u)} = f(x, u, \nabla u) \]
+for a given function $f : \Omega \times \R \times \R^n \to \R$ and some $u : \Omega \to \R$ convex. 
+\end{definition}
+
+\begin{remark}
+Finding the Brenier map $T : \Delta_1 \to \Delta_2$ is equivalent to solving the Monge-Ampere equation,
+\[ \det{(D^2 \phi)} = \frac{|\Delta_2|}{|\Delta_1|} \]
+where $T = \nabla \phi$. 
+\end{remark}
+
+\begin{remark}
+Monge-Ampere theory can thus bound the Jacobian of $\id + \nabla \phi$. 
+\end{remark}
+
+\end{document}
+

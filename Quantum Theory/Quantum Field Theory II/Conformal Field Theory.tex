@@ -1,0 +1,403 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\include{QuantumCommands}
+ 
+
+\begin{document}
+
+\title{Notes on Conformal Field Theory}
+\author{Ben Church}
+
+\maketitle
+
+\section{Introduction}
+
+\section{The Basics of QFT}
+
+\begin{theorem}
+Consider a QFT coupled to a background metric $g$. Correlators are given produced by a path-integral inserion,
+\[ \EV{\Op_1(x_1) \cdots \Op_n(x_n)}_g = \int \pathd{\phi} \Op_1(x_1) \cdots \Op_n(x_1) e^{i S[g, \phi]}  \]
+The stress-energy tensor insersion is given by,
+\[ \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)}_g = \frac{2}{i \sqrt{g}} \frac{\delta}{\delta g_{\mu\nu}(x)} \EV{\Op_1(x_1) \cdots \Op_n(x_n)}_g \]
+\end{theorem}
+
+\begin{proof}
+Simply computing the right hand side gives,
+\[ \frac{2}{i \sqrt{g}} \frac{\delta}{\delta g_{\mu\nu}(x)} \EV{\Op_1(x_1) \cdots \Op_n(x_n)}_g = \frac{2}{\sqrt{g}} \int \pathd{\phi} \frac{\delta S}{\delta g_{\mu \nu}}  \Op_1(x_1) \cdots \Op_n(x_n) e^{i S[g, \phi]} = \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)}_g \]
+Since the Einstein-Hilbert action implies that,
+\[ T^{\mu \nu} = \frac{2}{\sqrt{g}} \frac{\delta S}{\delta g_{\mu \nu}} \]
+Furthermore, suppose that $S$ is diffeomorphism invariant. Consider an infinitessimal change of variables, $x \mapsto x - \epsilon(x)$ under which $\phi(x) \mapsto \phi(x) + \epsilon^\mu(x) \partial_\mu \phi(x) $. Operator $\Op(x)$ with a spin structure will transform in a representation of the Lorentz group as $\Op(x) \mapsto (1 + R(\epsilon)) \cdot \Op(x) + \epsilon^\mu(x) \partial_\mu \Op(x)$. Since $S$ is a diffeomorphism invariant, the path-integral is invariant under this coodinate transformation which we can view as a change of variables of the fields. Furthermore, if we have initially flat space then the perturbation to the metric is,
+\[ \delta g_{\mu \nu} = \partial_{\mu} \epsilon^{\alpha} \eta_{\alpha \nu} + \partial_\nu \epsilon^{\beta} \eta_{\mu \beta} \] 
+Under the given transformation of the fields, the path-integral must be invariant. Therefore,
+\begin{align*}
+\EV{\Op_1(x_1) \cdots \Op_n(x_n)} & = \int \pathd{\phi'} \Op_1'(x_1) \cdots \Op_n'(x_n) e^{i S[g, \phi']} 
+\\
+& = \int \pathd{\phi} (\Op_1(x_1) + \epsilon^\mu(x_1) \partial_\mu \Op_1) \cdots (\Op_n(x_n) + \epsilon^\mu(x_n) \partial_\mu \Op_n) e^{i S[g, \phi]} \exp{\left( i \int \dn{4}{x} \frac{\delta S}{\delta \phi} \delta \phi(x) \right)}
+\end{align*} 
+Therefore, to first-order in $\epsilon$,
+\[ \int \pathd{\phi} \left(  \frac{\delta S}{\delta \phi} \delta \phi \right) \Op_1(x_1) \cdots \Op_n(x_n) e^{i S[g, \phi]} = i \epsilon^\mu(x_1) \EV{\partial_\mu \Op_1(x_1) \cdots \Op_n(x_n)} + \cdots + i \epsilon^\mu(x_n) \EV{ \Op_1(x_1) \cdots \partial_\mu \Op_n(x_n)}\]
+\end{proof}
+However, since $S$ is a diffeomorphism invariant and shifting both the fields and the metric as above is equivalent to a coodinate transformation. Thus,
+\[ \delta S = \frac{\delta S}{\delta g_{\mu \nu}} g_{\mu \nu} + \frac{\delta S}{\delta \phi} \phi = \int \dn{4}{x} \left( \frac{\delta S}{\delta g_{\mu \nu}} g_{\mu \nu}(x) + \frac{\delta S}{\delta \phi} \delta \phi(x) \right) = 0 \]
+Therefore,
+\[ \EV{\left( \frac{\delta S}{\delta \phi} \delta \phi(x) \right) \Op_1(x_1) \cdots \Op_n(x_n)} = - \EV{\frac{\sqrt{g}}{2} T^{\mu \nu}(x) \delta g_{\mu \nu} \Op_1(x_1) \cdots \Op_n(x_n)} \]
+Expanding about flat Minkowski-space, 
+\[ T^{\mu \nu} \delta g_{\mu \nu} = T^{\mu \nu} \left[ \partial_\mu \epsilon^\alpha \eta_{\alpha \nu} + \partial_\nu \epsilon^\beta \eta_{\mu \beta} \right] = T^{\mu \nu} \left[ \partial_\mu \epsilon_\nu + \partial_\nu \epsilon_\mu \right] = 2 T^{\mu \nu} \partial_\mu \epsilon_\nu \]
+and thus,
+\[ \EV{\left( \frac{\delta S}{\delta \phi} \delta \phi(x) \right) \Op_1(x_1) \cdots \Op_n(x_n)} = - (\partial_\mu \epsilon_\nu) \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)} \]
+Applying integration by parts, 
+\begin{align*}
+\int \pathd{\phi} \left(  \frac{\delta S}{\delta \phi} \delta \phi \right) \Op_1(x_1) \cdots \Op_n(x_n) e^{i S[g, \phi]} & = \int \dn{4}{x} \EV{\left( \frac{\delta S}{\delta \phi} \delta \phi(x) \right) \Op_1(x_1) \cdots \Op_n(x_n)}
+\\
+& = -\int \dn{4}{x} (\partial_\mu \epsilon_\nu) \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)}
+\\
+& = \int \dn{4}{x} \epsilon_\nu(x) \partial_\mu \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)}
+\end{align*}
+Applying the invariance under field change of the path-integral,
+\[ \int \dn{4}{x} \epsilon_\nu(x) \partial_\mu \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)} = i \epsilon^\mu(x_1) \EV{\partial_\mu \Op_1(x_1) \cdots \Op_n(x_n)} + \cdots + i \epsilon^\mu(x_n) \EV{ \Op_1(x_1) \cdots \partial_\mu \Op_n(x_n)} \]
+Since this holds for all $\epsilon^\mu$, by the definition of the Dirac distribution,
+\[ \partial_\mu \EV{T^{\mu \nu}(x) \Op_1(x_1) \cdots \Op_n(x_n)} = i \delta(x - x_1) \EV{\partial^\nu \Op_1(x_1) \cdots \Op_n(x_n)} + \cdots + i \delta(x - x_n) \EV{\Op_1(x_1) \cdots \partial^\nu \Op_n(x_n)} \]
+
+\subsection{Operators With Spin}
+
+\section{Conformal Invariance}
+
+\begin{theorem}
+Scale-invariant theories have traceless Stress-Energy tensors.
+\end{theorem} 
+\begin{proof}
+Suppose that we have a scale-invariant theory. In particular, whenever $\delta g_{\mu \nu} = \omega(x) g_{\mu \nu}$ then,
+\[ \frac{\delta S}{\delta g_{\mu \nu}} \frac{\delta g_{\mu \nu}}{\delta \omega} = T^{\mu \nu} g_{\mu \nu} = 0 \]
+which implies that $T^{\mu}_\nu = 0$ the Stress-Energy tensor is traceless.
+\end{proof}
+The traceless condition implies a weaker conformal killing equation. For a vector field $\epsilon^\mu(x)$ we want to consider when the charge 
+\[ Q_{\epsilon}(\Sigma) = - \int_{\Sigma} \d{S_\mu} \epsilon_\nu(x) T^{\mu \nu}(x) \]
+is conserved. Using the divergence theorem, for two space-like slices,
+\[ Q_{\epsilon}(\Sigma_2) - Q_{\epsilon}(\Sigma_1) = \int_{\Sigma_1} \d{S_\mu} \epsilon_\nu(x) T^{\mu \nu}(x) - \int_{\Sigma_2} \d{S_\mu} \epsilon_\nu(x) T^{\mu \nu}(x) = \int_{V} \dn{4}{x} \partial_\mu \left(\epsilon_\nu(x) T^{\mu \nu} (x) \right) \]
+Therefore, $Q_{\epsilon}$ is conserved over all space-like slices exactly if,
+\[ \partial_\mu \left(\epsilon_\nu(x) T^{\mu \nu} (x) \right) = 0 \]
+For arbitrary symmetric divergence-free $T^{\mu \nu}$ we have,
+\[ \partial_\mu \epsilon_\nu + \partial_\nu \epsilon_\mu = 0 \]
+and thus
+\[ \partial_\mu \epsilon_\nu T^{\mu \nu} + \epsilon_\nu \partial_\mu T^{\mu \nu} = 0 \]
+However, $\partial_\mu T^{\mu \nu} = 0$ and $T$ is symmetric so this equation is equivalent to,
+\[ \partial_\mu \epsilon_\nu T^{\mu \nu} = \tfrac{1}{2} \left( \partial_\mu \epsilon_{\nu} + \partial_\nu \epsilon_{\mu} \right) T^{\mu \nu} = 0 \]
+Distinguished solutions to the strict Killing equation in flat space are,
+\begin{align*}
+p_\mu & = \partial_\mu && \text{(translations)}
+\\
+m_{\mu\nu} & = x_\nu \partial_\mu - x_\mu \partial_\nu &&\text{(rotations)}
+\end{align*}
+which have Hermitian generators $P_\mu$ and $M_{\mu\nu}$ respectively. 
+However, for a conformal equation, $T^{\mu \nu}$ is traceless and symmetric this equation implies that,
+\[ \partial_\mu \epsilon_\nu + \partial_\nu \epsilon_\mu = c(x) \eta_{\mu \nu} \]
+If we take the trace of both sides,
+\[ c(x) = \frac{2}{d} \partial_\mu \epsilon^\mu \]
+This alows two new types of transformations, dilations,
+\[ d = x^\mu \partial_\nu \text{ corresponding to the vector field } \epsilon^\mu(x) = x^\mu \]
+which have Hermitian generator $D$ and special conformal transformations,
+\[ k_\alpha = 2 x_\alpha (x^\nu \partial_\nu) - x^\nu x_\nu \partial_\alpha \text{ corresponding to the vector field } \epsilon_\alpha^\mu(x) = 2 x_\alpha x^\mu - x_\nu x^\nu \delta^\mu_\alpha  \]
+with Hermitian generator $K_\alpha$. These together with the Poincare algebra (in Euclidean signature) satisfy,
+\begin{align*}
+[M_{\mu \nu}, P_\alpha] & = \delta_{\nu \alpha} P_\mu - \delta_{\mu \alpha} P_\nu 
+\\
+[M_{\mu \nu}, K_{\alpha}] & = \delta_{\nu \alpha} K_\mu - \delta_{\mu \alpha} K_{\nu}
+\\
+[M_{\mu \nu}, M_{\alpha \beta}] & = \delta_{\nu \alpha} M_{\mu \beta} - \delta_{\mu \alpha} M_{\nu \beta} + \delta_{\nu \beta} M_{\alpha \mu} - \delta_{\mu \beta} M_{\alpha \nu} 
+\\
+[D, P_\mu] & = P_\mu
+\\
+[D, K_\mu] & = - K_\mu
+\\
+[K_\mu, P_\nu] & = 2 \delta_{\mu \nu} D - 2 M_{\mu \nu} 
+\end{align*}
+and all other commutators vanish. 
+\begin{theorem}
+A conformal field theory has only massless states in its spectrum. 
+\end{theorem}
+
+\begin{proof}
+Suppose that $\ket{\Psi}$ is a state with mass $m$. Therefore,
+\[ P_\mu P^\mu \ket{\Psi} = m^2 \ket{\Psi} \]
+However,
+\[ [D, P_\mu P^\mu] = D P^\mu P_\mu - P^\mu P_\mu D = P^\mu D P_\mu + i P^\mu P_\mu   - P^\mu P_\mu D = 2 i P^\mu P_\mu \]
+Thus,
+\[ \bra{\Psi} [D, P^\mu P_\mu] \ket{\Psi} = \bra{\Psi} 2i P^\mu P_\mu \ket{\Psi} = 2i m^2 \]
+However,
+\[ \bra{\Psi} [D, P^\mu P_\mu] \ket{\Psi} = \bra{\Psi} D P^\mu P_\mu \ket{\Psi} - \bra{\Psi} P^\mu P_\mu D \ket{\Psi} = m^2 \left[ \bra{\Psi} D \ket{\Psi} - \bra{\Psi} D \ket{\Psi} \right] = 0 \]
+since $P^\mu P_\mu$ is a Hermitian operator. 
+Thus, we must have $m = 0$. 
+\end{proof}
+
+
+\subsection{Finite Conformal Representation}
+
+Consider an infinitesimal transformation $x^\mu \mapsto x'^\mu = x^\mu + \epsilon^\mu(x)$. If $\epsilon^\mu$ satisfies the confromal Killing equation, then
+\[ \pderiv{x'^\mu}{x^\mu} = \delta^\mu_\nu + \partial_\nu \epsilon^\mu = \left( 1 + \frac{1}{d} (\partial \cdot \epsilon) \right) \left( \delta^\mu_\nu + \frac{1}{2} (\partial_\nu \epsilon^\mu - \epsilon^\mu \epsilon_\nu) \right) \]
+This is an infinitesimal rescaling times an infinitesimal rotation. Exponentiating gives a coordinate transformation $x \mapsto x'$ such that
+\[ \pderiv{x'^\mu}{x^\nu} = \Omega(x) R^\mu_\nu(x) \quad \quad R^\top R = I \]
+where $\Omega(x)$ and $R^\mu_\nu(x)$ are finite position-dependent rescalings and rotations. Equivalently, the transformation $x \mapsto x'$ rescales the metric by a scale factor,
+\[ \delta_{\mu\nu} \pderiv{x'^\mu}{x^\alpha} \pderiv{x'^\nu}{\beta} = \Omega(x)^2 \delta_{\alpha \beta} \]
+Such transformations are called \textit{conformal} which comprise the conforml group. 
+
+\subsubsection{Reflections}
+
+
+\subsection{Charge Representation}
+
+To find these charges i.e. Hermitian transformation generators, we need to search for charges associated to a vector field. We have already defined the charge $Q_\epsilon(\Sigma)$ for a vector vield $\epsilon = \epsilon^\mu \partial_\mu$ via,
+\[ Q_{\epsilon}(\Sigma) = - \int_{\Sigma} \d{S_\mu} \epsilon_\nu(x) T^{\mu \nu}(x) \]
+
+\begin{theorem}
+When $d \ge 3$,
+\[ [Q_\epsilon, T^{\mu\nu}] = (\epsilon \cdot \partial) T^{\mu\nu} + (\partial \cdot \epsilon) T^{\mu \nu} - \partial_\rho \epsilon^\mu T^{\rho \nu} + \partial^\nu \epsilon_\rho T^{\rho \mu} \]
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+The chrages $Q_\epsilon$ form a representation of the conformal algebra via,
+\[ [Q_{\epsilon_1}, Q_{\epsilon_2}] = Q_{-[\epsilon_1, \epsilon_2]} \]
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{proposition}
+For $d = 2$ there exists an additional term, ...
+\end{proposition}
+
+\begin{theorem}
+The conformal charges satisfy the commutation relations,
+...
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+
+\subsection{Conformal Angular Momentum Representation}
+
+Consider the definitions,
+\begin{align*}
+L_{\alpha \beta} & = M_{\alpha \beta}
+\\
+L_{-1,0} & = D
+\\
+L_{0, \mu} & = \tfrac{1}{2} (P_\mu + K_\mu)
+\\
+L_{-1, \mu} & = \tfrac{1}{2} (P_{\mu} - K_{\mu})
+\end{align*} 
+where $L_{ab} = - L_{ba}$. From above, it follows that $L_{ab}$ for $a,b \in \{1, \dots, d\}$ satisfy the commutation relations of the Lie algebra $\mathfrak{so}(d)$. We need to show that the entire object satisfies the Lie algebra of $\mathfrak{so}(1, d+1)$. First we consider the rotation part, $L_{ab}$ for $a,b \in \{0, 1, \dots, d\}$. We need to show that,
+\[ [ L_{ab}, L_{cd} ] = \delta_{bc} L_{ad} - \delta_{ac} L_{bd} + \delta_{bd} L_{ca} - \delta_{ad} L_{bc} \]
+We have already shown this when all $a,b,c,d > 0$. Furthermore, this expression is antisymmetric in $a,b$ and $c,d$. First, let $a = 0$ and $b, c, d > 0$. Then we have,
+\begin{align*}
+[L_{0,b}, L_{cd}] = \delta_{cb} L_{0, d} -\delta_{bd} L_{0,c}
+\end{align*}
+because $L_{0,b} = \tfrac{1}{2} (P_{b} + K_{b})$ is a vector under $\SO{0}{d}$. This satisfies the condition since $\delta_{ac} = \delta_{ad} = 0$. An indentical argument holds any one of $a,b,c,d$ zero. Now take the case $a = c = 0$. Then we have,
+\[ [L_{0,b}, L_{0,d}] = \tfrac{1}{4} [P_b + K_b, P_d + K_d] = \tfrac{1}{4} \left( [K_b, P_d] + [P_b, K_d] \right) = \tfrac{1}{2} (\delta_{bd} D - M_{bd} - \delta_{db} D + M_{db}) = - M_{bd} = - L_{bd}  \] 
+satisfying the commutation relations because $\delta_{bc} =\delta_{ad} = 0$ and $L_{ca} = 0$ and $\delta_{ac} = 1$. If any three variables are zero then one generator must vanish by antisymmetry so we are done checking the rotational part. 
+
+
+\section{Primary Operators}
+
+\subsection{Scaling Dimension and Correlators}
+
+Consider operators diagonalized at the origin such that,
+\[ [D, \Op(0)] = \Delta \Op(0) \]
+where the eigenvalue $\Delta$ is the \textit{scaling dimension} of the operator $\Op$. Now consider the scaling action away from the origin,
+\begin{align*}
+[D, \Op(x)] = [D, e^{x \cdot P} \Op(0) e^{-x \cdot P}] = e^{x \cdot P} (e^{-x \cdot P} D e^{x \cdot P} \Op(0) - \Op(0) e^{-x \cdot P} D e^{x \cdot P}) e^{- x \cdot P}
+\end{align*}
+By the Hausdorff formula,
+\[ e^{A} B e^{-A} = e^{[A, \cdot]} B = B + [A, B] + \tfrac{1}{2!} [A, [A, B]] + \cdots \] 
+Therefore,
+\[ e^{x \cdot P} D e^{-x \cdot P} = e^{[\cdot, x \cdot P]} D = D + [D, x \cdot P] + \frac{1}{2!} [[D, x \cdot P], x \cdot P] + \cdots  \]
+Furthermore,
+\[ [D, x \cdot P] = x^\mu [D, P_\mu] = x^\mu P_\mu = x \cdot P \]
+and therefore, the higher-order commutators are all zero. Thus,
+\[ e^{x \cdot P} D e^{-x \cdot P} = D + x \cdot P \]
+This implies that,
+\begin{align*}
+[D, \Op(x)] & = [D, e^{x \cdot P} \Op(0)e^{-x \cdot P}] = e^{x \cdot P} (e^{-x \cdot P} D e^{x \cdot P} \Op(0) - \Op(0) e^{-x \cdot P} D e^{x \cdot P} ) e^{-x \cdot P} 
+\\
+& =  e^{x \cdot P} ([D, \Op(0)] + [x \cdot P, \Op(0)]) e^{-x \cdot P} = e^{x \cdot P} (\Delta \Op(0) + [x \cdot P, \Op(0)] ) e^{-x \cdot P}
+\\
+& = (x^\mu \partial_\mu + \Delta) e^{x \cdot P} \Op(0) e^{-x \cdot P} = (x^\mu \partial_\mu + \Delta) \Op(x)
+\end{align*}
+because,
+\[ \partial_\mu \Op(x) = \partial_\mu e^{x \cdot P} \Op(0) e^{-x \cdot P} = P_\mu e^{x \cdot P} \Op(0) e^{-x \cdot P} - e^{x \cdot P} \Op(0) e^{-x \cdot P} P_\mu = [P_\mu, \Op(x)] \]
+is the Hiesenberg equation of motion. 
+Therefore, we find the result,
+\[ [D, \Op(x)] = (x^\mu \partial_\mu + \Delta) \Op(x) \]
+This result is strict enough to fix the form of $\Op$-two-point correlation functions. By invariance under the Poincare group we can write,
+\[ \EV{\Op_1(x) \Op_2(y)} = f(|x - y|) \]
+In a scale invariant theory, we must have,
+\[ D \ket{\Omega} = 0 \]
+otherwise if the vacuum had nonzero scaling charge then it would change under a scale transformation. Thus,
+\begin{align*}
+\EV{[D, \Op_1(x) \Op_2(y)]} = \bra{\Omega} D \Op_1(x) \Op_2(y) \ket{\Omega} - \bra{\Omega} \Op_1(x) \Op_2(y) D \ket{\Omega} = 0
+\end{align*}
+However,
+\begin{align*}
+[D, \Op_1(x) \Op_2(y)] & = [D, \Op_1(x)] \Op_2(y) + \Op_1(x) [D, \Op_2(y)] = (x^\mu \partial_{x^\mu} + \Delta_1) \Op_1(x) \Op_2(y) + \Op_1(x) (y^\mu \partial_{y^\mu} + \Delta_2) \Op_2(x) 
+\\
+& = \left( x^\mu \partial_\mu + \Delta_1 + y^\mu \partial_\mu + \Delta_2 \right) \Op_1(x) \Op_2(y) 
+\end{align*}
+Therefore,
+\[ \EV{[D, \Op_1(x) \Op_2(y)]} = \EV{\left( x^\mu \partial_\mu + \Delta_1 + y^\mu \partial_\mu + \Delta_2 \right) \Op_1(x) \Op_2(y)} = \left( x^\mu \partial_\mu + \Delta_1 + y^\mu \partial_\mu + \Delta_2 \right) \EV{\Op_1(x) \Op_2(y)} = 0 \] 
+Which implies that,
+\[ \left( x^\mu \partial_\mu + \Delta_1 + y^\mu \partial_\mu + \Delta_2 \right) f(|x - y|) = 0 \]
+This differential equation forces,
+\[ f(|x - y|) = \frac{C}{|x - y|^{\Delta_1 + \Delta_2}} \]
+For the correlation functions to satisfy the cluster decomposition, we require the correlators to decrease with distance so the scaling dimensions $\Delta$ of all operators must be positive.  
+
+\subsection{Conformal Representations}
+\newcommand{\ad}[1]{\mathrm{ad}_{#1}}
+
+Here we will use the notation $Q \cdot \Op = [Q, \Op]$ which is associative since $\Op$ transforms in the adjoint representation i.e. by the Jacobi identity,
+\begin{align*}
+(Q_1 \cdot Q_2) \cdot \Op & = ([Q_1, Q_2]) \cdot \Op = [[Q_1, Q_2], \Op] = [Q_1, [Q_2, \Op]] + [Q_2, [\Op, Q_2]] 
+\\
+& = Q_1 \cdot (Q_2 \cdot \Op) -  Q_2 \cdot (Q_1 \cdot \Op) = [Q_1 \cdot, Q_2 \cdot ] \Op
+\end{align*}
+I will now drop the $\cdot$ to denote the adjoint action. 
+\begin{remark}
+The identity is more clearly expressed under the adjiont map:
+\[ \mathrm{ad} : \mathfrak{g} \to \mathrm{End}(\mathfrak{g}) = \mathfrak{gl}(\mathfrak{g}) \]
+on some Lie algbra $\mathfrak{g}$ where $\mathrm{ad}_x(y) = [x,y]$. The above computation shows that,
+\[ \mathrm{ad}_{[x,y]}(z) = [\mathrm{ad}_x, \mathrm{ad}_y](z)  \]
+and thus $\mathrm{ad}$ is a Lie algebra representation. 
+\end{remark} 
+Note that $K_\mu$ is a lowering operator for $D$ since,
+\[ D K_\mu \Op(0) = ([D, K_\mu] + K_\mu D) \Op(0) = K_\mu (D - 1) \Op(0) = (\Delta - 1) K_\mu \Op(0) \]
+A more formal computation gives,
+\begin{align*}
+\ad{D} \ad{K_\mu} \Op & = ([\ad{D}, \ad{K_\mu}] + \ad{K_\mu} \ad{D}) \Op = (\ad{[D, K_\mu]} + \ad{K_\mu} \ad{D}) \Op = (-\ad{K_\mu} + \ad{K_\mu} \ad{D}) \Op
+\\
+& = \ad{K_\mu} (\ad{D} - 1) \Op
+\end{align*}
+However, $\Op$ is an eigenvector of $\ad{D}$ such that $\ad{D} \Op = \Delta \Op$ and thus,
+\[ \ad{D} \ad{K_\mu} \Op = (\Delta - 1) \ad{K_\mu} \Op \]
+so $\ad{K_\mu} \Op$ is also an eigenvector of $\ad{D}$ with eigenvalue $\Delta - 1$. 
+\begin{definition}
+In a phyiscally sensible theory, the scaling dimensions are bounded below and thus the lowering process must terminate at some operator $\Op$ such that,
+\[ \ad{K_\mu} \Op(0) = [K_\mu, \Op(0)] = 0 \]
+Such an operator is called \textit{primary}. 
+\end{definition}
+Furthermore, we may consider the actions of $P_\mu$ on such operators which are scaling eigenvectors. In adjoint notation, we have,
+\[ D P_\mu \Op(0) = ([D, P_\mu] + P_\mu D) \Op(0) = (P_\mu + P_\mu D) \Op(0) = P_\mu (D + 1) \Op(0) = (\Delta + 1) P_\mu \Op(0) \]
+Therefore, $P_\mu$ (or more accurately $\ad{P_\mu}$) acts as the rasing operator. Applying this process to a primary operator, such operators of higher dimension are called descendents. For example, $\Op(x) = e^{x \cdot P} \Op(0)$ is an infinite series of descendent operators. 
+
+\begin{theorem}
+Let $\Op(0)$ be a primary operator with rotation representation matrices $\mathcal{S}_{\mu\nu}$ and scaling dimension $\Delta$. Then,
+\[ [K_\mu, \Op(x)] = \left(k_\mu + 2 \Delta x_\mu - 2 x^\nu \mathcal{S}_{\mu \nu} \right) \Op(x) \]
+where $k_\mu$ is the conformal Kiling vector,
+\[ k_\mu = 2 x_\mu (x \cdot \partial) - x^2 \partial_\mu \]
+\end{theorem} 
+
+\begin{proof}
+First consider the commutator,
+\begin{align*}
+[U, \Op(x)] = [U, e^{x \cdot P} \Op(0) e^{- x \cdot P}] = e^{x \cdot P} [e^{-x \cdot P} U e^{x \cdot P}, \Op(0)] e^{- x \cdot P} 
+\end{align*}
+By the Hausdorff formula,
+\[ e^{A} B e^{-A} = e^{[A, \cdot]} B = B + [A, B] + \tfrac{1}{2!} [A, [A, B]] + \cdots \] 
+Therefore,
+\[ e^{x \cdot P} K_\mu e^{-x \cdot P} = e^{[\cdot, x \cdot P]} K_\mu = K_\mu + [K_\mu, x \cdot P] + \tfrac{1}{2!} [[K_mu, x \cdot P], x \cdot P] + \cdots  \]
+Furthermore,
+\[ [K_\mu, x \cdot P] = x^\nu [K_\mu, P_\nu] = x^\nu (2 \delta_{\mu \nu} D - 2 M_{\mu \nu}) = 2 x_\mu D - 2 x^\nu M_{\mu \nu} \]
+and therefore we need to check higher-order commutator terms,
+\begin{align*}
+[[K_\mu, x \cdot P], x \cdot P] & = x^\gamma [2 x_\mu D - 2 x^\nu M_{\mu \nu}, P_\gamma] = 2x^\gamma ( x_\mu P_\gamma - x^\nu (\delta_{\nu \gamma} P_\mu - \delta_{\mu \gamma} P_\nu))
+\\
+& =  4 x_\mu (x \cdot P) - 2 x^2 P_\mu 
+\end{align*}
+which commutes with $x \cdot P$ so we need not investigate any more terms. 
+This implies that,
+\[ e^{x \cdot P} K_\mu e^{-x \cdot P} = K_\mu + 2 x_\mu D - 2 x^\nu M_{\mu \nu} + 2 x_\mu (x \cdot P) - x^2 P_\mu \]
+Therefore,
+\begin{align*}
+[K_\mu, \Op(x)] & = e^{x \cdot P} [ e^{- x \cdot P} K_\mu e^{x \cdot P}, \Op(0)] e^{- x \cdot P} = e^{x \cdot P} [K_\mu + 2 x_\mu D - 2 x^\nu M_{\mu \nu} + 2 x_\mu (x \cdot P) - x^2  P_\mu, \Op(0)] e^{-x \cdot P}
+\end{align*}
+Now we apply the known commutation relations of conformal charges on $\Op(0)$. Because $\Op(0)$ is a primary operator, $[K_\mu, \Op(0)] = 0$. Furtherore, since $\Op(0)$ is a scaling eigenvector with scaling dimension $\Delta$, we have $[D, \Op(0)] = \Delta \Op(0)$. Lastly, the spin representation $\mathcal{S}_{\mu\nu}$ of $\Op(0)$ means that,
+\[ [M_{\mu\nu}, \Op(0)] = \mathcal{S}_{\mu\nu} \]
+Therefore,
+\begin{align*}
+[K_\mu, \Op(x)] & =  e^{x \cdot P} (2 x_\mu \Delta - 2 x^\nu \mathcal{S}_{\mu \nu} + 2 (x_\mu x_\nu - \delta_{\mu\nu} x^2) \ad{P_\nu}) \Op(0) e^{-x \cdot P}
+\end{align*}
+Furthermore,
+\[ e^{x \cdot P} \ad{P_\nu} \Op(0) e^{-x \cdot P} = e^{x \cdot P} [P_\nu, \Op(0)] e^{-x \cdot P} = [e^{x \cdot P} P_\nu e^{-x \cdot P}, \Op(x)] = [P_\nu, \Op(x)] = \ad{P_\nu} \Op(x) \]
+and therefore,
+\[ [K_\mu, \Op(x)] = (2 x_\mu \Delta - 2 x^\nu \mathcal{S}_{\mu \nu} + 2 (x_\mu x_\nu - \delta_{\mu\nu} x^2) \ad{P_\nu}) \Op(x) \]
+Using the Heisenberg equations of motion,
+\[ \ad{P_\nu} \Op(x) = [P_{\nu}, \Op(x)] = \partial_\nu \Op(x) \]
+and therefore, 
+\begin{align*}
+[K_\mu, \Op(x)] &= (2 x_\mu \Delta - 2 x^\nu \mathcal{S}_{\mu \nu} + 2 (x_\mu x_\nu - \delta_{\mu\nu} x^2) \partial_\nu) \Op(x) 
+\\
+& = (2 x_\mu \Delta - 2 x^\nu \mathcal{S}_{\mu \nu} + 2 x_\mu (x \cdot \partial) - x^2 \partial_\mu ) \Op(x) 
+\end{align*}
+\end{proof}
+Next we consider comutators of the charge,
+\[ Q_\epsilon(\Sigma) = - \int_{\Sigma} \d{S_\mu} \epsilon_\nu(x) T^{\mu\nu}(x) \]
+\begin{theorem}
+Let $\epsilon$ be a conformal Killing vector. Then,
+\[ [Q_\epsilon, \Op(x)] = \left( \epsilon \cdot \partial + \frac{\Delta}{d} (\partial \cdot \epsilon) - \frac{1}{2} (\partial^\mu \epsilon^\nu) \mathcal{S}_{\mu\nu} \right) \Op(x) \]
+\end{theorem}
+
+\begin{proof}
+First, note that,
+\[ [Q_\epsilon, \Op(x)] = [Q_{\epsilon}, e^{x \cdot P} \Op(0) e^{-x \cdot P}] = e^{x \cdot P} [e^{-x \cdot P} Q_\epsilon e^{x \cdot P}, \Op(0)] e^{-x \cdot P} \]
+Furthermore, by the Hausdorff formula,
+\[ e^{-x \cdot P} Q_\epsilon e^{x \cdot P} = Q_\epsilon + [Q_\epsilon, x \cdot P] + \tfrac{1}{2!} [[Q_\epsilon, x \cdot P], x \cdot P] + \cdots \]
+However,
+\[ [Q_{\epsilon}, P_\mu] = [Q_{\epsilon}, Q_{p_\mu}] = Q_{-[\epsilon, p_\mu]}  \] 
+Where,
+\[ -[\epsilon, p_\mu] = p_\mu \epsilon - \epsilon p_\mu = \partial_\mu \epsilon \]
+Therefore,
+\[ [Q_\epsilon, P_\mu] = - \int \d{S_\alpha} (\partial_\mu \epsilon_\beta) T^{\alpha \beta}(x)  \]
+Furthermore, $\epsilon$ satisfies the conformal Killing equation,
+\[ \partial_\mu \epsilon_\nu + \partial_\nu \epsilon_\mu = \frac{2}{d} (\partial \cdot \epsilon) \delta_{\mu \nu} \]
+Therefore,
+\begin{align*}
+[Q_\epsilon, P_\mu] & = \int \d{S_\alpha} \left (\partial_\beta \epsilon_\mu - \frac{2}{d} (\partial \cdot \epsilon) \delta_{\mu \beta} \right) T^{\alpha \beta}(x) = - \int \d{S_\alpha} \left (\epsilon_\mu \partial_\beta T^{\alpha \beta}(x) + \frac{2}{d} (\partial \cdot \epsilon) T^{\alpha} _{\mu}(x) \right)
+\end{align*}
+However, $\partial_\beta T^{\alpha \beta}(x) = \partial_\beta T^{\beta \alpha}(x) = 0$. And thus,
+\[ [Q_\epsilon, P_\mu] = - \int \d{S_\alpha}  \frac{2}{d} (\partial \cdot \epsilon) T^{\alpha}_{\mu}(x)  = Q_{\frac{2}{d} (\partial \cdot \epsilon) \partial_\mu} \]
+(Expand $\epsilon$ in the basis of conformal vectorfields)
+\end{proof}
+
+\subsection{Finite Conformal Transformations}
+
+An exponential charge $U_\epsilon = e^{Q_{\epsilon}}$ gives a unitary transformation corresponding to a finite conformal transformation. The corresponding diffeomorphism $e^{\epsilon}$ is denoted $x \mapsto x'(x)$. 
+\begin{theorem}
+Let $\Op$ be a primary operator. Then,
+\[ U_\epsilon \Op(x) \Op^{-1} = \Op(x')^\Delta D(R(x')) \Op(x') \]
+where,
+\[ \pderiv{x'^\mu}{x^\nu} = \Omega(x') R^\mu_\nu(x') \quad \quad R^{\mu}_{\nu}(x') \in \SO{d}{0} \]
+and $D(R)$ is a matrix representing the action of $R$ as a $\SO{d}{0}$ representation. 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+The map $\epsilon \mapsto U_\epsilon$ is a representation of the conformal group. That is,
+\[ U_{g_1} U_{g_2} \Op(x) U^{-1}_{g_2} U^{-1}_{g_1} = U_{g_1 g_2} \Op(x) U_{g_1 g_2}^{-1} \]
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Conformal Correlators}
+
+\end{document}

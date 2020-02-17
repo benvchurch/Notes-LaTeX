@@ -1,0 +1,803 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathrsfs} 
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\End}[1]{\mathrm{End}\left(#1\right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{ \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{ \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^{#1}}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\fderiv}[2]{\frac{\delta #1}{\delta #2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\m}{\mathfrak{m}}
+
+\newcommand{\GL}[1]{\mathrm{GL}\left(#1\right)}
+\newcommand{\SL}[1]{\mathrm{SL}\left(#1\right)}
+\newcommand{\PGL}[1]{\mathrm{PGL}\left(#1\right)}
+\newcommand{\PSL}[1]{\mathrm{PSL}\left(#1\right)}
+
+\newcommand{\Orth}[1]{\mathrm{O}\left(#1\right)}
+\newcommand{\U}[1]{\mathrm{U}\left(#1\right)}
+\newcommand{\SO}[1]{\mathrm{SO}\left(#1\right)}
+\newcommand{\SU}[1]{\mathrm{SU}\left(#1\right)}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\gl}[1]{\mathfrak{gl}\left(#1\right)}
+\newcommand{\Lie}[1]{\mathrm{Lie}\left(#1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut}\left(#1 \right)}
+
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\PAU}[1]{\mathrm{PAU}\left( #1 \right)}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\Cl}{\mathrm{C} \ell}
+\newcommand{\fchar}[1]{\mathrm{char}(#1)}
+
+\newcommand{\rd}[1]{{ \color{red} #1 }}
+
+\begin{document}
+
+\section{Representing Rotations}
+
+\begin{remark}
+What are rotations? They are also certainly transformations which preserve lengths and angles. Rotations are linear, the sum of rotated vectors gives the rotated version of their sum. They are also required to fix an origin point around which the rotation is performed. Finally, they must preserve orientation or handedness, basically rotations cannot turn something into its mirror image. It turns out these properties alone uniquely specify what transformations rotations can be. 
+\end{remark}
+
+\begin{remark}
+Because rotations are linear, we can represent them by a matrix which acts on vectors by multiplication $\bf{x} \mapsto R \bf{x}$.
+\end{remark}
+
+\begin{proposition}
+Rotations must be represented by special orthogonal matricies i.e. $R^\top R = I$ and $\det{R} = 1$.
+\end{proposition}
+
+\begin{proof}
+The first defining property of a rotation is that it be rigid meaning that it preserves lengths and angles. Lengths and angles are encoded by the dot product of two vectors,
+\[ \bf{x} \cdot \bf{y} = \bf{x}^\top \bf{y} = |\bf{x}| \cdot |\bf{y}| \cos{\theta} \]
+Now,
+\[ (R \bf{x}) \cdot (R \bf{y}) = (R \bf{x})^\top (R \bf{y}) = \bf{x}^\top R^\top R \bf{y} \]
+So in order that,
+\[ (R \bf{x}) \cdot (R \bf{y}) = \bf{x} \cdot \bf{y} \]
+we must have $R^\top = R$. The second defining property of a rotation is that it preserves orientation. This is equivalent to saying that $\det{R} > 0$ by how the determinant is defined. Furthermore, $\det{(R^{\top} R)} = (\det{R})^2 = \det{I} = 1$ so $\det{R} = \pm 1$. Thus we must have $\det{R} = 1$. 
+\end{proof}
+
+\begin{definition}
+The group of all rotations in $n$ dimensions is called $\SO{n}$. This stands for special orthogonal group and it is explicitly,
+\[ \SO{n} = \{ R \in M_{n}(\R) \mid R^\top R = I \quad \text{and} \quad \det{R} = 1 \} \]
+The set of orthogonal matricies with determinant one. 
+\end{definition}
+
+\begin{remark}
+We will now restrict our attention to the case of 3D and the group $\SO{3}$.
+\end{remark}
+
+\begin{definition}
+In three dimensions, we have the basic rotation matrices about the three axes,
+\[ R_x(\theta)
+= 
+\begin{pmatrix}
+1 & 0 & 0 
+\\
+0 & \cos{\theta} & -\sin{\theta}
+\\
+0 & \sin{\theta} & \cos{\theta}
+\end{pmatrix}
+\quad \quad 
+R_y(\theta) 
+=
+\begin{pmatrix}
+\cos{\theta} & 0 & \sin{\theta}
+\\
+0 & 1 & 0
+\\
+-\sin{\theta} & 0 & \cos{\theta}
+\end{pmatrix}
+\quad \quad
+R_x(\theta)
+= 
+\begin{pmatrix}
+\cos{\theta} & - \sin{\theta} & 0 
+\\
+\sin{\theta} & \cos{\theta} & 0
+\\
+0 & 0 & 1
+\end{pmatrix} \]
+These act on a vector $\vec{x}$ via $R_i(\theta) \vec{x}$ to rotate $\vec{x}$ by an angle $\theta$ about the $i$-axis.
+\end{definition}
+
+\begin{proposition}
+Rotations in 3D do not commute. Consider,
+\[ R_x(\tfrac{\pi}{2}) R_y(\tfrac{\pi}{2}) = 
+\begin{pmatrix}
+0 & 0 & 1
+\\
+1 & 0 & 0
+\\
+0 & 1 & 0
+\end{pmatrix} \]
+and,
+\[ R_y(\tfrac{\pi}{2}) R_x(\tfrac{\pi}{2}) = 
+\begin{pmatrix}
+0 & 1 & 0
+\\
+0 & 0 & -1
+\\
+-1 & 0 & 0
+\end{pmatrix} \]
+These are not the same.
+\end{proposition}
+
+\begin{remark}
+\rd{Show visual example with a book.}
+\end{remark}
+
+
+\begin{remark}
+Our goal is to parametrize rotations by some nice set of coordinates.
+\end{remark}
+
+\begin{remark}
+Axis angle notation: specifies a unit vector $\hat{n} = (n_x, n_y, n_z)$ for the axis and an angle $\alpha$ by which to rotate. Since $\hat{n}$ defines a point on the unit spher $S^2$ we can parametrize $\hat{n}$ by spherical coordinates $(\theta, \phi)$. Therefore, the rotation group $\SO{3}$ can be parametrized by three angles $(\theta, \phi, \alpha)$. However, these coordinates have redundancy. If we take $-\hat{n}$ and $-\alpha$ this represents the same rotation as $\hat{n}$ and $\alpha$. Such a space with antipodal points identified (glued together) is called $\rp^3$ the real projective space. This is the strange topology of the rotation group $\SO{3}$. 
+\end{remark}
+
+\begin{remark}
+Euler angles notation: specifies a rotation by three angles $(\alpha, \beta, \gamma)$ as follows. First we rotate around $z$ by $\gamma$ then around $y$ by $\beta$ then around $z$ again by $\alpha$ to give a combined rotation,
+\[ R(\alpha, \beta, \gamma) = R_{z}(\alpha) R_{y}(\beta) R_{z}(\gamma) \]
+These correspond to rotating the $z$ axis down to the axis defined by $(\alpha, \beta)$ in spherical coordinates and then performing a rotation by $\gamma$ around this new axis. \rd{ (DRAW THIS FOR A TOP). } 
+\end{remark}
+
+\begin{remark}
+Euler angles have a serious drawback for practical purposes. Although each rotation (except for degenerate rotations with $\beta = 0, \pi$) has a unique representation by Euler angles, the difficulty comes when we want to continuously take a path between two nearby rotations. Firstly, using Euler angles it is somewhat difficult to nicely interpolate between rotations. Even worse, for $\beta = 0$ we have $R(\alpha, 0, \gamma) = R_z(\alpha) R_z(\gamma) = R_z(\alpha + \gamma)$ so the two coodinates $\alpha$ and $\gamma$ suddenly do the same thing, in otherwords we lose a degree of freedom. Explicitly, there is no way in Euler angles to give a small rotation about $x$ from the identity $R(0,0,0)$. To do so, we have to rotate to $R(\pi/2, 0, 0)$ and then increase $\beta$ slightly. \rd{(DRAW THIS as GIMBAL LOCK).} Therefore, a small change in the desired output requires a large change in the coorinates and a long path between the current and desired rotation state. This is a very big problem for practical applications such as robotics or space navigation in which we want to smoothly and quickly transiton from one orientation to another of a rigid object. 
+\end{remark}
+
+\begin{remark}
+You may object that this gimbal lock phenomenon only arrose because we choose a bad representation for rotations, that we shouldn't have choosen $\alpha$ and $\beta$ to be rotations about the same axis. For example, perhaps we should have used the representation,
+\[ R(\alpha, \beta, \gamma) = R_x(\alpha) R_y(\beta) R_z(\gamma) \]
+However, this will show identical gimbal locking this time at $\beta = \tfrac{\pi}{2}$. In fact, it turns out that any such coordinate representation must have gimbal lock somewhere. This is a fact about the topology of $\SO{3}$ which is the space $\rp^3$ and the parametrization space $T^3 = S^1 \times S^1 \times S^1$ (three angles each on a circle). The following fact tells us the gimbal lock cannot be avoided.
+\end{remark}
+
+\begin{theorem}
+There does not exist a covering map $p : T^3 \to \rp^3$, in fact there does not exis a local homeomorphism $T^3 \to \rp^3$. 
+\end{theorem}
+
+\begin{proof}
+The map $p_* : \pi_1(T^3) \to \pi_1(\rp^3)$ cannot be injective since $\pi_1(T^3) = \Z^3 $ is infinite and $\pi_1(\rp^3) = \Z / 2 \Z$ is finite so $p$ cannot be a covering map.
+\bigskip\\
+Furthermore, we use the general fact that any local homeomorphism of Hausdorff spaces $f : X \to Y$ with compact $X$ and connected $Y$ is a covering map. 
+\end{proof}
+
+\begin{remark}
+We are thus on the search for a ``good'' coordinate description of rotations which does not have this locking phenomenon. We start with an easier problem.
+\end{remark}
+
+\section{Complex Numbers and Rotations in 2D}
+
+\renewcommand{\Re}[1]{\mathrm{Re}\left( #1 \right)}
+
+\begin{proposition}
+Given nonzero complex numbers $z, w \in \C$ we can represent $z$ as an angle $\arg{z}$ and a magnitude $|z|$ which is its distance from the origin. First, recall that,
+\[ |z|^2 = z \bar{z} \quad \quad \tan{\arg{z}} = \frac{\Im{z}}{\Re{z}} = \frac{1}{i} \cdot \frac{z - \bar{z}}{z + \bar{z}} \]
+Then when we take the product $zw$ the magnitude multiplies, $|zw| = |z| \cdot |w|$, and the argument adds, $\arg{zw} = \arg{z} + \arg{w}$. 
+\end{proposition}
+
+\begin{proof}
+Recall Euler's formula,
+\[ e^{i \theta} = \cos{\theta} + i \sin{\theta} \]
+Therefore,
+\[ z = |z| e^{i \arg{z}} \]
+Then,
+\[ zw = |z| \cdot |w| e^{i (\arg{z} + \arg{w})} \]
+so $zw$ has the form claimed.
+\end{proof}
+
+\begin{proposition}
+We can represent the group of rotations in 2D by complex numbers of magnitude $1$ acting via multiplication. 
+\end{proposition}
+
+\begin{proof}
+First, we represent points in the plane $\R^2$ by complex numbers $w \in \C$ in the complex plane. Then if $|z| = 1$ recall that,
+\[ zw = |w| e^{i (\arg{z} + \arg{w})} \]
+so the effect of the multiplcation is to increase the angle of $w$ by $\arg{z}$ i.e. to rotate counterclockwise by an angle of $\arg{z}$. This thus represents all 2D rotations.
+\bigskip\\
+Explicitly (letting $\theta = \arg{z}$), $z = e^{i \theta} = \cos{\theta} + i \sin{\theta}$ so we get a map from  $U(1) \subset \C$, the points of magnitude $1$ called the circle group (because they are the unit circle) to $\SO{2}$ via,
+\[ z \mapsto 
+\begin{pmatrix}
+\Re{z} & -\Im{z}
+\\
+\Im{z} & \Re{z}
+\end{pmatrix}
+= 
+\begin{pmatrix}
+\cos{\theta} & - \sin{\theta}
+\\
+\sin{\theta} & \cos{\theta}
+\end{pmatrix} \]
+To see why this is the correct map, consider the action of $z$ on the point $w = x + i y$ where $(x,y) \in \R^2$ is the standard coordinate representation. Then,
+\[ z(x + i y) = (\cos{\theta} + i \sin{\theta}) (x + i y) = (x \cos{\theta} - y \sin{\theta}) + i(x \sin{\theta} + y \cos{\theta}) \]
+and thus this is the map,
+\[ (x, y) \mapsto (x \cos{\theta} - y \cos{\theta}, x \sin{\theta} + y \cos{\theta}) \]
+which is represented by the above matrix. 
+\end{proof}
+
+\begin{remark}
+We have sucessfully parametrized the (admittedly quite simply to directly parametrize) group of 2D rotations by considering the algebra of complex numbers. Our strategy will be to cook up some new exotic algebra like the complex numbers but for higher dimensions and use these to parametrize the 3D rotations. 
+\end{remark}
+
+\section{The Algebra of Algebras}
+
+\iffalse
+
+\begin{definition}
+A group is a set $G$ with a binary operation $\circ : G \times G \to G$ such that,
+\begin{enumerate}
+\item $\forall x,y,z \in G : x \circ (y \circ z) = (x \circ y) \circ z$
+\item $\exists e \in G : \forall x \in G : x \circ e = e \circ x = x$
+\item $\forall x \in G : \exists x^{-1} \in G : x \circ x^{-1} = x^{-1} \circ x = e$ 
+\end{enumerate}
+A group is abelian if $\forall x,y \in G: x \circ y = y \circ x$.
+\end{definition}
+
+\begin{definition}
+A ring is a set $R$ with binary operations $+, \cdot$ such that $(R, +)$ is an abelian group such that,
+\begin{enumerate}
+\item $\forall x,y,z \in R : x \cdot (y \cdot z) = (x \cdot y) \cdot z$
+\item $\forall x,y,z \in R : x \cdot (y + z) = x \cdot y + x \cdot z$  and $(x + y) \cdot z = x \cdot z + y \cdot z$
+\item $\exists 1 \in R : 1 \cdot x = x \cdot 1 = x$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+A field is a commutative division ring meaning that multiplication is commutative and all nonzero elements have inverses. 
+\end{definition}
+
+\begin{definition}
+An $R$-module over a ring $R$ is an abelian group $M$ equiped with a bilinear map $R \times M \to M$ written $(r, m) \mapsto r \cdot m$ such that,
+\begin{enumerate}
+\item $r \cdot (m_1 + m_2) = r \cdot m_1 + r \cdot m_2$
+\item $(r_1 + r_2) \cdot m = r_1 \cdot m + r_2 \cdot m$
+\item $(r_1 r_2) \cdot m = r_1 \cdot (r_2 \cdot m)$
+\item $1_R \cdot m = m$
+\end{enumerate}
+If $R$ is a field then we call $M$ a $k$-vectorspace. An $R$-linear map of $R$-modules is a group homomorphism $\phi : M_1 \to M_2$ such that $\phi(r \cdot m) = r \cdot \phi(m)$.
+\end{definition}
+
+\begin{definition}
+An $k$-algebra over a field $k$ is a $k$-vectorspace $V$ with a bilinear operation $B : V \times V \to V$. A morphism of $k$-algebras is an $k$-linear map $\Phi : V_1 \to V_2$ preserving the bilinear operation, i.e. $B_2(\Phi(v_1), \Phi(v_2)) = \Phi(B_1(v_1, v_2))$. 
+\end{definition}
+
+\begin{definition}
+Given a $k$-algebra $V$ and a basis $\{ \bf{e}_i \}$ of $V$ the structure constants are coefficients $C_{ijk} \in V$ defined by,
+\[ B(\bf{e}_i, \bf{e}_j) = \sum_{k = 1}^{\dim{V}} C_{ijk} \: \bf{e}_k \] 
+\end{definition}
+
+\fi
+
+\begin{definition}
+An $\R$-algebra a real vectorspace $V$ with a bilinear map $B : V \times V \to V$. A morphism of $\R$-algebras is an $\R$-linear map $\Phi : V_1 \to V_2$ preserving the bilinear operation, i.e. $B_2(\Phi(v_1), \Phi(v_2)) = \Phi(B_1(v_1, v_2))$. 
+\end{definition}
+
+\begin{definition}
+Given an $\R$-algebra $V$ and a basis $\{ \bf{e}_i \}$ of the vectorspace $V$ the structure constants are coefficients $C_{ijk} \in V$ defined by,
+\[ B(\bf{e}_i, \bf{e}_j) = \sum_{k = 1}^{\dim{V}} C_{ijk} \: \bf{e}_k \] 
+which are defined because any element of $V$ is a linear combination of $\{ \bf{e}_i \}$. 
+\end{definition}
+
+\begin{example}
+The complex numbers $\C$ are a $2$-dimensional (associative unital commutative division) $\R$-algebra. We can write $z = x + i y$ and the product is defined,
+\[ z_1 \cdot z_2 = x_1 x_2 - y_1 y_2 + i (x_1 y_1 + x_2 y_2)  \]
+Thus the structure constants in the basis $\{ 1, i \}$ are,
+\[ C_{\cdot \cdot 1} = \begin{pmatrix}
+1 & 0
+\\
+0 & -1
+\end{pmatrix} \quad \quad C_{\cdot \cdot i} = \begin{pmatrix}
+0 & 1
+\\
+1 & 0
+\end{pmatrix}  \]
+\end{example}
+
+\begin{example}
+The space $\R^3$ with cross product multiplication $B(\vec{v}, \vec{u}) = \vec{v} \times \vec{u}$ gives an $\R$-algebra since cross product is linear. In the basis $\{ \bf{e}_1, \bf{e}_2, \bf{e}_3 \}$ the structure constants are defined by,
+\[ B(\bf{e}_i, \bf{e}_j) = \bf{e}_i \times \bf{e}_j  = \epsilon_{ijk} \bf{e}_k \]
+Thus the cross product algebra has structure coefficients $C_{ijk} = \epsilon_{ijk}$ given by the Levi-Civita symbol.  
+This algebra is neither associative nor unital. 
+\end{example}
+
+\begin{definition}
+An $\R$-algebra $A$ is associative if the bilinear operation $B : A \times A \to A$ is associative meaning that,
+\[ B(x, B(y, z)) = B(B(x, y), z) \]
+In this case, we will usually write $B$ in multiplicative notation,
+\[ x \cdot y = B(x, y) \]
+in which case this is the familiar associative property,
+\[ x \cdot (y \cdot z)= (x \cdot y) \cdot z \] 
+Furthermore, we say that $A$ is unital if it has an identity element $1 \in A$ such that $1 \cdot x = x \cdot 1 = x$ for all $x \in A$.
+\end{definition}
+
+\begin{example}
+The complex numbers are an associative unital $\R$-algebra. 
+\end{example}
+
+\begin{remark}
+From now on, we will restrict our discussion to unital associative $\R$-algebras which we will refer to as algebras. 
+\end{remark}
+
+\begin{remark}
+Willaim Rowan Hamilton famously searched for a $3$-dimensional version of the complex numbers. However he soon discovered the following.
+\end{remark}
+
+\begin{proposition}
+There does not exist a $3$-dimensonal algebra with two independent elements which square to $-1$.
+\end{proposition}
+
+\begin{proof}
+Suppose we have $i^2 = j^2 = -1$. By associativity,
+\[ i \cdot (i \cdot j) = i^2 \cdot j = - j \quad \text{and} \quad (i \cdot j) \cdot j = i \cdot j^2 = - i \]
+Now expand,
+\[ i \cdot j = a + i b + j c \]
+However,
+\[ i \cdot (i \cdot j) = i a - b + (a + i b + j c)c = ac - b + i(a  + bc) + j c^2 = - j \]
+meaning that $c^2 = - 1$ which is impossible.  
+\end{proof}
+
+\begin{remark}
+However, all was not lost. Hamilton's stroke of genius came when he realized that if he added a fourth dimension then the construction would work as long as he gave up the requirement of commutativity leading to his definition of the Quaternions.
+\end{remark}
+
+\begin{example}
+The Quaternions $\H$ are a $4$-dimensional (associative unital division) $\R$-algebra,
+\[ \H = \{ w + \bf{i} x + \bf{j} y + \bf{k} z \mid w,x,y,z \in \R \} \]
+with bilinear multiplication defined by,
+\begin{align*}
+\bf{i}^2 = \bf{j}^2 = \bf{k}^2 & = - 1
+\\
+\bf{i} \cdot \bf{j} & = \bf{k}
+\\
+\bf{j} \cdot \bf{k} & = \bf{i}
+\\
+\bf{k} \cdot \bf{i} & = \bf{j}
+\\
+\bf{i} \bf{j} \bf{k} & = -1
+\end{align*}
+\end{example}
+
+\begin{proposition}
+The quaternions are not commutative. In fact, on the basis vectors $\{ \bf{i}, \bf{j}, \bf{k} \}$ they multiply anticommutatively meaning,
+\begin{align*}
+\bf{j} \cdot \bf{i} & = - \bf{k}
+\\
+\bf{k} \cdot \bf{j} & = - \bf{i}
+\\
+\bf{i} \cdot \bf{k} & = - \bf{j}
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Consider,
+\[  (\bf{j} \cdot \bf{i}) \cdot \bf{i} = \bf{j} \cdot \bf{i}^2 = - \bf{j} \]
+Furthermore, $\bf{k} \cdot \bf{i} = \bf{j}$ and thus,
+\[ (\bf{j} \cdot \bf{i}) \cdot \bf{i} = - \bf{k} \cdot \bf{i} \]
+Then, multipying by $\bf{i}$ we get,
+\[ (\bf{j} \cdot \bf{i}) \cdot \bf{i}^2 = - \bf{k} \cdot \bf{i}^2 \]
+but since $\bf{i}^2 = -1$ then,
+\[ \bf{j} \cdot \bf{i} = - \bf{k} \]
+The other relations follow by an analogous argument. 
+\end{proof}
+
+\begin{definition}
+We can write any quaternion in vector and scalar part $q = s + \vec{v}$ where $\vec{v} = \bf{i} x + \bf{j} y + \bf{k} z$. Now, define the conjugte,
+\[ \bar{q} = s - \vec{v} \]
+and the norm,
+\[ |q|^2 = s^2 + |\vec{v}|^{2} = s^2 + x^2 + y^2 + z^2 \]
+\end{definition}
+
+\begin{proposition}
+The conjugate and norm satisfy the following properties,
+\begin{enumerate}
+\item the conjugate is order reversing,
+\[ \overline{p \cdot q} = \bar{q} \cdot \bar{p} \]
+\item the norm is expressed in terms of the conjugate,
+\[ |q|^2 = q \bar{q} = \bar{q} q = w^2 + x^2 + y^2 + z^2 \]
+\item the norm is multiplicative,
+\[ |q q'|^2 = |q|^2 \cdot |q'|^2 \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+These will follow immediately from the general multiplication formula below but can also be shown using a tedious computation.
+\end{proof}
+
+\begin{proposition}
+Writing, $q = s + \vec{v}$ where $\vec{v} = \bf{i} x + \bf{j} y + \bf{k} z$. Multiplication can be expressed as,
+\[ q \cdot q' = ss' - \vec{v} \cdot \vec{v}' + s \vec{v}' + s' \vec{v} + \vec{v} \times \vec{v}' \]
+where $\vec{v} \cdot \vec{v}'$ is the dot product of vectors and $\vec{v} \times \vec{v}'$ is the cross product of vectors.
+\end{proposition}
+\rd{
+\begin{proof}
+An excercise in calculation. 
+\end{proof}
+
+\begin{remark}
+HISTROY OF PRODUCTS
+\end{remark} }
+
+\section{Rotations Recovered From Quaternions}
+
+
+\begin{remark}
+The connection between quaternions and rotations is somewhat more ``complex'' than the relationship between complex numbers and rotation.
+\end{remark}
+
+\begin{remark}
+We can identify the 3D vectors $\vec{v} \in \R^3$ with the vector part of the quaternions via $\vec{v} = v_x \: \bf{i} + v_y \: \bf{j} + v_z \: \bf{k}$. In fact, the notation for 3D basis vectors $\{ \bf{i}, \bf{j}, \bf{k} \}$ that you may have seen in physics or linear algebra comes from quaternions!
+\end{remark}
+
+\begin{definition}
+The $n$-sphere is the $n$-dimensional manifold,
+\[ S^n = \{ \vec{x} \in \R^{n+1} \mid |\vec{x}| = 1 \} \]
+Common examples are,
+\begin{enumerate}
+\item $S^1$ the unit circle is $\{ (x,y) \in \R^2 \mid x^2 + y^2 = 1 \}$
+\item $S^2$ the unit sphere is $\{ (x, y, z) \in \R^3 \mid x^2 + y^2 + z^2 = 1 \}$
+\item $S^3$ the unit 3-sphere is $\{ (w, x, y, z) \in \R^4 \mid w^2 + x^2 + y^2 + z^2 = 1 \}$
+\end{enumerate}
+The 3-sphere is the first of these objects which we dont have immediate visual geometric understanding of because it naturally lives in 4D space and, in fact, cannot be faithfully embedded in 3D at all. Understanding and attempting to visualize this 3-sphere will be of considerable interest to us here because of the following fact.
+\end{definition}
+
+\begin{remark}
+We can identify the set of unit quaternions $U \subset \H$ with the 3-sphere living in 4D space since,
+\[ |q|^2 = w^2 + x^2 + y^2 + z^2 \]
+so the equation $|q| = 1$ is the defining equation of the 3-sphere. 
+\end{remark}
+
+\begin{remark}
+We can identify the imaginary quaternions $q \in \Im{\H}$, those $q \in \H$ s.t. $\bar{q} = -q$ i.e. $q = s + \vec{v}$ where $s = 0$, with vectors $\vec{v} \in \R^3$ 
+\end{remark}
+
+\begin{proposition}
+Let $v \in \Im{\H} \subset \H$ be a vector. For any unit $q \in S^3 \subset \H$ we can act on $v$ via,
+\[ v \mapsto q v q^{-1} \]
+This is a rotation. 
+\end{proposition}
+
+\begin{proof}
+We should first chech that $v \mapsto q v q^{-1}$ is a well-defined map $\R^3 \to \R^3$ meaning that it takes vectors to vectors. Notice that imaginary quaternions are uniquely characterized by the property $\bar{v} = - v$. Thus consider,
+\[ \overline{q v q^{-1}} = (\overline{q})^{-1} \: \overline{v} \: \overline{q} \]
+However, recall that,
+\[ q \bar{q} = |q|^2 = 1 \]
+meaning that $\bar{q} = q^{-1}$ for a unit quaterion. Therefore,
+\[ \overline{q v q^{-1}} = \bar{q}^{-1} \bar{v} \bar{q} = q \bar{v} q^{-1} = - q v q^{-1} \]
+and therefore $q v q^{-1} \in \Im{\H}$ is still a vector.
+\bigskip\\
+It is enough to check the defining properties of a rotation. First we must must show that this transformation is linear. This follows from the bilinearity of quaternion multiplication (the distributive property) since,
+\[ q(\alpha v + \beta \vec{u}) q^{-1} = \alpha q v q^{-1} + \beta q \vec{u} q^{-1} \]
+for any $\alpha, \beta \in \R$. 
+Next we need to show that it preserves lengths. The quaternion norm of a vector,
+\[ |v|^2 = v \bar{v} = v_x^2 + v_y^2 + v_z^2 \]
+agrees with the square of the vector length. Furthermore,
+\[ |q v q^{-1}| = |q| \cdot |v| \cdot |q|^{-1} = |v| \cdot |q q^{-1}| = |v| \]
+so this transformation preserves lengths. Lastly, we need to show that this transformation preserves handedness or orientation. We will give two very different proofs of this fact each of which I hope will be enlightening in a different way.
+\bigskip\\
+The first thing to notice is that quaternions have an inherent prefered orientation built in. This is because,
+\[ \bf{i} \bf{j} \bf{k} = 1 \]
+but if we swap the order of any two vectors we get $-1$. So this product measures the orientation. We transform these basis vectors under the map,
+\begin{align*}
+\bf{i} \mapsto & q \bf{i} q^{-1}
+\\
+\bf{j} \mapsto & q \bf{j} q^{-1}
+\\
+\bf{k} \mapsto & q \bf{k} q^{-1}
+\end{align*}
+to give a new basis of $\R^3$. The product of these three new unit vectors determines the orientation of the new basis,
+\[ (q \bf{i} q^{-1}) \cdot (q \bf{i} q^{-1}) \cdot (q \bf{i} q^{-1}) = q ( \bf{i} \bf{j} \bf{k} ) q^{-1} = q \cdot 1 \cdot q^{-1} = 1 \]
+Therefore, the orientation is still the standard orientation so this transformation is an honest-to-god rotation. 
+\bigskip\\
+There is a very different and clever proof of the last fact about orientation which shows that preserving orientation is actually a consequence of the topology of $S^3$. If we start with some basis $\{ \bf{e}_1, \bf{e}_2, \bf{e}_3 \}$ of $\R^3$ then consider the transformed basis, $\{ q \bf{e}_1 q^{-1}, q \bf{e}_2 q^{-1}, q \bf{e}_3 q^{-1} \}$. Now we can take the determinant to find the orientation,
+\[ D(q) = \det{\{ q \bf{e}_1 q^{-1}, q \bf{e}_2 q^{-1}, q \bf{e}_3 q^{-1} \}} \]
+Recall that the orientation is determined by the sign of the determinant. Now this is the trick. Since the sphere $S^3$ is connected, between any two unit quaternions there is a continuous path. In particular there is a continuous path from $1$ to $q$. Now if $D(1)$ and $D(q)$ have different sign, because the path is continuous, somewhere along the path from $1$ to $q$ there is a point $p$ such that $D(p) = 0$. However, this would mean that $p$ is not invertable since its transformation has zero determinant but for any unit quaternion $p^{-1} = \bar{p}$ exists so we can invert the transformation. Thus we have shown that $D(q)$ cannot change sign so $q$ must preserve the orientation of the choosen basis.
+\end{proof}
+
+\begin{remark}
+It is the connectedness of the quaternions that we see is essential here. Any continuous action of a connected group can only act via orientation preserving transformations for this reason. Due to this fact, we refer to reflections, which do not preserve orientations, as discrete rather than continuous transformations.   
+\end{remark}
+
+\begin{remark}
+We have shown that the action $\vec{v} \mapsto q \vec{v} q^{-1}$ is a rotation. However, we would like to know explicitly \textit{which} rotation is this for a given quaternion. 
+\end{remark}
+
+\begin{proposition}
+We can write any unit quaternion in the form $q = \cos{\theta} + \hat{n} \sin{\theta}$ where $\hat{n}$ is a unit vector (simply because $\cos^2{\theta} + \sin^2{\theta} = 1$). Then I claim that $q \vec{v} q^{-1}$ excecutes a rotation of $\vec{v}$ about the axis $\hat{n}$ by an angle of $2 \theta$. 
+\end{proposition}
+
+\begin{proof}
+This is an excercise in advanced multiplication! Using our formulae,
+\[ q \vec{v} = (\cos{\theta} + \hat{n} \sin{\theta}) \vec{v} = \vec{v} \cos{\theta} - \hat{n} \cdot \vec{v} \sin{\theta} + \hat{n} \times \vec{v} \sin{\theta} \]
+Now we need to multiply on the right (recall that $q^{-1} = \bar{q}$ for a unit),
+\begin{align*}
+q \vec{v} \bar{q} & = (\vec{v} \cos{\theta} - \hat{n} \cdot \vec{v} \sin{\theta} + \hat{n} \times \vec{v} \sin{\theta}) \cdot (\cos{\theta} - \hat{n} \sin{\theta})
+\\
+& = - \hat{n} \cdot \vec{v} \sin{\theta} \cos{\theta} + (\vec{v} \cos{\theta} + \hat{n} \times \vec{v} \sin{\theta}) \cos{\theta}
+\\
+& + \vec{v} \cdot \hat{n} \sin{\theta} \cos{\theta} - \vec{v} \times \hat{n} \cos{\theta} \sin{\theta} + (\hat{n} \cdot \vec{v}) \hat{n} \sin^2{\theta} - (\hat{n} \times \vec{v}) \times \hat{n} \sin^2{\theta} 
+\\
+& = \vec{v} \cos^{2}{\theta} + 2 \hat{n} \times \vec{v} \sin{\theta} \cos{\theta} + \hat{n} \times (\hat{n} \times \vec{v}) \sin^2{\theta} + (\hat{n} \cdot \vec{v}) \hat{n} \sin^2{\theta}
+\end{align*}
+Now, there is a cross product formula,
+\[ \vec{a} \times (\vec{b} \times \vec{c}) = (\vec{a} \cdot \vec{c}) \vec{b} - (\vec{a} \cdot \vec{b}) \vec{c} \]
+In our case,  
+\[ \hat{n} \times (\hat{n} \times \vec{v}) = (\hat{n} \cdot \vec{v}) \hat{n} - \vec{v} \]  
+Thus we can rearange to find,
+\begin{align*}
+q \vec{v} \bar{q} & = \vec{v} (\cos^2{\theta} - \sin^2{\theta}) + \hat{n} \times \vec{v} \: (2 \sin{\theta} \cos{\theta}) + 2 (\hat{n} \cdot \vec{v}) \hat{n} \sin^2{\theta} 
+\\
+& = (\vec{v} - (\hat{n} \cdot \vec{v}) \hat{n}) (\cos^2{\theta} - \sin^2{\theta}) + \hat{n} \times \vec{v} \: (2 \sin{\theta} \cos{\theta}) + (\hat{n} \cdot \vec{v}) \hat{n}
+\end{align*}
+I hope you remember your double angle formulae!
+\begin{align*}
+\cos{2 \theta} & = \cos^2{\theta} - \sin^2{\theta}
+\\
+\sin{2 \theta} & = 2 \sin{\theta} \cos{\theta}
+\end{align*}
+Therefore, we find,
+\[ q \vec{v} \bar{q} = (\vec{v} - (\hat{n} \cdot \vec{v}) \hat{n}) \cos{2 \theta} + \hat{n} \times \vec{v} \: \sin{2 \theta} + (\hat{n} \cdot \vec{v}) \hat{n} \]
+which is the formula for the rotation of $\vec{v}$ about $\hat{n}$ by an angle $2 \theta$. 
+\end{proof}
+
+\begin{remark}
+The rotation by $2 \theta$ behavior is a bit strange but it turns out to be related exactly to the fact that the action of the unit quaterions we have constructed is actually a \textit{double cover} of the rotation group (more on this to come).
+\end{remark}
+
+\begin{proposition}
+There is an analogue of Euler's formula for quaternions,
+\[ e^{\hat{n} \theta} = \cos{\theta} + \hat{n} \sin{\theta} \]
+Thus we may represent rotations in axis-angle form via,
+\[ v \mapsto e^{\hat{n} \frac{\theta}{2}} \: v \: e^{- \hat{n} \frac{\theta}{2}} \]
+\end{proposition}
+
+\rd{
+\section{Topology and Covering Map Theory}
+
+(FUNDAMENTAL GROUP)
+(RP3 FUNDAMENTAL GROUP AND BELT TRICK)
+(COVERING SPACES)
+(COVERING SPACES CLASSIFICATION WITH FUNDAMENTAL GROUP)
+
+
+\begin{remark}
+One of the most important examples of a Lie group is the group $\SO{n}$ of rotations of $\R^n$ or equivalently orientation preserving isometries of $S^{n-1}$. This group can be constructed as the group of $n \times n$ determinant $1$ (special) orthogonal matricies (hence the name). We want to understand this group in detail. First we will start with the simplier question of which spheres can be Lie groups.
+\end{remark}
+
+DEFINE ISOMETRY GROUPS
+
+\begin{theorem}
+$S^n$ can be given a Lie group structure only when $n = 1,3$. 
+\end{theorem}
+
+\begin{definition}
+We give $S^1$ a Lie group structure by identifing,
+\[ S^1 = \{ z \in \C \mid |z| = 1 \} = U(1) \]
+Since $|z \cdot z'| = |z| \cdot |z'| = 1$ and $z \bar{z} = |z|^2 = 1$ this is indeed a group. By analogy, we define a Lie group structure on $S^3$ by identifing,
+\[ S^3 = \{ q \in \H \mid |q| = 1 \} \]
+which is a Lie group because $|q \cdot q'| = |q| \cdot |q'| = 1$ and $q \bar{q} = |q|^2 = 1$. From now on, let $S^3$ refer to this group. 
+\end{definition}
+
+(DEFINE SU(2))
+
+\begin{theorem}
+The group $S^3$ is isomorphic to the group $\SU{2}$. 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+
+\begin{theorem}
+There is a 2-fold covering map $\pi : \SU{2} \to \SO{3}$ making $\SU{2}$ the univeral cover of $\SO{3}$. 
+\end{theorem}
+
+\begin{proof}
+We will give two equivalent descriptions of this map in terms of quaterions and complex matrices. This map turns out to be extremely practically useful in physics and physics applications for parametrizing rotations. Therefore, it is worth understanding it in detail.
+\end{proof}
+
+\begin{remark}
+Topologically this is the covering map $\pi : S^3 \to \mathbb{RP}^3$. 
+\end{remark}
+}
+
+
+\section{The Hopf Fibration}
+
+\begin{remark}
+Recall that we have a 2-fold covering map $\pi : \SU{2} \to \SO{3}$ which is topologically the 2-fold covering $\pi : S^3 \to \rp^3$. 
+\end{remark}
+
+\begin{definition}
+If we choose a fixed unit vector $v \in S^2 \subset \R^3$ then the action of $\SO{3}$ on the sphere gives a map $a : \SO{3} \to S^2$. Composing this map with the covering map $\pi$ gives the Hopf Fibration $h = a \circ \pi : S^3 \to S^2$. Explicitly, in terms of unit quaternions and writing $v \in S^2 \subset \R^3 \subset \H$ we have,
+\[ h(q) = q v q^{-1} \]
+\end{definition}
+
+\begin{remark}
+There is a notion of a fibration and of a fibre bundle. In this case they are equivalent and the concept of a fibre bundle is easier to understand.
+\end{remark}
+
+\begin{definition}
+A fibre bundle is a morphism $\pi : E \to B$ with fibre $F$ usually witten as
+\begin{center}
+\begin{tikzcd}
+F \arrow[r, hook] & E \arrow[r] & B
+\end{tikzcd}
+\end{center}
+is a map such that there are local trivializations, i.e an open cover $U_\alpha \subset B$ with isomorphisms $\varphi_\alpha : \pi^{-1}(U_\alpha) \to U_\alpha \times F$ such that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = small]
+\pi^{-1}(U_\alpha) \arrow[dr, "\pi"] \arrow[rr, "\varphi_\alpha"] & & U_\alpha \times F \arrow[dl]
+\\
+& U 
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{definition}
+A section of a bundle $\pi : E \to B$ is a morphism $s : B \to E$ such that $\pi \circ s = \id_B$. 
+\end{definition}
+
+\begin{example}
+The trivial bundle with fiber $F$ over $X$ is simply $\pi : X \times F \to X$ given by projection by the first factor. For example, the tivial bundle of $\R$ over $S^1$ is a cylinder $\R \times S^1$.  
+\end{example}
+
+\begin{example}
+The m\"{o}bius bundle is $\R \hookrightarrow M \to S^1$ is given by a twist of $\R$ over $S^1$ such that $M$ is a m\"{o}bius strip. $M$ is nontrivial in the sense that $M \not\cong \R \times S^1$ because $M$ does not admit a nonvanishing section.
+\end{example}
+
+\begin{remark}
+A fibre bundle $F \hookrightarrow E \to B$ is morally a way of building $E$ up fibers $F$ parametrized by the space $B$ along the map $\pi : E \to B$. 
+\end{remark}
+
+\begin{proposition}
+The Hopf Fibration (Hopf Bundle) is a fibre bundle $S^1 \hookrightarrow S^3 \to S^2$ of spheres with the structure map $\pi : S^3 \to S^2$ defined by $q \mapsto q \cdot \vec{v} \cdot q^{-1}$ for $q \in S^3 \subset \H$ and $\vec{v}$ a fixed unit vector in $\H$ i.e. $\vec{v} \in S^2 \subset \R^3 = \Im{\H} \subset \H$.  
+\end{proposition}
+
+\begin{proof}
+Suppose that $q_1 \vec{v} q_1^{-1} = q_2 \vec{v} q_2^{-1}$ then $(q_2^{-1} q_1) \vec{v} (q_1 q_2^{-1})^{-1} = \vec{v}$. Thus $(q_2^{-1} q_1)$ maps to a rotation fixing $\vec{v}$ so it must have axis parallel to $\vec{v}$ so $(q_2^{-1} q_1) = e^{a \vec{v}}$ for some $a \in S^1$. Thus,
+\[ \pi^{-1}(\vec{u}) = \{ q_0 e^{\alpha \vec{v}} \} \cong S^1 \]
+where $q_0$ is any fixed unit quaternion above $\vec{u}$. Then fundamental fiber,
+\[F = \pi^{-1}(\vec{v}) = \{ e^{\alpha \vec{v}} \} = U(1) = S^1 \]
+gives any other fiber by right-acting on $q_0$. We see the fibers are $U(1)$-torsors where we identify $U(1)$ with unit complex numbers or with the fundamental circle of rotations fixing $\vec{v}$. For example, if we choose the north pole $\vec{v} = \bf{k}$ then,
+\[ F = \pi^{-1}(\bf{k}) = \{ e^{\alpha \bf{k}} = \cos{\alpha} + \bf{k} \sin{k} \} \]
+is the great circle through $1$ and $\bf{k}$ in $S^3$ which is a $U(1)$ isomorphic to unit complex numbers. Fibers which do not pass through $1$ are not groups and thus not isomorphic to $U(1)$ but they are $U(1)$-torsors by the right-multiplication action $s \mapsto q_0 s$ and thus the fibers are great circles.
+\bigskip\\
+The map is a fibre bundle because for sufficiently small open balls $U \subset S^2$ we have $\pi^{-1}(U) \cong U \times S^1$ which is a solid torus. Thus, the Hopf fibration builds $S^3$ out of interlocking tori.
+\end{proof}
+
+\begin{remark}
+The Hopf fibration is simply the covering map $\pi : S^3 \to \SO{3}$ composed with the canonical action of $\SO{3}$ on $S^2$ by rotation. 
+\end{remark}
+
+\rd{
+
+\begin{proposition}
+The fibres of the Hopf fibration are great circles each pair of which has linking number exactly one. Furthermore, the preimage of any circle in $S^2$ is a torus in $S^3$ and each fibre above a point on the circle is a viosoro circle of this torus.
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{remark}
+Steriographic projection. \rd{(DO THIS)}
+\end{remark}
+
+}
+
+\subsection{What to Look For in Video}
+
+\section{Lie Groups and Lie Algebras}
+
+\begin{definition}
+A Lie group is a group in which the multiplication map is smooth (infinitely differentiable). 
+\end{definition}
+
+\begin{definition}
+A Lie Algebra is a $k$-algebra $\g$ over a field $k$ with its bilinear bracket written as $[ \bullet, \bullet] : \g \times \g \to \g$ and satisfying,
+\begin{enumerate}
+\item $[x,x] = 0$
+\item $[x, [y, z]] + [y, [z, x]] + [z, [x, y]] = 0$
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+The $\R$-vectorspace $V = \R^3$ with the cross product $\times$ is a Lie algebra. In the standard basis it has structure coefficients $\epsilon_{ijk}$. 
+\end{example}
+
+
+\begin{theorem}
+Every Lie group $G$ has an associated Lie algebra $\g = \Lie{G} = T_e G$. Furthermore, if $f : G \to H$ is a Lie group homomorphism then $\d{f} : \g \to \h$ is a Lie algebra homomorphism.
+\end{theorem}
+
+\begin{proof}
+The Lie bracket is the second-order term in the expansion of $g_1 g_2 g_1^{-1} g_2^{-1}$ about the identity.
+\end{proof}
+
+\begin{example}
+The standard example of a Lie group is $\GL{n}$ the group of invertible real $n \times n$ matrices. In particular, for any real vectorspace $V$ then $\Aut{V} = \GL{\dim{V}}$ is a Lie group. We can write elements of $\GL{n}$ close to the identity as $M = I + \Omega$ for small matrix $\Omega$. So $\gl{n} = \End{\R^n}$ all $n \times n$ matrices. Then, to second-order,
+\begin{align*}
+M_1 M_2 M_1^{-1} M_2^{-1} & = (I + \Omega_1)(I + \Omega_2)(I - \Omega_1 + \Omega_1^2)(I - \Omega_2 + \Omega_2^2)
+\\
+& = I + \Omega_1 \Omega_2 - \Omega_2 \Omega_1 + O(\Omega^3) = I + [\Omega_1, \Omega_2] + O(\Omega^3)
+\end{align*}
+So the Lie bracket on $\gl{n} = \Lie{\GL{n}}$ is the standard commutator. 
+\end{example}
+
+\section{Spin}
+ 
+ 
+\end{document}

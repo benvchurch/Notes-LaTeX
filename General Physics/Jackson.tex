@@ -1,0 +1,1296 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[a4paper, total={7.25in, 9.5in}]{geometry}
+\usepackage{tikz-feynman}
+\tikzfeynmanset{compat=1.0.0} 
+\usepackage{subcaption}
+\usepackage{float}
+\floatplacement{figure}{H}
+\newcommand{\field}{\hat{\phi}}
+\newcommand{\dfield}{\hat{\phi}^\dagger}
+\usepackage{simplewick}
+\usepackage{mathrsfs}  
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\bra}[1]{\left| #1 \right>}
+\newcommand{\Oa}{O_\alpha}
+\newcommand{\Od}{O_\alpha^{\dagger}}
+\newcommand{\Oap}{O_{\alpha '}}
+\newcommand{\Odp}{O_{\alpha '}^{\dagger}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\newcommand{\ket}[1]{\left| #1 \right>}
+\renewcommand{\bra}[1]{\left< #1 \right|}
+\newcommand{\inner}[2]{\left< #1 | #2 \right>}
+\newcommand{\expect}[2]{\left< #1 \right| #2 \left| #1 \right>}
+\renewcommand{\d}[1]{\: \mathrm{d}#1}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^{#1}}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\EV}[1]{\left< #1 \right>}
+\renewcommand{\Re}[1]{\mathrm{Re}\left[ #1 \right]}
+
+\newcommand{\hamilt}{\hat{H}}
+\renewcommand{\L}{\hat{L}}
+\newcommand{\Lz}{\hat{L}_z}
+\newcommand{\Lsquared}{\hat{L}^2}
+\renewcommand{\S}{\hat{S}}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\J}{\hat{J}}
+\newcommand{\lagrange}{\mathcal{L}}
+\newcommand{\dfourx}{\mathrm{d}^4x}
+\newcommand{\meson}{\phi}
+\newcommand{\dpsi}{\psi^\dagger}
+\newcommand{\ipic}{\mathrm{int}}
+\usepackage{slashed}
+\newcommand{\parity}{\mathbf{P}}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+\newcommand{\arctanh}{\mathrm{arctanh}}
+
+\newcommand{\pathd}[1]{\! \mathscr{D} #1 \:}
+
+\renewcommand{\theenumi}{(\alph{enumi})}
+
+\newcommand{\atitle}[1]{\title{% 
+	\large \textbf{Physics GR6047 Quantum Field Theory I
+	\\ Assignment \# #1} \vspace{-2ex}}
+\author{Benjamin Church }
+\maketitle}
+
+ 
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+ 
+\newcommand{\nhat}{\hat{\bf{n}}}
+\newcommand{\x}{\mathbf{x}}
+
+
+
+\begin{document}
+
+\title{Solutions to Jackson Classical Electrodynamics 2nd Edition}
+\author{Benjamin Church}
+\maketitle
+\tableofcontents
+
+\section{Chapter 2}
+
+\subsection{Problem 2.2}
+
+Consider a point charge $q$ at position $\x$ inside a grounded conduncting sphere of radius $a$. This charge generates an image charge $q' = - a / |\x| q$ at position $a^2 / |\x|$ ouside the sphere. Because the potentials of these charges exactly cancel on the boundary sphere, we have solved Poission's equation inside the sphere (since the image lies outside) with the Dirichlet boundary condition $\phi(S) = 0$. Explicitly, the potential becomes,
+\[ \phi(\x') = \frac{q}{|\x - \x'|} - \frac{q \left(a / |\x|\right)}{| \x \left( a / |\x| \right)^2 - \x'|} \]  
+Furthermore, the surface charge density is related to the discontinuity in electric by
+\begin{align*}
+\sigma & = -\frac{1}{4 \pi} \pderiv{\phi}{n'} \bigg|_{\x' \in S} =  \frac{q}{4 \pi a^2} \left[ \frac{a^2 (\x - \x') \cdot \nhat'}{|\x - \x'|^3} - \frac{a^3 / |\x| \cdot (\x (a / |\x|)^2 - \x') \cdot \nhat'}{| \x (a / |\x|)^2 - \x'|^3} \right] 
+\\
+& =   \frac{q}{4 \pi a^2} \left[ \frac{a^2 (r \cos{\gamma} - a)}{[r^2 + a^2 - 2 ra \cos{\gamma}]^{3/2}} - \frac{a^3 \cdot ( (a / r)^2 \cos{\gamma} - a/r)}{[a^4 / r^2 + a^2 - 2 a^3 / r \cos{\gamma} ]^{3/2}} \right] 
+\\
+& =  \frac{q}{4 \pi a^2} \left[ \frac{a^2 (r \cos{\gamma} - a)}{[r^2 + a^2 - 2 ra \cos{\gamma}]^{3/2}} - \frac{( a^2 r \cos{\gamma} - ar^2)}{[a^2 + r^2 - 2 a r \cos{\gamma} ]^{3/2}} \right] 
+\\
+& = - \frac{q}{4 \pi a^2} \left( \frac{a (a^2 - r^2) }{[r^2 + a^2 - 2 ra \cos{\gamma}]^{3/2}}\right) 
+\end{align*} 
+where $r = |\x|$ and $\gamma$ is the angle between $\x$ and $\x'$. The force on the particle equals the force between it and its image,
+\[ \mathbf{F} = \frac{a q^2 \x}{(a^2 - r^2)^2} \]
+Putting the sphere at constant potential corresponds to simply adding a constant to $\phi$ which changes none of the physical answers. Furthermore, putting a total charge on the sphere will not influcence the potential inside and therefore can have no effect on the particle inside. This is an application of the superposition principle. Since a charged conducting sphere has constant potential inside, we can add that solution to the solution for a charged particle inside the grounded conducting sphere wihtout changing the interior solution. 
+\subsection{Problem 2.3}
+
+
+Calculating the field of a point charge at $\x'$ and its image at $\x' - 2 (\x' \cdot \nhat) \nhat$ gives th Green's function,
+\[ G(\x, \x') = \frac{1}{|\x - \x'|} - \frac{1}{|\x - \x' + 2 (\x' \cdot \nhat) \nhat| } \]
+We need the derivative of this quantity with respect to the outward normal $-\nhat$,
+\[ \pderiv{G}{n'} = - \frac{(\x - \x') \cdot \nhat}{|\x - \x'|^3} - \frac{(\x + \x') \cdot \nhat}{|\x - \x' + 2 (\x' \cdot \nhat) \nhat|^3 } \]
+Green's theorem tells us that,
+\[ \phi(\x) = - \frac{1}{4 \pi} \oint_S \phi(\x') \pderiv{G}{n'} \d{A} \]
+In the case that $\phi(\x') = V$ for $x' \cdot \nhat = 0$ and $|x'| < a$ and otherwise zero on the boundary surface $S$ where $\x' \cdot \nhat = 0$, the integral becomes,
+\begin{align*}
+\phi(\rho, \varphi, z) & = \frac{V}{4 \pi} \int_0^a \d{r} \int_0^{2 \pi} r \d{\theta} \left[ \frac{(\x - \x') \cdot \nhat}{|\x - \x'|^3} + \frac{(\x + \x') \cdot \nhat}{|\x - \x' + 2 (\x' \cdot \nhat) \nhat|^3 } \right] 
+\\
+& = \frac{V}{2 \pi} \int_0^a \d{r} \int_0^{2\pi} r \d{\theta} \:  \frac{z}{[\rho^2 + r^2 - 2 \rho r \cos{\theta} + z^2]^{3/2}} 
+\end{align*} 
+where $\theta$ is the angle between the projection of $\x$ into the plane and $\x'$. Therefore, along the $z$-axis,
+\[ \phi(z) = V \int_0^r \frac{zr \d{r} }{(r^2 + z^2)^{3/2}} = -V \left[ \frac{1}{\sqrt{1 + r^2 / z^2}} \right]_0^a = V \left(1 - \frac{z}{\sqrt{z^2 + a^2}} \right)  \]
+Next we consider the potential when $\rho^2 + z^2 >> a^2$,
+\begin{align*}
+\phi(\rho, \varphi, z) & = \frac{V}{2 \pi} \int_0^a \d{r} \int_0^{2\pi} r \d{\theta} \: \frac{z}{[\rho^2 + r^2 - 2 \rho r \cos{\theta} + z^2]^{3/2}} 
+\\
+& = \frac{Va^2}{2} \frac{z}{(\rho^2 + z^2)^{3/2}}  \int_0^a \frac{2r \d{r}}{a^2}  \cdot \frac{1}{2\pi} \int_0^{2 \pi} \frac{1}{ \left[ 1 + \frac{r^2 - 2 \rho r \cos{\theta}}{\rho^2 + z^2} \right]^{3/2}} 
+\\
+& = \frac{Va^2}{2} \frac{z}{(\rho^2 + z^2)^{3/2}}  \int_0^a \frac{2r \d{r}}{a^2}  \cdot \frac{1}{2\pi} \int_0^{2 \pi} \left[ 1 - \frac{3}{2} \left( \frac{r^2 - 2 \rho r \cos{\theta}}{\rho^2 + z^2} \right) + \frac{15}{8} \left( \frac{r^2 - 2 \rho r \cos{\theta}}{\rho^2 + z^2} \right)^2 + \cdots \right]
+\\
+& = \frac{Va^2}{2} \frac{z}{(\rho^2 + z^2)^{3/2}}  \int_0^a \frac{2r \d{r}}{a^2}  \cdot \left[ 1 - \frac{3}{2} \left[ \frac{r^2}{\rho^2 + z^2} \right] + \frac{15}{8}  \left[ \frac{r^4 + 2 \rho^2 r^2}{(\rho^2 + z^2)^2} \right] + \cdots \right]
+\\
+& = \frac{Va^2}{2} \frac{z}{(\rho^2 + z^2)^{3/2}}  \left[ 1 - \frac{3a^2}{4(\rho^2 + z^2)} + \frac{5a^4 + 15 \rho^2 a^2}{8(\rho^2 + z^2)^2} + \cdots \right]
+\end{align*} 
+
+
+\subsection{Problem 2.4}
+
+\renewcommand{\a}{\mathbf{a}}
+\renewcommand{\c}{\mathbf{c}}
+
+Consider two lines of charge with linear densities $+\lambda$ and $-\lambda$ at possitions $+\a$ and $-\a$ respectivly. By Gauss's Law the electric field due to a line of charge with charge density $\lambda$ is,
+\[ E = \frac{2 \lambda}{\rho} \]
+Therefore, the potential is given by,
+\[ \phi = - 2 \lambda \log{(\rho/a)} \]
+By superposition, the total potential can be written as,
+\[ \phi(\x) = - 2\lambda \log{(|\x - \a|/a)} + 2 \lambda \log{(|\x + \a|/a)} = 2 \lambda \log{\left( \frac{|\x + \a|}{|\x - \a|} \right)} \]
+Therefore, the equipotential surfaces are the solutions to,
+\[ \frac{|\x + \a|}{|\x - \a|} = e^{V/(2 \lambda)} \]
+We know that locus of points such that the ratio of distances to a pair of fixed points is constant is a circe. We will try to find the center $\c$ and radius $r$ of this circle,
+\[ \frac{|\x - \c + \c + \a|}{|\x - \c + \c - \a|} = e^{V/(2 \lambda)} = \kappa \]
+If we consider points along the line $-\a$ to $\a$ at position $x \a$ then,
+\[ \frac{x + 1}{x - 1} = \pm \kappa \]
+which implies that,
+\[ x = \frac{\pm \kappa - 1}{1 \pm \kappa} \]  
+and therefore,
+\[ c = \tfrac{1}{2} a \left( x_{+} + x_{-} \right) = a \frac{\kappa^2 + 1}{\kappa^2 - 1} \quad \text{and} \quad r = \tfrac{1}{2} a \left| x_{+} - x_{-} \right| = a \frac{2 \kappa}{| \kappa^2 -  1 |} \]
+We now place two conducting cylinders with radii $r_1$ and $r_2$ on equipotentials. We let the conductor of radius $r_1$ have $\kappa > 1$ and the conductor of radius $r_2$ have $\kappa < 1$. Therefore,
+\[ r_1 = \frac{2 a \kappa_1}{\kappa_1^2 - 1} \quad \text{and} \quad r_2 = \frac{2 a \kappa_2}{1 - \kappa_2^2} \]
+which implies that,
+\[ \kappa_1 = 1 + \sqrt{1 + (r_1/a)^2} \quad \text{and} \quad \kappa_2 = -1 + \sqrt{1 + (r_2/a)^2} \]
+We would like to eliminate the variable $a$,
+\[ c_1 = \frac{r_1}{2} \left( \kappa_1 + \kappa_1^{-1} \right)  \quad \text{and} \quad c_2 = - \frac{r_2}{2} \left( \kappa_2 + \kappa_2^{-1} \right)  \]
+and therefore,
+\[ \kappa_1 = (c_1 / r_1) + \sqrt{1 + (c_1/r_1)^2} \quad \text{and} \quad \kappa_2 = -(c_1/r_1) + \sqrt{1 + (c_1/r_1)^2} \]
+The distance between the centers of these conductors is then,
+\begin{align*}
+d = c_1 - c_2 = \frac{r_1}{2} \left( \kappa_1 + \kappa_1^{-1} \right) + \frac{r_2}{2} \left( \kappa_2 + \kappa_2^{-1} \right) = r_1 \cosh{\left( \frac{V_1}{2 \lambda} \right)} + r_2 \cosh{\left( \frac{V_2}{2 \lambda} \right)}  
+\end{align*} 
+Now,
+\[ \frac{d^2 - r_1^2 - r_2^2}{2 r_1 r_2} = \cosh{\left( \frac{V_1}{2 \lambda} \right)} \cosh{\left( \frac{V_2}{2 \lambda} \right)} - \frac{r_1}{2 r_2} \sinh{\left( \frac{V_1}{2 \lambda} \right)}^2 - \frac{r_2}{2 r_1} \sinh{\left( \frac{V_2}{2 \lambda} \right)}^2  \]
+However,
+\[ \frac{r_1}{r_2} = \frac{\kappa_2^{-1} - \kappa_2}{\kappa_1 - \kappa_1^{-1}} = - \frac{\sinh{\left( \frac{V_2}{2 \lambda} \right)}}{\sinh{\left( \frac{V_1}{2 \lambda} \right)}} \]
+and thus,
+\[ \frac{d^2 - r_1^2 - r_2^2}{2 r_1 r_2} =  \cosh{\left( \frac{V_1}{2 \lambda} \right)} \cosh{\left( \frac{V_2}{2 \lambda} \right)} + \sinh{\left( \frac{V_1}{2 \lambda} \right)} \sinh{\left( \frac{V_2}{2 \lambda} \right)} = \cosh{ \left( \frac{V_1 - V_2}{2 \lambda} \right) }\]
+Therefore, finally the capacitance per unit length is the charge per unit length divided by the difference in potential between the cylinders,
+\[ C = \frac{\lambda}{V_1 - V_2} = \frac{1}{2 \cosh^{-1}{\left( \frac{d^2 - r_1^2 - r_2^2}{2 r_1 r_2} \right)}}\]
+We can expand this quantity in the limit $d \gg r_1 + r_2$. To second order,
+\begin{align*}
+C & = \frac{1}{2 \log{\left( \frac{d^2 - r_1^2 - r_2^2}{r_1 r_2} \right) }}  + \left( \frac{r_1 r_2}{d^2 - r_1^2 - r_2^2} \right)^2 \frac{1}{\log{ \left[ \left( \frac{d^2 - r_1^2 - r_2^2}{r_1 r_2} \right) \right]^2 }} + \mathcal{O}\left( [d /\sqrt{r_1 r_2}]^3 \right)
+\\
+& = \frac{1}{4 \log{\left( \frac{d}{\sqrt{r_1 r_2}} \right)}} \left( 1 + \frac{r_1^2 + r_2^2}{d^2} + \left( \frac{r_1^2 + r_2^2}{d^2} \right)^2 \right) + \frac{r_1^2 r_2^2}{d^4} \frac{1}{4 \log{\left( \frac{d}{\sqrt{r_1 r_2}} \right)}^2} + \mathcal{O}\left( [d /\sqrt{r_1 r_2}]^3 \right)
+\end{align*}  
+Let us now suppose that of the cylinders lies inside the other. In this case, $\kappa_1 > \kappa_2 > 1$ so
+\[ r_1 = \frac{2 a \kappa_1}{\kappa_1^2 - 1} \quad \text{and} \quad r_2 = \frac{2 a \kappa_2}{\kappa_2^2 - 1} \]
+which implies that,
+\[ c_1 = \frac{r_1}{2} \left( \kappa_1 + \kappa_1^{-1} \right)  \quad \text{and} \quad c_2 = \frac{r_2}{2} \left( \kappa_2 + \kappa_2^{-1} \right)  \]
+The distance between the centers of these conductors is then,
+\begin{align*}
+d = c_1 - c_2 = \frac{r_1}{2} \left( \kappa_1 + \kappa_1^{-1} \right) - \frac{r_2}{2} \left( \kappa_2 + \kappa_2^{-1} \right) = r_1 \cosh{\left( \frac{V_1}{2 \lambda} \right)} - r_2 \cosh{\left( \frac{V_2}{2 \lambda} \right)}  
+\end{align*} 
+Now,
+\[ \frac{r_1^2 + r_2^2 - d^2}{2 r_1 r_2} = \cosh{\left( \frac{V_1}{2 \lambda} \right)} \cosh{\left( \frac{V_2}{2 \lambda} \right)} + \frac{r_1}{2 r_2} \sinh{\left( \frac{V_1}{2 \lambda} \right)}^2 + \frac{r_2}{2 r_1} \sinh{\left( \frac{V_2}{2 \lambda} \right)}^2  \]
+However,
+\[ \frac{r_1}{r_2} = \frac{\kappa_2 - \kappa_2^{-1}}{\kappa_1 - \kappa_1^{-1}} = \frac{\sinh{\left( \frac{V_2}{2 \lambda} \right)}}{\sinh{\left( \frac{V_1}{2 \lambda} \right)}} \]
+and thus,
+\[ \frac{r_1^2 + r_2^2 - d^2}{2 r_1 r_2} =  \cosh{\left( \frac{V_1}{2 \lambda} \right)} \cosh{\left( \frac{V_2}{2 \lambda} \right)} + \sinh{\left( \frac{V_1}{2 \lambda} \right)} \sinh{\left( \frac{V_2}{2 \lambda} \right)} = \cosh{ \left( \frac{V_1 - V_2}{2 \lambda} \right) }\]
+Therefore, finally the capacitance per unit length is the charge per unit length divided by the difference in potential between the cylinders,
+\[ C = \frac{\lambda}{V_1 - V_2} = \frac{1}{2 \cosh^{-1}{\left( \frac{r_1^2 + r_2^2 - d^2}{2 r_1 r_2} \right)}}\]
+For concentric cylinders, $d = 0$ so the capacitance becomes,
+\[ C = \frac{1}{2 \cosh^{-1} \left( \frac{r_1^2 + r_2^2}{2 r_1 r_2} \right) } = \frac{1}{2 \log{\left( \frac{r_2}{r_1} \right) }} \]
+where I have used the indentiy,
+\[ \cosh^{-1}{y} = \log{\left( y + \sqrt{y^2 - 1} \right)} \]
+when $y > 1$, and, assuming $r_2 > r_1$ since we assumed that $\kappa_1 > \kappa_2$, that,
+\[ \frac{r_1^2 + r_2^2}{2 r_1 r_2} + \sqrt{ \left( \frac{r_1^2 + r_2^2}{2 r_1 r_2} \right)^2 - 1 } = \frac{r_1^2 + r_2^2}{2 r_1 r_2} + \frac{r_2^2 - r_1^2}{2 r_1 r_2} = \frac{r_2}{r_1} \]
+
+
+\subsection{Problem 2.5}
+
+Consider an insulated, spherical, conducting shell of radius $a$ in a uniform electric field $E_0$. Suppose that the sphere has total charge $Q$. We showed that the potential outside such a sphere is, 
+\[ \phi = - E_0 \left( r - \frac{a^3}{r^2} \right) \cos{\theta} + \frac{Q}{r} \]
+Inside the sphere the potential is constant because the electric field must be conservative and is zero inside the shell. The surface charge density on the spherical shell is given by,
+\[ \sigma = - \frac{1}{4 \pi} \pderiv{\phi}{r} \bigg|_{r = a} = \frac{3 E_0}{4 \pi} \cos{\theta} + \frac{Q}{4 \pi a^2} \]
+The force on the northern hemisphere can be calculated by integrating the pressure $2 \pi \sigma^2$ over the area,
+\begin{align*}
+F_N & = (2 \pi)^2 a^2 \int_0^1 \left[ \frac{3 E_0}{4 \pi}  \cos{\theta} + \frac{Q}{4 \pi a^2} \right]^2 \cos{\theta} \d{(\cos{\theta})} 
+\\
+& = \tfrac{1}{4} a^2 \int_0^1 \left[ 9 E_0^2 \cos^3{\theta} + 6 E_0 Q/a^2 \cos^2{\theta} + Q^2 / a^4 \cos{\theta} \right] \d{(\cos{\theta})} 
+\\
+& = \tfrac{9}{16} E_0^2 a^2 + \tfrac{1}{2} E_0 Q + \tfrac{1}{8} Q^2 / a^2 
+\end{align*}
+Similarly, the force on the southern hemisphere is,
+\begin{align*}
+F_S & = (2 \pi)^2 a^2 \int_{-1}^0 \left[ \frac{3 E_0}{4 \pi}  \cos{\theta} + \frac{Q}{4 \pi a^2} \right]^2 \cos{\theta} \d{(\cos{\theta})} 
+\\
+& = \tfrac{1}{4} a^2 \int_{-1}^0 \left[ 9 E_0^2 \cos^3{\theta} + 6 E_0 Q/a^2 \cos^2{\theta} + Q^2 / a^4 \cos{\theta} \right] \d{(\cos{\theta})} 
+\\
+& = - \tfrac{9}{16} E_0^2 a^2 + \tfrac{1}{2} E_0 Q - \tfrac{1}{8} Q^2 / a^2
+\end{align*}
+The net force on the sphere is, as we ought to expect,
+\[ F_{\text{net}} = E_0 Q \]
+while the seperating force is,
+\[ F_N - F_S = \frac{9 E_0^2 a^2}{8} + \frac{Q^2}{4 a^2} \]
+
+\subsection{Problem 2.6}
+
+
+
+\subsection{Problem 2.7}
+
+By Gauss's Law the electric field due to a line of charge with charge density $\lambda$ is,
+\[ E = \frac{2 \lambda}{\rho} \]
+Therefore, the potential is given by,
+\[ \phi = - 2 \lambda \log{(\rho / b)} \]
+We need to find an arrangement of image charges inside the cylinder of radius $b$ such that the surface has potential $V$ such that the potential vanishes at infinity. Let $\x = (\rho, \theta)$ be the position of a line of (real) charge. If we take $\x_i = (b^2 / \rho, \theta)$ then we know that, for any point $\x'$ on the cylinder, $|\x - \x'| / |\x_i - \x'| = \rho / b$ which is a constant. If we take the log of both sides and multiply by $-2 \lambda$ we get,
+\[ -2 \lambda \log{(|\x - \x'|/b)} + 2 \lambda \log{(|\x_i - \x'|/b)} = -2 \lambda \log{(\rho / b)} \] 
+This represents the potential of two equal and opposite line charges which give a constant potential on the cylinder. Therefore, let,
+\[ \phi(\x') = - 2 \lambda \log{(|\x - \x'|/b)} + 2 \lambda \log{(|\x_i - \x'|/b)} = 2 \lambda \log{\left( \frac{|\x_i - \x'|}{|\x - \x'|} \right)} = \lambda \log{\left( \frac{|\x_i - \x'|^2}{|\x - \x'|^2} \right)} \]
+In the limit $|\x'| \to \infty$ both $|\x - \x'|$ and $|\x_i - \x'|$ reduce to $|\x'|$ and thus $\phi \to 0$ satisfying the boundary conditions. Therefore, we only need a unique image charge. Using coordinates, $\x' = (\rho', \theta')$ we get,
+\[ 
+\phi(\rho', \theta') = \lambda \log{\left( \frac{\rho_i^2 + \rho'^2 - 2 \rho_i \rho' \cos{(\theta - \theta')}}{\rho^2 + \rho'^2 - 2 \rho \rho' \cos{(\theta - \theta')}} \right)}
+\]
+but $\rho_i = b^2 / \rho$ and therefore,
+\[
+\phi(\rho', \theta') = \lambda \log{\left( \frac{b^4 + \rho^2 \rho'^2 - 2 b^2 \rho \rho' \cos{(\theta - \theta')}}{\rho^2 \left[ \rho^2 + \rho'^2 - 2 \rho \rho' \cos{(\theta - \theta')} \right]} \right)}
+\]
+If we take $\rho' \gg b$ then we may approximate,
+\begin{align*}
+\phi(\rho', \theta') & \approx \lambda \log{\left( \frac{\rho'^2}{\rho^2 + \rho'^2 - 2 \rho \rho' \cos{(\theta - \theta')} } \right)}
+\\
+& = 2 \lambda \log{\left( \rho' / b \right)} - 2 \lambda \log{(|\x - \x'| / b)}
+\end{align*}
+which is the potential of a charged cylinder at the origin and an oppositely charged point charge at $\x'$. We know that the surface charge density is equal to the discontinuity in the electric field,
+\begin{align*}
+\sigma & = - \frac{1}{4 \pi} \pderiv{\phi}{n} = - \frac{1}{4 \pi} \pderiv{\phi}{\rho'} \bigg|_{\rho' = b}
+\\
+& = - \frac{\lambda}{2 \pi} \left[ \frac{\rho^2 b - b^2 \rho \cos{(\theta - \theta')}}{b^4 + \rho^2 b^2 - 2 b^3 \rho \cos{(\theta - \theta')}} - \frac{b - \rho \cos{(\theta - \theta')} }{ \rho^2 + b^2 - 2 \rho b \cos{(\theta - \theta')} }  \right]
+\end{align*} 
+Let $h = \rho / b$ and $\delta = \theta - \theta'$ then
+\[ \sigma = - \frac{\lambda}{2 \pi b} \left[ \frac{h^2 - 1}{1 + h^2 - 2h \cos{\delta}}  \right] \]
+The force per unit length on the line of charge is given by,
+\[ F = \lambda E_{i} = - \frac{2\lambda^2}{|\x - \x_i|} = - \frac{2 \lambda^2}{\rho \left(1 - (b/\rho)^2 \right)} \]
+
+\subsection{Problem 2.8}
+
+Consider the general problem inside a cylinder with the potential specified on the boundary. The generic series solution is
+\[ \Phi(\rho, \theta) = a_0 + b_0 \ln{\rho} + \sum_{n = 1}^\infty a_n \rho^n \cos{(n \theta + \alpha_n)} + \sum_{n = 1}^{\infty} b_n \rho^{n} \sin{(n \theta + \beta_n)} \]
+However, because there is no charge at the origin, the potential may not diverge there which forces the requirement $b_n = 0$ for all $n \ge 0$. We can now expand the shifted sines into a complex exponential series,
+\[ \Phi(\rho, \theta) = a_0 + \sum_{n = 1}^\infty \rho^n \left(a_n e^{i n \theta} + a_n^* e^{-i n \theta} \right) \]
+where $a_n$ becomes complex by assuming the phase dependence. 
+Finally, the coeficients $a_n$ are calculated as Fourier components of the angular dependence on the surface via,
+\[ 
+a_n b^n = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) e^{-i n \theta} \d{\theta} \]
+
+Therefore, the potential everywhere is given by,
+\begin{align*}
+\Phi(\rho, \theta) & = \frac{1}{2\pi} \sum_{n = -\infty}^{\infty} \frac{\rho^{|n|}}{b^n} \int_0^{2 \pi} \Phi(b, \theta) e^{i n (\theta - \theta')} \d{\theta'} 
+\\
+& = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) \sum_{n = -\infty}^{\infty} \frac{\rho^{|n|}}{b^n}e^{i n (\theta - \theta')} \d{\theta'} 
+\\
+& = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) \left[ 1 + \sum_{n = 1}^\infty \left( \frac{\rho}{b} \right)^n e^{i n \theta} + \sum_{n = 1}^\infty \left( \frac{\rho}{b} \right)^n e^{-i n \theta}  \right] \d{\theta'} 
+\\
+& = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) \left[ 1 + \frac{\rho e^{i \theta}}{b - \rho e^{i \theta}} + \frac{\rho e^{-i \theta}}{b - \rho e^{-i \theta}}  \right] \d{\theta'} 
+\\
+& = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) \left[ 1 + \frac{2\rho b \cos{(\theta - \theta')} - 2 \rho^2}{b^2 + \rho^2 - 2 \rho b \cos{(\theta - \theta')}}  \right] \d{\theta'} 
+\\
+& = \frac{1}{2\pi} \int_0^{2 \pi} \Phi(b, \theta) \left[ \frac{b^2 - \rho^2}{b^2 + \rho^2 - 2 \rho b \cos{(\theta - \theta')}}  \right] \d{\theta'} 
+\end{align*}
+which is Poisson's integral. when $\rho > b$ the we must keep the opposite terms of the series. This amounts to replacing $(\rho/n)^n$ with $(n / \rho)^n$ which has the effect of swapping $\rho$ and $b$ in the integral formula. 
+
+\subsection{Problem 2.9}
+
+Consider a long hollow cylinder with inner radius $b$ split in halves kept at potential $V_1$ and $V_2$. Using Poisson's integral,
+\[ \Phi(\rho, \theta) = \frac{1}{2 \pi} \int_0^{\pi} V_1  \left[ \frac{b^2 - \rho^2}{b^2 + \rho^2 - 2 \rho b \cos{(\theta - \theta')}}  \right] \d{\theta'} + \frac{1}{2 \pi} \int_{\pi}^{2\pi} V_2  \left[ \frac{b^2 - \rho^2}{b^2 + \rho^2 - 2 \rho b \cos{(\theta - \theta')}}  \right] \d{\theta'} \]
+I will use the integral identity,
+\[ \int \frac{b^2 - \rho^2}{b^2 + \rho^2 - 2 b \rho \cos{\phi}} \d{\phi} = 2 \tan^{-1}{\left( \frac{b + \rho}{b - \rho} \tan{(\phi/2)} \right)}  \]
+to calculate,
+\begin{align*}
+\Phi(\rho, \theta) & = \frac{V_1}{\pi} \left[ \tan^{-1}{\left( \frac{b + \rho}{b - \rho} \tan{((\pi - \theta)/2)} \right)} + \tan^{-1}{\left( \frac{b + \rho}{b - \rho} \tan{(\theta/2)} \right)} \right]
+\\
+& - \frac{V_2}{\pi} \left[ \tan^{-1}{\left( \frac{b + \rho}{b - \rho} \tan{((\pi - \theta)/2)} \right)} + \tan^{-1}{\left( \frac{b + \rho}{b - \rho} \tan{(\theta/2)} \right)} \right] + \frac{V_2}{2}
+\\
+& = \frac{V_1 - V_2}{\pi} \tan^{-1} \left[ (b^2 - \rho^2) \frac{\tan{((\pi - \theta)/2)} + \tan{(\theta/2)}}{(b - \rho)^2 - (b + \rho)^2 \tan{((\pi - \theta)/2)} \tan{(\theta/2)} } \right] + \frac{V_2}{2}
+\\
+& = \frac{V_1 - V_2}{\pi} \tan^{-1} \left[ (b^2 - \rho^2) \frac{\cot{(\theta/2)} + \tan{(\theta/2)}}{(b - \rho)^2 - (b + \rho)^2} \right] + \frac{V_2}{2}
+\\
+& = \frac{V_1 - V_2}{\pi} \tan^{-1} \left[ \frac{b^2 - \rho^2}{2 b \rho} \frac{1}{\sin{\theta}} \right] + \frac{V_2}{2}
+\end{align*}
+However,
+\[ \tan^{-1}{(x)} + \tan^{-1}{\left(\frac{1}{x}\right)} = \frac{\pi}{2} \]
+and therefore,
+\[ \Phi(\rho, \theta) = \frac{V_1 + V_2}{2} - \frac{V_1 - V_2}{\pi} \tan^{-1} \left[ \frac{2 b \rho \sin{\theta}}{b^2 - \rho^2} \right] \]
+\subsection{Problem 2.10}
+
+Consider a long hollow conduncting cylinder of radius $b$ divided into equal quarters with alternating potentials $+V$ and $-V$. The general solution to the 2-$D$ cylindrical Laplace equation,
+\[ \frac{1}{r} \pderiv{}{r} \left( \rho \pderiv{\psi}{r} \right) + \frac{1}{r^2} \parsq{\phi}{\theta}  = 0 \]
+is given by the series,
+\[ \phi(r, \theta) = a_0 + b_0 \ln{r} + \sum_{n = 1}^\infty a_n \sin{(n \theta + \alpha_n)} + \sum_{n = 1}^\infty b_n r^{-n} \sin{(n \theta + \beta_n)} \]
+In the region inside the cylinder, the potential cannot diverge anywhere because there are no charges. Thus, $b_n = 0$ for each $n \ge 0$. It is furthermore clear that $a_0 = 0$ because the potential on the boundary has zero average. The remaining series coeficients represent the Fourier series of the potential on the boundary. If we take $\theta = 0$ to be a transition from $-V$ to $+V$ then the potential on the boundary is an odd function of $\theta$. Thus, $\alpha_n = 0$ for each $n$. Therefore, we have,
+\[ \phi(b, \theta) = \sum_{n = 1}^\infty a_n b^n \sin{n \theta} \]
+The Fourier coefficients are given by, 
+\begin{align*}
+a_n b^n & = \frac{1}{\pi} \int_0^{2 \pi} \phi(b, \theta) \sin{n\theta} \d{\theta} = \frac{V}{\pi} \left[ \int_0^{\pi/2} \sin{n\theta} \d{\theta} - \int_{\pi/2}^{\pi} \sin{n\theta} \d{\theta} + \int_{\pi}^{3\pi/2} \sin{n\theta} \d{\theta} - \int_{3 \pi /2}^{2\pi} \sin{n\theta} \d{\theta} \right] 
+\\
+& = \frac{2V}{n \pi} \left[1 - \cos{(n \pi / 2)} + \cos{(n \pi)} - \cos{(3 n \pi / 2)}   \right] 
+\\
+& = \frac{8 V}{n \pi} 
+\begin{cases}
+0 & n \equiv 1,3,4 \text{ mod } 4
+\\
+1 & n \equiv 2 \text{ mod } 4
+\end{cases}
+\end{align*}
+Thus, the potential inside the cylinder is,
+\[ \phi(r, \theta) = \frac{8 V}{\pi} \sum_{n \equiv 2 \text{ mod } 4} \frac{1}{n} \left( \frac{r}{b} \right)^n \sin{n \theta} = \frac{8 V}{\pi} \sum_{n = 0}^\infty \left( \frac{r}{b} \right)^{4n + 2} \frac{\sin{[(4 n + 2) \theta]}}{4 n + 2} \]
+Rewriting this function in complex form,
+\begin{align*}
+\phi(r, \theta) & = \frac{8 V}{\pi} \Im{\left[ \sum_{n = 0}^{\infty} \frac{1}{4 n + 2} \left( \frac{r}{b} e^{i \theta} \right)^{4 n + 2}  \right]} = \frac{8 V}{\pi} \Im{\left[ \int_0^r \sum_{n = 0}^{\infty} \left( \frac{r}{b} e^{i \theta} \right)^{4 n + 2} \frac{\d{r}}{r}  \right]}
+\\
+& = \frac{8 V}{\pi} \Im{\left[ \int_0^r \frac{\left( \frac{r}{b} e^{i \theta} \right)^2}{1 - \left( \frac{r}{b} e^{i \theta} \right)^4} \frac{\d{r}}{r}  \right]}
+= \frac{8 V}{\pi} \Im{\left[ \frac{1}{4} \log{\left(\frac{b^2 + r^2 e^{2 i \theta}}{ b^2 - r^2 e^{2 i \theta}} \right)} \right]}
+\\
+& = \frac{2 V}{\pi} \arctan{ \left( \frac{2 b^2 r^2 \sin{(2 \theta)}}{b^4 - r^4} \right) }
+\end{align*}
+where I have used the identities,
+\[ \int_0^x \frac{1}{1 - z^2} \d{z} = \frac{1}{2} \log{\left( \frac{1 + z}{1 - z} \right)} \]
+and for real $a$ and complex $z$,
+\[ \Im{\left[ \log{\left( \frac{a + z}{a - z} \right)} \right]} = \arctan{\left( \frac{2 a \Im{z}}{a^2 - |z|^2} \right)} \]
+
+\subsection{Problem 2.11}
+
+A Dirichlet Green's function for a surface $S$ must satisfy,
+\[ \nabla' G(\x, \x') = -4 \pi \delta(\x - \x') \quad \text{and} \quad \forall \x' \in S : G(\x, \x') = 0 \]
+In the case of a long cylinder of radius $b$, we used image charges to show that the function,
+\[ \phi(\x, \x') = \log{\left( \frac{|\x_i - \x'|^2}{|\x - \x'|^2} \right)} \]
+satisfies the delta function Poission equation and is constant on the surface $S$ of the cylinder. Thus, the following Green's function will satisfy the above conditions,
+\[ G(\x, \x') = \phi(\x, \x') - \phi(\x, S) = \log{\left( \frac{|\x_i - \x'|^2}{|\x - \x'|^2} \right)} + \log{\left( \frac{|\x|^2}{b^2} \right)} = \log{\left( \frac{|\x|^2 \cdot |\x_i - \x'|^2}{b^2 \cdot |\x - \x'|^2} \right)}  \]
+Using polar coordinates with $\x = (\rho, \theta)$ and $\x' = (\rho', \theta')$ the Green's function becomes
+\[ G(\rho, \theta ; \rho', \theta') = \log{\left( \frac{\rho^2}{b^2} \cdot \frac{\rho_i^2 + \rho'^2 - 2 \rho_i \rho \cos{(\theta - \theta')}}{\rho^2 + \rho'^2 - 2 \rho \rho' \cos{(\theta - \theta')}} \right)} = \log{\left( \frac{b^4 + \rho^2 \rho'^2 - 2 b^2 \rho \rho \cos{(\theta - \theta')}}{b^2 \left[ \rho^2 + \rho'^2 - 2 \rho \rho' \cos{(\theta - \theta')} \right] } \right)} \]
+where I have used the identiy, $\rho \rho_i = b^2$. 
+
+\subsection{Problem 2.12}
+
+
+\section{Chapter 3}
+
+\subsection{Problem 3.1}
+
+\subsection{Problem 3.2}
+
+Consider a spherical surface of radius $R$ on which there is a charge densty $\sigma = Q / (4 \pi R^2)$ except for a spherical cap at the north pole of angle $\alpha$. Since the problem has azimuthal symmetry, we can expand the potential inside as,
+\[ \Phi(r, \theta) = \sum_{\ell = 0}^\infty C_{\ell} \left( \frac{r}{R} \right)^{\ell} P_{\ell}(\cos{\theta}) \]
+and outside the sphere as,
+\[ \Phi(r, \theta) = \sum_{\ell = 0}^\infty C_{\ell} \left( \frac{R}{r} \right)^{\ell+1} P_{\ell}(\cos{\theta}) \]
+The charge density can then be determined by the discontinuity in the electric field,
+\begin{align*}
+\sigma & = \frac{1}{4 \pi} \left[ \pderiv{\phi}{r} \bigg|_{r < R} - \pderiv{\phi}{r} \bigg|_{r > R} \right]_{r = R}
+\\
+& = \frac{1}{4 \pi R} \left[ \sum_{\ell = 0}^\infty C_{\ell} (2 \ell + 1) P_{\ell}(\cos{\theta}) \right]
+\end{align*}
+All that remains is to compute the coefficients $C_{\ell}$ by using the orthogonality relation on a sphere,
+\[ \int_{-1}^1 P_{\ell'}(x) P_{\ell}(x) \d{x} = \frac{2}{2 \ell + 1} \delta_{\ell' \ell} \]
+Therefore,
+\[ C_{\ell} = 2 \pi R \int_{-1}^{1} \sigma(x) P_{\ell}(x) \d{x} = 2 \pi R  \int_{-1}^{\cos{\alpha}} \frac{Q}{4 \pi R^2} P_{\ell}(x) \d{x} = \frac{Q}{2 R} \int_{-1}^{\cos{\alpha}} P_{\ell}(x) \d{x} \]
+However, we use the differential relation,
+\[ \deriv{}{x} \left[ P_{\ell + 1}(x) - P_{\ell - 1}(x) \right] - (2 \ell + 1) P_{\ell}(x) = 0\]
+to show that,
+\begin{align*}
+\int_{-1}^{\cos{\alpha}} P_{\ell}(x) \d{x} & = \frac{1}{2 \ell + 1} \int_{-1}^{\cos{\alpha}}  \deriv{}{x} \left[ P_{\ell + 1}(x) - P_{\ell - 1}(x) \right] \d{x} = \frac{1}{2 \ell + 1} \Big[ P_{\ell + 1}(x) - P_{\ell - 1}(x) \Big]^{\cos{\alpha}}_{-1}
+\\
+& = \frac{1}{2 \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) - P_{\ell+1}(-1) + P_{\ell-1}(-1) \right] 
+\end{align*}
+However,
+\[ P_{\ell}(-1) = (-1)^{\ell} \]
+And thus,
+\[ P_{\ell+1}(-1) - P_{\ell-1}(-1) = (-1)^{\ell + 1} - (-1)^{\ell - 1} = 0 \]
+Therefore,
+\[ C_{\ell} = \frac{Q}{2 R} \frac{1}{2 \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) \right] \]
+Thus, inside the sphere,
+\[ \Phi(r, \theta) = \frac{Q}{2 R} \sum_{\ell = 0}^\infty \frac{1}{2  \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) \right]  \left( \frac{r}{R} \right)^{\ell} P_{\ell}(\cos{\theta}) \]
+and outside,
+\[ \Phi(r, \theta) = \frac{Q}{2 R} \sum_{\ell = 0}^\infty \frac{1}{2  \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) \right]  \left( \frac{R}{r} \right)^{\ell+1} P_{\ell}(\cos{\theta}) \]
+Consider a point on the $z$-axis just above the center i.e. $\theta = 0$ and $r = z$ small. Then,
+\[ \Phi(z) = \frac{Q}{2 R} \sum_{\ell = 0}^\infty \frac{1}{2 \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) \right]  \left( \frac{z}{R} \right)^{\ell} \]
+and thus the electric field at the center is,
+\begin{align*}
+E & = - \pderiv{E}{z} \bigg|_{z = 0} = - \frac{Q}{2 R} \sum_{\ell = 0}^{\infty} \frac{\ell}{2 \ell + 1} \left[ P_{\ell + 1}(\cos{\alpha}) - P_{\ell - 1}(\cos{\alpha}) \right] \left( \frac{z^{\ell - 1}}{R^{\ell}} \right) 
+\\
+& = - \frac{Q}{6 R^2} \left[ P_2(\cos{\alpha}) - P_0(\cos{\alpha}) \right] = - \frac{Q}{6 R^2} \left[\tfrac{1}{2} (3 \cos^2{\alpha} - 1) - 1 \right]
+\\
+& = - \frac{Q}{4 R^2} \left[ \cos^2{\alpha} - 1 \right] = \frac{Q}{4 R^2} \sin^2{\alpha} 
+\end{align*}
+
+\subsection{Problem 3.3}
+
+Consider a thin flat disk of radius $R$ at constant potential $V$ with potential proportional to $(R^2 - \rho^2)^{-1/2}$. First,
+\begin{align*}
+Q & = \int_0^R 2 \pi \rho \d{\rho} \frac{\sigma_0}{\sqrt{R^2 - \rho^2}} = 2 \pi \sigma_0 R \int_0^1 \frac{x \d{x}}{\sqrt{1 - x^2}} = 2 \pi R \sigma_0 
+\end{align*} 
+Furthermore, along the $z$-axis and taking $z > R$,
+\begin{align*}
+\phi(z) & = \int_0^R 2 \pi \rho \d{\rho} \frac{\sigma_0}{\sqrt{R^2 - \rho^2}} \frac{1}{\sqrt{z^2 + \rho^2}} = 2 \pi \sigma_0 R \int_0^1 \frac{x \d{x}}{\sqrt{1 - x^2}} \frac{1}{\sqrt{x^2 + (z / R)^2}} 
+\\
+& = \frac{2 \pi \sigma_0 R^2}{z} \int_0^1 \frac{x \d{x}}{\sqrt{1 - x^2}} \sum_{n = 0}^\infty (-1)^n \frac{2}{2n+1} \frac{\Gamma(n + \tfrac{3}{2})}{\sqrt{\pi} \Gamma(n + 1)} \left( \frac{R x}{z} \right)^{2n} 
+\\
+& = \frac{2 \pi \sigma_0 R^2}{z}  \sum_{n = 0}^\infty (-1)^n \frac{2}{2n+1} \frac{\Gamma(n + \tfrac{3}{2})}{\sqrt{\pi} \Gamma(n + 1)}\left( \frac{R}{z} \right)^{2n}  \int_0^1 \frac{x^{2 n + 1} \d{x}}{\sqrt{1 - x^2}} 
+\\
+& = \frac{2 \pi \sigma_0 R^2}{z}  \sum_{n = 0}^\infty (-1)^n \frac{2}{2n+1} \frac{\Gamma(n + \tfrac{3}{2})}{\sqrt{\pi} \Gamma(n + 1)}\left( \frac{R}{z} \right)^{2n}  \frac{\sqrt{\pi} \Gamma(n + \tfrac{3}{2})}{2 \Gamma(n + 1)}
+\\
+& = \frac{2 \pi \sigma_0 R^2}{z}  \sum_{n = 0}^\infty \frac{(-1)^n}{2 n + 1} \left( \frac{R}{z} \right)^{2n} 
+\end{align*}
+We also can compute,
+\[ V = \phi(0) = \int_0^R 2 \pi \frac{\sigma_0 \d{\rho}}{\sqrt{R^2 - \rho^2}} = \pi^2 \sigma_0 \]
+Thus,
+\[ C = \frac{Q}{V} = \frac{2R}{\pi} \]
+and we have,
+\[ \phi(z) = \frac{2V}{\pi} \left( \frac{R}{z} \right) \sum_{n = 0}^\infty (-1)^n \left( \frac{R}{z} \right)^{2n} \]
+However, the solution along the $z$-axis determines the solution everywhere since the angular and radial power series line up. Thus we find for $r > R$,
+\[ \phi(r, \theta) = \frac{2 V}{\pi} \left( \frac{R}{r} \right) \sum_{n = 0}^\infty \frac{(-1)^n}{2n + 1} \left( \frac{R}{r} \right)^{2n} P_{2n}(\cos{\theta}) \]
+However, for $r < R$ we need to be a bit more clever since expanding in a Taylor series will not converge over the entire integration domain. However, 
+\begin{align*}
+\phi(z) & = \int_0^R 2 \pi \rho \d{\rho} \frac{\sigma_0}{\sqrt{R^2 - \rho^2}} \frac{1}{\sqrt{z^2 + \rho^2}} = 2 \pi \sigma_0 R \int_0^1 \frac{x \d{x}}{\sqrt{1 - x^2}} \frac{1}{\sqrt{x^2 + (z / R)^2}} = 2 \pi \sigma_0 R \arctan{|R/z|}
+\end{align*}
+which we expand in a series for $|z| < 1$ as,
+\[ \arctan{\left(\frac{1}{z}\right)} = \frac{\pi}{2} \pm \sum_{n = 0}^\infty (-1)^{n + 1} \frac{|z|^{2n+1}}{2 n + 1} \]
+Therefore,
+\[ \phi(z) = 2 \pi \sigma_0 R \left[ \frac{\pi}{2} \pm \sum_{n = 0}^\infty (-1)^{n + 1} \frac{|z|^{2n+1}}{2 n + 1} \right] = V \pm \frac{2 V}{\pi} \sum_{n = 0}^\infty (-1)^{n + 1} \frac{|z|^{2n+1}}{2 n + 1} \]
+which fixes the value of $\phi$ for $r < R$ via the Legendre series expansion to be
+\[ \phi(r, \theta) = V + \frac{2 V}{\pi} \sum_{n = 0}^\infty \frac{(-1)^{n+1}}{2 n + 1} \left( \frac{r}{R} \right)^{2n + 1} P_{2n+1}(|\cos{\theta}|) \]
+
+\subsection{Problem 3.11}
+
+On the plane $z = 0$ we have the fixed potential,
+\[ V(z = 0, \rho, \theta) = 
+\begin{cases}
+V & \rho \le a 
+\\
+0 & \rho > 0
+\end{cases}\]
+in cylindrical coordinates.
+Writing the Laplacian,
+\[ \nabla^2 \phi = \parsq{\phi}{z} + \frac{1}{\rho} \pderiv{}{\rho} \left( \rho \pderiv{\phi}{\rho} \right) + \frac{1}{\rho^2} \parsq{\phi}{\theta} \]
+we have azimuthal symmetry so the last term is dropped. Writing $\phi(z, \rho) = Z(z) R(\rho)$ we find that,
+\[ \nderiv{2}{Z}{z} - k^2 Z = 0 \quad \text{and} \quad \nderiv{2}{R}{\rho} + \frac{1}{\rho} \deriv{R}{\rho} + k^2 R = 0  \]
+which have solutions,
+\[ Z(z) = e^{\pm k x} \quad \text{and} \quad R(\rho) = J_0(k x) \]
+Thus we can write an arbitrary solution in the region $z > 0$ as,
+\[ \phi(z, \rho) = \int_{0}^\infty A(k) e^{-kz} J_0(k \rho) \d{k} \]
+To determine the coefficients $A(k)$ we use the Hankel transformation property,
+\[ \int_0^\infty x J_m(kx) J_m(k'x) \d{x} = \frac{1}{k} \delta(k' - k) \]
+Thus,
+\begin{align*}
+\int_0^\infty \rho \phi(z, \rho) J_0(k \rho) \d{\rho} & = \int_{0}^\infty \int_0^\infty A(k') e^{-k'z} \rho J_0(k' \rho) J_0(k \rho) \d{\rho} \d{k'}
+\\
+& = \int_{0}^\infty A(k') e^{-k'z} \frac{1}{k} \delta(k' - k)  \d{k'} = \frac{A(k)}{k} e^{-k z} 
+\end{align*}
+In particular,
+\[ A(k) = k \int_0^\infty \rho \phi(z = 0, \rho) J_0(k \rho) \d{\rho} = V k \int_0^a \rho J_0(k \rho) = V a J_1(k a)  \]
+Therefore,
+\[ \phi(z, \rho) = Va \int_0^\infty e^{-kz} J_1(k a) J_0(k \rho) \d{k} \]
+When $\rho = 0$ this reduces to,
+\[ \phi(z, \rho = 0) = Va \int_0^\infty e^{-kx} J_1(k a) \]
+
+\subsection{Problem 3.12}
+
+\subsection{Problem 3.13}
+
+\subsection{Problem 3.14}
+
+\section{Chapter 4}
+
+\subsection{Problem 10}
+
+Two conectric conducing spheres of inner and outer radii $a$ and $b$ respectively cary charges $\pm Q$. The empty space between the spheres is half-filled by a hemispherical shell of dielectric with dielectric constant $\epsilon$. The boundary conditions on the dielectric are solved by the standard electric field,
+\[ E = \frac{\tilde{Q} \hat{r}}{r^2} \]
+between the conductors where the constant $\tilde{Q}$ is fixed by Gauss' law,
+\begin{align*}
+\int_{S^2} E \cdot \d{A} & = 4 \pi \tilde{Q} = 4 \pi Q_{\text{enc.}} = 4 \pi \left( Q - \int_{V} \nabla \cdot P \d{V} \right)
+\\
+& = 4 \pi \left( Q - \int_{S^2} P \cdot \d{A} \right) = 4 \pi \left( Q - \chi \int_{S^2} E \cdot \d{A} \right)
+\\
+& = 4 \pi \left( Q - 2 \pi \chi \tilde{Q} \right)
+\end{align*}
+Therefore,
+\[ \tilde{Q} = \frac{Q}{1 + 2 \pi \chi} = \frac{2 Q}{\epsilon + 1} \]
+Now we use the following relations to find the charge density on the sphere,
+\begin{align*}
+\sigma_a & = \frac{\epsilon(\theta)}{4 \pi} E(r = a) = \frac{Q}{4 \pi a^2} \cdot
+\begin{cases}
+\frac{2 \epsilon}{\epsilon + 1} & \text{within dielectric}
+\\
+\frac{2}{\epsilon + 1} & \text{outisde dielectric}
+\end{cases}
+\\
+\sigma_b & = -\frac{\epsilon(\theta)}{4 \pi} E(r = b) = -\frac{Q}{4 \pi b^2} \cdot
+\begin{cases}
+\frac{2 \epsilon}{\epsilon + 1} & \text{within dielectric}
+\\
+\frac{2}{\epsilon + 1} & \text{outisde dielectric}
+\end{cases}
+\end{align*}
+There is also a polarization-charge density due to $P$ on the surface of the spheres. On the inner surface we have,
+\[ \sigma_{P} = -P \cdot \hat{n} = -\chi E(r = a) \cdot \hat{n} = - \frac{Q}{a^2} \cdot \frac{2 \chi}{\epsilon + 1} = - \frac{Q}{4 \pi a^2} \cdot \frac{2(\epsilon - 1)}{\epsilon + 1} \]
+within the dielectic medium. Thus, $\sigma_P + \sigma_{\text{in}} = \sigma_{\text{out}}$ which is why the electric field is spherically symmetric. 
+
+
+\subsection{Problem 13}
+
+Consider a long coaxial cable with inner radius $a$ and outer radius $b$ submerged vertically in a dielectric fluid with suseptibility $\chi$. Suppose the fluid rises a distance $h$ between the conductors when a potential $V$ is applied across the conductors. The electric field,
+\[ E = \frac{\hat{r}}{r} \cdot \frac{V}{\log{\left( \frac{b}{a} \right)}} \]
+satifies the boundary conditions on the conductors, solved $\nabla \cdot E = 0$ inside the conductors, and is continous across the dielectric boundary since there is no component normal to the surface. Thus, this is the unique solution for $E$ everywhere. Furthermore, Gauss' law for $\nabla \cdot D = \rho_{\text{free}}$ tells us that $\sigma = \frac{\epsilon}{4 \pi} E$ with $\epsilon = 1 + 4 \pi \chi$ inside the fliud and $\epsilon$ above the fluid. Thus, increasing $h$ by $\d{h}$ will requires transfering a charge,
+\[ \d{Q} = 2 \pi a \d{h} \sigma = 2 \pi a \d{h} \chi E(r = a) = 2 \pi \chi V \left[ \log{\left( \frac{b}{a} \right)} \right]^{-1} \d{h} \]
+between the conductors across a potential difference $V$. Therefore, the energy delivered is,
+\[ \d{E_V} = V \d{Q} = 2 \pi \chi V^2 \left[ \log{\left( \frac{b}{a} \right)} \right]^{-1} \d{h} \]
+Furthermore, the change in energy due to moving the dielectric fixing all sources is $\d{E_{\text{mech}}} = - \frac{1}{2} \d{E_{V}}$ which implies that,
+\[ F = -\pderiv{E_{\text{mech}}}{h} = \pi \chi V^2 \left[ \log{\left( \frac{b}{a} \right)} \right]^{-1} \]
+Therefore, the fluid will rise until this force is overcome by the gravitational force,
+\[ F_g = - M g = - \rho \pi (b^2 - a^2) h g \]
+Thus, the fluid will rise up to a height,
+\[ h = \frac{\chi V^2}{(b^2 - a^2) \rho g \log{(b/a)}} \]
+or solving for the susceptibility,
+\[ \chi = \frac{(b^2 - a^2) \rho g h \log{(b / a)} }{V^2} \]
+\section{Chapter 5}
+
+\subsection{Problem 2}
+
+Consider a solinoid with $N$ turns per unit length and current $I$ with given angles $\theta_1$ and $\theta_2$. Then using the Bio-Savart law,
+\[ B_z = \int_{-L/2-z_0}^{L/2-z_0} 2 \pi r \d{z} \frac{NI}{c} \frac{r}{\sqrt{z^2 + r^2}^3} = \frac{2 \pi N I}{c} \int_{- L/2 - z_0}^{L/2 - z_0}  \frac{\d{z}/r}{\sqrt{1 + (z/r)^2}^3} \]
+Let $z = r \cot{\theta}$ then $\d{z} = -r \sin^{-2}(\theta) \d{\theta}$. Therfore,
+\[ B_z = - \frac{2 \pi NI}{c} \int_{-\theta_1}^{\theta_2} \frac{\d{\theta} \sin^{-2}(\theta)}{\sqrt{1 + \cot^2{(\theta)}}^3} =- \frac{2 \pi N I}{c} \int_{-\theta_1}^{\theta_2} \sin{\theta} \d{\theta} = \frac{2 \pi N I}{c} \left[ \cos{\theta_2} + \cos{\theta_1} \right] \] 
+Now consider an point near the center slightly off-axis. The perpendicular field is,
+\begin{align*}
+B_\rho = \int_{-L/2-z_0}^{L/2-z_0} \int_0^{2 \pi} \cos{\theta} r \d{\theta}  \d{z} \frac{NI}{c} \frac{-z}{\sqrt{z^2 + r^2 + \rho^2 - 2 r \rho \cos{\theta}}^3}
+\end{align*} 
+We need to expand,
+\[ \frac{1}{\sqrt{z^2 + r^2 + \rho^2 - 2 r \rho \cos{\theta}}^3} = \frac{1}{\sqrt{z^2 + r^2}^3} \left( 1 - \frac{3}{2} \frac{\rho^2 - 2 r \rho \cos{\theta}}{z^2 + r^2} + \cdots \right) \]
+The lowest order term which does not integrate to zero under the measure $\cos{\theta} \d{\theta}$ is,
+\[ \frac{3 r \rho \cos{\theta}}{z^2 + r^2} \]
+Therefore, to first order in $\rho$,
+\begin{align*}
+B_\rho = - \frac{NI}{c} \int_{-L/2-z_0}^{L/2-z_0} \int_0^{2 \pi} \d{z} r \d{\theta} \frac{3 z r \rho \cos^2{\theta}}{(z^2 + r^2)^{5/2}} = - \frac{3 \pi N I}{c} \int_{-L/2 - z_0}^{L/2 - z_0} \frac{r \rho  z \d{z}}{(r^2 + z^2)^{5/2}} 
+\end{align*}
+Notice that,
+\[ \deriv{}{z} \left( \frac{1}{(r^2 + z^2)^{3/2}}  \right) = - \frac{3 z}{(r^2 + z^2)^{5/2}} \]
+Therefore,
+\begin{align*}
+B_{\rho} & = \frac{\pi NI}{c} r^2 \rho \left[ \frac{1}{(r^2 + z^2)^{3/2}}  \right]_{-L/2 - z_0}^{L/2 - z_0}
+\\
+& = \frac{\pi NI}{c} r \rho \left[ \frac{8}{(L^2 + 4 r^2 - 8 z_0 L)^{3/2}} - \frac{8}{(L^2 + 4 r^2 + 8 z_0 L)^{3/2}}  \right]
+\end{align*}
+Expanding to first order in $r / L$ and first-order in $z_0 / L$ we find,
+\begin{align*}
+\left[ \frac{1}{(r^2 + z^2)^{3/2}}  \right]_{-L/2 - z_0}^{L/2 - z_0} & = \frac{8}{L^3} \left[ \frac{1}{(1 + 4 (r/L)^2 - 4 z_0 / L)^{3/2}} - \frac{1}{(1 + 4 (r/L)^2 + 4 z_0 / L)^{3/2}} \right]
+\\
+& = \frac{8}{L^4} \left[ 1 - 6 \left( \frac{r}{L} \right)^2 + 6 \frac{z_0}{L} - 1 + 6 \left( \frac{r}{L} \right)^2 + 6 \frac{z_0}{L} \right] = \frac{96 z_0}{L^4} 
+\end{align*}
+Therefore,
+\[ B_{\rho} = \frac{96 \pi N I}{c} \left( \frac{r^2 z_0 \rho}{L^4} \right) \]
+to first-order in $z_0/L$ and in $\rho/r$ and second-order in $r / L$. If instead of taking small $z_0 \ll L$ we take $z_0 = \pm L/2$ then we find,
+\[  \left[ \frac{1}{(r^2 + z^2)^{3/2}}  \right]_{-L/2 - z_0}^{L/2 - z_0} = \pm \left[ \frac{1}{r^3} -  \frac{1}{(r^2 + L^2)^{3/2}} \right] \approx \mp \frac{1}{r^3} \]
+for $r \ll L$. Thus,
+\[ B_{\rho} = \pm \frac{\pi N I}{c} \left( \frac{\rho}{r} \right) \]
+Furthermore at each end, one angle is zero and the other is $\frac{\pi}{2}$ so $\cos{\theta_1} + \cos{\theta_2} = 1$ meaning that,
+\[ B_z = \frac{2 \pi I N}{c} \]
+
+\subsection{Problem 11}
+
+A magnetically ``hard'' material is a right cylinder of length $L$ and radius $a$. The cylinder has a permanent uniform magnetization $M_0$  parallel to its axis. Since $J_{\text{free}} = 0$ we have $\nabla \times H = 0$ so we can use the magnetic scalar potential $\Phi_M$ such that $H = - \nabla \Phi_M$. Using Gauss' law for magnetism,
+\[ \nabla \cdot B = \nabla \cdot (H + 4 \pi M) = \nabla H + 4 \pi \nabla \cdot M = 0 \]
+Therfore,
+\[ \nabla^2 \Phi_M = 4 \pi \nabla \cdot M \]
+which implies we can write,
+\[ \Phi_M(x) = - \int_V \frac{\nabla' \cdot M(x')}{|x - x'|} \d{V} + \oint_S \frac{ \hat{n}' \cdot M(x')}{|x - x'|} \d{A} \]
+In our situation, $\nabla \cdot M = 0$ since $M$ is constant inside the cylinder. Thus we need only consider the surface term. Since $M$ is perpendicular to the outward normal along the sides, only the end caps contribute. Therefore,
+\[ \Phi_M(\bf{x}) = \int_{\text{outward end}} \frac{M_0}{|\bf{x} - \bf{x}'|} \d{V} - \int_{\text{inward end}} \frac{M_0}{|\bf{x} - \bf{x}'|} \d{V} \]
+which equals,
+\begin{align*}
+\Phi_M(z) & = M_0  \int_{0}^a 2 \pi r \left[ \frac{1}{\sqrt{(L - z)^2 + r^2}} - \frac{1}{\sqrt{z^2 + r^2}} \right] \d{r}
+\\
+& = 2 \pi M_0 \left[ \sqrt{(L - z)^2 + r^2} - \sqrt{z^2 + r^2} \right]_0^a = 2 \pi M_0 \left[ \sqrt{(L - z)^2 + a^2} - \sqrt{z^2 + a^2} - |L - z| + |z| \right] 
+\end{align*}
+Therefore, on axis,
+\[ H(z) = - \pderiv{\Phi_M}{z} = 2 \pi M_0 \left[ \frac{(L - z)}{(L - z)^2 + a^2} - \frac{z}{z^2 + a^2} - 2 \cdot \Theta(z \in [0, L]) \right] \]
+Which implies that, inside along the $z$-axis of the cylinder,
+\[ B(z) = H(z) + 4 \pi M_0 \Theta(z \in [0, L]) = 2 \pi M_0 \left[ \frac{(L - z)}{(L - z)^2 + a^2} - \frac{z}{z^2 + a^2} \right] \]
+
+
+\subsection{Problem 12}
+
+Consider the force on a body with some magnetization $M$ and no free currents,
+\begin{align*}
+F = \frac{1}{c} \int_V J(x) \times B(x) \d{V} & = \int_V (\nabla \times M) \times B \d{V} + \int_S (M \times \hat{n}) \times B \d{A} 
+\end{align*}
+First,
+\[ (M \times \hat{n}) \times B = - M ( \hat{n} \cdot B) + \hat{n} (M \cdot B) \]
+If we take the $i^{\mathrm{th}}$ component of $F$ we have,
+\[ - \int_S M_i B \cdot \d{A} + \int_S [M \cdot B] \hat{i} \cdot \d{A} = - \int_V \nabla \cdot (M_i B) \d{V} + \int_V \nabla \cdot ([M \cdot B] \hat{i} ) \d{V} \]
+We can evluate these componets,
+\[ \nabla \cdot (M_i B) = \partial_j (M_i B_j) \quad \text{and} \quad \nabla \cdot ([M \cdot B] \hat{i}) = \partial_i (M_j B_j) \]
+However,
+\[ ((\nabla \times M) \times B)_i = \epsilon_{i j k} \epsilon_{j ab} \partial_a M_b B_k = -\left( \delta^i_a \delta^k_b - \delta^i_b \delta^k_a \right) \partial_a M_b B_k = - \partial_i M_k B_k + \partial_k M_i B_k   \]
+Therefore,
+\begin{align*}
+F_i & = \int_V \left[ - \partial_j(M_i B_j) + \partial_i(M_j B_j) - \partial_i M_j B_j + \partial_j M_i B_j \right] \d{V}
+\\
+& = \int_V \left[ - M_i \partial_j B_j + M_j \partial_i B_j \right] \d{V}
+\end{align*}
+However, $\nabla \cdot B = \partial_j B_j = 0$. Therefore,
+\[ F_i = \int_V M_j \partial_i B_j \d{V} \]
+Furthermore,
+\[ (\nabla \cdot M) B_i = \partial_j M_j B_i \]
+and 
+\[ (M \cdot \hat{n}) B_i \d{A} = M B_i \cdot \d{A} \]
+Define,
+\[ G = - \int_V (\nabla \cdot M) B \d{V} + \int_S (M \cdot \hat{n}) \d{A} \]
+Then we have,
+\[ G_i = - \int_V \partial_j M_j B_i \d{V} + \int_V \partial_j (M_j B_i) \d{V} = \int_V M_j \partial_j B_i \d{V}  \]
+so if we take the difference,
+\[ F_i  - G_i = \int_V M_j (\partial_i B_j - \partial_j B_i) \d{V} = 0 \]
+because $\nabla \times B = 0$ since $B$ is the applied field i.e. is a free field in the vicinity of the fixed current distribution $J$. Therefore,
+\[ F = - \int_V (\nabla \cdot M) B \d{V} + \int_S (M \cdot \hat{n}) B \d{A} \]
+
+
+\subsection{Problem 13}
+
+Suppose that $B$ is generated by a constant permanent magnetization $M$. We write $B = \nabla \times A$ and compute,
+\[ \int_V B \cdot H \d{V} = \int_V (\nabla \times A) \cdot H \d{V} \]
+However,
+\[ \nabla \cdot ( A \times H) = (\nabla \times A) \cdot H - A \cdot (\nabla \times H) = (\nabla \times A) \cdot H \]
+because
+\[ \nabla \times H = \frac{4 \pi}{c} J_{\text{free}} = 0 \]
+Thus,
+\[ \int_V B \cdot H \d{V} = \int_V (\nabla \times A) \cdot H \d{V} = \int_V \nabla \cdot (A \times H) \d{V} = \int_S (A \times B) \cdot \d{A} = 0 \]
+since the fields go to zero at infinity. Equivalently, we may use the fact that $\nabla \times H = 0$ to write $H = - \nabla \Phi_m$. Then,
+\[ \int_V B \cdot H \d{V} = - \int_V B \cdot \nabla \Phi_m \d{V} \]
+However, 
+\[ \nabla \cdot (B \Phi_m) = B \cdot \nabla \Phi_m  + \Phi_m (\nabla \cdot B) = B \cdot \nabla \Phi_m \]
+beause $\nabla \cdot B = 0$. Thus,
+\[ \int_V B \cdot H \d{V} = - \int_V B \cdot \nabla \Phi_m \d{V} = - \int_V \nabla \cdot (B \Phi_m) = - \int_S B \Phi_m \d{S} = 0 \]
+because the fields fall die suffienciently fast. Furthermore, the $H$ field is defined as $H = B - 4 \pi M$ and therefore,
+\[ \int_V B \cdot H \d{V} = \int_V (H + 4 \pi M) \cdot H \d{V} = \int_V H \cdot H \d{V} + 4 \pi \int_V M \cdot H \d{V} = 0 \]
+We need to consider the energy of a system of magnetized bodies,
+\[ U = - \sum_{\text{pairs}} m_i \cdot B_j = - \frac{1}{2} \sum_{i \neq j} m_i \cdot B_j \]
+Therefore,
+\[ U = - \frac{1}{2} \int_V M \cdot B \d{V} \]
+which includes self-energy. Then,
+\[ U = - \frac{1}{2} \int_V M \cdot (H + 4 \pi M) = - \frac{1}{2} \int_V M \cdot H \d{V} - 2 \pi \int_V M^2 \d{V} \]
+However,
+\[ U_0 = - 2 \pi \int_V M^2 \d{V} \]
+is independent of the orientations of the bodies only on the magnitude of their magnetization. Thus,
+\[ U - U_0 = - \frac{1}{2} \int_V M \cdot H \d{V} = \frac{1}{8 \pi} \int_V H \cdot H \d{V} \] 
+
+\section{Chapter 6}
+
+\subsection{Problem 1}
+
+Consider a configuration of current density in space $J(\bf{x})$. In the appropriet gauge, this current produces a vector potential,
+\[ A(\bf{x}) = \frac{1}{c} \int \frac{J(\bf{x}')}{|\bf{x} - \bf{x}'|} \dn{3}{x} \]
+If the currents are increased by $\delta J(x')$ the total increase in energy stored in them and the field configuration is,
+\[ \delta W = \frac{1}{c} \int \delta A \cdot J \dn{3}{x} \]
+Therefore,
+\[ \delta W = \frac{1}{c^2} \int \dn{3}{x} \int \dn{3}{x'} \frac{\delta J(\bf{x}') \cdot J(\bf{x})}{| \bf{x} - \bf{x}' |} \]
+Integrating from zero current, the total energy is,
+\[ W = \frac{1}{2 c^2} \int \dn{3}{x} \int \dn{3}{x'} \frac{ J(\bf{x}') \cdot J(\bf{x})}{| \bf{x} - \bf{x}' |} \]
+Therefore, if we split the current into $N$ loops $\gamma_i$ with constant total current $I_i$ in each then we find,
+\begin{align*}
+W & = \frac{1}{2 c^2} \sum_{i = 1}^N \sum_{j = 1}^N \oint \oint \frac{I_i \d{\ell_i} \cdot I_j \d{\ell_j}}{|\bf{x}_i - \bf{x}_j|}
+\\
+& = \frac{1}{2c^2} \sum_{i = 1}^N \left[ \oint \oint \frac{\d{\ell_i} \cdot \d{\ell_i}}{|\bf{x}_i - \bf{x}_j|} \right] I_i^2 + \frac{1}{c^2} \sum_{i = 1}^N \sum_{j > i}^N \left[ \oint \oint \frac{\d{\ell_i} \cdot \d{\ell_j}}{|\bf{x}_i - \bf{x}_j|} \right] I_i I_j 
+\end{align*}
+Therefore,
+\begin{align*}
+L_i & = \frac{1}{c^2} \oint \oint \frac{\d{\ell_i} \cdot \d{\ell_i}}{|\bf{x}_i - \bf{x}_j|}
+\\
+M_{ij} & = \frac{1}{c^2} \oint \oint \frac{\d{\ell_i} \cdot \d{\ell_j}}{|\bf{x}_i - \bf{x}_j|}
+\end{align*}
+
+\subsection{Problem 3}
+
+A circut consists of a long thin conducting shell of radius $a$ and a parallel return wire of radius $b$ on axis inside. Assume the current is uniformly distributed on the inside wire. Let the current through either conductor by $I$. By Ampere's Law,
+\[ 
+B(r) = \frac{2}{rc}
+\begin{cases}
+I \left( \frac{r}{b} \right)^2 & r < b
+\\
+I & r \ge b
+\\
+0 & r \ge a
+\end{cases} 
+\]
+Then integrating over a cross section, the energy per unit length is,
+\begin{align*}
+W & = \frac{1}{8 \pi} \int \dn{3}{x} B^2 = \frac{1}{8 \pi} \left( \frac{2I}{c} \right)^2 \left[ \int_0^b 2 \pi r \d{r} \frac{r^2}{b^4} + \int_b^a 2 \pi r \d{r} \frac{1}{r^2} \right]
+\\
+& = \frac{I^2}{c^2} \left[ \frac{1}{4} + \log{\left( \frac{a}{b} \right)} \right] 
+\end{align*} 
+Therefore, the inductance per unit length is,
+\[ c^2 L = 2 c^2 W I^{-2} = \frac{1}{2} + 2 \log{\left( \frac{a}{b} \right)} \]
+
+\subsection{Problem 4}
+
+Consider the mutual inductance of two circular coaxial loops of radii $a$ and $b$ in a homogenous medium of permeability $\mu$. We know that, 
+\[ M_{12} = \frac{\mu}{c^2} \oint \oint \frac{\d{\ell_i} \cdot \d{\ell_j}}{|\bf{x}_i - \bf{x}_j|} \]
+Which we can compute in polar coordinates as,
+\begin{align*}
+M_{12} & = \frac{\mu}{c^2} \int_{0}^{2 \pi} \int_0^{2 \pi} \frac{\cos{(\theta_1 - \theta_2)} \d{\theta_1} \d{\theta_2}}{\sqrt{a^2 + b^2 - 2 a b \cos{(\theta_1 - \theta_2)}}}
+\\
+& = \frac{2 \pi \mu}{c^2} \int_0^{2 \pi} \frac{\cos{\theta} \d{\theta}}{\sqrt{a^2 + b^2 - 2 ab \cos{\theta}}}
+\end{align*} 
+
+\subsection{Problem 5}
+
+Consider a transmission line with two components of consistent cross section and current distribution. We assume the conductors are \textit{perfect} in the sense that they do not allow electric or magnetic fields to penetrate. We need to calculate the electrical and magnetic energy stored in the system. First, consider the current distribution, then,
+\[ H(\bf{x}) = \frac{1}{c} \int \dn{3}{x} \frac{J(\bf{x}) \times \bf{x}}{|\bf{x}|^3} \] 
+Assuming a linear medium with permeability $\mu$ such that $B = \mu H$, the energy takes the form,
+\begin{align*}
+W_B & = \frac{1}{8 \pi} \int H \cdot B \dn{3}{x} = \frac{\mu^{-1}}{8 \pi c^2} \int \dn{3}{x} \int \dn{3}{x'} \frac{(J(\bf{x}) \times \bf{x}) \cdot (J(\bf{x'}) \times \bf{x}')}{|\bf{x}|^3 |\bf{x}'|^3} 
+\\
+& = \frac{\mu^{-1}}{8 \pi c^2} \int \dn{3}{x} \int \dn{3}{x'} \frac{(J(\bf{x}) \cdot J(\bf{x}')) (\bf{x} \cdot \bf{x}') - (J(\bf{x}) \cdot \bf{x}') (J(\bf{x}') \cdot \bf{x})}{|\bf{x}|^3 |\bf{x}'|^3} 
+\end{align*}
+However, we will integrate over a cross section which the current flows perpendicular to so we can reduce this to,
+\[ W_B = \frac{\mu}{8 \pi c^2} \int \dn{3}{x} \int \dn{3}{x'} \frac{(J(\bf{x}) \cdot J(\bf{x}')) (\bf{x} \cdot \bf{x}')}{|\bf{x}|^3 |\bf{x}'|^3} \]
+Similarly, if a total charge $\pm Q$ is put on each conductor we can calculate the electric field via,
+\begin{align*}
+D(\bf{x}) = \frac{1}{c} \int \dn{3}{x} \frac{\rho(\bf{x}) \bf{x}}{|\bf{x}|^3} 
+\end{align*}
+Assuming a linear medium with permitivity $\epsilon$ such that $D = \epsilon E$, then we can calculate the electrical energy via,
+\[ W_E = \frac{1}{8 \pi} \int D \cdot E \dn{3}{x} = \frac{\epsilon^{-1}}{8 \pi} \int \dn{3}{x} \int \dn{3}{x'} \frac{\rho(\bf{x}) \rho(\bf{x}') (\bf{x} \cdot \bf{x}')}{|\bf{x}|^3 |\bf{x}'|^3} \]
+However, the current and charges should arrange themselves on the conductors with the same overall distribution. Therefore, 
+\[ \frac{W_E \: \epsilon}{Q^2} = \frac{W_B \: c^2}{\mu I^2} \]
+However, the capacitance and inductance per unit length are defined by,
+\[ L = \frac{2 W_B}{I^2} \quad \text{and} \quad C^{-1} = \frac{2 W_E}{Q^2} \]
+Therefore,
+\[ C^{-1} \epsilon = L c^2 \mu^{-1} \implies LC = \frac{\epsilon \mu}{c^2} \]
+
+\subsection{Problem 6}
+
+Consider two loops with currents $I_1$ and $I_2$ whose center of masses are seperated by the vector $\bf{R}$. Consider the force between the loops given by,
+\[ \bf{F} = - \frac{I_1 I_2}{c^2} \oint \oint \frac{(\d{\ell_1} \cdot \d{\ell_2}) (\bf{x}_1 - \bf{x}_2 + \bf{R})}{| \bf{x}_1 - \bf{x}_2 + \bf{R} |^3} \]
+Define the mutual inductance by,
+\[ M_{12}(\bf{R}) = \frac{1}{c^2} \oint \oint \frac{\d{\ell_1} \cdot \d{\ell_2}}{| \bf{x}_1 - \bf{x}_2 + \bf{R} |} \]
+Thus we find,
+\[ \nabla_{\bf{R}} M_{12}(\bf{R}) = - \frac{1}{c^2} \oint \oint \frac{(\d{\ell_1} \cdot \d{\ell_2}) (\bf{x_1} - \bf{x_2} + \bf{R}) }{| \bf{x}_1 - \bf{x}_2 + \bf{R} |^3} \]
+which implues that,
+\[ \bf{F} = \nabla_{\bf{R}} I_1 I_2 M_{12}(\bf{R}) \]
+Furthermore, fixing one loop and varying $\bf{R}$ the force is,
+\[ \bf{F} = -\frac{I_1}{c} \oint B(\bf{x}_1 + \bf{R}) \times \d{\ell_1} \]
+Therefore,
+\[ \nabla_{\bf{R}} \cdot \bf{F} = - \frac{I_1}{c} \oint (\nabla_{\bf{R}} \cdot B(\bf{x}_1 + \bf{R})) \times \d{\ell_1} = 0 \]
+which implies that,
+\[ \nabla_{\bf{R}}^2 M_{12}(\bf{R}) = 0 \]
+
+\subsection{Problem 8}
+
+Consider the microscopic current,
+\[ j(\bf{x}, t) = \sum_{j} q_j \bf{v}_j \delta(\bf{x} - \bf{x}_j(t)) \]
+Using the window function $f(r)$, we average over positions to get the current of the $n^{\text{th}}$ molecule,
+\[ \EV{j_n(\bf{x}, t)} = \sum_{j(n)} q_j (\bf{v}_{jn} + \bf{v}_n) f(\bf{x} - \bf{x}_n - \bf{x}_{jn})  \]
+where $\bf{v}_n$ is the center of mass velocity of the $n^{\text{th}}$ molecule and $\bf{v}_{jn}$ is the velocity of the $j^{\text{th}}$ particle with respect to that center of mass. Now we expand the window function,
+\begin{align*}
+\EV{j_n(\bf{x}, t)} = \sum_{j(n)} q_j (\bf{v}_{jn} + \bf{v}_n) \left[ f(\bf{x} - \bf{x}_n) - \bf{x}_{jn} \cdot \nabla f(\bf{x} - \bf{x}_n) + \frac{1}{2} (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta \frac{\partial^2}{\partial x_\alpha \partial x_\beta} f(\bf{x} - \bf{x}_n) + \cdots \right]
+\end{align*}
+We will compute the sum of this contribution over each molecule and free charge term by term. First,
+\begin{align*}
+\sum_{j \text{ free}} q_j (\bf{v}_{jn} + \bf{v}_j) f(\bf{x} - \bf{x}_j) & + \sum_{n \text{ mol.}}\sum_{j(n)} q_j (\bf{v}_{jn} + \bf{v}_n) f(\bf{x} - \bf{x}_n)
+\\
+& = \sum_{n \text{ free}} q_j \bf{v}_j f(\bf{x} - \bf{x}_j) + \sum_{n \text{ mol.}} q_n \bf{v}_n f(\bf{x} - \bf{x}_n) + \sum_{n \text{ mol.}} \sum_{j(n)} q_j \bf{v}_{jn} f(\bf{x} - \bf{x}_n) 
+\end{align*}
+Therefore,
+\begin{align*}
+\EV{j(\bf{x}, t)} = J(\bf{x}, t) + \sum_{n \text{ mol.}} \sum_{j(n)} & \left[ q_j \bf{v}_{jn} f(\bf{x} - \bf{x}_n) - (\bf{v}_{jn} + \bf{v}_n)  \nabla \cdot \left( q_j  \bf{x}_{jn} f(\bf{x} - \bf{x}_n) \right) \right.
+\\
+& \left. + (\bf{v}_{jn} + \bf{v}_n)  \frac{1}{2} \frac{\partial^2}{\partial x_\alpha \partial x_\beta} \left( q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta f(\bf{x} - \bf{x}_n) \right) \right]
+\end{align*}
+where,
+\[ J(\bf{x}, t) = \EV{\sum_{j \text{ free}} q_j \bf{v}_j \delta(\bf{x} - \bf{x}_n) + \sum_{n \text{ mol.}} q_n \bf{v}_n \delta(\bf{x} - \bf{x}_n)} \]
+Then,
+\begin{align*}
+\sum_{j(n)} & \left[ q_j \bf{v}_{jn} f(\bf{x} - \bf{x}_n) - (\bf{v}_{jn} + \bf{v}_n)  \nabla \cdot \left( q_j \bf{x}_{jn} f(\bf{x} - \bf{x}_n) \right) \right]
+\\
+& = \sum_{j(n)} q_j \bf{v}_{jn} \left[  f(\bf{x} - \bf{x}_n) - \nabla \cdot \left( q_j  \bf{x}_{jn} f(\bf{x} - \bf{x}_n) \right) \right] - \bf{v}_n \nabla \cdot \bf{p}_n f(\bf{x} - \bf{x}_n)
+\end{align*}
+Furthermore,
+\begin{align*}
+\pderiv{}{t} P = \pderiv{}{t} \sum_{n \text{ mol.}} \sum_{j(n)} q_j \bf{x}_{jn} f(\bf{x} - \bf{x}_n) = \sum_{n \text{ mol.}} \sum_{j(n)} q_j \left[ \bf{v}_{jn} f(\bf{x} - \bf{x}_n) - \bf{x}_{jn} (\bf{v}_n \cdot \nabla) f(\bf{x} - \bf{x}_n) \right]
+\end{align*}
+and therefore,
+\begin{align*}
+\sum_{n \text{ mol.}} \sum_{j(n)} q_j \bf{v}_{jn} f(\bf{x} - \bf{x}_n) = \pderiv{}{t} P + \sum_{n \text{ mol.}} \bf{p}_n (\bf{n} \cdot \nabla f(\bf{x} - \bf{x}_n) 
+\end{align*}
+and for the quadropole density,
+\begin{align*}
+\pderiv{}{t} \pderiv{}{x_\beta} 2 Q'_{\alpha \beta}(\bf{x}, t) & = \pderiv{}{t} \pderiv{}{x_\beta} \sum_{n \text{ mol.}} \sum_{j(n)} q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta f(\bf{x} - \bf{x}_n)
+\\
+& = \pderiv{}{t} \sum_{n \text{ mol.}} \sum_{j(n)} q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn} \cdot \nabla )f(\bf{x} - \bf{x}_n)
+\\
+& = \sum_{n \text{ mol.}} \sum_{j(n)} \left[ q_j (\bf{v}_{jn})_\alpha (\bf{x}_{jn} \cdot \nabla) + q_j (\bf{x}_{jn})_\alpha (\bf{v}_{jn} \cdot \nabla ) - q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta (\bf{v}_n)_\gamma \frac{\partial^2}{\partial x_\beta \partial x_\gamma}  \right] f(\bf{x} - \bf{x}_n)
+\\
+& = 2c \left[ \nabla \times \sum_{n \text{ mol.}} \left( \sum_{j(n)} \frac{q_j}{2 c} (\bf{x}_{jn} \times \bf{v}_{jn}) f(\bf{x} - \bf{x_n}) \right) \right]_{\alpha} + \sum_{n \text{ mol.}} \sum_{j(n)} 2 q_j (\bf{v}_{jn})_\alpha (\bf{x}_{jn} \cdot \nabla ) f(\bf{x} - \bf{x}_n)
+\\
+& \quad \quad - \sum_{n \text{ mol.}} \sum_{j(n)}  q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta (\bf{v}_n)_\gamma \frac{\partial^2}{\partial x_\beta \partial x_\gamma} f(\bf{x} - \bf{x}_n)
+\end{align*}
+Define the molecular magnetic moment,
+\begin{align*}
+\bf{m} = \sum_{j(n)} \frac{q_j}{2 c} (\bf{x}_{jn} \times \bf{v}_{jn}) 
+\end{align*}
+and magnetization,
+\[ M(\bf{x}, t) = \EV{\sum_{n \text{ mol.}} \bf{m}_n \delta(\bf{x} - \bf{x}_n)} \]
+Therefore, 
+\begin{align*}
+\sum_{n \text{ mol.}} \sum_{j(n)} q_j (\bf{v}_{jn})_\alpha (\bf{x}_{jn} \cdot \nabla ) f(\bf{x} - \bf{x}_n) & = \pderiv{}{t} \pderiv{}{x_\beta} Q'_{\alpha \beta}(\bf{x}, t) - c \left[ \nabla \times M \right]_\alpha 
+\\
+& \quad\quad + \frac{1}{2} \sum_{n \text{ mol.}} \sum_{j(n)}  q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta (\bf{v}_n)_\gamma \frac{\partial^2}{\partial x_\beta \partial x_\gamma} f(\bf{x} - \bf{x}_n)
+\end{align*}
+Putting these together, 
+\begin{align*}
+\sum_{j(n)} & \left[ q_j \bf{v}_{jn} f(\bf{x} - \bf{x}_n) - (\bf{v}_{jn} + \bf{v}_n)  \nabla \cdot \left( q_j \bf{x}_{jn} f(\bf{x} - \bf{x}_n) \right) \right]
+\\
+& = \pderiv{}{t} P  - \pderiv{}{t} \nabla \cdot Q'(\bf{x}, t) + c \nabla \times M + \sum_{n \text{ mol.}} \left[ \bf{p}_n (\bf{v}_n \cdot \nabla) - \bf{v}_n (\bf{p}_n \cdot \nabla) \right] f(\bf{x} - \bf{x}_n) 
+\\
+& \quad\quad - \frac{1}{2} \sum_{n \text{ mol.}} \sum_{j(n)}  q_j (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta (\bf{v}_n)_\gamma \frac{\partial^2}{\partial x_\beta \partial x_\gamma} f(\bf{x} - \bf{x}_n)
+\end{align*}
+The last part we need to consider is,
+\begin{align*}
+\frac{1}{2} \sum_{j(n)} q_j (\bf{v}_{jn} + \bf{v}_n) (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta \frac{\partial^2}{\partial x_\alpha \partial x_\beta} f(\bf{x} - \bf{x}_n) & = \frac{1}{2} \sum_{j(n)} q_j \bf{v}_n  (\bf{x}_{jn})_\alpha (\bf{x}_{jn})_\beta \frac{\partial^2}{\partial x_\alpha \partial x_\beta} f(\bf{x} - \bf{x}_n) + O(\bf{x}_{jn}^3)
+\end{align*}
+Therefore,
+\begin{align*}
+\EV{j(\bf{x}, t)} & = J(\bf{x}, t) + \pderiv{}{t} \left[ P(\bf{x}, t) - \nabla \cdot Q'(\bf{x}, t) \right] + c \nabla \times M(\bf{x}, t) + \sum_{n \text{ mol.}} \left[ \bf{p}_n (\bf{v}_n \cdot \nabla) - \bf{v}_n (\bf{p}_n \cdot \nabla) \right] f(\bf{x} - \bf{x}_n) 
+\\
+& \quad \quad + \frac{1}{2} \sum_{n \text{ mol.}} \sum_{j(n)} \left( q_j \bf{v}_n (\bf{x}_{jn})_\alpha(\bf{x}_{jn})_\beta  - q_j \bf{x}_{jn} (\bf{x}_{jn})_\alpha (\bf{v}_n)_\beta \right) \frac{\partial^2}{\partial x_\alpha \partial x_\beta} f(\bf{x} - \bf{x}_n)
+\end{align*}
+Plugging into the averaged version of Ampere's law,
+\begin{align*}
+\nabla \times B - \frac{1}{c} \pderiv{}{t} E = \frac{4 \pi}{c} \EV{j(\bf{x}, t)} 
+\end{align*}
+which gives,
+\begin{align*}
+\nabla \times \left( B - 4 \pi M - 4 \pi \sum_{n \text{ mol.}} \left( \bf{p}_n \times \frac{\bf{v}_n}{c} \right) f(\bf{x} - \bf{x}_n) + 4 \pi QM \right) - \frac{1}{c} \pderiv{}{t} \left[ E + 4 \pi P - 4 \pi \nabla \cdot Q' \right] = \frac{4 \pi}{c} J
+\end{align*}
+where 
+\begin{align*}
+QM = \frac{1}{2} \sum_{n \text{ mol.}} \left( \nabla \cdot \left( \sum_{j(n)} q_j \bf{x}_{jn} \otimes \bf{x}_{jn} f(\bf{x} - \bf{x}_n)  \right) \frac{\bf{v}_n}{c}  \right)
+\end{align*}
+Therefore, we recover the macroscopic Ampere's law with macroscopic fields, 
+\begin{align*}
+D & = E + 4 \pi P - 4 \pi \nabla \cdot Q'
+\\
+H & = B - 4 \pi M - 4 \pi \sum_{n \text{ mol.}} \left( \bf{p}_n \times \frac{\bf{v}_n}{c} \right) f(\bf{x} - \bf{x}_n) + 4 \pi QM
+\end{align*}
+In the case that we may ingore mollecular motions on average except for bulk motions, we find,
+\begin{align*}
+B - H & = 4 \pi M + 4 \pi P \times \frac{\bf{v}}{c} - 4 \pi Q' \times \frac{\bf{v}}{c} 
+\\
+& = 4 \pi M + (D - E) \times \frac{\bf{v}}{c} 
+\end{align*}
+
+
+\subsection{Problem 9}
+
+I dielectric sphere of radius $a$ and dielectric permitivity $\epsilon$ is emersed in a background field $E_0$ along the $x$-axis. We know that this field induces a surface charge density,
+\[ \sigma = \frac{3}{4 \pi} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \cos{\theta} \]
+due to a polarization vector,
+\[ P = \frac{3}{4 \pi} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \]
+If the sphere rotates with angular velocity $\omega$ about the $z$-axis the the polarization vector changes with time. The rotation causes an effective magnetization due to the motion of medium in which the polarization vector has its origin. This magnetization has magnitude,
+\[ M_{\text{eff}} = P \times \frac{\bf{v}}{c} = P \times \frac{\omega \times \bf{r}}{c} \]
+Therefore,
+\[ M_{\text{eff}} = \frac{3}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) [ \omega (E_0 \cdot \bf{r}) - \bf{r} (E_0 \cdot \omega)] = \frac{3 \omega}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \: \hat{\bf{z}} x \]
+This is equivalent to a surface current given by $\bf{K} = \sigma \bf{v} = \sigma \bf{\omega} \times \bf{r}$ because the dipoles contributing to $P$ are in motion making the spinning dielectric form a current due to the mismatch of charge on the surface. Although the overall charge distribution is constant, the dipoles in motion form a current. Now, 
+\[ \Phi_{\text{M}}(\bf{x}) = - \int_V \frac{\nabla' \cdot M_{\text{eff}}(\bf{x}')}{|\bf{x} - \bf{x}'|} \dn{3}{x} + \oint_S  \frac{M_{\text{eff}}(\bf{x}') \cdot \hat{\bf{n}}' \d{A}}{|\bf{x} - \bf{x}'|} \] 
+However,
+\[ \nabla \cdot M_{\text{eff}}(\bf{x}') = \pderiv{}{z} \frac{3 \omega}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \: x = 0  \]
+Therefore, 
+\[ \Phi_{\text{M}}(\bf{x}) = \oint_S  \frac{M_{\text{eff}}(\bf{x}') \cdot \hat{\bf{n}}' \d{A}}{|\bf{x} - \bf{x}'|} = \frac{3 \omega}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \oint_S \frac{x' \: \hat{\bf{z}} \cdot \hat{\bf{n}}' \d{A}}{|\bf{x} - \bf{x}'|} \]
+and furthermore,
+\begin{align*}
+ M_{\text{eff}} \cdot \hat{\bf{n}}' & = \frac{3 \omega}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \: x \: \hat{\bf{z}} \cdot \hat{\bf{n}}' 
+= \frac{3 \omega}{4 \pi c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \: \frac{xz}{a}
+\end{align*}
+To compute this integral, we use the expansion,
+\[ \frac{1}{|\bf{x} - \bf{x}'|} = 4 \pi \sum_{\ell = 0}^{\infty} \sum_{m = - \ell}^{\ell} \frac{1}{2 \ell + 1} \frac{r_{<}^\ell}{r_{>}^{\ell + 1}} Y^*_{\ell m}(\theta', \phi') Y_{\ell m}(\theta, \phi) \]
+Therfore,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega}{ca} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \int_0^{\pi} \int_0^{2 \pi} a^2 \sin{\theta'} \cos{\theta'} \cos{\phi'} \sum_{\ell = 0}^{\infty} \sum_{m = - \ell}^{\ell} \frac{1}{2 \ell + 1} \frac{r_{<}^\ell}{r_{>}^{\ell + 1}} Y^*_{\ell m}(\theta', \phi') Y_{\ell m}(\theta, \phi) a^2 \sin{\theta'} \d{\theta'} \d{\phi'}
+\\
+& = \frac{3 \omega a^3}{c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \sum_{\ell = 0}^{\infty} \sum_{m = - \ell}^{\ell} \int_0^{\pi} \int_0^{2 \pi} \sin^2{\theta'} \cos{\theta'} \cos{\phi'}  \frac{1}{2 \ell + 1} \frac{r_{<}^\ell}{r_{>}^{\ell + 1}} Y^*_{\ell m}(\theta', \phi') Y_{\ell m}(\theta, \phi) \d{\theta'} \d{\phi'}
+\end{align*}
+However,
+\[ \frac{x'z'}{a^2} = \sin{\theta'} \cos{\theta'} \cos{\phi'} = \sqrt{\frac{2 \pi}{15}} \left( Y_{2,-1}(\theta', \phi') - Y_{2,1}(\theta', \phi') \right) \]
+and therefore,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega a^3}{c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \sum_{\ell = 0}^{\infty} \sum_{m = - \ell}^{\ell} \frac{Y_{\ell m}(\theta, \phi)}{2 \ell + 1} \frac{r_{<}^\ell}{r_{>}^{\ell + 1}} \int \sqrt{\frac{2 \pi}{15}} Y^*_{\ell m}(\theta', \phi') \left( Y_{2,-1}(\theta', \phi') - Y_{2,1}(\theta', \phi') \right)  \d{\Omega'}
+\end{align*}
+By the orthogonality relations, 
+\begin{align*}
+\int_0^{\pi}  \int_0^{2 \pi} Y^*_{\ell m}(\theta, \phi) Y_{\ell' m'}(\theta, \phi) \sin{\theta} \d{\theta} \d{\phi} = \int Y^*_{\ell m} Y_{\ell' m'} \d{\Omega} = \delta_{\ell \ell'} \delta_{m m'} 
+\end{align*}
+we find,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega a^3}{5 c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right)  \frac{r_{<}^2}{r_{>}^3} \sqrt{\frac{2 \pi}{15}} \left( Y_{2, -1}(\theta, \phi) - Y_{2, 1}(\theta, \phi) \right) = \frac{3 \omega a^3}{5 c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \frac{r_{<}^2}{r_{>}^3} \cdot \frac{xz}{r^2} 
+\end{align*}
+For $r > a$ we have $r_{<} = a$ and $r_{>} = r$ then,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega}{5 c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \left( \frac{a}{r} \right)^5 \cdot xz 
+\end{align*}
+For $r < a$ we have $r_{<} = r$ and $r_{>} = a$ then,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega}{5 c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \cdot xz 
+\end{align*}
+Therefore, in general,
+\begin{align*}
+\Phi_{\text{M}}(\bf{x}) & = \frac{3 \omega}{5 c} \left( \frac{\epsilon - 1}{\epsilon + 2} \right) E_0 \left( \frac{a}{r_{>}} \right)^5 \cdot xz 
+\end{align*}
+
+\subsection{Problem 10}
+(DISCUSS MIKOWSKI CONTROVOSY)
+
+\subsection{Problem 11}
+
+\newcommand{\dyad}[1]{\stackrel{\leftrightarrow}{#1}}
+
+Let $\mathcal{L}_{\text{mech}} = \bf{x} \times P_{\text{mech}}$ and $\mathcal{L}_{\text{field}} = \bf{x} \times P_{\text{field}}$. Therefore,
+\begin{align*}
+\pderiv{}{t} \left( \mathcal{L}_{\text{mech}} + \mathcal{L}_{\text{field}} \right) = \bf{x} \times \pderiv{}{t} \left( P_{\text{mech}} + P_{\text{field}} \right) = \bf{x} \times \nabla \cdot \stackrel{\leftrightarrow}{T}
+\end{align*}
+Therefore,
+\begin{align*}
+\pderiv{}{t} \left( \mathcal{L}_{\text{mech}} + \mathcal{L}_{\text{field}} \right) + \nabla \cdot \dyad{M} = 0
+\end{align*}
+where,
+\[ \stackrel{\leftrightarrow}{M} = \dyad{T} \times \bf{x} \]
+This holds because,
+\begin{align*}
+\partial_i M_{ij} & = \partial_i (\epsilon_{jk\ell} T_{ik} x_{\ell}) = \epsilon_{jk \ell} \partial_i T_{ik} x_{\ell} +  \epsilon_{jk \ell} T_{ik} \partial_i x_{\ell} 
+\\
+& = - (\bf{x} \times \nabla \cdot \dyad{T})_j + \epsilon_{j k i} T_{ik} = - (\bf{x} \times \nabla \cdot \dyad{T})_j
+\end{align*}
+where the second term vanishes because $T$ is a symmetric tensor. Therfore,
+\[ \dyad{M} = \dyad{T} \times \bf{x} = - \bf{x} \times \dyad{T} \]
+is the tensor encoding the flow of angular momentum. The integral form follows from a simple application of the divergence theorem in each component,
+\[ \deriv{}{t}  \int_V \left( \mathcal{L}_{\text{mech}} + \mathcal{L}_{\text{field}} \right) \dn{3}{x} = \int_V \nabla \cdot \dyad{M} \dn{3}{x} = \int_S \d{A} \: \cdot \dyad{M} \]
+
+\subsection{Problem 13}
+
+\subsection{Problem 14}
+
+\subsection{Problem 15}
+
+\subsection{Problem 16}
+
+In the Hall effect, at zero magnitizing field, we have $E = \rho_0 J$. We will expand in powers of $H$ the total electric field at arbitrary magnitizing field. To first-order in the magnetic field, rotational invariance removes all possible terms besides $H \times J$ and $(H \cdot J)J$. However, under reflections, $E \mapsto - E$, and $J \mapsto - J$ but $H \mapsto H$ so the term $H \times J$ has the proper vector inversion under parity but $(H \cdot J) J$ is an axial vector because $(H \cdot J)$ is a pseudoscalar. Thus, the only term that may enter at first order is $H \times J$. Thus,
+\[ E = \rho_0 J + R (H \times J) + O(H^2) \]
+At second order, rotational invariance limits us to $H^2 J$ and $(H \cdot J)H$. Both have the correct transformation properties under parity inversion. Thus, to second-order in $H$,
+\[ E = \rho_0 J + R (H \times J) + \beta_1 H^2 J + \beta_2 (H \cdot J) H \]
+Now, under time reversal, $E \mapsto E$ but $J \mapsto - J$ and $H \mapsto - H$. Therefore, time-reversal invariance would require that $\rho_0 = 0$ which makes sense because $E = \rho_0 J$ is a fundamentally dissipative term. Furthermore, $H \times J$ is even under time-reversal and thus consisten with time-reversal invarianct. However, $H^2 J$ and $(H \cdot J) H$ are odd under time-reversal. Therefore, if we impose time-reversal invariance on the Hall effect equations then, correct up to second-order in $H$, we find simply that,
+\[ E = R(H \times J) \] 
+
+\subsection{Problem 18}
+
+\subsection{Problem 19}
+
+
+\section{Chapter 7}
+
+\subsection{Problem 4}
+
+The conducting surface has permitivity,
+\[ \epsilon(\omega) = \epsilon + i \frac{\sigma}{\omega} \]
+furthermore, we assume that $\mu = 1$ since the surface is impermeable. 
+
+\subsection{Problem 5}
+
+\subsection{Problem 6}
+
+\subsection{Problem 10}
+
+\subsection{Problem 13}
+
+Consider the temporally nonlocal connection between the electric field and the electric displacement,
+\[ \bf{D}(\bf{x}, t) = \bf{E}(\bf{x}, t) + \int \d{\tau} \: G(\tau) \bf{E}(\bf{x}, t - \tau) \]
+with $G(\tau)$ determined by,
+\[ \epsilon(\omega) = 1 + \omega_p^2(\omega_0^2 - \omega^2 - i \gamma \omega)^{-1} \]
+We compute,
+\begin{align*}
+G(\tau) = \omega_p^2 e^{-\gamma \tau/2} \frac{\sin{\nu_0 \tau}}{\nu_0} \theta(\tau) 
+\end{align*} 
+where $\nu_0^2 = \omega_0^2 - \tfrac{1}{4} \gamma^2$. 
+Taylor expanding the electric field,
+\begin{align*}
+\bf{D}(\bf{x}, t) & = \bf{E}(\bf{x}, t) + \int \d{\tau} \: G(\tau) \left[ \bf{E}(\bf{x}, t) - \tau \pderiv{\bf{E}}{t} + \frac{1}{2} \tau^2 \frac{\partial^2 \bf{E}}{\partial t^2} + \cdots \right]
+\end{align*}
+Using Mathematica, we find,
+\begin{align*}
+\int \d{\tau} \: G(\tau) & = \frac{4 \omega_p^2}{\gamma^2 + 4 \nu_0^2} = \left( \frac{\omega_p}{\omega_0} \right)^2 
+\\
+\int \d{\tau} \: \tau G(\tau) & = \frac{16 \omega_p^2 \gamma}{(\gamma^2 + 4 \nu_0^2)^2} = \frac{\omega_p^2 \gamma}{\omega_0^4}
+\\
+\int \d{\tau} \: \tau^2 G(\tau) & = \frac{32 \omega_p^2 (3 \gamma - 4 \nu_0^2)}{(\gamma^2 + 4 \nu_0^2)^3} = \frac{2 \omega_p^2 (\gamma^2 - \omega_0^2)}{\omega_0^6}
+\end{align*}
+Therefore,
+\begin{align*}
+\bf{D}(\bf{x}, t) = \bf{E}(\bf{x}, t) \left( 1 + \left( \frac{\omega_p}{\omega_0} \right)^2 \right) - \pderiv{\bf{E}}{t} \left( \frac{\omega_p^2 \gamma}{\omega_0^4} \right) + \frac{\partial^2 \bf{E}}{\partial t^2} \left( \frac{\omega_p^2 ( \gamma^2 - \omega_0^2)}{\omega_0^6} \right) + \cdots 
+\end{align*}
+Furthermore, we can formally write the connection between the electric field and electric displacement as,
+\begin{align*}
+\bf{D}(\bf{x}, t) & = \epsilon\left(i \pderiv{}{t} \right) \bf{E}(\bf{x}, t) = \left( 1 + \frac{\omega_p^2}{\omega_0^2 + \frac{\partial^2}{\partial t^2} + \gamma \pderiv{}{t}} \right) \bf{E}(\bf{x}, t)
+\end{align*}
+Using the Taylor expansion of the function,
+\[  \left( 1 + \frac{\omega_p^2}{\omega_0^2 + x^2 + \gamma x} \right) = \left( 1 + \left( \frac{\omega_p}{\omega_0} \right)^2 \right) - \left( \frac{\omega_p^2 \gamma}{\omega_0^4} \right) x + \left( \frac{\omega_p^2 (\gamma^2 - \omega_0^2)}{\omega_0^6} \right) x^2 + \cdots \]
+we find that,
+\begin{align*}
+\bf{D}(\bf{x}, t) & = \left[ \left( 1 + \left( \frac{\omega_p}{\omega_0} \right)^2 \right) - \left( \frac{\omega_p^2 \gamma}{\omega_0^4} \right) \pderiv{}{t} + \left( \frac{\omega_p^2 (\gamma^2 - \omega_0^2)}{\omega_0^6} \right) \frac{\partial^2}{\partial t^2} + \cdots \right] \bf{E}(\bf{x}, t)
+\end{align*}
+agreeing with our earlier result. 
+\subsection{Problem 18}
+
+Consider a particle of charge $Z e$ moving through a medium with permitivity function $\epsilon(\bf{q}, \omega)$ or equivalently a conductivity function,
+\[ \sigma(\bf{q}, \omega) = \frac{i \omega}{4 \pi} [1 - \epsilon(\bf{q}, \omega)] \]
+First, we can express the charge density of the particle in frequency space via,
+\[ \int \dn{3}{q} \d{\omega} \left( \frac{Z e}{(2 \pi)^3} \delta(\omega - \bf{q} \cdot \bf{v}) \right) e^{i \bf{q} \cdot \bf{x} - i \omega t} = \int \dn{3}{q} \left( \frac{Z e}{(2 \pi)^3} \right) e^{i \bf{q} \cdot (\bf{x} - \bf{v} t)} = Z e \delta^3(\bf{x} - \bf{v} t) \]
+Therefore, the Fourier space charge is,
+\[ \rho(\bf{q}, \omega) = \frac{Z e}{(2 \pi)^3} \delta(\omega - \bf{q} \cdot \bf{v}) \]
+Now, this charge produces a potential which satisfies the Fourier Poisson equation in a medium\footnote{The spatial version of Poission's equation here is schematic in nature because the product of $\rho$ and $\epsilon$ is actually a convolution which is best understood by its property that in Fourier space it reduces to the simple multiplication at a definite frequency. This reflects the nonlocal connection of $\epsilon$ when it is frequency dependent.},
+\[ \nabla^2 \phi = - \frac{4 \pi \rho}{\epsilon} \implies - \bf{q}^2 \phi(\bf{q}, \omega) = - \frac{4 \pi \rho(\bf{q}, \omega)}{\epsilon(\bf{q}, \omega)} \]
+Therefore,
+\[ \phi(\bf{q}, \omega) = \frac{4 \pi}{\bf{q}^2} \frac{\rho(\bf{q}, \omega)}{\epsilon(\bf{q}, \omega)} \]
+For complex fields, the work delivered to the medium is given by,
+\[ \deriv{W}{t} = \int \dn{3}{x} \Re{\bf{J}^* \cdot \bf{E}} \]
+We assume that,
+\[ \bf{J}(\bf{q}, \omega) = \sigma(\bf{q}, \omega) \bf{E}(\bf{q}, \omega) \]
+and also that,
+\[ \bf{E}(\bf{x}, t) = - \nabla \phi(\bf{x}, t) \]
+and thus,
+\[ \bf{E}(\bf{q}, \omega) = - i \bf{q} \phi(\bf{q}, \omega) \]
+Therefore,
+\begin{align*}
+\deriv{W}{t} & = \int \dn{3}{x} \Re{  \left( \int \dn{3}{q} \d{\omega} \sigma(\bf{q}, \omega)^* i \bf{q} \phi(\bf{q}, \omega)^* e^{-i \bf{q} \cdot \bf{x} + i \omega t} \right) \cdot \left( \int \dn{3}{q'} \d{\omega'}  \frac{\bf{q}'}{i} \phi(\bf{q}', \omega') e^{i \bf{q}' \cdot \bf{x} - i \omega' t} \right) }
+\\
+& = \int \dn{3}{x} \int \dn{3}{q} \d{\omega} \int \dn{3}{q'} \d{\omega'} \Re{\bf{q} \cdot \bf{q}' \sigma(\bf{q}, \omega)^* \phi(\bf{q}, \omega)^* \phi(\bf{q}', \omega') e^{i(\bf{q}' - \bf{q}) \cdot \bf{x} + i (\omega - \omega') t} }
+\\
+& = (2 \pi)^3 \int \dn{3}{x} \int \dn{3}{q} \d{\omega} \int\d{\omega'} \Re{\bf{q}^2 \sigma(\bf{q}, \omega)^* \phi(\bf{q}, \omega)^* \phi(\bf{q}, \omega') e^{i (\omega - \omega') t} }
+\\
+& = (2 \pi)^{-3} (4 \pi)^2 Z^2 e^2  \int \dn{3}{x} \int \frac{\dn{3}{q}}{\bf{q}^2} \d{\omega} \int \d{\omega'} \Re{ \frac{\sigma(\bf{q}, \omega)^*}{\epsilon(\bf{q}, \omega)^* \epsilon(\bf{q}, \omega')} \delta(\omega - \bf{q} \cdot \bf{v}) \delta(\omega' - \bf{q} \cdot \bf{v}) e^{i (\omega - \omega') t} }
+\end{align*}
+Because of the delta functions, we can set $\bf{q} \cdot \bf{v} = \omega = \omega'$. Then,
+\begin{align*}
+\deriv{W}{t} & = \frac{2 Z^2 e^2}{\pi} \int \dn{3}{x} \int \frac{\dn{3}{q}}{\bf{q}^2} \int_{-\infty}^{\infty} \d{\omega} \Re{ \frac{\sigma(\bf{q}, \omega)^*}{\epsilon(\bf{q}, \omega)^* \epsilon(\bf{q}, \omega)} \delta(\omega - \bf{q} \cdot \bf{v}) }
+\\
+& = - \frac{Z^2 e^2}{2 \pi^2} \int \dn{3}{x} \int \frac{\dn{3}{q}}{\bf{q}^2} \int_{-\infty}^{\infty} \d{\omega} \Re{ \frac{i \omega[ 1 - \epsilon(\bf{q}, \omega)^*]}{\epsilon(\bf{q}, \omega)^* \epsilon(\bf{q}, \omega)} \delta(\omega - \bf{q} \cdot \bf{v}) }
+\\
+& = - \frac{Z^2 e^2}{2 \pi^2} \int \dn{3}{x} \int \frac{\dn{3}{q}}{\bf{q}^2} \int_{-\infty}^{\infty} \d{\omega} \: \omega \: \Im{\left[ \frac{1}{\epsilon(\bf{q}, \omega)} \right]} \delta(\omega - \bf{q} \cdot \bf{v})
+\end{align*}
+Since $\epsilon(\bf{q}, -\omega) = \epsilon(\bf{q}, \omega)^*$ the function,
+\[ 
+\omega \: \Im{\left[ \frac{1}{\epsilon(\bf{q}, \omega)} \right]} \]
+is even in $\omega$. Therefore, by reparametrizing $\omega \mapsto - \omega$ and $\bf{q} \mapsto - \bf{q}$ such that the delta function is left the same for the section of the integral $\omega < 0$ we find,
+\[ - \deriv{W}{t} = \frac{Z^2 e^2}{\pi^2} \int \dn{3}{x} \int \frac{\dn{3}{q}}{\bf{q}^2} \int_{0}^{\infty} \d{\omega} \: \omega \: \Im{\left[ \frac{1}{\epsilon(\bf{q}, \omega)} \right]} \delta(\omega - \bf{q} \cdot \bf{v}) \]
+
+\subsection{Problem 19}
+
+The angular momentum in the electromagnetic field is given by,
+\begin{align*}
+\bf{L} = \frac{1}{4 \pi c} \int \bf{x} \times (\bf{E} \times \bf{B}) \dn{3}{x}
+\end{align*}
+We use the vector potential,
+\[ \bf{B} = \nabla \times \bf{A} \]
+Then we have,
+\begin{align*}
+\bf{L} = \frac{1}{4 \pi c} \int \bf{x} \times (\bf{E} \times (\nabla \times \bf{A})) \dn{3}{x}
+\end{align*}
+We expand this in components,
+\begin{align*}
+[\bf{x} \times (\bf{E} \times (\nabla \times \bf{A}))]_i & = \epsilon_{ijk} x_j [E_{\ell} \partial_k A_{\ell} - E_{\ell} \partial_{\ell} A_k] = E_{\ell} \epsilon_{ijk} x_j \partial_k A_{\ell} - E_{\ell} \epsilon_{ijk} x_j \partial_{\ell} A_k
+\\
+& = [E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}]_i - (\bf{E} \cdot \nabla) (\epsilon_{ijk} x_j A_k) + (\bf{E} \times \bf{A})_i
+\\
+& = [E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}]_i - \nabla \cdot (\bf{E} \epsilon_{ijk} x_j A_k) + (\nabla \cdot \bf{E}) (\epsilon_{ijk} x_j A_k) + (\bf{E} \times \bf{A})_i
+\end{align*}
+But in free space $\nabla \cdot \bf{E} = 0$. Therefore,
+\begin{align*}
+[\bf{x} \times (\bf{E} \times (\nabla \times \bf{A}))]_i = [E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}]_i - \nabla \cdot (\bf{E} \epsilon_{ijk} x_j A_k) + (\bf{E} \times \bf{A})_i
+\end{align*}
+meaning that,
+\begin{align*}
+\bf{L}_i & = \frac{1}{4 \pi c} \int [\bf{x} \times (\bf{E} \times (\nabla \times \bf{A}))]_i \dn{3}{x}
+\\
+& = \frac{1}{4 \pi c} \int \left[ [E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}]_i - \nabla \cdot (\bf{E} \epsilon_{ijk} x_j A_k) + (\bf{E} \times \bf{A})_i \right] \dn{3}{x} 
+\\
+& = \frac{1}{4 \pi c} \int \left[ [E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}]_i + (\bf{E} \times \bf{A})_i \right] \dn{3}{x} 
+\end{align*}
+where we have taken,
+\begin{align*}
+\int \nabla \cdot (\bf{E} \epsilon_{ijk} x_j A_k) \dn{3}{x} = \int_S \bf{E} \epsilon_{ijk} x_j A_k \cdot \d{A} = 0
+\end{align*}
+if we take the surface large enough because we have assumed that the fields are localized. Thus,
+\[ \bf{L} = \frac{1}{4 \pi c} \int \left[ \bf{E} \times \bf{A} + E_{\ell} \cdot (\bf{x} \times \nabla) A_{\ell}  \right] \dn{3}{x} \]
+Consider the mode expansion of the electromagentic field,
+\begin{align*}
+\bf{A}(\bf{x}, t) = \sum_{\lambda} \int \frac{\dn{3}{k}}{(2 \pi)^3} \left[ \epsilon_{\lambda}(\bf{k}) a_\lambda (\bf{k}) e^{i \bf{k} \cdot \bf{x} - i \omega t} + \epsilon_\lambda^*(\bf{k}) a_\lambda^*(\bf{k}) e^{- i \bf{k} \cdot \bf{x} + i \omega t} \right]
+\end{align*}
+where $\epsilon_{\pm} = (1/\sqrt{2})(\epsilon_1 \pm i \epsilon_2)$ in the direction of $\bf{k}$. Then the spin angular momentum,
+\begin{align*}
+\bf{L}_{\text{spin}} = \frac{1}{4 \pi c} \int \dn{3}{x}  \bf{E} \times \bf{A} = \frac{1}{4 \pi c} \int \dn{3}{x} \left( -\frac{1}{c} \pderiv{}{t} \bf{A} \right) \times \bf{A} 
+\end{align*}  
+First we need to compute,
+\begin{align*}
+- \frac{1}{c} \pderiv{}{t} \bf{A} & = \sum_{\lambda} \int \frac{\dn{3}{k}}{(2 \pi)^3} \left[ ik \epsilon_{\lambda}(\bf{k}) a_\lambda (\bf{k}) e^{i \bf{k} \cdot \bf{x} - i \omega t} - i k  \epsilon_\lambda^*(\bf{k}) a_\lambda^*(\bf{k}) e^{- i \bf{k} \cdot \bf{x} + i \omega t} \right]
+\\
+& = \sum_{\lambda} \int \frac{\dn{3}{k}}{(2 \pi)^3}  i k  \left[\epsilon_{\lambda}(\bf{k}) a_\lambda (\bf{k}) e^{i \bf{k} \cdot \bf{x} - i \omega t} - \epsilon_\lambda^*(\bf{k}) a_\lambda^*(\bf{k}) e^{- i \bf{k} \cdot \bf{x} + i \omega t} \right]
+\end{align*}
+and then plug in,
+\begin{align*}
+\left( -\frac{1}{c} \pderiv{}{t} \bf{A} \right) \times \bf{A} & = \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} \frac{\dn{3}{k'}}{(2 \pi)^3} \left( i k \left[\epsilon_{\lambda}(\bf{k}) a_\lambda (\bf{k}) e^{i \bf{k} \cdot \bf{x} - i \omega t} - \epsilon_\lambda^*(\bf{k}) a_\lambda^*(\bf{k}) e^{- i \bf{k} \cdot \bf{x} + i \omega t} \right] \right)
+\\
+& \quad \quad \quad \times \left[ \epsilon_{\lambda'}(\bf{k}') a_{\lambda'} (\bf{k}') e^{i \bf{k}' \cdot \bf{x} - i \omega t} + \epsilon_{\lambda'}^*(\bf{k}') a_{\lambda'}^*(\bf{k}') e^{- i \bf{k}' \cdot \bf{x} + i \omega t} \right]
+\\
+& = \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} \frac{\dn{3}{k'}}{(2 \pi)^3} ik \left[ \epsilon_{\lambda}(\bf{k}) \times \epsilon_{\lambda'}(\bf{k}') a_{\lambda}(\bf{k}) a_{\lambda'}(\bf{k}') e^{i (\bf{k} + \bf{k}') \cdot \bf{x} - 2 i \omega t} 
+\right.
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \times \epsilon_{\lambda'}(\bf{k}') a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k}') e^{i (\bf{k}' - \bf{k}) \cdot \bf{x}} 
+\right. 
+\\
+& \left. \quad \quad + \epsilon_{\lambda}(\bf{k}) \times \epsilon^*_{\lambda'}(\bf{k}') a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}') e^{i (\bf{k} - \bf{k}') \cdot \bf{x}}
+\right. 
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \times \epsilon^*_{\lambda'}(\bf{k}') a_\lambda^*(\bf{k}) a_{\lambda'}^*(\bf{k}') e^{i (\bf{k}' + \bf{k}) \cdot \bf{x} + 2 i \omega t} \right]
+\end{align*}
+Therefore,
+\begin{align*}
+\bf{L}_{\text{spin}} & = \frac{1}{4 \pi c} \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} ik \left[ \epsilon_{\lambda}(\bf{k}) \times \epsilon_{\lambda'}(-\bf{k}) a_{\lambda}(\bf{k}) a_{\lambda'}(-\bf{k}) e^{- 2 i \omega t} 
+\right.
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \times \epsilon_{\lambda'}(\bf{k}) a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k})
++ \epsilon_{\lambda}(\bf{k}) \times \epsilon^*_{\lambda'}(\bf{k}) a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}) 
+\right. 
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \times \epsilon^*_{\lambda'}(-\bf{k}) a_\lambda^*(\bf{k}) a_{\lambda'}^*(-\bf{k}) e^{ 2 i \omega t} \right]  
+\end{align*}
+We need to compute,
+\begin{align*}
+\epsilon_{\lambda}(\bf{k}) \times \epsilon^*_{\lambda'}(\bf{k}) = \tfrac{1}{2} (\epsilon_1 + i \lambda \epsilon_2) \times (\epsilon_1 - i \lambda' \epsilon_2) = \tfrac{1}{2} \left( - i \lambda' \hat{\bf{k}} - i \lambda \hat{\bf{k}} \right) = - \tfrac{1}{2}i (\lambda' + \lambda) \hat{\bf{k}}
+\end{align*}
+and furthermore,
+\begin{align*}
+\epsilon_{\lambda}(\bf{k}) \times \epsilon_{\lambda'}(-\bf{k}) = \tfrac{1}{2} (\epsilon_1 + i \lambda \epsilon_2) \times (\epsilon_1 - i \lambda' \epsilon_2) = \tfrac{1}{2} \left( - i \lambda' \hat{\bf{k}} - i \lambda \hat{\bf{k}} \right) = - \tfrac{1}{2}i (\lambda' + \lambda) \hat{\bf{k}}
+\end{align*}
+Thus,
+\begin{align*}
+\bf{L}_{\text{spin}} & = \frac{1}{4 \pi c} \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} \bf{k} \tfrac{1}{2} (\lambda + \lambda') \left[ a_{\lambda}(\bf{k}) a_{\lambda'}(-\bf{k}) e^{- 2 i \omega t} 
++ a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k}) + a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}) + a_\lambda^*(\bf{k}) a_{\lambda'}^*(-\bf{k}) e^{ 2 i \omega t} \right]  
+\end{align*}
+The term $\lambda + \lambda'$ forces the nonzero terms to have $\lambda = \lambda'$ which implies that,
+\begin{align*}
+\bf{L}_{\text{spin}} & = \frac{1}{4 \pi c} \sum_{\lambda} \int \frac{\dn{3}{k}}{(2 \pi)^3} \bf{k} \lambda \left[ a_{\lambda}(\bf{k}) a_{\lambda}(-\bf{k}) e^{- 2 i \omega t} 
++ 2 |a_\lambda(\bf{k})|^2 + a_\lambda^*(\bf{k}) a_{\lambda}^*(-\bf{k}) e^{ 2 i \omega t} \right]  
+\end{align*}
+Taking the time average,
+\begin{align*}
+\EV{\bf{L}_{\text{spin}}} = \frac{2}{4 \pi c} \int \frac{\dn{3}{k}}{(2 \pi)^3} \bf{k} \left[ |a_{+}(\bf{k})|^2 - |a_{-}(\bf{k})|^2 \right] 
+\end{align*}
+which gives the difference between the oscillation in positive and negative helicity modes. This corresponds to the spin angular momentum carried in the net helicity of the wave. 
+\bigskip\\
+Next, to compute the energy in the wave, we need the quantity,
+\begin{align*}
+\bf{E}^2 & = \left( -\frac{1}{c} \pderiv{}{t} \bf{A} \right) \cdot \left( -\frac{1}{c} \pderiv{}{t} \bf{A} \right)
+\\
+& = - \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} \frac{\dn{3}{k'}}{(2 \pi)^3} k^2 \left[\epsilon_{\lambda}(\bf{k}) a_\lambda (\bf{k}) e^{i \bf{k} \cdot \bf{x} - i \omega t} - \epsilon_\lambda^*(\bf{k}) a_\lambda^*(\bf{k}) e^{- i \bf{k} \cdot \bf{x} + i \omega t} \right]
+\\
+& \quad \quad \quad \cdot \left[ \epsilon_{\lambda'}(\bf{k}') a_{\lambda'} (\bf{k}') e^{i \bf{k}' \cdot \bf{x} - i \omega t} - \epsilon_{\lambda'}^*(\bf{k}') a_{\lambda'}^*(\bf{k}') e^{- i \bf{k}' \cdot \bf{x} + i \omega t} \right]
+\\
+& = - \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} \frac{\dn{3}{k'}}{(2 \pi)^3} k^2 \left[ \epsilon_{\lambda}(\bf{k}) \cdot \epsilon_{\lambda'}(\bf{k}') a_{\lambda}(\bf{k}) a_{\lambda'}(\bf{k}') e^{i (\bf{k} + \bf{k}') \cdot \bf{x} - 2 i \omega t} 
+\right.
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \cdot  \epsilon_{\lambda'}(\bf{k}') a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k}') e^{i (\bf{k}' - \bf{k}) \cdot \bf{x}} 
+\right. 
+\\
+& \left. \quad \quad + \epsilon_{\lambda}(\bf{k}) \cdot  \epsilon^*_{\lambda'}(\bf{k}') a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}') e^{i (\bf{k} - \bf{k}') \cdot \bf{x}}
+\right. 
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \cdot  \epsilon^*_{\lambda'}(\bf{k}') a_\lambda^*(\bf{k}) a_{\lambda'}^*(\bf{k}') e^{i (\bf{k}' + \bf{k}) \cdot \bf{x} + 2 i \omega t} \right]
+\end{align*}
+Therefore,
+\begin{align*}
+U_E & = \frac{1}{8 \pi} \int \dn{3}{x} \bf{E}^2 
+\\
+& = - \frac{1}{8 \pi} \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} k^2 \left[ \epsilon_{\lambda}(\bf{k}) \cdot \epsilon_{\lambda'}(-\bf{k}) a_{\lambda}(\bf{k}) a_{\lambda'}(-\bf{k}) e^{- 2 i \omega t} 
+\right.
+\\
+& \left. \quad \quad - \epsilon^*_{\lambda}(\bf{k}) \cdot \epsilon_{\lambda'}(\bf{k}) a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k})
+- \epsilon_{\lambda}(\bf{k}) \cdot \epsilon^*_{\lambda'}(\bf{k}) a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}) 
+\right. 
+\\
+& \left. \quad \quad + \epsilon^*_{\lambda}(\bf{k}) \cdot \epsilon^*_{\lambda'}(-\bf{k}) a_\lambda^*(\bf{k}) a_{\lambda'}^*(-\bf{k}) e^{ 2 i \omega t} \right]  
+\end{align*}
+We need to compute,
+\begin{align*}
+\epsilon_{\lambda}(\bf{k}) \cdot \epsilon^*_{\lambda'}(\bf{k}) & = \tfrac{1}{2} (\epsilon_1 + i \lambda \epsilon_2) \cdot (\epsilon_1 - i \lambda' \epsilon_2) = \tfrac{1}{2} \left( 1 + \lambda \lambda' \right) 
+\\
+\epsilon_{\lambda}(\bf{k}) \cdot \epsilon_{\lambda'}(-\bf{k}) & = \tfrac{1}{2} (\epsilon_1 + i \lambda \epsilon_2) \cdot (\epsilon_1 - i \lambda' \epsilon_2) = \tfrac{1}{2} \left( 1 + \lambda \lambda' \right) 
+\end{align*}
+Plugging in,
+\begin{align*}
+U_E = \frac{1}{8 \pi} \sum_{\lambda, \lambda'} \int \frac{\dn{3}{k}}{(2 \pi)^3} k^2 \tfrac{1}{2} (1 + \lambda \lambda') \left[ - a_{\lambda}(\bf{k}) a_{\lambda'}(-\bf{k}) e^{- 2 i \omega t} + a_\lambda^*(\bf{k}) a_{\lambda'}(\bf{k}) + a_\lambda(\bf{k}) a_{\lambda'}^*(\bf{k}) - a_\lambda^*(\bf{k}) a_{\lambda'}^*(-\bf{k}) e^{ 2 i \omega t} \right]
+\end{align*}
+The term $(1 + \lambda \lambda')$ forces the nonzero terms to have $\lambda = \lambda'$ which implies that,
+\begin{align*}
+U_E = \frac{1}{8 \pi} \sum_{\lambda} \int \frac{\dn{3}{k}}{(2 \pi)^3} k^2 \left[ - a_{\lambda}(\bf{k}) a_{\lambda}(-\bf{k}) e^{- 2 i \omega t} + a_\lambda^*(\bf{k}) a_{\lambda}(\bf{k}) + a_\lambda(\bf{k}) a_{\lambda}^*(\bf{k}) - a_\lambda^*(\bf{k}) a_{\lambda}^*(-\bf{k}) e^{ 2 i \omega t} \right]
+\end{align*}
+Taking the time average,
+ \begin{align*}
+\EV{U_E} = \frac{2}{8 \pi} \int \frac{\dn{3}{k}}{(2 \pi)^3} k^2 \left[ |a_{+}(\bf{k})|^2 + |a_{-}(\bf{k})|^2 \right]
+\end{align*}
+which measures the total amount of oscillation in both positive and negative helicity modes. 
+
+\subsection{Problem 20}
+
+A circularly polarized plane wave move in the $z$-direction has a finite extent in the $x$ and $y$ directions. Assuming that the amplitude modulation is slowly varying. We can write the field as,
+\[ E(x,y,z,t) = \left[ E_0(x, y) (\bf{e}_1 \pm i \bf{e}_2) + E_{c} \bf{e}_3 \right] e^{ikz - i\omega t} \] 
+We assume that,
+\[ B = \mp i E \] 
+Applying Maxwell's equations,
+\begin{align*}
+\nabla \times E & = \left[ \left( \pderiv{E_{c}}{y} \pm k E_0 \right) \bf{e}_1 + \left( i k E_0  - \pderiv{E_{c}}{x}  \right) \bf{e}_2 +  \left( \pm i \pderiv{E_0}{x} - \pderiv{E_0}{y} \right) \bf{e}_3 \right] e^{i k x - \omega t}
+\\
+& = - \frac{1}{c} \pderiv{}{t} B = \pm \frac{\omega}{c} E 
+\end{align*}
+Therefore,
+\[ E_c = \frac{c}{\omega} \left[i \pderiv{E_0}{x} \mp \pderiv{E_0}{y} \right] = \frac{i}{k} \left[ \pderiv{E_0}{x} \pm i \pderiv{E_0}{y} \right] \]
+Then the solution holds assuming we can ignore the second derivatives of $E_0$ compared to $k^2 E_0$ so if the envolope changes on a scale much larger than the wavelength. 
+
+\section{Chapter 9}
+
+\subsection{Problem }
+
+\end{document}
+
+
