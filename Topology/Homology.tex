@@ -1,0 +1,153 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+
+\begin{document}
+\section{Homology}
+
+
+\subsection{Introduction}
+
+Define a standard (unfilled) triangle with vertices $\alpha, \beta, \gamma$ and edges $a,b,c$. We will cook up some free abelian groups, $C_0 = \Z \alpha \oplus \Z \beta \oplus \Z \gamma$ the free group on the vertices and $C_1 = \Z a \oplus \Z b \oplus \Z c$ the free group on the edges. Now define the boundary map $\partial : C_1 \to C_0$ by $\partial b = \alpha - \gamma$ and $\partial a = \gamma - \beta$ and $\partial c = \alpha - \beta$. Then the diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C_1 \arrow[r, "\partial"] & C_0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is a complex meaning that the composition of any two maps is the zero map. Consider the kernel of $\partial$. Which is the set,
+\[ \{ t a \oplus ub \oplus vc  \mid t(\gamma - \beta) + u(\alpha - \gamma) + v(\alpha - \beta) = 0 \} \]
+which has solutions, $t = u = - v$ which is the set $\{ (1, 1, -1) \cdot t \mid t \in \Z\} \cong \Z$. We call this $H_1(C) = \ker{\partial} \cong \Z$ the first Homology group. \bigskip\\
+Now consider the filled triangle labeled in the same way. Now we have a 2-cell called $A$ representing the filled triangle so $C_2 = \Z A$. Now define the boundary map $\partial_2 : C_2 \to C_1$ defined by $\partial_2 A = a + b - c$ (with some choice of orientation). Now, $H_1(C) = \ker{\partial_1}{\Im{\partial_2}} \cong (1, 1, -1) \Z / (1,1,-1)\Z = 0$.   
+
+\subsection{Basic Definitions}
+
+\begin{definition}
+A complex is any diagram such that the composition of any two maps (if it exists) is the zero map. In particular,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r, "\partial_7"] & C_6 \arrow[r, "\partial_6"] & C_5 \arrow[r, "\partial_5"] & C_4 \arrow[r, "\partial_4"] & C_3 \arrow[r, "\partial_3"] & C_2 \arrow[r, "\partial_2"] & C_1 \arrow[r, "\partial_1"] & C_0 \arrow[r, "\partial_0"] & 0 
+\end{tikzcd}
+\end{center}
+is a complex if $\Im{\partial_{i+1}} \subset \ker{\partial_i}$. We call the $C_i$ chains and the $\ker{\partial_i}$ cycles and the $\Im{\partial_{i+1}}$ boundaries. 
+\end{definition} 
+
+\begin{definition}
+Given a complex as above, the $i^{\mathrm{th}}$ homology group is given by,
+\[ H_i(C) = \ker{\partial_i} / \Im{\partial_{i+1}} \]
+\end{definition}
+
+\begin{lemma}
+A sequence is exact if and only if it is a complex with trivial Homology groups.
+\end{lemma}
+
+\subsection{Simplicial Homology}
+
+\begin{definition}
+The standard $n$-simplex is the subset,
+\[\Delta^n = \left\{ (t_0, \cdots, t_n) \in \R^{n+1} \quad \middle| \quad \sum_{i = 0}^n t_i = 1 \quad \text{and} \quad \forall i : t_i \ge 0 \right\} \] 
+We give $\Delta^n$ an orientation by ordering the vertices in the sequence defined by the order of the standard basis of $\R^{n+1}$,
+\[(1,0, \cdots, 0), \quad (0,1,\cdots,0), \quad \cdots \quad (0, 0, \cdots, 1)\]
+\end{definition}
+
+\begin{definition}
+An $n$-simplex is the convex hull of $n + 1$ points in $\R^m$ that do not lie in any $n$-dimensional hyperplane. 
+\end{definition}
+
+\begin{definition}
+The faces of an $n$-simplex are the convex hulls of any subset with $n$ points of the simplex. There are $n+1$ faces each of which is an $n-1$-simplex. 
+\end{definition}
+
+\begin{definition}
+A $\Delta$-complex $X$ is a topological space along with a collection of maps $\sigma_\alpha : \Delta^n \to X$ (where $n$ can depend on $\alpha$) subject to the constraints,
+\begin{enumerate}
+\item $\sigma_\alpha|_{(\Delta^n)^\circ}$ is injective and if $\alpha \neq \beta$ then $\Im{\sigma_\alpha|_{(\Delta^n)^\circ}} \cap \Im{\sigma_\beta|_{(\Delta^n)^\circ}} = \varnothing$
+
+\item $\sigma_\alpha$ restricted to a face of $\Delta^n$ is equal to some $\sigma_\beta$ up to homoeomorphism of the domains. 
+
+\item A set $U \subset X$ is open if and only if $\sigma_\alpha^{-1}(U)$ is open for every $\alpha$. 
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Given a $\Delta$-complex $X$ define $C_n(X)$ to be the free abelian group on all $\sigma_\alpha : \Delta^n \to X$ with $n$ fixed and define the boundary map $\partial_n  : C_n(X) \to C_{n-1}(X)$ by, 
+\[\partial(\sigma_\alpha) = \sum_{i = 0}^n (-1)^i \sigma_\alpha|_{i^{\mathrm{th}}-\text{face}} \]
+
+\end{definition}
+
+\begin{lemma}
+Given a $\Delta$-complex $X$ the sequence $C(X)$ given by,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r, "\partial_7"] & C_6 \arrow[r, "\partial_6"] & C_5 \arrow[r, "\partial_5"] & C_4 \arrow[r, "\partial_4"] & C_3 \arrow[r, "\partial_3"] & C_2 \arrow[r, "\partial_2"] & C_1 \arrow[r, "\partial_1"] & C_0 \arrow[r, "\partial_0"] & 0 
+\end{tikzcd}
+\end{center}
+is a complex.
+\end{lemma}
+
+\begin{proof}
+\begin{align*} 
+\partial_{n-1} \circ \partial_n(\sigma_\alpha) 
+& = \sum_{i > j} (-1)^{j + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{j^{\mathrm{th}}-\text{face}} + \sum_{i < j} (-1)^{j + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{(j-1)^{\mathrm{th}}-\text{face}}
+\\
+& = \sum_{i > j} (-1)^{j + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{j^{\mathrm{th}}-\text{face}} + \sum_{i < j} (-1)^{j + 1 + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{j^{\mathrm{th}}-\text{face}}
+\\
+& = \sum_{i > j} (-1)^{j + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{j^{\mathrm{th}}-\text{face}} - \sum_{i < j} (-1)^{j + i} (\sigma_\alpha|_{i^{\mathrm{th}}-\text{face}})|_{j^{\mathrm{th}}-\text{face}} = 0
+\end{align*}
+\end{proof}
+
+\begin{definition}
+Let $X$ be a $\Delta$-complex then the $n^{\mathrm{th}}$ homology group is,
+\[ H_n(X) = \ker{\partial_n}/\Im{\delta_{n + 1}} \]
+which is the homology of the complex $C(X)$. 
+\end{definition}
+
+\end{document}

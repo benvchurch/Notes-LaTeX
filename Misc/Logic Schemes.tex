@@ -1,0 +1,285 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fullpage}
+\usepackage{amsthm, amssymb, amsmath}
+\usepackage{tikz-cd}
+
+\title{Logical Schemes}
+\author{Benjamin Church and Ryan Abbott}
+\date{February 2019}
+
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\proves}{\vdash}
+\newcommand{\p}{\mathfrak{p}}
+\newcommand{\q}{\mathfrak{q}}
+\newcommand{\m}{\mathfrak{m}}
+\renewcommand{\P}{\mathfrak{P}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Spec}[1]{\mathrm{Spec}(#1)}
+\newcommand{\Thm}[1]{\mathrm{Thm}(#1)}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{thm}{Theorem}
+\theoremstyle{plain}
+\newtheorem{defn}{Definition}
+\newtheorem{rmk}{Remark}
+\newtheorem{prop}{Lemma}
+\newtheorem{cor}{Lemma}
+
+\begin{document}
+
+\maketitle
+
+\begin{rmk}
+We probably want to restrict ourselves to the ring of \textit{sentences} because completeness is state in terms of sentences and arbitrary formulae may not have truth values. I assumed over sentences in some of my proofs without remark. I doubt they are true more generally so it is best to restrict to sentences. This is actually no restriction because every formula is logically equivalent to its closure which is a sentence.
+\end{rmk}
+
+\section{Introduction}
+
+\begin{defn}
+We define the ring of sentences $S$ as follows: Let $\mathrm{SEN}$
+be the sentences of a first-order logic over a first-order language $L$. Then as a set we have
+\[ S = \mathrm{SEN}/ \vdash \lra \]
+where $\vdash \lra$ denotes the equivalence relation
+where two sentences are equivalent iff they are logically
+equivalent; i.e. if we can prove their equivalence
+from logical axioms.
+For the ring structure on $S$, we define sum by XOR: $A + B = (A \wedge \neg B) \vee (\neg A \wedge B)$ and product by AND: $AB = A \wedge B$. Furthermore we have $0$ given by FALSE: $\perp$ and $1$ given by TRUE: $\top$.
+\end{defn}
+
+\begin{defn}
+For any theory $\Gamma \subset \mathrm{SEN}$ we can
+define a quotient $S / \Gamma$ by setting $A = B$
+if $\Gamma \vdash A \lra B$. There is a natural projection map
+$S \to S / \Gamma$; we call its kernel $I(\Gamma)$
+\end{defn}
+
+
+\begin{lemma}
+\[ I(\Gamma) = \{A \mid \Gamma \vdash \lnot A \} \]
+\end{lemma}
+
+\begin{proof}
+Consider the map $\varphi : S \to S / \Gamma$. Now,
+\[ A \in \ker{\varphi} \iff \varphi(A) = \perp \iff \Gamma \proves A \lra \perp \iff \Gamma \proves \neg A \]
+\end{proof}
+
+\begin{thm}
+$\Gamma$ is consistent and complete if and only if 
+$I(\Gamma)$ is a maximal ideal of $S$.
+\end{thm}
+\begin{proof}
+First, note that $I(\Gamma) = S \iff \Gamma$ is inconsistent. First, suppose that $\Gamma$ is complete i.e. for all sentences $A$ either $\Gamma \proves A$ or $\Gamma \proves \neg A$. Let $J$ be an ideal strictly containing $I(\Gamma)$ and take $A \in J \setminus I(\Gamma)$. Since $A \notin I(\Gamma)$ we must have $\Gamma \not\proves \neg A$ and thus $\Gamma \proves A$. Therefore, $\neg A \in I(\Gamma)$ so $A, \neg A \in J$ and thus $A + \neg A \in J$. However, $\proves A + \neg A \lra \top$ and thus $\top \in J \implies J = S$.
+\bigskip\\
+Conversely, suppose that $I(\Gamma)$ is maximal. Take any sentence $A$. If $\Gamma \proves \neg A$ then we are done. Otherwise, $A \notin I(\Gamma)$ so the ideal $I(\Gamma \cup \{\neg A \}) = S$ by maximally. Therefore, $\Gamma \cup \{\neg A \}$ is inconsistent so $\Gamma \proves A$. Thus we have shown that $\Gamma$ is complete. 
+\end{proof}
+
+\begin{lemma}
+If $\Gamma \proves A \to B$ then $\Gamma \proves A \lra (A \land B)$
+\end{lemma}
+
+\begin{proof}
+We always have $(A \land B) \to B$, but if additionally
+$A \to B$ then any theory which proves $A$ can prove $B$,
+and therefore the theory can prove $A \land B$.
+\end{proof}
+\begin{thm}
+For any $I \subset R$ there exists some $\Gamma$ such
+that $I(\Gamma) = I$
+\end{thm}
+\begin{proof}
+Let $I \subset R$ and define a first order theory $\Gamma$
+by
+\[ \Gamma = \{ \lnot B \mid B \in I \} \]
+Clearly $I(\Gamma) \supset I$; therefore suppose 
+$\Gamma \vdash \lnot A$ and we seek to prove $A \in I$.
+Since $\Gamma \vdash \lnot A$ we know some finite subset
+of $\Gamma$ proves $\lnot A$, so we have
+\[ \lnot B_1 \land \lnot B_2 \land \dots \land \lnot B_n
+\vdash \lnot A \]
+Rearranging this becomes
+\[ \vdash 
+(\lnot B_1 \land \lnot B_2 \land \dots \land \lnot B_n) \to A \]
+\[ \vdash
+\lnot (B_1 \lor \dots \lor B_n) \to \lnot A \]
+\[ \vdash A \to (B_1 \lor \dots \lor B_n) \]
+Applying the above lemma this tells us
+\[ A \lra A \land (B_1 \lor \dots \lor B_n) \]
+Now $B_1 \lor \dots \lor B_n$ is the sum and product of elements
+of $I$, so $B_1 \lor \dots \lor B_n \in I$,
+and hence $A \land (B_1 \lor \dots \lor B_n) \lra A \in I$
+and we are done.
+\end{proof}
+\begin{rmk}
+This theorem tells us we have a 1-1 correspondence
+between ideals of $S$ and first-order theories up to equivalence via their set of theorems.
+\end{rmk}
+
+\begin{defn}
+For any $B \in S$, let define $J(B) \subset S$ by
+\[ J(B) = \{ A \mid A \vdash B \} \]
+\end{defn}
+\begin{lemma}
+For any $B \in S$, $J(B)$ is an ideal.
+\end{lemma}
+\begin{proof}
+Suppose $A \vdash B$ and $C \vdash B$, and let $D \in S$
+be arbitrary. Then $A + C \vdash B$ and $A \land D \vdash B$,
+$J(B)$ is closed under the usual ideal operations.
+\end{proof}
+
+
+\begin{defn}
+Let $\Gamma$ be a first-order theory. Then $\Thm{\Gamma} = \{ A \in \mathrm{SEN} \mid \Gamma \proves A \}$. We write $\Gamma \le \Gamma'$ to mean $\Thm{\Gamma} \subset \Thm{\Gamma'}$. We say that two theories $\Gamma$ and $\Gamma'$ are equivalent $\Gamma \sim \Gamma'$ if $\Gamma \le \Gamma'$ and $\Gamma' \le \Gamma$ i.e. if $\Thm{\Gamma} = \Thm{\Gamma'}$.
+\end{defn}
+
+\section{Von Neumann Rings}
+
+\begin{rmk}
+All rings we consider will be commutative and unital.
+\end{rmk}
+
+\begin{defn}
+A ring $R$ is \textit{Von Neumann} if for each $x \in R$ there exists $y \in R$ such that $xyx = x$. 
+\end{defn}
+
+\begin{prop}
+Von Neumann rings have dimension zero.
+\end{prop}
+
+\begin{proof}
+Let $\p \subset R$ be prime and $R$ be Von Neumann. Then $R / \p$ is a domain and also Von Neumann. Therefore take any $x \in R / \p$ then there exists $y \in R / \p$ such that $xyx = x$ and thus $x(1 - yx) = 0$. Since $R / \p$ is a domain either $x = 0$ or $yx = 1$. Thus, either $x = 0$ or is a unit. Therefore, $R / \p$ is a field so $\p$ is maximal. 
+\end{proof}
+
+\begin{thm}
+If $R$ is Von Neumann and $\m \subset R$ is maximal then $R_\m \cong R / \m = k(\m)$ is a field. 
+\end{thm}
+
+\begin{proof}
+Consider the canonical map $\varphi : R \to R_\m$. For any $(s, x) \in R$ there exists $t \in R$ such that $s = ts^2$ so $s(1 - ts) = 0$ and thus $\varphi(tx) = (1, tx) = (s, x)$ since $s(1 - ts)x = 0$. Thus $\varphi$ is surjective. 
+\bigskip\\
+For $x \in \m$ take $\varphi(x) = (1, x)$. However, $\exists y \in R$ s.t. $x(1 - xy) = 0$. However, $xy \in \m$ so $1 - xy \notin \m$ and thus $(1, x) = 0$ since $(1 - xy) \in R \setminus \m$. Thus, $\m \subset \ker{\varphi}$.
+\bigskip\\
+If $\varphi(x) = 0$ then there exists $s \in R \setminus \m$ such that $sx = 0$ so there exists $t \in R$ such that $s(1 - ts) = 0$ so $1 - ts \in \m$ since $s \notin \m$. Therefore,
+\[ (1 - ts) x = x - tsx = x \in \m \]
+so $\ker{\varphi} \subset \m$. Thus we have shown $\m = \ker{\varphi}$ and therefore, $R_\m \cong R / \m$ which is a field. 
+\end{proof}
+
+\begin{rmk}
+In fact, the converse of the above theorem is true. $R$ is Von Neumann iff $R$ localized at each maximal ideal is a field (Kaplansky). 
+\end{rmk}
+
+\begin{cor}
+If $R$ is Von Neumann then every prime is maximal so the localization at each prime is a field.
+\end{cor}
+
+
+\section{Boolean Rings}
+
+\begin{defn}
+A ring $R$ is \textit{Boolean} if $x^2 = x$ for every $x \in R$. 
+\end{defn}
+
+\begin{rmk}
+Clearly every (unital) Boolean ring is Von Neumann since $1 \cdot x^2 = x$. 
+\end{rmk}
+
+\begin{prop}
+Any Boolean ring is commutative.
+\end{prop}
+
+\begin{proof}
+For, $x, y \in R$ consider $(x + y)^2 = x^2 + xy + yx + y^2$. However, $(x + y)^2 = x + y$ and $x^2 = x$ and $y^2 = y$. Thus,
+\[ (x + y)^2 - x^2 - y^2 = (x + y) - x - y = 0 \implies xy + yx = 0 \]
+\end{proof}
+
+\begin{prop}
+Any Boolean ring is an $\F_2$-algebra. 
+\end{prop}
+
+\begin{proof}
+Let $R$ be a Boolean ring. Consider the canonical map $\varphi : \Z \to R$. If $1 \mapsto 0$ then $R = (0)$ which is trivially an $\F_2$ algebra. Otherwise, $1 + 1 = 0$ and thus $\ker{\varphi} \supset 2 \Z$ which is a maximal ideal so $\ker{\varphi} = 2\Z$. Thus, $\varphi$ factors through $\Z / 2 \Z = \F_2$ as an injection,
+\begin{center}
+\begin{tikzcd}
+\Z \arrow[r, "\varphi"] \arrow[d] & R
+\\
+\F_2 \arrow[ru, hook]
+\end{tikzcd}
+\end{center}  
+\end{proof}
+
+\begin{prop}
+Let $R$ be an Boolean ring and $\p \subset R$ a prime. Then $R / \p \cong \F_2$.
+\end{prop}
+
+\begin{proof}
+Since $R / \p$ is Boolean it is an $\F_2$-algebra. Since $1 \notin \p$ the ring $R / \p$ is nontrivial. Furthermore for $x \in R /\p$ we have $x(1 - x) = 0$. Furthermore, $R / \p$ is a domain so $x = 0$ or $x = 1$ and thus the map $\F_2 \to R / \p$ is a surjection but $\F_2$ is a field so the nontrivial $\varphi$ map is also an injection. 
+\end{proof}
+
+\begin{thm}
+Let $R$ be a Boolean ring then at any prime $\p \subset R$ we have $R_\p \cong \F_2$. 
+\end{thm}
+
+\begin{proof}
+Since $R$ is Von Neumann then $R_\p \cong R / \p = \F_2$. 
+\end{proof}
+
+\begin{prop}
+Let $R$ be a Boolean ring then every ideal $I \subset R$ is radical.
+\end{prop}
+
+\begin{proof}
+If $x^n \in I$ then $x \in I$ since $x^n = x$. 
+\end{proof}
+
+\section{Logical Schemes}
+
+\begin{lemma}
+Any logical ring is Boolean. 
+\end{lemma}
+
+\begin{proof}
+Let $S$ be a logical ring then for $A \in S$ we have $A^2 = A \wedge A$. However, $\proves A \wedge A \lra A$ so $A^2 = A$.
+\end{proof}
+
+\begin{defn}
+Let $L$ be a first-order language and $S$ its logical ring. Then $X = \Spec{S}$ is an \textit{affine logical scheme}. A \textit{logical scheme} is a scheme $X$ which has a cover by affine logical schemes. 
+\end{defn}
+
+\begin{thm}
+Let $X = \Spec{S}$ be an affine logical scheme then,
+\begin{enumerate}
+\item there is an order-reversing correspondence between closed subsets of $X$ and theories up to equivalence via:
+\[ \Gamma \mapsto V(I(\Gamma)) = \{ \m \mid \m \supset I(\Gamma) \} \quad \quad V \mapsto \Gamma(V) = \{ \neg A \mid \forall \m \in V : A \in \m \} \]
+\item every point is closed
+\item the points of $X$ correspond to complete consistent theories
+\item let $V \subset X$ be closed then the points of $V$ correspond to models of $\Gamma(V)$ up to elementary equivalence. 
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We shall give a proof of each,
+\begin{enumerate}
+\item Since $I(\Gamma)$ is an ideal then $V(I(\Gamma))$ is closed. We have shown that every ideal $I \subset S$ is of the form $I(\Gamma)$ and thus every closed subset is of the form $V(I(\Gamma))$. Consider $\Gamma' = \Gamma(V(I(\Gamma)))$. We must show $\Gamma' \sim \Gamma$. Recall that $S$ is a Boolean ring and thus every ideal is radical. 
+\[ \neg A \in \Gamma' \iff \forall \m \in V(I(\Gamma)) : A \in \m \iff A \in \sqrt{I(\Gamma)} = I(\Gamma) \iff \Gamma \proves \neg A \] Thus $\Gamma' = \Thm{\Gamma}$ which implies that $\Thm{\Gamma'} = \Thm{\Gamma}$. \bigskip\\
+Furthermore if $\Gamma \le \Gamma'$ then $I(\Gamma) \subset I(\Gamma')$ and thus $V(I(\Gamma)) \supset V(I(\Gamma'))$. Furthermore if $V \subset V'$ then clearly $\Gamma(V) \supset \Gamma(V')$.
+
+\item All primes are maximal and thus closed.
+
+\item We have proven that maximal ideals correspond to complete consistent theories. 
+
+\item The closed points of $V$ correspond to consistent complete theories extending $\Gamma(V)$. Furthermore, any consistent complete theory extending $\Gamma(V)$ has a unique model up to elementary equivalence which is also a model of $\Gamma(V)$. Furthermore, for any model $\mathcal{M}$ of $\Gamma(V)$ corresponds to the consistent and complete theory $\mathrm{Th}(\mathcal{M})$ extending $\Gamma(V)$. 
+\end{enumerate}
+\end{proof}
+
+\begin{thm}
+Let $X = \Spec{S}$ be an affine logical scheme. Then for $x \in X$ the map $S \to \mathcal{O}_x$ where $\mathcal{O}_x \cong \F_2$ takes $A \in S$ to its truth value in the model corresponding to $x$.  
+\end{thm}
+
+\begin{proof}
+Since $S$ is Boolean then for any prime $\p \subset S$ (which is maximal) $\mathcal{O}_\p = S_\p \cong \F_2$. Furthermore, the map $S \to \mathcal{O}_\p = S_\p$ is the natural map. We have shown that this map factors through the quotient $S / \p$. Let $\p = I(\Gamma)$ then a sentence $A \in S$ maps to $0$ in $S / \p$ if $A \in I(\p)$ i.e. $\Gamma \proves \neg A$ and to $1$ otherwise in which case $\Gamma \proves A$ since $\Gamma$ is complete. Therefore, $A \mapsto 0$ if $A$ is false in the unique model of $\Gamma$ and $A \mapsto 1$ if $A$ is true in the unique model of $\Gamma$.  
+\end{proof}
+
+\end{document}

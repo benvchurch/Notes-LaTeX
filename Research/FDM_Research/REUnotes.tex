@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge REU Notes}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+Suppose $f \in \Z[X_0, \cdots, X_n]$ is an integral polynomial in $n$-variables. We want to find relations between the complex solutions to $f = 0$ and the solutions of $f$ over $\Z, \Q, \finfield{p^k}$. We want to find out how many solutions to the system, 
+\begin{align*}
+f_1(x_0, \cdots, x_n) & = 0
+\\
+\vdots & 
+\\
+f_r(x_0, \cdots, x_n) & = 0 
+\end{align*}
+over $\finfield{q}[x_0, \cdots, x_n]$. How many solutions does this system have over $\finfield{q^k}$. 
+\begin{definition}
+$X(\finfield{q^k})$ is the set of solutions to $\forall i : f_i = 0$ in $(\finfield{q^k})^{n+1}$.
+\end{definition}
+Weil defined the zeta function,
+\begin{definition}
+\[\zeta_X(t) = \exp\left[ \sum_{r = 1}^\infty \frac{\#|X(\finfield{q^r})|}{r} t^r \right] \]
+\end{definition}
+and made the following conjectures which were later proven,
+\begin{theorem}
+The following hold about $\zeta_X$ for a variety $X$, 
+\begin{enumerate}
+\item $ \zeta_X(t)$ is a rational function.
+\item If $f_i$ are homogenous polynomials define the projective solutions, 
+\[ X'(\finfield{q^k}) = \frac{X(\finfield{q^k}) \sm \{ \vec{0} \}}{ \finfield{q^k}^\times} \]
+and $\zeta_{X'}(t)$ satisfied a function equation if $X'$ is smooth. 
+\item All roots and poles $\zeta_X$ in $\C$ are $q$-Weil numbers e.g. if $\alpha$ is a root or pole then $|\alpha| = q^{i/2}$ for some $i \in \Z$. 
+\item If $X$ is smooth and projective then 
+\[ \zeta_X(t) = \prod_{i = 0}^d p^i(t)^{(-1)^{i+1}} \]
+where $d = \dim{X}$ and $p_i \in \Z[t]$. For almost all primes $\deg{p_i} = b_i(X(\C))$ and the roots of $p_i$ have absolute value $q^{i/2}$ where $b_i$ is the $i^{\mathrm{th}}$ Betti number.
+\end{enumerate}
+
+\begin{definition}
+Suppose $f(x_0, x_n)$ is a homogeneous polynomial in $\finfield{q}[x_0, \cdots, x_n]$ then,
+\[ X(\finfield{q^k} = \frac{ \{\vec{x} \in (\finfield{q^k})^{n+1} \mid f(\vec{x}) = 0\} \sm \{\vec{0}\}}{\finfield{q^k}^\times} \]
+\end{definition}
+
+\begin{definition}
+A variety $X$ is supersigular if $\zeta_X$ has the property that every root and pole is of the form $\omega q^{i/2}$ where $\omega$ is a root of unity.
+\end{definition}
+
+
+There are may conjectures about supersigular varieties.
+
+\begin{definition}
+A $2$-dimensional hypersurface is unirational if there exist $x_i(t_1, t_2) \in \overline{\finfield{q}}(t_1, t_2)$ such that $f(x_0(t_1, t_2), \cdots, x_3(t_1, t_2)) = 0$. 
+\end{definition}
+
+\begin{conjecture}[Shioda]
+A supersingular $2$-dimensional hypersurface is unirational 
+\end{conjecture}
+
+\begin{conjecture}[Tate]
+Supersingular surjaces have a lot of curves in them!
+\end{conjecture}
+
+\end{theorem} 
+
+\end{document}

@@ -1,0 +1,720 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+
+
+\begin{definition}
+Let $k$ be algebraically closed and $F$ characteristic zero. Let $\C$ be the category of smooth projective varieties over $k$. Let $\GV$ be the category of graded $F$-vectorspaces. 
+\end{definition}
+
+\begin{definition}
+Let $k$ be algebraically closed and $F$ characteristic zero. Let $\C$ be the category of smooth projective varieties over $k$. Then a Weil Cohomology theory is a functor,
+\[ H^* : \C \to \mathrm{Vec}_F \]
+with a linear map $\gamma : \CH^i(X) \to H^{2i}(X)$ and dual map,
+\[ \int_X : H^{2 \dim{X}}(X) \to F \] 
+satisfying the axioms,
+\begin{enumerate}
+\item Poincare Duality
+\begin{enumerate}
+\item $\dim_F H^i(X) < \infty$
+\item $H^i(X) \times H^{\dim{X} - i}(X) \to H^{\dim{X}}  \to F$ is a perfect pairing
+\item $H^i(X) = 0$ for $i \notin [0, 2 \dim{X}]$
+\item $\dim_F H^0(X) = 1$
+\end{enumerate}
+\item Kunneth formula,
+\[ H^i(X \times Y) = H^i(X) \otimes_F H^i(Y) \]
+\item compatibility of $\gamma$ with $f^* H^*(Y) \to H^*(X)$ and $\int_X : H^{2 \dim{X}} \to F$
+\begin{enumerate}
+\item $\gamma (f^* \beta) = f^* \gamma( \beta)$
+\item $\gamma (f_* \alpha) = f_* \gamma(\alpha)$
+\item $\gamma (\alpha \cdot \beta) = \gamma \alpha \smile \gamma \beta$
+\item $\int_{\Spec{k}} \gamma([\Spec{k}]) = 1$
+\end{enumerate}
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+Given $H^*$ and $\gamma$ and $\int$ with $A(a)$, $A(b)$ $(B)$ and $(C)$ we get,
+\[ G : M_k \to \GV \]
+such that $G(!(1)) = F[i]$ and vice versa. Therefore,
+\[ G(h(x)) = H^*(X) \]
+\end{theorem}
+
+\begin{definition}
+Given a Weil Cohomology theory the Betti numbers,
+\[ \beta_i(X) = \dim_F H^i(X) \]
+\end{definition}
+
+\begin{remark}
+Open question: are the Betti numbers the same for all Weil cohomology theories?
+\end{remark}
+
+\begin{theorem}
+$H^*_{\et}(-, \Q_\ell)$ is a Weil cohomology theory if $\ell \neq \ch{k}$. 
+\end{theorem}
+
+\begin{theorem}
+The \etale betti numbers do not depend on $\ell$ as long as $\ell \neq \ch{k}$.
+\end{theorem}
+
+\begin{proposition}
+If we drop A(c) and A(d) then there exists counterexamples to the open question. 
+\end{proposition}
+
+\begin{proof}
+Suppose we have WCT $H^*$ with additional gradings,
+\[ H^*(X) = \bigoplus_{i \in \Z} H^*_i(X) \]
+which is,
+\begin{enumerate}
+\item compaible with pullback
+\item compatible with Junneth and $\gamma$
+\item $\gamma(\alpha) \in H^*_0(X)$
+\item $\int_X$ factors through $H^{2 \dim{X}}(X) \to H_0^{2 \dim{X}}(X)$
+\end{enumerate}
+Then I can twist the cohomology theory by setting,
+\[ H^n_{\text{new}}(X) = \bigoplus_{i \in \Z} H^{n + 2 i}_i(X) \]
+We need to add $2i$ because we need things in even degree to stay in even degree. 
+\bigskip\\
+For example, let $k = \C$ then $H^*_{\dR}$ is a WCT (we will prove this) and there is a grading,
+\[ H^n_{\dR}(X) = \bigoplus_{p + q = n} H^{p,q} = \bigoplus_{i \in \Z} \bigoplus_{\substack{p + q = n \\ q - p = i}} H^{p,q} \]
+Then,
+\[ H_{\text{new}}^n(X) = \bigoplus_{i \in \Z} H^{2 + 2i}_i(X) = \bigoplus_{3 p - q = n} H^{p,q} \]
+Example, if $E$ is an elliptic curve over $\C$ then,
+\begin{align*}
+H^{-1}_{\text{new}}(E) & = H^{0,1}(E) = H^1(E, \struct{E}) = g = 1 
+\\
+H^0_{\text{new}}(E) & = H^{0,0} = H^0(E, \struct{E}) = 1 
+\\
+H^1_{\text{new}}(E) & = 0
+\\
+H^2_{\text{new}}(E) & = H^{1,1} = H^1(E, \Omega^1_E) 
+\\
+H^2_{\text{new}}(E) & = H^{1,0} =H^0(E, \Omega^1_E) = g = 1
+\end{align*}
+Annother example, let $k_0$ be a global field and $k = \overline{k_0}$. Let $v$ be a finite place of $k$ and a Frobenius $\sigma \in D$ the decomposition group of $v$ inside $\Gal{k / k_0}$. Then for $X / k_0$ we have $\sigma \in \Gal{k / k_0}$ acting on $H^n_{\et}(X_k, \Q_\ell)$. We can decompose,
+\[ H^n_\et(X_k, \Q_\ell) = \bigoplus_{i \in \Z} H^n_i(X) \]
+where $H^n_i(X)$ is the eigenspace of $\sigma$ with eigenvalues being $q$-Weil numbers of weight $n + i$. Observation: if $X$ has good reducttion at $v$ then $H^n(X) = H^n_0(X)$. 
+\bigskip\\
+If $E$ is an elliptic curve with semistable and bad reduction at $v$ then, as before,
+\begin{align*}
+\dim_{\Q_\ell} H^n_{\text{new}}(E) = \begin{cases}
+1 & n = -1,0,2,3
+\\
+0 & \text{else}
+\end{cases} 
+\end{align*}
+\end{proof}
+
+\begin{remark}
+To get a WCT you need for any $X$ that,
+\begin{align*}
+n - 2 i < 0 \implies & H^n_{-i}(X) = 0 
+\\
+i \neq 0 \implies & H^{2 i}_i(X) = 0 
+\end{align*}
+\end{remark}
+
+\section{Chern Classes in Cohomology}
+
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\Vect}{\mathrm{Vect}}
+\renewcommand{\S}{\mathcal{S}}
+
+\begin{definition}
+Let $\Vect{X}$ be the category of finite locally free $\struct{X}$-modules on $X$.
+\end{definition}
+
+\begin{remark}
+Let $\S$ be some not full category of schemes such that for ally $X \in \S$ we have,
+\begin{enumerate}
+\item $X$ is quasi-compact and quasi-seperated
+\item if $U \subset X$ is open and closed then $U \to X$ is a morphism of $\S$ and if $Y \to U$ is given with $Y \to X$ in $\S$ then $Y \to U$ in $\S$
+\item If $\E \in \Vec{X}$ then $\P(\E) \to X$ is in $\S$ and if $f : Y \to X$ is in $\S$ then $\P(f^* \E) \to \P(\E)$ is in $\S$ and if $\E \to \F$ is epic with $\F \in \Vect{X}$ then $\P(\F) \to \P(\E)$ is in $\S$. 
+\end{enumerate}
+Furthermore let $A^* : \S^{\op} \to \text{nonegatively graded } \Q-\text{algebras}$ and a transformation of functors
+\[ c_1^A : \Pic{-} \to A^1(-) \] 
+such that
+\begin{enumerate}
+\item $c_1^A(\L)$ is in the center of $A^1(X)$
+\item $A^*(U \coprod V) = A^*(U) \times A^*(V)$
+\item $f^* c_1^A(\L) = c_1^A(f^* \L)$ (a natural transformation)
+\item projective space bundle formula, given $\P(\E) \to X$,
+\begin{center}
+\begin{tikzcd}
+\bigoplus\limits_{i = 0}^{r - 1} A^*(X) \arrow[r] & A^*(\P(\E))
+\end{tikzcd}
+\end{center}
+the map given is,
+\[ \bigoplus_{i = 0}^{r - 1} c_1^A(\struct{\P(\E)}) (1) \circ p^* \]
+\item If $\iota : Y \to X$ is a morphism in $\S$ and is the inclusion of an effective Cartier divisor then,
+\[ \forall a \in A^*(X) : \iota^*(a) = 0 \implies c^A_1(\struct{X}(Y)) \smile a = 0 \]
+\end{enumerate}
+\end{remark}
+
+\newcommand{\chern}{\mathrm{ch}}
+
+\begin{theorem}
+Given the above situation, there is a unique canonical map,
+\[ \chern^A : K_0(\Vect{X}) \to \prod_{i \in \N} A^i(X) \]
+for $X \in \S$ s.t
+\begin{enumerate}
+\item $\chern^A$ is a ring map
+\item $f : Y \to X$ is a map in $\S$ then $\ch^A \circ f^* = f^* \circ \ch^A$
+\item $\chern^A(\L) = \exp(c_1^A(\L))$
+\end{enumerate}
+\end{theorem}
+
+\section{A Long Theorem}
+
+See handout
+
+\begin{proof}
+We need to make the cycle class maps. (A1) - (A4) define maps $K_0(\Vect(X)) \to \bigoplus H^{2i}(X)$ compatible with pullbacks. Then we get maps,
+\begin{center}
+\begin{tikzcd}
+CH^*(X) \otimes \Q \arrow[rr, "\gamma", dashed] & & \bigoplus_{i \ge 0} H^{2 i}(X)
+\\
+& K_0(\Vect(X)) \arrow[ul, "\chern"] \arrow[ru, "\chern^H"]
+\end{tikzcd}
+\end{center}
+$\gamma$ is then compatible with grading. To sow this, note that,
+\[ \chern_i^H(\phi^2(\alpha)) = 2^i \ch^H_i(\alpha) \]
+an then conclude. 
+\bigskip\\
+It is automatic from the construction (Ca) and (Cc).
+Now we need to show (A1) - (A7) imply (Aa) and (Ab)
+\bigskip\\
+Consider,
+\begin{align*}
+\eta : & F \xrightarrow{\gamma([\Delta])} H^*(X) \otimes_F H^*(X) = H^*(X \times X) 
+\\
+\varepsilon : & H^*(X \times X) = H^*(X) \otimes_F H^*(X) \xrightarrow{\Delta^*} H^*(X \times X) \xrightarrow{\lambda} F
+\end{align*}
+It suddices to show that,
+\[ H^*(X) \xrightarrow{\eta \otimes 1} H^*(X) \otimes H^*(X) \otimes H^*(X) \xrightarrow{1 \otimes \varepsilon} H^*(X) \]
+is the identity then the functor has a left-adjoint. I claim,
+\begin{align*}
+((1 \otimes \varepsilon) \circ (\eta \otimes 1))(a) & = (1 \otimes \lambda) (\gamma([\Delta])) \smile p_2^* a) 
+\\
+& = (1 \otimes \lambda) (\gamma([\Delta])) \smile p_1^* a) 
+\\
+& = a \cdot \lambda(\gamma([\Delta]))
+\\
+& = a \cdot \id
+\end{align*}
+However, for the above to hold, we need the fact that,
+\[ \gamma([\Delta]) \smile (p_1^* a - p_2^* a) = 0 \]
+Since this class pulls back to zero on $X$ we know this by (A4) for the case of $X$ a divisor on $X \times X$. However, this is only true for $\dim{X} = 1$. We need to blow up,
+\begin{center}
+\begin{tikzcd}
+E \arrow[d, "\pi"] \arrow[r, "\bar{j}"] & \mathrm{Bl}_{\Delta}(X \times X) \arrow[d,"b"]
+\\
+X \arrow[r,"\Delta"] & X \times X
+\end{tikzcd}
+\end{center}
+Now we get,
+\[ j^* b^* (p_1^* a- p_2^* a) = 0 \implies b^*(p_1^* a - p_2*a) \smile j(E) = 0 \]
+This implies that,
+\[ b^* (p_1^* a - p_2^* a) \smile \gamma(b^*[\Delta]) = 0 \]
+However, $\gamma$ is compatible with pullback and thus,
+\[ b^* (p_1^* a - p_2^* a) \smile \gamma([\Delta])) = 0 \]
+which implies that,
+\[ (p_1^* a - p_2^8a) \smile \gamma([\Delta]) = 0 \]
+\begin{lemma}
+Let $X$ be a smooth projective variety and $Z \subset X$ a smooth projective subvariety. We blowup to give,
+\begin{center}
+\begin{tikzcd}
+E \arrow[d, "\pi"] \arrow[r, "j"] & X' \arrow[d, "b"]
+\\
+Z \arrow[r, "i"] & X
+\end{tikzcd}
+\end{center}
+Assume there exists a $\alpha \in K_0(\Vect(X))$ with $\iota^* \alpha$ is the class of the conormal sheaf $C_{Z / X}$ of $Z$ in $X$. Then there exists a $\theta \in CH^*(X) \otimes \Q$ such that,
+\begin{enumerate}
+\item $b^* [Z] = [E] \cdot \theta$ in $CH^*(X') \otimes \Q$
+\item $\pi_* j^* \theta = [Z]$ in $CH^*(Z) \otimes \Q$
+\end{enumerate}
+\end{lemma}
+
+\newcommand{\codim}{\mathrm{codim}}
+
+\begin{proof}
+Suppose that $Z = V(s)$ for some $s \in \Gamma(X, \E)$ for a vector bundle of rank $r = \codim(Z,X)$. Then,
+\[ [Z] = c_r(\E) \frown [X] \implies b^*[Z] = c_r(b^* \E) \frown [X'] \]
+Fact, $s$ gives a nowhere vanishing section of $b^* \E(-E)$. Thus,
+\[ 0 = c_r(b^* \E(-E)) = b^* c_r(\E) - b^* c_{r-1}(\E) \cdot c_1(\struct{X'}(E)) + \cdots + (-1)^r c_1(\struct{X'}(E))^r \]
+Therefore, we take,
+\[ \theta = \left( b^* c_{r-1}(\E) - \cdots - (-1)^r c_1(\struct{X'}(E))^{r- 1} \right) \frown [X'] \]
+Then the second relation is automatically true. Then,
+\[ \pi_* j^* \theta = \pi_* \left( (-1)^{r-1} c_1(\struct{X'}(E))^{r - 1} \frown [E] \right) = [Z] \]
+by the projective bundle formula noting that $\struct{X'}(E) |_E   = \struct{E}(-1)$. 
+\end{proof}
+
+The assumption holds for $\Delta : X \to X \times X$ because $C_{\Delta / X \times X} = \Omega^1_X$. 
+
+\end{proof}
+
+\section{dr Rham Cohomology}
+
+\begin{definition}
+Let $f : X \to S$ be a morphism of schemes then we have the de Rham complex $\Omega^\bullet_{X / S}$ 
+Whenever we have a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "f"] & U = \Spec{A} \arrow[l] \arrow[d]
+\\
+S & V = \Spec{R} \arrow[l]
+\end{tikzcd}
+\end{center}
+Then $\Gamma(U, \Omega^\bullet_{X / S}) = \Omega^\bullet_{A / R}$. Then $\Omega^\bullet_{X / S}$ is a sheaf of strictly commitative differential graded $f^{-1} \struct{S}$-modules.
+\end{definition}
+
+\begin{definition}
+We define, $\Omega^0_{A / R} = A$ 
+and,
+\[ \Omega^1_{A / R} = (\bigoplus_{a \in A} \d{a})/(\{ \d{r}, d{(aa')} - a \d{a'} - a' \d{a}, \d{(a + a')} - \d{a} - \d{a'} \mid r \in R, a, a' \in A \} ) \]
+Then,
+\[ \Omega^i_{A / R} = \exterior^i_A (\Omega_{A / R}^1) \]
+Furthermore, we define,
+\[ \d{( a_0 \d{a_1} \wedge \d{a_2} \wedge \dots \wedge \d{a_n})} = \d{a_0} \wedge \d{a_1} \wedge \dots \d{a_n} \]
+\end{definition}
+
+\begin{definition}
+The de Rham cohomology is defined by hypercohomology,
+\begin{align*}
+H^*_{\dR}(X / S) & = H^*(R \Gamma(X, \Omega^\bullet_{X / S})) 
+\\
+& = \mathbb{H}^*(X, \Omega^\bullet_{X / S})
+\end{align*}
+\end{definition}
+
+\begin{proposition}
+Suppose the cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[d, "f'"] \arrow[r, "h"] & X \arrow[d, "f"] 
+\\
+S' \arrow[r, "g"] & S
+\end{tikzcd}
+\end{center}
+Then we get a map $h_* \Omega^\bullet_{X'/S'} \leftarrow \Omega^\bullet_{X / S}$ gives a map,
+\[ H_{\dR}^*(X' / S') \leftarrow H^*_{\dR}(X / S) \]
+\end{proposition}
+
+\subsection{Cup Product}
+
+\renewcommand{\U}{\mathfrak{U}}
+\newcommand{\Tot}[1]{\mathrm{Tot} \left( #1 \right)}
+
+\begin{remark}
+Assume that $X$ has affine diagonal. Then choose an affine open covering $\U$,
+\[ X = \bigcup_{i \in I} U_i \]
+Then affineness of $\Delta_X$ implies that,
+\[ U_{i_0} \cap \dots \cap U_{i_p} \]
+is affine. Then consider the double complex,
+\[ \Cech^{p,q} = \Cech^p(\U, \Omega^q_{X / S}) \]
+Then we make take its total complex $T = \Tot{\Cech^{\bullet, \bullet}}$. 
+\end{remark}
+
+\begin{lemma}
+$R (X, \Omega^\bullet_{X / S}) = \Tot{\Cech^{\bullet, \bullet}}$ in $D(\Gamma(S, \struct{S})$. 
+\end{lemma}
+
+\begin{remark}
+Let $\alpha = \{ \alpha_{i_0, \dots, i_p} \} \in \Tot{\Cech(\U, \Omega^\bullet_{X / S})}^n$ then,
+\[ \d{(\alpha)_{i_0 \dots i_{p+1}}} = \sum_{j = 0}^{p + 1} (-1)^j \alpha_{i_0 \dots \hat{i}_g \dots i_p} |_{U_{i_0 \dots i_p}} + (-1)^{p+1} \d{}_{\Omega^\bullet}(\alpha_{i_0 \dots i_{p + 1}}) \]
+\end{remark}
+
+\begin{proposition}
+There is a map of complexes,
+\[ \Tot{\Tot{\Cech^{\bullet, \bullet}} \otimes \Tot{\Cech^{\bullet, \bullet}}} \xrightarrow{\smile} \Tot{\Cech^{\bullet, \bullet}} \]
+which is defined y,
+\[ (\alpha \smile \beta)_{i_0 \dots i_p} = \sum_{r = 0}^{p} (-1)^{(p + r) \deg{\alpha} + rp + r} \alpha_{i_0 \dots i_r} \wedge \beta_{i_r \dots i_p} \]
+where $\deg{\alpha}$ is the degree in the total complex (i.e. $\alpha$ is a sum of check cycles of forms whose degrees each sum to $\deg{\alpha}$). 
+Furthrmore, this map is associative and is graded commutative up to homotopy.  
+\end{proposition}
+
+\begin{proposition}
+The construction above defines a cup,
+\[ \smile : H^p_{\dR}(X / S) \times H^q_{\dR}(X / S) \to H^{p + q}_{\dR}(X / S) \]
+which is graded commutative.
+\end{proposition}
+
+\subsection{Hodge Cohomology}
+
+\begin{definition}
+Th Hodge cohomology is,
+\[ H^n_{\text{hdg}}(X / S) = \bigoplus_{p + q = n} H^q(X, \Omega^p_{X / S}) \]
+which is functorial and has a cup product.
+\end{definition}
+
+\begin{definition}
+The Hodge filtration on de Rham cohomology is,
+\[ F^p H^*_{\dR}(X / S) = \Im{(H^*(X, \sigma_{\ge p} \Omega^\bullet_{X / S} \to H^*_{\dR}(X / S)} \]
+for the filtration,
+\[ \Omega^\bullet_{X / S} \supset \sigma_{\ge 1} \Omega^\bullet_{X / S} \supset \sigma_{\ge 2} \Omega^\bullet_{X  / S} \supset \cdots \] 
+\end{definition}
+
+\begin{remark}
+Any such filtration defines a spectral sequence.
+\end{remark}
+
+\begin{proposition}
+There is a spectral sequence
+\[ E^{p,q}_1 = H^q(X, \Omega^p_{X / S}) \implies H_{\dR}^{p + q}(X / S) \]
+with $E_1$-page,
+\begin{center}
+\begin{tikzcd}
+H^1(X, \struct{X}) \arrow[r] & H^1(X, \Omega^1_{X / S}) \arrow[r] & H^1(X, \Omega^2_{X / S}) \arrow[r] & H^1(X, \Omega^3_{X / S}) \arrow[r] & \cdots 
+\\
+H^1(X, \struct{X}) \arrow[r] & H^1(X, \Omega^1_{X / S}) \arrow[r] & H^1(X, \Omega^2_{X / S}) \arrow[r] & H^1(X, \Omega^3_{X / S}) \arrow[r] & \cdots 
+\\
+H^0(X, \struct{X}) \arrow[r] & H^0(X, \Omega^1_{X / S}) \arrow[r] & H^0(X, \Omega^2_{X / S}) \arrow[r] & H^0(X, \Omega^3_{X / S}) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+\end{proposition}
+
+\begin{proposition}
+If $S = \Spec{k}$ then the Hodge-to-de Rham spectral sequence degenerates at $E_1$ iff $\dim_k H^n_{\dR} = \dim_k H^n_{\text{hdg}}$ for each $n$. 
+\end{proposition}
+
+\subsection{K\"{u}nneth Formula}
+
+\begin{proposition}
+Let $S = \Spec{A}$ and $X \to S, Y \to S$ be proper and smooth. Then we get,
+\[ R \Gamma(X, \Omega^\bullet_{X / S}) \otimes_{A}^{\mathbb{L}} R\Gamma(Y, \Omega^\bullet_{Y / S}) \cong R\Gamma(X \times_S Y, \Omega^\bullet_{X \times_S Y / S}) \]
+from an isomorphism,
+\[ p_X^{-1} \Omega^\bullet_{X / S} \otimes_{\struct{S}} p_Y^{-1}(\Omega^\bullet_{Y / S}) \cong \Omega^\bullet_{X \times_S Y / S} \]
+To see this isomorphism, we use the fact that, via smoothness,
+\[ \Omega^n_{X \times_S Y / S} = \bigoplus_{p + q = n} p_X^* \Omega^p_{X / S} \otimes_{\struct{X \times_S Y}} p_Y^* \Omega^q_{Y / S} \cong p_X^{-1} \Omega^p_{X / S} \otimes_{\struct{S}} p_Y^{-1} \Omega^q_{Y / S} \]
+\end{proposition}
+
+\subsection{First Chern Class}
+
+\begin{proposition}
+For $X \to S$ we have a map of complexes $\d{\log} : \struct{X}^\times[-1] \to \Omega^\bullet_{X /S}$ defined by,
+\[ u \mapsto \d{\log{u}} = \frac{\d{u}}{u} \] 
+which is a map of complexes because $\d{\d{\log}} = 0$. This gives a map,
+\[ c_1^{\dR} : \Pic{X} = H^1(X, \struct{X}^\times) = \mathbb{H}^2(X, \struct{X}^*[-1]) \xrightarrow{\d{\log}} H^2_{\dR}(X / S) \]
+similarly,
+\[ c_1^{\text{hdg}} : \Pic{X} = H^1(X, \struct{X}^\times) \xrightarrow{\d{\log}} H^1(X, \Omega^1_{X / S}) \embed H^2_{\text{hdg}}(X / S) \]
+These maps are compatible with pullbacks,
+\begin{center}
+\begin{tikzcd}
+& \Pic{X} \arrow[ld, "c_1^{\text{hdg}}"'] \arrow[rd, "c_1^{\dR}"] \arrow[d, "c_1"]
+\\
+H^2_{\text{hdg}}(X / S) & H^2(X, \sigma_{\ge 1} \Omega_{X / S}^\bullet) \arrow[r] \arrow[l] & H^2_{\dR}(X / S) 
+\end{tikzcd}
+\end{center}
+\end{proposition}
+
+
+\begin{proposition}
+Let $h = c_1^{\dR}(\struct{X}(1))$ we have,
+\[ H^*_{\dR}(\P^n_A / A) = A[h] / (h^{n+1}) \]
+and,
+\[ H^*_{\text{hdg}}(\P^n_A / A) = A[h']/(h'^{n+1}) \]
+where $h' = c_1^{\text{hdg}}(\struct{X}(1))$. 
+\end{proposition}
+
+\begin{proof}
+For Hdoge cohomology, use coherent cohomology and the short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^p \arrow[r] & \exterior^p (\struct{X}(-1)^{\oplus n + 1}) \arrow[r] & \Omega^{p-1} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and we used induction plus computing the class $(h')^p$.
+\bigskip\\
+Then the spectral sequence shows that $H^i_{\dR}(X / S)$ is zero except for $i = 2 p$ for $0 \le p \le n$ in which case it is a free module. then use that in degree $2 n$ we have,
+\[ H^{2n}_{\dR}(X / S) = H^{2 n}_{\text{hdg}}(X / S) \]
+because this is the cohomological dimension so there are not other terms which can enter. 
+\end{proof}
+
+\begin{proposition}[Projective Space Bundle Formula]
+For a projective bundle $P$ over $S$,
+\[ H^*_{\dR}(P / S) = H^*_{\dR}(X)[h] / (h^r) \]
+where $P = \P(\mathcal{E}) \xrightarrow{\pi} X$ for some $\mathcal{E}$ finite locally free sheaf of rank $r$ (i.e. rank $r$ vector bundle). Furthermore, we set $h = c_1^{\dR}(\struct{P}(1))$. 
+\end{proposition}
+
+\begin{proof}
+Using a Leray spectral sequence we can reduce to the case $\mathcal{E} \cong \struct{X}^{\oplus r}$ and thus $P = \P^{n - 1}$. Suppose that $X$ is smooth over affine $S$. Then $P = \P_X^{r - 1} = \P_S^{n-1} \times_S X$ and thus we may conclude using K\"{u}nneth. 
+\end{proof}
+
+\section{Nov. 15}
+
+
+\begin{proposition}
+For all finite syntomic morphisms of schemes $f : X \to Y$ there is a canonical map,
+\[ \Theta_{Y / X} : f_* \Omega^\bullet_{Y / \Z} \to \Omega^\bullet_{X / \Z} \]
+uniquely determined by the following properties,
+\begin{enumerate}
+\item in degree zero we get the usual trace
+\item $\Theta_{Y/X}(f^* \omega \wedge \eta) = \omega \wedge \Theta_{Y / X}(\eta)$
+\item if $f$ is a morphism over $S$ we also obtain,
+\[ \Theta_{Y / X} : f_* \Omega^\bullet_{Y/S} \to \Omega^\bullet_{X / S} \]
+\item compatible with base change.
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}
+$f : X \to Y$ is syntomic if $f$ is flat and locally of finite presentation and its fibres are local complete intersections. 
+\bigskip\\
+Syntomic is equivalent to $f$ flat and a local complete intersection 
+\bigskip\\
+equivalently flat and locally of finite presentation and the cotangent complex is perfect in $[-1,0]$.
+\end{definition}
+
+\begin{remark}
+If $f : X \to Y$ is syntomic then $f$ is locally quasi-finite (i.e. fibres are finite) iff the rank of the naive cotangent complex $NL_{Y / X}$ is zero.
+\end{remark}
+
+\begin{remark}
+Being local complete intersection is not preserved under base change. However it is preserved under flat base changed if the morphism is also flat. Therefore, syntomic morphisms are preserved under flat base change. 
+\end{remark}
+
+\begin{remark}
+Let $f : Y \to X$ be a finite surjective morphism of varieties over $k \supset \Q$ with $X$ smooth. By miricle flatness $f : Y \to X$ is flat when $Y$ is Cohen-Macaullay. Then consider,
+\begin{center}
+\begin{tikzcd}
+f_* \Omega^\bullet_{Y / k} \arrow[rd, "\nu^*"] \arrow[rr, "\Theta"] & & \Omega_{X / k} 
+\\
+& f^\nu_* \Omega^\bullet_{Y^\nu / k} \arrow[ru]
+\end{tikzcd}
+\end{center}
+where $\nu : Y^\nu \to Y$ is the normalization which for a variety is a finite map and $f^\nu = f \circ \nu$. So we may also assume that $Y$ is normal (smooth in codimension one). Since $\ch{k} = 0$ then $f$ is \etale over a dense open $U \subset X$ so $f^{-1}(U) \to U$ is finite \etale. Therefore,
+\[ \Omega^\bullet_{Y / k} \big|_{f^{-1}(U)} \cong f^* \Omega^\bullet_{X / k} \big|_{f^{-1}(U)} \]
+by \etale. So over $U$ we can use the identification,
+\[ f_* \Omega^\bullet_{Y / k} \big|_U \cong f_* f^* \Omega^\bullet_{X / k} \big|_U = \Omega^\bullet_{U / k} \otimes_{\struct{U}} f_* \struct{f^{-1}(U)} \]
+Then we apply the usual trace map,
+\[ f_* \struct{f^{-1}(U)} \to \struct{U} \]
+to give a map,
+\[ f_* \Omega^\bullet_{Y / k} \big|_U \cong \Omega^\bullet_{U / k} \otimes_{\struct{U}} f_* \struct{f^{-1}(U)} \to \Omega^\bullet_{U / k} \otimes_{\struct{U}} \struct{U} = \Omega^\bullet_{U / k} \]
+I claim that this map is compatible with differentials and extends uniquely to $\Theta_{Y/ X} : f_* \Omega^\bullet_{Y / k} \to \Omega^\bullet_{X / k}$.
+\bigskip\\
+Suppose that $f : f^{-1}(U) \to U$ is Galois with group $G$ then,
+\[ \Theta|_U(\omega) = \sum_{\sigma \in G} \sigma^*(\omega) \]
+and each $\sigma^*$ is compatible with differentials. 
+\bigskip\\
+Alternatively, you can do \etale localization to reduce to $f^{-1}(U)$ is a finite product of isomorphic copies then our trace map is just summing. 
+\bigskip\\
+Now, by Harthog's theorem it suffices to exten the map to codimension $1$. Here we use that $X / k$ is smooth so $\Omega^p_{X / k}$ is finite locally free, so reflexive (isomorphic to its double dual). Then, generically, in codimension one, we get \etale locally that,
+\begin{center}
+\begin{tikzcd}
+Y \arrow[d] \arrow[r, equals] & \Spec{B} \arrow[d]
+\\
+X \arrow[r, equals] & \Spec{A}
+\end{tikzcd}
+\end{center}
+is of te form $A \to B = A[x] / (x^e - a)$ for $a \in a$. Then,
+\[ \Omega^1_{A / k} = A \d{a} \oplus R \quad \text{and} \quad \Omega^1_{B / k} = B \d{x} \oplus (B \otimes_A R) \]
+Then, for $g \in B$ and $\omega \in \Omega^\bullet_A$ we have $\Tr{g \omega} = \Tr{g} \omega$ and,
+\[ \Tr{g \d{x} \wedge \omega} = \Tr{g \d{x}} \wedge \omega \]
+Thus it suffices to compute,
+\[ \tr{x^i \d{x}} = 
+\begin{cases}
+0 & 0 \le i \le e - 2 
+\\
+\d{a} & i = e - 1
+\end{cases} \]
+\end{remark}
+
+\begin{remark}
+The ring map $A \to A[x] / (x^p - a)$ is a local complete intersection when $\finfield{p} \subset A$. Then we still have,
+\[ \Theta_{B / A}(x^i \d{x}) =
+\begin{cases}
+0 & 0 \le i \le p - 2
+\\
+\d{a} & i = p - 1
+\end{cases} \]
+Furthermore, in degree zro we get $\mathrm{Tr}_{B/A} : B \to A$ is always zero.
+\end{remark}
+
+\begin{remark}
+First idea of Gatel : de deformations we can reduce to the case $X$ and $Y$ are smooth over $\Z$ and $f : Y \to X$ is \etale over a dense open. 
+\end{remark}
+
+\begin{remark}
+Now, wecan construct a canonical isomorphism,
+\begin{align*}
+a_{Y / X} & : \det{(NL_{Y/X})} \to \omega_{Y / X}
+\\
+& \delta(NL_{Y/X}) \mapsto \tau_{Y/X}
+\end{align*}
+Recall that locally $NL_{Y/X} = (\E^{-1} \to \E)$ both of rank $t^r$. Then.
+\[ \delta(NL_{Y/ X}) = \det{\alpha} \in \det{(NL_{Y/X})} = \exterior^r \E^0 \otimes \left( \exterior^r \E^{-1} \right)^\vee \]
+Then $\omega_{Y / X}$ is the unique $\struct{X}$-module s.t. $f_* \omega_{Y / X} = \shHom{\struct{X}}{f_* \struct{Y}}{\struct{X}}$. Then,
+\[ \tau_{Y/X} = (\mathrm{Tr}_f : f_* \struct{Y} \to \struct{X}) \]
+Then construct a canonical morphism,
+\[ c_{Y / X}^p : \Omega^p_{Y / \Z} \to f^* \Omega^p_{X / \Z} \otimes_{\struct{Y}} \det{(NL_{Y / X})} \]
+such that,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega^p_{X / \Z} \arrow[r] & \Omega^p_{Y /\Z} \arrow[r] & f^* \Omega^p_{X / \Z} \otimes_{\struct{Y}} \det{(NL_{Y / \Z})} 
+\end{tikzcd}
+\end{center}
+Finally,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega^\bullet_{Y / \Z} \arrow[d, "f_* c^\bullet_{Y/X}"] \arrow[rr, dashed, "\Theta_{Y/X}"] & & \Omega^\bullet_{X / \Z}
+\\
+f_*(f^* \Omega^\bullet_{X / \Z} \otimes_{\struct{Y}} \det{(NL_{Y/X})} \arrow[r, "c_{Y/X}"] & f_* (f^* \Omega^\bullet_{X / \Z} \otimes \omega_{Y / X}) \arrow[r, equals] & \Omega^\bullet_{X / \Z} \otimes \shHom{\struct{X}}{f_* \struct{Y}}{\struct{X}} \arrow[u, "\text{eval}_1"]
+\end{tikzcd}
+\end{center}
+where the equality is by the projection formula.
+\end{remark}
+
+\begin{remark}
+Now we give a local construction of $c^p_{Y/X}$ for $A \to B  = A[x_1, \dots, x_n] /(f_1, \dots, f_n)$ global relative complete intersection. Then consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{A / \Z} \otimes B \arrow[r] & \Omega_{A[\underline{x}] / \Z} \otimes B \arrow[r] & \Omega_{A[\underline{x}] / A} \otimes B \arrow[r] &  0
+\\
+& & (f_1, \dots, f_n) / (f_1, \dots, f_n)^2 \arrow[u] \arrow[r, equals] & (f_1, \dots, f_n) / (f_1, \dots f_n)^2 \arrow[u, "q"]
+\end{tikzcd}
+\end{center}
+Where,
+\begin{align*}
+\exterior^p (\Omega_{B / \Z}) & \to \exterior^p (\Omega_{A /\Z} \otimes B) \otimes_B \det_B(q)
+\\
+\xi & \mapsto \eta \otimes \frac{\d{x_1} \wedge \dots \wedge \d{x_n}}{f_1 \wedge \dots f_n} 
+\end{align*}
+iff,
+\[ \eta \wedge \d{x_1} \wedge \cdots \wedge \d{x_n} = \tilde{\xi} \wedge f_1 \wedge \cdots \wedge f_n \in \exterior^{p + n} ( \Omega_{A[\underline{x}]/\Z} \otimes B) \]
+\end{remark}
+
+\begin{remark}
+Garel shows that,
+\[ \Theta_{Y/X}(\d{\log{u}}) = \d{\log}(\mathrm{Nm}_{Y/X}(u)) \]
+for any $u \in \struct{Y}^\times$ and,
+\[ \Theta_{Y/X}(c_1^{\dR}(\mathcal{N})) = c_1^{\dR}(\mathrm{Nm}_{Y/X}(\mathcal{N})) \]
+\end{remark}
+
+\section{Complex with Log Poles}
+
+Let $k = \overline{k}$ of characteristic zero. Let $X$ be smooth projective over $k$ and $Y \subset X$ a smooth divisor. 
+
+\begin{proposition}
+There is a canonical short exact sequence of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^\bullet_X \arrow[r] & \Omega^\bullet_X(\log{Y}) \arrow[r, "\res"] & \Omega^\bullet_Y[-1] \arrow[r] & 0 
+\end{tikzcd}
+as modules of differentials over $k$.
+\end{center}
+\end{proposition}
+
+\begin{proof}
+Etale locallly on $X$ there are coordinates $x_1, \dots, x_d$ such that $Y = \{ x_d = 0 \}$ in $X$. Then you define $\Omega^1_X(\log{Y})$ free on, $\d{x_1}, \dots, \d{x_{d-1}}, \frac{\d{x_d}}{x_d}$ over $\struct{X}$. We can define $\Omega_X^1 \subset \Omega1_X(Y)$. Now set,
+\[ \res{\left( \frac{\d{x_d}}{x_d} \right)} = 1 \in \struct{Y} \]
+to give,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^1_X \arrow[r] & \Omega^1_X(\log{Y}) \arrow[r] & \struct{Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now set $\Omega^p_X(\log{Y}) = \bigwedge^p (\Omega^1_X(\log{Y}))$ and,
+\[ \res{\left( \frac{\d{x_d}}{x_d} \wedge \omega \right)} = \omega |_Y \]
+\end{proof}
+
+\renewcommand{\C}{\mathbb{C}}
+
+\begin{remark}
+If $k = \C$ we know $H^*_{\dR}(X/\C) = H^*_B(X^\an, \C)$. Also,
+\[ H^*(X, \Omega^\bullet_X(\log{Y})) = H^*_B(X^\an \setminus Y^\an, \C) \]
+\end{remark}
+
+\begin{proposition}
+The boundar map $\partial : H^i_{\dR}(Y) \to H^{i + 2}_{\dR}(X)$ from the short exact sequence above fis into a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^i_{\dR}(X) \arrow[d] \arrow[r, " - \smile c_1"] & H^{i + 2}_{\dR}(X) \arrow[d]
+\\
+H^i_{\dR}(Y) \arrow[ru, "\partial"] \arrow[r,"- \smile c_1|_Y"] & H^{i + 2}_{\dR}(Y) 
+\end{tikzcd}
+\end{center}
+where $c_1 = c_1^{\dR}(\struct{X}(-Y))$. 
+\end{proposition}
+
+\begin{corollary}
+If $a|_Y = 0$ then $a \smile c_1(\struct{X}(Y)) = 0$ for $a \in H^i_{\dR}(X)$.
+\end{corollary}
+
+\begin{theorem}
+With $k$ as above the functor $X \mapsto H^*_{\dR}(X)$ is a (classical) Weil Cohomology Theory with coefficients in $F = k$. 
+\end{theorem}
+
+\begin{proof}
+It suffices to give data,
+\begin{enumerate}
+\item[(D0)] $F(1) = k$
+\item[(D1)] $H^*(X) = H_{\dR}^*(X)$
+\item[(D2')] $c_1^{\dR} : \Pic{X} \to H^2_{\dR}(X)$
+\end{enumerate}
+We need to check axioms (A1) - (A9). 
+\begin{enumerate}
+\item[(A1)] de Rham cohomology is compatible with disjoint unions.
+\item[(A2)] $c_1^{\dR}$ is compatible with pullbacks
+\item[(A3)] the prodjective space bundle formula (which we proved)
+\item[(A4)] is the corollary above. 
+\begin{remark}
+The grothendieck argument shows that (A1) - (A4) gives a cycle class map $\chern^{\dR} : K_0(\Vect(X))  \to H^*_{\dR}(X)$. Then you define,
+\[ \gamma(\alpha) = \chern^{\dR}(\chern^{-1}(\alpha)) \]
+with $\chern : K_0(\Vect(X))_\Q \xrightarrow{\sim} \CH^*(X)_\Q$.
+\end{remark}
+\item[(A5)] Kunneth formula.
+\item[(A6)] We need a  $k$-linear map,
+\[ \lambda : H^{2d}_{\dR}(X) \to k \]
+such that $(1 \otimes \lambda)(\gamma([\Delta])) = 1 \in H^0_{\dR}(X)$. We can decompose, $H^*_{\dR}(X \times X) = H^*_{\dR}(X) \otimes H^*_{\dR}(X)$ by Kunneth and write $\gamma(\Delta) = \gamma_0 + \cdots + \gamma_{2d}$. Then,
+\[ (1 \otimes \lambda) (\gamma([\Delta])) = (1 \otimes \lambda)(\gamma_0 + \cdots + \gamma_{2d}) \]
+Pick $x \in X$ closed,
+\begin{center}
+\begin{tikzcd}
+x \arrow[r] \arrow[d] & \Delta \arrow[d, hook]
+\\
+X \arrow[r, "x \times 1_X"] & X \times X
+\end{tikzcd}
+\end{center}
+Conclude that $H^0_{\dR} \otimes H^{2d}_{\dR} \to H^{2d}_{\dR}$ via $\gamma_0 \mapsto \gamma([x])$. We conclude that $\gamma([x])$ is idependent of $x$ and it is enought to show that $\gamma(\alpha) \neq 0$ for some zero cycle $\alpha$ on $X$. We pick a finite morphism $X \xrightarrow{f} \P^d_k$ and consider,
+\begin{center}
+\begin{tikzcd}
+\Omega^\bullet_{\P^d} \arrow[r] \arrow[rr, bend left, "\deg{f}"] & f_* \Omega_X^\bullet \arrow[r, "\Theta"] & \Omega^\bullet_{\P^d}
+\end{tikzcd}
+\end{center}
+So $f^* : H^{2d}_{\dR}(\R^d) \to H^{2d}_{\dR}(X)$ is injective and $\gamma \circ f^* = f^* \circ \gamma$ so it suffices to observe that,
+\[ \gamma( [x] \in \P^d) = c_1(\struct(1))^d \frown [\P^d] \neq 0 \]
+\item[(A7)] If $b : X' \to X$ is a blowup with smooth center $Z \subset X$. Then $b^* : H^*{\dR}(X) \to H^*_{dR}(X')$ is injective. First you show there exists a distringuished triangle,
+\begin{center}
+\begin{tikzcd}
+\Omega_X^\bullet \arrow[r] & R b_* \Omega^\bullet_{X'} \oplus \Omega^\bullet_Z \arrow[r] & R \pi_* \Omega^\bullet_{E} \arrow[r, "+ 1"] & \cdots
+\end{tikzcd}
+\end{center}
+In $D(X)$ by a local calculation. This gives,
+\begin{center}
+\begin{tikzcd}
+H^*_{\dR}(X) \arrow[r] & H^*_{\dR}(X') \oplus H^*_{\dR}(Z)  \arrow[r] & H^*_{\dR}(E) \arrow[l, bend left] \arrow[r, equals] & H^*_{\dR}(Z)[\xi] / (\xi^n)
+\end{tikzcd}
+\end{center} 
+the last equality holds by the projective space bundle formula and the backways map is the Gysin map. Show using the Gysin map surjectivity for the second map.
+\item[(A8)] If $X$ is a smooth projective variety then $H^0_{\dR}(X) = k$.
+\item[(A9)] If $Y \subset X$ is a smooth divisor and $X$ is a smooth projective (irreducible) variety of dimension $d$ then we get a diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+H^{2 \dim{Y}}_{\dR}(X) \arrow[d] \arrow[r, "- \smile c_1^{\dR}(\struct{X}(Y))"] & H^{2 \dim{X}}_{\dR}(X) \arrow[d, "\lambda_X"]
+\\
+H^{2 \dim{Y}}_{\dR}(Y) \arrow[ru, "-\partial"] \arrow[r, "\lambda_Y"] & k
+\end{tikzcd}
+\end{center}
+whith the upper triagle commuting. We need to show that the lower triangle also commutes. It suffices to chekc commutativity for some $a \in H^{2 \dim{Y}}_{\dR}(X)$ with nonzero image in $H^{2 \dim{Y}}_{\dR}(Y)$ since this is one-dimensional (and the commutativity of the upper triangle imples that anything of image zero must commute). We can pick,
+\[ a = c_1^{\dR}(\L)^{\dim{Y}} \]
+for a line bundle $\L$. Then,
+\[ \lambda_Y(a|_Y) = \deg_Y \left( c_1(\L)^{\dim{Y}} \frown [Y] \right) \]
+Then,
+\[ \lambda_X \left( a \smile c_1^{\dR}(\struct{X}(Y)) \right) = \deg_X \left( c_1(\L)^{\dim{Y}} \frown c_1(\struct{X}(Y)) \frown [X] \right) \]
+\end{enumerate}
+\end{proof}
+
+\end{document}

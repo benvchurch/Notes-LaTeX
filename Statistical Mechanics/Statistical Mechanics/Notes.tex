@@ -1,0 +1,676 @@
+\documentclass[12pt]{article}
+\include{StatMechCommands}
+
+
+\begin{document}
+
+\section{The Grand Canonical Ensemble}
+ 
+We consider now that our system in question is in contact, both energetically and materially, with a thermal bath of particles which may diffuse through the system's barrier. Therefore neither the energy nor particle number of our system is specified rather the \textit{average} energy and particle numbers of the ensemble are specified. Such an ensemble is called the Grand Canonical Ensemble.
+
+\subsection{The Grand Partition Function and Grand Potential}
+ 
+To compute the equilibrium probability distribution of our ensemble we look for the distribution which maximizes entropy,
+\[ S = - \sum_{\omega \in \mathscr{X}} p_\omega \log{p_\omega} \]
+computed over our phase space of microstates $\mathscr{X}$ subject to the constraints,
+\begin{align*}
+1 & = \sum_{\omega \in \mathscr{X}} p_\omega
+\\
+E & = \sum_{\omega \in \mathscr{X}} E_\omega p_\omega 
+\\
+N & = \sum_{\omega \in \mathscr{X}} N_\omega p_\omega 
+\end{align*}
+Introducing Lagrange multipliers, we must minimize,
+\[ Q = S - \alpha \left( \sum_{\omega \in \mathscr{X}} p_\omega - 1 \right) - \beta \left( \sum_{\omega \in \mathscr{X}} E_\omega p_\omega  - E \right) - \gamma \left(  \sum_{\omega \in \mathscr{X}} N_\omega p_\omega  - N  \right) \]
+which gives,
+\[ \pderiv{Q}{p_\omega} = - \log{p_\omega} - 1 - \alpha - \beta E_\omega - \gamma N_\omega = 0 \]
+thus,
+\[ p_\omega = e^{-(1 + \alpha) -\beta E_\omega - \gamma N_\omega} \]  
+For future convienience, define the Grand Partition Function,
+\begin{align*}
+\mathcal{Z} & = e^{1 + \alpha}
+\end{align*} 
+Therefore we have the Boltzmann distribution,
+\[ p_\omega = \frac{1}{\mathcal{Z}} e^{- \beta E_\omega - \gamma N_\omega} \]
+Now we need to identify these parameters with physical quantities. Using the first constraint,
+\[ \mathcal{Z} = \sum_{\omega \in \mathscr{X}} e^{-\beta E_\omega - \gamma N_\omega} \]
+First we must compute the entropy explicity,
+\begin{align*}
+S & = -\sum_{\omega \in \mathscr{X}}  p_\omega  \log{ p_\omega } = - \sum_{\omega \in \mathscr{X}} p_\omega \left( - \log{\mathcal{Z}} - \beta E_\omega - \gamma N_\mu \right)
+\\
+& = \sum_{\omega \in \mathscr{X}} p_\omega \log{\mathcal{Z}} + \beta \sum_{\omega \in \mathscr{X}} p_\omega  ( E_\omega - \mu N_\mu) = \log{\mathcal{Z}} + \beta E + \gamma N 
+\end{align*}
+Recall that, via the other constraints,
+\begin{align*}
+E & = \sum_{\omega \in \mathscr{X}} E_\omega p_\omega = \frac{1}{\mathcal{Z}} \sum_{\omega \in \mathscr{X}} E_\omega e^{-\beta E_\omega - \gamma N_\omega} = -  \frac{1}{\mathcal{Z}} \pderiv{}{\beta} \left( \sum_{\omega \in \mathscr{X}} e^{-\beta E_\omega - \gamma N_\omega} \right)_{\gamma, V}  = - \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{\gamma, V}
+\\
+N & = \sum_{\omega \in \mathscr{X}} N_\omega p_\omega = \frac{1}{\mathcal{Z}} \sum_{\omega \in \mathscr{X}} N_\omega e^{-\beta E_\omega - \gamma N_\omega} = - \frac{1}{\mathcal{Z}} \pderiv{}{\gamma} \left( \sum_{\omega \in \mathscr{X}} e^{-\beta E_\omega - \gamma N_\omega} \right)_{\beta, V}  = - \left( \pderiv{\log{\mathcal{Z}}}{\gamma} \right)_{\beta, V}
+\end{align*} 
+Now consider,
+\[ \d{S} = \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{V, \gamma} \d{\beta} + \left( \pderiv{\log{\mathcal{Z}}}{\gamma} \right)_{\beta, V} \d{\gamma} + \left( \pderiv{\log{\mathcal{Z}}}{V} \right)_{\beta, \gamma} \d{V} + \d{\beta} E + \beta \d{E} + \d{\gamma} N + \gamma \: \d{N} \]
+Using the above relations we find,
+\[ \d{S} =  \beta \d{E} +  \left( \pderiv{\log{\mathcal{Z}}}{V} \right)_{\beta, \gamma} \d{V} + \gamma \: \d{N} \]
+Now recall the standard thermodynamic relation,
+\[ \d{E} = T \d{S} - P \d{V} + \mu \: \d{N} \]
+which implies that,
+\[ \d{S} = \frac{1}{T} \d{E} + \frac{P}{T} \d{V} - \frac{\mu}{T} \d{N} \]
+Comparing to the above allows us to identify the parameter $\beta$ with the temperature as,
+\[ \beta = \frac{1}{T} \]
+the parameter $\mu$ with the chemical potential as,
+\[ \gamma = - \frac{\mu}{T} = - \beta \mu \]
+and the pressure with the derivative,
+\[ P = T  \left( \pderiv{\log{\mathcal{Z}}}{V} \right)_{\beta, \gamma} \]
+Furthermore, we now have,
+\[ S = \log{\mathcal{Z}} + \frac{1}{T} (E - \mu N) \]
+and thus the Landau Free Energy becomes the Grand Potential,
+\[ \Omega = E - ST - \mu N = F - \mu N = - T \log{\mathcal{Z}} \]
+Finally, we can rewrite the Boltzmann distribution in terms of the Grand Potential as,
+\[ p_\omega = e^{(\Omega - E_\omega - \mu N_\omega)/T} \]
+
+\subsection{Relations in the Grand Canonical Ensemble}
+
+Consider,
+\[ \d{\Omega} = \d{E} - T \d{S} - S \d{T} - \mu \d{T} - N \d{\mu} = - S \d{T} - P \d{V} - N \d{\mu} \]
+giving the relations,
+\begin{align*}
+S & = - \left( \pderiv{\Omega}{T} \right)_{V, \mu} = \left( \pderiv{T \log{\mathcal{Z}}}{T} \right)_{V, \mu} 
+\\
+P & = - \left( \pderiv{\Omega}{V} \right)_{T, \mu} = \left( \pderiv{T \log{\mathcal{Z}}}{V} \right)_{T, \mu} 
+\\
+N & = - \left( \pderiv{\Omega}{\mu} \right)_{T, V} = \left( \pderiv{T \log{\mathcal{Z}}}{\mu} \right)_{T, V} 
+\end{align*}
+which reproduce what we derived earlier. Note that,
+\begin{align*}
+\left( \pderiv{T \log{\mathcal{Z}}}{T} \right)_{V, \mu} = \log{\mathcal{Z}} + T \left( \pderiv{\log{\mathcal{Z}}}{T} \right)_{V, \mu} = \log{\mathcal{Z}} - \frac{1}{T} \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{V, \mu} = \log{\mathcal{Z}} + \beta( E - \mu N) 
+\end{align*}
+so we have indeed reproduced what we found earlier.
+Furthermore,
+\begin{align*}
+\left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{\mu, V} = - \frac{1}{\mathcal{Z}} \sum_{\omega \in \mathscr{X}} (E_\omega - \mu N_\omega) e^{-\beta (E_\omega - \mu N_\omega)} = - (E  - \mu N)
+\end{align*}
+which is consistent with our previous result via,
+\[ E = - \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{V, \gamma} =  - \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_{V, \mu} + \frac{\mu}{\beta} \left( \pderiv{\log{\mathcal{Z}}}{\mu} \right)_{\beta, V} = (E - \mu N) + \mu N  \]
+
+\subsection{Heat Capacity}
+
+We define the (constent volume) heat capacity via,
+\[ C_V = \left( \pderiv{E}{T} \right)_{V,N} = T \left( \pderiv{S}{T} \right)_{V, N} \]
+
+\section{Quantum Statistical Mechanics}
+
+\subsection{The Quantum Harmonic Oscilator}
+
+Consider the harmonic oscilator Hamiltonian,
+\[ \hat{H} = \hbar \omega \left[ \adag \a + \frac{1}{2} \right] \]
+Then we compute,
+\begin{align*}
+Z & = \tr{e^{-\beta \hat{H}}} = \sum_{n = 0}^\infty e^{-\beta \hbar \omega (n + \frac{1}{2})} = e^{-\frac{1}{2} \beta \hbar \omega} \sum_{n = 0}^\infty e^{- \beta \hbar \omega n}
+\\
+& = \frac{e^{-\frac{1}{2} \beta \hbar \omega}}{1 - e^{-\beta \hbar \omega}} = \frac{1}{2 \sinh{\left( \frac{\beta \hbar \omega}{2} \right)}}
+\end{align*}
+Thus,
+\[ E = - \pderiv{\log{Z}}{\beta} = \hbar \omega \coth{\left( \frac{\beta \hbar \omega}{2} \right)} \]
+Alternatively,
+\[ 
+\log{Z} = - \tfrac{1}{2} \beta \hbar \omega - \log{[1 - e^{-\beta \hbar \omega}]} \]
+which implies that,
+\[ E = - \pderiv{\log{Z}}{\beta} = \frac{\hbar \omega}{e^{\beta \hbar \omega} - 1} + \tfrac{1}{2} \hbar \omega \]
+which is the Bose-Einstein distribution shifted by the zero-point energy $\frac{1}{2} \hbar \omega$.
+
+\subsection{Systems of Noninteracting Identical Particles}
+
+A system of noninteracting identical particles is fully described by its set of single-particle energy eigenstates $\psi$ with energy $E_\psi$. Then, each state $\psi$ has a set of possible occupation numbers $\mathcal{O}_\psi$ (for bosons this is $\mathcal{O}_\psi = \N$ for fermions $\mathcal{O}_\psi = \{ 0, 1 \}$). Then, since the particles are identical, a state of the system i.e. the Fock space is described by a tuple of occupation numbers,
+\[ n \in \prod_{\psi} \mathcal{O}_\psi \]
+where,
+\[ N_n = \sum_{\psi} n_\psi \]
+Therefore, we have,
+\[ \mathcal{Z} = \sum_{n \in \prod_{\psi} \mathcal{O}_\psi} e^{- \beta E_n - \gamma N_n} \]
+Since the system is assumed to be noninteracting we have,
+\[ E_n = \sum_{\psi} n_\psi E_\psi \]
+and therefore,
+\[ \mathcal{Z} = \sum_{n \in \prod_{\psi} \mathcal{O}_\psi} \prod_{\psi} e^{- \beta \sum_\psi n_\psi E_\psi - \gamma \sum_{\psi} n_\psi } =  \sum_{n \in \prod_{\psi} \mathcal{O}_\psi} \prod_{\psi} e^{- \beta n_\psi E_\psi  - \gamma n_\psi} \]
+This can be factored into,
+\[ \mathcal{Z} = \prod_{\psi} \sum_{n_\psi \in \mathcal{O}_\psi}  e^{- \beta n_\psi E_\psi  - \gamma n_\psi} \]
+Now we consider the sum,
+\[ \mathcal{Z}_\psi = \sum_{n_\psi \in \mathcal{O}_\psi}   e^{- n_\psi (\beta  E_\psi  + \gamma)} \]
+
+\subsubsection{Bosons}
+
+In the case of bosons the single-particle partition function becomes a geometric series which may be summed, 
+\[  \mathcal{Z}_\psi = \sum_{n_\psi \in \N}  e^{- n_\psi (\beta  E_\psi  + \gamma)} = \frac{1}{1 - e^{- \beta E_\psi - \gamma}} = \frac{1}{1 - e^{-\beta (E_\psi - \mu)}} \]
+Then,
+\[ \mathcal{Z} = \prod_{\psi} \frac{1}{1 - e^{- \beta E_\psi - \gamma}}  \]
+So,
+\[ E = - \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_\gamma = \sum_\psi \frac{E_\psi}{e^{\beta E_\psi + \gamma} - 1} \]
+Therefore, the occupation numbers follow the Bose-Einstein distribution,
+\[ \left< n_\psi \right> = \frac{1}{e^{\beta (E_\psi - \mu)} - 1} \]
+Accordingly,
+\[ N = - \left( \pderiv{\log{\mathcal{Z}}}{\gamma} \right)_\beta = \sum_{\psi} \frac{1}{e^{\beta E_\psi + \gamma} - 1} = \sum_{\psi} \left< n_\psi \right> \]
+
+\subsubsection{Fermions}
+
+In the case of fermions the single-particle partition function needs no futher work to simplify,
+\[  \mathcal{Z}_\psi = \sum_{n_\psi \in \{ 0, 1 \} }  e^{- n_\psi (\beta  E_\psi  + \gamma)} = 1 + e^{- \beta E_\psi - \gamma} \]
+Then,
+\[ \mathcal{Z} = \prod_{\psi} \left( 1 +  e^{- \beta E_\psi - \gamma} \right)  \]
+So,
+\[ E = - \left( \pderiv{\log{\mathcal{Z}}}{\beta} \right)_\gamma = \sum_\psi \frac{E_\psi}{e^{\beta E_\psi + \gamma} + 1} \]
+Therefore, the occupation numbers follow the Fermi-Dirac distribution,
+\[ \left< n_\psi \right> = \frac{1}{e^{\beta (E_\psi - \mu)} + 1} \]
+Accordingly,
+\[ N = - \left( \pderiv{\log{\mathcal{Z}}}{\gamma} \right)_\beta = \sum_{\psi} \frac{1}{e^{\beta E_\psi + \gamma} + 1} = \sum_{\psi} \left< n_\psi \right> \]
+
+\subsection{Quantum Gasses}
+
+Consider a relativistic quantum gas in a box of side length $L$. Then the energy eigenstates have energies,
+\[ E_{a,b,c} = \sqrt{(m c^2)^2 + \left( \frac{\hbar \pi c}{L} \right)^2 (a^2 + b^2 + c^2)} \]
+Now we need to compute the energy and particle number as a function of temperature and chemical potential,
+\begin{align*}
+E & = \sum_{a,b,c = 1}^\infty \frac{E_{a,b,c}}{e^{\beta (E_{a,b,c} - \mu)} \pm 1}
+\\ 
+N & = \sum_{a,b,c = 1}^\infty \frac{1}{e^{\beta (E_{a,b,c} - \mu)} \pm 1}
+\end{align*}
+These sums cannot be computed explicitly in general so we must now rely on approximations. 
+
+\subsection{Systems With Harmonic Modes}
+
+Suppose that the Hamiltonian of the system (usually with a fixed number of particles) can be decomposed into a sum of harmonic oscilator modes,
+\[ \hat{H} = \sum_{s} \hbar \omega_s \left[ \adag_s \a_s + \frac{1}{2} \right] \]
+Since we fix the particle number, we use the Canonical Ensemble for which we may directly compute the partition function,
+\begin{align*}
+Z = \tr{e^{-\beta \hat{H}}} = \tr{\bigotimes_{s} e^{-\hbar \omega_s \left[ \adag_s \a_s + \frac{1}{2} \right]}} = \prod_{s} \tr{e^{-\hbar \omega_s \left[ \adag_s \a_s + \frac{1}{2} \right]}} = \prod_s \frac{1}{2 \sinh{\left(\frac{\beta \hbar \omega_s}{2} \right)}} 
+\end{align*}
+Then we can take the logarithm to find,
+\[ -\log{Z} = \sum_{s} \log{\sinh{\left(\frac{\beta \hbar \omega_s}{2} \right)}} + 2 N \] 
+Thus we find,
+\[ E = - \pderiv{\log{Z}}{\beta} = \sum_s \frac{\hbar \omega_s}{2} \coth{\left(\frac{\beta \hbar \omega_s}{2} \right)} \]
+Note that,
+\[ \frac{1}{2} \coth{\frac{x}{2}} = \frac{1}{e^x - 1} + \frac{1}{2} \]
+so we can put the energy in its alternative form,
+\[ E = \sum_s \left[ \frac{\hbar \omega_s}{e^{\beta \hbar \omega_s} - 1} + \tfrac{1}{2} \hbar \omega_s \right] \]
+which is what we computed earlier from the alternative form of the QHO partition function. Note that this form of the energy is exactly a Bose-Einstein distribution (with an overall constant energy shift not effecting the physics) for indentical particles with zero chemical potential. This is because, from the perspective of statistical physics, the quanta in the oscilator modes act effectively as identical particles with bosonic statistics. However, there is no constraint on the number of excitations which corresponds to a Grand Canoncial Ensemble of these quasiparticles with $\mu = 0$ turning off the particle number constraint. 
+
+\section{Entropy}
+
+\subsection{Entropy as Disorder}
+
+There is an interpretation of entropy in terms of our ignorance about the microstate of the system. The equilibrium state maximizes the entropy subject to macroscopic constraints since we have lost all information about the initial conditions except for macroscopic conserved quantities. 
+For a discrete probability distribution we may define the Gibbs entropy,
+\[ S = - k_B \EV{\log{p_i}} = - k_B \sum_i p_i \log{p_i} \]
+Using this definition we can define information entropy,
+\[ S_S = - k_S \sum_i p_i \log{p_i} \]
+where $k_S = 1/\log{2}$ and thus,
+\[ S_S = - \sum_i p_i \log_{2}{p_i} \]
+such that the Shannon entropy is measured in bits. 
+
+\begin{definition}
+Given a probability space $(\Omega, \Sigma, \mu_\Omega)$, an ignorance function is a map
+\[ S_\Omega : \{ \nu \mid \nu \ll \mu \} \to \R_+ \]
+which satisfies,
+\begin{enumerate}
+\item $S_\Omega(\mu_\Omega) \ge S_\Omega(\nu)$ for any measure $\nu \ll \mu$
+\item if $\iota : \Omega \to \Omega'$ is an inclusion map then $S_{\Omega'}(\iota_* \nu) = S_{\Omega}(\nu)$ for any $\nu$ on $\Omega$
+\item  $S_{\Omega_1 \times \Omega_2}(\nu_1 \times \nu_2) = S_{\Omega_1}(\nu_1) + S_{\Omega_2}(\nu_2)$
+\end{enumerate}
+\end{definition}
+
+\section{Canonical Ensemble}
+
+Divide the system into two parts, the system and the heath bath. 
+
+
+\[ N c_V = \pderiv{E}{T} = \pderiv{\beta}{T} \pderiv{E}{\beta} = \frac{1}{k_B T^2} \frac{\partial^2 \log{Z}}{\partial \beta^2} \]
+Furthermore,
+\[ \frac{\partial^2 \log{Z}}{\partial \beta^2} = \frac{1}{Z} \sum_n E_n^2 e^{-\beta E_n} - \frac{1}{Z^2} \left( \sum_n E_n e^{-\beta E_n} \right)^2 = \EV{E^2} - \EV{E}^2 = \sigma_E^2 \]
+Therefore, we find that,
+\[ \sigma_E^2 = k_B T^2 N c_V \]  
+In particular,
+\[ \frac{\sigma_E}{N} = \sqrt{\frac{(k_B T)( c_V T)}{N}} \]
+which, in the thermodynamic limit $N \to \infty$, tends to zero. We can also compute,
+\[ \frac{\sigma_E}{E} = \sqrt{\frac{k_B T}{E} \cdot \frac{N c_V T}{E}} \]
+In the thermodynamic limit $E \sim N k_B T$ and $E \sim N c_V T$ so we have,
+\[ \frac{\sigma_E}{E} \sim \frac{1}{\sqrt{N}} \]  
+In particular, for an ideal gas,
+\[ E = \tfrac{3}{2} N k_B T \quad \text{and} \quad c_V = \tfrac{3}{2} k_B \]
+Thus,
+\[ \sigma_E^2 = \tfrac{3}{2} (k_B T)^2 N = \frac{2 E^2}{3 N} \]
+
+
+\section{Helmholtz Free Energy}
+
+We define the function,
+\[ A(T, V, N) = - k_B T \log{Z} = E - TS \]
+Then,
+\[ \pderiv{A}{T} \bigg|_{N,V} = - \pderiv{}{T} (k_B T \log{Z}) = - k_B \log{Z} + \frac{1}{T} \pderiv{\log{Z}}{\beta} = - k_B \log{Z} - \frac{E}{T} = - S \]
+
+
+\section{Blackbody Radiation}
+
+Consier an EM cavity at a fixed temperature $T$. The electromagnetic field has possible oscillation modes given by wavenumber and polarization, $(\vec{k}, \alpha)$ where,
+\[ \vec{k} = \frac{\pi}{L} (n_x, n_y, n_z) \quad \quad \alpha \in \{ \pm 1 \} \]
+The energy in a mode is,
+\[ \hbar \omega(\vec{k}, \alpha) = \hbar c |\vec{k} | \]
+Therefore, the Hamiltonian can be written as,
+\[ \hat{H} = \sum_{\vec{k}, \alpha} \hbar \omega(\vec{k}, \alpha) \left[ \hat{n}_{\vec{k},\alpha} + \tfrac{1}{2} \right] \]
+where we may introduce creation and annihilation operators $\a_{\vec{k}, \alpha}$, $\adag_{\vec{k}, \alpha}$ for each mode and then,
+\[ \hat{n}_{\vec{k}, \alpha} = \adag_{\vec{k}, \alpha} \a_{\vec{k}, \alpha} \]
+Then the partition function for the canonical Ensemble is,
+\[ Z = \tr{e^{-\beta \hat{H}}} = \prod_{\vec{k}, \alpha} \sum_{n = 0}^\infty e^{- \beta  \hbar \omega(\vec{k}, \alpha) \left[ n + \tfrac{1}{2} \right]} = \prod_{\vec{k}, \alpha} \left[ \frac{e^{-\frac{1}{2} \beta \hbar \omega(\vec{k}, \alpha)}}{1 - e^{-\beta \hbar \omega(\vec{k}, \alpha)}} \right] \]
+Now we compute the logarithm of the partition function,
+\[ \log{Z} = - \sum_{\vec{k}, \alpha} \left( \frac{1}{2} \beta \hbar \omega(\vec{k}, \alpha) + \log{\left[1 - e^{-\beta \hbar \omega(\vec{k}, \alpha)} \right]}  \right) \]
+We may rewrite this sum as an integral via Dirac delta functions,
+\begin{align*}
+\log{Z} = \int_0^\infty \left( \sum_{\vec{k}, \alpha} \delta(\omega - \omega(\vec{k}, \alpha)) \right) \cdot \left[ \frac{1}{2} \beta \hbar \omega + \log{\left[1 - e^{-\beta \hbar \omega} \right]}  \right] \d{\omega}
+\end{align*}
+We may perform the sum over polarizations and approximate the density of states via polar coordinates,
+\begin{align*}
+\left( \sum_{\vec{k}, \alpha} \delta(\omega - \omega(\vec{k}, \alpha)) \right) & = 2 \sum_{\vec{k}} \delta(\omega - \omega(\vec{k}))
+\\
+& = \frac{2 V}{(2 \pi)^3} \int 4 \pi k^2 \d{k} \delta(\omega - c k)  
+\\
+& = \frac{2 V}{(2 \pi c)^3} (4 \pi \omega^2) = \frac{V \pi \omega^2}{(\pi c)^3}
+\end{align*}
+Then,
+\begin{align*}
+\log{Z} & = \frac{V}{(\pi c)^3} \int_0^\omega \omega^2 \d{\omega} \left[ \frac{1}{2} \beta \hbar \omega + \log{\left[1 - e^{-\beta \hbar \omega} \right]}  \right]
+\end{align*}
+The first term is divergent and must be renormalized. It corresponds simply to a fixed shift in energy since it is linear in $\beta$ in $\log{Z}$ and thus gives only a constant in $E$. Considering only the finite term we have,
+\begin{align*}
+E = - \pderiv{\log{Z}}{\beta} = \frac{\pi V}{(\pi c)^3} \int_0^\infty \frac{\hbar \omega^3 }{e^{\beta \hbar \omega} - 1} \: \d{\omega} = \frac{\pi V}{(\pi c)^3} \frac{\hbar}{(\beta \hbar)^4} \int_0^\infty \frac{x^3}{e^x - 1} \d{x} 
+\end{align*}
+Now we have, 
+\[ \int_0^\infty \frac{x^3}{e^x - 1} \: \d{x} = \zeta(4) = \frac{\pi^4}{15} \]
+Thus we see,
+\[ E = \frac{\pi^2 k_B^4}{15 \hbar^3 c^3}  V T^4 \]
+In particular, the spectral energy density is,
+\[ u_\omega = \frac{\hbar \omega^3}{\pi^3 c^3} \cdot \frac{1}{e^{\beta \hbar \omega} - 1} \]
+Furthermore, the energy density is related to the average intensity via,
+\[ u_\omega = \frac{4 \pi}{c} J_\omega \]
+Inside the cavity, we have isotropic intensity so $J_\omega = I_\omega$ and thus,
+\[ u_\omega = \frac{4 \pi}{c} I_\omega \]
+Therefore, the spectrum of light inside the cavity follows the Planck spectrum,
+\[ I_\omega = \frac{\hbar \omega^3}{4 \pi^3 c^2} \cdot \frac{1}{e^{\beta \hbar \omega} - 1} \]
+A small hole in the cavity will emit isotropic radiation i.e. $I_\omega$ is constant over the outwards hemisphere. Therefore, the flux is,
+\[ F_\omega = \int_{H} I_\omega \cos{\theta} \d{\Omega} = \int_0^{\frac{\pi}{2}} \int_0^{2 \pi} I_\omega \cos{\theta} \sin{\theta} \: \d{\phi} \d{\theta} = 2 \pi I_\omega \int_0^1 \cos{\theta} \: \d{(\cos{\theta})} = \pi I_\omega \]
+Therefore the specific flux is,
+\[ F_\omega = \frac{\hbar \omega^3}{4 \pi^2 c^2} \cdot \frac{1}{e^{\beta \hbar \omega} - 1} \]
+The total flux is then,
+\[ F = \int_0^\infty F_\omega \: \d{\omega} = \frac{\hbar}{4\pi^2 c^2} \frac{1}{(\beta \hbar)^4} \int_0^\infty \frac{x^3}{e^x - 1} \d{x} = \left( \frac{\pi^2 k_B^4}{60 \hbar^3 c^2} \right)  T^4 \] 
+so we derive a theoretical derivation of the Stefan-Boltzman constant,
+\[ \sigma = \left( \frac{\pi^2 k_B^4}{60 \hbar^3 c^2} \right) \]
+
+\section{Specific Heat of Solids}
+
+\subsection{The Einstein Model}
+
+Consider a material with $3N$ independent identical harmoic degrees of freedom representing the vibrational modes of atoms in the lattice. From quantum statistical mechanics,
+\[ Z = \left( \frac{1}{2 \sinh{\left( \frac{ \beta \hbar \omega }{2} \right)}} \right)^{3 N}  \]
+Then, 
+\[ E = \frac{3 N \hbar \omega}{e^{\beta \hbar \omega} - 1} + \frac{3}{2} N \hbar \omega \] 
+We can then compute the heat capacity,
+\[ C = \pderiv{E}{T} = - \frac{1}{k_B T^2} \pderiv{E}{\beta} = (3 N k_B) \left( \frac{ \hbar \omega }{k_B T} \right)^2 \frac{e^{\beta \hbar \omega}}{(e^{\beta \hbar \omega} - 1)^2} \]
+Defining the Einstein temperature,
+\[ T_E = \frac{\hbar \omega}{k_B} \]
+we can write,
+\[ C = (3 N k_B) \left( \frac{T_E}{T} \right)^2 \frac{e^{T_E / T}}{(e^{T_E/T} - 1)^2} \]
+At high temperature, $T_E \ll T$ we have $e^{T_E / T} \approx 1 + T_E / T$ and thus,
+\[ C \approx 3 N k_B \]
+which agrees with the classical result. However, for low temperature $T \ll T_E$ we have,
+\[ \frac{C}{3 N k_B} = \left( \frac{T_E}{T} \right)^2 e^{- T_E / T} \]
+(INPUT PLOT)
+
+\subsection{The Debye Model (WIP)}
+
+Now we consider the idealized mechanical modes of the solid which are standing sound waves. Quantum mechanically, we have a decomposition of the second-order Hamiltonian in terms of phonons i.e. harmonic excitations of these mechanical modes,
+\[ \hat{H} = \sum_{\text{modes}} \hbar \omega_m \left[ \adag_m \a_m + \frac{1}{2} \right] \]
+To a first approximation, we can suppose that these phonons are similar to photons but with three polarization states i.e. they have a linear dispersion relaton,
+\[ \omega = c_s |k| \]
+where $c_s$ is the effective sound speed. The alowed modes are then labled by $(\vec{k}, \alpha)$ where,
+\[ \vec{k} = \frac{\pi}{L} (n_x, n_y, n_z) \quad \quad \alpha \in \{-1, 0, 1 \} \]
+However, due to aliasing, there are no modes shorter than the lattice spacing $a$ i.e. we must have,
+\[ \lambda = \frac{2 \pi}{|k|} \ge 2 a \]
+Thus, 
+\[ | k_{\text{max}} | = \frac{\pi}{a} \]
+From quantum statistical mechanics,
+\[ E = \sum_{\vec{k}, \alpha} \frac{\hbar \omega_{\vec{k}}}{e^{\beta \hbar \omega_{\vec{k}}} - 1} + \frac{1}{2} \sum_{\vec{k}, \alpha} \hbar \omega_{\vec{k}} \]
+The second term gives an overall constant energy shift which is irrelevant so we will ignore it. Now, repeating the argument for photons but with a cutoff, we have, (INCORRECT CUTOFF HERE)
+\begin{align*}
+E & = \frac{3 V}{(2 \pi)^3} \int_0^\frac{\pi}{a} 4 \pi k^2 \d{k} \: \frac{\hbar c_s k}{e^{\beta \hbar c_s k} - 1} 
+\\
+& = \frac{3 V \hbar c_s}{2 \pi^2} \frac{1}{(\beta \hbar c_s)^4} \int_0^{\frac{\beta \hbar \pi c_s}{a}} \frac{x^3 \: \d{x}}{e^x - 1} 
+\end{align*}
+Now we define the Debye temperature,
+\[ T_D = \frac{\hbar \pi c_s}{k_B a} \]
+and the Debye function,
+\[ D(z) = \int_0^z \frac{x^3 \: \d{x}}{e^x - 1} \] 
+Then we have,
+\[ E = \frac{3 \pi^2 V \hbar c_s}{2 a^4} \left( \frac{T}{T_D} \right)^4 D(T_D / T) \]
+Note that $V = N a^3$ and therefore,
+\[ E = (3 N k_B) \frac{\pi T_D}{2} \left( \frac{T}{T_D} \right)^4 D(T_D / T) \]
+This gives a heat capacity,
+\[ C = \pderiv{E}{T} = \]
+(PLOT)
+
+\section{Relativistic Gas}
+
+Consider the Hamiltonian for a relativistic gas,
+\[ H = c |p| \]
+Then, the grand potential is,
+\begin{align*}
+\mathcal{Z} & = \sum_{N = 0}^\infty \frac{1}{N!} e^{ \frac{\mu N}{k_B T}} \int \frac{\d{x} \d{p}}{h^{3 N}} e^{ - \frac{1}{k_B T} \sum_{i = 1}^N |p_i| c}
+\\
+& = \sum_{N = 0}^\infty \frac{1}{N!}  e^{ \frac{\mu N}{k_B T}} \frac{V^N}{h^{3 N}} \left( \int_0^\infty 4 \pi p^2 \d{p} e^{-\frac{pc}{k_B T}} \right)^N
+\\
+& = \sum_{N = 0}^\infty \frac{1}{N!}  e^{ \frac{\mu N}{k_B T}} \frac{V^N}{h^{3 N}} \left( 8 \pi \left( \frac{k_B T}{c} \right)^3 \right)^N
+\\
+& = \sum_{N = 0}^\infty \frac{1}{N!} \left( e^{\frac{\mu}{k_B T}} 8 \pi V \left( \frac{k_B T}{c} \right)^3 \right)^N = \exp{\left( e^{\frac{\mu}{k_B T}} 8 \pi V \left( \frac{k_B T}{c} \right)^3 \right)} 
+\end{align*}
+Therefore, the grand potential is,
+\[ \Omega = - k_B T \left( e^{\frac{\mu}{k_B T}} 8 \pi V \left( \frac{k_B T}{c} \right)^3 \right) \]
+This gives,
+\[ N = - \left( \pderiv{\Omega}{\mu} \right)_{T,V} = \left( e^{\frac{\mu}{k_B T}} 8 \pi V \left( \frac{k_B T}{c} \right)^3 \right) \]
+Furthermore,
+\[ E = - \left( \pderiv{\log{Z}}{\beta} \right)_{\mu \beta, V} = 3c  e^{\frac{\mu}{k_B T}} 8 \pi V \left( \frac{k_B T}{c} \right)^4 = 3 N k_B T  \]
+Therefore,
+\[ C_V = \left( \pderiv{E}{T} \right)_V = 3 N k_B \]
+
+\section{A System of Three Spins}
+
+Consider three spin-1/2 particles with equal interactions in a magnetic field,
+\[ H = J( \vec{S}_1 \cdot \vec{S}_1 + \vec{S}_2 \cdot \vec{S}_3) - g \mu \vec{B} \cdot (\vec{S}_1 + \vec{S}_2 + \vec{S}_3) \]
+Then let,
+\[ \vec{S} = \vec{S}_1 + \vec{S}_2 + \vec{S}_3 \]
+Then we have,
+\[ \vec{S}^2 = \vec{S}_1^2 + \vec{S}_2^2 + \vec{S}_3^2 + 2(\vec{S}_1 \cdot \vec{S}_1 + \vec{S}_2 \cdot \vec{S}_3)) \]
+Therefore,
+\[ \vec{S}_1 \cdot \vec{S}_1 + \vec{S}_2 \cdot \vec{S}_3 = \tfrac{1}{2} (\vec{S}^2 - \vec{S}_1^2 - \vec{S}_2^2 - \vec{S}_3^2) \]
+For spin-1/2 we have $\vec{S}_i^2 = \tfrac{3}{4} \hbar^2$. Therefore,
+\[ H = - \tfrac{9}{8} \hbar^2 J + \tfrac{1}{2} J \vec{S}^2 - g \mu B S_z \]
+Now we work in the representation,
+\[ V_{\tfrac{1}{2}}^{\otimes 3} = V_0 \oplus V_{\tfrac{1}{2}} \oplus V_{\tfrac{1}{2}} \oplus V_{\tfrac{3}{2}} \]
+so $S$ takes on values in a $s = 0, \tfrac{1}{2}, \tfrac{3}{2}$ where there are two distinct $\tfrac{1}{2}$ multipletes. 
+Then,
+\[  Z = e^{\beta \frac{9}{8} \hbar^2 J} +  \sum_{s} \exp{\left(- \beta \tfrac{1}{2} J \hbar^2 s(s + 1) \right)} \sum_{m_s = - s}^s e^{g \beta \mu B m_s} \]
+Computing the sum,
+\begin{align*}
+Z & = e^{\beta \frac{9}{8} \hbar^2 J} \left( 1 + 2 e^{-\frac{3}{8} \beta J} \left( e^{\frac{g}{2} \beta \mu B} + e^{- \frac{g}{2} \beta \mu B}   \right) + e^{-\frac{15}{8} \beta J} \left( e^{\frac{3g}{2} \beta \mu B} + e^{\frac{g}{2} \beta \mu B} + e^{-\frac{g}{2} \beta \mu B} + e^{-\frac{3g}{2} \beta \mu B} \right) \right)
+\\
+& = e^{\beta \frac{9}{8} \hbar^2 J} \left( 1 + 4 e^{-\frac{3}{8} \beta J} \cosh{(\tfrac{g}{2} \beta \mu B)} + 2 e^{-\frac{15}{8} \beta J} \left( \cosh{(\tfrac{3g}{2} \beta \mu B)} + \cosh{(\tfrac{g}{2} \beta \mu B)} \right) \right)
+\end{align*}
+Then the magnetization is,
+\[ M = \frac{1}{\beta} \pderiv{\log{Z}}{B} = \tfrac{g}{2} \mu \frac{4 e^{-\frac{3}{8} \beta J} \sinh{(\tfrac{g}{2} \beta \mu B)} + 2 e^{-\frac{15}{8} \beta J} \left( 3 \sinh{(\tfrac{3g}{2} \beta \mu B)} + \sinh{(\tfrac{g}{2} \beta \mu B)} \right)}{4 e^{-\frac{3}{8} \beta J} \cosh{(\tfrac{g}{2} \beta \mu B)} + 2 e^{-\frac{15}{8} \beta J} \left( \cosh{(\tfrac{3g}{2} \beta \mu B)} + \cosh{(\tfrac{g}{2} \beta \mu B)} \right)} \]
+In the limit $B \to 0$ this becomes,
+\[ M = \left( \tfrac{g}{2} \mu \right)^2 \beta B \frac{4 e^{\frac{3}{4} \beta J}  + 2 e^{-\frac{3}{4} \beta J} \left( 9 + 1 \right)}{4 e^{\frac{3}{4} \beta J}  + 4 e^{-\frac{3}{4} \beta J} } = \left( \tfrac{g}{2} \mu \right)^2 \beta B \frac{e^{\frac{3}{4} \beta J} + 5 e^{-\frac{3}{4} \beta J}}{e^{\frac{3}{4} \beta J} + e^{-\frac{3}{4} \beta J}}  \]
+Thus, the magnetic suseptability becomes,
+\[ \chi = \pderiv{M}{B} \bigg|_{B = 0} = \frac{g^2 \mu^2}{4 k_B T} \cdot \frac{e^{\frac{3}{4} \beta J} + 5 e^{-\frac{3}{4} \beta J}}{e^{\frac{3}{4} \beta J} + e^{-\frac{3}{4} \beta J}} \]
+
+\section{Ideal Bose and Fermi Gases}
+
+\newcommand{\Grand}{\mathcal{Z}}
+\newcommand{\Li}{\mathrm{Li}}
+
+The grand partition function for noninteracting Bose and Fermi Gases of spin $s$ is,
+\[ \log{\Grand} = \mp \sum_{\psi} \log{(1 \mp e^{- \beta (\epsilon_\alpha - \mu)})} \]
+Then the grand potential is,
+\[ \Omega = \pm T  \sum_{\psi} \log{(1 \mp e^{- \beta (\epsilon_\alpha - \mu)})} \]
+Now, consider the density of states,
+\[ g(\epsilon) = (2s + 1) \sum_{\alpha} \delta(\epsilon - \epsilon_\alpha) \]
+We can write,
+\[ \Omega = \pm T  \int_0^{\infty} \d{\epsilon} g(\epsilon) \log{(1 \mp e^{- \beta (\epsilon - \mu)})} \]
+Suppose that we have energies,
+\[ \epsilon_{a,b,c} = \frac{\hbar^2}{2m} \left[ \left( \frac{a \pi}{L} \right)^2 + \left( \frac{b \pi}{L} \right)^2 + \left( \frac{c \pi}{L} \right)^2 \right] = \frac{\hbar^2}{2m} \frac{\pi^2}{L^2} [a^2 + b^2 + c^2] \]
+Note that the number of states up to $\epsilon_{a,b,c}$ is approximatly the volume of the sector of a sphere of radius,
+\[ r = \sqrt{\frac{2 m}{\hbar^2} \cdot \frac{L^2}{\pi^2} \cdot \epsilon} \]
+and thus,
+\[ N(\epsilon) = \frac{\pi}{6} r^3 = \frac{\pi}{6} \left( \frac{2 m}{\hbar^2} \cdot \frac{L^2}{\pi^2} \cdot \epsilon \right)^{\frac{3}{2}} \]
+Therefore,
+\begin{align*}
+g(\epsilon) & = (2s + 1) \deriv{N}{\epsilon} = (2s + 1) \frac{\pi}{4} \left( \frac{2 m}{\hbar^2} \cdot \frac{L^2}{\pi^2} \right)^{\frac{3}{2}} \sqrt{\epsilon} 
+\\
+& = (2s + 1) \frac{V}{4 \pi^2} \cdot \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \sqrt{\epsilon}  
+\end{align*}
+Thus,
+\begin{align*}
+\Omega & = \pm (2s + 1) \frac{VT}{4 \pi^2}  \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \int_0^{\infty} \d{\epsilon} \sqrt{\epsilon} \log{(1 \mp e^{- \beta (\epsilon - \mu)})}
+\end{align*}
+Define the fugacity,
+\[ z = e^{\beta \mu} \]
+By integration by parts,
+\begin{align*}
+\int_0^{\infty} \d{\epsilon} \sqrt{\epsilon} \log{(1 \mp z e^{- \beta \epsilon})} & = \tfrac{2}{3} \left[ \epsilon^{\frac{3}{2}} \log{(1 \mp z e^{- \beta \epsilon})} \right]^{\infty}_0 \mp \frac{2 \beta}{3} \int_0^{\infty} \frac{ z e^{-\beta \epsilon} \epsilon^{\frac{3}{2}} \d{\epsilon}}{1 \mp z e^{-\beta \epsilon}} 
+\end{align*}
+Therefore,
+\[ \Omega = - (2 s + 1) \frac{V}{6 \pi^2} \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \int_0^{\infty} \frac{\epsilon^{\frac{3}{2}} \d{\epsilon}}{z^{-1} e^{\beta \epsilon} \mp 1} \]
+Now we compute,
+\[ P = - \left( \pderiv{\Omega}{V} \right)_{T, \mu} =  \frac{2 s + 1}{6 \pi^2} \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \int_0^{\infty} \frac{\epsilon^{\frac{3}{2}} \d{\epsilon}}{z^{-1} e^{\beta \epsilon} \mp 1} \]
+and,
+\[N = - \left( \pderiv{\Omega}{\mu} \right)_{T, V} =  \frac{2 s + 1}{4 \pi^2} (VT) \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \beta \int_0^{\infty} \frac{\epsilon^{\frac{1}{2}} \d{\epsilon}}{(z^{-1} e^{\beta \epsilon} \mp 1)} \]
+Now we consider the integrals,
+\[ f_{\alpha}(z) = \int_0^{\infty} \frac{x^{\alpha - 1} \d{x}}{z^{-1} e^x - 1} = \Gamma(\alpha) \: \Li_{\alpha}(z) \]
+Then we have,
+\begin{align*}
+P & = \pm \frac{2 s + 1}{8 \pi^{\frac{3}{2}}} \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \: T^{\frac{5}{2}} \: \Li_{\tfrac{5}{2}}(\pm z)
+\\
+\frac{N}{V} & = \pm \frac{2 s + 1}{8 \pi^{\frac{3}{2}}} \left( \frac{2 m}{\hbar^2} \right)^{\frac{3}{2}} \: T^{\frac{3}{2}} \: \Li_{\tfrac{3}{2}}(\pm z)
+\end{align*}
+Therefore, we find an equation of state,
+\[ PV =  N T \cdot \left( \frac{\Li_{\tfrac{5}{2}}(\pm z)}{\Li_{\tfrac{3}{2}}(\pm z)} \right) \]
+Now we need to compute the fugacity $z$ in terms of $n$. 
+We define the thermal de-Broglie wavelength,
+\[ \lambda = \sqrt{\frac{2 \pi \hbar^2}{m T}}  \] 
+Then,
+\[ N = \pm (2 s + 1) \frac{V}{\lambda^3} \: \Li_{\tfrac{3}{2}}(\pm z) \]
+Now for low densities,
+\[ y = \frac{1}{2s + 1} \frac{N \lambda^3}{V} \ll 1 \]
+we must have $z \ll 1$ since $\Li$ vanishes at $z = 0$. Then we have, 
+\[ z = y + \frac{1}{2 \sqrt{2}} y^2 + O(y^3) \]
+Furthermore,
+\[ \left( \frac{\Li_{\tfrac{5}{2}}(\pm z)}{\Li_{\tfrac{3}{2}}(\pm z)} \right) = 1 \mp \frac{z^2}{4 \sqrt{2}} + O(z^3) \]  
+Now plugging in,
+\[ \left( \frac{\Li_{\tfrac{5}{2}}(\pm z)}{\Li_{\tfrac{3}{2}}(\pm z)} \right) = 1 \mp \frac{y^2}{4 \sqrt{2}} + O(y^3) \]
+Therefore,
+\[ PV = NT \left[ 1 \mp \frac{1}{4 \sqrt{2}(2 s + 1)^2} \left( \frac{N \lambda^3}{V} \right)^2 \right] \]
+
+\subsection{Degeneracy Pressure}
+
+Now for fermions $(-)$ we consider the opposite limit for $y \gg 1$. Then,
+\[ -y = \Li_{\frac{3}{2}}(-z) \]
+We have an asymtotic expansion,
+\[ -\Li_\alpha(-z) = \frac{1}{\Gamma(\alpha + 1)} (\log{z})^{\alpha} \]
+Plugging in,
+\begin{align*}
+P & = (2 s + 1) \lambda^{-3} T \: \frac{(\log{z})^{\frac{5}{2}}}{\frac{15}{8} \sqrt{\pi}}
+\\
+\frac{N}{V} & = (2 s + 1) \lambda^{-3} \: \frac{(\log{z})^{\frac{3}{2}}}{\frac{3}{4} \sqrt{\pi}}
+\end{align*}
+Therefore,
+\begin{align*}
+P & = (2 s + 1) \lambda^{-3} T \left( \frac{N \lambda^3}{V (2 s + 1)} \right)^{\frac{5}{3}} \: \left[ \frac{8}{15 \sqrt{\pi}} \left( \frac{3 \sqrt{\pi}}{4} \right)^{\frac{5}{3}} \right]
+\\
+& = \lambda^2 T \left( \frac{N}{V} \right)^{\frac{5}{3}} \left[ \frac{3^{\frac{2}{3}} \pi^{\frac{1}{3}} }{5(2 s + 1)^{\frac{2}{3}} 2^{\frac{1}{3}}}  \right]
+\\
+& = \left(\frac{6 \pi^2}{2 s + 1} \right)^{\frac{2}{3}} \left( \frac{ \hbar^2}{5 m} \right) \cdot \left( \frac{N}{V} \right)^{\frac{5}{3}} 
+\end{align*}
+which is independent of temperature. This is the degeneracy pressure. 
+
+\subsection{The Bose-Einstein Gas}
+
+We have,
+\[ N = \sum_\alpha \frac{1}{e^{\beta( \epsilon_\alpha - \mu)} - 1} = \int_0^{\infty} \d{\epsilon} \: g(\epsilon) \cdot \frac{1}{z^{-1} e^{\beta \epsilon} - 1} \]
+and,
+\[  N = \sum_\alpha \frac{1}{e^{\beta( \epsilon_\alpha - \mu)} - 1} = \int_0^{\infty} \d{\epsilon} \: g(\epsilon) \cdot \frac{\epsilon}{z^{-1} e^{\beta \epsilon} - 1} \]
+Therefore,
+\[ PV = \frac{1}{\beta} \log{Z} = - \frac{1}{\beta} \int_0^{\infty} \d{\epsilon} \: g(\epsilon) \: \log{(1 - z e^{-\beta \epsilon})} = \frac{2}{3} \int \d{\epsilon} \: g(\epsilon) \cdot \frac{\epsilon}{z^{-1} e^{\beta \epsilon}} = \tfrac{2}{3} E  \]
+
+\section{Laudau - Ginzberg Theory}
+
+Let $m(\vec{r})$ be a local order parameter (for example the magnetization of a region in a feromagnet). Then we expand,
+\[ m(\vec{r}) = \frac{1}{N!} \sum_{i = 1}^N s_i \]
+The free energy is,
+\[ F[m(\vec{r})] = \int \dn{d}{r} \left[ a(T) m^2(\vec{r}) + b(T) m^4(\vec{r}) + c(T) (\nabla m(\vec{r})^2  \right] \]
+We need to minimize this so we compute.
+\begin{align*}
+\delta F & = \int \dn{d}{r} \left[ 2 a(T) m \delta m + 4 b(T) m^3 \delta m + 2 c(T) (\nabla m) \cdot (\nabla \delta m) \right] 
+\\
+& = \int \dn{d}{r} \left[ 2 a(T) m  + 4 b(T) m^3  - 2 c(T) \nabla^2 m \right] \delta m 
+\end{align*}
+Then setting, $\delta F = 0$ for all $\delta m$ implies that,
+\[ c \nabla^2 m = a m + 2 b m^3 \]
+The case $\nabla m = 0$ is Laudau theory and for $\nabla m \neq 0$ there are domain wall solutions which take the form,
+\[ m(x) = m_0 \tanh{\left( \sqrt{\frac{-a}{2c}} \: x \right)} \]
+These domain walls have an associate free energy cost. For a Landau solution in the ground state (will small $m_0$) the free energy density is $a m_0^2$. Then,
+\begin{align*}
+\Delta F & = F_{\text{domain}} - F_{\text{landau}} = \int \d{x} \left[ a m^2 + b m^4 + c (\partial_x m)^2 - a m_0^2 \right]
+\\
+& \sim J m_0^2 \sqrt{1 - \frac{T}{T_C}}
+\end{align*}
+
+\subsection{Correlations}
+
+Consider a system in a given ground state with perturbations $m(\vec{r}) = m_0 + \delta m$. Then, substituting into,
+\[ c \nabla^2 m = a m + 2 b m^3 \]
+gives linearized theory,
+\[ \nabla^2 \delta m + \frac{2 a}{c} \delta m = 0 \]
+Adding a source,
+\[ \nabla^2 \delta m + \frac{2 a}{c} \delta m = \frac{1}{2 c} \delta(0) \]
+will give a solution of the form,
+\[ \delta m(\vec{r}) \sim \frac{e^{-r / \xi}}{r^{(d - 1)/2}} \]
+where,
+\[ \xi = \sqrt{\frac{c}{2 a}} \]
+is the correlation length which goes to zero as $T \to T_C$.  
+The Ginzburg Criterion is $\delta m \sim m$ where mean field approximation breaks down. 
+
+\section{Linear Response Theory}
+
+Suppose there is a soure Hamiltonian, 
+\[
+ H_s(t) = \sum_{i = 1}^N \phi_i(t) \hat{O}_i(t) \]
+We want to solve for the correlation functions,
+\begin{align*}
+\delta \EV{\hat{O}_i(t)} & = \int \d{t} \chi_{ij}(t, t') \phi_j(t') 
+\\
+\delta \EV{\hat{O}(\omega)} & = \chi_{ij}(\omega) \phi_j(\omega)
+\end{align*}
+Since $\EV{\hat{O}}$ then $\chi(t, t')$ is also real but $\chi(\omega)$ will generically be complex. We write,
+\[ \chi(\omega) = \chi^R(\omega) + i \chi^I(\omega) \]
+and then,
+\[ \chi^I(\omega) = - \frac{i}{2} \left[ \chi(\omega)  \chi^*(\omega) \right] = - \frac{i}{2} \left[ \chi(t) - \chi(-t) \right] e^{- i \omega t} \]
+Furthermore,
+\[ \chi^R(\omega) = \frac{1}{2} \int^{\infty}_{-\infty} \d{t} \left[ \chi(t) + \chi(-t) \right] e^{- i \omega t} \]
+Note that $\chi^R(\omega) = \chi^R(-\omega)$ is the reactive part and $\chi^I(\omega) = - \chi^I(-\omega)$ is the dissipative part. 
+\bigskip\\
+We now impose Causal conditions making this a Causal or Retarded Green's function by setting $\forall t < 0 : \chi(t) = 0$. This implies that,
+\[ \chi(t) = \int^0_{-\infty} \frac{\d{\omega}}{2 \pi} e^{i \omega t} \chi(\omega) \]
+Then $\chi(\omega)$ is analytic for $\Im{\omega} > 0$ which implies that we can apply Kramers-Kronig relations to obtain,
+\begin{align*}
+\chi^R(\omega) & = P \int \frac{\d{\omega'}}{\pi} \frac{\chi^I(\omega)}{\omega' - \omega} 
+\\
+\chi^I(\omega) & = - P \int \frac{\d{\omega'}}{\pi} \frac{\chi^R(\omega)}{\omega' - \omega}  
+\end{align*}
+Furthermore,
+\begin{align*}
+\chi & = \partial_\phi \EV{\hat{O}} \bigg|_{\omega = 0} = \lim_{\omega \to 0} \chi(\omega)
+\\
+& = \int_{-\infty}^{\infty} \frac{\d{\omega'}}{\pi} \frac{\Im{\chi(\omega')}}{\omega' - i \omega} = \pderiv{M}{B} \bigg|_{\omega = 0}
+\end{align*} 
+
+\subsection{Dissipation}
+
+Take $\Im{\chi(\omega)}$ be the energy absorption. Now consider,
+\[ \deriv{W}{t} = F(t) \chi^R(t) = \int \frac{\d{\omega} \d{\omega'}}{(2 \pi)^2} F(\omega) F(\omega') [ - i \omega \chi(\omega) ] e^{- i ( \omega' + \omega) t} \]
+For $F(t) = F_0 \cos{(\Omega t)}$ we have,
+\[ F(\omega) = 2 \pi F_0 [\delta(\omega + \Omega) + \delta(\omega - \Omega) ] \]
+and plugging in,
+\[ \deriv{W}{t} = - i F_0^2 \Omega \left[ \chi(\Omega) e^{- i \Omega t} - \chi(-\Omega) e^{i \Omega t} \right] \left[ e^{-i \Omega t} + e^{i \Omega t} \right] \]
+Then we average over a cycle,
+\[ \deriv{\overline{W}}{t} = \frac{\Omega}{2 \pi} \int_0^{2 \pi / \Omega} \d{t} \deriv{W}{t} = 2 F_0^2 \Omega \Im{\chi(\Omega)} \]
+therefore, for a Damped HO,
+\[ \deriv{\overline{W}}{t} = \frac{2 F_0^2 \gamma \Omega^2}{(\omega_0 - \Omega)^2 + (\gamma \Omega)^2} \]
+
+\subsection{Kubo Formula}
+
+Consider a sourse Hamiltonian,
+\[ H_s = \phi(t) \hat{O}(t) \]
+which gives a time evolution (in the interaction picture),
+\[ U(t, t_0) = e^{- i \int_{t_0}^t H_s(t') \d{t'} } \]
+For a density matrix $\lim_{t_0 \to -\infty} \rho(t_0) = \rho_0$ we have,
+\[ \rho(t) = U(t) \rho_0 U(t)^{-1} \]
+where $U(t) = U(t, -\infty)$. 
+In the presense of sources,
+\begin{align*}
+\EV{\hat{O}_i(t)} & = \Tr{\rho(t) \hat{O}_i(t)}
+\\
+& = \Tr{\rho_0 \left( \hat{O}_i(t) + i \int_{-\infty}^t \d{t'} [ H_s(t'), \hat{O}_i(t) ] + \cdots \right)} 
+\end{align*}
+Then define,
+\begin{align*}
+\delta \EV{\hat{O}_i} & = \EV{\hat{O}_i} \bigg|_{\varphi} - \EV{\hat{O}_i} \bigg|_{\varphi = 0}  
+\\
+& = i \int_{-\infty}^t \d{t'} \EV{[\hat{O}_j(t'), \hat{O}_i(t)]} \phi_j(t')
+\\
+& = i \int_{-\infty}^{\infty} \d{t} \theta(t - t') \EV{[\hat{O}_j(t'), \hat{O}_i(t)]} \phi_j(t') = \int \d{t'} \chi_{ij}(t - t') \phi_j(t')  
+\end{align*}
+Therefore,
+\[ \chi_{ij}(t - t') = - i \theta(t - t') \EV{[\hat{O}_i(t), \hat{O}_j(t')]} \]
+Response function is expressed in terms of 2-point correlation functions. 
+
+\subsection{Dissipations and Fluctuation}
+
+\[ \deriv{W}{t} = \deriv{}{t} \Tr{\rho H} = \Tr{\dot{\rho} H + \rho \dot{H}} \]
+In the Schrodiner picture,
+\[ i \deriv{}{t} \rho = [H, \rho] \]
+and therefore,
+\[ \Tr{\dot{\rho} H} = - i \Tr{[H, \rho] H} = - i \Tr{H \rho H - \rho H^2} = 0 \]
+so we have,
+\[ \deriv{W}{t} = \Tr{\rho \dot{H}} = \Tr{\rho \hat{O} \dot{\phi}} = \EV{\hat{O}} \dot{\phi} \]
+If we have $\phi(t) = \Re{\phi_0 e^{- i \Omega t}}$ then,
+\begin{align*}
+\deriv{\overline{W}}{t} & = \frac{\Omega}{2 \pi} \int_0^{2 \pi / \Omega} \frac{\d{t} \d{t'} d{\omega}}{2 \pi} \chi(\omega) e^{- i \omega (t - t')} \left[ \phi_0 e^{- i \Omega t} + \phi^*_0 e^{i \Omega t} \right] \cdot \left[ - i \Omega \phi_0 e^{- i \Omega t} + i \Omega \phi_0^* e^{i \Omega t} \right] 
+\\
+& = [ \chi(\Omega) - \chi(-\Omega) ] |\phi_0|^2 i \Omega
+\\
+& = 2 \Omega |\phi_0|^2 \Im{\chi(\Omega)} 
+\end{align*}
+We now show as $\gamma \to 0$ that $\Im{\chi} \to \delta$. In the canonical ensemble $\rho = e^{-\beta H}$ with perturbation at $t' = 0$. In the Heisenberg picture,
+\[ \hat{O}_i(t) = U^{-1} \hat{O}_i U \]
+for $U = e^{- i H t}$. Then,
+\begin{align*}
+\chi_{ij}(\omega) & = - i \int_0^{\infty} \d{t} e^{i \omega t} \Tr{e^{-\beta H} [\hat{O}_i(t), \hat{O}_j(0)]}
+\\
+& = - i \int_0^{\infty} \d{t} e^{i \omega t} \sum_{m,n} e^{-\beta E_m} \left( \bra{m} \hat{O}_i \ket{n} \bra{n} \hat{O}_j \ket{m} e^{i (E_m - E_n) t} - \bra{m} \hat{O}_j \ket{n} \bra{n} \hat{O}_i \ket{m} e^{i (E_n - E_m) t} \right) 
+\end{align*}
+Therefore,
+\begin{align*}
+\chi_{ij}(\omega) & = \sum_{m,n} e^{-\beta E_m} \left[ \frac{(\hat{O}_i)_{m n} (\hat{O}_j)_{n m}}{\omega + (E_m - E_n) + i \epsilon} - \frac{(\hat{O}_j)_{m n} (\hat{O}_i)_{n m}}{\omega + (E_n - E_m) + i \epsilon} \right]
+\\
+& = \sum_{m,n} \frac{(\hat{O}_i)_{m n} (\hat{O}_j)_{n m}}{\omega + (E_m - E_n) + i \epsilon} \left[ e^{- \beta E_m} - e^{- \beta E_n} \right]
+\end{align*}
+
+\subsection{Fluctuation Dissipation Theorem}
+
+Consider $S_{ij} = \left< \hat{O}_i(t) \hat{O}_j(0) \right>$ and its Fourier transform,
+\[ S_{ij}(\omega) = \int \d{t} e^{i \omega t} S_{ij}(t) \]
+Then the fluctuation dissipation theorem relates $\Im{\chi}$ with fluctutations in $S(\omega)$.  Using time-translation symmetry and the fact that $\Theta(t) = \Theta(-t) = 1$ we find,
+\begin{align*}
+\Im{\chi(t)} & = - \tfrac{1}{2} \left( \Theta(t) \left[ \left< \hat{O}_i(t) \hat{O}_j(0) \right> - \left< \hat{O}_j(0) \hat{O}_i(t) \right> \right] + \tfrac{1}{2} \Theta(-t) \left[ \left< \hat{O}_j(-t) \hat{O}_i(0) \right> - \left< \hat{O}_i(0) \hat{O}_j(-t) \right> \right] \right)
+\\
+& = \tfrac{1}{2} \left( - \left< \hat{O}_i(t) \hat{O}_j(0) \right> + \left< \hat{O}_j(-t) \hat{O}_i(0) \right> \right) 
+\end{align*}
+Then,
+\[ \left< \hat{O}_i(-t) \hat{O}_i(0) \right> = \Tr{e^{-\beta H} \hat{O}_i(-t) e^{\beta H} e^{-\beta H} \hat{O}_i(0)} = \Tr{e^{-\beta H} \hat{O}_i(0) e^{-\beta H} \hat{O}_j(-t) e^{\beta H}} = \left< \hat{O}_i(0) \hat{O}_j(-t + i \beta) \right> \]
+since $e^{-\beta H} = e^{i (i \beta) H}$. Then,
+\begin{align*}
+\Im{\chi_{ij}(t)} = - \tfrac{1}{2} \left[ \left< \hat{O}_i(t) \hat{O}_j(0) \right> - \left< \hat{O}_i(t - i \beta) \hat{O}_j(0) \right> \right] 
+\end{align*}
+Then taking the Fourier transform gives,
+\[ \Im{\chi_{ij}(\omega)} = - \tfrac{1}{2} \left[ 1 - e^{-\beta \omega} \right] S_{ij}(\omega) \] 
+This implies that,
+\[ S_{ij}(\omega) = -2 \left[ \frac{1}{e^{\beta \omega} - 1} + 1 \right] \Im{\chi_{ij}(\omega)} \]
+The first term,
+\[ n_B(\omega) = \frac{1}{e^{\beta \omega} - 1} \]
+is from thermal fluctuations and the second term $1$ is due to quantum fluctuations. In the high-temperature limit we can approximate, \[ n_B(\omega) \to \frac{k_B T}{\omega} \]
+and thus the theorem reduces to,
+\[ S_{ij}(\omega) = - \frac{2 k_B T}{\omega} \Im{\chi_{ij}(\omega)} \]
+
+\end{document}
+

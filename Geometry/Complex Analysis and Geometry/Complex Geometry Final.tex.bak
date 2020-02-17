@@ -1,0 +1,314 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}  
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\Vol}[1]{\mathrm{Vol}\left(#1\right)}
+\newcommand{\tr}[1]{\mathrm{tr}_{#1} \:}
+
+\newcommand{\Xcut}{X_{\text{cut}}}
+\newcommand{\CP}{\mathbb{CP}}
+
+\begin{document}
+
+\title{Complex Analysis and Riemann Surfaces II \\ Final Exam}
+\author{Ben Church}
+\maketitle
+
+
+\section{Problem 1}
+
+\begin{remark}
+In my notation $q > n$ is the number witten as $p$ in the problem statement. I realized too late for it to be feasible to change notation since $p$ appears in many formulae we derived in class which I used. I appologize for any confusion this may cause.
+\end{remark}
+
+\begin{theorem}
+Let $(M, \omega)$ be a compact K\"{a}hler manifold of dimension $n$ and let $f \in C^0(M)$ satisfy,
+\[ \int_M e^f \omega^n = \int_M \omega^n \]
+Consider the complex Monge-Ampere equation,
+\[ (\omega + i \partial \bar{\partial} \varphi)^n = e^f \omega \quad \quad \omega_\varphi = \omega + i \partial \bar{\partial} \varphi > 0 \quad \quad \sup_M \varphi = 0 \]
+Choose any real $q > n$ then there exists a constant $C(M, \omega, || e^f||_q)$ only depending on $M$, $\omega$, and $||e^f||_q$ such that,
+\[ ||\varphi ||_{C^0(M)} \le C \]
+\end{theorem}
+
+\begin{remark}
+I will use the notation $|| \psi ||_{p} = || \psi ||_{L^p(M)}$ and $| \psi ||_{C^0} = || \psi ||_{C^0(M)}$. 
+\end{remark}
+
+\begin{remark}
+The proof will require multiple steps. Let $r = \frac{q}{q - 1} < \frac{n}{n - 1} \le 2$ and take any $w_0 > r$. We will split up the proof into a number of steps:
+\begin{enumerate}
+\item Use Moser iteration via the Sobolev Innequality to establish the bound,
+\[ || \varphi ||_{C^0} = || \varphi ||_{L^\infty} \le C_1(M, \omega, || e^f ||_{q}) \cdot || \varphi  ||_{L^{w_0}} + 1 \]
+
+\item Use the Poincare Innequality to find, for a specific $w_0 > r$, a bound,
+\[ || \varphi - \varphi_{\text{avg}} ||_{L^{w_0}} \le C_2(M, \omega, || e^f ||_{q}) \cdot  || \varphi ||_{L^1}^2 \]
+
+\item Apply Green's functions to show that,
+\[ || \varphi ||_{L^1} \le C_3(M, \omega, || e^f ||_{q}) \]
+\end{enumerate} 
+\end{remark}
+
+\subsection{Step 1: Moser Iteration}
+
+It will be convienient in this section to define $\phi = 1 - \varphi$ such that $\phi \ge 1$ and thus $\phi^a \le \phi^b$ when $a \le b$. 
+\bigskip\\
+From the defining equation, for any $p \ge 1$,
+\[ \int_M \phi^{p - 1} (\omega_\phi^n - \omega^n) = \int_M \phi^{p-1} \left( e^f - 1 \right) \omega^n \]
+Recall the Holder innequality,
+\[ \frac{1}{r} + \frac{1}{q} = 1 \implies || fg ||_1 \le || f ||_r || g ||_q \]
+Therfore, if we choose $r > 1$ such that,
+\[ \frac{1}{r} + \frac{1}{q} = 1 \implies r = \frac{q}{q - 1} < \frac{n}{n - 1} \]
+then we find,
+\[ \int_M \phi^{p-1} \left( e^f - 1 \right) \omega^n \le || \phi^{p - 1} (e^f - 1) ||_1 \le || \phi^{p - 1} ||_{r} \cdot  || (e^f - 1) ||_q \le || \phi^{p - 1} ||_r \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \]
+On the other hand,
+\begin{align*}
+\phi^{p - 1} \left( \omega^n_\varphi - \omega^n \right) & = \phi^{p-1} (\omega_\varphi - \omega) \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)
+\\
+& = \phi^{p-1} i \partial \bar{\partial} \varphi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)
+\\
+& = - \phi^{p-1} i \partial \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)
+\end{align*}
+since, $i \partial \bar{\partial} \varphi = - i \partial \bar{\partial} \phi$. Furthermore, because $\omega$ and $\omega_\varphi$ are K\"{a}hler forms and thus closed, 
+\begin{align*}
+\d{\left(\phi^{p-1} i \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) \right)} & = (p - 1) \phi^{p-2} \d{\phi} \wedge i \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)  
+\\
+& \quad + \phi^{p-1} i \d{(\bar{\partial} \phi)} \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) 
+\\
+& = (p - 1) \phi^{p-2} (\partial \phi + \bar{\partial} \phi) \wedge i \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)  
+\\
+& \quad + \phi^{p-1} i (\partial \bar{\partial} \phi + \bar{\partial}^2 \phi) \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) 
+\end{align*}
+However, $\bar{\partial} \phi \wedge \bar{\partial} \phi = 0$ and $\bar{\partial}^2 \phi = 0$. Therefore,
+\begin{align*}
+\d{\left(\phi^{p-1} i \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) \right)} & = (p - 1) \phi^{p-2} \partial \phi  \wedge i \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right)  
+\\
+& \quad + \phi^{p-1} i \partial \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) 
+\end{align*}
+Then applying Stokes theorem on the closed manifold $M$ we find,
+\begin{align*}
+- \int_M \phi^{p-1} i \partial \bar{\partial} \phi \wedge \left( \omega_\varphi^{n-1} + \cdots + \omega^{n - 1} \right) & = \int_M (p - 1) \phi^{p-2} i \partial \phi \wedge \bar{\partial} \phi \wedge \left( \omega_\varphi^{n- 1} + \cdots + \omega^{n-1} \right) 
+\end{align*}
+and therefore,
+\[ \int_M \phi^{p-1} (\omega_\varphi^n - \omega^n) = \int_M (p - 1) \phi^{p-2} i \partial \phi \wedge \bar{\partial} \phi \wedge \left( \omega_\varphi^{n- 1} + \cdots + \omega^{n-1} \right)  \]
+However, note that,
+\[ \frac{1}{n} |\nabla \phi |_{\omega}^2 \: \omega^n = i \partial \phi \wedge \bar{\partial} \phi \wedge \omega^{n - 1} \]
+and that $\omega > 0$ and $\omega_\varphi > 0$ which implies that,
+\begin{align*}
+\frac{p-1}{n} \int_M \phi^{p-2} |\nabla \phi |_{\omega}^2 \: \omega^n & =  (p-1) \int_M \phi^{p-2} i \partial \phi \wedge \bar{\partial} \phi \wedge \omega^{n-1} 
+\\
+& \le \int_M (p - 1) \phi^{p-2} i \partial \phi \wedge \bar{\partial} \phi \wedge \left( \omega_\varphi^{n- 1} + \cdots + \omega^{n-1} \right) 
+\end{align*}
+Finally, note that,
+\[ \phi^{p-2} |\nabla \phi |_{\omega}^2 = | \phi^{\frac{p}{2} - 1} \nabla \phi |_{\omega}^2 =  \left( \frac{2}{p} \right)^2 | \nabla \phi^{\frac{p}{2}} |_{\omega}^2 \]
+Therefore, we have calculated,
+\begin{align*}
+\int_M |\nabla \phi^{\frac{p}{2}} |^2_\omega \: \omega^n \le \frac{n p^2}{4 (p - 1)} \int_M \phi^{p-1} (\omega^n_\varphi - \omega^n) \le  \frac{n p^2}{4 (p - 1)} || \phi^{p - 1} ||_r \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}})
+\end{align*}
+Recall the Sobolev innequality for $(M, \omega)$ which states that for any positive $\eta \in C^1(M)$ there exists $C$ depending only on $M$ and $\omega$ such that,
+\[ \left( \int_M \eta^{\frac{n}{n-1}} \omega^n \right)^{\frac{n-1}{n}} \le C \left( \int_M \left( |\nabla \eta|^2 + \eta^2 \right) \omega^n \right) \]
+We apply this innequality in the case $\eta = \phi^{\frac{p}{2}}$. Then we find that,
+\begin{align*}
+\left( \int_M \phi^{p \cdot \frac{2n}{n-1}} \omega^n \right)^{\frac{n-1}{n}} \le C \left( \int_M \left( | \nabla \phi^{\frac{p}{2}} |^2 + \phi^p \right) \omega^n \right) 
+\end{align*}
+Plugging in our previous result,
+\[ \left( \int_M \phi^{p \cdot \frac{n}{n-1}} \omega^n \right)^{\frac{n-1}{n}} \le C \left[ \frac{n p^2}{4 (p - 1)} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \left( \int_M \phi^{(p - 1)r} \: \omega^n \right)^{\frac{1}{r}} + \int_M \phi^p \: \omega^n \right] \]
+Define $\chi = \frac{n}{n-1}$ and let $w = pr$. Since $p > 1$ is arbitrary and $1 < r < \frac{n}{n - 1} = \chi$ then $w \ge 2$ is arbitrary. Now let $\xi = \chi / r > 1$ and using the fact that $\phi \ge 1$ so we may increase the powers as we wish in this innequality, we find,
+\[ \left( \int_M \phi^{w \cdot \xi} \omega^n \right)^{\frac{1}{\chi}} \le C \left[ \frac{n p^2}{4 (p - 1)} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \left( \int_M \phi^{w} \: \omega^n \right)^{\frac{1}{r}} + \int_M \phi^p \: \omega^n \right] \]
+However, by the Holder innequality,
+\[ || \phi^p ||_{L^1} \le || \phi^p ||_{r} || 1 ||_q = || \phi^p ||_r \cdot \Vol{M}^{\frac{1}{q}} \]
+Furthermore,
+\[ || \phi^p ||_r = \left( \int_M \phi^{w} \: \omega^n \right)^{\frac{1}{r}} \]
+which implies that,
+\[ \left( \int_M \phi^{w \cdot \xi} \omega^n \right)^{\frac{1}{\chi}} \le C \left[ \frac{n p^2}{4 (p - 1)} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) + \Vol{M}^{\frac{1}{q}} \right] \cdot \left( \int_M \phi^{w} \: \omega^n \right)^{\frac{1}{r}}  \]
+Now define,
+\[ K(M, \omega, || e^f ||_q) =C n ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \]
+such that,
+\[ C \left[ \frac{n p^2}{4 (p - 1)} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) + \Vol{M}^{\frac{1}{q}} \right] \le K \left[ \frac{p^2}{4(p - 1)} + 1 \right]  \]
+Thus, exponentiating by $1/p$ we find,
+\[ \left( \int_M \phi^{w \cdot \xi} \omega^n \right)^{\frac{1}{w \cdot \xi}} \le K^{\frac{1}{p}} \left[ \frac{p^2}{4(p - 1)} + 1 \right]^{\frac{1}{p}} \left( \int_M \phi^{w} \: \omega^n \right)^{\frac{1}{w}}  \]
+and therefore,
+\[ || \phi ||_{w \xi} \le K^{\frac{1}{p}} \left[ \frac{p^2}{4(p - 1)} + 1 \right]^{\frac{1}{p}} || \phi ||_{w} \]
+for any $w \ge 2$ where $C$ does not depend on $w$. 
+We may apply this innequality inductively, on a sequence $w_k = w_0 \xi^k$ and thus $p_k = w_0/r \xi^k$ where $w_0 > r$ so that $p_k > 1$. Then, at each step we have,
+\[ || \phi ||_{w_{k + 1}} \le K^{\frac{1}{p_k}} \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} || \phi ||_{w_k} \]
+and thus we find,
+\[ || \phi ||_{w_{k+1}} \le \prod_{j = 0}^k \left( K^{\frac{1}{p_k}} \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} \right) || \phi ||_{w_k} \]
+Recall that $\xi > 1$ and $p_0 = w_0 / r > 1$ since $r < \frac{n}{n-1} \le 2$. First,
+\[ \prod_{j = 0}^k K^{\frac{1}{p_k}} = K^{\sum\limits_{j = 0}^k p_j^{-1}} \]
+but the series is geometric,
+\[ \sum_{j = 0}^k \frac{1}{p_k} = \frac{r}{w_0} \sum_{j = 0}^k \frac{1}{\xi^j} \le \frac{r}{w_0} \frac{1}{1 - \xi} \]
+and thus converges in the limit $k \to \infty$ since $\xi > 1$. Furthermore, since $\xi > 1$ there exists some $N$ such that for $j \ge N$ we have $p_j > 2$ and thus,
+\[ \frac{p_k^2}{4(p_k - 1)} < p_k \] 
+which implies that when $k > N$,
+\begin{align*}
+\prod_{j = 0}^k \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} & = \prod_{j = 0}^N \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} \cdot \prod_{j = N}^k \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}}
+\\
+&  \le \prod_{j = 0}^N \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} \cdot \prod_{j = N}^k p_k^{p_k}
+\\
+& = \prod_{j = 0}^N \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} \cdot \prod_{j = N}^k \left( \frac{w_0}{r} \right)^{\frac{1}{p_k}} \cdot \xi^{\frac{j}{p_k}}
+\\
+& = \prod_{j = 0}^N \left[ \frac{p_k^2}{4(p_k - 1)} + 1 \right]^{\frac{1}{p_k}} \cdot \left( \frac{w_0}{r} \right)^{\sum\limits_{j = N}^k \frac{1}{p_k}} \cdot \xi^{\sum\limits_{j = N}^k \frac{j}{p_k}}
+\end{align*}
+which is a bounded series in the limit $k \to \infty$ because,
+\[ \sum_{j = N}^\infty \frac{1}{p_k} = \frac{r}{w_0} \sum_{j = N}^\infty \frac{1}{\xi^j} < \infty \quad \text{ and } \quad \sum_{j = N}^\infty \frac{j}{p_k} = \frac{r}{w_0} \sum_{j = N}^\infty \frac{j}{\xi^j} < \infty \]
+are both bounded in the limit $k \to \infty$. Therefore, there exits a uniform constant $C_1(M, \omega, q, || e^f ||_q)$ (not depending on $k$) which depends only on $M$, $\omega$, $|| e^f ||_q$ and $r = \frac{q}{q - 1}$ (so thus on the value of $q > n$) such that,
+\[ || \phi ||_{w_{k+1}} \le C_1 || \phi ||_{w_0} \]
+for all sufficiently large $k$. However as $k \to \infty$ we have $w_{k + 1} \to \infty$ since $\xi > 1$ so,
+\[ || \phi ||_{L^\infty} = \lim_{w \to \infty} || \phi ||_w = \lim_{k \to \infty} || \phi ||_{w_k} \le C_1 || \phi ||_{L_{w_0}} \]
+At last,
+\[ || \varphi ||_{L^\infty} = || 1 - \phi ||_{L^\infty} \le || \phi ||_{L^\infty} + 1 \le C_1 || \phi ||_{L_{w_0}} + 1 \]
+which proves the claim.
+
+\subsection{Step 2: Poincare Inequality}
+
+Recall that we have derived the innequality,
+\[ \int_M | \nabla \phi^{\frac{p}{2}} |_\omega^2 \: \omega^n \le \frac{n p^2}{4(p-1)} \int_M \phi^{p - 1} (e^f - 1) \omega^n \le \frac{n p^2}{4(p-1)} || \phi^{p-1} (e^f - 1) ||_1 \]
+Via the Holder innequality,
+\[ || \phi^{p-1} (e^f - 1) ||_1 \le || \phi^{p - 1} ||_{r} || e^f - 1 ||_q \le || \phi^{p - 1} ||_r \left( || e^f ||_q + \Vol{M}^{\frac{1}{q}} \right) \]
+since we have defined,
+\[ r = \frac{q}{q - 1} \quad \text{such that} \quad \frac{1}{r} + \frac{1}{q} = 1 \]
+Recall the Poincare innequality (specialized for $p = 2$),
+\[ || u - u_{\text{avg}} ||_2 \le || \nabla u ||_2 \]
+and apply it to the case $u = \phi^{\frac{p}{2}}$. Then we have,
+\[ || \phi^{\frac{p}{2}} - (\phi^{\frac{p}{2}})_{\text{avg}} ||^2_2 \le || \nabla \phi^{\frac{p}{2}} ||^2_2 \le \frac{n p^2}{4(p-1)} || \phi^{p-1} ||_r \left( || e^f ||_q + \Vol{M}^{\frac{1}{q}} \right) \]
+However, $|| \phi^{p - 1} ||_r = || \phi ||_{r (p - 1)}^{p - 1}$ so take the $p - 1$ root of both sides to get,
+\[ || \phi^{\frac{p}{2}} - (\phi^{\frac{p}{2}})_{\text{avg}} ||^{\frac{2}{p - 1}}_2 \le \left( \frac{n p^2}{4(p-1)} \right)^{\frac{1}{p - 1}} \left( || e^f ||_q + \Vol{M}^{\frac{1}{q}} \right)^{\frac{1}{p-1}} || \phi ||_{r(p-1)}  \]
+Chose $p_0 = 1 + \frac{1}{r}$ such that $r(p_0 - 1) =1$ and choose $w_0 = p_0 \chi$. Now we verify that,
+\[ w_0 = p_0 \frac{n}{n-1} = \frac{n}{n-1} + \frac{n}{n-1} \frac{1}{r}  > \frac{n}{n-1} + 1 > 2 > r \]
+because $r < \frac{n}{n-1} < 2$. This implies that our choice for $w_0$ is a valid one for the previously derived innequality. Plugging in,
+\[ || \phi^{\frac{p_0}{2}} - (\phi^{\frac{p_0}{2}})_{\text{avg}} ||^{2r}_2 \le \left( \frac{n p_0^2 r}{4} \right)^{r} \left( || e^f ||_q + \Vol{M}^{\frac{1}{q}} \right)^{r} || \phi ||_{1}  \]
+Furthermore,
+\[ (\phi^{\frac{p_0}{2}})_{\text{avg}} = \frac{1}{\Vol{M}} \int_M \phi^{\frac{p_0}{2}} \: \omega^n \le \frac{1}{\Vol{M}} \int_M \phi \: \omega^n = \frac{1}{\Vol{M}} || \phi ||_{1} \]
+because $p_0 = 1 + \frac{1}{r} < 2$ since $r > 1$ and $\phi \ge 1$. Now,
+\[ || \phi^{\frac{p_0}{2}} ||_2 \le  || \phi^{\frac{p_0}{2}} - (\phi^{\frac{p_0}{2}})_{\text{avg}} ||_2 + || (\phi^{\frac{p_0}{2}})_{\text{avg}} ||_2 \le || \phi^{\frac{p_0}{2}} - (\phi^{\frac{p_0}{2}})_{\text{avg}} ||_2 + \frac{1}{\sqrt{\Vol{M}}} || \phi ||_1 \]
+Combining this with the earlier innequality we find,
+\[ || \phi^{\frac{p_0}{2}} ||_2 \le \left( \frac{n p_0^2 r}{4} \right)^{\frac{1}{2}} \left( || e^f ||_q + \Vol{M}^{\frac{1}{q}} \right)^{\frac{1}{2}} || \phi ||_{1}^{\frac{1}{2r}} + \frac{1}{\sqrt{\Vol{M}}} || \phi ||_1 \le K || \phi ||_1 \]
+since $|| \phi ||_1 > 1$ so $|| \phi ||_1 \ge || \phi ||_1^{\frac{1}{2r}}$
+where $K(M, \omega, q, || e^f ||_q)$ is a constant. 
+Next,
+\[ || \phi^{\frac{p_0}{2}} ||^2_2 = || \phi ||^{p_0}_{p_0} \ge || \phi ||_{p_0} \]
+since $p_0 > 1$ and $\phi \ge 1$. Which implies that,
+\[ || \phi ||_{p_0} \le K^2 || \phi ||_1^2 \]
+Finally, recall the innequality we derived for any $p > 1$,
+\[ \left( \int_M \phi^{p \cdot \frac{n}{n-1}} \omega^n \right)^{\frac{n-1}{n}} \le C \left[ \frac{n p^2}{4 (p - 1)} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \left( \int_M \phi^{(p - 1)r} \: \omega^n \right)^{\frac{1}{r}} + \int_M \phi^p \: \omega^n \right] \]
+If we specialize to the case $p = p_0 = 1 + \frac{1}{r}$ and $\chi = \frac{n}{n-1}$ and $w_0 = p_0 \chi$ we find,
+\[ \left( \int_M \phi^{w_0} \omega^n \right)^{\frac{1}{\chi}} \le C \left[ \frac{n p_0^2r}{4} \cdot ( || e^f ||_q + \Vol{M}^{\frac{1}{q}}) \left( \int_M \phi \: \omega^n \right)^{\frac{1}{r}} + \int_M \phi^{p_0} \: \omega^n \right] \le K' \left( \int_M \phi^{p_0} \: \omega^n \right) \]
+where $K'(M, \omega, q, || e^f ||_q)$ is a constant. The last line follows because $p_0 > 1$ and $1/r < 1$ and $1 \le \phi$ so,
+\[ \left( \int_M \phi \: \omega^n \right)^{\frac{1}{r}} \le \left( \int_M \phi^{p_0} \: \omega^n \right)^{\frac{1}{r}} \le \left( \int_M \phi^{p_0} \: \omega^n \right) \]
+Taking both sides to the $1/p_0$ power, we find that,
+\[ || \phi ||_{w_0} \le (K')^{\frac{1}{p_0}} || \phi ||_{p_0} \]
+Combining this with the previous result we have,
+\[ || \phi ||_{w_0} \le K'' || \phi ||_1^2 \]
+where the constant $K''$ only depends on $M$, $\omega$, $q$ and $|| e^f ||_q$ (note that $p_0 = 1 + \frac{1}{r} = 1 + \frac{q - 1}{q}$ depends only on $q$) which proves the claim.
+
+\subsection{Step 3: Greens Functions}
+
+In this section we will show that,
+\[ || \varphi ||_{L^1} \le C_3(M, \omega) \]
+By Green's formula $\forall x \in M$ we have,
+\[ \varphi(x) = \frac{1}{\Vol{M}} \int_M \varphi \: \omega^n - \frac{1}{\Vol{M}} \int_M G(x, y) \Delta \varphi(y) \omega^n(y) \]
+Where,
+\[ \Vol{M} = \int_M \omega^n \]
+and $G(x,y)$ is the Green's function of $\Delta_\omega$ and $\Delta_\omega G(x, y) = \delta_x(y)$. We know that $G$ is bounded below by $- C_\omega$. Taking the trace of $\omega_\varphi = \omega + i \partial \bar{\partial} \varphi > 0$ gives, 
+\[ \tr{\omega}{\omega_\varphi} = n + \Delta_\omega \varphi > 0 \]
+and therefore, since $G(x,y) + C_\omega \ge 0$, 
+\[ \frac{1}{\Vol{M}} \int_M \left( G(x, y) + C_\omega \right)  \Delta_\omega \varphi(y)\omega^n \ge -\frac{n}{\Vol{M}} \int_M \left( G(x, y) + C_\omega \right) \omega^n \]
+Since $\varphi$ is continuous and $M$ is compact, it must achieve its maximum at some $x_m \in M$. At that point $\varphi(x_m) = \sup_M \varphi = 0$ and thus,
+\[ \int_M \varphi \: \omega^n = \int_M G(x, y) \Delta_\omega \varphi(y) \omega^n(y) = \frac{1}{\Vol{M}} \int_M (G(x, y) + C_\omega) \Delta_\omega \varphi(y) \omega^n(y)  \]
+where the second equality holds because $\int_M \Delta_\omega \varphi \omega^n = 0$ since $M$ has no boundary.
+Therefore,
+\[  \int_M \varphi \: \omega^n \ge -n \int_M \left( G(x, y) + C_\omega \right) \omega^n  \]
+Since $\sup_M \varphi = 0$ we have $\varphi \le 0$ meaning that,
+\[ || \varphi ||_{L^1} = \int_M | \varphi | \: \omega^n = - \int_ M \varphi \: \omega^n \le n \int_M \left( G(x, y) + C_\omega \right) \omega^n \]
+which proves the claim.
+
+\subsection{The Full Theorem}
+
+Recall that the Poincare innequality gives the estimate,
+\[ || \phi ||_{w_0} \le C_2 || \phi ||_1^2 \]
+where $w_0 = p_0 \chi = (1 + \frac{1}{r}) \frac{n}{n-1} > r$. Since $w_0 > r$, we may apply the result obtained via Moser iteration,
+\[ || \varphi ||_{C^0} \le C_1 || \varphi ||_{w_0} + 1 \le C_1 || \phi ||_{w_0} + C_1 \Vol{M}^{\frac{1}{w_0}} + 1 \]
+to find that,
+\[ || \varphi ||_{C^0} \le C_1 C_2 || \phi ||_1^2 + C_1 \Vol{M}^{\frac{1}{w_0}} + 1 =  C_1 C_2 || \varphi ||_1^2 + C_4 \]
+where $C_4$ is a constant depending on $C_1$, $C_2$, $M$, and $\omega$.
+Finally, the Green's function argument gives,
+\[ || \varphi ||_1 \le C_3 \]
+and thus,
+\[ || \varphi ||_{C^0} \le C_1 C_2 C_3^2 + C_4 \]
+which proves the theorem since each constant only depends on $M$, $\omega$, $q$, and $|| e^f ||_q$. 
+
+\end{document}

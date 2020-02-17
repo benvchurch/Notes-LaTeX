@@ -1,0 +1,1591 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\Xcut}{X_{\text{cut}}}
+
+\begin{document}
+
+\title{Introduction to Complex Analysis and Riemann Surfaces}
+\author{Ben Church}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Holomorphic Maps}
+
+\begin{definition}
+A subset $\Omega \subset \C$ is a domain if $\Omega$ is open and connected.
+\end{definition}
+
+\begin{definition}
+A map $f : \Omega \to \C$ is holomorphic at $z \in \Omega$ if the limit,
+\[ f'(z) = \lim_{h \to 0} \frac{ f(z + h) - f(z) }{h} \]
+exists. The map $f$ is holomorphic on $\Omega$ if it is holomorphic at each $z \in \Omega$. 
+\end{definition}
+
+\begin{proposition}
+Let $f : \Omega \to \C$ be holomorphic at $z \in \Omega$. Then we may write $f$ as a function of two real variables as, $f(x, y) = f(x + i y)$. This done,
+\[ f'(z) = \pderiv{f}{x} = \frac{1}{i} \pderiv{f}{y} \]
+and thus,
+\[ \pderiv{f}{x} + i \pderiv{f}{y} = 0 \] 
+\end{proposition}
+
+
+\begin{proposition}
+\[ \pderiv{f}{z} = \frac{1}{2} \left[ \pderiv{f}{x} - i \pderiv{f}{y} \right] \quad \text{and} \quad \pderiv{f}{\bar{z}} = \frac{1}{2} \left[ \pderiv{f}{x} + i \pderiv{f}{y} \right] \]
+Therefore, if $f$ is holomorphic then 
+\[ \pderiv{f}{z} = f'(z) \quad \text{and} \quad \pderiv{f}{\bar{z}} = 0 \]
+\end{proposition}
+
+
+\begin{definition}
+Let $U \subset \R^m$ then denote the vectorspace of continuous functions $U \to \C$ by $\Class{0}{U}$ and for $n > 0$ define, 
+\[ \Class{n}{U} = \{ f : U \to \R^m \mid \forall p \in U : f'_p \text{ exists and } \forall \bf{v} \in \R^n : f'(\bf{v}) \in \Class{n-1}{U} \} \] 
+where $f' \cdot \bf{v}$ is the map $p \mapsto f'_p(\bf{v})$. Furthermore, the space of smooth functions is,
+\[ \Class{\infty}{U} = \bigcap_{k} \Class{k}{U} \] 
+\end{definition}
+
+
+\begin{theorem}
+Let $\Omega$ be a domain and $f : \Omega \to \C$. Then the following are equivalent,
+\begin{enumerate}
+\item $f : \Omega \to \C$ is holomorphic.
+\item $f \in \Class{1}{\Omega}$ and 
+\[ \pderiv{f}{\bar{z}} = 0 \]
+\item $f \in \Class{1}{\Omega}$ and for $D \subseteq \Omega$ with piecewise $\Class{1}{\Omega}$ boundary we have \[ \oint_{\partial D} f(z) \d{z} = 0 \]
+\item $\forall B_{r}(w) \subsetneq \Omega$ we have,
+\[ f(z) = \frac{1}{2 \pi i} \oint_{\partial B_{r}(w)} \frac{f(\zeta)}{\zeta - z} \d{\zeta} \] 
+for all $z \in B_r(w)$. 
+\item $\forall w \in \Omega \exists r > 0$ such that whenever $|z - w| < r$ we have,
+\[ f(z) = \sum_{n = 0}^\infty a_n(x - w)^n \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We will show that,
+\[ (2) \iff (3) \implies (4) \implies (5) \implies (1) \implies (2) \]
+\begin{enumerate}
+\item[$(4) \implies (5) $]
+We assume that,
+\[ f(z) = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \frac{f(\zeta)}{\zeta - z} 
+\d{\zeta} \]
+We express the function,
+\[ \frac{1}{\zeta - z} = \frac{1}{\zeta - w - (z - w)} = \frac{1}{\zeta - w} \frac{1}{1 - \left( \frac{z -w}{\zeta - w} \right)} = \frac{1}{\zeta - w} \sum_{n = 0}^\infty \left( \frac{z - w}{\zeta - w} \right)^n = \sum_{n = 0}^{\infty} \frac{(z - w)^n}{(\zeta - w)^{n+1}} \]
+Then, formally,
+\[ f(z) = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \left( \sum_{n = 0}^{\infty} \frac{(z - w)^n}{(\zeta - w)^{n+1}} \right) \d{\zeta} = \sum_{n = 0}^\infty \left( \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \frac{\d{\zeta}}{(\zeta - w)^{n+1}} \right) (z - w)^n \]
+However, to interchange the sum and integral we must establish uniform and absolute convergence. We know that $| \zeta - w | = r$ and $z \in B_r(w)$ so $|z - w| < r$ and thus the sum,
+\[ \sum_{n = 0}^\infty \left| \frac{z - w}{\zeta - w} \right|^n  \]
+converges. Furthermore, 
+\[ \left| \left( \frac{z - w}{\zeta - w} \right)^n \right| = \left| \frac{z - w}{\zeta - w} \right|^n < \left| \frac{z - w}{\zeta - w} \right| = M < 1 \]
+so the functions are bounded by $M^n$ whose sum coverges and thus by the Weierstrass $M$-test the series converges absolutly and uniformly. Therefore,
+take,
+\[ a_n = \frac{1}{2 \pi i} \oint\displaylimits_{|\zeta - w| = r} \frac{\d{\zeta}}{(\zeta - w)^{n+1}} \]
+\item[$(5) \implies (1)$]
+It is clear that if,
+\[ f(z) = \sum_{n = 0}^\infty a_n(x - w)^n \]
+then,
+\[ f'(z) = \sum_{n = 1}^\infty n a_n(x - w)^{n-1} \]
+exists. 
+\item[$(1) \implies (2)$]
+Suppose that $\Omega = B_{\delta}(w)$. For each $z \in \Omega$, let $\ell_z$ be the segment joining $w$ to $z$ and define,
+\[ F(z) = \int_{\ell_z} f(\zeta) \d{\zeta} \] 
+Now compute the ratio,
+\[ \frac{F(z + h) - F(z)}{h} = \frac{1}{h} \left[ \int_{\ell_z} f(\zeta) \d{\zeta} - \int_{\ell_{z + h}} f(\zeta) \d{\zeta} \right] \]
+(PROGRESS)
+Because the integral over the tringle is zero, we have,
+\[ \frac{1}{h} \left[ \int_{\ell_z} f(\zeta) \d{\zeta} - \int_{\ell_{z + h}} f(\zeta) \d{\zeta} \right] = \frac{1}{h} \int_{z}^{z + h} f(\zeta) \d{\zeta} = \int_0^1 f(z + th) \d{t} \to f(z) \]
+where we have parametrized the path $z$ to $z + h$ by $z + th$ for $0 \le t \le 1$. 
+Thus, $F'(z) = f(z)$ which implies that $F$ is $\Class{1}{\Omega}$ and holomorphic so,
+\[ \partial{f}{\bar{z}} = 0 \]
+and thus satisfies (2). Therefore, by $(2) \implies (5)$ we have that $F$ is a power seies and thus $f = F'$ is a power series so $f$ is $\Class{1}{\Omega}$. Furthrermore, $f$ is holomorphic which implies that 
+\[ \pderiv{f}{\bar{z}} = 0 \].
+Therefore, we have (2). 
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+For any $z_0 \in \Omega$, either $f \equiv 0$ in a neighborhood of $z_0$ or we can express $f = (z - z_0)^n u(z)$ for $u(z)$ holomorphic and $u(z) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+In a neighborhood of $z_0$, we can write,
+\[ f(z) = \sum_{n = 0}^\infty n_n(z - z_0)^n\]
+Either $c_n = 0$ for each $n$ so $f = 0$ or $c_N \neq 0$ for some $n$ and $c_n - 0$ for $n < N$. Therefore,
+\[ f(z) = \sum_{n \ge N}^\infty c_n(z - z_0)^n = (z - z_0)^N \left( \sum_{m = 0}^\infty c_{N + m} (z - z_0)^m \right) = (z - z_0)^N u(z) \]
+Furthermore, $u(z_0) = c_N \neq 0$ so, by continuity, there exists a neighborhood of $z_0$ on which $n(z) \neq 0$.  
+\end{proof}
+
+
+\begin{theorem}
+Let $f$ be holomorphic on a domain $\Omega$. If $f \equiv 0$ on some open set inside $\Omega$ then $f \equiv 0$ on all of $\Omega$. 
+\end{theorem}
+
+\begin{proof}
+Define,
+\[ \Omega' = \{ z \in \Omega \mid f \equiv 0 \text{ on an open neighborhood of } z \} \]
+Clearly $\Omega'$ is open in $\Omega$ because each $z \in \Omega'$ in inside an open neighborhood of $\Omega$ on which $f$ vanishes so is contained in an open neighborhood of $\Omega'$.
+\\
+Take $z_1 \notin \Omega'$. Thus, $f$ does not vanish identically on every neighborhood of $z$ so there exists a neighborhood $U$ such that $f(z) = (z - z_1)^N u(z)$ for $u(z) \neq 0$. Then $f(z) \neq 0$ on $U \setminus \{z_1\}$. Therefore, $U \subset (\Omega')^C$ because $f$ is nonzero on $U \setminus \{z\}$ and thus cannot be identically zero on any neighborhood of any point of $U$. Thus, $(\Omega')^C$ is open so $\Omega'$ is clopen. However, $\Omega$ is connected and thus $\Omega' = \Omega$.  
+\end{proof}
+
+
+\begin{example}
+Consider the solution to the equation $w^2 = z$. First take the open domain $U = \C \setminus \{ z \in \R \mid z \ge 0 \}$ and for $z = r e^{i \theta}$ with $0 < \theta < 2 \pi$ define $w = r^{1/2} e^{i \theta / 2} = \sqrt{z}$. The function $f(z) = w$ is perfectly holomorphic on $U$. However, the line we choose to remove is artificial, any cut will work with a redefinition of the angular interval. We solve this problem by taking two copies of $U$ called (I) and (II) and then constructing a surface $X$ by gluing (I) and (II) along the cuts such that moving across the cut in $\C$ corresponds to changing sheets. We can define $w$ on all of $X$ by $w(p) = w(z) = \sqrt{z}$ if $p$ is on sheet (I) at position $z$ and otherwise $w(p) = - w(z) = - \sqrt{z}$ if $p$ is on sheet (II) at position $z$.  
+\bigskip\\
+Topologically, $X$ is a sphere minus two points. We call $\hat{X}$ the compactified version of $X$ constrcuted by adding back the two points such that $\hat{X} \cong S^2$. 
+\end{example}
+
+
+\section{Meromorphic Functions}
+
+\begin{definition}
+A function $f : \Omega \to \C$ is meromorphic if, near any $z_0 \in \Omega$, it can be written as,
+\[ f(z) = \sum_{n \ge - N} c_n (z - z_0)^n \] 
+We call $N$ the order of the pole (assuming that $c_n \neq 0$) and $c_{-1}$ the residue at $z_0$. 
+\end{definition}
+
+
+\begin{theorem}[Residue]
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise smooth boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i  \sum_{p \in D} \Res{f(p)} \]
+\end{theorem}
+
+\begin{proof}
+We can deform the path $\partial D$ to a sum of small circles of radius $r$ surrounding each pole. Since $f$ is holomorphic on the region $D$ minus these circles the two integrals along these paths (whose difference is the integral over the boundary) are equal. Thus,
+\begin{align*}
+\oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} & = \sum_{p \in D} \left[ \oint_{\partial B_r(p)}  f(p + z) \d{z}  - 2 \pi i \Res{p}{g}   \right]
+\\
+& = \sum_{p \in D} \left[ \int_0^{2\pi} i \bigg( f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{g} \bigg) \d{\theta}   \right]
+\end{align*}
+However,
+\[ \Res{p}{f} = \lim_{z \to p} (z - p) f(z) = \lim_{h \to 0} f(p + h) h \]
+and thus, for each $\epsilon > 0$ we can choose some $\delta$ such that $r < \delta$ implies that,
+\[ \left| f(z + r r^{i \theta}) r e^{i \theta} - \Res{p}{f} \right| < \epsilon \]
+Therefore,
+\begin{align*}
+\left| \oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} \right| & \le \sum_{p \in D} \left[ \int_0^{2\pi} \Big| f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{g} \Big| \d{\theta}   \right]
+\\
+\le \sum_{p \in D} \int_0^{2 \pi} \epsilon = 2 \pi N \epsilon 
+\end{align*}
+where $N$ is the number of poles. Since $\epsilon$ is arbitrary,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i \sum_{p \in D} \Res{p}{f} \]
+\end{proof}
+
+\begin{theorem}
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise $\mathcal{C}^1$ boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ 
+\frac{1}{2 \pi i} \oint_{\partial D} \frac{f'(z)}{f(z)} \d{z} = \text{(\# of zeros)} - \text{(\# of poles)}
+\]
+\end{theorem}
+
+\begin{theorem}
+At each point $p \in D$ we can expand,
+\[ f(z) = (z - p)^N u(z) \]
+where $u$ is holomorphic and nonvanishing. Therefore,
+\[ \frac{f'(z)}{f(z)} = \deriv{}{z} \log{f(z)} = \deriv{}{z} \left[ (z - p)^N u(z) \right] = \frac{N}{x - p} + \frac{u'(z)}{u(z)} \]
+Thus when $f$ has either a zero ($N > 0$) or a pole ($N < 0$) the logarithmic derivative has residue,
+\[ \Res{p}{\left(\frac{f'}{f}\right)} = N \]
+Therefore the result holds by the residue theorem. 
+\end{theorem}
+
+\begin{corollary}
+Let $f : \Omega \to \C$ be holomorphic take $w \in \C$, then the number of solutions in $D$ to the equation $f(z) - w = 0$ is equal to,
+\[ \#\{ z \in D \mid f(z) = w \} = \oint_{\partial D} \frac{f'(z)}{f(z) - w} \d{z}  \]
+\end{corollary}
+
+\begin{proof}
+Since $f - w$ is holomorphic on $\Omega$ is has no poles. Therefore, the only residues are from roots of $f - w$ i.e. solutions to $f(z) - w = 0$. As above, the integral of the logarithmic derivative counts the number of such poles.  
+\end{proof}
+
+\section{An Elliptic Curve}
+
+Consider the solution to the equation $w^2 = z (z - 1)(z - \lambda)$ with $\lambda \neq 0, 1$. Then we can construct a Riemann surface $X$ on which this function $w(z)$ is everywhere holomorphic such that the compactification $\hat{X}$ is a torus. However, what complex structure does this torus have?
+
+\subsection{Complex Torii} 
+
+\begin{definition}
+We say that $\Lambda \subset \C$ is a non-degenerate lattice if there exist $\omega_1, \omega_2 \in \C$ which are linearly independent over $\R$ such that,
+\[ \Lambda = \{ n \omega_1 + m \omega_2 \mid n,m \in \Z \} \]
+Clearly, $\Lambda$ is a additive subgroup of $\C$ so we may consider the quotient topological group $\C / \Lambda$ which we call a complex torus.
+\end{definition}
+
+\begin{lemma}
+A complex torus $\C / \Lambda$ is topologically a torus.
+\end{lemma}
+
+\begin{proof}
+The space $\C / \Lambda$ has universal cover $\C \to \C / \Lambda$ with group of Deck Transformations $\Z \times \Z$. 
+\end{proof}
+
+\begin{theorem}[Open Mapping]
+Let $f : \Omega \to \C$ be holomorphic and $\Omega \subset \C$ is open then either $f$ is constant or $f(\Omega) \subset \C$ is open.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+If $f : \Omega \to \C$ is not constant then $f$ cannot achive a maximum inside the interior of $\Omega$. 
+\end{theorem}
+
+\begin{proof}
+If $f$ achives a maximum at $z_0 \in \Omega$ then $f(z_0)$ is a boundary point of $f(\Omega^\circ)$ which is open since $f$ is not constant. Thus, $f(z_0) \notin f(\Omega^\circ)$ so $z_0 \notin \Omega^\circ$. 
+\end{proof}
+
+
+\begin{remark}
+Since $\hat{X}$ is open and compact the image of any holomorphic map must also be open and compact unless it is constant. Thus any nonconstant holomorphic function $f : \hat{X} \to \C$ must have an open compact image which is impossible. Thus the only holomorphic functions $f : \hat{X} \to \C$ must be constant. 
+\end{remark}
+
+\begin{remark}
+Since $\hat{X}$ is compact we have seen that there do not exist global holomorphic functions on $\hat{X}$. For example, $w(z)$ is meromorphic with zeros at $z = 0, 1, \lambda$ and a triple pole at $\infty$. Therefore, we must consider holomorphic forms on $\hat{X}$ instead. For example, there exists a nonvanishing holomorphic $1$-form on $\hat{X}$,
+\[ \frac{\d{z}}{w} = 
+\begin{cases}
+\frac{\d{z}}{\sqrt{z(z - 1)(z - \lambda)}}   & \text{ on (I)}
+\\
+\frac{-\d{z}}{\sqrt{z(z - 1)(z - \lambda)}}   & \text{ on (II)}
+\end{cases} \]
+We can check this in local coordinates. 
+\end{remark}
+
+\begin{theorem}
+Every holomorphic or antiholomorphic $1$-form on a Riemann surface ($1$-dimensional complex manifold) is closed. 
+\end{theorem}
+
+\begin{proof}
+Let $\omega$ be a holomorphic $1$-form then, in local coordinates $z$ we can write $\omega = f(z) \d{z}$. Thus,
+\[ \d{\omega} = \d{z} \wedge \partial_z f(z) \d{z} + \d{\bar{z}} \wedge \partial_{\bar{z}} f(z) \d{z} = \partial_{\bar{z}} f(z) \d{\bar{z}} \wedge \d{z} = 0 \]
+The first term vanishes by antisymmetry the second because $f$ is holomorphic so $\partial_{\bar{z}} f = 0$ by the Cauchy-Riemann equations. An identical argument flipping $z$ and $\bar{z}$ holds in the antiholomorphic case. 
+\end{proof}
+
+\begin{theorem}
+Let $\psi$ be a meromorphic form on a Riemann surface $X$ then summing over the residues at the poles of $\psi$ gives,
+\[ \sum_{p \in X} \Res{p}{\psi} = 0 \]
+\end{theorem}
+
+
+\begin{remark}
+ Since $\hat{X}$ is topologically a torus we have $\pi_1(\hat{X}) \cong \Z \times \Z$ so any two paths from $p_0$ to $p$ differ, up to homotopy, by concatenation with $\gamma_1$ and $\gamma_2$ the generating loops. That is, if $\gamma$ and $\gamma'$ are paths from $p_0$ to $p$ then $\gamma' \sim \gamma * \gamma_1^n * \gamma_2^m$. Define the periods,
+\[ \omega_1 = \oint_{\gamma_1} \omega \quad \text{and} \quad \omega_2 = \oint_{\gamma_2} \omega \]
+and the lattice $\Lambda$ with periods $\omega_1$ and $\omega_2$. This is more conveniently expressed using de Rham cohomology which is isomorphic to the fundamental group and thus also generated by two cycles $A$ and $B$ which we denote by,
+\[ H^1_{\text{dR}}(\hat{X}) = \Z \oint_A \: \oplus \:   \Z \oint_B \]
+Then if $\gamma'$ and $\gamma$ are paths with the same endpoints then we can write,
+\[ \int_{\gamma'} = \int_\gamma \: + \:  n \oint_A \: + \: m \oint_B \]
+for some $n, m \in \Z$ meaning that for any $1$-form $\omega$ we have,
+\[ \int_{\gamma'} \omega = \int_\gamma \omega +  n \oint_A \omega+ m \oint_B \omega \]
+\end{remark}
+
+\begin{remark}
+There exists a meromorphic form $\omega_{pq}$ on $\hat{X}$ with simple poles at exactly $p$ and $q$ with residue $+1$ at $p$ and $-1$ at $q$. Furthermore, we can fix,
+\[ \oint_A \omega_{pq} = 0 \]
+since we can add $\omega_{pq} \to \omega_{pq} + c \omega$ without chaning the pole structure since $\omega$ is holomorphic. Furthermore,
+\[ \oint_A \Big( \omega_{pq} + c \omega \Big) = \oint \omega_{pq} + c \omega_1 \]
+Since $\omega_1$ is nonzero ($\omega_1$ and $\omega_2$ span a non-degenerate lattice) we can fix $c$ such that the integral is zero. 
+\end{remark}
+
+
+\subsubsection{Riemann Bilinear Relations and Abelian Integrals}
+Consider the Abelian integral of a $1$-form $\omega$ on $\hat{X}$,
+\[ f(z) = \int_{p_0}^z \omega \]
+which is a function on $\Xcut$ which transforms as,
+\[ f(z + A) = f(z) + \oint_A \omega = f(z) + \omega_1 \quad \text{and} \quad f(z + B) = f(z) + \oint_B \omega = f(z) + \omega_2 \]
+In local coordinates $\zeta = x + i y$,
+\[ \omega = \omega_{\zeta} \d{\zeta} \]
+and thus,
+\[ i \omega \wedge \bar{\omega} = |\omega_\zeta |^2 i \d{\zeta} \vee \d{\bar{\zeta}} = 2 | \omega_\zeta|^2 \d{x} \wedge \d{y} \]
+which is proportional to the Euclidean area form by a positive quantitiy. Thus,
+\[ 0 < \int_{\hat{X}} i \omega \wedge \bar{\omega} = \int_{\Xcut} i \omega \wedge \bar{\omega} = \int_{\Xcut} i \omega \wedge \bar{\omega} = i\int_{\Xcut} \d{f} \wedge \bar{\omega} = i \int_{\Xcut} \d{(f \bar{\omega})} = i \int_{\partial \Xcut} f \bar{\omega} \]
+by Stokes' theorem. We have used the fact that,
+\[ \d{(f \bar{\omega})} = \d{f} \wedge \bar{\omega} + f \d{\bar{\omega}} \]
+and that $\d{\bar{\omega}} = 0$ since $\bar{\omega}$ is antiholomorphic and thus closed on a Riemann surface. Thus we should compute the boundary integral,
+\begin{align*}
+i \int_{\partial \Xcut} f \bar{\omega} & = i \left( \oint_A f(z) \overline{\omega(z)} - \oint_A f(z + B) \overline{\omega(z + B)} - \oint_B f(z) \overline{\omega(z)} + \oint_B f(z + A) \overline{\omega(z + A)} \right)
+\end{align*} 
+Since $\omega$ is a form on $\hat{X}$ we know $\omega(z + A) = \omega(z)$ and $\omega(z + B) = \omega(z)$. Thus,
+\begin{align*}
+i \int_{\partial \Xcut} f \bar{\omega} & = i \left( \oint_A \Big( f(z)  - f(z + B) \Big) \overline{\omega(z)} + \oint_B \Big( f(z + A) - f(z) \Big) \overline{\omega(z)} \right)
+\\
+& = i \left( \oint_A \Big( - \oint_B \omega \Big) \overline{\omega(z)} + \oint_B \Big( \oint_A \omega \Big) \overline{\omega(z)} \right)
+\\
+& = i \left( \: \Big( \oint_A \omega \Big) \overline{\Big( \oint_B \omega \Big)} - \Big( \oint_B \omega \Big) \overline{\Big( \oint_A \omega \Big)} \: \right)
+\\
+& = i \left( \omega_1 \bar{\omega_2} - \omega_2 \bar{\omega_1} \right) 
+\end{align*} 
+Therefore, the imaginary part of $\omega_1 \bar{\omega_2}$ is nonzero so the two periods cannot be dependent over $\R$ otherwise we would be able to write $\omega_1 = \lambda \omega_2$ or $\omega_2 = \lambda \omega_1$ with $\lambda \in \R$ and either way, $\omega_1 \bar{\omega_2} \in \R$. 
+\bigskip\\
+We need to establish one other formula using this trick. We need to compute the integrals of the forms $\omega_{pq}$ about the cycles $A$ and $B$. Again we use the Abelian integral,
+\[ f(z) = \int_{p_0}^z \omega \]
+on $\Xcut$. Then we have,
+\begin{align*}
+\oint_{\partial \Xcut} f \omega_{pq} & = \left( \oint_A \Big( f(z)  - f(z + B) \Big) \omega_{pq}(z) + \oint_B \Big( f(z + A) - f(z) \Big) \omega_{pq}(z) \right)
+\\
+& = \left( \oint_A \Big( - \oint_B \omega \Big) \omega_{pq}(z) + \oint_B \Big( \oint_A \omega \Big) \omega_{pq}(z) \right)
+\\
+& = \left( \omega_1  \oint_B \omega_{pq}  - \omega_2 \oint_A \omega_{pq} \right)
+\\
+& = i \left( \omega_1 \bar{\omega_2} - \omega_2 \bar{\omega_1} \right) = \omega_1 \oint_B \omega_{pq} 
+\end{align*} 
+since we have set the integral of $\omega_{pq}$ over the $A$ cycle to zero. However, by the residue theorem,
+\[ \oint_{\partial \Xcut} f \omega_{pq} = 2 \pi i \sum_{p} \Res{p}{f \omega_{pq}} = 2 pi i \left[ f(p) - f(q) \right] \]
+Therefore, 
+\[ \oint_B \omega_{pq} = \frac{2 \pi i}{\omega_1} \left[ f(p) - f(q) \right] \]
+
+\subsubsection{Abel's Theorem}
+
+We can now show the equivalence between $\hat{X}$ and a complex torus $\C / \Lambda$. 
+
+\begin{theorem}
+For each $\lambda \neq 0, 1$ there exists a non-degenerate lattice $\Lambda \subset \C$ such that there is a biholomorphic map $f : \hat{X} \to \C / \Lambda$. 
+\end{theorem}
+
+\begin{proof}
+Considered a closed nonvanishing holomorphic $1$-form $\omega$ on $\hat{X}$ and a fixed point $p_0 \in \hat{X}$.
+Define the map $I : \hat{X} \to \C / \Lambda$ via,
+\[ I(p) = \int_{\gamma} \omega \]
+where $\gamma$ is some path from $p_0 \to p$. This map is well-defined because if I choose a different path $\gamma'$ from $p_0$ to $p$ then $\gamma' \sim \gamma * \gamma_1^n * \gamma_2^m$.
+Suppose that two paths $\gamma \sim \delta$ are homotopic. Then we have a map $H: D^2 \to \hat{X}$ with boundary $\gamma * \delta^{-1}$. By Stokes' Theorem,
+\[ \int_{\gamma} \omega - \int_{\delta} \omega = \int_{\gamma * \delta^{-1}} \omega = \int_{\partial H(D^2)} \omega = \int_{H(D^2)} \d{\omega} = 0 \]
+because $\omega$ is closed so $\d{\omega} = 0$. Therefore,
+\[ \int_{\gamma} \omega = \int_{\delta} \omega \]
+In particular,
+\[ \int_{\gamma'} \omega = \int_{\gamma * \gamma_1^n * \gamma_2^m} \omega = \int_{\gamma} \omega + n \int_{\gamma_1} \omega + m \int_{\gamma_2} \omega = \int_{\gamma} \omega + n \omega_1 + m \omega_2 \]
+Therefore, $I(p)$ is defined up to an element of $\Lambda$ so $I : \hat{X} \to \C / \Lambda$ is well-defined. Furthermore, we have proved that $\Lambda$ is non-degenerate via Abelian integrals. Finally, we can show that $I$ is one-to-one assuming Abel's theorem. If $p$ and $q$ are distinct points and $I(p) = I(q)$ then there exists a meromorphic function $f$ on $\hat{X}$ with a zero at $p$ and pole at $q$. Thus, the meromorphic form $f \omega$ has a unique pole at $q$ contradicting the fact that its residues must sum to zero. Finally, $I : \hat{X} \to \C / \Lambda$ is a nonconstant holomorphic map between compact connected Riemann surfaces and thus surjective. 
+\end{proof}
+
+\begin{theorem}[Abel]
+Let $p_1, \cdots, p_M, q_1, \dots, q_N$ be points on $\hat{X}$. Then there exists a meromorphic function $f$ on $\hat{X}$ with zeroes at $p_1, \dots, p_M$ and poles at $q_1, \dots, q_N$ if and only if $M = N$ and
+\[ \sum_{i = 1}^M I(p_i) = \sum_{i = 1}^N I(q_i) \]
+\end{theorem}
+
+\begin{proof}
+First assume the Abel condition. We will first construct the logarithmic derivative of $f$. Consider the meromorphic form,
+\[ \psi = \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \]
+We need to show that the function,
+\[ f = \exp{\left( \int_{p_0}^z \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right) } \]
+is well-defined and has the required zero-pole structure. Since,
+\[ \frac{\d{f}}{f} = \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \]
+which has poles at $p_i$ and $q_i$ with residue $+1$ at each $p_i$ and $-1$ at each $q_i$. Thus $f$ has zeros at the $p_i$ and simple poles at the $q_i$. Furthermore, cut $\hat{X}$ along $A$ and $B$ cycles to form $\Xcut$. Given $z \in \Xcut$ define,
+\[ \ell_{\gamma}(z) = \int_{\gamma} \left[ \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right] \]
+by picking some path $\gamma$ from $p_0$ to $z$ in $\Xcut$. If we choose two different paths $\gamma$ and $\gamma'$ then,
+\[ \left( \int_{\gamma} \sum_{j = 1}^M \omega_{p_j q_j} + c \omega  \right) - \left( \int_{\gamma'} \sum_{j = 1}^M \omega_{p_j q_j} + c \omega  \right) = \left( \int_{\partial D} \sum_{j = 1}^M \omega_{p_j q_j} + c \omega  \right)  = 2 \pi i N \]
+Where $N$ is the difference between the number of $p$ poles enclosed and the number of $q$ poles enclosed by $D$ with boundary $\gamma$ composed with $\gamma'$ inversed. Since $N$ is an integer we have shown that,
+\[ \exp{\ell_{\gamma}(z)} = \exp{\left( \ell_{\gamma'}(z) + 2 \pi i N \right)} = \exp{\ell_{\gamma'}(z)} e^{2 \pi i N} = \exp{\ell_{\gamma'}(z)} \]
+and therefore,
+\[ f(z) = \exp{\ell_{\gamma}(z)} \]
+is independent of the choice of path. Consider,
+\begin{align*}
+f(z + A) & = \exp{\left( \int_{p_0}^{z + A} \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right)} = f(z) \exp{\left( \oint_A \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right)} 
+\\
+& = f(z) \exp{\left( c \oint_A \omega \right) } = f(z) \exp{(c \omega_1)}
+\end{align*}
+Furthermore,
+\begin{align*}
+f(z + B) & = \exp{\left( \int_{p_0}^{z + B} \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right)} = f(z) \exp{\left( \oint_B \sum_{j = 1}^M \omega_{p_j q_j} + c \omega \right)} 
+\\
+& = f(z) \exp{\left( \frac{2 \pi i}{\omega_1} \sum_{j = 1}^M \left[ f(p_i) - f(p_j) \right] + c \omega_2 \right) } 
+\end{align*}
+However, we know that,
+\[ \sum_{j = 1}^M I(p_j) = \sum_{j = 1}^M I(q_j) \]
+which images in $\C / \Lambda$. Thus, we have,
+\[ \sum_{j = 1}^M \left[ f(p_j) - f(q_j) \right] = m_1 \omega_1 + m_2 \omega_2 \]
+viewed as a map $\Xcut \to \C$. Then if we take,
+\[ c = - \frac{2 \pi i}{\omega_1} m_2 \]
+we have,
+\[ f(z + A) = f(z) \exp{(c \omega_1)} = f(z) \exp{(-2 \pi i m_2)} = f(z) \]
+and 
+\begin{align*}
+f(z + B) & = f(z) \exp{\left( \frac{2 \pi i}{\omega_1} \sum_{j = 1}^M \left[ f(p_j) - f(q_j) \right] + c \omega_2 \right)} 
+\\
+& = f(z) \exp{\left( 2 \pi i m_1 + 2 \pi i m_2 \frac{\omega_2}{\omega_2} - 2 \pi i m_2 \frac{\omega_2}{\omega_1} \right)} = f(z) \exp{(2 \pi i m_1)} = f(z)
+\end{align*}
+Therefore, $f$ is a well-defined meromorphic function on $\hat{X}$ with the correct zero-pole structure. 
+\end{proof}
+
+\section{Weierstrass Function Theory}
+
+We want to consider doubly periodic meromorphic functions. That is, meromorphic functions $f : \C / \Lambda \to \C$. 
+\begin{theorem}
+Let $\Lambda \subset \C$ be a Lattice. The function,
+\[ \wp(z) = \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times } \left[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} \right] \]
+is a well-defined meromorphic function $\wp : \C / \Lambda \to \C$ with double poles on $\Lambda$. 
+\end{theorem}
+
+\begin{proof}
+We can write,
+\begin{align*} 
+\frac{1}{(z + \omega)^2} & = - \deriv{}{z} \left( \frac{1}{z + \omega} \right) = - \frac{1}{\omega} \deriv{}{z} \left[ \sum_{n = 0}^\infty \left( - \frac{z}{\omega} \right)^n \right] = - \frac{1}{\omega} \sum_{n = 0}^\infty \left[ \frac{ (-1)^n n z^{n-1}}{\omega^{n}} \right] 
+\\
+& = \frac{1}{\omega^2} \left[ \sum_{n = 0}^\infty (-1)^n (n + 1) \frac{z^n}{\omega^n} \right]  
+\end{align*}
+and this series is uniformly convergent for $|z| < |\omega|$. Thus,
+\[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} = \frac{1}{\omega^2} \sum_{n=1}^\infty (-1)^n (n+1) \frac{z^n}{\omega^n} \]
+and therefore, 
+\[ \wp(z) = \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times} \left[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} \right] \]
+converges uniformly. Furthermore, 
+\[ \wp'(z) = - \frac{2}{z^3} + \sum_{\omega \in \Lambda^\times} \left( - \frac{2}{(z + \omega)^3} \right) = - 2 \sum_{\omega \in \Lambda} \frac{1}{(z + \omega)^3} \]
+Thus, $\wp'(z)$ is doubly periodic with periods $\omega_1$ and $\omega_2$. Thus, $\wp(z + \omega_1) = \wp(z) + c_1$ so $\wp(-\tfrac{1}{2} z_1) = \wp(\tfrac{1}{2} z) + c_1$ but $\wp$ is even so $c_1 = 0$. The same for $\omega_2$. Thus, $\wp(z + \omega_1) = \wp(z)$ and $\wp(z + \omega_2) = \wp(z)$. 
+\end{proof}
+
+\begin{proposition}
+The function,
+\[ \zeta(z) = \frac{1}{z} + \sum_{\omega \in \Lambda^\times} \left[ \frac{1}{z + \omega} - \frac{1}{\omega} + \frac{z}{\omega^2} \right] \]
+is meromorphic and has simple poles on $\Lambda$.
+\end{proposition}
+
+\begin{proof}
+We obtain $\zeta$ by integrating $\wp$ term by term. However, $\wp$ converges uniformly to $\zeta$ converges uniformly to the integral of $\wp$ on the fundamental domain. 
+\end{proof}
+
+\begin{proposition}
+We have $\zeta(z + \omega_1) - \zeta(z) = \eta_1$ and $\zeta(z + \omega_2) - \zeta(z) = \eta_2$ where $\eta_1 \omega_2  - \eta_2 \omega_1 = 2 \pi i$. 
+\end{proposition}
+
+\begin{proof}
+Because $\zeta'(z + \omega_1) = - \wp(z + \omega_1) = - \wp(z) = \zeta'(z)$ we have $\zeta'(z + \omega_1) = \zeta'(z) + \eta_1$ and the same for $\omega_2$. Furthermore, $\zeta$ has residue $1$ at zero so the integral around the fundamental domain gives,
+\[ 2 \pi i = \oint_{\gamma} \zeta(z) \d{z} = \int_A (\zeta(z)  \zeta(z + B)) \d{z} + \int_B (\zeta(z + A) - \zeta(z)) \d{z} = - \eta_2 \omega_1 + \eta_1 \omega_2 \]
+\end{proof}
+
+\begin{definition}
+The meromorphic form $\omega_{pq}(z) = \left[ \zeta(z - p) - \zeta(z - q) \right] \d{z}$ has simple at $p$ and $q$ with residue $1$ at $p$ and $-1$ at $q$. Furthermore, $\omega_{pq}$ is doubly periodic because,
+\[ \omega_{pq}(z + \omega_1) = \left[ \zeta(z + \omega_1 - p) - \zeta(z + \omega_1 - p) \right] \d{z} = \left[ \zeta(z - p) + \eta_1 - \zeta(z + - p) - \eta_1 \right] \d{z} = \omega_{pq}(z) \]
+and the same for $\omega_2$. Thus, $\omega_{pq}$ is a meromorphic form on $\C / \Lambda$. 
+\end{definition}
+
+
+\begin{definition}
+Define the holomorphic function,
+\[ \sigma(z) = \exp{\left( \int_0^z \zeta(z') \d{z'} \right)} = z \prod_{\omega \in \Lambda^\times} \left( 1 + \frac{z}{\omega} \right) e^{-\frac{z}{\omega} + \tfrac{1}{2} \frac{z^2}{\omega^2}} \]
+which has simple zeros on $\Lambda$.
+\end{definition}
+
+\begin{proposition}
+The function $\sigma$ transforms as,
+\[ \frac{\sigma'(z + \omega_1)}{\sigma(z + \omega_1)} - \frac{\sigma'(z)}{\sigma(z)} = \zeta(z + \omega) - \zeta(z) = \eta_1 \]
+and therefore,
+\[ \sigma(z + \omega_1) = \sigma(z) e^{\eta_1 z + \mu_1} \]
+with $\mu_1 = \pi i + \tfrac{1}{2} \eta_1 \omega_1$ up to $2 \pi i \Z$. Thus,
+\[ \sigma(z + \omega_1) = - \sigma(z) e^{\eta_1(z + \frac{1}{2} \omega_1)} \] 
+\end{proposition}
+
+\begin{theorem}[Abel]
+There exists a meromorphic function $f : \C / \Lambda \to \C$ with zeros at $p_1, \dots, p_M$ and poles at $q_1, \dots, p_N$ iff $M = N$ and,
+\[ \sum_{j = 1}^M I(p_j) = \sum_{j = 1}^N I(p_i) \] 
+where $I$ is the identity map on $\C / \Lambda$. 
+\end{theorem}
+
+\begin{proof}
+We can choose representatives $p_j, q_j \in \C$ such that,
+\[ \sum_{j = 1}^{M} p_j = \sum_{j = 1}^N q_j \]
+as elements of $\C$. Now define the function,
+\[ f(z) = \frac{\prod_{j = 1}^M \sigma(z - p_j)}{\prod_{i = 1}^N \sigma(z - q_j) } \]
+Now,
+\begin{align*}
+f(z + \omega_1) = \frac{\prod_{j = 1}^M \sigma(z + \omega_1 - p_j)}{\prod_{i = 1}^N \sigma(z + \omega_1 - q_j) } = \frac{\prod_{j = 1}^M \sigma(z - p_j)e^{\eta_1(z - p_j)}}{\prod_{i = 1}^N \sigma(z - q_j) e^{\eta_1(z - q_j)}}
+\end{align*} 
+where the factors of $-1$ and $e^{\frac{1}{2} \eta_1 \omega_1}$ cancel out because there are equal numbers of factors in the numerator and denominator. Therefore,
+\[ f(z + \omega_1) = f(z) \exp{\left[ \sum_{j = 1}^N \eta_1 (p_j - q_j) \right]} \]
+However, 
+\[ \sum_{j = 1}^N (p_j - q_j) = 0 \]
+so $f(z + \omega_1) = f(z)$ and similarly $f(z + \omega_2) = f(z)$ so $f$ descends as a holomorphic function of the quotient $f : \C / \Lambda \to \C$.
+\end{proof}
+
+\subsection{The Defining Differential Equation for $\wp$}
+
+We need to work out he expansion fo $\wp(z)$ near $0$. We have,
+\[ \frac{1}{(z - \omega)^2} = \frac{1}{\omega^2} \cdot \frac{1}{(1 - \frac{z}{\omega})^2} = \frac{1}{\omega^2} \sum_{n = 0}^\infty (m + 1) \left( \frac{z}{\omega} \right)^m \]
+Therefore,
+\begin{align*}
+\wp(z) &= \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times} \sum_{m = 1}^\infty (m + 1) \frac{z^{m}}{\omega^{m + 2}} 
+\\
+& = \frac{1}{z^2} + \sum_{m = 1}^\infty (m + 1) z^m \left( \sum_{\omega \in \Lambda^\times} \frac{1}{\omega^{m+2}} \right) 
+\\
+& = \frac{1}{z^2} + \sum_{k = 1}^\infty (2 k + 1) z^{2k} G_{k+1}(\Lambda) 
+\end{align*}
+where we have defined,
+\[ G_{k}(\Lambda) = \sum_{\omega \in \Lambda^\times} \frac{1}{\omega^{2k}} \] 
+The odd terms vanish because if we sum an odd function over the lattice then we get zero. 
+Explicitly,
+\begin{align*}
+\wp(z) = \frac{1}{z^2} + 3 G_2(\Lambda) z^2 + 5 G_3(\Lambda) z^4 + O(z^6) 
+\end{align*}
+Next,
+\[ \wp'(z) = - \frac{2}{z^3} + \sum_{k = 1}^\infty (2 k + 1) (2k) G_{k+1}(\Lambda) z^{2k - 1} \]
+which we sum as,
+\[ \wp'(z) = - \frac{2}{z^3} + 6 G_2(\Lambda) z + 20 G_3(\Lambda) z^3 + O(z^5) \]
+Thus, compute,
+\begin{align*}
+\wp'(z)^2 & = \left(  - \frac{2}{z^3} + 6 G_2(\Lambda) z + 20 G_3(\Lambda) z^3 + O(z^5) \right)^2 
+\\
+& = \frac{4}{z^6} - 24 G_2(\Lambda) \frac{1}{z^2} - 80 G_3(\Lambda) + O(z^2) 
+\end{align*}
+Similarly, compute,
+\begin{align*}
+\wp(z)^3 & = \left( \frac{1}{z^2} + 3 \Lambda_2(\Lambda) z^2 + 5 G_3(\Lambda) z^4 + O(z^6) \right)^3
+\\
+& = \frac{1}{z^6} + 9 G_2(\Lambda) \frac{1}{z^2} + 15 G_3(\Lambda) + O(z^2) 
+\end{align*}
+Therefore,
+\begin{align*}
+\wp'(z)^2 - 4 \wp(z)^3 & = - 24 G_2(\Lambda) \frac{1}{z^2} - 36 G_2(\Lambda) \frac{1}{z^2} - 80 G_3(\Lambda) - 60 G_3(\Lambda) + O(z^2) 
+\\
+& = - 60 G_2(\Lambda) \frac{1}{z^2} - 140 G_3(\Lambda) + O(z^2)
+\end{align*}
+Which implies that,
+\begin{align*}
+\wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda) = O(z^2)
+\end{align*}
+Therefore the function,
+\[ \wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda) \]
+is holomorphic on $\C$ and is doubly periodic and thus constant. However, it vanishes at $z = 0$ and thus must be the zero function. Therefore, we have the differential equation,
+\[ \wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda)  = 0 \]
+
+\subsubsection{Inverse to the Abel Map} 
+
+Define $g_2 = 60 G_2(\Lambda)$ and $g_3 = 140 G_3(\Lambda)$. Then we have the fundamental differential equation,
+\[ \wp'(z)^2 = 4 \wp(z)^3 - g_2 \wp(z) - g_3 \] 
+This implies that,
+\begin{align*}
+\int_{0}^{z} \frac{\wp'(z) \d{z}}{\sqrt{4 \wp(z)^3 - g_2 \wp(z) - g_3}} = z 
+\end{align*}
+Let $u = \wp(z)$ then we have,
+\[ \int_{\infty}^{\wp(z)} \frac{\d{u}}{\sqrt{4 u^3 - g_2 u - g_3}} = z\]
+Thus if we introduce the elliptic integral,
+\[ E(v) = \int_{\infty}^v \frac{\d{u}}{\sqrt{4 u^3 - g_2 u - g_3}} \]
+then we have,
+\[ E(\wp(z)) = z \]
+ 
+\section{Jacobi Function Theory}
+
+\begin{definition}
+For a lattice $\Lambda = \{ m + n \tau \mid m,n \in \Z \} \subset \C$ with $\Im{\tau} > 0$ we define,
+\[ 
+\theta(z | \tau) = \sum_{n \in \Z} e^{\pi i n^2 \tau + 2 \pi i n z} \]
+which converges because,
+\[ \left| e^{\pi i n^2 \tau + 2 \pi i n z} \right| = e^{- \pi n^2 \Im{\tau}} \]
+and thus the sum coverges uniformly by the $M$-test. 
+\end{definition}
+
+\begin{lemma}
+The $\theta$ function transforms as,
+\[ \theta(z + 1 | \tau) = \theta(z | \tau) \quad \quad \theta(z + \tau | \tau) = e^{- \pi i \tau - 2 \pi i z} \theta(z | \tau) \]
+The second transformation property can be written as,
+\[ \deriv{}{z} \log{\theta(z + \tau | \tau)} = - 2 \pi i + \deriv{}{z} \log{\theta(z | \tau)} \]
+\end{lemma}
+
+\begin{proposition}
+The theta function has $1$ zero in the fundamental domain of $\C / \Lambda$. 
+\end{proposition}
+
+Consider the line integral,
+\[ \oint_C z \frac{\theta'(z | \tau)}{\theta(z | \tau)} \d{z} = 2 \pi i z_0 \]
+by the residue theorem. However,
+\begin{align*}
+\oint_{\partial X_{\text{cut}}} & z \frac{\theta'(z|\tau)}{\theta(z | \tau)} \d{z} 
+\\
+& =  \int_A z \frac{\theta'(z|\tau)}{\theta(z | \tau)} \d{z} - \int_A (z + \tau) \frac{\theta'(z + \tau | \tau)}{\theta(z + \tau | \tau)} \d{z} - \int_B z \frac{\theta'(z|\tau)}{\theta(z | \tau)} \d{z} + \int_B (z + 1) \frac{\theta'(z + 1 |\tau)}{\theta(z + 1 | \tau)} \d{z}
+\\
+& =  \int_A z \frac{\theta'(z|\tau)}{\theta(z | \tau)} \d{z} - \int_A (z + \tau) \left( \frac{\theta'(z  | \tau)}{\theta(z  | \tau)} - 2 \pi i \right) \d{z} + \int_B  \frac{\theta'(z  |\tau)}{\theta(z | \tau)} \d{z}
+\\
+& =  2 \pi i \int_A (z + \tau) \d{z}  - \int_A \tau \frac{\theta'(z  | \tau)}{\theta(z  | \tau)} \d{z} + \int_B  \frac{\theta'(z  |\tau)}{\theta(z | \tau)} \d{z}
+\\
+& =  2 \pi i \left( \tau + \tfrac{1}{2} \right)  - \tau \left( \log{\theta(1 | \tau)} - \log{\theta(0 | \tau)} \right) + \left( \log{\theta(\tau | \tau)} - \log{\theta(0 | \tau)} \right) 
+\\
+& =  2 \pi i \left( \tau + \tfrac{1}{2} \right) - \pi i \tau = \pi i (\tau + 1)
+\end{align*}
+Thus,
+\[ z_0 = \frac{1 + \tau}{2} \]
+We generalize,
+\[ \theta[\delta', \delta''](z | \tau) = \sum_{n \in \Z} \exp{\left[\pi i (x + \delta')^2 \tau + 2 \pi i (n + \delta') (z + \delta'') \right]} \]
+In particular, take,
+\begin{align*}
+\theta_1(z | \tau) & = \theta[1/2, 1/2](z | \tau) = \sum_{n \in \Z}  \exp{ \left[ \pi i (x + \tfrac{1}{2})^2 \tau + 2 \pi i (n + \tfrac{1}{2}) (z + \tfrac{1}{2}) \right] } 
+\\
+& = \exp{\left[ \tfrac{\pi i }{4} \tau + \pi i (z + \tfrac{1}{2}) \right]} \theta(z + \tfrac{1 + \tau}{2} | \tau) 
+\end{align*} 
+which has its zero at the origin and is odd.
+\begin{lemma}
+The $\theta_1$ function transforms as,
+\[ \theta_1(z + 1 | \tau) = - \theta_1(z | \tau) \quad \quad \theta_1(z + \tau | \tau) = - e^{- \pi i \tau - 2 \pi i z} \theta_1(z | \tau) \]
+\end{lemma}
+
+\begin{theorem}[Abel]
+There exists a meromorphic function $f : \C / \Lambda \to \C$ with zeroes at $p_1, \dots, p_M$ and poles at $q_1, \dots, q_N$ if and only if $M = N$ and 
+\[ \sum_{j = 1}^M I(p_j) = \sum_{j = 1}^N I(q_j) \]
+\end{theorem}
+
+\begin{proof}
+The Abel map is given by,
+\[ I(p) = \int_0^p \d{z} = p \]
+as a map $\C / \Lambda \to \C / \Lambda$. Assuming the Abel condition, we can choose representatives $p_1, \dots, p_j, q_1, \dots, q_j \in \C$ such that,
+\[ \sum_{j = 1}^M p_j = \sum_{j = 1}^N q_j \]
+Define,
+\[ f(z) = \frac{\prod_{j = 1}^M \theta_1(z - p_j| \tau)}{\prod_{j = 1}^N \theta_1(z - q_j | \tau)} \]
+Therefore,
+\[ f(z + 1) = \frac{\prod_{j = 1}^M \theta_1(z + 1 - p_j| \tau)}{\prod_{j = 1}^N \theta_1(z + 1 - q_j | \tau)} = \frac{\prod_{j = 1}^M \theta_1(z - p_j| \tau)}{\prod_{j = 1}^N \theta_1(z - q_j | \tau)}  = f(z) \]
+and similarly,
+\begin{align*}
+f(z + \tau) & = \frac{\prod_{j = 1}^M \theta_1(z + \tau - p_j| \tau)}{\prod_{j = 1}^N \theta_1(z + \tau - q_j | \tau)} = \frac{\prod_{j = 1}^M \theta_1(z - p_j| \tau) \left( - e^{- \pi i \tau - 2 \pi i (z - p_j)} \right)}{\prod_{j = 1}^N \theta_1(z - q_j | \tau)\left( - e^{- \pi i \tau - 2 \pi i (z - q_j)} \right)} 
+\\
+& = \frac{\prod_{j = 1}^M \theta_1(z + \tau - p_j| \tau)}{\prod_{j = 1}^N \theta_1(z + \tau - q_j | \tau)} \exp{\left[ 2\pi i \sum_{j = 1}^M \bigg( I(p_j) - I(q_j) \bigg) \right]} = f(z)
+\end{align*}
+which holds since 
+\[ \exp{\left[ 2\pi i \sum_{j = 1}^M \bigg( I(p_j) - I(q_j) \bigg) \right]} = 1 \]
+Thus $f : \C \to \C$ is doubly periodic on $\Lambda$ so it descends to a meromorphic function $f : \C / \Lambda \to \C$. 
+\end{proof}
+
+\begin{proposition}
+\[ \wp(z) = - \nderiv{2}{}{z} \log{\left( \frac{\theta_1(z | \tau)}{\theta_1'(0 | \tau)} \right)} + c(\tau) \]
+where the constant $c(\tau)$ is given by,
+\[ c(\tau) = \frac{1}{3} \frac{\theta'''_1(0 | \tau)}{\theta'_1(0 | \tau)} \]
+\end{proposition}
+
+\begin{theorem}
+The Jacobi $\theta$ functions admit product expansion,
+\[ \theta(z | \tau) = \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1} e^{2 \pi i z} \right) \left(1 + q^{2n - 1} e^{-2 \pi i z} \right)\]
+where $q = e^{\pi i \tau}$. 
+\end{theorem}
+
+\begin{proof}
+By construction, these functions have the same set of poles on $\C$. Now let,
+\[ T(z | q) = \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1} e^{2 \pi i z} \right) \left(1 + q^{2n - 1} e^{-2 \pi i z} \right) \]
+Clearly, $T(z + 1) = T(z)$ since $e^{x + 2 pi i} = e^x$. Furthermore, consider,
+\begin{align*}
+T(z + \tau) & = \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1} e^{2 \pi i z + 2 \pi i \tau} \right) \left(1 + q^{2n - 1} e^{-2 \pi i z - 2 \pi i \tau } \right)
+\\
+& = \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1 + 2} e^{2 \pi i z } \right) \left(1 + q^{2n - 1 - 2} e^{-2 \pi i z } \right)
+\\
+& = \frac{1 + q^{-1} e^{-2 \pi i z}}{1 + q e^{2 \pi i z}} \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1 + 2} e^{2 \pi i z } \right) \left(1 + q^{2n - 1} e^{-2 \pi i z } \right)
+\\
+& = q^{-1} e^{-2 \pi i z} \prod_{n = 1}^\infty (1 - q^{2n}) \left(1 + q^{2n - 1 + 2} e^{2 \pi i z } \right) \left(1 + q^{2n - 1} e^{-2 \pi i z } \right)
+\\
+& = e^{-\pi i \tau - 2 \pi i z} T(z)
+\end{align*}
+Since the two functions transform in the same way their ratio,
+\[ f(z) = \frac{\theta(z|\tau)}{T(z)} \]
+is doubly periodic. However, $f(z)$ is holomorphic since the two have the same zeros. Thus $f(z)$ is a constant $c(q)$. I claim that $c(q) = c(q^4)$ which implies that $c(q) = c(q^\ell)$ as $\ell \to \infty$. Since $|q| = |e^{\pi i \tau}| = e^{- \pi \Im{\tau}} < 1$. Thus $c(q) = \lim_{q \to 0} c(q)$. However, $T(z | q) \to 1$ as $q \to 0$ and $\theta(z | \tau) \to 1$ as $|q| \to 0$ thus,
+\[ c(q) = \lim_{q \to 0} \frac{\theta(z | \tau)}{T(z | \tau)} = 1 \]
+So it remains to prove this claim. Consider, $\theta(\tfrac{1}{2} | \tau)$ and $\theta(\tfrac{1}{4} | \tau)$. We know,
+\begin{align*}
+\theta(\tfrac{1}{2} | \tau) & = \sum_{n \in \Z} q^{n^2} e^{\pi i} = \sum_{n \in \Z} (-1)^n q^{n^2} 
+\\
+T(\tfrac{1}{2} | \tau) & = \prod_{n = 1}^\infty (1 - q^{2n})(1 - q^{2 n - 1})^2 = \prod_{n = 1}^\infty (1 - q^n) (1 - q^{2n - 1})
+\end{align*}
+Furthermore,
+\begin{align*}
+\theta(\tfrac{1}{4} | \tau) & = \sum_{n \in \Z} q^{n^2} e^{\pi i n / 2} = \sum_{n \in \Z} q^{n^2} i^n = \sum_{k = 0}^\infty q^{(2 k + 1)^2} \left[ i^{2 k + 1} + i^{-(2k + 1)} \right] + \sum_{k = 0}^\infty q^{(2 k)^2} \left[ i^{2 k} + i^{-(2k)} \right] 
+\\
+& = \sum_{k = 0}^\infty q^{(2 k)^2} \left[ (-1)^k + (-1)^k \right] 
+ = \sum_{m \in \Z} (-1)^m  q^{4 m^2}
+\end{align*}
+and also,
+\begin{align*}
+T(\tfrac{1}{4} | \tau) & = \prod_{n = 1}^\infty \left(1 - q^{2n})(1 + q^{2n - 1} e^{\pi i /2} \right)\left(1 + q^{2n - 1} e^{-\pi i / 2} \right) =  \prod_{n = 1}^\infty \left(1 - q^{2n})(1 + i q^{2n - 1} \right)\left(1 - i q^{2n - 1} \right) 
+\\
+& = \prod_{n = 1}^\infty (1 - q^{2n}) (1 + q^{4n - 2}) = \prod_{n = 1}^\infty (1 - q^{4n -2})(1 - q^{4n})(1 + q^{4n - 2}) = \prod_{n = 1}^\infty (1 - q^{4n})(1 - q^{8n - 4}) 
+\end{align*}
+which are exactly what we found earlier with $q \mapsto q^4$ proving the claim that $c(q) = c(q^4)$. 
+\end{proof}
+
+\subsection{Modular Transformations of $\theta(z | \tau)$}
+
+Both $\tau$ and $-\tau^{-1}$ generate the same lattice so there must be a relationship between their $\theta$ functions. 
+
+\begin{theorem}[Poisson Summation Formula]
+Let $f(\lambda)$ be a smooth and rapidly decreasing function then,
+\[ \sum_{n \in \Z} \hat{f}(n) e^{2 \pi i n z} = \sum_{n \in \Z} f(n + z) \]
+\end{theorem}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\begin{proof}
+Define,
+\[ u(\theta) = \sum_{n \in \Z} f(n + \theta) \]
+so $u \in \mathcal{C}^{\infty}$ and periodic. Thus we can Fourier expand $u$ as,
+\[ u(\theta) = \sum_{m \in \Z} \inner{u}{e^{-2\pi i m \theta}} e^{2 \pi i m \theta} \]
+with,
+\[ \inner{u}{e^{-2 \pi i m \theta}} = \int_0^1 u(\theta) e^{-2 \pi i  m \theta} \d{\theta} = \int_0^1 \sum_{n \in \Z} f(n + \theta) e^{-2\pi i m \theta} = \sum_{n \in \Z} \int_0^1 f(n + \theta) e^{-2\pi i m \theta} \d{\theta} \] 
+We can commute sums and integrals because the series converges uniformly since $f$ is rapidly decreasing. Notice that $e^{2 \pi i m n} = 1$ so,
+\begin{align*}
+\inner{u}{e^{-2 \pi i m \theta}} & = \sum_{n \in \Z} \int_0^1 f(n + \theta) e^{-2 \pi i m (n + \theta)} \d{\theta} 
+\\
+& = \sum_{n \in \Z} \int_n^{n+1} f(\eta) e^{-2 \pi i m \eta} \d{\eta} = \int_\R f(\eta) e^{-2 \pi i m \eta} = \hat{f}(m) 
+\end{align*}
+Therefore,
+\[ u(\theta) = \sum_{m \in \Z} \hat{f}(m) e^{2 \pi i m \theta} \]
+\end{proof}
+
+\begin{theorem}
+There is a functional equation,
+\[ \theta(z | - \tau^{-1}) = \sqrt{\frac{\tau}{i}} e^{\pi i \tau z^2} \theta(z \tau | \tau) \]
+In particular, at $z = 0$,
+\[ \theta(0 | - \tau^{-1}) = \sqrt{\frac{\tau}{i}} \theta(0 | \tau) \]
+\end{theorem}
+
+\begin{proof}
+Define $\tau = i \tau_2$ and take $z$ to be real. Consider,
+\begin{align*}
+\sqrt{\frac{\tau}{i}} e^{\pi i \tau z^2} \theta(z \tau | \tau) & = \sqrt{\tau_2} e^{-\pi \tau_2 z^2} \sum_{n \in \Z} e^{- \pi n^2 \tau_2 - 2 \pi n z \tau_2 } 
+\\
+& = \sqrt{\tau_2} \sum_{n \in \Z} e^{-\pi \tau_2 (z + n)^2} = \sum_{n \in \Z} e^{- \pi n^2 / \tau_2 + 2 \pi i n z} = \theta(z | - \tau^{-1})
+\end{align*}
+where I have applied Poisson summation to $f(z) = \sqrt{\tau_2} e^{-\pi \tau_2 z^2}$. 
+\end{proof}
+
+\section{$\bar{\partial}$-Equations}
+
+Suppose again we want to find a meromorphic form $\omega_{p}(z)$ on a Riemann surface $X$ with a douple pole at $p$. If $X$ is a complex torus then we can use the Weierstrass $\wp$-function. We want to discuss this problem more generally. Let $(U, z)$ be a chart on $X$ with $p \in U$ and $z(p) = 0$ and $z(U) = D$ a disk in $\C$. We could take the form $\frac{\d{z}}{z^2}$ on $D$. However, we still have the problem of extending this form to $X$. Our first attempt is to use a bump function $\chi(z)$. Then we can take,
+\[ \tilde{\omega}_p(z) = - \partial_z \left( \frac{\chi(z)}{z} \right) \d{z} \]
+which is well-defined on $X$ and meromorphic inside a smaller ball $B \subset D$ on which $\chi(z) = 1$. We can correct $\tilde{\omega}_p$ to be a meromorphic form on $X$ by adding a form $\psi$ which cancels the derivative with respect to $\bar{z}$ which we denote by $\bar{\partial}$. Writing $\psi = \psi_z \d{z}$ we have,
+\[ \bar{\partial} \left( - \partial \left( \frac{\chi(z)}{z} \right) - \psi_z \right) = 0 \]
+and we restrict to smooth solutions to $\psi$ so that the pole structure is mantained. Because $\tilde{\omega}_p$ is meromorphic inside $B$ we know that $\bar{\partial} \tilde{\omega}_p = 0$ inside $B$. Furthermore, outside $B$ we have $\tilde{\omega}_p$ is smooth. Therefore $\bar{\partial} \tilde{\omega}_p(z)$ is a smooth $(1,1)$-form which can be written as,
+\[ \bar{\partial} \tilde{\omega}_p(z) = - \partial \bar{\partial} \left( \frac{\chi(z)}{z} \right) \d{\bar{z}} \wedge \d{z} \]
+
+\begin{theorem}
+Consider the equation $\bar{\partial} \partial \omega = \Phi$ on a Rieman surface $X$ where $\Phi$ is a smooth $(1, 1)$-form and $\omega$ is a scalar function. The equation admits a smooth solution $u$ if and only if,
+\[ \int_X \Phi = 0 \]
+\end{theorem}
+Furthermore, in the case at hand,
+\begin{align*}
+-\int_X \partial \bar{\partial} \left( \frac{\chi(z)}{z} \right) \d{\bar{z}} \wedge \d{z} = \int_X \d{\left( \bar{\partial} \left( \frac{\chi(z)}{z} \right) \d{\bar{z}}\right)} = 0
+\end{align*}
+since the manifold has no boundary. Therefore, there exists a solution to,
+\[ \bar{\partial} \partial u = \tilde{\omega}_p \]
+and thus we can take $\psi = \partial u$ such that $\omega_p = \tilde{\omega}_p - \psi$ is a meromorphic form on $X$ with a double pole at $p$. Proving this theorem is now going to take some work.
+\begin{definition}
+Define the Sobolev norm,
+\[ ||u||_{(1)}^2 = \int_X \partial u \bar{\partial} u \d{z} \wedge \d{\bar{z}} + \int_X |u|^2 \d{z} \wedge \d{\bar{z}} \]
+The the Sobolev space,
+\[ H_{(1)}(X) = \overline{ \left\{ u \in \Class{\infty}{X} \mid ||u||^2_{(1)} \le \infty \right\} } \]
+is the completion of Sobolev normed functions which is a subspace of $L^2(X)$. 
+\end{definition}
+
+\begin{definition}
+Define the functional $I : H_{(1)}(X) \to \C$ via, for $u \in H_{(1)}(X)$,
+\[ I(u) = \int_X \left[ \tfrac{1}{2} \partial u \bar{\partial} u + u \Phi \right] \d{z} \wedge \d{\bar{z}} \]
+\end{definition}
+We will show that $I(u)$ is bounded from below. Furthermore if we take a sequence $u_j$ such that $I(u_j) \to \inf I(u)$ then we will show that $u_{\infty} = \lim\limits_{j \to 0} u_j \in H_{(1)}(X)$ and $I(u_{\infty}) =  \inf I(u)$. Finally, we will show that if $I(u_{\infty}) = \inf I(u)$ then $u_{\infty}$ is a generalized solution to $\bar{\partial} \partial u = \Phi$.  
+
+\subsection{Proof of the Main Theorem}
+
+\subsubsection{The Functional Is Bounded Below}
+
+We have that,
+\[ I(u) = \int_X \left[ \tfrac{1}{2} \partial u \bar{\partial} u + (u - \bar{u}) \Phi \right] \d{z} \wedge \d{\bar{z}} \]
+where,
+\[ \bar{u} = \frac{\int_X u \dn{2}{z}}{\int_X \dn{2}{z}} \]
+since
+\[ \int_X \bar{u} \Phi  = \bar{u} \int_X \Phi = 0 \]
+Then,
+\[ I(u) = \int_X \left[ \tfrac{1}{2} \partial (u - \bar{u}) \bar{\partial} u + \Phi \right] \ge \frac{1}{2} \int_X \partial u \bar{\partial} u - \left| \int_X (u - \bar{u}) \Phi \right| = \tfrac{1}{2} || \nabla u ||_{L^2} - \left| \int_X (u - \bar{u}) \Phi \right| \]
+Furthermore,
+\[ \left| \int_X (u - \bar{u}) \Phi \right| \le \frac{1}{2} ||\Phi||_{L^2} ||u + \bar{u}||_{L^2} \le \epsilon ||u - \bar{u}||_{L^2}^2 + \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2   \]
+For any $\epsilon > 0$. 
+
+\begin{theorem}[Poincare]
+Let $X$ be a compact Riemannian manifold then $\exists C_X$ s.t.
+ \[ || u - \bar{u} ||_{L^2} \le C_X || \nabla u ||^2_{L^2} \]
+\end{theorem}
+Using this theorem,
+\[ \epsilon ||u - \bar{u}|| \le \epsilon C_X || \nabla u ||^2_{L^2} \]
+so choose $\epsilon$ small enough such that, $\epsilon C_X \le \tfrac{1}{4}$. Then,
+\begin{align*}
+I(u) \ge & \tfrac{1}{2} || \nabla u ||_{L^2}  - \epsilon ||u - \bar{u}||_{L^2}^2 - \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2 \ge \tfrac{1}{2} || \nabla u ||_{L^2}  - \tfrac{1}{4} || \nabla u ||_{L^2} - \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2 
+\\
+& = \tfrac{1}{4} || \nabla u ||_{L^2} - \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2 
+\end{align*}
+Therefore, 
+\[ I(u) \ge - \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2  \]
+so $I(u)$ is bounded below by $-C$ where,
+\[ C = \frac{1}{2 \epsilon} || \Phi ||_{L^2}^2 \]
+
+\subsubsection{The Functional $I$ Attains its Minimum}
+
+Let $\{ u_j \} \in H_{(1)}(X)$ be a sequence with $I(u_j) \to \inf{I(u)}$. I claim that $||u_j||_{H_{(1)}(X)} \le C$. Indeed,
+\[ C_1 \ge U(u_j) \ge \frac{1}{4} \int_X |\partial u_j |^2 - C \implies \int_X |\partial u_j |^2 \le C_2 \] 
+Furthermore, we can replace $u_j$ by $u_j - \bar{u}_j$ without changing $I$ so we assume that $\bar{u}_j = 0$. Then by Poincare,
+\[ ||u_j||_{L^2}^2 = ||u_j - \bar{u}_j||_{L^2} \le C_X || \nabla u_j ||^2_{L^2} \le C_3 \]
+Thus each $u_j$ is bounded since,
+\[ || u_j ||_{H_{(1)}(X)}^2 = || \nabla u_j ||_{L^2} + || u_j ||_{L^2} \le C_2 + C_3 \]
+
+\begin{theorem}[Banach-Alaoglu]
+Let $\mathcal{H}$ be a seperable Hilbert space. Then any bounded sequence $\{ u_j \} \subset \mathcal{H}$ with $||u_j|| \le 1$ admits a weakly convergent subsequence in the sense that,
+\[ \exists u_{\infty} \in \mathcal{H} : \forall v \in \mathcal{H} :  \lim_{k \to \infty} \left< u_{k}, v \right> = \left< u_{\infty}, v \right> \]
+\end{theorem}
+Applying the theorem we get some $u_{\infty}$ such that,
+\[ \lim_{k \to \infty} \left< u_j, v \right> = \left< u_{\infty}, v \right> \]
+for any $v$. Furthermore the embedding $H_{(1)}(X) \hookrightarrow L^2(X)$ is compact i.e. every bounded set is sent to a compact set. Thus $u_j$ converges to $u_{\infty}$ in $L^2(X)$. However, we do not have $\partial u_j$ converging to $\partial u_{\infty}$. 
+
+\begin{proposition}[Lower semi-continuity of weak limits]
+If $w_j \to w_{\infty}$ weakly then,
+\[ ||w_{\infty} || \le \liminf_{j \to \infty} ||w_j|| \]
+\end{proposition}
+
+\begin{proof}
+Let $v = w_{\infty}$ then we get,
+\[ ||w_{\infty}||^2 = \left< w_{\infty}, w_{\infty} \right> = \lim_{j \to \infty} \left< w_{j}, w_{\infty} \right> \le \liminf_{j \to \infty} || w_j|| ||w_{\infty} || \]
+and thus,
+\[ ||w_{\infty}|| \le \liminf_{j \to \infty} || w_j || \]
+\end{proof}
+Using this result we find,
+\begin{align*}
+I(u_{\infty}) = \tfrac{1}{2} ||\nabla u||_{L^2}^2 + \left< \Phi, u_{\infty} \right> \le \tfrac{1}{2} \liminf_{j \to \infty} \left( || \nabla u_j ||_{L^2}^2 + \left< \Phi, u_j \right> \right) = \liminf_{j \to \infty} I(u_j) = \inf I(u) 
+\end{align*}
+However, $\inf I(u) \le I(u_{\infty})$ and therefore,
+\[ I(u_{\infty}) = \inf I(u) \]
+so $I$ attains its minimum. 
+
+\subsubsection{The Generalized Solution to the $\bar{\partial} \partial$-Equation}
+
+For any $v \in H_{(1)}(X)$ consider the function $t \mapsto I(u_{\infty} + t v)$ which attains its minimum at $t = 0$. Thus,
+\[ \deriv{}{t} I(u_{\infty} + t v) \bigg|_{t = 0} = 0 \]
+Expanding,
+\begin{align*}
+\deriv{}{t} I(u_{\infty} + t v) \bigg|_{t = 0} & = \deriv{}{t} \bigg|_{t = 0}\int_X  \left[  \tfrac{1}{2} \partial (u_{\infty} + t v) \bar{\partial} (u_{\infty} + t v) + (u_\infty + t v) \Phi \right] \d{z} \wedge \d{\bar{z}} 
+\\
+& = \int_X \left[  \tfrac{1}{2} \partial v \bar{\partial} u_{\infty} +  \tfrac{1}{2} \partial u_{\infty} \bar{\partial} v + v \Phi \right] \d{z} \wedge \d{\bar{z}} 
+\end{align*}
+If $u_{\infty}$ is smooth then we would have,
+\[ \int_X v \left( \bar{\partial} \partial u_{\infty} - \Phi \right) \d{z} \wedge \d{\bar{z}} = 0 \]
+for any function $v \in H_{(1)}(X)$ which implies that,
+\[ \bar{\partial} \partial u_{\infty} = \Phi \]
+When $u_{\infty}$ is not smooth we call it a generalized solution to the equation,
+\[ \bar{\partial} \partial u_{\infty} = \Phi \]
+meaning, by definition, that it satisfies,
+\[ \int_X \left[  \tfrac{1}{2} \partial v \bar{\partial} u_{\infty} +  \tfrac{1}{2} \partial u_{\infty} \bar{\partial} v + v \Phi \right] \d{z} \wedge \d{\bar{z}}  = 0 \]
+for all $v \in H_{(1)}(X)$ 
+
+\subsubsection{The Generalized Solution is Smooth and Thus a Standard Solution}
+
+\begin{definition}
+Let $X$ be a $n$-dimensional compact Riemannian manifold. 
+Define the Sobolev norm,
+\[ ||u||_{(s)}^2 = \sum_{|\alpha| \le S} || \partial^\alpha u ||^2_{L^2} \]
+The the Sobolev space,
+\[ H_{(s)}(X) = \overline{ \left\{ u \in \Class{\infty}{X} \mid ||u||^2_{(s)} \le \infty \right\} } \]
+is the completion of Sobolev normed functions which is a subspace of $L^2(X)$. 
+\end{definition}
+
+\begin{theorem}[Sobolev Embedding]
+For $s > \frac{n}{2} + k$ there is a compact embedding,
+\[ H_{(s)}(X) \hookrightarrow  \Class{k}{X} \]
+such that,
+\[ || u ||_{\Class{k}{X}} \le || u ||_{(s)} \]
+\end{theorem}
+\begin{remark}
+For any $f \in H_{(s)}(X)$ then there exists $f_{\epsilon} \in \Class{\infty}{X}$ such that $f_{\epsilon} \to f$ with respect to $|| \cdot ||_{(s)}$ and all $f_{\epsilon}$ are bounded with respect to this norm. Furthermore, $\partial f_{\epsilon} = (\partial f)_{\epsilon}$ then $\partial \bar{\partial} u = f$ in the generalized sense the $\partial \bar{\partial} u_{\epsilon} = f_{\epsilon}$ in the standard sense. 
+\end{remark}
+\begin{proposition}
+Furthermore, if $u \in \mathcal{C}^\infty$ and $f \in \mathcal{C}^\infty$ and $\partial \bar{\partial} u = f$ then 
+\[ || u ||_{(1)}^2 \le C \left( || f ||_{(0)}^2 + || u ||_{(0)}^2 \right) \]
+\end{proposition}
+\begin{proof}
+Suppose that $\partial \bar{\partial} u = f$ in the generalized sense then 
+\[ \partial \bar{\partial} (\partial^{\alpha} u_{\epsilon}) = (\partial f)_{\epsilon} \implies ||\partial^{\alpha} u||_{(1)}^2 \le C \left( || \partial^{\alpha} f||^2 + || \bar{\partial} u ||_{(0)}^2 \right) \le C \left( C_{\alpha} ||f||_{(0)}^2 + || u ||_{(0)}^2 \right)  \]
+\end{proof} 
+
+\begin{theorem}
+$u \in H_{(1)}(X)$ if and only if $u \in L^2(X)$ and there exists $v \in L^2(X)$ such that for all $\psi \in \mathcal{C}^{\infty}$ that,
+\[ - \int_X u \partial \psi = \int_X v \psi \]
+\end{theorem}
+
+\subsubsection{Rewriting the Generalized Solutions}
+
+Take $\chi \in \mathcal{C}^{\infty}$ and $\chi = 0$ outside of a small neighbrohood of $0$ such that,
+\[ \int_X \chi(w) \d{z} \wedge \d{\bar{z}} = 1 \]
+Define $\forall \epsilon > 0$ the function $\chi_{\epsilon}(w) = \frac{1}{\epsilon^2} \chi{\left( \frac{w}{\epsilon} \right)}$ and let,
+\[ u_{\epsilon}(z) = \int_X u(w) \chi_{\epsilon}(z - w) \d{w} \wedge \d{\bar{w}} \]
+which is smooth. I claim that, 
+$||u_{\epsilon}||_{L^2} \le ||u||_{L^2}$ and $||u_{\epsilon} - u||_{L^2} \to 0$ whenever $\epsilon \to 0$. Furthermore,
+\begin{align*}
+\partial \bar{\partial} u_{\epsilon} & = \int_X u(w) \partial_z \partial_{\bar{z}} \chi_{\epsilon}(z - w) \d{w} \wedge \d{\bar{w}}
+\\
+& = \int_X u(w) \Big[ \partial_w \partial_{\bar{w}} \chi_{\epsilon}(z - w) \Big] \d{w} \wedge \d{\bar{w}}    
+\end{align*}
+However, since $u$ is a generalized solution, for any $v \in H_{(1)}(X)$ we have,
+\[ \int_X \left[ \tfrac{1}{2} \partial v \bar{\partial} u + \tfrac{1}{2} \partial u \bar{\partial} v + v \Phi \right] \d{z} \wedge \d{\bar{z}} = 0 \]
+Using the fact that $u \in H_{(1)}(X)$ if we take $v \in H_{(1)}(X)$ to be smooth then,
+\[ -\int_X u \partial (\bar{\partial} v) = \int_X \partial u \bar{\partial} v \]
+Therefore,
+\[ \int_X \left[ u \partial \bar{\partial} v - \Phi v \right] = 0 \]
+Thus,
+\begin{align*}
+\partial \bar{\partial} u_{\epsilon} & = \int_X u(w) \Big[ \partial_w  \partial_{\bar{w}} \chi_{\epsilon}(z - w) \Big] \d{w} \wedge \d{\bar{w}}  
+\\
+& = \int_X \Phi \chi_{\epsilon}(z - w)  \d{w} \wedge \d{\bar{w}}   = \Phi_{\epsilon}(z)
+\end{align*}
+Using the generalized equation. 
+
+\subsubsection{A Priori Estimates}
+
+For $u, v \in \mathcal{C}^{\infty}$ and $\partial \bar{\partial} u = v$ then,
+\[ \int_X (\partial \bar{\partial} u) u = \int_X vu \implies ||\partial u ||_{L^2}^2 = \left| \int_X uv \right| \le ||u||_{L^2} \cdot ||v||_{L^2} \le \tfrac{1}{2} ||u||_{L^2}^2 + \tfrac{1}{2} ||v||_{L^2}^2 \]
+Applying this to the differential equation $\partial \bar{\partial} u_{\epsilon} = \Phi_{\epsilon}$ then $|| D u_{\epsilon} ||_{L^2}^2 \le \tfrac{1}{2} || \Phi_{\epsilon} ||_{L^2}^2 + \tfrac{1}{2} || u_{\epsilon} ||_{L^2}^2$. Furthermore,
+\[ \partial \bar{\partial} D^{\alpha} u_{\epsilon} = D^{\alpha} \Phi_{\epsilon} \]
+and thus,
+\[ ||D^{\alpha + 1} u_{\epsilon}||_{L^2}^2 \le \tfrac{1}{2} ||D^{\alpha} \Phi_{\epsilon}||_{L^2}^2 + \tfrac{1}{2} ||D^{\alpha} u_{\epsilon} ||^2 \le ||D^\alpha \Phi||_{L^2}^2 + ||u||_{L^2}^2 \]
+which is bounded indepenendent on $\epsilon$. Apply the Sobolev embeddding to get for any fixed $m$,
+\[ ||u_{\epsilon}||_{\mathcal{C}^m} \le C \]
+independent of $\epsilon$. Then $\{ u_{\epsilon} \}$ is equicontinuous in $\mathcal{C}^{m-1}$ and thus there exists a convergent subsequence which converges to an element of $\mathcal{C}^{m-1}$. However, the sequence $\{ u_{\epsilon} \}$ converges to $u_{\infty}$ in $H_{(1)}(X)$ and the limit is unique. Thus $u_{\infty} \in \mathcal{C}^{m-1}$ for each $m$ and thus $u_{\infty}$ is smooth. 
+
+
+\section{The Moduli Space of Tori}
+
+We began by considering the Riemann surface of the form $w^2 = z(z - 1)(z - \lambda)$ but we can more generally consider $w^2 = (z - a_1)(z - a_2)(z - a_3)(z - a_4)$ with distinct roots. However, we may apply a Mobius transformation,
+\[ z' = \frac{a z + b}{cz + d} \]
+to the sphere $\hat{C}$ on which the points $a_1, a_2, a_3, a_4$ lie which gives an equivalent complex torus. We can generically send $a_1 \mapsto 0$ and $a_2 \mapsto 1$ and $a_3 \mapsto \infty$ by choosing the appropriete Mobius tranfromation. Under this transformation we get $a_4 \mapsto \lambda$. Any permutation of $a_1, a_2, a_3, a_4$ results in a group acting on $\lambda$ which does not change the structure of the complex torus it defines. The group orbits are generated by $\lambda \mapsto 1 - \lambda$ and $\lambda \mapsto \lambda^{-1}$. 
+
+\subsection{Modular Invariant}
+
+\begin{definition}
+The Modular invariant $j$ is defined as,
+\[ j(\lambda) = \frac{4}{27} \frac{(1 - (1 - \lambda)\lambda}{(1 - \lambda)^2 \lambda} \]
+\end{definition}  
+
+\begin{theorem}
+Two complex torii are biholomorphic if and only they have the same modular invariat $j$. 
+\end{theorem}
+
+\section{Complex Manifolds}
+
+\begin{definition}
+A complex $n$-manifold $X$ is a second-countible Hausdorff topological space with an atlas of charts $(U_{\alpha}, \varphi_{\alpha})$ with maps $\varphi_{\alpha} : U_{\alpha} \to \C^n$ whose domain cover $X$ such that the transition functions $\varphi_{\beta} \circ \varphi_{\alpha}^{-1} : \varphi_{\alpha}(U_{\alpha} \cap U_{\beta}) \to \varphi_{\beta}(U_{\beta} \cap U_{\beta})$ are holomorphic for each pair of charts. 
+\end{definition}
+
+\begin{definition}
+A Riemann surface is a complex $1$-manifold and thus a smooth surface with a complex structure.  
+\end{definition}
+
+\begin{definition}
+A map $f : X \to Y$ between complex manifolds is holomorphic if for any point $p \in X$ there exists charts $(U, \varphi)$ for $X$ and $(V, \psi)$ for $Y$ such that $p \in U$ and $f(U) \subset V$ and $\psi \circ f \circ \varphi^{-1} : \varphi(U) \to \psi(V)$ is holomorphic in the usual sense. 
+\end{definition}
+
+\begin{theorem}
+Every holomorphic map $f : M  \to N$ between connected complex manifolds with $M$ compact is either constant or surjective in which case $N$ is compact. 
+\end{theorem}
+
+\begin{proof}
+Let $f : M \to N$ be a holomorphic map with $M$ and $N$ compact connected complex manifold. Take a cover of charts $(U_\alpha, \varphi_\alpha)$ for $M$ with $U_\alpha$ a domain and $(\psi_\beta, V_\beta)$ for $N$, Then the map $\psi_\beta \circ f \circ \varphi_\alpha^{-1} : \varphi_\alpha(U_\alpha) \to \psi_\beta(V_\beta)$ is holomorphic on the domain $\varphi_\alpha(U_\alpha)$. Therefore, either $f$ is constant on $U_\alpha$ or $\Im{f \circ \varphi_\alpha^{-1}} = f(U_\alpha)$ is open since $\psi_\beta \circ f(U_\alpha)$ is open. Suppose that $f$ is nonconstant on each $U_\alpha$. Then the set,
+\[ f(M) = f\left(\bigcup_{\alpha} U_\alpha\right) = \bigcup_\alpha f(U_\alpha) \]
+is open because it is a union of open sets and is compact because $M$ is compact and $f$ is continuous. Since $N$ is Hausdorff, $f(M)$ is clopen and nonempty. Since $N$ is connected we must have $f(M) = N$ which forces $N$ to be compact since it is the image of the compact set $M$. Therefore, either $f$ is surjective or $f$ must be constant on some domain $U_\alpha$ which implies that $f$ is constant on the entirety of $M$ by connectivity and analytic continuation.  
+\end{proof}
+
+\begin{corollary}
+There are no nonconstant holomorphic maps from a compact connected complex manifold to a complex manifold with noncompact components. 
+\end{corollary}
+
+\begin{corollary}
+There are no nonconstant holomorphic functions on a compact connected complex manifold. 
+\end{corollary}
+
+\subsection{Line Bundles on Riemann Surfaces}
+
+
+\begin{definition}
+The curvature of the bundle $L$ with a given connection derived from the metric $h$ is written as $F_{\bar{z}z}$ where,
+\[ [\nabla, \bar{\nabla}] \varphi = - F_{\bar{z}z} \varphi \]
+\end{definition}
+
+\begin{theorem}
+For any meromorphic section $\varphi$ of $L$ which is not identically zero,
+\[ \text{(\# zeros of $\varphi$)} - \text{(\# poles of $\varphi$)} = \frac{i}{2 \pi} \int_X F_{\bar{z} z} \d{z} \wedge \d{\bar{z}} \]
+\end{theorem}
+
+\begin{proof}
+Consider,
+\[ - \partial \bar{\partial} \log{|\varphi|_h^2} = - \partial \bar{\partial} \log{(\varphi \bar{\varphi} h)} \]
+When we are away from $D$ the set of zeros and poles of $\varphi$ we can write,
+\[ - \partial \bar{\partial} \log{|\varphi|_h^2} = - \partial \bar{\partial} \left( \log{\varphi} + \overline{\log{\varphi}} + \log{h} \right) = - \partial \bar{\partial} \log{h} = F_{\bar{z} z} \]
+because $\log{\varphi}$ is holomorphic and $\overline{\log{\varphi}}$ is anti-holomorphic on $X \setminus D$. Consider the union of disks,
+\[ D_{\epsilon} = \bigcup_{p \in D} B_{\epsilon}(p) \] 
+where we choose $\epsilon$ small enough for $B_{\epsilon}(p)$ to lie in the image of a single chart so we can identify $B_{\epsilon}(p)$ in the image of a chart with a disk on $X$ and small enough that only one $p \in D$ lies in each disk. We can always do this because $\varphi$ is a nonzero meromorphic section and thus has isolated poles and zeros. Then,
+\[ \int_X F_{\bar{z} z} \d{z} \wedge \d{\bar{z}} = \lim_{\epsilon \to 0} \int_{X \setminus D_{\epsilon}} F_{\bar{z} z} \d{z} \wedge \d{\bar{z}} \]
+However, 
+\[ \d{(-\bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}})} = - \partial \bar{\partial} \log{|\varphi|_h^2} \d{z} \wedge \d{\bar{z}} - \bar{\partial} \bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}} \wedge \d{\bar{z}} = - \partial \bar{\partial} \log{|\varphi|_h^2} \d{z} \wedge \d{\bar{z}} \]
+since $\log{|\varphi|_h^2}$ is a well-defined scalar function on $X \setminus D$ unlike $\log{h}$ whose argument transforms as a section of the nontrivial line bundle $L^{-1} \otimes \bar{L}^{-1}$. Therefore, by Stokes' theorem,
+\begin{align*}
+\int_X F_{\bar{z} z} \d{z} \wedge \d{\bar{z}} & = \lim_{\epsilon \to 0} \int_{X \setminus D_{\epsilon}} \d{(-\bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}})} 
+= - \lim_{\epsilon \to 0} \int_{\partial (X \setminus D_{\epsilon})}\bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}})
+\\
+& = \lim_{\epsilon \to 0} \sum_{p \in D} \oint_{\partial B_{\epsilon}(p)} \bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}}
+\end{align*}
+The minus sign is canceled by the change in orientation of the integration contours since $\partial D$ and $\partial D^C$ are equal but have reversed orientation.
+Since $\varphi$ is meromorphic, near $p \in D$ we can write $\varphi = z^N u(z)$ for $u(z) \neq 0$ on $B_{\epsilon}(p)$. Therefore, we have,
+\[ |\varphi|_h^2 = |z|^{2N} |u(z)|^2 h(z) \]
+which implies that,
+\begin{align*}
+\log{|\varphi|_h^2} = N \log{|z|^2} + \log{|u(z)|^2} + \log{h(z)} 
+\end{align*}
+and thus,
+\begin{align*}
+\bar{\partial} \log{|\varphi|_h^2} = \frac{N}{\bar{z}} + \bar{\partial} \log{|u(z)|^2} + \bar{\partial} \log{h(z)} 
+\end{align*}
+About each $p \in D$ we can compute,
+\begin{align*}
+\lim_{\epsilon \to 0} \oint_{\partial B_{\epsilon}(p)} \bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}} = \lim_{\epsilon \to 0} \oint_{|z| = \epsilon} \left[ \frac{N}{\bar{z}} + \bar{\partial} \log{|u(z)|^2} + \bar{\partial} \log{h(z)} \right] \d{\bar{z}}
+\end{align*}
+Since both $\bar{\partial} \log{|u(z)|^2}$ and $\bar{\partial} \log{h(z)}$ are smooth and have no singularities on $B_{\epsilon}(p)$ so their integrals go to zero in the limit $\epsilon \to 0$. Therefore,
+\begin{align*}
+\lim_{\epsilon \to 0} \oint_{\partial B_{\epsilon}(p)} \bar{\partial} \log{|\varphi|_h^2} \d{\bar{z}} = \lim_{\epsilon \to 0} \oint_{|z| = \epsilon} \frac{N}{\bar{z}} \d{\bar{z}} = -\lim_{\epsilon \to 0} \overline{\oint_{|z| = \epsilon} \frac{N}{z} \d{z} } = - 2 \pi i N
+\end{align*}
+Thus,
+\begin{align*}
+\int_X F_{\bar{z} z} \d{z} \wedge \d{\bar{z}} = \sum_{p \in D} \lim_{\epsilon \to 0} \oint_{\partial B_{\epsilon}(p)} \bar{\partial} \log{|\varphi|_h^2} \d{z}  = - \sum_{p \in D} 2 \pi i N_p
+\end{align*}
+Which gives the theorem since $N_p$ counts the multiplicity of each zero and the negative of the multiplicity of each pole. 
+\end{proof}
+
+\section{The Riemann-Roch Theorem}
+
+\begin{definition}
+The canonical bundle, $K_X$ of $X$, is the bundle of $\Lambda^{1,0}$ forms on $X$. 
+\end{definition}
+
+\begin{definition}
+Let $L$ be a line-bundle over $X$ then,
+\[ H^0(X, L) = \{ \varphi \in \Gamma(X, L) \mid \bar{\partial} \varphi = 0 \} \]
+is the space of holomorphic sections. 
+\end{definition}
+
+\begin{definition}
+Let $L$ be a line-bundle over $X$ with a metric $h$. Then the first Chern class is defined to be,
+\[ c_1(L) = \int_X F_{\bar{z}z} \d{z} \wedge \d{\bar{z}} \]
+\end{definition}
+
+\begin{lemma}
+Let $L$ be a line-bundle over $X$ then $c_1(L^n) = n c_1(L)$ for any integer $n$. 
+\end{lemma}
+
+
+\begin{theorem}[Riemann-Roch]
+\[ \dim{H^0(X, L)} - \dim{H^0(X, L^{-1} \otimes K_X)} = c_1(L) + \tfrac{1}{2} c_1(K_X^{-1}) \]
+\end{theorem}
+
+\begin{theorem}
+Let $\chi(X)$ be the Euler characteristic of $X$ i.e. $\chi(X) = 2 - 2g$ where $g$ is the genus of $X$. Then,
+\[ c_1(K_X^{-1}) = \chi(X) = 2 - 2 g \]
+\end{theorem}
+
+\begin{corollary}
+$\dim{H^0(X, K_X)} = g$ where $g$ is the genus of $X$.
+\end{corollary}
+
+\begin{proof}
+Apply Riemann-Roch to $L = K_X$,
+\[ \dim{H^0(X, K_X)} - \dim{H^0(X, K_X^{-1} \otimes K_X)} = c_1(K_X) + \tfrac{1}{2} c_1(K_X^{-1}) \]
+However, $K_X^{-1} \otimes K_X$ is the trivial bundle and $X$ is compact so the trivial bundle has no nonconstant holomorphic sections. Thus, $\dim{H^0(X, K_X^{-1} \otimes K_X)} = 1$. Furhtermore, $c_1(K_X) = - c_1(K_X^{-1})$. Therefore,
+\[ \dim{H^0(X, K_X)} - 1 = - \tfrac{1}{2} c_1(K_X^{-1}) = -1 + g \]
+\end{proof}
+
+\subsection{Point Bundles and Construction on Meromorphic Forms}
+
+Let $P \in X$ be some point and fix a holomorphic coordinate chart $U$ containing $P$ with local coordinate $z$. For $k \in \Z$ define the bundle $[k P]$ by its single transition function $t_{0, \infty} : U \setminus \{P\} \to \C$ between the holomorphic charts $U$ and $U_{\infty} = X \setminus \{P\}$.\footnote{If $U_{\infty}$ is not a holomorphic chart but rather is covered by such charts then we may take transition functions equal to $1$ between them. } We define this transition function via, $t_{0,\infty}(z) = z^k$. Furthermore, we may define the section $1_{kP} \in \Gamma(X, [kP])$ by $1_{kP} |_{U_{\infty}} = 1$ and $1_{kP} |_{U}(z) = z^k$. This is indeed a section of $[kP]$ because $t_{0, \infty} 1_{kP}|_{U_{\infty}} = 1_{kP} |_{U_{\infty}}$ since $1_{kP}|_{U_{\infty}}$ is the constant value $1$ and, on $U \cap U_{\infty}$ we have $t_{0, \infty}(z) = 1_{kP} |_{U}(z) = z^k$. 
+\bigskip\\
+Clearly, the section $1_{kP}$ has a unique pole at $P$ with order $k$. Therefore, applying the theorem relating poles and zeros of meromorphic sections to the first Chern class of the corresponding bundle, we find,
+\[ c_1([kP]) = \text{(\# zeros of $\varphi$)} - \text{(\# poles of $\varphi$)} = k \]
+
+Let $P, Q \in X$ be two distinct points. Consider the bundle $L = [-P] \otimes [-Q]$. Then we have shown that,
+\[ c_1(L) = c_1([-P]) + c_1([-Q]) = -2 \]
+and therefore every meromorphic section of $L$ must have exactly two more poles than zeros which implies that it must have at least one pole and thus cannot be holomorphic. Therefore, $\dim{H^0(X, L)} = 0$. Applying the Riemann-Roch theorem,
+\[ \dim{H^0(X, L)} - \dim{H^0(X, L^{-1} \otimes K_X)} = c_1(L) + \tfrac{1}{2} c_1(K_X^{-1}) \]
+which implies that,
+\[ \dim{H^0(X, [P] \otimes [Q] \otimes K_X)} = 2 - \tfrac{1}{2} c_1(K_X^{-1}) \] 
+Furthermore, taking $L = K_X$ in the Riemann-Roch theorem we find that,
+\[ \dim{H^0(X, K_X)} - \dim{H^0(X, K_X^{-1} \otimes K_X)} = c_1(K_X) + \tfrac{1}{2} c_1(K_X^{-1}) \]
+However, $K_X^{-1} \otimes K_X$ is the trivial bundle whose holomorphic sections are simply holomorphic functions on $X$ which must be constant since $X$ is compact. Thus, $\dim{H^0(X, K_X^{-1} \otimes K_X)} = 1$. Furthermore, $c_1(K_X^{-1}) = - c_1(K_X)$ so we have,
+\[ 
+\dim{H^{0}(X, K_X)} = 1 - \tfrac{1}{2} c_1(K_X) \]
+Therefore,
+\[ \dim{H^0(X, [P] \otimes [Q] \otimes K_X)} = \dim{H^{0}(X, K_X)} + 1 = 2 - \tfrac{1}{2} c_1(K_X) = g + 1
+\]
+where $g$ turns out to be the genus of $X$. Take a basis of independent holomorphic sections of $X$, $\psi_, \dots, \psi_g$. Then $\psi_1 1_P 1_Q, \dots, \psi_g  1_P 1_Q$ are independnet holomorphic sections of the bundle $[P] \otimes [Q] \otimes K_X$. Since the dimension of the space of all such holomorphic sections has dimension $g + 1$ there exists an indpendnet holomorphic section $\Phi \in \Gamma(X, [P] \otimes [Q] \otimes K_X)$. Now, $\varphi = \Phi 1_P^{-1} 1_Q^{-1}$ is a meromorphic section of $K_X$ since we are dividing out the dependence on the transition functions of $[P]$ and $[Q]$. I claim that $\varphi$ is exactly the meromorphic $1$-form with simple poles at $P$ and $Q$ we are looking for. First, since $\varphi 1_P 1_Q = \Phi$ is a holomorphic section, $\varphi$ can only have poles at $P$ and $Q$, the zeros of $1_P 1_Q$, and the poles at $P$ and $Q$ must be, at most, first-order. Thus, if either pole of $\varphi$ exists it must be simple. Furthermore, $\varphi$ cannot have a single simple pole since the sum of the residues of the poles of a meromorphic form on a complex Riemann surface must be zero but the residues at each simple pole must be nonzero. Thus, $\varphi$ either has no poles or has simple poles exactly at $P$ and $Q$. However, if $\varphi$ had no poles it would be a holomorphic section of $K_X$ implying that $\varphi$ is a linear combination,
+\[ \varphi = \alpha_1 \psi_1 + \cdots + \alpha_g \psi_g \]
+which implies that,
+\[ \Phi = \varphi 1_P 1_Q = \alpha \psi_1 1_P 1_Q + \cdots \alpha_g \psi 1_P 1_Q \]
+contradicting the independence of $\Phi$. Therefore, $\varphi$ is a meromorphic section of $K_X$ i.e. a meromorphic $1$-form on $X$ with simple poles at exactly $P$ and $Q$. 
+
+\subsection{Index Theorems}
+
+Let $L \to X$ be a holomorphic lone bundle on $X$ a compact Riemann surface. We have an operator $\bar{\partial} : \Gamma(X, L) \to \Gamma(X, L \otimes \bar{K}_X)$. We want to introduce the adjoint map which requires an inner product on these spaces of sections. A metric $h$ on $L$ and a metric $g_{\bar{z}z}$ on $K_X^{-1}$ gives an $L^2$ metric on the spaces of sections via
+\begin{align*}
+\varphi \in \Gamma(X, L) \implies ||\varphi||^2 & = \int_X \bar{\varphi} \varphi h 
+\\
+\varphi \in \Gamma(X, L \otimes \bar{K}_X) \implies ||\varphi||^2 & =\int_X \bar{\varphi} \varphi h g_{\bar{z} z} 
+\end{align*}
+Then we define the adjoint via,
+\[ \left< \bar{\partial} \varphi, \psi \right>_{L \otimes \bar{K}} = \left< \varphi, \bar{\partial}^\dagger \psi \right>_L \]
+Then we have maps,
+\begin{align*}
+\Delta_+ & = \bar{\partial}^\dagger \bar{\partial} : \Gamma(X, L) \to \Gamma(X, L)
+\\
+\Delta_{-} & = \bar{\partial} \bar{\partial}^\dagger : \Gamma(X, L \otimes \bar{K}_X) \to \Gamma(X, L \otimes \bar{K}_X)
+\end{align*} 
+I claim that if $\lambda \neq 0$ then $\lambda$ is an eigenvalue of $\Delta_{+} \iff \lambda$ is an eigenvalue of $\Delta_{-}$. 
+Suppose that $\Delta_{+} \varphi = \lambda \varphi$ then $\bar{\partial} \bar{\partial}^\dagger \bar{\partial} \varphi = \lambda \bar{\partial} {\varphi}$. Thus, $\Delta_{-} \bar{\partial} \varphi = \lambda \bar{\partial} \varphi$ so $\bar{\partial} \varphi$ is an eigenvector of $\Delta_{-}$ with eigenvalue $\lambda$ since $\bar{\partial} \varphi \neq 0$ otherwise $\Delta_+ \varphi = 0$ implying $\lambda = 0$. The other direction is identical. 
+\bigskip\\
+It remains to compare the zero eigenvalues of $\Delta_{+}$ and $\Delta_{-}$. We are interested in $\ker{\Delta_{+}}$ and $\ker{\Delta_{-}}$ because both operators constructed from $\bar{\partial}$ vanish exactly on holomorphic sections. Note that,
+\[ \dim{\ker{\Delta_{+}}} - \dim{\ker{\Delta_{-}}} = \Tr{e^{-t \Delta_{+}}} - \Tr{e^{- t \Delta_{-}}} \]
+Furthermore, the operator $e^{-t \Delta_{+}}$ satisfies the heat eqation $(\partial_t + \Delta_+ ) e^{-t \Delta_{+}} = 0$ with initial value $e^{-t \Delta_{+}} |_{t = 0} = I$. 
+
+\subsubsection{The Spaces of Holomorphic Sections}
+
+If $\varphi \in \ker{\Delta_{+}}$ then $\bar{\partial}^\dagger \partial \varphi = 0$ which implies that,
+\[ || \bar{\partial} \varphi ||^2 = \left< \bar{\partial} \varphi, \bar{\partial} \varphi \right> = \left<  \varphi, \bar{\partial}^\dagger \bar{\partial} \varphi \right> = 0 \]
+which implies that $\bar{\partial} \varphi = 0$.
+Since $H^0(X, L)$ is the space of holomorphic sections which is exactly a smooth section satisying the Cauchy-Riemann equation $\bar{\partial} \varphi = 0$, we have,
+\[ \varphi \in \ker{\Delta_{+}} \iff \bar{\partial} \varphi = 0 \iff \varphi \in H^0(X, L) \]
+implying that $\ker{\Delta_{+}} = \ker{\bar{\partial}} = H^0(X, L)$. 
+\bigskip\\
+To calculate the kernel of $\Delta_{-}$ we need to derive an expression for $\bar{\partial}^\dagger$. We require that, for $\varphi \in \mathcal{C}^{\infty}(X, L)$ and $\varphi \in \mathcal{C}^{\infty}(X, L \otimes \bar{K}_X)$ we have\footnote{To define the true adjoint on a Hilbert space we must also impose the defining adjoint on the limits of smooth functions with may no longer be smooth. What we have defined is called the ``formal adjoint.''},
+\[ \left< \bar{\partial} \varphi, \psi \right>_{L \otimes \bar{K}_X} = \left< \varphi, \bar{\partial}^\dagger \psi \right>_L \]
+Therefore,
+\[ \int_X h (\bar{\partial} \varphi) \bar{\psi} = \int_X \varphi \overline{\left( \bar{\partial}^\dagger \psi \right)} h g_{\bar{z} z} \]
+However, $g_{\bar{z} z}$ is a metric on $\bar{K}_X^{-1}$ and therefore a postive section of $K_X \otimes \bar{K}_X$ which is a $1,1$-form on $X$. 
+We can integrate the first expression by parts,
+\begin{align*}
+\int_X h (\bar{\partial} \varphi) \bar{\psi} & = - \int_X \varphi \bar{\partial} \left( h \bar{\psi} \right) 
+\\
+& = - \int_X \varphi \overline{ \partial \left( h \psi \right)} = - \int_X \varphi  h \overline{h^{-1} \partial ( h \psi)} g^{\bar{z} z} g_{\bar{z} z} 
+= - \int_X \varphi  \overline{h^{-1} \partial ( h \psi)} g^{\bar{z} z} h g_{\bar{z} z} 
+\end{align*}
+Therefore,
+\[ \int_X \varphi  \overline{\left( \partial^\dagger \psi \right)} h g_{\bar{z} z} = - \int_X \varphi  \overline{h^{-1} \bar{\partial} ( h \psi)} g^{\bar{z} z} h g_{\bar{z} z} \]
+Since this must hold for all possible $\varphi$ and $\psi$ we must have,
+\[ \bar{\partial}^\dagger \psi = - g^{\bar{z} z} \left( h^{-1} \partial (h \psi) \right) = - g^{\bar{z} z} \nabla \psi \]
+As before, we have $\ker{\Delta_{-}} = \ker{\bar{\partial}^\dagger}$ because if $\Delta_{-} \varphi = 0$ then,
+\[ \inner{\bar{\partial}^\dagger \varphi}{\bar{\partial}^\dagger \varphi} = \inner{\bar{\partial} \bar{\partial}^\dagger \varphi}{\varphi} = 0 \]
+which implies that $\bar{\partial}^\dagger \varphi = 0$.
+However,
+\[ \bar{\partial}^\dagger \psi = 0 \iff \partial (h \psi) = 0 \]
+since $g^{\bar{z} z} h^{-1}$ is nonvanishing. $h$ is a nonvanishing section of $L^{-1} \otimes \bar{L}^{-1}$ so,
+\[ \psi \in \Gamma(X, L \otimes \bar{K}_X) \iff \bar{\Psi} = h \psi \in \Gamma(X, \bar{L}^{-1} \otimes \bar{K}_X) \iff \Psi = h \bar{\psi} \in \Gamma(X, L^{-1} \otimes K_X) \]
+Therefore, $\psi \in \ker{\bar{\partial}^\dagger} \iff \Psi \in H^0(X, L^{-1} \otimes K_X)$ since,
+\[ \bar{\partial}^\dagger \psi = 0 \iff \partial (h \psi) = 0 \iff \bar{\partial} (h \bar{\psi}) = 0 \iff \bar{\partial} \Psi = 0 \]
+Thus, $\dim{\ker{\bar{\partial}^\dagger}} = \dim{H^0(X, L^{-1} \otimes K_X)}$ since there is a correspondence between their elements. 
+We have shown,
+\begin{align*}
+\dim{\ker{\Delta_{+}}} & = \dim{\ker{\bar{\partial}}} = \dim{H^0(X, L)}
+\\
+\dim{\ker{\Delta_{-}}} & = \dim{\ker{\bar{\partial}^\dagger}} = \dim{H^0(X, L^{-1} \otimes K_X)}
+\end{align*}
+
+
+\subsubsection{Exponential Laplacian Operators}
+
+\begin{theorem}
+The space $L^2(X, L)$ admits an orthonormal basis $\{ \varphi_j \}$ of eigenfunctions of $\Delta_{+}$ with the following properties,
+\begin{enumerate}
+\item $\varphi_j$ is smooth and $\Delta_{+} \varphi_j = \lambda_j \varphi_j$ for some $\lambda_j \ge 0$.
+\item Each $\lambda_j$ has finite multiplicity.
+\item The set $\{ \lambda_j \}$ has no acumulation point except $\infty$ and $\lambda_j \to 0$ at a rational rate i.e. $\lambda_j \ge C j^p$ for some $p \in \mathbb{Q}^{+}$.  
+\end{enumerate}
+\end{theorem}
+\noindent
+Similary, $L^2(X, L^{-1} \otimes K_X)$ admits an orthonormal basis $\{ \psi_i \}$ of eigenfunctions of $\Delta_{-}$. 
+\begin{definition}
+The operator $e^{- t \Delta_{+}}$ is defined by its action on an arbitrary section $\varphi \in \Gamma(X, L)$ which may be written in the basis as,
+\[ \varphi = \sum_{j} c_j \varphi_j \]
+which converges in the sense,
+\[ \left| \left| \varphi - \sum_{j = 1}^n c_j \varphi_j \right| \right| \to 0 \]
+Now we define,
+\[ e^{-t \Delta_{+}} \varphi = \sum_j e^{- t \lambda_j} c_j \varphi_j \] 
+This converges in the Hilbert space since if the sequence $\{ d_j = e^{- t \lambda_j} c_j \}$ is square summable if we take $t \ge 0$ since,
+\[ \sum_{j} |d_j|^2 = \sum_{j} e^{-2 t \lambda_j}  |c_j|^2 \le \sum_j |c_j|^2 = || \varphi || \]
+since $\lambda_i \ge 0$ and thus $t \lambda_j \ge 0$. 
+\end{definition}
+The eigenfunctions of $e^{- t \Delta_{+}}$ are clearly the eigenfunctions $\{ \varphi_j \}$ which have eigenvalues $e^{- t \lambda_j}$ and therefore, for any positive $t > 0$, we have,
+\[ \Tr{e^{- t \Delta_{+}}} = \sum_{j} e^{- t \lambda_j} \]
+which implies that,
+\[ \Tr{e^{- t \Delta_{+}}} - \Tr{e^{- t \Delta_{-}}} = \dim{\ker{\Delta_+}} - \dim{\ker{\Delta_{-}}} = \dim{H^0(X, L)} - \dim{H^0(X, L^{-1} \otimes K_X)} \] 
+
+\subsubsection{Introducing the Heat Kernels}
+
+We can express any section $\varphi \in L^2(X, L)$ by,
+\[ \varphi = \sum_{\lambda} c_{\lambda} \varphi_{\lambda} \]
+where $c_{\lambda} = \inner{\varphi}{\varphi_{\lambda}}$. Therefore, we can write,
+\begin{align*}
+(e^{- t \Delta_{+}} ) \varphi(z) & = \sum_{\lambda} e^{- t \lambda} c_{\lambda} \varphi_{\lambda}(z) = \sum_{\lambda} e^{- t \lambda} \left( \int_X \varphi(w) \overline{\varphi_{\lambda}(w)} h(w) g_{\bar{w} w} \right) \varphi_{\lambda}(z)
+\\
+& = \int_X \left\{ \sum_{\lambda} e^{- t \lambda} \varphi_{\lambda}(z) \overline{\varphi_{\lambda}(w)} h(w) g_{\bar{w} w} \right\} \varphi(w) 
+\end{align*}
+Therefore we can write,
+\[ (e^{-t \Delta_{+}} \varphi)(z) = \int_X K^{+}_t(z, w) \varphi(w) \quad \text{with} \quad K^{+}_t(z, w) = \sum_{\lambda} e^{- t \lambda} \varphi_{\lambda}(z) \overline{\varphi_{\lambda}(w)} h(w) g_{\bar{w} w} \]
+This section $K^{+}_t(z, w)$ is the heat kernel. We have $K^{+}_t \in \Gamma(X, L_z \otimes L^{-1}_w \otimes \bar{K}_w \otimes K_w)$. Then we can write,
+\[ \Tr{e^{- t \Delta_+}} = \int K_t^{+}(z,z) =  \sum_{\lambda} e^{- t \lambda} \int_X  \varphi_{\lambda}(z) \overline{\varphi_{\lambda}(z)} h(z) g_{\bar{w} w} = \sum_{\lambda} e^{- t \lambda} \inner{\varphi_{\lambda}}{\varphi_{\lambda}} = \sum_{\lambda} e^{- t \lambda} \]
+We notice that the operator $e^{- t \Delta_+}$ satisfies the heat  equation,
+\[ (\partial_t + \Delta_{+}) e^{- t \Delta_{+}} = 0 \]
+We will now investigate the theory of the heat equation. To solve the heat equation in local coordinates we need to ues Fourier transforms on the complex plane.
+
+\subsubsection{Complex Fouier Transforms}
+
+Consider a function $u : \C \to \C$ which is smooth and rapidly decreasing. Then we define the Fourier transform,
+\[ \hat{u}(\zeta) = \int_{\C} e^{- \pi i (z \bar{\zeta} + \zeta \bar{z}) } u(z) \dn{2}{z} \]
+Then we have the Fourier inversion formula,
+\[ \hat{\hat{u}}(z) = u(-z) \]
+or equivalently,
+\[ u(z) = \int_{\C} e^{i \pi (z \bar{\zeta} + \zeta \bar{z})} \hat{u}(\zeta) \dn{2}{\zeta} \]
+Furthermore,
+\[ \widehat{\partial u}(\zeta) = \int_{\C} e^{- \pi i (z \bar{\zeta} + \zeta \bar{z}) } \partial u(z) \dn{2}{z} = - \int_{\C} \partial e^{- \pi i (z \bar{\zeta} + \zeta \bar{z}) } u(z) \dn{2}{z} = - \pi i \bar{\zeta} \hat{u}(\zeta) \]
+
+\subsubsection{Solving the Heat Equation}
+
+In local coordinates, 
+\[ \bar{\partial}^\dagger \psi = - g^{z \bar{z}} \nabla_z \psi = - g^{z \bar{z}} h^{-1} \partial (h \psi) = - g^{z \bar{z}} ( \partial \psi + (\partial \log{h}) \psi) = - g^{z \bar{z}} \left( \partial \psi + \Gamma^h_{z} \psi \right) \]
+where $\Gamma^h_z = \partial \log{h}$. Then we have,
+\[ \Delta_{+} \varphi = \bar{\partial}^\dagger (\partial \varphi) = - g^{z \bar{z}} \left( \partial \bar{\partial} \varphi + \Gamma^h_z \bar{\partial} \varphi \right) = - g^{z \bar{z}} \partial \bar{\partial} \varphi - g^{z \bar{z}} \Gamma^h_z \bar{\partial} \varphi \]
+We look for a solution $f(t) = e^{- t \Delta_{+}} u$ and $f(0) = u$ of the form,
+\[ f(t, z) = \int_{\C} e^{\pi i (z \bar{\zeta} + \zeta \bar{z})} a(t, z, \zeta) \hat{u}(\zeta) \dn{2}{\zeta} \]
+and $a(0, z, \zeta) = 1$ such that $f(0, z) = u(z)$ by Fourier inversion. Fist compute,
+\begin{align*}
+\Delta_{+}  \left( e^{\pi i (z \bar{\zeta} + \zeta \bar{z})} a \right) & = \left\{ - g^{z \bar{z}} \partial \bar{\partial} - g^{z \bar{z}} \Gamma^h_z \bar{\partial} \right\} \left( e^{\pi i (z \bar{\zeta} + \bar{z} \zeta)} a \right)
+\\
+& = - g^{z \bar{z}} \partial \left( e^{\pi i (z \bar{\zeta} + \bar{z} \zeta)} (\pi i \zeta a + \bar{\partial} a) \right) - g^{z \bar{z}} \Gamma^h_z e^{\pi i (z \bar{\zeta} + \bar{z} \zeta)} \left( \pi i \zeta a  + \bar{\partial} a \right) 
+\\
+& = e^{\pi i (z \bar{\zeta} + \zeta \bar{z})} \left\{ - g^{z \bar{z}} \left[ ( \pi i \bar{\zeta}) ( \pi i \zeta a + \bar{\partial} a) + (\pi i \zeta \partial a + \partial \bar{\partial} a \right] - g^{z \bar{z}} \Gamma^h_z \left( \pi i \zeta + \bar{\partial} a \right) \right\} 
+\end{align*}
+Define,
+\[ \kappa(a) = - g^{z \bar{z}} \left[ ( \pi i \bar{\zeta}) ( \pi i \zeta a + \bar{\partial} a) + (\pi i \zeta \partial a + \partial \bar{\partial} a) \right] - g^{z \bar{z}} \Gamma^h_z \left( \pi i \zeta + \bar{\partial} a \right) \]
+then we have,
+\[ \Delta_{+}  \left( e^{\pi i (z \bar{\zeta} + \zeta \bar{z})} a \right) = e^{\pi i (z \bar{\zeta} + \zeta \bar{z})} \kappa(a) \]
+We compute,
+\begin{align*}
+(\partial_t + \Delta_{+}) f = \int_{\C} e^{\pi i (z \bar{\zeta} + \bar{z} \zeta)} \left\{ \partial_t a + \kappa \right\} \hat{u}(\zeta) \dn{2}{\zeta}
+\end{align*}
+We would like to solve $\partial_t a + \kappa(a) = 0$. At this point, we look for a series solution of the form,
+\[ a(t, z, \zeta) = e^{- \pi^2 g^{z \bar{z}} \zeta \bar{\zeta} t} \sum_{k} b_k(t, z, \zeta) \]
+where $b_k$ is a polynomial in $t, \zeta, \bar{\zeta}$ with terms $t^p \zeta^{\alpha} \bar{\zeta}^{\beta}$ such that $k = 2p - \alpha - \beta$ and coefficients which are smooth functions of $z$ and $\bar{z}$. This implies that,
+\[ \partial_t a(t, z, \zeta) + g^{z \bar{z}} \pi^2 \zeta \bar{\zeta} a = e^{- \pi^2 g^{z \bar{z}} \zeta \bar{\zeta} t} \sum_{k} \partial_t b_k(t, z, \zeta) \]
+Therefore, the equation $\partial_t a + \kappa(a) = 0$ reduces to,
+\begin{align*}
+\sum_{k = 0}^{\infty} \partial_t b_k + \sum_{k = 0}^{\infty} c_1(b_k) + \sum_{k = 0}^{\infty} d_0(b_k) = 0 
+\end{align*}
+where,
+\begin{align*}
+c_1(b) & = -g^{z \bar{z}} \pi i \left( \bar{z} \bar{\partial} b + \zeta \partial b + \zeta \Gamma_{z} b - \pi^2 t \bar{\zeta} \zeta \left(\bar{\zeta} \partial g^{z \bar{z}} + \zeta \bar{\partial} g^{z \bar{z}} \right) b \right)
+\\
+d_0(b) & = g^{z \bar{z}} \left( - \Gamma_z \partial b + \Gamma \pi^2 t \zeta \bar{\zeta} \partial g^{z \bar{z}} b - \partial \bar{\partial} b + \pi^2 i \zeta \bar{\zeta} \partial \bar{\partial} g^{z \bar{z}} b 
+\right.
+\\
+& \left. \quad \quad + \pi^2 t \zeta \bar{\zeta} \partial g^{z \bar{z}} \partial b + \pi^2 t \zeta \bar{\zeta} \partial g^{z \bar{z}} \partial b -  (\pi^2 t \zeta \bar{\zeta} )^2 \Gamma_z | \partial g^{z \bar{z}} |^2 b \right)
+\end{align*}
+$\partial_t$ decreases the weight by $2$ and $c_1$ decreases the weight by $1$ while $d_0$ does not change the weight. Therefore, we should write,
+\[ \sum_{k = 0}^{\infty} \partial_t b_k + \sum_{k = 1}^{\infty} c_1(b_{k-1}) + \sum_{k = 2}^{\infty} d_0(b_{k-2}) = 0 \]
+We require that this equation hold at each order,
+\begin{align*}
+\partial_t b_0 & = 0
+\\
+\partial_t b_1 & + c_1(b_0) = 0
+\\
+\partial_t b_2 & + c_1(b_1) + d_0(b_0) = 0
+\\
+& \vdots
+\\
+\partial_t b_k & + c_1(b_{k-1}) + d_0(b_{k-2}) = 0
+\end{align*}
+Thus we can take,
+\begin{align*}
+b_0 & = 1
+\\
+b_1 & = -\int_0^1 c_1(b_0) \d{t}
+\\
+b_2 & = - \int_0^1 [c_1(b_1) + d_0(b_0)] \d{t}
+\\
+& \vdots
+\\
+b_k & = - \int_0^1 [c_1(b_{k-1}) + d_0(b_{k-2})] \d{t}
+\end{align*}
+which gives an inductive solution in formal power series. To get a convergent series we truncate,
+\[ a_N(t, z, \zeta) = e^{- \pi^2 t g^{z \bar{z}} \zeta \bar{\zeta}} \sum_{k \le N} b_K(t, z, \zeta) \]
+Then,
+\[ \partial_t a_N + \kappa(a_N) = e^{- \pi^2 t g^{z \bar{z}} \zeta \bar{\zeta}} E_N(t, z, \zeta) \]
+where $E_N$ has Weight $N + 2$. Because we defined $a$ such that,
+\[ f(t, z) = \int_{\C} e^{i \pi (z \bar{\zeta} + \zeta \bar{z})} a(t, z, \zeta) \hat{\phi}(\zeta) \dn{2}{\zeta} = \int_{\C} \left( \int_{\C} e^{i \pi[z ( \bar{\zeta} - \bar{w}) + \bar{z} (\zeta - w)]} a(t, z, \zeta) \dn{2}{\zeta} \right)  \varphi(w) \dn{2}{w} \]
+Therefore, we have found the kernel,
+\[ K^+_t(t, z, \zeta) =  \int_{\C} e^{i \pi[z ( \bar{\zeta} - \bar{w}) + \bar{z} (\zeta - w)]} a(t, z, \zeta) \dn{2}{\zeta} \]
+Therefore,
+\begin{align*}
+K^{+}_t(z,z) = \int_{\C} a(t, z, \zeta) \dn{2}{\zeta} = \int_{\C} e^{- \pi^2 t g^{z \bar{z}} \zeta \bar{\zeta}} \sum_{k = 0}^N b_k(t, z, \zeta) \dn{2}{\zeta}  
+\end{align*}
+Since $b_k$ for $k \ge 3$ depends on $t^{p}$ for $p \ge 2$ then in the limit $t \to 0$ these terms die under the integral even under the change of variables $\eta = t^{1/2} \zeta$ which makes the numerator $t$ invariant. Therefore, we need only consider $b_0 + b_1 + b_2$ if we will take the limit $t \to 0$. We notice that only terms propostional to $1$ or $\zeta \bar{\zeta}$ can contribute since the integral is rotationally invariant. Furthermore, only covariant terms may remain since $K^{+}_t(z,z)$ is the section of a line bundle. Furthermore, since $b_1$ is first-order in $\zeta$, by symmetry it integrates to zero. Dropping such terms we find,
+\[ b_2^{+}(t, z, \zeta) = \pi^2 \left( \tfrac{1}{2} t^2 |\zeta|^2 F - \tfrac{1}{2} t^2 |\zeta|^2 R + \tfrac{1}{3} \pi^3 t^3 |\zeta|^4 R \right) \] 
+where $F = - \partial \bar{\partial} \log{h}$ and $R = - \partial \bar{\partial} \log{g^{z \bar{z}}}$ are the curvatures of the bundles $L$ and $K_X^{-1}$. 
+Therefore,
+\[ K^{+}_t(z,z) = \int_{\C} e^{- \pi^2 t g^{z \bar{z}} \zeta \bar{\zeta}} (b_0 + b_2) \dn{2}{\zeta} = \frac{\kappa_1}{\pi^2 t} + \frac{\kappa_2}{\pi^2} F(z) + \frac{\kappa_3}{\pi^2} R(z) \]
+where
+\begin{align*}
+\kappa_1 & = \int e^{- \zeta \bar{\zeta}} \dn{2}{\zeta} 
+\\
+\kappa_2 & = \int e^{- \zeta \bar{\zeta}} \tfrac{1}{2} |\zeta|^2 \dn{2}{\zeta} 
+\\
+\kappa_3 & = \int e^{- \zeta \bar{\zeta}} \left( - \frac{1}{2} |\zeta|^2 + \tfrac{1}{3} |\zeta|^4  \right) \dn{2}{\zeta} 
+\end{align*}
+
+\subsubsection{Computing the Heat Kernels}
+
+\section{Function Theory on General Riemann Surfaces}
+
+Let $X$ be a compact Riemann surface of genus $g$. By Riemann-Roch,
+\[ \dim{H^0(X, K_X)} = g \] 
+We first fix a basis of homology cycles i.e. representatives for the homology classes of $X$. There are $2g$ such homology cycles. Once we choose representatives, we form the surface with boundary $\Xcut$ by cutting along the cycles. Call these cycles $A_I$ and $B_I$. Since we have $g$ independent holomorphic forms we may fix a basis $\omega_I$ such that,
+\[ \oint_{A_J} \omega_I = \delta_{IJ} \]
+this fixes the period matrix,
+\[ \Omega_{IJ} = \oint_{B_J} \omega_I \]
+The period matrix is symmetric, $\Omega_{IJ} = \Omega_{JI}$ and $\Im{\Omega} > 0$. We construct the Abel map, for $p_0 \in X$ we construct the map $I : X \to \C^g / \Lambda$ by,
+\[ p \mapsto \left( \int_{p_0}^p \omega_1, \dots, \int_{p_0}^p \omega_g \right) \]
+where $\Lambda = \{ m_I + \Omega_{IL} n_L \mid m_I, n_L \in \Z \}$. Therefore, we identify $X$ with a $g$-dimensional torus $\C^g / \Lambda$. To obtain meromorphic functions on $X$ we cnonsider $\theta$-functions of $\C^g$ and restrict them to $I(X)$. We fix $\zeta \in \C^g$ and then define our trial function on $X$ by,
+\[ f(p) = \theta\left( \zeta + \int_{p_0}^p \omega \: \middle| \: \Omega \right) \]
+where we define the $g$-dimensional $\theta$-function as,
+\[ \theta(\zeta | \Omega) = \sum_{m \in \Z^g}  e^{\pi i \left< m , \Omega m \right> + 2 \pi i \left< m , \zeta \right>} \]
+with $\zeta \in \C^g$. 
+
+\begin{proposition}
+The $\theta$-function transforms as,
+\[ \theta(\zeta + n \mid \Omega) = \theta(\zeta \mid \Omega) \]
+and
+\[ \theta(\zeta + \Omega n \mid \Omega) = e^{- \pi i \left< n, \Omega n \right> - 2 \pi i \left< n, \zeta \right>} \theta(\zeta \mid \Omega) \]
+\end{proposition}
+Now we need to work out the transformation properties of our induced function $f$.
+
+\begin{proposition}
+The function $f$ on $\Xcut$ transforms as,
+\[ f(z + A_K) = \theta\left(\zeta_I + \int_{p_0}^z \omega_I + \int_{A_K} \omega_I \: \middle| \: \Omega \right) = \theta\left(\zeta_I + \int_{p_0}^z \omega_I + \delta_{IK} \: \middle| \: \Omega \right) \]
+Using the first transformation property of $\theta$,
+\[ f(z + A_K) = \theta\left(\zeta_I + \int_{p_0}^z \omega_I  \: \middle| \: \Omega \right) = f(z) \]
+Furthermore,
+\[ f(z + B_K) = \theta\left(\zeta_I + \int_{p_0}^z \omega_I + \int_{B_K} \omega_I \: \middle| \: \Omega \right) = \theta\left(\zeta_I + \int_{p_0}^z \omega_I + \Omega_{IL} \delta_{LK} \: \middle| \: \Omega \right) \]
+Using the second transformation property of $\theta$ with $n = \delta_{IK}$, we find,
+\[ f(z + B_K) = e^{-\pi i \Omega_{KK} - 2 \pi i \left( \zeta_K + \int_{p_0}^z \omega_K \right)} f(z) \]
+\end{proposition}
+\begin{proposition}
+Either $f(z) \equiv 0$ on $X$ or $f$ has exactly $g$ zeros $p_1, \dots, p_g$ satisfying $I(p_1) + \cdots + I(p_g) = \Delta - \zeta$ for some fixed vector $\Delta$. 
+\end{proposition}
+
+\begin{proof}
+The number of zeros of $f$ is computed via,
+\[ \oint_{\partial \Xcut} \frac{\d{f}(z)}{f(z)} = \sum_{L = 1}^g \left[ \oint_{A_L} \left(- \frac{\d{f}(z + B_L)}{f(z + B_L)}  + \frac{\d{f}(z)}{f(z)} \right) + \oint_{B_L} \left( \frac{\d{f}(z + A_L)}{f(z + A_L)} - \frac{\d{f}(z)}{f(z)} \right) \right] \]
+Due to the first transformation property, the second term vaishes. We may rewrite the second transformation property as,
+\[ \log{f(z + B_K)} = - \pi i \Omega_{KK} - 2 \pi i \left( \zeta_K + \int_{p_0}^z \omega_K \right) + \log{f(z)} \]
+Therefore,
+\[ \d{f(z + B_L)}{f(z + B_L)} = - 2 \pi i \omega_L + \frac{\d{f}(z)}{f(z)} \]
+This implies that,
+\[ \oint_{\partial \Xcut} \frac{\d{f}(z)}{f(z)} = 2 \pi i \sum_{L = 1}^g \oint_{A_L} \omega_L = 2 \pi i g   \]
+Therefore, $f$ has exactly $g$ zeros. To complete the prood we reintroducte the Abelian integrals. 
+\end{proof}
+
+\subsection{Abelian Integrals}
+
+Define the Abelian integral on $\Xcut$,
+\[ g_I(z) = \int_{p_0}^z \omega_I \]
+which is well-defined and transforms as,
+\[ g_I(z + A_K) = \int_{p_0}^z \omega_I + \oint_{A_K} \omega_I = g(z) + \delta_{IK} \]
+and 
+\[ g_I(z + B_K) = \int_{p_0}^z \omega_I + \oint_{B_K} \omega_I = g(z) + \Omega_{IK} \]
+Let $C$ be a contour contianing all the poles of $f$. Using the Residue Theorem,
+\[ \oint_C g_I(z) \frac{\d{f}}{f} = 2 \pi i \sum_{j = 1}^g g_I(p_j) = 2 \pi i \left[ I(p_1) + \cdots + I(p_g) \right]_I \]
+However, we can compute this integral by extending the curve to the boundary of $\Xcut$ and computing,
+\begin{align*}
+\oint_{\partial \Xcut} g_I(z) \frac{\d{f}(z)}{f(z)} & = \sum_{L = 1}^g \left[ \oint_{A_L} \left(- g_I(z + B_L) \frac{\d{f}(z + B_L)}{f(z + B_L)}  + g_I(z) \frac{\d{f}(z)}{f(z)} \right)
+\right.
+\\
+& \left. \quad \quad \quad + \oint_{B_L} \left( g_I(z + A_L) \frac{\d{f}(z + A_L)}{f(z + A_L)} - g_I(z + A_L) \frac{\d{f}(z)}{f(z)} \right) \right]
+\end{align*} 
+The first term becomes,
+\begin{align*}
+\oint_{A_L} & \left(- g_I(z + B_L) \frac{\d{f}(z + B_L)}{f(z + B_L)}  + g_I(z) \frac{\d{f}(z)}{f(z)} \right) 
+\\
+& = \oint_{A_L} \left(- [ g_I(z) + \Omega_{IL}] \left( \frac{\d{f}(z)}{f(z)} - 2 \pi i \omega_L(z) \right) + g_I(z) \frac{\d{f}(z)}{f(z)} \right)
+\\
+& = \oint_{A_L} \left( 2 \pi i \omega_L(z) g_I(z) + 2 \pi i \omega_L(z) \Omega_{IL} - \Omega_{IL} \frac{d{f}(z)}{f(z)} \right) 
+\\
+& = 2 \pi i \oint_{A_L} \omega_L(z) g_I(z) + 2 \pi i \Omega_{IL} - \Omega_{IL} (2 \pi i n_L)
+\end{align*}
+where I have,
+\[ n_L = \frac{1}{2 \pi i} \oint_L \frac{\d{f}(z)}{f(z)} \]
+which is an integer because it is the change of the log going about a closed loop in $X$. The second term becomes,
+
+\subsection{The Enhanced Abel Map}
+
+\newcommand{\Sym}[2]{\mathrm{Sym}^{#1}\left(#2\right)}
+
+\begin{definition}
+The space $\Sym{g}{X}$ is the quotient space $\Sym{g}{X} = X^g / \sim$ where $\sim$ removes ordering by $(x_1, \dots, x_g) \sim (x_{\sigma(1)}, \dots, x_{\sigma(g)})$ for any permutation $\sigma \in S_g$. Then $\Sym{g}{X}$ is a $g$-manifold. 
+\end{definition}
+
+
+\begin{theorem}[Jacobi Inversion]
+The Abel map $I : \Sym{g}{X} \to \C^g / \Lambda$ given by $I(p_1, \dots, p_g) = I(p_1) + \cdots + I(p_g)$ is onto. Furthermore, for a given $\zeta$ any point in the $g$-tuple satisfying $I(p_1) + \cdots + I(p_g) = \Delta - \zeta$ satisfies,
+\[ \theta\left( \zeta + \int_{p_0}^{p_j} \omega \: \middle| \: \Omega \right) = 0 \]
+for each $j = 1, \dots, g$. Furthermore, let $Z$ be the variety of $\zeta$ for which $f \equiv 0$ identically. Then for $\zeta \notin Z$ the solution $(p_1, \dots, p_g)$ of $I(p_1) + \dots + I(p_g) = \Delta - \zeta$ is unique. 
+\end{theorem}
+
+\begin{proof}
+Given any $v \in \C^g / \Lambda$ take $\zeta = \Delta - v$. If $\zeta \notin Z$ then the zeros of $f(p)$ satisfy $I(p_1) + \cdots + I(p_g) = \Delta - \zeta = v$ so $I(p_1, \dots, p_g) = v$. However, $I(\Sym{g}{X})$ contains the complement of $Z$ which is open and $I(\Sym{g}{X})$ is a closed $g$-dimensional subvariety. Thus, $I(\Sym{g}{X}) = \C^g / \Lambda$. 
+\bigskip\\
+Consider the subvariety,
+\[ W = \left\{ (p_1, \dots, p_g, \zeta) \in \Sym{g}{X} \times I(X) \: \middle| \: I(p_1) + \cdots + I(p_g) = \Delta - \zeta \text{ and } \theta\left(\zeta + \int_{p_0}^p \omega \: \middle| \: \Omega \right) = 0 \right\} \]
+If $\zeta \notin Z$ then there exists $(p_1, \dots, p_g, \zeta) \in W$ so $\dim{W} \ge g$ since $Z$ has codimension greater than $1$. Furthermore, if $(p_1, \dots, p_g, \zeta) \in W$ then the projection $W \to \Sym{g}{X}$ by $(p_1, \dots, p_g, \zeta) \mapsto (p_1, \dots, p_g)$ is injective since,
+\[ \zeta = \Delta - [I(p_1) + \dots + I(p_g)] \] Therefore $\dim{W} \le \dim{\Sym{g}{X}} = g$ implying that $\dim{W} = g$ so the projection is surjective since its image is a closed $g$-dimensional subvariety. Thus, $W \cong \Sym{g}{X}$. Thus, sending $(p_1, \dots, p_g) \mapsto (p_1, \dots, p_g, \zeta)$ with the only possible $\zeta$ must lie in $W$ so we have,
+\[ \theta\left(\zeta + \int_{p_0}^p \omega \: \middle| \: \Omega \right) = 0 \]
+This proves the uniqueness as well because there are exactly $g$ zeros of $f(p)$ and these are exactly the soltions to,
+\[ I(p_1) + \cdots + I(p_g) = \Delta - \zeta \]
+\end{proof}
+
+\begin{theorem}
+Let $e \in \C^g$ satisfy $\theta(e | \Omega) = 0$ and $f(p)$ defined by $\theta$ is not identically zero on $X$. Define,
+\[ E_e(x,y) = \theta\left(e + \int_x^y \omega \: \middle| \: \Omega \right) \]
+Then there exists points $z_1, \dots, z_{g-1}$ and $w_1, \dots, w_{g - 1}$ 
+such that,
+\[ E_e(x,y) = 0 \iff x = y \text{ or } x = z_i \text{ or } y = w_i \]
+\end{theorem}
+
+\begin{proof}
+Fix $x \in X$ such that $E_e(x, y)$ is not identically zero as a function of $y$. We can write,
+\[ E_e(x, y) = \theta\left( e + \int_x^{p_0} \omega + \int_{p_0}^y \omega \: \middle| \: \Omega \right) \]
+By the lemma, there exist $y_1, \cdots, y_g$ with $E_e(x, y_i) = 0$ and,
+\[ I(y_1) + \cdots I(y_g) = \Delta -  \left( e + \int_x^{p_0} \omega \right) \]
+Since $y = x$ is a root of $E_e(x, y)$ then we may set $y_g = x$. Furthermore, 
+\[ I(x) = \int_{p_0}^x \omega \]
+and thus,
+\[ I(y_1) + \cdots + I(y_{g-1}) = \Delta - e \]
+since the extra terms cancel. Therefore, $y_1, \cdots y_{g-1}$ are independent of $x$. So these become the fixed points $w_1, \dots, w_{g-1}$. The same argument holds for the first coordinate. 
+\end{proof}
+
+\begin{definition}
+We can generalize the $g$-dimensional $\theta$-function to,
+\[ \theta[\delta' \delta''](z | \Omega) = \sum_{n \in \Z} e^{\pi i \inner{n + \delta'}{\: \Omega(n + \delta')} +  2 \pi i \inner{z + \delta'}{\: z + \delta''}} \]
+\end{definition}
+
+\begin{definition}
+Define the function,
+\[ E(x,y) = \frac{\theta[\delta]\left( \int_x^y \omega \: \middle| \: \Omega \right)}{h_\delta(x) h_\delta(y)} \]
+where $h_{\delta}(x)$ has zeros at precisely $z_1, \dots, z_{g - 1}$ and $h_{\delta}(y)$ has zeros at precisely $w_1, \dots, w_{g-1}$ which are actually the same because $\theta$ is even and thus the numerator is symmetric in $x$ and $y$. However, if $h$ has no poles then $h$ cannot be a function it must be a section of a line bundle $S_{\delta}$ with $c_1(S_{\delta}) = g-1$.    
+\end{definition}
+
+\begin{theorem}
+Let $\Theta = \{ \zeta \mid \theta(\zeta | \Omega) = 0 \}$ then $\Theta = \Delta - I(\Sym{g-1}{X})$. 
+\end{theorem}
+
+\begin{proof}
+Assume that $\zeta \in \Delta - I(\Sym{g-1}{X})$ then $\zeta = \Delta - [I(p_1) + \cdots + I(p_{g-1})]$. Pick a point $p_g$ then we have,
+\[ \eta = \zeta - I(p_g) = \Delta - [I(p_1) + \cdots + I(p_{g})] \]
+Therefore, the map,
+\[ f(z) = \theta\left( \eta + \int_{p_0}^z \omega \: \middle| \: \Omega \right) \]
+has zeros at exactly $p_1, \cdots, p_g$. Take $z = p_g$ then,
+\[ \theta(\zeta | \Omega) = \theta(\eta + I(p_g) | \Omega) = \theta\left( \eta + \int_{p_0}^{p_g} \omega \: \middle| \: \Omega \right) = 0 \]
+Thus $\zeta \in \Theta$. Then equality holds by dimension counting.
+\end{proof}
+
+\begin{definition}
+Let $S$ be a holomorphic line bundle. $S$ is called a spin bundle if $S^2 = S \otimes S = K_X$. 
+\end{definition}
+
+\subsubsection{Key Facts about Spin Bundles on Riemann Surfaces}
+
+Let $I(S) = I(p_1 + \cdots + p_N - q_1 - \cdots - q_N)$ where $p_i, q_j$ are the poles and zeros of meromorphic sections of $S$.
+\begin{enumerate}
+\item Given a bundle $S$ consider $\Theta + I(S) - \Delta$. Then $S$ is a spin bundle iff $\Theta + I(S) - \Delta$ is symmetric in the sense that $\zeta \in V \iff -\zeta \in V$. 
+\item A translate of $\Theta$ by $\delta' + \Omega \delta''$ is symmetric $\iff \delta' , \delta'' \in (\frac{1}{2} \Z)^g$
+\item $\Theta$ is symmetric so $\Theta$ corresponds to a spin bundle $S_{0}$ with $I(S_{0}) = \Delta$
+\item To each $\delta = (\delta', \delta'')$ we can consider $\theta(\delta' + \Omega \delta'' + \zeta | \Omega)$ or $\theta[\delta', \delta''](\zeta | \Omega)$. We find,
+\[ \theta[\delta' \delta''](-\zeta | \Omega) = (-1)^{\delta' \cdot \delta''} \theta[\delta' \delta''](\zeta | \Omega) \]
+We say $S$ is an even/odd spin bundle if $\theta[\delta]\zeta | \Omega)$ is even/odd.
+\item There are $2^{2g}$ spin bundles.
+\end{enumerate} 
+
+
+\subsection{Classifying Line Bundles}
+
+\newcommand{\Pic}[1]{\mathrm{Pic}_{#1}}
+
+\begin{definition}
+$\Pic{k} = \{ L \text{ line bundle over } X \mid c_1(L) = k \}$
+\end{definition}
+
+\subsubsection{Line Bundles of Chern Class Zero}
+
+Consider $\Pic{0}$. Let $L$ have $c_1(L) = 0$. Then for any metric $h$ on $L$ we have,
+\[ c_1(L) = \frac{i}{2 \pi} \int_X F_h \d{z} \wedge \d{\bar{z}} \]
+where $F_h = - \partial \bar{\partial} \log{h}$. Now consider a new metric $\tilde{h} = h e^{-u}$ for a scalar holomorphic function $u$. Then,
+\[ F_{\tilde{h}} = - \partial \bar{\partial} \log{\tilde{h}} = - \partial \bar{\partial} \log{h} + \partial \bar{\partial} u \]
+We want to solve the equation,
+\[ \partial \bar{\partial} u +  F_h = 0 \iff \partial \bar{\partial} u = - F_h \]
+which we have shown is solvalbe because,
+\[ \int_X (-F_h) \d{z} \wedge \d{\bar{z}} = 2 \pi i \: c_1(L) = 0 \]
+
+\end{document}
+
