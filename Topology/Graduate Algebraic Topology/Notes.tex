@@ -2,6 +2,8 @@
 \usepackage{import}
 \import{./}{Includes}
 
+\newcommand{\GL}[2]{\mathrm{GL}_{#1} \left( #2 \right)}
+
 \begin{document}
 
 \section{Topics}
@@ -430,7 +432,7 @@ Let $f,g : X^n \to Y$ be maps with $f|_{X^{n-2}} = g|_{X^{n-2}}$. Then $[d_{f,g}
 \subsection{Cohomology of $K(G, n)$}
 
 Let $n \ge 2$ and $G$ abelian. Consider a map $f : X \to K(G, n)$. By Hurewicz, $H_n(K(G, n), \Z) = \pi_n(K(G, n)) = G$ and $H_{n-1}(K(G, n), \Z) = 0$. Now, by the universal coefficient theorem,
-\[ H^n(K(G, n), G) = \Hom{}{H_n(K(G, n), \Z)}{G} = \Hom{}{G}{G} \]
+\[ H^n(K(G, n), G) = \Hom{H_n(K(G, n), \Z)}{G} = \Hom{G}{G} \]
 Therefore, there is a canonical element $\mathbbm{1} \in H^n(K(G, n), G)$ which is the class of $\id : G \to G$. 
 \bigskip\\
 Also, via $f : X \to K(G, n)$, we also get $f^*(\mathbbm{1}) \in H^n(X ; G)$, which depends only on the homotopy class of $f$. 
@@ -448,5 +450,677 @@ We say that $K(G, n)$ classifies $H^n(-,G)$ meaning that the functor,
 \begin{definition}
 Given a contravariant functor $h : \{ \text{CW-complexes} \} \to \mathbf{Set}$ we say that $C$ classifies $h$ if there is a natural isomorphism $h \cong [-, C]$ in this case we say that $h$ is representable and the pair $(C, \id \in h(C))$ is a representation of $h$. 
 \end{definition}
+
+\section{Feb 17}
+
+Recall that the isomorphism $H^n(K(G, n), G) \cong \Hom{G}{G}$ gives a canonical element $\id \in H^n(K(G,n), G)$ the fundamental class.
+
+\begin{thm}
+We have $[X, K(G, n)] = H^n(X, G)$ given by $[f] \mapsto f^*(\id) \in H^n(X, G)$. 
+\end{thm}
+
+\begin{rmk}
+We can describe the fundamental class explicitly as follows. Wrtting $K(G, n)$ as a wedge of $n$-spheres each for a generator $g \in G$. Then there is a class $c_0 \in C^n(K(G,n), G)$ sending each $S^n$ to the corresponding element of $g$. Then, in terms of two important maps $K(G, n) \to K(G,n)$, the identity and the constant map, we get $c_0 = d_{\text{const, id}}$ and then $[c_0]$ is the fundamental class.
+\end{rmk}
+
+
+\begin{proof}
+First we prove surjectivity. Given $[c] \in H^n(X, G)$ we want $f : X \to K(G, n)$ s.t. $f^*[c_0] = [c]$. Let $f |_{X^{n-1}}$ be constant. Last time we showed that given any $h : X^n \to K(G, n)$ and $d \in C^n(X, G)$ there is some $f$ such that $d_{h, f} = d$ and $f|_{X^{n-1}} = h|_{X^{n-1}}$. Pick $f$ such that $d_{\text{const}, f} = c$ and we may assume $f : X^n \to K(G, n)$ is ceulluar.  Now consider,
+\begin{center}
+\begin{tikzcd}
+X^n \arrow[r, "f"] & K(G, n) \arrow[r, "\id"] & K(G, n)
+\end{tikzcd}
+\end{center}
+then,
+\[ f^*(d_{\text{const}, \id}) = d_{\text{const} \circ f, \id \circ f} \]
+But $d_{\text{const}, \id} = c_0 \in C^n(K(G, n), G)$ and thus,
+\[ f^*(c_0) = d_{\text{const}, g} = c \in C^n(X, G) \]
+Therefore, we get $f : X^n \to K(G, n)$ such that $f^* [c_0] = [c]$. Furthermore, we can extend to $X^{n+1}$ since the homotopy of $K(G, n)$ vanishes above $n$. 
+\bigskip\\
+Now we show injectivity. Suppose that $f^*[\id] = g^*[\id]$ for two maps $f, g : X \to K(G, n)$. We may assume that both maps are cellular. Then $[d_{\text{const}, f} ] - [d_{\text{const}, g}] = \pm [d_{f,g}]$. But $d_{\text{const}, f} = f^*[\id]$ and likewise for $g$ so $[d_{f,g}] = 0$. This implies that $f, g |_{X^n}$ are homotopic which may be extended a homotopy on $X$ since $K(G, n)$ has no higher homotopy. 
+\end{proof}
+
+\begin{ex}
+We have the following explicit calculations,
+\begin{enumerate}
+\item $K(\Z, 1) = S^1 \implies H^1(X; \Z) = [X, S^1]$
+\item $K(\Z, 2) = \CP^\infty \implies H^2(X; \Z) = [X, \CP^\infty]$
+\item $K(\Z/2 \Z, 1) = \RP^\infty \implies H^1(X, \Z / 2 \Z) = [X, \RP^\infty]$
+\end{enumerate}
+\end{ex}
+
+\begin{thm}[Hopf]
+For every CW complex with $\dim{X} \le n$ we have $[X, S^n] \xrightarrow{\sim} H^n(X, \Z)$ via $[f] \mapsto f^*(1)$ for $1 \in H^n(S^n, \Z)$. 
+\end{thm}
+
+\begin{proof}
+We know that $H^n(X, \Z) \xrightarrow{\sim} [X, K(\Z, n)]$. We can construct $K(\Z, n)$ as one $0$-cell, and one $n$-cell with no relations i.e. no $(n+1)$-cells. Thus, $K(\Z, n)^{n+1} = S^n$. Therefore, if $\dim{X} = n$ then homotopy is controlled only by the $(n+1)$-skeleton. Explicitly, by cellular approximation $f : X \to K(G, n)$ is homotopic to $f : X \to K(G, n)^{n} = S^n$. Furthermore, if $f, g : X \to K(G, n)$ are homotopic then there is a homotopy $h : X \times I \to K(G, n)$ and again by cellular approximation a homotopy $h : X \times I \to K(G, n)^{n+1} = S^n$. Thus $[X, K(G, n)] = [X, S^n]$ proving the result. 
+\end{proof}
+
+\begin{definition}
+The cohomotopy groups of $X$ are $\pi^n(X) = [X, S^n]$ which also have a pointed version $\pi^n(X, x_0) = \left< X, S^n \right>$. 
+\end{definition}
+
+\begin{rmk}
+Since $H^n(X, \Z) = 0$ for $n > \dim{X}$ we immediately see that $\pi^n(X) = 0$ for $n > \dim{X}$ and $\pi^n(X) = H^n(X, \Z)$ for $\dim{X} = n$. In particular, cohomotopy is bounded unlike homotopy. 
+\end{rmk}
+
+\subsection{Generalizations}
+
+\begin{rmk}
+Given a fibre bundle $F \embed E \to B$ can we extend / find sections? For example, is there a nonvanishing vector field on $S^n$? Can you find $k$ linearly independent vector field on $S^n$. 
+\end{rmk}
+
+\begin{rmk}
+Here we make some simplifying assumptions: $F$ is simple i.e. ($\pi_1 \acts \pi_n$ trivially) and $B$ is simply connected (this can be weakened by using local coefficients).  
+\bigskip\\
+The main questions will be, given a section $s : B^n \to E$ can you extend to $B^{n+1}$ ?
+\end{rmk}
+
+Choose $D^{n+1}$, an $(n+1)$-cell of $B$ then $E|_{D^{n+1}} \cong F \times D^{n+1}$ since $D^{n+1}$ is contractible. The section $s$ gives $\partial D^{n+1} \to F$ giving $[s] \in \pi_n(F)$. Then $s$ extends to $D^{n+1}$ iff $[s] = 0$. Since on each $(n+1)$-cell we get a $[s] \in \pi_n(F)$ and thus we patch these together to get a cochain,
+\[ c_s \in C^{n+1}(B, \pi_n(F)) \]
+To do this we require that $B$ is simply connected such that there is a unique identification of the fibres $\pi_n(F_b)$. 
+
+\begin{thm}
+$O_s \in H^{n+1}(B, \pi_n(F))$ vanishes iff $s|_{B^{n-1}}$ extends to $B^{n+1}$. 
+\end{thm}
+
+\subsubsection{Primary Obstruction}
+
+Assume that $\pi_0(F) = \pi_1(F) = \cdots = \pi_{n-1}(F) = 0$. Then there is no obstruction to finding a section $s : B^n \to E$ (since the obstructions are zero at the cochain level). Then $O_s \in H^{n+1}(B, \pi_n(F))$ we get the first nonzero obstruction cochain.
+
+\begin{prop}
+This first nonvanish obstruction $O_s$ does not depend on the choice of $s : B^n \to E$
+\end{prop}
+
+\begin{proof}
+It sufficies to show that the HEP holds for sections of bundles and that if $s \sim s'$ on $B^n$ then $O_S = O_{S'}$. 
+\bigskip\\
+By induction we will 
+\end{proof}
+
+\begin{definition}
+The \text{primary obstruction} of a fibre bundle $F \embed E \to B$ is the above obstruction class $O_B \in H^{n+1}(B, \pi_n(F))$ which an invariant of the bundle. 
+\end{definition}
+
+\section{Vector Bundles}
+
+\begin{definition}
+A vector bundle is a fibre bundle whose fibres are vectorspaces and fibre preserving maps are assumed to be linear.
+\end{definition}
+
+\begin{lemma}
+A rank $n$ vector bundle is trivial iff there are $n$ everywhere linearly independent sections.
+\end{lemma}
+
+\begin{rmk}
+Assuming $B$ is paracompact (e.g. a CW complex) for any vector bundle $p : E \to B$ we can assume $E$ comes with a fibrewise Euclidean structure i.e. a section of $E^* \otimes E^* \to B$. 
+\end{rmk}
+
+\begin{defn}
+Given a vector bundle $p : E \to B$ with a metric $g \in \Gamma(B, E^* \otimes E^*)$ then we define $p_k : E_k \to B$ to be the bundle of $g$-orthonormal $k$-frames. Thus $p_k^{-1}(x) \cong V(n, k)$ the Stiefl-manifold of orthonormal $k$-frames of $\R^n$ (whose $O(k)$-quotient is the Grasmannian $G(n, k)$). Then $E$ has $k$ linearly independent section iff $E_k$ admits a section. 
+\end{defn}
+
+\begin{lemma}
+$\pi_i(V(n, k)) = 0$ for $i < n - k$
+\end{lemma}
+
+\begin{proof}
+Furthermore, for the base case, $V(n, 1) = S^{n-1}$ so $\pi_i(V(n,1)) = \Z \delta_{i,n-1}$.
+\bigskip\\
+There is a fibre bundle $V(n, k) \to S^{n-1}$ via $(v_1, \dots, v_k) \mapsto v_k$ with fibre $V(n-1, k-1)$. Therefore, $V(n-1, k-1) \embed V(n,k) \to S^{n-1}$. Then by the LES,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & \pi_{i+1}(S^{n-1}) \arrow[r] & \pi_i(V(n-1,k-1)) \arrow[r] & \pi_i(V(n,k)) \arrow[r] & \pi_i(S^{n-1}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Then for $i < n - 2$ we have $\pi_{i+1}(S^{n-1}) = \pi_{i}(S^{n-1}) = 0$ so $\pi_i(V(n, k)) = \pi_i(V(n-1, k -1))$.
+\bigskip\\
+Suppose that $i < n - k$ and $k \ge 2$ then $i < n - 2$ and $i < (n - k + 2) - 2$ so we have,
+\[ \pi_i(V(n, k)) = \pi_i(V(n-1, k-1)) = \cdots \pi_i(V(n - k + 2, 2)) = \pi_i(V(n-k + 1, 1)) = \pi_i(S^{n-k}) = 0 \]
+For $i = n - k$ we get,
+\[ \pi_i(V(n, k)) = \pi_i(V(n-1, k-1)) = \cdots = \pi_i(V(n - k + 2, 2)) \]
+but $i = (n - k + 2) - 2$ so we cannot reduce further
+so we need to compute $\pi_{n-2}(V(n,2))$. However, $V(n,2)$ is the unit tangent bundle of $S^{n-1}$. Consider the fibration $S^{n-2} \embed V(n,2) \to S^{n-1}$ gives the LES,
+\begin{center}
+\begin{tikzcd}
+\pi_{n-1}(S^{n-1}) \arrow[d, equals] \arrow[r, "\partial_*"] & \pi_{n-2}(S^{n-2}) \arrow[d, equals] \arrow[r] & \pi_{n-2}(V(n,2)) \arrow[r] & \pi_{n-2}(S^{n-1}) \arrow[d, equals]
+\\
+\Z \arrow[r, "d"] & \Z & & 0
+\end{tikzcd}
+\end{center}
+Now the map $\partial_*$ is $\pi_{n-1}(S^{n-1}) \cong \pi_{n-1}(T_1 S^{n-1}, S^{n-2}) \to \pi_{n-2}(S^{n-2})$. Then $d : \Z \to \Z$ computes the number of zeros of a generic vector field on $S^{n-1}$ so,
+\[ d = 
+\begin{cases}
+0 & n - 1 \text{ odd}
+\\
+2 & n - 1 \text{ even}
+\end{cases} \]
+Therefore,
+\[ \pi_{n-2}(V(n, 2)) = 
+\begin{cases}
+\Z & n \text{ even}
+\\
+\Z / 2 \Z & n \text{ odd}
+\end{cases} \] 
+\end{proof}
+
+\subsection{Stiefel-Whitney Classes}
+
+\newcommand{\E}{\mathcal{E}}
+
+The primary obstruction is $W_i(E) \in H^i(B, \tilde{\Z})$ of the bundle $E_k$ with $k = n + 1 -i$ is the obstruction to find $k$ linearly independent sections on the $i$-skeleton. 
+\bigskip\\
+Reduction mod $2$ to get, $w_i(E) \in H^i(B, \Z/2\Z)$ the Stiefel-Whitney classes. Furthermore, we define $w_0(E) = 1 \in \Z/2\Z = H^0(B, \Z_2)$. 
+
+\begin{proposition}
+$w_1(E)$ is zero iff $E$ is orientable. 
+\end{proposition}
+
+\begin{lemma}
+Naturality of the Stiefel-Whitney Classes. Given $f : B' \to B$ and $p : E \to B$ we have,
+\[ f^* w_i(E) = w_i(f^*E) \in H^i(B', \Z / 2 \Z) \] 
+\end{lemma}
+
+\begin{theorem}
+If $E, E'$ are bundles on $B$ then,
+\[ w_i(E \oplus E') = \sum_{p + q = i} w_p(E) \smile w_q(E') \]
+\end{theorem}
+
+\begin{defn}
+The full Stiefel-Whitney Class is $w(E) = \sum_{i = 1}^n w_i(E) \in H^*(B, \Z/2\Z)$.
+\end{defn}
+
+\begin{rmk}
+The the sum formula reduces to,
+\[ w(E \oplus E') = w(E) \cdot w(E') \]
+in the total cohomology ring. 
+\end{rmk}
+
+\begin{theorem}
+The previous properties,
+\begin{enumerate}
+\item for the mobius bundle $\mu \to S^1$ then $w_1(\mu) = \Z / 2 \Z$
+\item for $f : B' \to B$ then $f^* w_i(E) = w_i(f^* E)$
+\item $w(E \oplus E') = w(E) \cdot w(E')$ in the cohomology ring
+\end{enumerate}
+uniquely characterize $w$ as a map from vector bundles to cohomology rings. 
+\end{theorem}
+
+\begin{example}
+Consider the tautological bundle $\gamma^n \to \RP^n$ defined by,
+\[ \gamma^n = \{ (\ell, v) \mid v \in \ell \} \subset \RP^n \times \R^{n+1} \]
+then $\gamma^1 \to S^1$ is the Mobius bundle. 
+\end{example}
+
+\section{Characteristic Classes}
+
+\begin{example}
+Recall that $\gamma_1 \to \RP^1$ is the Modius bundle so $w(\gamma_1) = 1 + \alpha \in H^*(S^1)$ where $H^*(\RP^n, \Z / 2 \Z) = \mathbb{F}_2[\alpha]/(\alpha^{n+1})$. 
+\bigskip\\
+Then for $\iota : \RP^1 \embed \RP^n$ we find $\iota^*(\gamma_n) = \gamma_1$. Also we can compute,
+\[ \iota^* : H^*(\RP^n) \to H^*(\RP^1) \]
+must sent $\alpha \mapsto \alpha$. Since $w(\gamma_1) = w(\iota^*(\gamma_n)) = \iota^*(w(\gamma_n)) = 1 + \alpha$ we find that $w(\gamma_n) = 1 + \alpha$. 
+\end{example}
+
+\begin{example}
+Consider the orthogonal bundle to $\gamma_n$,
+\[ \gamma_n^\perp = \{ (\ell, b) \mid v \in \ell^\perp \} \subset \RP^n \times \R^n \]
+It is clear that $\gamma_n \oplus \gamma_n^\perp$ is the trivial rank-$n+1$ bundle over $\RP^n$. Thus, 
+\[ w(\gamma_n \oplus \gamma_n^\perp) = w(\gamma_n) \cdot w(\gamma_n^\perp) = 1 \]
+But $w(\gamma_n) = 1 + \alpha$ so,
+\[ w(\gamma_1) = \frac{1}{1 + \alpha} = 1 + \alpha + \alpha^2 + \cdots + \alpha^n \]
+\end{example}
+
+\begin{example}
+Consider the tangent bundle $T \RP^n \to \RP^n$. First, consider,
+\[ T S^n = \{ (x, v) \mid |x| = 1 \quad x \cdot v = 0 \} \subset S^n \times \R^{n+1} \]
+Then,
+\[ T \RP^n = T S^n / (x, v) \sim (-x, -v) \]
+Then $x,-x \in \ell_x$ and $v, -v \in \ell_x^\perp$. Such an element $(x, v) \in T \RP^n$ is a pair $(x, L)$ where $L : \ell_x \to \ell_x^\perp$ is a linear map. Therefore,
+\[ T \RP^n = \Hom{\gamma_n}{\gamma_n^\perp} \]
+First, note that,
+\[ \Hom{\gamma_n}{\gamma_n} = \underline{\R} \]
+since there is the section $\id : \gamma_n \to \gamma_n$. Therefore,
+\begin{align*}
+T \RP^n \oplus \underline{\R} & = \Hom{\gamma_n}{\gamma_n^\perp} \oplus \Hom{\gamma_n}{\gamma_n} = \Hom{\gamma_n}{\gamma_n^\perp \oplus \gamma_n} = \Hom{\gamma_n}{\underline{\R}^{n+1}} 
+\\
+& = \bigoplus_{i = 1}^{n+1} \Hom{\gamma_n}{\underline{\R}}
+\end{align*} 
+However, for real bundles, a choice of metric gives an isomorphism $\Hom{\E}{\underline{\R}} \cong \E$. Thus, we find,
+\[ T \RP^n \oplus \underline{\R} \cong \bigoplus_{i = 1}^{n+1} \gamma_n \]
+Then,
+\[ w( T \RP^n) = w( T \RP^n) \cdot w(\R) = (w(\gamma_n))^{n+1} = (1 + \alpha)^{n+1} = \sum_{k = 0}^{n+1} { n + 1 \choose k } \alpha^k \: \mod 2 \]
+\end{example}
+
+\begin{cor}
+$w(T \RP^n) = 1$ iff $n + 1$ is a power of $2$ and thus if $ T \RP^n$ is trivial then $n = 2^k - 1$. 
+\end{cor}
+
+\section{Classifying Spaces}
+
+\newcommand{\Vect}{\mathrm{Vect}}
+
+Consider the functor $V : \{ \text{CW complex} \} \to \Set$ via $X \mapsto \Vect{X}$ to isomorphism classes of vector bundles on $X$. Is this functor representable in the homotopy category i.e. is $\Vect(X) = [X, C]$ for come classifying space $C$?
+\bigskip\\
+Recall the Grasmannian, $G(n, k)$ which classifies $k$-dimensional subspaces of $\R^n$. There is a natural inclusion $G(n, k) \to G(n+1, k)$ which alows us to construct,
+\[ G_k = \varinjlim_{n} G(n, k) \]
+In particular, $G_1 = \RP^\infty$. We will see $G_n = BO(n)$. Furthermore, there is a tautological bundle $\gamma^k_n \to G(n, k)$ which is a rank $k$-vector bundle,
+\[ \gamma^k_n = \{ (x, v) \mid x \in G(n, k) \: v \in V_x \} \subset G(n, k) \times \R^{n} \]
+This gives a bundle $\gamma^k \to G_k$ which we call $EO(n) \to BO(n)$. 
+
+\begin{theorem}
+Let $X$ be a finite CW complex then,
+\[ [X, G_k] \to \Vect^k(X) \] 
+via $f : X \to G_k \mapsto f^* \gamma^k$ is an isomorphism. 
+\end{theorem}
+
+\begin{proof}
+Look at Milne.
+\end{proof}
+
+\begin{theorem}
+$H^*(G_k, \Z / 2 \Z) = \mathbb{F}_2[w_1, \dots, x_n]$ 
+with $w_i$ graded in degree $i$ where $w_i = w_i(\gamma^k)$.
+\end{theorem}
+
+\begin{cor}
+If $E = f^* \gamma^n$ then $w_i(E) = f^* w_i(\gamma^n)$ so the Stiefel-Whitney classes of $E$ detect nontriviality in $\Z / 2 \Z$ cohomology of the classifying map $f : X \to G_k$. 
+\end{cor}
+
+\section{K-Theory}
+
+\begin{prop}
+Every class $\alpha \in K(X)$ can be represented as $[E] - [\varepsilon^n]$. 
+\end{prop}
+
+\begin{prop}
+
+\end{prop}
+
+\newcommand{\C}{\mathbb{C}}
+
+\begin{defn}
+We say that vector bundles $E$ and $E'$ are \textit{stably equivalent} if $E oplus \varepsilon^n = E' \oplus \varepsilon^{m}$ for $n,m \in \N$. Then define reduced K-theory,
+\[ \tilde{K}(X, x_0) = \ker{(K(X) \to K(x_0))} \]
+for connected $X$ we have $\tilde{K}(X) = \mathrm{Vect}_{\C}(X) / \text{stb. eq.}$. 
+\end{defn}
+
+\begin{prop}
+For connected $X$ we have $\tilde{K}(X) = [X : BU]$ where $BU = \varinjlim_{n} BU(n)$ since homotopy equivalence to $BU$ is equivalent to stable equivalence 
+\end{prop}
+
+\subsection{Mar 2}
+
+Let $X$ be a finite CW complex and $\Vect_\C(X)$ complex vector-bundles on $X$. Then we define,  $K(X)$ is the group completion of the monoid $\Vect_{\C}(X)$ under $\oplus$. Then $K(X)$ is a ring under $\oplus$ and $\otimes$.
+\bigskip\\
+Then $X \mapsto K(X)$ is a functor: $f : X \to Y$ gives $f^* : K(Y) \to K(X)$ from pulling back bundles. Then $f^*$ depends only on the homotopy class $f \in [X : Y]$.
+\bigskip\\
+\begin{rmk}
+Is $X$ is contractible then $K(X) \cong K(*) = \Z$.
+\end{rmk}
+
+\begin{prop}
+For any vector bundle $E$ on $X$ there exists a vector bundle $E'$ on $X$ with $E \oplus E' = \underline{\C}^{N}$. 
+\end{prop}
+
+\begin{cor}
+In the $K$-group we have $[E] - [F] = [E'] - [\C^N]$ and furthermore $[E] - [\C^N] = [E'] - [\C^M]$ if and only if $\dim{E} - N = \dim{E'} - M$ and $E \sim_s E'$ are stably equivalent i.e. $E \oplus \underline{\C}^n \cong E' \oplus \underline{\C}^m$.  
+\end{cor}
+
+\begin{defn}
+For a point $x_0 \in X$ we have $\tilde{K}(X) = \ker{(K(X) \to K(x_0))}$ this gives bundles up to stable equivalence (assume that $X$ is connected). 
+\end{defn}
+
+\begin{prop}
+$\tilde{K}(X) = [X : BU]$ with $BU = \varinjlim_n BU(n)$.
+\end{prop}
+
+\begin{rmk}
+Consider the Grassmannian,
+\[ G_\C(N, n) = U(N) / U(n) \times U(N-n) \]
+and the Steifl manifold,
+\[ V_\C(N, n) = U(N) / U(N-n) \]
+then there is a fibration,
+\[ U(n) \embed V_\C(N, n) \to G_\C(N, n) \]
+\end{rmk}
+
+\begin{prop}
+The homotopy groups of the Stiefl manifold satisfies,
+\[ \pi_r(V_\C(N, n)) = 0 \quad \text{ for } \quad r \le 2 (N - n) \]
+Furthermore, the fibration,
+\[ U(u) \embed V_\C(\infty, n) \to G_\C(\infty, n) = BU(n) \]
+Then $\pi_r(V_\C(\infty, n)) = 0$ by above and thus $V_\C(\infty, n)$ is contractible. Therefore, from the long exact sequence,
+\[ \pi_r(U(n)) \cong \pi_{n+1}(BU(n)) \]
+\end{prop}
+
+\begin{defn}
+Now we have $BU = \varinjlim_n BU(n)$ and $U = \varinjlim_n U(n)$
+\end{defn}
+
+\begin{rmk}
+Our previous proposition says that $\pi_r(U) \cong \pi_{r+1}(BU)$. 
+\end{rmk}
+
+\begin{prop}
+Then $\tilde{K}(S^r) = [S^r, BU] = \pi_r(BU) = \pi_{r-1}(U)$. 
+\end{prop}
+
+\begin{proof}
+There is no issuse with based vs unbased maps because $\pi_1(BU) \acts \pi_n(BU)$ is trivial since the above is a fibration and $\pi_1(V_\C(\infty, n)) = 0$ (use the homework). Alos $\pi_1(BU) = 0$ so we can conclude.
+\end{proof}
+
+\begin{example}
+$\tilde{K}(S^1) = \pi_0(U) = 0$ and $\tilde{K}(S^2) = \pi_1(U) = \pi_1(U(1)) = \Z$ 
+\end{example}
+
+\begin{rmk}
+The generator of $\tilde{K}(S^2) = \Z$ is the tautological bundle $\gamma \to \CP^1 = S^2$ and we write its reduced class as $[\gamma] - [\C]$. To see this, note that $\tilde{K}(S^2) \xrightarrow{\sim} \Z$ is given by the Chern class $c_1$ and $c_1(\gamma) = -1 \in H^2(S^2; \Z)$.
+\end{rmk}
+
+\begin{rmk}
+We can describe $K(S^2) = \tilde{K}(S^2) \oplus \Z = \Z oplus \Z$ via $\xi \mapsto (c_1(\xi), \dim{\xi})$. Consider in particular,
+\[ (\gamma \otimes \gamma) \oplus \C \mapsto (-2, 2) \quad \text{ and thus } \quad (\gamma \otimes \gamma) \mapsto (-2, 2) \]
+Then in $K(S^2)$ we have $\gamma^2 \oplus \underline{\C} = 2 \gamma$ and thus $\gamma^2 + 1 = 2 \gamma$ therefore $([\gamma] - 1)^2 = 0$ in $K(S^2)$. Therefore, $K(S^2) = \Z[x]/x^2$. 
+\end{rmk}
+
+\subsection{Long Exact Sequence of a Pair}
+
+\begin{lemma}
+Let $(X, A)$ be a finite CW pair. Then consider the sequence $A \embed X \to X / A$. Then we get induced maps,
+\[ \tilde{K}(X/A) \xrightarrow{p^*} \tilde{K}(X) \xrightarrow{\iota^*} \tilde{K}(A) \]
+which is exact meaning $\ker{\iota^*} = \Im{p^*}$.
+\end{lemma}
+
+\begin{proof}
+We know that $\tilde{K}(-) = [-, BU]$ so the above sequence is simply,
+\[ [X/A, BU] \to [X, BU] \to [A, BU]  \]
+if a map $f : X \to BU$ restricts to a nullhomotopic map $f|_A : [A, BU]$ then by the homotopy extension property of the pair $(X, A)$ we get a homotopy on $f : X \to BU$ making $f |_A$ trivial i.e. $f$ descends to the quotient $\tilde{f} : X / A \to BU$.  
+\end{proof}
+
+\begin{rmk}
+Using the homotopy equivalence $X \cup CA \simeq X/A$ we get a diagram,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, hook] & X \arrow[r, two heads] \arrow[d, equals] & X / A \arrow[d, "\simeq"]
+\\
+& X \arrow[r, hook]  & X \cup CA \arrow[d, equals] \arrow[r, two heads] & \Sigma A \arrow[d, "\simeq"]
+\\
+& & X \cup CA \arrow[r, hook] & (X \cup CA) \cup CX \arrow[r, two heads] & \Sigma X
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\section{Mar 4}
+
+\begin{defn}
+We define $\tilde{K}^{-q}(X) = \tilde{K}(\Sigma^q X)$. Furthermore, $K(X, A) = \tilde{K}(X/A)$ and $K(X) = $.
+\end{defn}
+
+\begin{thm}[Bott]
+The map $K(X) \otimes K(S^2) \to K(X \times S^2)$ is an isomorphism. Explicitly, this is,
+\begin{align*}
+K(X) \otimes K(S^2) & = K(X) \otimes \Z[H]/(H-1)^2 \cong K(X) \oplus K(X)
+\\
+K(X) \oplus K(X) \xrightarrow{\sim} & K(X \times S^2)
+\\
+(\alpha_1, \alpha_2) \mapsto & p_1^* \alpha_1 \oplus p_1^* \alpha_2 \otimes p_2^* \gamma  
+\end{align*}
+\end{thm}
+
+\begin{cor}
+$\tilde{K}(X) = \tilde{K}(\Sigma^2 X) = \tilde{K}^{-1}(X)$. 
+\end{cor}
+
+\begin{proof}
+Consider,
+\[ \Sigma^2 X = X \times S^2 / X \vee S^2 \]
+Now we consider the pair $(X \times S^2, X \vee S^2)$ which gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+K^{-1}(X \times S^2) \arrow[r, two heads] & K^{-1}(X \vee S^2) \arrow[r] & K(X \times S^2, X \vee S^2) \arrow[r] & K(X \times S^2) \arrow[r, two heads, "\varphi"] & K(X \vee S^2)
+\end{tikzcd}
+\end{center}
+where the maps $K(X \times Y) \to K(X \vee Y)$ are surjective since $\tilde{K}(X \vee Y) = \tilde{K}(X) \oplus \tilde{K}(Y)$ and there is a pullback $K(X) \to K(X \times Y)$.
+Note that there is a diagram,
+\begin{center}
+\begin{tikzcd}
+K(X \times S^2) \arrow[r, two heads] & K(X \vee S^2) \arrow[d, equals]
+\\
+\tilde{K}(X) \oplus \tilde{K}(S^2) \oplus \Z \arrow[u, dashed] \arrow[r, equals] & \tilde{K}(X \vee S^2) \oplus \Z
+\end{tikzcd}
+\end{center}
+Therefore,  $K(X \times S^2, X \vee S^2) = \ker{\varphi}$. By Bott's theorem, we see that $\alpha_1 \otimes 1 + \alpha_2 \otimes \gamma = \alpha \otimes (\gamma - 1) + \beta \otimes \gamma$ then $\varphi(x) = 0$ iff both restrictions to $X$ and $S^2$ are zero. 
+
+Therefore, 
+\[ \tilde{K}(X) = K(X \times S^2, X \vee S^2) \cong \tilde{K}(\Sigma^2 X) \]
+\end{proof}
+
+\subsection{Proof of Bott's Theorem}
+
+First we consider vector bundles on $S^2$. Such vector bundles must be trivial on the upper and lower hemispheres but can have a nontrivial attaching function $f : S^1 \to \GL{n}{\C}$.  Then, noting that $\pi_1(\GL{n}{\C}) = \Z$  we see immediately that $\tilde{K}(S^2) = \Z$. 
+\bigskip\\
+Now consider $E |_{X \times D^2_{\pm}}$ is the pullback of a bundle $E_0$ on $X$ since $D^2$ is contractible. Then $E$ is obtained by gluing these together via,
+\[ f : X \times S^1 \to \Aut{E_0} \]
+so $E$ can be described as a pair $[E, f]$. 
+\begin{example}
+The tautological bundle $\gamma \to S^2$ is represented by the pair $[\underline{\C}, z^{-1}]$. 
+\end{example}
+\noindent
+We have some basic facts,
+\[ [E_1, f_1] \oplus [E_2, f_2] = [E_1 \oplus E_2, f_1 \oplus f_2] \]
+and
+\[ [E_1, f_1] \otimes [E_2, f_2] = [E_1 \otimes E_2, f_1 \otimes f_2] \]
+in particular,
+\[ [E_0, z^n f] = [E_0, f] \otimes \gamma^{-n} \]
+\bigskip\\
+Bott's theorem is that every bundle on $X \times S^2$ can be stabily represented as $\alpha_1 \otimes 1 + \alpha_2 \otimes \gamma$ i.e. every element in $K(X \times S^2)$ is stabily represented by,
+\[ [E_0, \id] \oplus [E_1, z^{-1} ] \]
+\bigskip\\
+First, given $[E_0, f]$ we have $f : X \times S^1 \to \Aut{E_0}$ so fixing $x \in X$ we get $f(x, -) : S^1 \to \Aut{(E_0)_x} = \GL{n}{\C}$ and thus we can use Fourier analysis to conclude that there is a convergent series,
+\[ f(x, z) = \sum_{n \in \Z} a_n(x) z^n \] 
+for each $x \in X$. Furthermore, since $f$ is continuous on $X \times S^1$ we get that $a_n : X \to \C$ are continuous since they are computed by a continuous family of integrals. However, $X$ is compact we get that,
+\[ \sum_{n = -N}^N a_n(x) z^n \to f(x, z) \]
+converges uniformly. Then we can choose sufficiently large $M$ such that,
+\[ f_M = \sum_{n = - M}^M a_n(x) z^n \]
+is uniformly close to $f$ and thus are homotopic by a linear homotopy. Thus we can assume that $f$ is a Laruent series. After multiplying by $z^M$ we can assume that $f$ is a polynomial,
+\[ f(x) = p(x) = \sum_{n = 0}^N a_n(x) z^n \]
+so we can assume that our bundle is of the form $[E_0, p]$ for a polynomial function. 
+\bigskip\\
+Now we claim that,
+\[ [E_0, p] \oplus [E_0^n, \id] \cong [E_0^{\oplus (n+1)}, b(x) + z a(x)] \]
+and show this with an explicit matrix computation.
+\bigskip\\
+Now we have our bundle of the form $[F, b(x) + z a(z)]$ and we need to show that,
+\[ [F, b(x) + z a(z)] \sim [F_{+}, \id] \oplus [F_{-}, z ] \]
+with $F = F_{+} \oplus F_{-}$. In fact, we can assume $a(z) = \id$ so we have $[F, b(x) + z]$. Fix $x \in X$ then for any $z \in S^1$ and we know that $b(x) + z \in \GL{n}{\C}$ and thus $b(x)$ has no eigenvalue of norm $|\lambda| = 1$ else $b(x) + z$ for $z = \lambda$ would not be invertible. 
+
+\begin{lemma}
+Given $b(x)$ acting on $F \to x$ with no eigenvalue $|\lambda| = 1$ then,
+\[ F = F_{+} \oplus F_{-} \]
+such that $b(F_{\pm}) \subset F_{\pm}$ and $b|_{F_{+}}$ has eigenvalues $|\lambda| > 1$ and $b|_{F_{-}}$ has eigenvalues $|\lambda| < 1$. 
+\end{lemma}
+\noindent
+Finally, 
+\[ F, b + z] \sim [F_+, b + z] \oplus [F_{-}, b + z] \]
+Now we may homotope $[F_+, b + z] \sim [F_+, \id]$ using the homotopy $b + t \xrightarrow{b + t z} b \xrightarrow{} \id$ where the first map is a homotopy since $b + t z$ is always invertible since $b$ has all eigenvalues $|\lambda| > 1$ and the second map is just a change of coordinates on fibers over $X$ which is fine since it is constant on $S^1$. Furthermore, we homotopy $[F_{-}, b + z] \sim [F_{-}, z]$ via the homotopy $b+z \xrightarrow{t b + z} z$ which gives a homotopy since each $b t + z$ is invertable since $b$ has all eigenvalues $|\lambda| < 1$.
+
+\subsection{K-Theory in the Real Case}
+
+\begin{defn}
+$KO(X) = K(\Vect_\R(X))$
+\end{defn}
+
+\begin{example}
+For spheres we can compute $\widetilde{KO}(S^n)$,
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c | c | c | c }
+n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+\hline \hline
+$\widetilde{KO}(S^n)$ & $\Z$  & $\Z_2$ & $\Z_2$ & $0$ & $\Z$ & $0$ & $0$ & $0$
+\end{tabular}
+\end{center}
+and these groups are $8$-periodic.
+\end{example}
+
+\section{K-Theory and Cohomology}
+
+Let $X$ be a finite CW complex then we have cohomology theories $H^*(X)$ and $K(X)$ which are both rings. 
+\bigskip\\
+We have the total Chern class $c(E) = 1 + c_1(E) + c_2(E) + \cdots + c_n(E) \in H^*(X; \Z)$. 
+Then given line bundles $L_1, L_2$ we have $c(L_i) = 1 + c_1(L_i)$ so,
+\[ c(L_1 \oplus L_2) = 1 + c_1(L_1) + c_1(L_2)+ c_1(L_1) \smile c_1(L_2) \neq c(L_1) + c(L_2) \]
+and
+\[ c(L_1 \otimes L_2) = 1 + c_1(L_1) + c_1(L_2) \neq c(L_1) \cdot c(L_2) \]
+Therefore, the total Chen class is poorly behaved as a ring map. 
+\bigskip\\
+\begin{theorem}[Splitting]
+Given a vectorbundle $E \to X$ then there exists $f : X' \to X$ s.t. $f^* E = L_1 \oplus \cdots \oplus L_n$ is a direct sum of line bundles with $n = \rank{E}$. Furthermore, $f^* H^*(X; \Z) \to H^*(X'; \Z)$ and $f^* : K(X) \to K(X')$ are injective. 
+\end{theorem}
+
+\begin{rmk}
+In particular, 
+\[ f^* c(E) = c(f^* E) = c(L_1 \oplus \cdots \oplus L_n) = (1 + c_1(L_1)) \cdots (1 + c_1(L_n)) \]
+\end{rmk}
+
+\begin{rmk}
+Thus we can suppose that $E = L_1 \oplus \cdots \oplus L_n$ and write $c_1(L_i) = x_i \in H^2(X; \Z)$. Therefore, we have,
+\[ c(E) = (1 + x_1) \cdots (1 + x_n) = \sum_{i = 0}^n e_i(x_1, \dots, x_n) \]
+where $e_i(x_1, \dots, x_n)$ are the elementary symmetric polynomials in $x_1, \cdots, x_n$.
+\end{rmk}
+
+\newcommand{\ch}{\mathrm{ch}}
+
+\begin{defn}
+In the above case, the Chern character of $E$ is,
+\[ \ch(E) = \sum_{i = 0}^n e^{x_i} \in H^*(X; \Q) \]
+This gives,
+\[ \ch(E) = \rank{E} + x_1 + \cdots x_n + \tfrac{1}{2!} (x_1^2 + \cdots + x_n^2) + \tfrac{1}{3!} (x_1^3 + \cdots x_n^3) + \cdots \]
+Therefore, we may write this in terms of the elementary symmetric polynomials. We have Newton sums,
+\[ x_1^2 + \cdots + x_n^2 = (x_1 + \cdots + x_n)^2 - 2(x_1 x_2 + x_1 x_3 + \cdots + x_{n-1} x_n) \]
+In genereral, there is a formula for,
+\[ s_k(x_1, \dots, x_n) = x_1^k + \cdots + x_n^k \]
+giving,
+\[ s_k(x_1, \dots, x_n) = \sum_{i = 0}^{\ell_k} f_{k i} e_i(x_1, \dots, x_n) \]
+these may be computed via Newton formulae. Then we see that,
+\[ \ch(E) = \sum_{k = 0}^n \frac{1}{n!} s_k(x_1, \cdots, x_n) = \sum_{k = 0}^n \sum_{i = 0}^{\ell_k} f_{k i} \frac{1}{n!} e_i(x_1, \dots, x_n) \]
+but $c_i(E) = e_i(x_1, \dots, x_n)$ so we have,
+\[ \ch(E) =  \sum_{k = 0}^n \sum_{i = 0}^{\ell_k} f_{k i} \frac{1}{n!} c_i(E) \]
+this is the definition we take for an arbitrary bundle.
+\end{defn}
+
+\begin{lemma}
+$\ch(E \oplus F) = \ch(E) + \ch(F)$ and $\ch(E \otimes F) = \ch(E) \cdot \ch(F)$ in $H^{\text{even}}(X; \Q) \subset H^*(X; \Q)$.
+Therefore, we get a ring map,
+\[ \ch : K(X) \to H^{\text{even}}(X; \Q) \] 
+via $\ch([E] - [F]) = \ch(E) - \ch(F)$. 
+\end{lemma}
+
+\begin{proof}
+Use the splitting principle and properties of $\sum e^{x_i}$. 
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a finite CW complex. Then,
+$\ch_\Q : K(X) \otimes_\Z \Q \xrightarrow{\sim} H^{\text{even}}(X; \Q)$ is a ring isomorphism. 
+\end{theorem}
+
+
+\begin{rmk}
+Thus $K(X)$ and $H^{\text{even}}(X; \Z)$ agree up to torsion. 
+\end{rmk}
+
+\begin{example}
+[Atiyah-K-Theory] 
+\[ K(\RP^{2m - 1}) = \Z \oplus \Z / 2^{m-1} \Z \] but 
+\[ H^{\text{even}}(\RP^{2m - 1}; \Z) = \Z \oplus (\Z / 2 \Z)^{\oplus (m - 1)} \]
+so the torsion of these groups may not agree.
+\end{example}
+
+\begin{theorem}
+There is a diagram,
+\begin{center}
+\begin{tikzcd}
+K(\Sigma X) \otimes_\Z \Q \arrow[r, "\ch"] \arrow[d, "\sim"] & H^{\text{even}}(\Sigma X; \Q) \arrow[d, equals]
+\\
+K^1(X) \otimes_\Z \Q \arrow[r, "\ch"] & H^{\text{odd}}(X; \Q)
+\end{tikzcd}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+We proceed by induction on $n = \dim{X}$. Suppose it holds for CW complexes of $\dim{Y} < n$ and let $\dim{X} = n$ then $X = X^n$ and look at the pair $(X^n, X^{n-1})$ which gives a morphism of long exact sequences,
+\begin{center}
+\begin{tikzcd}
+K^{p-1}(X^{n}, X^{n-1}) \arrow[d, "\ch"] \arrow[r] & K^p(X^{n-1}) \arrow[r] \arrow[d, "\ch"] & K^p(X^n) \arrow[d, "\ch"] \arrow[r] & K^p(X^{n}, X^{n-1}) \arrow[d, "\ch"] \arrow[r] & K^{p+1}(X^{n-1}) \arrow[d, "\ch"]
+\\
+H^{p-1}(X^{n}, X^{n-1}) \arrow[r] & H^p(X^{n-1}) \arrow[r] & H^p(X^n) \arrow[r] & H^p(X^{n}, X^{n-1}) \arrow[r] & H^{p+1}(X^{n-1}) 
+\end{tikzcd}
+\end{center}
+where $p = \text{even}$ or $p = \text{odd}$ and $H^p(X) = H^{\text{even}}(Y, \Q)$ or $H^{\text{odd}}(X; \Q)$ and the K-groups are given rational coefficnents. The outer maps are isomorphisms by indunction and the two inner maps $\ch : K^p(X^n, X^{n-1}) \to H^p(X^n, X^{n-1})$ are isomorphism by our computation for $S^n$ since $X^n / X^{n-1} = \bigvee_i S^n$. Thus the central map is an isomorphism by the five lemma proving the proposition by induction.
+\end{proof}
+
+\begin{example}
+$K(\CP^n) \cong \Z[x]/(x^n)$ so $K(\CP^n) \cong \Z^{n+1}$ as a $\Z$-module. 
+\end{example}
+
+\subsection{The Splitting Principle}
+
+\renewcommand{\P}{\mathbb{P}}
+
+Consider a vector bundle $b : E \to X$ with $\rank{E} = n$. Consider the projective bundle $p : \P(E) \to X$. Then we get a pullback bundle,
+\begin{center}
+\begin{tikzcd}
+p^* E \arrow[r] \arrow[d] & E \arrow[d, "b"]
+\\
+\P(E) \arrow[r, "p"] & X
+\end{tikzcd}
+\end{center}
+Then $p^* E$ has a natural line sub-bundle, namely the tautological bundle of $\P(E)$. A point in $\P(E)$ is a pair $x \in X$ and $[L] \in \P(E_x)$ thus the tautological bundle is,
+\[ \gamma = \{(x, [L], v) \mid L \subset E_x \text{ and } v \in L \} \]
+Then $\gamma \subset p^* E$ since we get a map $(x, [L], v) \mapsto v \subset L \subset E_x$. This defines a line sub-bundle.
+\bigskip\\
+We then apply this proceedure to $L^\perp \subset p^* \P(E)$ to decompose $E$ into line bundles. 
+
+\section{The Hopf Invariant}
+
+\newcommand{\HP}{\mathbb{HP}}
+\newcommand{\OP}{\mathbb{OP}}
+
+Hatcher ch. 4
+
+For a map $f : S^{2n - 1} \to S^n$ we define:
+
+\begin{defn}
+$C_f = S^n \cup_f D^{2n}$ so there is no difference in Cellular cohomology. Then $H^n(C_f; \Z) = \Z$ and $H^{2n}(C_f; \Z) = \Z$. Pick generators $\alpha$ and $\beta$. Then,
+\[ \alpha^2 \in H^{2n}(C_f; \Z) \]
+which implies that $\alpha^2 = h(f) \beta$ and we call $h(f) \in \Z$ the Hopf invariant. 
+\end{defn}
+
+\begin{prop}
+The Hopf invariant gives a homomorphism $h : \pi_{2n - 1}(S^n) \to \Z$ with the following properties,
+\begin{enumerate}
+\item if $n$ is odd then $h = 0$ (since $\alpha \smile \alpha = 0$ in odd $n$).
+\item for the Hopf fibration $H : S^3 \to S^2$ then $C_f = S^2 \cup_H D^4 = \CP^2$ and $H^*(\CP^2; \Z) = \Z[x]/(x^3)$ so the generator of $H^2(\CP^2; \Z)$ squares to the generator of $H^4(\CP^2; \Z)$ which implies that $h(H) = 1$. In particular, $h : \pi_3(S^2) \xrightarrow{\sim} \Z$ sending $H \mapsto 1$. 
+\item There is a generalized Hopf fibration $f : S^7 \to S^4 = \HP^1$ then $\HP^2 = S^4 \cup_f D^8$ but $H^*(\HP^2; \Z) = \Z[x]/(x^3)$ so $h(f) = 1$ giving $h : \pi_7(S^4) \xrightarrow{\sim} \Z$ sending $f \mapsto 1$.
+\item Furthermore, $\OP^2 = S^8 \cup_f D^{18}$ via a sphere fibration $f : S^{15} \to S^8$ then $h(f) = 1$ giving $h : \pi_{15}(S^8) \xrightarrow{\sim} \Z$ sending $f \mapsto 1$.
+\end{enumerate}
+\end{prop}
+
+\begin{rmk}
+The map $h : \pi_{4n-1}(S^{2n}) \to \Z$ is never trivial. It is easy to construct maps $f : S^{4n - 1} \to S^{2n}$ with $h(f) = 2$. However we have the following theorem,
+\end{rmk}
+
+\begin{theorem}[Adams]
+Suppose there exists $f : S^{4n - 1} \to S^{2n}$ with $h(f) = 1$ then $n = 1, 2, 4$. 
+\end{theorem}
+
+\begin{rmk}
+This is related to the following fact.
+\end{rmk}
+
+\begin{theorem}
+Real division algebras has dimensions $n = 1,2,4,8$. 
+\end{theorem}
 
 \end{document}

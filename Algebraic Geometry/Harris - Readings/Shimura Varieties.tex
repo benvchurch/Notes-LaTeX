@@ -2,8 +2,13 @@
 \usepackage{import}
 \import{../}{AlgGeoCommands}
 
-
 \begin{document}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Lie}[1]{\mathrm{Lie}\left( #1 \right)}
+\newcommand{\der}{\mathrm{der}}
+\newcommand{\ad}{\mathrm{ad}}
+\renewcommand{\S}{\mathbb{S}}
 
 \section{Flag Varieties}
 
@@ -37,5 +42,363 @@ Therefore,
 Recall that Hodge structures correspond to representations of the Deligne torus, $h : \S \to \Gm^\R$ which is a map of $\R$-algebraic groups. Recall that $h$ acts on $V^{p,q}$ on real points $z \in \S(\R) = \C^\times$ via $h(z) \cdot v = z^{-p} \bar{z}^{-q} \cdot v$ for $v \in V^{p,q}$. 
 
 \section{Variations of Hodge Structures}
+
+\section{Shimura Data}
+
+\begin{prop}
+Let $\varphi : G \to H$ be a surjective map of algebraic groups over $\R$. Then $\varphi(\R) : G(\R)^+ \to H(\R)^+$ is surjective.
+\end{prop}
+
+\begin{proof}
+Viewing this as a map of Lie groups, it suffices to show that $\d{\varphi} : \Lie{G} \to \Lie{H}$ is surjective. In that case $\Im{\varphi}$ is open (since it is a local diffeomorphism) and closed since it is an open subgroup. Therefore,  $\Im{\varphi} \supset H(\R)^+$ the connected component of the identity.
+
+(Q? Why is it surjective on tangent spaces?)
+\end{proof}
+
+\begin{rmk}
+For a reductive group $G$ with center $Z = Z(G)$ and a torus $T$ there is an exact diagram,
+\begin{center}
+\begin{tikzcd}
+& & 1 \arrow[d]
+\\
+& &G^{\der} \arrow[d] \arrow[dr] 
+\\
+1 \arrow[r] & Z \arrow[r] \arrow[dr] & G \arrow[r, "\ad"] \arrow[d, "\nu"] & G^\ad \arrow[r] & 1
+\\
+& & T \arrow[d]
+\\
+& & 1
+\end{tikzcd}
+\end{center}
+Then $Z \cap G^\der$ is the center of $G^\der$ and $G^\der = \ker{(G \to T)}$ where $T$ is the maximal abelian quotient. (Q? why don't we call $G^\der = G^\ab$ in this case?)
+\bigskip\\
+This gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & Z \cap G^\der \arrow[r] & Z \times G^\der \arrow[r] & G \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{defn}
+We define the cohomology $H^1(\Q, G)$ as crossed modulo principal homomorphisms $\Gal{\Q^\ab / \Q} \to G(\Q^\ab)$. 
+(Q? Is $\Q^\a = \Q^\ab$? How to make sense of this? Is this like taking an abelian version of the etale site and viewing $G$ as a sheaf on this site and taking cohomology?)
+\end{defn}
+
+\begin{prop}
+For a reductive group $G$ over $\R$ the Lie group $G(\R)$ has only finitely many connected components. 
+\end{prop}
+
+\begin{proof}
+Using the above map, an exact sequence of real algebraic groups,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & N \arrow[r] & G' \arrow[r] & G \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+with $N \subset Z(G')$ gives rise to an exact sequence, 
+\begin{center}
+\begin{tikzcd}
+\pi_0(G'(\R)) \arrow[r] & \pi_0(G(\R)) \arrow[r] & H^1(\R, N)
+\end{tikzcd}
+\end{center}
+(Q? I don't understand this?? If it were ordinary cohomology which could be related to $\pi_1$ then I understand but how group cohomology? Are you using the fibration seqeunce?)
+\end{proof}
+
+\begin{theorem}[real approximation]
+Let $G$ be a connected algebraic group over $\Q$. Then $G(\Q)$ is dense in $G(\R)$.
+\end{theorem}
+
+\subsection{The Data}
+
+\begin{definition}
+A Shimura datum is a pair $(G, X)$ with $G$ a reductive group over $\Q$ and $X$ a set of $G(\R)$-conjugacy class of homomorphisms $h : \S \to G_\R$ as real algebraic groups. The pair must satisfy the foloowing conditions,
+\begin{enumerate}
+\item for all $h \in X$ the Hodge structure defined on $\Lie{G_\R}$ via,
+\begin{center}
+\begin{tikzcd}
+\S \arrow[r, "h"] & G_\R \arrow[r, "\mathrm{Ad}"] & \Aut{\Lie{G_\R}} 
+\end{tikzcd}
+\end{center}
+has type $\{(-1,1), (0,0), (1,-1) \}$.
+\item for all $h \in X$ the composition $\ad \circ h$ takes $\ad(h(i))$ to the Cartan involution of $G_\R^\ad$ ( i.e. if $-B(X, \ad(h(i)) \cdot Y)$ is a positive-definite bilinear form where $B$ is the killing form)
+\item $G^\ad$ has no $\Q$-factor on which the projection of $h$ is trivial.
+\end{enumerate}
+\end{definition}
+
+
+\begin{rmk}
+The first condition says that $\mathrm{Ad} \circ h : \S \to \Aut{\Lie{G_\R}}$ acts only via the characters $z / \bar{z}, 1, \bar{z}/z$. 
+\end{rmk}
+
+\begin{rmk}
+Note that in contrast to the connected case, $G$ is reductive (rather than semi-simple), $h$ has target $G_\R$ (rather than $G_\R^\ad$), and $X$ is a full $G(\R)$-conjugacy class (not a connected component).
+\end{rmk}
+
+\begin{proposition}
+Let $(G, X)$ be a Shimura datum and $X^+$ be a connected component of $X' = \{\ad \circ h : \S \to \G_\R^\ad \mid h \in X \}$ (regarded as a $G(\R)^+$-conjugacy class  of homomorphisms $\S \to G_\R^\ad$). Then $(G^\der, X^+)$ is a connected Shimura datum. In particular, $X$ is a finite disjoint union of hermitian symmetric domains. 
+\end{proposition}
+
+\subsection{Shimura Varieties}
+
+\renewcommand{\Sh}[2]{\mathrm{Sh}_{#1} \left( #2 \right)}
+
+\begin{lemma}
+Let $(G, X)$ be a Shimura datum, for every connected component $X^+$ of $X$ there is a natural bijection,
+\[ G(\Q)_+ \backslash X^+ \times G(\A_f) \xrightarrow{\sim} G(\Q) \backslash X \times G(\A_f) \]
+\end{lemma}
+
+\begin{proof}
+The map is surjective because $G(\Q)$ is dense in $G(\R)$. 
+\end{proof}
+
+\begin{lemma}
+For every open subgroup $K \subset G(\A_f)$ the set $G(\Q)_+ \backslash G(\A_f) / K$, the set $G(\Q)_+ \backslash G(\A_f) / K$ is finite.
+\end{lemma}
+
+\begin{defn}
+Gor a compact open subgroup $K \subset G(\A_f)$, consider the double coset space,
+\[ \Sh{K}{G, X} : = G(\Q) \backslash X \times G(\A_f) / K \]
+in which $G(\Q)$ acts on $X$ and $G(\A_f)$ on the left, and $K$ acts on $G(\A_f)$ on the right:
+\[ q(x, a) k = (qx , q a k) \quad q \in G(\q) \quad x \in X \quad a \in G(\A_f) \quad k \in K \]
+\end{defn}
+
+\begin{lemma}
+Let $C$ be a set of representatives for the double coset space,
+\[ G(\Q)_+ \backslash G(\A_f) / K \]
+and let $X^+$ be a commnected component of $X$. Then,
+\[ G(\Q) \backslash X \times G(\A_f) / K \cong \bigsqcup_{g \in C} \Gamma_g \backslash X^+ \]
+where $\Gamma_g$ is the subgroup $g K g^{-1} \cap G(\Q)_+$ of $G(\Q)_+$. When we endow $X$ with its usual topology and $G(\A_f)$ with its adelic topology this is a homeomorphism. 
+\end{lemma}
+
+\begin{rmk}
+Because $\Gamma_g$ is a congrence subgroup of $G(\Q)$, its image in $G^\ad(\Q)$ is arithmetic (WHAT?) and so its image in $\Aut{X^+}$ is arithmetic. Moreove, when $K$ is sufficently small, $\Gamma_g$ will be neat for all $g \in C$ and so its image in $\Aut{X^+}^+$ will also be near and hence torsion-free. Then $\Gamma_G \backslash X^+$ is an arithmetic locally symmetric variety, and $\Sh{K}{G, X}$ is a finite disjoint union of such varieties. Moreover, for an inclusion $K' \subset K$ of sufficiently small compact open subgroups of $G(\A_f)$, the natural map $\Sh{K'}{G, X}
+ \to \Sh{K}{G, X}$ is regular. Thus, when we vary $K$, we get an inverse system of algebraic vareties $(\Sh{K}{G, X})_K$. There is a natural action of $G(\A_f)$ on the system as follows: for $g \in G(\A_f)$ we send $K \mapsto g^{-1} K g$ which sends compact open subgroups to compact open subgroups then,
+\[ T(g) : \Sh{K}{G, X} \to \Sh{g^{-1} K h}{G, X} \]
+\end{rmk}
+
+\begin{defn}
+Let $(G, X)$ be a Shimura datum. A Shimura variety relative to $(G, X)$ is a variety of the form $\Sh{K}{G, X}$ for some compact open subgroup $K \subset G(\A_f)$.
+\bigskip\\
+The \textit{Shimura variety} $\Sh{}{G, X}$ attached to the Shimura datum $(G, X)$ is the inverse system of varieties $(\Sh{K}{G, X})_K$ endowed with the $G(\A_f)$ action.  
+\end{defn}
+
+\subsection{Morphisms of Shimura Varieties}
+
+\begin{defn}
+Let $(G, X)$ and $(G', X')$ be Shimura data, 
+\begin{enumerate}
+\item a morphism of Shimura data $(G, X) \to (G', X)$ is a homomorphism $G \to G'$ of algebraic groups sending $X \onto X'$
+\item A morphism of Shimura varieties $\Sh{}{G, X} \to \Sh{}{G', X'}$ is an inverse system of regular maps of algebraic varieties equivariant with respect to the $G(\A_f)$-action.
+\end{enumerate}
+\end{defn}
+
+\begin{thm}
+A morphism of Shimura data $(G, X) \to (G', X')$ defines a morphism $\Sh{}{G, X} \to \Sh{}{G', X'}$ of Shimura varieties which is a closed immersion if $G \to G'$ is injection.
+\end{thm}
+
+\begin{rmk}
+What does it mean here to be a closed immersion? Does this mean that each map in the sequence is a closed immersion? Okay, it means that for sufficiently small $K$ it becomes a closed immersion. 
+\end{rmk}
+
+\subsection{The Structure of a Shimura Variety}
+
+
+\section{Symplectic Space}
+
+\begin{defn}
+Let $k$ be a field ($\mathrm{char}(k) \neq 2$) then a \textit{symplectic space} $(V, \psi)$ is a $2n$-dimensional $k$-vectorspace $V$ and a nondegenerate alternative $2$-form $\psi$.
+\bigskip\\
+We say that a subspace $W \subset V$ is totally isotropic if $\psi(W, W) = 0$. 
+\bigskip\\
+A symplectic basis of $V$ is a basis $\{ e_{\pm i} \}$ such that,
+\begin{align*}
+\psi(e_{+i}, e_{-i}) &= 1 \quad \text{for} 1 \le i \le n
+\\
+\psi(e_i, e_j) &= 0 \quad \text{for} j \neq \pm i
+\end{align*} 
+\end{defn}
+
+\newcommand{\Gsp}[1]{\mathrm{GSp}\left( #1 \right)}
+\newcommand{\GSp}[1]{\mathrm{GSp}\left( #1 \right)}
+\newcommand{\Sp}[1]{\mathrm{Sp}\left( #1 \right)}
+\newcommand{\fin}{\mathrm{fin}}
+\renewcommand{\C}{\mathbb{C}}
+
+\begin{defn}
+For a symplectic space $(V, \psi)$ we define $\Gsp{\psi}$ to be endomorphisms of $V$ which preserve $\psi$ up to scaling,
+\[ \Gsp{\psi}(k) = \{ g \in \GL{n}{V} \mid \psi(gu, gv) = v(g) \cdot \phi(u, v) \quad v(g) \in k^\times \} \]
+\end{defn}
+
+\begin{rmk}
+Here $\Gsp{\psi}$ is a sort of conformal version of the symplectic group.
+\end{rmk}
+
+\begin{rmk}
+There is a homomorphism $v : \Gsp{\psi} \to \Gm$ sending $g \mapsto v(g)$. Then clearly $\ker{\nu} = \Sp{\psi}$. Furthermore, $\Sp{\psi} \embed \GSp{\psi}$ is the derived subgroup giving a diagram,
+\begin{center}
+\begin{tikzcd}
+& \Sp{\psi} \arrow[d] \arrow[rd]
+\\
+\Gm \arrow[rd] \arrow[r] & \Gsp{\psi} \arrow[d, "\nu"] \arrow[r, "\ad"] & \GSp{\psi}^\ad 
+\\
+& \Gm
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\subsection{Shimura Datum Attached to a Symplectic Space}
+
+Let $(V, \psi)$ be a symplectic space over $\Q$ and let $G(\psi) = \GSp{\psi}$ and $S(\psi) = \Sp{\psi} = G^\der$. 
+\bigskip\\
+Now let $J$ be a complex structure on $V(\R)$ such that $\psi(Ju, Jv) = \psi(u,v)$. Then clearly, $J \in S(\psi)(\R)$. For each $z \in \C^\times$ we get $h_J(z) \in G(\psi)(\R)$ and it lies in $S(\psi)(\R)$ if $|z| = 1$ (UNDERSTAND THIS?). We say that $J$ is \textit{positive} if $\psi_J(u, v) := \psi(u, Jv)$ is positive-definite. 
+\bigskip\\
+Let $X^{\pm}$ denote the set of positive and respectively negatively complex constructures on $V(\R)$ such that $\psi(J u, J v) = \psi(u, v)$ for all $u, v \in V$ and let $X(\psi) = X^{+} \sqcup X^{-}$. Then $G(\psi)(\R)$ acts on $X$ according to,
+\[ (g, J) \mapsto g J g^{-1} \]
+and the stabilizer in $G(\psi)(\R)$ of $X^{+}$ is,
+\[ G(\psi)(\R)^+ = \{ g \in G(\psi)(\R) \mid v(g) > 0 \} \]
+
+\begin{prop}
+Then the pair $(G(\psi), X(\psi))$ satisfies the axioms of the Shimura datum and furthermore satisfies the futher additional axioms,
+\begin{enumerate}
+\item[SV2'] for all $h \in X$ then $\ad(h(i))$ is a Cartan involution on $G_\R / w_X(\Gm)$ (not just $G_\R^\ad$)
+\item the weight map $w_X : \Gm \to G_\R$ is defined over $\Q$
+\item the group $Z(\Q) \embed Z(\A_{\fin})$ is discrete
+\item the torus $Z^\circ$ splits over a CM-field 
+\end{enumerate}
+where the weight homomorphism $w_X : \Gm{\R} \to Z(G)_\R^\circ \subset G_\R$ is a map over $\R$ of $\Q$-tori.
+\end{prop}
+
+\begin{rmk}
+We call $(G(\psi), X(\psi))$ the Siegel Shimura datum associated to a symmetric space $(V, \psi)$. 
+\end{rmk}
+
+\subsection{The Siegel Modular Variety}
+
+Let $(G, X) = (G(\psi), X(\psi))$ be the Shimura datum defined by a symplectic space $(V, \psi)$ over $\Q$. Then the Siegal modular variety of $(V, \psi)$ is simply $\Sh{}{G, X}$.
+\bigskip\\
+Now let $V(\A_{\fin}) = V \otimes_\Q \A_{\fin}$ thne $G(\A_{\fin})$ is the group of $\A_{\fin}$-linear automorphisms of $V(\A_{\fin})$ perserving $\psi$ up to multiplication by an element of $\A_{\fin}^\times$.
+\bigskip\\
+Let $K \subset G(\A_{\fin})$ be a compact open subgroup of $G(\A_{\fin})$ and let $\H_K$ denote the set of triples $((W, h), s, \eta K)$ where,
+\begin{enumerate}
+\item $(W, h)$ is a rational Hodge structure of type $(-1,0)$ and $(0, -1)$
+\item one of $s$ or $-s$ is a polarization for $(W, h)$
+\item $\eta K$ is a $K$-orbit of $\A_{\fin}$-linear isomorphism $V(\A_{\fin}) \to W(\A_{\fin})$ under which $\psi$ corresponds to $s$ up to $\A_{\fin}^\times$-scaling.
+\end{enumerate}
+Furthermore, an isomorphism $b : ((W, h), s, \eta K) \to ((W', h'), s', \eta'K)$ of triples is an isomorphism $b : (W, h) \to (W', h')$ of rational Hodge structures sending $s$ to $cs'$ for $c \in \Q^\times$ and $b \circ \eta = \eta'$ modulo $K$.
+
+\section{Shimura Varieties of Hodge Type}
+
+\begin{rmk}
+For a symplectic space $(V, \psi)$ denote the associated Shimura data by $(G(\psi), X(\psi))$.
+\end{rmk}
+
+\begin{defn}
+A Shimura datum $(G, X)$ is of \textit{Hodge type} if there is a symplective space $(V, \phi)$ over $\Q$ and an injection $\rho : G \embed G(\psi)$ sending $X$ into $X(\psi)$. The Shimura variety $\Sh{}{G, K}$ is then of \textit{Hodge type}. 
+\end{defn}
+
+\begin{rmk}
+The embedding $\rho : G \embed G(\psi)$ composes with $\nu : G(\psi) \to \Gm$ to give a character $\nu : G \to \Gm$ of $G$.
+\end{rmk}
+
+\begin{prop}
+Let $\Q(r)$ be the Hodge struture on $\Q$ with $G$ acting by $g \cdot x = \nu(g)^r \cdot g$. Then for each $h \in X$ we see that $(\Q(r), \nu \circ h)$ is a rational Hodge structure of type $(-r,-r)$ so this agrees with previous notation.
+\end{prop}
+
+\begin{prop}
+There exist multilinear maps $t_1, \dots, t_n : V \times \cdots \times V \to \Q(r_i)$ such that $G$ is the subgroup of $G(\psi)$ fixing these maps.
+\end{prop}
+
+\begin{proof}
+This is an application of Chevalley's theorem since this is equivalent to finding a set of tensors which give $G$ as the group fixing these tesnors. 
+\end{proof}
+
+
+\begin{rmk}
+Let $(G, X)$ be of Hodge type an schoose an embedding $(G, X) \embed (G(\psi), X(\psi))$ for some symplectic space $(V, \psi)$ and  multilinear maps $t_1, \dots, t_n : V \times \cdots \times V \to \Q(r_i)$ with $G$ their stabilizing subgroup. 
+\bigskip\\
+We now define a set $\H_K$ of triples, $((W, h), (s_i), \eta K)$ as before satisfying,
+\begin{enumerate}
+\item $(W, h)$ is a rational Hodge structure of type $(-1,0), (0, -1)$
+\item $s_0$ or $-s_0$ is a polarization for $(W, h)$
+\item $s_1, \dots, s_n$ are multilinear maps $s_i : W \times \cdots \times W \to \Q(r_i)$
+\item $\eta K$ is a $K$-orbit of isomorphisms $V(\A_{\fin}) \to W(\A_{\fin})$ under which $\psi$ is $s_0$ up to $\A_{\fin}^\times$-scaling and $t_i$ corresponds to $s_i$.
+\end{enumerate}
+and further require that, there is an isomorphism $a : W \to V$ sending $s_0$ to $\psi$ up to $\Q^\times$-scaling and $s_i$ corresponds to $t_i$ and $h$ to an element of $X$. 
+\end{rmk}
+
+\begin{prop}
+The complex points $\Sh{K}{\mathbb{\C}}$ classify the elements of $\H_K$ up to isomorphism. 
+\end{prop}
+
+\begin{defn}
+Now let $A$ be an abelian variety over $\C$ and $W = H_1(A, \Q)$. Then we have seen that,
+\[ H^m(A, \Q) = \Hom{}{\bigwedge^m W}{\Q} \]
+We say that $t \in H^{2r}(A, \Q)$ is a \textit{Hodge tensor for} $A$ if the corresponding map,
+\[ W^{\otimes 2r} \to \bigwedge^{2r} W \to \Q(r) \]
+is a morphism of Hodge structures.
+\end{defn}
+
+\begin{rmk}
+Now we define a similar set of tuples whose moduli we can describe.
+\end{rmk}
+
+\begin{defn}
+Let $(G, X) \embed (G(\psi), X(\psi))$ and $t_1, \dots, t_n$ as above. Then let $M_K$ be the following set of triples $(A, (s_i), \eta K)$ where,
+\begin{enumerate}
+\item $A$ is an abelian variety over $\C$
+\item $s_0$ or $-s_0$ is a polarization for the rational Hodge structure $H_1(A, \Q)$
+\item $s_1, \dots, s_n$ are Hodge tensors for $A$ (or its powers WHAT DOES THAT MEAN?)
+\item $\eta K$ is a $K$-orbit of $\A_{\fin}$-linear isomorphisms $V(\A_{\fin}) \to V_f(A)$ (WHAT IS THIS) sending $\psi$ onto $s_0$ up to $\A_{\fin}^\times$-scaling and each $t_i$ to $s_i$
+\end{enumerate}
+which further satisfies the condition:
+\begin{center}
+there exists an isomorphisms $a : H_1(A, \Q) \to V$ sending $s_0$ to $\psi$ up to $\Q^\times$-scaling and $s_i$ to $t_i$ and $h$ to an element of $X$.
+\end{center}
+\end{defn}
+
+\begin{theorem}
+The complex points $\Sh{K}{\mathbb{C}}$ classify the elements of $M_K$ up to isomorphism. 
+\end{theorem}
+
+\begin{rmk}
+Let $A(\C) = \C^g / \Lambda$ then,
+\[ H^m(A, \Q) = \Hom{}{\bigwedge^m \Lambda}{\Q} \]
+and for $T = T_0 A$ we have $\Lambda \otimes \C = T \oplus \bar{T}$. Therefore,
+\[ H^m(A, \C) = \Hom{}{\bigwedge^m (\Lambda \otimes \C)}{\C} = \Hom{}{\bigoplus_{p + q = m} \bigwedge^p T \otimes \bigwedge^q \bar{T}}{\C} = \bigoplus_{p + q = m} H^{p, q} \]
+where we identify,
+\[ H^{p,q} = \Hom{}{\bigwedge^p T \otimes \bigwedge^q \bar{T}}{\C} \]
+This construction of the Hodge structure on $H^m$ does agree with the usual abstract construction from Hodge theory. 
+\end{rmk}
+
+\begin{prop}
+A Hodge tensor on $A$ is an element of,
+\[ H^{2r}(A, \Q) \cap H^{r, r} \subset H^{2r}(A, \C) \]
+Recall that the Hodge conjecture predicts the Hodge tensors are spaned over $\Q$ by the algebraic classes. We can show this here for $r = 1$. Consider the exponential sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \underline{\Z} \arrow[r] & \struct{A} \arrow[r, "\exp"] & \struct{A}^\times \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+which on cohomology gives,
+\begin{center}
+\begin{tikzcd}
+H^1(A, \struct{A}^\times) \arrow[d, equals] \arrow[r] & H^2(A, \Z) \arrow[r] & H^2(A, \struct{A}) 
+\\
+\Pic{A} \arrow[ru, "c_1", dashed]
+\end{tikzcd}
+\end{center}
+Note that $\alpha \in H^2(A, \Z)$ maps to zero in $H^2(A, \struct{A}) = H^{0,2}$ iff it maps to zero in $H^{2,0}$. Therefore,
+\[ \Im{c_1} = H^2(A, \Z) \cap H^{1,1} \]
+thus we see that the space $H^{1,1}$ in \textit{integral} (even better than rational) cohomology is exactly the subgroup of classes of algbraic line bundles or equivalently of divisors i.e. algebraic cylces.
+\end{prop}
+
+\begin{rmk}
+Since degree zero bundles map to zero, the first map $\Pic{A} \to H^2(A, \Z)$ factos through $\Pic{A} / \mathrm{Pic}^0(A) = NS(A)$ the Neron-Severi group of connected components of $\Pic{A}$. Furthermore, from before we have,
+\[ H^{2}(A, \Z) = \Hom{}{\bigwedge^2 H_1(A, \Z)}{\Z} \]
+Then we get an injection,
+\[ NS(A) \embed H^2(A, \Z) = \Hom{}{\bigwedge^2 H_1(A, \Z)}{\Z} \]
+Note that a \textit{polarization} of $A$ is an element of $NS(A)$ mapping to a polarization of $H_1(A, \Z)$. (LOOK AT PREVIOUS DEF OF POLARIZATION AND COMPARE!!)
+\end{rmk}
 
 \end{document}

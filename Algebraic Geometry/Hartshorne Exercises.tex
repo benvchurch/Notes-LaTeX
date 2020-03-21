@@ -9,10 +9,11 @@
  
 \urlstyle{same}
 \usepackage{import}
-\import{../}{AlgGeoCommands}
+\import{./}{AlgGeoCommands}
 
 
 \AtBeginDocument{\renewcommand{\d}{\mathbf{d}}}
+\newcommand{\ch}[1]{\mathrm{char}\left( #1 \right)}
  
 
 \begin{document}
@@ -278,9 +279,13 @@ A & y \in \overline{\{ x \}}
 
 Let $f : X \to Y$ be a continuous map, $\F$ a sheaf on $X$ and $\G$ a sheaf on $Y$. The restriction maps define a map,
 \[ \varinjlim_{V \supset f(U)} \F(f^{-1}(V)) \to \F(U) \]
-since $f^{-1}(V) \supset U$ gives restriction maps $\F(f^{-1}(V)) \to \F(U)$ compatilbe with restricton. Sheafifying gives a natural map $f^{-1} f_* \F \to \F$. Furthermore, 
-(FINSIH) 
-
+since $f^{-1}(V) \supset U$ gives restriction maps $\F(f^{-1}(V)) \to \F(U)$ compatilbe with restricton. Sheafifying gives a natural map $f^{-1} f_* \F \to \F$. Furthermore, we can define a map $\F \to f_* f^{-1} \F$ as follows. Consider the sheafification map $(f^{-1} \F)^P \to f^{-1} \F$ giving $\F \to f_* (f^{-1} \F)^P \to f_* f^{-1} \F$. The first map is defined by,
+\[ \F(U) \to \varinjlim_{V \supset f(f^{-1}(U))} \F(V) \]
+given since $U \supset f(f^{-1}(U))$ and then take the inclusion map of the colimit. These maps are natural. Then, given $f^{-1} \F \to \G$ we get $\F \to f_* f^{-1} \F \to f_* \G$ and given $\F \to f_* \G$ we get $f^{-1} \F \to f^{-1} f_* \G \to \G$. We need to show that these maps are inverse. That is,
+\[ \F \to f_* f^{-1} \F \to f_* f^{-1} f_* \G \to f_* \G \]
+is just $\F \to f_* \G$ and,
+\[ f^{-1} \F \to f^{-1} f_* f^{-1} \F \to f^{-1} f_* \G \to \G \]
+is just $f^{-1} \F \to \G$. 
 
 \subsubsection{1.19}
 
@@ -303,7 +308,9 @@ For $x \in U$ we have,
 \[ (j_! \F)^P_x = \varinjlim_{x \in V} (j_! \F)^P(V) = \varinjlim_{x \in V \subset U} \F(V) = \F_x \]
 because both direct limits satisfy the same universal properties. For $x \notin U$ then any open $V$ containing $x$ cannot be contained in $U$ so,
 \[ (j_! \F)^P_x = \varinjlim_{x \in V} (j_! \F)^P(V) = 0 \]
-Now suppose that $\G$ is some sheaf on $X$ such that $\G|_U = \F$ and for which $\G_x = \F_x$ for all $x \in U$ and $\G_x = 0$ otherwise. To prove that $\G = j_! \F$, it suffices to show that $\G = j_! (\G|_U)$ since $\G|_U = \F$ by assumption. Consider the inclusion map $(j_! \G|_U)^P \to \G$. Since $\G$ is a sheaf this inclusion factors uniquely through the sheafification as $(j_! \G |_U)^P \to j_! (\G|_U) \to \G$. By assumption, the inclusion $(j_! \G|_U)^P \to \G$ is an isomorphism on stalks since $\G_x = 0$ for $x \notin U$. 
+Now suppose that $\G$ is some sheaf on $X$ such that $\G|_U = \F$ and for which $\G_x = \F_x$ for all $x \in U$ and $\G_x = 0$ otherwise. To prove that $\G = j_! \F$, it suffices to show that $\G = j_! (\G|_U)$ since $\G|_U = \F$ by assumption. Consider the inclusion map $(j_! \G|_U)^P \to \G$. Since $\G$ is a sheaf this inclusion factors uniquely through the sheafification as $(j_! \G |_U)^P \to j_! (\G|_U) \to \G$. By assumption, the inclusion $(j_! \G|_U)^P \to \G$ is an isomorphism on stalks since $\G_x = 0$ for $x \notin U$. Thus $j_! (\G|_U) \to \G$ is an isomorphism but $\G|_U = \F$ so we get an isomorphism $j_! \F \to \G$. 
+
+
 \item Let $\F$ be a sheaf on $X$. By adjunction, there is a morphism $\F \to \iota_* \iota^* \F$.  By definition, $\iota^* \F = \F|_Z$ so we have a map $\F \to \iota_* (\F |_\Z)$ and the sheaf $\iota_* \iota^* \F$ has stalks,
 \begin{align*}
 (\iota_* \iota^* \F)_x & = 
@@ -343,7 +350,7 @@ both of which are exact so the sequence of sheaves is exact.
 
 \subsubsection{1.20}
 
-Let $Z \subset X$ be closed and $\F$ a sheaf on $X$. We say a section $s \in \F(X)$ has support in $Z$ if $\Supp{\F}{s} \subset Z$. In that case $s |_{X \setminus Z} = 0$ since for each $x \in X \setminus Z$ we have $x \notin \Supp{\F}{s}$ so $s_x = 0$ so $s |_{X \setminus Z} = 0$ by seperatedness. Conversely, if $s|_{X \setminus Z} = 0$ then for any $x \in X \setminus Z$ we have $s_x = 0$ so $x \notin \Supp{\F}{s}$ and thus $\Supp{\F}{s} \subset X$. We denote the subgroup of $\Gamma(X, \F)$ of sections with support in $Z$ by $\Gamma_Z(X, \F)$.
+Let $Z \subset X$ be closed and $\F$ a sheaf on $X$. We say a section $s \in \F(X)$ has support in $Z$ if $\Supp{\F}{s} \subset Z$. In that case $s |_{X \setminus Z} = 0$ since for each $x \in X \setminus Z$ we have $x \notin \Supp{\F}{s}$ so $s_x = 0$ so $s |_{X \setminus Z} = 0$ by seperatedness. Conversely, if $s|_{X \setminus Z} = 0$ then for any $x \in X \setminus Z$ we have $s_x = 0$ so $x \notin \Supp{\F}{s}$ and thus $\Supp{\F}{s} \subset Z$. We denote the subgroup of $\Gamma(X, \F)$ of sections with support in $Z$ by $\Gamma_Z(X, \F)$.
 
 \begin{enumerate}
 \item Consider the presheaf $V \mapsto \Gamma_{Z \cap V}(V, \F|_V)$. Let $U \subset X$ be an open set and $\{ V_i \}$ be an open conver of $U$. Suppose that $s \in \Gamma_{Z \cap U}(U, \F|_U)$ is a section on $U$ with support in $Z \cap U$ such that $s|_{V_i} = 0$. Then since $\F$ is a sheaf $s = 0$. Furthermore, given sections $s_i \in \Gamma_{Z \cap V_i}(V_i, \F|_{V_i})$ with supports in $Z \cap V_i$ which agree on the overlaps, then since $\F$ is a sheaf, these sections glue to give $s \in \Gamma(X, \F)$. It suffices to prove that $s$ has support in $Z \cap U$. We know that $s |_{V_i} = s_i$ and thus for $x \in V_i$ we have $s_x = (s_i)_x$. Thus, 
@@ -495,7 +502,7 @@ x \in \varphi^{-1}(\sqrt{I}) & \iff \varphi(x) \in \sqrt{I} \iff \varphi(x)^n = 
 $\overline{f(V(I))} = V(\varphi^{-1}(I))$.
 \end{lemma}
 \begin{proof}
-Consider $f(V(I)) \subset V(J)$ then $I \subset \varphi^{-1}(\P)$ for each prime ideal $\P \subset B$ above $I$ so $\varphi(J) \subset \sqrt{J}$. By the above lemma, $J \subset \varphi^{-1}(\sqrt{I}) = \sqrt{\varphi^{-1}(I)}$ and thus,
+Consider $f(V(I)) \subset V(J)$ then $J \subset \varphi^{-1}(\P)$ for each prime ideal $\P \subset B$ above $I$ so $\varphi(J) \subset \sqrt{I}$. By the above lemma, $J \subset \varphi^{-1}(\sqrt{I}) = \sqrt{\varphi^{-1}(I)}$ and thus,
 \[ V(J) \supset V(\sqrt{\varphi^{-1}(I)}) = V(\varphi^{-1}(I)) \] Furthermore, if $\p \supset f(V(I))$ then $\p = \varphi^{-1}(\P)$ with $\P \supset I$ so then $\p \supset \varphi^{-1}(I)$ and thus $\p \in V(\varphi^{-1}(I))$. Thus $f(V(I)) \subset V(\varphi^{-1}(I))$ which proves that $\overline{f(V(I))} = V(\varphi^{-1}(I))$.
 \end{proof}
 
@@ -662,7 +669,7 @@ We say that $f : X \to Y$ is quasi-finite if for each $y \in Y$ the set $f^{-1}(
 \item Let $f : X \to Y$ be finite and $Z \subset X$ be closed. Because $f$ is finite we can find an affine open cover $V_i = \Spec{B_i}$ of $Y$ such that $U_i = f^{-1}(V)$ is affine, $U_i = \Spec{A_i}$ and $\varphi_i : B_i \to A_i$ is finite. Then $Z \cap U_i$ is closed in $\Spec{A_i}$ so there is an ideal $I_i \subset A_i$ such that $Z \cap U_i = V(I_i)$. Now, I claim that finite ring maps induce closed maps on spectra. 
 \bigskip\\
 Consider $V(I) \subset \Spec{A}$ and $\varphi : B \to A$. Then consider $\varphi^*(V(I))$
-We can reduce to the case $I = 0$ since $B \to A \to A / I$ is finite and $\varphi^*(V(I))$ is the image of $\Spec{A / I} \to \Spec{B}$. We can also reduce to $B \to A$ injective since the image of $\Spec{A}$ is contained in $\Spec{B / \ker{B \to A}}$ which is closed. Thus, take $B \to A$ injective and consider $\Spec{A} \to \Spec{B}$. Since $B \to A$ is finite it is integral so the going up property holds. Thus it suffices to show that minimal primes of $B$ are in the image. If $\p \in \Spec{B}$ is minimal then $B_\p$ has a unique prime ideal then the localization $B_\p \to A_\p$ is integral so the maximal ideals of $A_\p$ are exactly those prime ideals above the unique maximal ideal $\p \in \Spec{B_\p}$ so $\p$ is in the image of $\Spec{B} \to \Spec{A}$. Since $\Spec{A} \to \Spec{B}$ hits all minimal primes and has going up then it must be surjective. 
+We can reduce to the case $I = 0$ since $B \to A \to A / I$ is finite and $\varphi^*(V(I))$ is the image of $\Spec{A / I} \to \Spec{B}$. We can also reduce to $B \to A$ injective since the image of $\Spec{A}$ is contained in $\Spec{B / \ker{(B \to A)}}$ which is closed. Thus, take $B \to A$ injective and consider $\Spec{A} \to \Spec{B}$. Since $B \to A$ is finite it is integral so the going up property holds. Thus it suffices to show that minimal primes of $B$ are in the image. If $\p \in \Spec{B}$ is minimal then $B_\p$ has a unique prime ideal then the localization $B_\p \to A_\p$ is integral so the maximal ideals of $A_\p$ are exactly those prime ideals above the unique maximal ideal $\p \in \Spec{B_\p}$ so $\p$ is in the image of $\Spec{B} \to \Spec{A}$. Since $\Spec{A} \to \Spec{B}$ hits all minimal primes and has going up then it must be surjective. 
 \bigskip\\
 Therefore $f(Z \cap U_i)$ is closed in $V_i = \Spec{A_i}$. Now, $y \in f(Z) \cap V_i$ if $y \in V_i$ and $\exists x \in Z$ such that $f(x) = y$ so $x \in Z \cap f^{-1}(V_i) = Z \cap U_i$. Furthermore, $f(Z \cap U_i) \subset f(Z) \cap f(U_i) = f(Z) \cap V_i$ so $f(Z) \cap V_i = f(Z \cap U_i)$ so $f(Z) \cap V_i$ is closed. Then, I claim that $f(Z)$ is closed. 
 \bigskip\\
@@ -908,7 +915,6 @@ Let $Y = Z_0 \supsetneq Z_1 \supsetneq \cdots \supsetneq Z_d$ be a maximal chain
 Now suppose that $\overline{Z_i} = \overline{Z_{i+1}}$ then $Z_i \subset \overline{Z_{i+1}}$ which implies that $Z_i \subset \overline{Z_{i + 1}} \cap Y = Z_{i + 1}$ (since $Z_{i + 1}$ is closed in $Y$) which contradicts the fact that $Z_i \supsetneq Z_{i+1}$. Thus the chain is proper so $\dim{X} \ge d = \dim{Y}$.  
 \end{proof}
 
-\newcommand{\codim}{\mathrm{codim}}
 \begin{definition}
 If $Z \subset X$ is irreducible closed then $\codim(Z,X)$ is the length of the longest chain,
 \[ Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n \]
@@ -1180,8 +1186,6 @@ Since $\Delta_Y$ and $f$ are both closed immersions, by separatedness of $Y$ and
 A better proof is to show that closed immersions are separated and composition of separated morphisms are separated so $X \to Y \to S$ gives $X \to S$ separated and thus $X$ is separated as a scheme over $S$.
 \end{proof}
 
-\newcommand{\CaCl}[1]{\mathrm{CaCl}\left( #1 \right)}
-
 \item Consider the $X$ the affine line with a doubled point and let $U$ and $V$ the the open affine copies of $\A^1_k$ and $W$ the single glued open $U \setminus \{ P_1 \} = V \setminus \{ P_2 \}$. Since $X$ is not separated we cannot apply Weil divisors. However, $X$ is integral so the map $\CaCl{X} \to \Pic{X}$ is an isomorphism so we need only consider Cariter divisors. 
 \bigskip\\
 First we compute Cartier divisors on $\A^1_k$. We know that $k[x]$ is a UFD and thus its class group is trivial so $\CaCl{\A^1_k} = 0$. Now any Cartier diviosr $D \in \Gamma(X, \K^\times_X / \struct{X}^\times)$ its restriction to $U$ and $V$ must be principal i.e. rational functions $f, g \in K(\A^1_k) = k(x)$. Furthermore, on the overlap, we must have $f/g \in \struct{X}^\times(W)$ but $\struct{X}^\times(W) = k[x]_{(x)}$ then $f / g = a x^n$ for $a \in k^\times$ and $n \in \Z$. Then quotienting by principal divisors $k(x)$ we can set $g = 1$ and quoting by units on $U$ we can set $a = 1$ so we find $f = x^n$. This gives $\CaCl{X} = \Z$. 
@@ -1344,12 +1348,12 @@ Let $X$ be a topological space and $Y \subset X$ a closed subset. Let $\F$ be an
 0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \H \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-Then since the functor $(-)|_U$ is exact and $j_*$ is left-exact then we get a commutative diagram with exact rows,
+Then since the functor $(-)|_U$ is exact and $j_*$ is right-exact then we get a commutative diagram with exact rows,
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & \F \arrow[d] \arrow[r] & \G \arrow[r] \arrow[d] & \K \arrow[r] \arrow[d] & 0
 \\
-0 \arrow[r] & j_!(\F |_U) \arrow[r] & j_! (\G |_U) \arrow[r] & j_! (\K |_U)
+0 \arrow[r] & j_*(\F |_U) \arrow[r] & j_*(\G |_U) \arrow[r] & j_*(\K |_U)
 \end{tikzcd}
 \end{center}
 Since taking kernels is left-exact (limits are right adjoints) we get an exact sequence,
@@ -2048,7 +2052,7 @@ to path={ -- ([xshift=2ex]\tikztostart.east)
 \end{center}
 where the cohomology vanishes above the dimension of the scheme $X$. These groups are $k$-vectorspaces because $X$ is a scheme over $k$. By Lemma \ref{alt_sum_exact} we have the alternating sum,
 \begin{align*}
-\sum_{i = 0}^n (-1)^n \left[ \dim_k H^i(X, \F) - \dim_k H^i(X, \G) + \dim_k H^i(X, \H) \right] = \chi(\F) - \chi(G) + \chi(\H) = 0  
+\sum_{i = 0}^n (-1)^n \left[ \dim_k H^i(X, \F) - \dim_k H^i(X, \G) + \dim_k H^i(X, \H) \right] = \chi(\F) - \chi(\G) + \chi(\H) = 0  
 \end{align*}
 Therefore,
 \[ \chi(\G) = \chi(\F) + \chi(\H) \]
