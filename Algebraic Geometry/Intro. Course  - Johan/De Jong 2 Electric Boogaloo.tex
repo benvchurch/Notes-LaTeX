@@ -94,7 +94,7 @@ $\L$ is ample iff $\L^{\otimes n}$ is ample for any $n > 0$.
 \end{lemma}
 
 \begin{lemma}
-If $X$ is affine, and $L$ is invertible, and $s \in \Gamma(X, \L)$ then $X_s$ is affine. 
+If $X$ is affine, and $\L$ is invertible, and $s \in \Gamma(X, \L)$ then $X_s$ is affine. 
 \end{lemma}
 
 \begin{definition}
@@ -102,7 +102,7 @@ A scheme is noetherian if it has a finite open cover by spectra of noetherian ri
 \end{definition}
 
 \begin{remark}
-It is equivalent to require that $X$ is quasi-compact and $\struct{X}(U)$ is noetherian. 
+It is equivalent to require that $X$ is quasi-compact and $\struct{X}(U)$ is noetherian for each affine open.
 \end{remark}
 
 \begin{lemma}
@@ -753,6 +753,172 @@ where $c = n - \dim{X}$ is the codimension.
 \begin{prop}
 If $\iota : X \to Y$ is a closed immersion then $\iota^* \iota_* \F = \F$ for any $\struct{X}$-module $\F$ and if $\I \cdot \G = 0$ for some $\struct{Y}$-module $\F$ then $\G = \iota_* \iota^* \G$ where $\I = \ker{(\struct{Y} \to \iota_* \struct{X})}$. 
 \end{prop}
+
+\section{Local Property}
+
+\begin{defn}
+A property $P$ of ring maps is \textit{local} if,
+\begin{enumerate}
+\item $P(R \to A) \implies P(R_f \to A_f)$ for all $f \in R$
+\item $P(R_f \to A)$ for some $f \in R$ then $P(R \to A_a)$ for any $a \in A$
+\item if $P(R \to A_{a_i})$ for $(a_1, \dots, a_r) = A$ then $P(R \to A)$.
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+We say a morphism of schemes $f : X \to Y$ is locally $P$ for some local property $P$ if for each $x \in X$ there is an affine open $U = \Spec{A}$ with $x \in U \subset X$ and $V = \Spec{R}$ with $V \subset Y$ with $f(U) \subset V$ such that $P(R \to A)$. 
+\end{defn}
+
+\begin{lemma}
+If $f : X \to Y$ is locally $P$ then for any affine opens $U \subset X$ and $V \subset Y$ with $f(U) \to V$ then $P(\struct{Y}(V) \to \struct{X}(U))$. 
+\end{lemma}
+
+\begin{rmk}
+
+\end{rmk}
+
+\section{Smooth Maps}
+
+\begin{defn}
+A ring map $R \to A$ is \textit{smooth} if it is of finite presentation,
+\[ A \cong R[x_1, \dots, x_n]/I \]
+where $I$ is finitely generated. Then consider,
+\[ I / I^2 \xrightarrow{\d} \bigoplus_{i = 1}^n A \d{x_i}  \]
+given by,
+\[ f \mapsto \d{f} = \sum \pderiv{f}{x_i} \d{x_i} \]
+Then $\d$ is injective and its cokernel is a projective $A$-module. Since $K = \coker{\d}$ is projective an finitely generated then it is locally free so it has a rank function. We say that $R \to A$ is \textit{smooth of relative dimension} $n$ if $K$ is of constant rank $n$.
+\end{defn}
+
+\begin{rmk}
+Smoothness satisfies the following,
+\begin{enumerate}
+\item local
+\item preserved under composition
+\item preserved uncer base change 
+\end{enumerate}
+\end{rmk}
+
+\begin{example}
+Take $R \to R[x_1, \dots, x_n] / (f_1, \dots, f_c)$ such that,
+\[ \det{ \left( \pderiv{f_j}{x_i} \right)_{\substack{i = 1, \dots, c \\ j = 1, \dots, c} }} \]
+maps to an invertible element of $A$. 
+Then,
+\[ \frac{(f_1, \dots, f_c)}{(f_1, \dots, f_c)^2} \to \bigoplus_{i = 1}^n A \d{x_i} \to \coker{} \]
+In differential geometry, we have,
+\begin{center}
+\begin{tikzcd}
+f^{-1}(\{0 \}) \arrow[r, hook] & \C^n \arrow[d, "f"] \arrow[d]
+\\
+\{ 0 \} \arrow[r, hook] & \C^n
+\end{tikzcd}
+\end{center}
+Then $f^{-1}(\{ 0 \})$ is a smooth manifold by the implicit function theorem. We call this situation standard smooth.
+\end{example}
+
+\begin{lemma}
+A map $R \to A$ is smooth if and only if there exist $a_i$ s.t. $(a_1, \dots, a_r) = A$ and $R \to A_{a_i}$ is standard smooth.
+\end{lemma}
+
+\begin{defn}
+For a standard smooth ring map, $R \to A$ we can factor,
+\begin{center}
+\begin{tikzcd}
+R \arrow[r] \arrow[rd] & R[x_{n+1}, \dots, x_n] \arrow[d]
+\\
+& R[x_1, \dots, x_n]/(f_1, \dots, f_c)
+\end{tikzcd}
+\end{center}
+Then the downward map is \etale.
+\end{defn}
+
+\begin{defn}
+A smooth morphism of schemes is a morphism which is locally smooth. 
+\end{defn}
+
+
+\begin{rmk}
+Using the previous lemma, for any smooth morphism of schemes $X \to Y$ it is locally standard smooth so we can factor,
+\begin{center}
+\begin{tikzcd}
+X \arrow[dd, "f"] & U \arrow[dd] \arrow[l, hook]  \arrow[dr]
+\\
+& & \A^d \arrow[dl]
+\\
+Y & V \arrow[l, hook] 
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{defn}
+A variety $X$ over $k$ is smooth iff $X \to \Spec{k}$ is smooth.
+\end{defn}
+
+\begin{defn}
+A locally noetherian scheme $X$ is \textit{regular} or \textit{nonsingular} iff $\stalk{X}{x}$ is regular at each $x \in X$.
+\end{defn}
+
+\begin{rmk}
+For locally Noetherian schemes it suffices to check regularity on the closed points. 
+\end{rmk}
+
+\begin{theorem}
+If $X \to \Spec{k}$ is smooth then $X$ is regular. 
+\end{theorem}
+
+\begin{theorem}
+If $k$ is perfect then a variety is smooth iff it is regular.
+\end{theorem}
+
+\begin{example}
+Let $k = \mathbb{F}_p(t)$ then take $\Spec{k[x]/(y^2 - (x^p - t))}$ which is regular but not smooth. Consider,
+\[ \d{(y^2 - x^p + t)} = 2 y \d{y} + 0 \]
+and thus we have,
+\[ (f)/(f^2) \mapsto A \d{x} \oplus A \d{y} \]
+which is injective but the cokernel is $A \oplus A / y A$ but $A / y A$ has torsion so cannot be projective and thus not smooth.
+\bigskip\\
+However, we just need to check regularity at $(y, x^p - t) = (y) \subset A$ which is a height one ideal and generated by one element so $A_{(y)}$ is regular.  
+\end{example}
+
+\section{Differentials}
+
+\begin{defn}
+For a ring map $\varphi : R \to A$ the $A$-module of differentials $\Omega_{A/R}$ is generated by the symbols $\d{a}$ for $a \in A$ such that,
+\begin{enumerate}
+\item $\d{(a_1 + a_2)} = \d{a_1} + \d{a_2}$
+\item $\d{a_1 a_2} = \d{a_1} \cdot a_2 + a_1 \cdot \d{a_2}$
+\item $\d{r} = 0$ for $r \in R$
+\end{enumerate}
+Then $\d_{R/A} : R \to \Omega_{R/A}$ is the universal derivation meaning that $\Omega_{R/A}$ represents the functor $\Der{R}{A}{-}$ i.e.
+\[ \Hom{A}{\Omega_{A/R}}{M} \cong \Der{R}{A}{M} \]
+via $(f : \Omega_{A/R} \to M) \mapsto f \circ \d_{A/R}$
+\end{defn}
+(O8RL, O8RT)
+\begin{defn}
+Given a morphism of ringed spaces $(X, \struct{X}) \to (Y, \struct{Y})$
+then there is a universal derivation $\d_{X/Y} : \struct{X} \to \Omega_{X/Y}$ s.t.
+\[ \Hom{\struct{X}}{\Omega_{X/Y}}{\F} \cong \Der{f^{-1} \struct{Y}}{\struct{X}}{\F} \]
+Where a derivation $\varphi : \struct{X} \to \F$ is an abelian map such that $\varphi(fs) = f \varphi(s) + \varphi(f) s$ and under $f^{-1} \struct{Y} \to \struct{X}$ we send $s \in \struct{Y}(U)$ to $\varphi(s) = 0$.
+\end{defn}
+
+\begin{lemma}
+For a morphism of schemes $f : X \to Y$ we have,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "f"] & U = \Spec{A} \arrow[l] \arrow[d]
+\\
+Y & V = \Spec{R} \arrow[l]
+\end{tikzcd}
+\end{center}
+Then we have $\Omega_{X/Y} |_U = \wt{\Omega_{A/R}}$. 
+\end{lemma}
+
+\subsection{The Diagonal}
+(Tag O1R1)
+Consider $R \to A$ then consider the map,
+\[ \Omega_{A/R} \xrightarrow{\sim} J / J^2 \]
+via $\d{a} \mapsto a \otimes 1 - 1 \otimes a$ where $J = \ker{(A \otimes_R A \to A)}$ via $a \otimes b \mapsto ab$. This situation generalizes to Schemes in which,
+\[ \Omega_{X/Y} = \Delta_{X/Y}^*(\J) \]
+where $\J$ is the sheaf of ideals of $\Delta : X \to X \times_Y X$ i.e. $\J = \ker{(\struct{X \times_Y X} \to \Delta_{X/Y}^* \struct{X})}$. This is the conormal sheaf of $\Delta_{X/Y} : X \to X \times_Y X$. 
 
 \end{document}
 

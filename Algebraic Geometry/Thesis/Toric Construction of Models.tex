@@ -204,40 +204,78 @@ That $\Delta_\nu$-regularity implies weak nondegeneracy follows from the main th
 
 It does not suffice to take \textit{any} affine open as the following example shows, we must indeed take a sufficiently small open so the notion of birationality here is actually necessary.
 
-\begin{example}
-There exists a smooth affine curve $C$ over $k$ with no immersion $C \embed \P^2_k$ and, in particular, no immersion $C \embed \Gm{k}^2$. Thus, there are smooth affine curves which are not affine plane curves. 
-\end{example}
+\begin{prop}
+There exists a smooth affine curve $C$ over $k$ with no closed immersion $C \embed \Gm{k}^2$. 
+\end{prop}
 
-Take an algebraically closed field $k$. Show the following,
-\begin{enumerate}
-\item if $C \embed \P^2_K$ is an immersion then there is a plane curve $\bar{C} \subset \A^2_k$ (closed immersion) an an open immersion $C \embed \bar{C}$.
-\item for any closed curve $\bar{C} \subset \A^2_k$ we have $\Omega_{\bar{C}/k} = \struct{C}$
-\item thus, since $C \embed \bar{C}$ is \etale we have $\Omega_{C/k} = \struct{C}$ so it suffices to construct a smooth affine curve with nontrivial canonical bundle $\Omega_{C/k}$.
-\item Choose a curve $C$ with genus $g(C) \ge 2$ then $\deg{\Omega_{C/k}} \ge 2$ and choose a point $P \in C$ such that $K_X \not\sim (2g - 2) [P]$ for any $k \in \Z$.
-\item Show that $U = C \setminus \{ P \}$ is affine,
-\item Then $U \embed C$ is \etale so $\Omega_{U / k} = f^* \Omega_{C/k}$ so $K_C \sim [P]$. 
-\item Show that this is nontrivial using the exact sequence,
+\begin{proof}
+We use the obstruction that any curve embedded in $\Gm{k}^2$ must have a trivial canonical bundle (Lemma \ref{plane_curve_trivial_canonical}). Therefore, it sufficees to produce a smooth affine curve with a nontrivial canonical bundle. The affiness is easy to arrange since for any smooth complete curve $\overline{C}$ then removing a single point leaves an affine curve (Lemma \ref{affine_remove_point}). Setting $C = \overline{C} \setminus \{ P \}$, the inclusion $j : C \to \overline{C}$ induces an exact sequence,
 \begin{center}
 \begin{tikzcd}
-\Z \arrow[r] & \Cl{C} \arrow[r] & \Cl{U} \arrow[r] & 0
+\Z \arrow[r] & \Cl{\overline{C}} \arrow[r, "j^*"] & \Cl{C} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-the first map sending $1 \mapsto [P]$ so we need to show that $K_X \not\sim (2g - 2) [P]$ for any $k$. 
+where the first map is $1 \mapsto [P]$. Therefore, a divisor class $D$ is sent to zero under $f^* D \sim 0$ iff $D \sim \deg{D} \cdot [P]$. We need to show that the canonical divisor does not vanish $K_C \not \sim 0$ and thus that $K_{\overline{C}} \not\sim (2g - 2) \cdot [P]$ since $j : C \embed \overline{C}$ is \etale so $\Omega_{C/k} = f^* \Omega_{\overline{C}/k}$. Therefore, it suffices to produce a curve $\overline{C}$ with a point $P \in \overline{C}$ such that $K_{\overline{C}} \not\sim (2g - 2) \cdot [P]$. Note that because the $(2g - 2)$-torsion in the Picard group for $g \ge 2$ is a finite group, all but finitely many choices for $P$ on any smooth complete curve of genus $g \ge 2$ will work.
+\bigskip\\
+Specificially, take $\overline{C} = \Proj{k[X, Y, Z]/(X^4 - X^2 Z^2 + (Y - Z)^4 - Z^4)}$ which is easily verfified to be smooth in characteristic $p \neq 2,5$ and has genus $g = 3$ since it is a plane curve of degree $4$ in $X = \P^2_k$. Then choose $P = [0 : 0 : 1]$. Notice that under $\iota : \overline{C} \embed \P^2_k$ we have $\Omega_{\overline{C}/k} \cong \iota^* \struct{X}(1)$ by the adjunction formula. We need to check that $(2g - 2) \cdot [P]$ is not one of the effective divisors linearly equivalent to $K_{\overline{C}}$. Such divisors are parametrized by sections $H^0(\overline{C}, \Omega_{\overline{C}/k}) = H^0(X, \iota_* \iota^* \struct{X}(1))$. By the projection formula $\iota_* \iota^* \struct{X}(1) = \iota_* \struct{\overline{C}} \otimes_{\struct{X}} \struct{X}(1)$. To compute the sections of this coherent $\struct{X}$-module we apply the exact sequence of the Cartier divisor $\overline{C}$ twisted by $\struct{X}(1)$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-3) \arrow[r] & \struct{X}(1) \arrow[r] & \iota_* \struct{\overline{C}} \otimes_{\struct{X}} \struct{X}(1) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and applying cohomology,
+\begin{center}
+\begin{tikzcd}
+H^0(X, \struct{X}(-3)) \arrow[r] & H^0(X, \struct{X}(1)) \arrow[r] & H^0(\overline{C}, \iota^* \struct{X}(1)) \arrow[r] &  H^1(X, \struct{X}(-3)) 
+\end{tikzcd}
+\end{center}
+but $H^q(X, \struct{X}(-3)) = 0$ for $q \le 1$ so the map $H^0(X, \struct{X}(1)) \onto H^0(\overline{C}, \iota^* \struct{X}(1))$ given by pulling back sections, $s \mapsto \iota^* s$, is bijective. In particular, since any section $s \in H^0(\overline{C}, \Omega_{\overline{C}/k})$ is the pullback of some hyperplane equation $h \in H^0(X, \struct{X}(1))$, the divisor of zeros associated to $s$ is the hyperplane section $\iota^{-1}(H) = \overline{C} \cap H$ with the hyperplane $H = V(h)$. However, I claim that any line passing through $P$ intersects $\overline{C}$ in more than one point. To see this, consider the tangent line $L$ to $\overline{C}$ at $P$ is $\P^1_k \to X$ given by $[T_0 : T_1] \mapsto [T_0 : 0 : T_1]$ but $L \cap \overline{C} = \{[0 : 0 : 1], [1 : 0 : 1], [-1 : 0 : 1] \}$. Therefore, there cannot be any line passing through only $P$ meaning that $\{ P \}$ cannot be the support of any effective divisor in canonical linear system $H^0(\overline{C}, \Omega_{\overline{C}/k})$. Thus, $K_{\overline{C}} \not\sim (2g - 2) \cdot [P]$ so $C = \overline{C} \setminus \{ P \}$ has nontrivial canonical bundle yet is affine providing the required example.
+\end{proof}
 
-\end{enumerate}
+\begin{rmk}
+Notice that although $C$ is not an affine plane curve (in the sense of having a closed immersion $C \embed D(q) \subset \A^2_k$ to some principal affine open) there is an immersion $C \embed \P^2_k$ since $\overline{C} \embed \P^2_k$ is a complete plane curve.
+\end{rmk}
+\noindent
+We conclude by providing proofs of the required lemmas.
 
-\begin{lemma}
-Let $C \embed \A^2_k$ be a smooth curve embedded in the affine plane. Then the canoncial bundle $\Omega_{C/k} \cong \struct{C}$ is trivial.
+\begin{lemma} \label{plane_curve_trivial_canonical}
+Let $C \embed D(q) \subset \A^2_k$ be a smooth curve embedded in some standard open $D(q)$ in the affine plane. Then the canoncial bundle $\Omega^1_{C/k} \cong \struct{C}$ is trivial.
 \end{lemma}
 
 \begin{proof}
-Note that $C = \Spec{R}$ with $R = k[x, y]/I$ where $I = \ker{(k[x,y] \to \Gamma(C, \struct{C}))}$. Furthermore, $I = (f)$ since $\dim{C} = 1$ thus $\height{I} = 1$ but $C$ is irreducible and thus $I$ is prime and since $k[x, y]$ is a UFD $I = (f)$ since each height one prime is principal. Furthermore, $C$ is smooth so $(f, f_x, f_y) = k[x,y]$ where $f_x, f_y$ are the partial derivatives of $f$ with respect to $x$ and $y$. Therefore, we can choose $g,h \in k[x,y]$ such that $g f_x + h f_y = 1$ in $R$. Now, consider the $R$-module of differentials, $\Omega_{R/k} = (R \d{x} \oplus R \d{y}) /(f_x \d{x} + f_y \d{y})$. 
+Let $A = k[x, y, q^{-1}]$ so $D(q) = \Spec{A}$. Note that $C = \Spec{R}$ with $R = A/I$ where $I = \ker{(A \to \Gamma(C, \struct{C}))}$. Furthermore, $I = (f)$ since $\dim{C} = 1$ thus $\height{I} = 1$ but $C$ is irreducible and thus $I$ is prime and since $A$ is a UFD, $I = (f)$ since each height one prime is principal. Furthermore, $C$ is smooth so $(f, f_x, f_y) = A$ where $f_x, f_y$ are the partial derivatives of $f$ with respect to $x$ and $y$. Therefore, we can choose $g,h \in A$ such that $g f_x + h f_y = 1$ in $R$. Now, consider the $R$-module of differentials, $\Omega_{R/k} = (R \d{x} \oplus R \d{y}) /(f_x \d{x} + f_y \d{y})$. 
 \bigskip\\
 Consider the map $\phi : R \to \Omega_{R/l}$ sending $1 \mapsto h \d{x} - g \d{y}$. Note that,
 \[ \d{x} = g f_x \d{x} + h f_y \d{x} = h f_y \d{x} - g f_y \d{y} \implies f_y \mapsto \d{x} \] 
 \[ d{y} = g f_x \d{y} + h f_y \d{y} = g f_x \d{y} - h f_x \d{x} \implies -f_x \mapsto \d{y} \]
 so $\phi$ is surjective. Furthermore, suppose that $\phi(a) = 0$ then $\phi(f_x a) = \phi(f_y a) = 0$ so in $R \d{x} \oplus R \d{y}$ we have $a \d{x}, a \d{y} \in (f_x \d{x} + f_y \d{y})$  meaning $a \d{x} = c_1(f_x \d{x} + f_y \d{y})$ and $a \d{y} = c_2(f_x \d{x} + f_y \d{y})$ giving $c_1 f_y = 0$ and $c_2 f_x = 0$ and $c_1 f_x = c_2 f_y = a$ since $R \d{x} \oplus R \d{y}$ is free. But then \[ a = g f_x a + h f_y a = g f_x c_2 f_y + h f_y c_1 f_x = 0 \]
 since $c_2 f_x = c_1 f_y = 0$ so $\phi$ is injective. Thus $\Omega_{R/k} \cong R$ and sheafifying gives, $\Omega_{C/k} \cong \struct{C}$. 
+\end{proof}
+
+\begin{lemma} \label{affine_remove_point}
+Let $C$ be a smooth proper curve and $P \in C$ a point. Then $C \setminus \{ P \}$ is affine. 
+\end{lemma}
+
+\begin{proof}
+The divisor $D = \nu [P]$ is very ample for sufficiently large $\nu$ (in fact for $\nu \ge 2 g + 1$) [Har, IV.3.2]. Therefore, the linear system $|\nu [P]|$ defines a closed ($C$ is proper) immersion $j : C \embed \P^{\nu - 1}_k$ such that $\struct{C}(D) = j^* \struct{\P^{\nu-1}_k}(1)$ with the hyperplane sections pulling back to a basis of $H^0(C, \struct{C}(D))$. Since $D$ is effective, there is some section $s \in H^0(C, \struct{C}(D))$ with $V(s) = \{ P \}$ and thus some hyperplane section $h \in H^0(\P^{\nu - 1}_k, \struct{\P^{\nu-1}_k}(1))$ with $s = j^* h$ and thus $\{ P \} = j^{-1}(H \cap j(C))$ where $H = V(h) \subset \P^{\nu - 1}_k$. Finally, $C  \setminus \{ P \} = j^{-1}(\P^{\nu - 1}_k \setminus H)$ which is affine since $j$ is a closed immersion and thus affine and the complement of a hyperplane in projective space is a standard open.
+\end{proof}
+
+\section{Example}
+
+In order to extend our argument to heigher genus curves, we need to apply Riemann-Roch. However, since this example only works in the arithmetic setting we require a slight modification to the standard statement of Riemann-Roch found in Hartshorne. To ensure there is no confusion, we will provide a proof here.
+
+\begin{theorem}[Riemann-Roch]
+Let $X$ be a smooth proper curve over $k$ with $g = \dim_k H^0(X, \omega_X)$ its genus. Then for any line bundle $\L$,
+\[ \chi(\L) = \dim_k H^0(X, \L) - \dim_k H^0(X, \omega_X \otimes_{\struct{X}} \L^\vee) = \deg{\L} + 1 - g \]
+Where $\deg{\L}$ is defined in the arithmetic case as follows. Choose a nonzero $s \in H^0(X, \L)$ and a local trivialization $\{ (U_i, s_i) \}$ with $s_i \in \L(U_i)$ such that $\struct{U_i} \xrightarrow{s_i} \L|_{U_i}$ is an isomorphism. Then define,
+\[ \deg{\L} = \sum_{P \in X} [\kappa(P) : k] \: \ord_{P}(s/s_i) \] 
+for some $i$ with $P \in U_i$. 
+\end{theorem}
+
+\begin{proof}
+First, note that by Serre duality, $H^1(X, \L) \cong H^0(X, \omega_X \otimes_{\struct{X}} \L^\vee)^\vee$ so,
+\[ \chi(\L) = \dim_k H^0(X, \L) - \dim_k H^1(X, \L) = \dim_k H^0(X, \L) - \dim_k H^0(X, \omega_X \otimes_{\struct{X}} \L^\vee) \]
+Since $X$ is smooth, every line bundle $\L$ is $\struct{X}(D)$ for some divisor $D$. However,
 \end{proof}
 
 \end{document}

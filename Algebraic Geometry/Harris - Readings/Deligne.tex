@@ -141,8 +141,6 @@ To make this definition make any sense, we need to note that the Chern class is 
 
 \subsection{Basic Properties of Absolutly Hodge Cycles}
 
-\newcommand{\E}{\mathcal{E}}
-
 \begin{remark}
 We first need to discuss algebraic conntections on bundles. The setup is $k_0$ is a field of characteristic zero and $S$ is a smooth $k_0$-scheme.  
 \end{remark}
@@ -185,7 +183,7 @@ Consider,
 If we write locally,
 \[ \nabla e = \sum_i f_i \d{g_i} \otimes s_i \]
 then the curvature takes the form,
-\[ \omega_\nabla (e) = \sum_{i} (\d{f_i} \wedge \d{g_i} \otimes e - f_i \d{g_i} \otimes \nabla s_i) \]
+\[ \omega_\nabla (e) = \sum_{i} (\d{f_i} \wedge \d{g_i} \otimes s_i - f_i \d{g_i} \otimes \nabla s_i) \]
 \end{remark}
 
 \begin{proposition}
@@ -206,7 +204,7 @@ is the unique $\struct{S}$-map such that,
 \[ [D_1, D_2] \circ \d = D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d \]
 Now consider this action locally,
 \begin{align*}
-[D_1, D_2] \otimes \id \circ \nabla = \sum_i f_i (D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d)(g_i) \cdot s_i 
+[D_1, D_2] \otimes \id \circ \nabla(e) = \sum_i f_i (D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d)(g_i) \cdot s_i 
 \end{align*}
 Furthermore, 
 \[ [Q(D_1), Q(D_2)] = (D_1 \otimes \id) \circ \nabla \circ (D_2 \otimes \id) \circ \nabla - (D_2 \otimes \id) \circ \nabla \circ (D_1 \otimes \id) \circ \nabla \]
@@ -330,14 +328,20 @@ Clearly this connection satisfies $\H^n_{\dR}(X^\an / S^\an)^{\nabla^\an} \cong 
 
 \section{Local Systems}
 
-\begin{proposition}
-Let $\E$ be a vector bundle on $X$ with a flat connection 
-\[ \nabla : \E \to \Omega^1_X \otimes_{\struct{X}} \E   \]
-Then $\E^\nabla = \ker{\nabla}$ is a local system. 
-\end{proposition}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{rmk}
+Let $X$ be a space over $k$ such that $\M_X(U)$ is always field and $\struct{X} \to \M_X$ is injective and the kernel of $\d : \M_X \to \Omega^1_X \otimes_{\struct{X}} \M_X$ consists exactly of the constant functions. For example a complex manifold over $k = \C$ or an (irreducible) smooth variety over $k$.
+\end{rmk}
+
+\begin{prop}
+Let $\E$ be a vector bundle of rank $n$ on $X$ with a connection,
+\[ \nabla : \E \to \Omega^1_X \otimes_{\struct{X}} \E \]
+Then $\E^\nabla = \ker{\nabla}$ is $\underline{k}$-module with $\dim_k \E^\nabla(U) \le n$ for each open $U \subset X$. 
+\end{prop}
 
 \begin{proof}
-Since $\E$ is locally free, we can find a cover of trivializing neighbrohoods $U$ such that $\E|_U \cong \struct{U}^{\oplus n}$. Then $\nabla : \struct{U}^{\oplus n} \to (\Omega^1_U)^{\oplus n}$ is a connection. Define,
+Since $\E$ is locally free, we can find a cover of trivializing neighbrohoods $U$ on each of which $\E|_U \cong \struct{U}^{\oplus n}$. Then $\nabla : \struct{U}^{\oplus n} \to (\Omega^1_U)^{\oplus n}$ is a connection. Define,
 \[ \nabla e_j = \sum_{i = 1}^n \omega_{ij} \otimes e_i  \]
 where $\omega_{ij} \in \Omega_X^1(U)$ is a form.
 This uniquely defines the connection since,
@@ -348,7 +352,48 @@ This uniquely defines the connection since,
 \end{align*}
 Therefore, $\E^\nabla$ is given locally by $(f_1, \dots, f_n)$ solving the linear system of differential equations,
 \[ \d{f_i} + \sum_{j = 1}^n \omega_{ij} f_j = 0 \]
-The condition of flatness is that,
+Now we consider the meromorphic bundle $\E \otimes_{\struct{X}} \M_X$ and,
+\[ \nabla : \E \otimes_{\struct{X}} \M_X \to \Omega^1_X \otimes_{\struct{X}} \E \otimes_{\struct{X}} \M_X \]
+Then we consider $\E^\nabla_\M = \ker{\nabla_\M}$ which has the advantage of $\E^\nabla_\M(U)$ being a $\M_X(U)$-vectorspace. Let $K = \M_X(U)$ which is a field. Furthermore, we can view $\E^\nabla_\M(U) \subset K^n$ via the trivialization $\E|_U \cong \struct{U}^{\oplus n}$ so there are at most $n$ $K$-independent elements of $\E_\M^\nabla(U)$, choose such a $K$-basis $F^1, \dots, F^k$ with $F^i = (f^i_1, \dots, f^i_n)$ such that,
+\[ \d{F^i} + \omega \cdot F^i = 0 \]
+Now, for any $F \in \E^\nabla_\M(U)$ we can write,
+\[ F = g_1 F^1 + \cdots + g_k F^k \]
+for $g_i \in K$. But furthermore,
+\[ \d{F} + \omega \cdot F = 0 \]
+and thus,
+\[ \d{g_1} F^1 + \cdots + \d{g_k} F^k + g_1 \d{F^1} + \cdots + g_k \d{F^k} + \omega \cdot (g_1 F^1 + \cdots + g_k F^k) = 0 \]
+However,
+\[ g_i \d{F^i} + \omega \cdot g_i F^i = 0 \]
+and thus, 
+\[ \d{g_1} F^1 + \cdots + \d{g_k} F^k = 0 \]
+However, the $F^i$ form a basis and thus all $\d{g_i} = 0$ meaning that $g_i \in \struct{X}(U)$ is constant i.e. in the image of $k \embed \struct{X}(U)$ under $1 \mapsto 1$. Therefore, since,
+\[ F = g_1 F^1 + \cdots + g_k F^k \]
+we see that $\E^\nabla_\M(U)$ is spanned over $k$ by $F^1, \dots, F^k$ and thus $\dim_k \E^\nabla_\M(U) \le k \le n$. However, $\E^\nabla(U) \subset \E^\nabla(U)$ is a $k$-subspace so we conclude that $\dim_k \E^\nabla(U) \le \dim_k \E^\nabla_\M(U) \le k \le n$.
+\end{proof}
+
+\begin{rmk}
+What Hypothesis needed here for integrability????
+\end{rmk}
+
+\begin{proposition}
+Let $\E$ be a vector bundle of rank $n$ on $X$ with a flat connection,
+\[ \nabla_\K : \E \to \Omega^1_X \otimes_{\struct{X}} \E   \]
+if and only if $\E^\nabla = \ker{\nabla}$ is a local system of rank $n$. 
+\end{proposition}
+
+\begin{proof}
+We saw that $\E^\nabla$ is given locally by $(f_1, \dots, f_n)$ solving the linear system of differential equations,
+\[ \d{f_i} + \sum_{j = 1}^n \omega_{ij} f_j = 0 \]
+This having a solution implies that its derivative vanishes,
+\[ \sum_{j = 1}^n \d{\omega_{ij}} f_j + \sum_{j = 1}^n \d{f_j} \wedge \omega_{ij} = 0 \]
+Plugging in for $\d{f_j}$ gives,
+\[ \sum_{j = 1}^n \left[ \d{\omega_{ij}} f_j - \sum_{k = 1}^n \omega_{jk} \wedge \omega_{ij} f_k \right]  = 0 \]
+and thus, reindexing,
+\[ \sum_{j = 1}^n \left[ \d{\omega_{ij}} + \sum_{k = 1}^n \omega_{ik} \wedge \omega_{kj} \right] f_j = 0 \]
+so all solutions must be in the kernel of the curvature operator,
+\[ \Theta_{ij} = \d{\omega_{ij}} + \sum_{k = 1}^n \omega_{ik} \wedge \omega_{kj} \]
+In order that $\E^\nabla$ have full dimension as a $\underline{k}$-module then $\Theta_{ij}$ must vanish since 
+The condition of flatness means that,
 \[ \nabla_1 \circ \nabla = 0 \]
 which locally is,
 \begin{align*}
