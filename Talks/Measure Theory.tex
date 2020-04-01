@@ -1,0 +1,431 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{dsfont}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\indic}[1]{\mathds{1}_{#1}}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{corollary}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge Measure Theory}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\newcommand{\Rcomp}{\hat{\R}^+}
+\newcommand{\Power}[1]{\mathcal{P}\left( #1 \right)}
+\newcommand{\measure}[1]{\mu\left( #1 \right)}
+\newcommand{\outmeasure}[1]{\mu^*\left( #1 \right)}
+
+\section{Introduction}
+
+\section{A First Attempt at Measure Theory}
+
+We want to define a function which measures the size of a set. First let us work over $\R$. Then our measure is a map from subsets of the real line to nonegative reals or infinity if our set is infinite in length. 
+
+\begin{definition}
+The domain of a mesure will be in the set,
+\[ \Rcomp = \{ x \in \R \mid x \ge 0 \} \cup \{ \infty \} \]
+which has the topology of a closed interval. 
+\end{definition}
+
+\begin{definition}
+A \textit{measure} is a function $\mu : \Power{\R} \to \Rcomp$ satisfying,
+\begin{enumerate}
+\item $\measure{\varnothing} = 0$
+
+\item For any countible collection of pairwise disjoint sets $\{ E_i \}_{i = 1}^{\infty}$ for $E_i \subset \R$ we have additivity,
+\[ \measure{\bigcup_{i = 1}^\infty E_i} = \sum_{i = 1}^\infty \measure{E_i} \]
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Let $\mu$ be a measure. If $A \subset B$ then $\measure{A} \le \measure{B}$. 
+\end{lemma}
+
+\begin{proof}
+We can write $B = A \cup (B \setminus A)$ and $A \cap (B \setminus A) = \varnothing$. Then, applying the second property of a measure,
+\[ \measure{B} = \measure{A} + \measure{B \setminus A} \ge \measure{A} \]
+because $\measure{B \setminus A} \ge 0$ for any set. 
+\end{proof}
+
+\begin{example}
+The following are well-defined measures on all subsets of $\R$:
+\begin{enumerate}
+\item The counting measure is defined by $\measure(S) = \#(S)$ when $S$ is finite and $\measure{S} = \infty$ when $S$ is infinite.
+
+\item The dirac measure $\delta_a$ for $a \in \R$ is given by,
+\[ \delta_a(S) = \indic{S}(a) = 
+\begin{cases}
+1 & a \in S
+\\
+0 & a \notin S
+\end{cases} \]
+where $\indic{S}$ is the indicator function given by,
+\[ \indic{S}(x) = 
+\begin{cases}
+1 & x \in S
+\\
+0 & x \notin S
+\end{cases} \]
+
+\item Let $\{q_i\}$ be a fixed enummeration of the rational numbers $\Q$. Define $\mu_\Q : \Power{\R} \to \Rcomp$ by,
+\[ \mu_{\Q}(S) = \sum_{i = 1}^\infty \frac{\indic{S}(q_i)}{2^i} \]
+Since the sum,
+\[ \sum_{i = 1}^\infty \frac{1}{2^i} = 1 \]
+converges, the measure $\mu_{\Q}(S) \le 1$ so it is never infinite. This function is indeed a measure because the measure of a disjoint union gives the sum over all rationals in each piece with is exactly the sum of the measures. 
+\end{enumerate}
+\end{example}
+
+\begin{definition}
+We say a measure $\mu : \Power{\R} \to \Rcomp$ is \textit{translation-invariant} if $\measure{S + x} = \measure{S}$ for any $S \subset \R$ and $x \in R$ where,
+\[ S + x = \{ s + x \mid s \in S \} \]
+\end{definition}
+
+\begin{example}
+\item The counting measure is translation-invariant since $S + x$ has the same number of elements as $S$.
+
+\item The dirac measure is not translation-invariant since $\delta_a(\{a\}) = 1$ but if $x \neq 0$ then $\delta_{a}(\{a\} + a) = \delta_a(\{a + x\}) = 0$.
+
+\item  $\mu_{\Q}$ is not translation-invariant because different rational numbers will appear in a shifted interval.
+\end{example}
+
+\begin{definition}
+We say a measure $\mu : \Power{\R} \to \Rcomp$ is \textit{interval-length-compatible} if for any real numbers $a < b$ we have $\measure{[a,b]} = b - a$. The weaker notion of being \textit{nontrivial on intervals} holds if $\mu([a,b]) \neq 0, \infty$ for all such intervals.
+\end{definition}
+
+\begin{example}
+\item The counting measure is trivial on intervals because $\mu([a,b]) = \infty$. 
+
+\item The dirac measure $\delta_a$ is trivial on all intervals which do not conatain $a$. 
+
+\item $\mu_{\Q}$ is nontrivial on intervals since every interval contains a rational number $q_i \in [a,b]$ so $2^{-1} \le \mu_{\Q}([a,b]) < \infty$.  
+\end{example}
+
+\begin{remark}
+None of the examples discussed are both translation-invariant and nontrivial on all intervals. This is not an accident as we will now demonstrate. 
+\end{remark}
+
+\begin{theorem}[Vitali]
+There does not exist a translation-invariant measure on $\R$ which is nontrivial on intervals.
+\end{theorem}
+
+\begin{proof}
+We will define an equivalence relation $\sim$ on $\R$ by,
+\[ x \sim y \iff \exists q \in \Q : x + q = y \]
+This equivalence relation measures the ``irrational part'' of a number. Consider the set of equivalence classes,
+\[ \R / \Q = \{ [x] \mid x \in \R \} \quad \text{where} \quad [x] = \{t \in \R \mid x \sim y \} \]
+This is actually a quotient of groups since $[x] = x + \Q$ so we can also write,
+\[ \R / \Q = \{ x + \Q \mid x \in \R \} \]
+Now we create a set $V$ by choosing a single element of each equivalence class such that this element lies in $[0,1]$. That is, if $x \in V$ then $V \cap [x] = \{x\}$ so no element equivalent to $x$ i.e. differing by a rational from $x$ can lie in $V$. Given any choice of a representitive for $[x]$ we can shif by rationals until we land in $[0, 1]$. Constructing $V$ formally requires the axiom of choice but more on this latter. 
+\bigskip\\
+Now, for $q \in \Q \cap [-1, 1] = \Q_{1}$ consider the sets $V + q$. Given any $x \in [-1, 1]$ we know that there exists some $y \in [x] \cap V$ with $y \in [0, 1]$. Thus, $x - y \in \Q$ since $x \sim y$ and $x - y \in [-1, 1]$ since $x,y \in [0, 1]$. Thus, $x = y + q$ for some $q \in \Q \cap [-1,1]$. However, $y \in V$ so $x \in V + q$. But furthermore, if $x \in V$ then $x \in [0, 1]$ so $x + q \in [-1, 2]$ for $q \in \Q \cap [-1,1]$. Therefore,
+\[ [0, 1] \subset \bigcup_{q \in \Q_{1}} V + q \subset [-1, 2] \]
+Finally, let $\mu : \Power{\R} \to \Rcomp$ be a translation-invation measure on $\R$ which is nontrivial on intervals. Applying this measure,
+\[ \measure{[0, 1]} \le \measure{\bigcup_{q \in \Q_{1}} V + q} \le \measure{[-1,2]} \]
+However, if $q \neq q'$ then $V + q$ and $V + q'$ are disjoint because if $x \in V + q$ and $x \in V + q'$ then we would have $x - q, x - q' \in V$ but $(x - q) + (q - q') = x - q'$ so these must lie in the same equivalence class and thus $x - q = x - q'$ so $q = q'$ since there is exactly one element from each equivalence class in $V$. Furthermore, since $\Q$ is countible $\Q_1 = \Q \cap [-1,1]$ is also a countible index set. Therefore, since $\mu$ is a measure, it is additive over countible collections of disjoint set so we have,
+\[ \measure{\bigcup_{q \in \Q_{1}} V + q} = \sum_{q \in \Q_{1}} \measure{V + q} \]
+Furthermore, $\mu$ is translation invariant so,
+\[ \measure{V + q} = \measure{V} \]
+Therefore,
+\[ \measure{\bigcup_{q \in \Q_{1}} V + q} = \sum_{q \in \Q_{1}} \measure{V} \]
+Plugging into the innequality,
+\[ \measure{[0, 1]} \le \sum_{q \in \Q_{1}} \measure{V} \le \measure{[-1,2]} \]
+Finally, because $\mu$ is nontrivial on intervals we know that $\measure{[0,1]}$ and $\measure{[-1,2]}$ are positive real numbers (not $\infty$). This is the desired contradiction because,
+\[ \sum_{q \in \Q_{1}} \measure{V} = \measure{V} \sum_{q \in \Q_1} 1 
+= 
+\begin{cases}
+\infty & \measure{V} \neq 0
+\\
+0 & \measure{V} = 0
+\end{cases}\] 
+so this value cannot possibly fit in the innequality between two positive real numbers. 
+\end{proof}
+
+\begin{remark}
+The axiom of choice is a somewhat controversial axiom of set theory which states that given any collection of nonempty sets there exists a set which contains exactly one element from each set in the collection. Applying this axiom to $\R / \Q$ gives us a Vitali set $V$. We can write this axiom in formal logic as,
+\[ \forall X [ \varnothing \notin X \Longrightarrow \exists f : X \rightarrow \bigcup X \quad \forall A \in X :  f ( A ) \in A  ] \]
+which states that there exists a choice function taking a set $A$ and choosing some element $f(A) \in A$. 
+\end{remark}
+
+\begin{remark}
+This is a devestating result. We certainally wanted any candidate length function to be a translation-invariant measure which respects the lengths of intervals. Vitali showed that this is impossible. We will discuss how the modern theory circumvents this difficulty in the following section. 
+\end{remark}
+
+\section{Sigma Algebras and Measure Spaces}
+
+\begin{definition}
+An \textit{outer-measure} is a function $\mu^* : \Power{X} \to \Rcomp$ satisfying,
+\begin{enumerate}
+\item $\outmeasure{\varnothing} = 0$
+
+\item For any subsets $A,B \subset X$ we have,
+ \[ A \subset B \implies \outmeasure{A} \le \outmeasure{B} \]
+
+\item For any countible collection of pairwise disjoint sets $\{ E_i \}_{i = 1}^{\infty}$ for $E_i \subset X$ we have subadditivity,
+\[ \outmeasure{\bigcup_{i = 1}^\infty E_i} \le \sum_{i = 1}^\infty \outmeasure{E_i} \]
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+The \textit{Lebesgue outer-measure} $\mu^* : \Power{\R} \to \Rcomp$ is defined as follows. Let $I$ denote an open interval of the form $I = (a,b)$ and $\ell(I) = b - a$ its canonical length. Then for $S \subset \R$ we set,
+\[ \outmeasure{E} = \inf{\left\{ \sum_{k = 1}^{\infty} \ell(I_k) \: \middle| \: \{I_k\}_{k\in\N} \text{ is a cover of } E \text{ by open intervals i.e. } E \subset \bigcup_{k = 1}^\infty I_k \right\}} \]
+\end{definition}
+
+\begin{proposition}
+The Lebesgue outer-measure defined above satisfies the outer-measure axioms.
+\end{proposition}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{remark}
+The concept of an outer-measure will allow us to define the space of measureable sets. We first need to know what kind of space this will be.
+\end{remark}
+
+\begin{definition}
+A $\sigma$-\textit{algebra} on $X$ is a collection $\Sigma \subset X$ of subsets of $X$ satisfying,
+\begin{enumerate}
+\item $X \in \Sigma$ and $\varnothing \in \Sigma$
+\item If $E \in \Sigma$ then $E^c = X \setminus E \in \Sigma$.
+\item or any countible collection of pairwise disjoint sets $\{ E_i \}_{i = 1}^{\infty}$ for $E_i \in \Sigma$ then,
+\[ \bigcup_{i = 1}^\infty E_i \in \Sigma \] 
+By taking the compliment of the union of the compliments we also get coutible intersections i.e.
+\[ \bigcap_{i = 1}^\infty E_i \in \Sigma \] 
+\end{enumerate}
+We call the pair $(X, \Sigma)$ a measureable space. 
+\end{definition}
+
+\begin{definition}
+Let $(X, \Sigma_X)$ and $(Y, \Sigma_Y)$ be measureable spaces. A function $f : X \to Y$ is called \textit{measureable} if for any $Y$-measurable set $E \in \Sigma_Y$ its pre-image is $X$-measureable i.e. $f^{-1}(E) \in \Sigma_X$. 
+\end{definition}
+
+\begin{remark}
+We now have the tools to give a correct modern definition of a measure.
+\end{remark}
+
+\begin{definition}
+Let $(X, \Sigma)$ be a measureable space i.e. $\Sigma$ is a $\sigma$-algebra on $X$. Then a \textit{measure} on $(X, \Sigma)$ is a function $\mu : \Sigma \to \Rcomp$ satisfying,
+\begin{enumerate}
+\item $\measure{\varnothing} = 0$
+
+\item For any countible collection of pairwise disjoint sets $\{ E_i \}_{i = 1}^{\infty}$ for $E_i \in \Sigma$ we have additivity,
+\[ \measure{\bigcup_{i = 1}^\infty E_i} = \sum_{i = 1}^\infty \measure{E_i} \]
+\end{enumerate}
+We call the triple $(X, \Sigma, \mu)$ a \textit{measure} space. 
+\end{definition}
+
+\begin{definition}
+A measure space $(X, \Sigma, \mu)$ is \textit{complete} if for any $E \in \Sigma$ such that $\mu(E) = 0$ and any $S \subset E$ we have $S \in \Sigma$.  
+\end{definition}
+
+\begin{definition}
+Let $\mu^* : \Power{X} \to \Rcomp$ be an outer-measure. We say that $E \subset X$ is \textit{measureable} if for any $A \subset X$ we have,
+\[ \outmeasure{A} = \outmeasure{A \cap E} + \outmeasure{A \cap E^c} \]
+\end{definition}
+
+\begin{lemma}
+If $E_1, E_2 \subset X$ are $\mu^*$-measurable then $E_1 \cup E_2$ is also $\mu^*$-measurable.
+\end{lemma}
+
+\begin{proof}
+If $E_1, E_2 \in \Sigma$ then,
+\[ \outmeasure{A} = \outmeasure{A \cap E_1} + \outmeasure{A \cap E_1^c}  \]
+for any $A$. Furthermore, taking $A \cap E_1^c$ as the arbitrary subset and applying the measurability of of $E_2$,
+\[ \outmeasure{A \cap E_1^c} = \outmeasure{A \cap E_1^c \cap E_2} + \outmeasure{A \cap E_1^c \cap E_2^c} \]
+Furthermore, we can split the set $A \cap (E_1 \cup E_2)$ as the union of $A \cap E_1$ and $A \cap E_1^c \cap E_2$. By subadditivity,
+\[ \outmeasure{A \cap (E_1 \cup E_2)} \le \outmeasure{A \cap E_1} + \outmeasure{A \cap E_1^c \cap E_2} \]
+Combining these results,
+\begin{align*}
+\outmeasure{A \cap (E_1 \cup E_2)} + \outmeasure{A \cap (E_1^c \cap E_2^c)} & \le \outmeasure{A \cap E_1} + \outmeasure{A \cap E_1^c \cap E_2} + \outmeasure{A \cap (E_1^c \cap E_2^c)} 
+\\
+& = \outmeasure{A \cap E_1} + \outmeasure{A \cap E_1^c} = \outmeasure{A}
+\end{align*}
+However, $A$ can be decomposed as the disjoint union of $A \cap (E_1 \cup E_2)$ and $A \cap (E_1^c \cap E_2^c)$ so by subadditivity,
+\[ \outmeasure{A} \le \outmeasure{A \cap (E_1 \cup E_2)} + \outmeasure{A \cap (E_1^c \cap E_1^c)} \]
+Therefore,
+\[ \outmeasure{A} = \outmeasure{A \cap (E_1 \cup E_2)} + \outmeasure{A \cap (E_1^c \cap E_1^c)} \]
+for any set $A$. Thus, $E_1 \cup E_2 \in \Sigma$ is measureable. 
+\end{proof}
+
+\begin{lemma} \label{sigma_alg_limits}
+If $\{ E_i \}_{i = 1}^{\infty}$ is a countible increasing collection of $\mu^*$-measureable sets then, for any set $A \subset X$,
+\[ \outmeasure{A \cap \bigcup_{i = 1}^\infty E_i} = \lim_{n \to \infty} \outmeasure{A \cap E_n} \]
+\end{lemma}
+
+\begin{proof}
+Define,
+\[ E = \bigcup_{i = 1}^\infty E_i \]
+By monotonicity, 
+\[ \outmeasure{A \cap E_n} \le \outmeasure{A \cap E} \implies \lim_{n \to \infty} \outmeasure{A \cap E_n} \le \outmeasure{A \cap E} \]
+We can write,
+\[ A \cap E = \bigcup_{i = 1}^\infty A \cap E_i = \bigcup_{i = 0}^\infty A \cap E_{i+1} \cap E_i^c \]
+since $E_{i+1} \supset E_i$ this is a disjoint union since if $i < j$ then $E_{j+1} \cap E_{j}^c$ is disjoint from $E_j \supset E_i$. Applying subadditivity,
+\begin{align*}
+\outmeasure{A \cap E}  \le \sum_{i = 0}^\infty \outmeasure{A \cap E_{i + 1} \cap E_i^c}
+\end{align*}
+Since $E_i$ is $\mu^*$-measureable then taking $A \cap E_{i+1}$, 
+\[ \outmeasure{A \cap E_{i+1}} = \outmeasure{A \cap E_{i+1} \cap E_i} + \outmeasure{A \cap E_{i+1} \cap E_i^c} \]
+with $E_0 = \varnothing$. Thus,
+\begin{align*}
+\outmeasure{A \cap E} & \le \sum_{i = 0}^\infty \outmeasure{A \cap E_{i + 1} \cap E_i^c} = \sum_{i = 0}^\infty \left[  \outmeasure{A \cap E_{i+1}} - \outmeasure{A \cap E_{i+1} \cap E_i} \right] 
+\\
+& = \sum_{i = 0}^\infty \left[  \outmeasure{A \cap E_{i+1}} - \outmeasure{A \cap E_i} \right] = \lim_{n \to \infty} \outmeasure{A \cap E_{n}} - \outmeasure{A \cap E_0} = \lim_{n \to \infty} \outmeasure{A \cap E_{n}}
+\end{align*}
+because,
+\[ \outmeasure{A \cap E_0} = \outmeasure{A \cap \varnothing} = 0\]
+Therefore,
+\[ \outmeasure{A \cap E} = \lim_{n \to \infty} \outmeasure{A \cap E_{n}} \]
+\end{proof}
+
+\begin{theorem}
+The collection of $\mu^*$-measureable sets $\Sigma_{\mu}$ is a $\sigma$-algebra on $X$ and $\mu$, the restiction of $\mu^*$ to $\Sigma_\mu$, makes $(X, \Sigma_\mu, \mu)$ a complete measure space. 
+\end{theorem}
+
+\begin{proof}
+If $E = X$ or $E = \varnothing$ then clearly,
+\[ \outmeasure{A \cap E} + \outmeasure{A \cap E^c} = \outmeasure{A} + \outmeasure{\varnothing} = \outmeasure{A} \]
+so $X, \varnothing \in \Sigma_{\mu}$. Furthermore $E \in \Sigma_{\mu}$ if and only if 
+\[ \outmeasure{A} = \outmeasure{A \cap E} + \outmeasure{A \cap E^c} \]
+for each $A \subset X$. So clearly $E \in \Sigma_\mu \iff E^c \in \Sigma$.
+We have shown that $\Sigma_\mu$ contains finite unions. Taking $A = E_1$ with disjoint $E_1, E_2 \in \Sigma_{\mu}$ gives,
+\[ \outmeasure{E_1 \cup E_2} = \outmeasure{(E_1 \cup E_2) \cap E_1} + \outmeasure{(E_1 \cup E_2) \cap E_1^c} = \outmeasure{E_1} + \outmeasure{E_2} \]
+so we have finite additivity on $\Sigma_{\mu}$. 
+If we have a countible collection of pairwise disjoint sets $\{ E_i \}_{i = 1}^{\infty}$ for $E_i \in \Sigma_\mu$. We have shown that the unions,
+\[ T_n = \bigcup_{i = 1}^n E_n \in \Sigma_\mu \]
+are measureable.  Then,
+\[ \outmeasure{A} = \outmeasure{A \cap T_n} + \outmeasure{A \cap T_n^c} \]
+Furthermore, define,
+\[ E = \bigcup_{i = 1}^\infty E_i \]
+and then,
+\[ A \cap E^c \subset A \cap T_n^c \]
+so we have,
+\[ \outmeasure{A \cap E^c} \le \outmeasure{A \cap T_n^c} \]
+Thus,
+\[  \outmeasure{A} \ge \outmeasure{A \cap T_n} + \outmeasure{A \cap E^c} \]
+which implies, via Lemma \ref{sigma_alg_limits}, that
+\[ \outmeasure{A} \ge \lim_{n \to \infty} \outmeasure{A \cap T_n} + \outmeasure{A \cap E^c} = \outmeasure{A \cap E} + \outmeasure{A \cap E^c} \]
+Finally, by subadditivty,
+\[ \outmeasure{A} \le \outmeasure{A \cap E} + \outmeasure{A \cap E^c} \]
+and therefore, 
+\[ \outmeasure{A} = \outmeasure{A \cap E} + \outmeasure{A \cap E^c} \]
+So $E \in \Sigma_\mu$. Therefore $\Sigma_{\mu}$ is a $\sigma$-algebra.
+Furthermore, if $E \in \Sigma_{\mu}$ with $\outmeasure{E} = 0$ and take $S \subset E$ then for any $A \subset X$ using monotonicity we have,
+\[ \outmeasure{A \cap S^c} \le \outmeasure{A} \]
+and also, 
+\[ \outmeasure{A \cap S} \le \outmeasure{A \cap E} \le \outmeasure{E} = 0 \]
+Thus,
+\[ \outmeasure{A \cap S^c} + \outmeasure{A \cap S} \le \outmeasure{A} \]
+and also, by subadditivity,
+\[ \outmeasure{A} \le \outmeasure{A \cap S} + \outmeasure{A \cap S^c} \]
+Thus,
+\[ \outmeasure{A} = \outmeasure{A \cap S} + \outmeasure{A \cap S^c} \]
+so $S \in \Sigma_{\mu}$.
+Finally, we have,
+\[ \outmeasure{T_n} = \sum_{i = 1}^n \outmeasure{E_i} \]
+but finite additivity.
+Thus,
+\[ \outmeasure{E} = \lim_{n \to \infty} \sum_{i = 1}^n \outmeasure{E_i} = \sum_{i = 1}^{\infty} E_i \]
+Therefore, $(X, \Sigma_{\mu}, \mu^*)$ is a complete measure space.   
+\end{proof}
+
+\begin{definition}
+A $\sigma$-algeba $\Sigma$ on a topological space $X$ is called \textit{Borel} if $\Sigma$ contains every open set of $X$. If $\Sigma$ is Borel then we say that the measureable space $(X, \Sigma)$ is a Borel space and any measure on $(X, \Sigma)$ is a Borel measure. Furthermore, \textit{the Borel algebra} $\mathfrak{B}(X)$ is the intersection of all Borel $\sigma$-algebras on $X$ so $\mathfrak{B}(X)$ is the minimal $\sigma$-algebra containing all open and thus all closed sets of $X$.  
+\end{definition}
+
+\begin{theorem}
+The $\sigma$-algebra of Lebesgue-measurable sets $\Sigma_{\mathcal{L}}$ is Borel over $\R$. 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+The Lebesgue measure on $(X, \Sigma_{\mathcal{L}})$ is a translation-invariant measure which is nontrivial on intervals. 
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{remark}
+We can generalize the Lebesgue measure to $\R^n$ for arbitrary dimensions by,
+\[ \outmeasure{E} = \inf{\left\{ \sum_{k = 1}^{\infty} \ell(I_k) \: \middle| \: \{I_k\}_{k\in\N} \text{ is a cover of } E \text{ by open intervals i.e. } E \subset \bigcup_{k = 1}^\infty I_k \right\}} \]
+where $I_k$ is a primitive open set $[a_1, b_1] \times \cdots \times [a_n, b_n]$ and 
+\[ \ell(I_k) = (b_1 - a_1) \cdots (b_n - a_n)\]
+is the canonical volume. 
+\end{remark}
+
+\section{Haar Measures}
+
+\section{Probability Theory}
+
+\section{Lebesge Integration}
+
+\section{Hausdorff Measures}
+
+\section{Banach-Tarski}
+
+\end{document}

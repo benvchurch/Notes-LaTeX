@@ -1,0 +1,510 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rplus}{\mathbb{R}^+}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\End}[1]{\text{End}\left( A \right)}
+\newcommand{\legsym}[2]{\left(\frac{#1}{#2} \right)}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: \mathrm{mod} \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^{\times}}
+\newcommand{\ord}[1]{\mathrm{ord}\! \left(#1 \right)}
+\newcommand{\quadfield}[1]{\Q \small(\sqrt{#1} \small)}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\galgroup}[1]{Gal \small(#1 \small)}
+\newcommand{\sm}{\! \setminus \!}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\renewcommand{\Im}[1]{\mathrm{Im} \: #1}
+\renewcommand{\empty}{\varnothing}
+
+
+
+\newcommand{\proves}{\vdash}
+\newcommand{\entails}{\models}
+\newcommand{\Mmod}{\mathcal{M}}
+\newcommand{\Nmod}{\mathcal{N}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\maxideal}{\mathfrak{m}}
+\newcommand{\Th}[2]{\mathrm{Th}_{#1} \left( #2 \right)}
+
+\newcommand{\VAR}[1]{\mathrm{VAR}_{#1}}
+\newcommand{\TRM}[1]{\mathrm{TRM}_{#1}}
+\newcommand{\FOR}[1]{\mathrm{FOR}_{#1}}
+\newcommand{\SEN}[1]{\mathrm{FOR}_{#1}}
+
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem*{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge Mathematical Logic}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+Mathematical logic is divided into two parts: semantics and syntactics. Semantics is the study to interpretations and models of a theory, think examples. Syntactics is the study of formal deduction systems and provability. We will study first-order or predicate quantifier logic which has an extremely powerful metatheory. Higher-order logics also exist but do not admit complete proof theory and many of the desirable metalogical properties of first-order logic fail to hold. A first-order logic has two pieces, a class of first-order formal languages which we will define inductivly and a deduction system defined by rules of inference.
+
+\subsection{First-Order Languages}.
+
+\begin{definition}
+A \textit{vocabulary} or \textit{signature} $\sigma$ is a set of ``nonlogical'' symbols which may be of three types:
+\begin{enumerate}
+\item Constant symbols (e.g. $0$)
+\item n-ary function symbols (e.g. $+$)
+\item n-ary relation symbols (e.g. $\in$)
+\end{enumerate}
+Along with the signature, a first-order language has a set of ``logical'' symbols:
+\begin{enumerate}
+\item A countable list of variable symbols: $x_1, x_2, x_3, \cdots$
+\item Logical connectives: $\neg, \vee, \wedge, \to$
+\item Quantifiers: $\forall$ (we get $\exists \iff \neg \forall \neg$ for free)
+\item An equality relation: $=$
+\item Punctuation: $( \: ) \: ,$ etc.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+The set of \textit{terms} of a first-order language $L$ with vocabulary $\sigma$ is defined inductively as follows:
+\begin{enumerate}
+\item Any variable or constant symbol is a term.
+\item If $f$ is an n-ary function symbol and $t_1, \dots, t_n$ are terms then $f(t_1, \dots, t_n)$ is a term. For a binary operator (2-ary function), say $\circ$, we will often write $(t_1 \circ t_2)$ to mean $\circ(t_1, t_2)$. 
+\end{enumerate} 
+\end{definition}
+
+\begin{definition}
+The set of \textit{formulas} of a first-order language $L$ with vocabulary $\sigma$ is defined inductivly as follows:
+\begin{enumerate}
+\item If $s,t$ are terms then $(s = t)$ is a fomula. Furthermore if $R \in \sigma$ is an n-ary relation symbol and $t_1, \dots, t_n$ are terms then $R(t_1, \dots, t_n)$ is a formula. For a 2-ary relation we will often write $s R t$ to mean $R(s, t)$. 
+\item If $A$ and $B$ are formulas then $\neg A$, $(A \vee B)$, $(A \wedge B)$, and $(A \to B)$ are all formulas.
+\item If $x$ is a variable symbol and $\varphi$ a formula in which $x$ is free ($\varphi$ contains $x$ but no quantifiers over $x$) then $\forall x \: \varphi$ and $\exists x \: \varphi$ are formulas. 
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+A \textit{sentence} of a first-order language is a formula with no free variables.  
+\end{definition}
+
+\begin{definition}
+A first-order theory is a first-order language $L$ along with a set $\Gamma$ of first-order $L$-sentances which are refered to as axioms. 
+\end{definition}
+
+\subsection{Proof Theory}
+
+There are many possible first-order deduction systems each with its own unique flavor. A deduction system has logical axioms and rules of inference on formulas of $L$. A formal proof begining with some assumptions is a sequence of $L$-formulas each of which is either a logical axiom, an assumption, or the result of a rule of inference applied to previous formulas.  
+
+\begin{definition}
+We say that a first-order theory $\Gamma$ \textit{syntactically entails} or, more simply, \textit{proves} $A$ if there exists a formal proof using axioms of $\Gamma$ and first-order rules of inference. We write this as $\Gamma \vdash A$.
+\end{definition}
+
+\begin{definition}
+A first-order theory $\Gamma$ is \textit{consistent} if there does not exist a statement $A$ such that $\Gamma \proves A$ and $\Gamma \proves \neg A$. 
+\end{definition}
+
+\begin{definition}
+A first-order theory $\Gamma$ is \textit{complete} if for every $L$-sentence $A$ we have either $\Gamma \proves A$ or $\Gamma \proves \neg A$. 
+\end{definition}
+
+\begin{lemma}[Deduction]
+Let $A$ be an $L$-sentence. If $\Gamma \cup \{ A \} \proves B$ then $\Gamma \proves A \to B$. 
+\end{lemma}
+
+\begin{proof}
+This proof is a simple induction on theorems. We suppose it is true for all proofs of length $n$ or less and show that any proof of $B$ with length $n+1$ must contain a subproof of $B'$ with length at most $n$ such that a single rule of inference can take $B'$ to $B$. Using the induction hypothesis we get $\Gamma \proves A \to B'$. It is then a simple yet tedious excersize in first-order logic to arrive at $A \to B$ from $A \to B'$ and the rule of inference which takes $B'$ to $B$. 
+\end{proof}
+
+\begin{lemma}[Categorization of Consistency]
+$\Gamma$ is proof-theoretically consistent if and only if there exists a first-order sentence $A$ such that $\Gamma \not\proves A$. 
+\end{lemma}
+
+\begin{proof}
+If $\Gamma$ is consistent and $\Gamma \proves A$ then $\Gamma \not\proves \neg A$. If $\Gamma$ is not consistent then $\Gamma \proves A$ and $\Gamma \proves \neg A$ for some $A$. However, for any $B$, we have $\Gamma \proves A \vee B$ since $\Gamma \proves A$ and also $\Gamma \proves \neg A$ so $\Gamma \proves B$. Thus, if $\Gamma$ is inconsistent then it proves everything.  
+\end{proof}
+
+\begin{lemma}
+$\Gamma \cup \{ \neg A \}$ is consistent $\iff \Gamma \not\proves A$.
+\end{lemma}
+
+\begin{proof}
+Suppose $\Gamma \cup \{ \neg A \}$ is inconsistent. Then it proves anything including $A$. By the deduction lemma, $\Gamma \proves \neg A \to A$ and thus $\Gamma \proves A$.
+\bigskip\\
+Conversely,
+if $\Gamma \proves A$ then $\Gamma \cup \{ \neg A \} \proves A$ and clearly $\Gamma \cup \{ \neg A \} \proves \neg A$ so it is inconsistent. 
+\end{proof}
+
+\subsection{Interpretations, Models, and Truth}
+
+\begin{definition}
+Let $L$ be a first-order language with signature $\sigma$. An $L$-interpretation or $\sigma$-structure $\Mmod = (M, I)$ is a nonempty set $M$ called the domain and an interpretation function $I$ satisfying,
+\begin{enumerate}
+\item For each constant symbol $c \in \sigma$, an element of the domain, $c^{\Mmod} = I(c) \in M$.
+\item For each n-ary function symbol $f \in \sigma$, n-ary function $f^{\Mmod} = I(f) : M^n \to M$.
+\item For each n-ary relation symbol $R \in \sigma$, an n-ary relation $R^{\Mmod} = I(R) \subset M^n$. Furthermore $=^{\Mmod}$ is the diagonal relation $\Delta_M$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Let $\Mmod$ be an $L$-interpretation and given a map $\alpha : \VAR{L} \to M$ we extend $\alpha$ to an \textit{assignment} on terms inductivly,
+\begin{enumerate}
+\item If $t$ is a constant symbol $c$ then $\alpha(t) = c^{\Mmod}$
+\item If $t = f(t_1, \dots, f_n)$ then $\alpha(t) = f^{\Mmod}(\alpha(t_1), \dots, \alpha(t_n))$.  
+\end{enumerate} 
+For a tuple $\ul{a} \in M$ we write $[\ul{x} := \ul{a}]$ for the assigment sending $x_i \mapsto a_i$.
+\end{definition}
+
+\begin{definition}
+Let $\Mmod$ be an $L$-interpretation and $\alpha$ an assigment. Let $\varphi$ be an $L$-formula then we define \textit{satisfaction} of a formula by $\alpha$, denoted $\Mmod[\alpha] \entails \varphi$ inductively:
+\begin{enumerate}
+\item If $\varphi$ is $R(t_1, \dots, t_n)$ then $\Mmod[\alpha] \entails \varphi \iff (\alpha(t_1), \dots, \alpha(t_n)) \in R^{\Mmod}$.
+\item If $\varphi$ is $(s = t)$ then $\Mmod[\alpha] \entails \varphi \iff \alpha(s) = \alpha(t) \iff (\alpha(s), \alpha(t)) \in \Delta_M$. 
+\item If $\varphi$ is $\neg A$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha] \not\entails A$.
+\item If $\varphi$ is $A \to B$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha] \entails A \text{ implies } \Mmod[\alpha] \entails B$.
+\item If $\varphi$ is $A \vee B$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha] \entails A \text{ or } \Mmod[\alpha] \entails B$.
+\item If $\varphi$ is $A \wedge B$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha] \entails A \text{ and } \Mmod[\alpha] \entails B$.
+\item If $\varphi$ is $\forall x \: A$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha'] \entails A$ for every assigment $\alpha'$ such that $\alpha(z) = \alpha'(z)$ for all variables besides $x$.
+\item If $\varphi$ is $\exists x \: A$ then $\Mmod[\alpha] \entails \varphi \iff \Mmod[\alpha'] \entails A$ for some assigment $\alpha'$ such that $\alpha(z) = \alpha'(z)$ for all variables besides $x$.
+\end{enumerate}
+An $L$-formula $\varphi$ is true in the interpretation $\Mmod$, written as $\Mmod \entails \varphi$, if $\Mmod[\alpha] \entails \varphi$ for each assignment $\alpha$. The satisfaction of a sentence $A$ does not depend on the choice of assignment and thus either $\Mmod[\alpha] \entails A$ for all $\alpha$ or for no $\alpha$. Therefore, either $\Mmod \entails A$ or $\Mmod \entails \neg A$. A formula can be neither true nor false in $\Mmod$ when it has free variables since different assigments may disagree on its satisfaction. However, sentences are always either true or false. If $\varphi$ is a formula with free variables amoung $\ul{x}$ then for a tuple $\ul{a} \in M$ we write $\Mmod \entails \varphi(\ul{a})$ to mean $\Mmod[\ul{x} := \ul{a}] \entails \varphi$. 
+\end{definition}
+
+\begin{definition}
+Let $\Gamma$ be a first-order theory and $\Mmod$ an $L$ interpretation. If $\Mmod \entails \Gamma$ i.e. every axiom of $\Gamma$ is satisfied in $\Mmod$, then we say that $\Mmod$ is a \textit{model} of $\Gamma$.
+\end{definition}
+
+\begin{definition}
+Let $\Mmod$ be an $L$-interpretation. Then $\Th{L}{\Mmod}$, the theory of $\Mmod$, is the set of true $L$-sentances of $\Mmod$.
+\end{definition}
+
+\begin{definition}
+Two $L$-interpretations $\Mmod$ and $\Nmod$ are said to be elementary equivalent, written $\Mmod \equiv \Nmod$, if they have the same set of true $L$-sentences.  
+\end{definition}
+
+\begin{lemma}
+If $\Th{L}{\Mmod} \subset \Th{L}{\Nmod}$ then $\Th{L}{\Mmod} = \Th{L}{\Nmod}$ and thus $\Mmod \equiv \Nmod$.
+\end{lemma}
+
+\begin{proof}
+Let $A$ be an $L$-sentence. If $\Mmod \entails A$  then by hypothesis $\Nmod \entails A$. However, if $\Mmod \not\entails A$ then, because $A$ is a sentence, $\Mmod \entails \neg A$ so $\Nmod \entails \neg A$ and thus $\Nmod \not\entails A$.  
+\end{proof}
+
+\begin{definition}
+Two $L$-interpretations $\Mmod$ and $\Nmod$ are said to be isomorphic, written $\Mmod \cong \Nmod$, if there is a bijection $\sigma : M \to N$ such that,
+\begin{enumerate}
+\item For each constant symbol $c$, we have $\sigma(c^{\Mmod}) = c^{\Nmod}$.
+\item For each relation $R$ and tuple $\ul{a} \in M$ we have $\ul{a} \in R^{\Mmod} \iff \sigma(\ul{a}) \in R^{\Nmod}$.
+\item For each function $f$ and tuple $\ul{a} \in M$ we have $\sigma(f^{\Mmod}(\ul{a})) = f^{\Nmod}(\sigma(\ul{a}))$. 
+\end{enumerate} 
+\end{definition}
+
+\begin{proposition}
+Let $\sigma : \Mmod \to \Nmod$ be an isomorphism of $L$-interpretations. Then we have
+\[\Mmod \entails \varphi(\ul{a}) \iff \Nmod \entails \varphi(\sigma(\ul{a}))\]
+for any $\ul{a} \in M$ and $L$-fomula $\varphi$ with parameters. 
+\end{proposition}
+
+\begin{proof}
+Induction on the complexity of a formula. 
+\end{proof}
+
+\begin{corollary}
+If $\Mmod \cong \Nmod$ then $\Mmod \equiv \Nmod$.
+\end{corollary}
+
+\begin{proof}
+The above proposition applied to parameter-free formulas i.e. sentences says,
+\[ \Mmod \entails A \iff \Nmod \entails A \]
+which is exactly the content of $\Mmod \equiv \Nmod$. 
+\end{proof}
+
+\begin{definition}
+A first-order theory $\Gamma$ \textit{semantically entails} or simply \textit{entails} an $L$-formula $A$, written $\Gamma \entails A$, if $A$ is true in every model of $\Gamma$ i.e. whenever $\Mmod \entails \Gamma$ then $\Mmod \entails A$.  
+\end{definition}
+
+\begin{definition}
+A first-order theory is \textit{satisfiable} (or consistent) if it admits a model.  
+\end{definition}
+
+\begin{definition}
+A first-order theory is \textit{model complete} if any two models are elementary equivalent.
+\end{definition}
+
+
+\section{The Completeness of First-Order Logic}
+
+The crowning achievment of mathematical logic is to join syntactics and semantics into a unified theory. This was accomplished in one fell swoop by the greatest logician to ever live, Kurt G\"{o}del, in his celebrated ``completeness theorems'' for first-order logic. Care must be taken to not mistake the ``completeness theorems'' with G\"{o}del's most famous work, his ``incompletness theorems.'' The situation seems designed for confusion. Hopfully this distinction will clear things up. The \textit{incompletness} theorems deal with the technical notion of proof-theoretic and model-theoretic completeness we discussed earlier and show that various theories cannot be complete in this sense. On the other hand, the \textit{completness} theorems consider the informal notion of the completness of first-order logic as a whole in the sense that proof theory and model theory complete eachother. 
+
+\begin{theorem}[Model Existence]
+A first-order theory is satisfiable if and only if it is consistent in the proof-theoretic sense. Furthermore, any consistent $L$-theory has a model of cardinality at most $|L|$. 
+\end{theorem}
+
+\begin{proof}
+The proof of this theorem is long and highly technical so we cannot cover it here. The proof first constructs a maximally consistent set (consistent and every sentence or its negation is included) of sentances containing the theory and then constructs a model in which these are exactly the true sentances.   
+\end{proof}
+
+\begin{theorem}[Adequacy]
+If $\Gamma \entails A$ then $\Gamma \proves A$. That is, if $A$ is true in every model then there exists a formal proof of $A$.
+\end{theorem}
+
+\begin{proof}
+Suppose that $\Gamma \not\proves A$ then we know that $\Gamma \cup \{\neg A\}$ is consistent. By the model existence theorem there exists a model of $\Gamma \cup \{ \neg A \}$. However, this is a model of $\Gamma$ in which $A$ is false. Thus $\Gamma \not\entails A$.  
+\end{proof}
+
+\begin{theorem}[Soundness]
+If $\Gamma \proves A$ then $\Gamma \entails A$ i.e. $A$ is true in every model.
+\end{theorem}
+
+\begin{proof}
+The proof is quite simple and uses induction on proofs. The only piece of input is to check that one application of a rule of inference preserves truth value for any truth assignment. This follows easily from the inductive definition of truth assigments. 
+\end{proof}
+
+\begin{theorem}
+All models of $\Gamma$ are elementary equivalent if and only if $\Gamma$ is complete in the proof-theoretic sense. 
+\end{theorem}
+
+\begin{proof}
+Suppose that $\Gamma$ is complete and let $\Mmod$ be a model of $\Gamma$.
+For any first order sentence $A$, if $\Gamma \proves A$ then $\Mmod \entails A$. Furthermore if $\Gamma \not\proves A$ then by completeness $\Gamma \proves \neg A$ and thus $\Mmod \entails \neg A \iff \Mmod \not\entails A$. Thus, 
+\[ \Mmod \entails A \iff \Gamma \proves A \]
+Therefore, every model of $\Gamma$ has the same set of true first-order sentences and are thus all elementary equivalent. 
+\bigskip\\
+Conversely, suppose that all models of $\Gamma$ are elementary equivalent. For any model $\Mmod$ of $\Gamma$ and any sentence $A$ either $\Mmod \entails A$ or $\Mmod \entails \neg A$. Furthermore, for any other model $\Nmod$ we have $\Mmod \equiv \Nmod$ so either $A$ or $\neg A$ is true in every model of $\Gamma$. Therefore, by the adequacy theorem, either $\Gamma \proves A$ or $\Gamma \proves \neg A$ so $\Gamma$ is proof-theoretically complete. 
+\end{proof}
+A finaly elegant summary of these results is given by G\"{o}del's monumentous theorem:
+
+\begin{theorem}[G\"{o}del]
+For any first-order theory, $\Gamma \proves A \iff \Gamma \entails A$. 
+\end{theorem}
+
+\section{The Compactness of First-Order Logic}
+
+Here we will dive into model-theory proper in which we want to study properties of the set of all possible models of a given theory. However, it is often the case that proof-theoretic methods will provide insight and clever proofs even for purely model-theoretic statements. 
+
+
+\begin{theorem}[Compactness]
+A first-order theory is satisfiable if and only if it is finitely satifiable. 
+\end{theorem}
+
+\begin{proof}
+Suppose that $\Gamma$ is not satisfiable. By the model existence theorm, $\Gamma$ must be incomplete so there exist proofs $\Gamma \proves A$ and $\Gamma \proves \neg A$. However, every proof is finite so each can only use a finite set of axioms in $\Gamma$. Call the set of all axioms in $\Gamma$ used in either proof $\Delta \subset \Gamma$. Thus, $\Delta \proves A$ and $\Delta \proves \neg A$ so $\Delta$ cannot admit a model and is finite. Therefore, if every finite subtheory $\Delta \subset \Gamma$ has a model then $\Gamma$ must have a model.
+\end{proof}
+
+\begin{remark}
+There exist purely model-theoretic proofs of the Compactness theorem but they require more sophisticated ideas such as ultra-products.
+\end{remark}
+
+
+\subsection{Ultra-Products}
+
+\section{The L\"{o}wenheim–Skolem Theorem}
+
+\begin{definition}
+Consider the first-order statments of the form,
+\[ \exists x \exists y \exists z : x \neq y \wedge y \neq z \wedge z \neq x \]
+which express that there exist at least $n$ elements. Call $\Sigma$ the set of all such statments. Furthermore, for any set of constant symbols $C$, define,
+\[ \Sigma_C = \{ \neg (a = b) \mid a, b \in C \text{ such that } a \neq b \} \]
+the set of all sentances of the form $a \neq b$.
+\end{definition}
+
+\begin{theorem}
+Let $\Gamma$ be a first order theory. If $\Gamma$ has arbitrarily large finite modeles then $\Gamma$ admits an infinite model.
+\end{theorem}
+
+\begin{proof}
+Consider the first-order theory $\Gamma \cup \Sigma$. Since $\Gamma$ has arbitrarily large finite models we know that any finite subset $\Delta \subset \Gamma \cup \Sigma$ is satisfiable by a large enough finite model of $\Gamma$. By the Compactness theorem, there exists a model of $\Gamma \cup \Sigma$ which is a model of $\Gamma$ which cannot have any finite number of elements. 
+\end{proof}
+
+\begin{remark}
+This theorem about deducing the sizes of possible models gives a small taste of the powerful L\"{o}wenheim–Skolem theorem yet to come. However, the finite version is very important for proving the consistency of a new theory. Furthermore, the technique of adding an infinite set of first-order theorem which together impose a strict condition but in isolation are easily satisfied and then applying the compactness theorem comes up over and over in mathematical logic. 
+\end{remark}
+
+
+\begin{theorem}[L\"{o}wenheim–Skolem]
+Let $L$ be a first-order language and $\Mmod$ an infinite $L$-interpretation. Then for any cardnal $\kappa \ge |L|$ there exists an $L$-interpretation $\Nmod$ such that $\Mmod \equiv \Nmod$ and $|\Nmod| = \kappa$. We call such an $\Nmod$ an elementary substructure or elementary extension. 
+\end{theorem} 
+
+\begin{proof}
+First suppose that $\kappa > \max{(|\Mmod|, |L|)} \ge \aleph_0$. Let $C$ be a set of constant symbols with $|C| = \kappa$ and construct the language $L^+$ generated by $L \cup C$. Now, consider the $L^+$-theory $\Gamma_{\Mmod} = \Th{L}{\Mmod} \cup \Sigma_C$. For any finite subtheory $\Delta \subset \Gamma_{\Mmod}$, I claim that $\Mmod \entails \Delta$. This is because $\Delta$ contains only true $L$-sentences of $\Mmod$ and a finite number of $\Sigma_C$ statements which can be interpreted by sending any distinct elements of $\Mmod$ to the finite number of $C$-constants which appear in $\Delta$. Thus, $\Gamma_{\Mmod}$ is finitely satisfiable so, by compactness, $\Gamma_{\Mmod}$ is satisfiable and thus consistent. By the model existence theorem there exists a model $\Mmod' \entails \Gamma_{\Mmod}$ such that $|\Mmod'| \le |L^+| = |C| = \kappa$ (since $\kappa > |L| \ge \aleph_0$). However, since $\Sigma_C \subset \Gamma_{\Mmod}$ we must have an injection $C \to M'$ because not two $C$-constants can be interpreted as equal (since $a \neq b$ is true in $\Gamma_{\Mmod}$ for all $a,b \in C$). Thus, $|\Mmod'| = |C| = \kappa$. We may view $\Mmod'$ as an $L$-interpretation since $L \subset L^+$. Furthermore, $\Th{L}{\Mmod} \subset \Gamma_{\Mmod}$ and $\Mmod' \entails \Gamma_{\Mmod}$ so $\Th{L}{\Mmod} \subset \Th{L}{\Mmod'}$ and thus $\Mmod \equiv \Mmod'$ as $L$-interpretations. 
+\end{proof}
+
+\begin{remark}
+An immediate consequence of the preceeding theorems is that having arbitrarily large finite models implies having models of every infinite cardinality. This is very powerful and surprising. The L\"{o}wenheim–Skolem theorem and they compactness theorem show that first-order logic is insufficient to constrain the size of its models. We will make this notion percise within the framework of first-order properties.
+\end{remark}
+
+\section{Skolem's Paradox and Higher-Order Logic}
+
+\subsection{First-Order Properties}
+
+(FINITENESS)
+(SIZE)
+(REAL NUMBERS)
+
+\subsection{Higher-Order Logic}
+
+\subsection{Nonstandard Models of Set Theory}
+
+
+\section{Categoricity}
+
+\begin{definition}
+A first-order theory is $\kappa$-categorical if all models of size $\kappa$ are isomorphic.
+\end{definition}
+
+\begin{theorem}[Vaught]
+Supppose that $\Gamma$ is $\kappa$-categorical for some $\kappa \ge |L|$ and has only infinite models then $\Gamma$ is model complete.
+\end{theorem}
+
+\begin{proof}
+Let $\Mmod \entails \Gamma$ and $\Nmod \entails \Gamma$ be models. By the L\"{o}wenhiem-Skolem theorem, there exists models $\Mmod'$ and $\Nmod'$ of cardinaility $\kappa$ such that $\Mmod \equiv \Mmod'$ and $\Nmod \equiv \Nmod'$. However, by $\kappa$-categoricity, we know that $\Mmod' \cong \Nmod'$ since $|\Mmod'| = |\Nmod'| = \kappa$. Therefore, $\Mmod \equiv \Mmod' \equiv \Nmod' \equiv \Nmod$ so $\Gamma$ is model complete.  
+\end{proof}
+
+
+\section{Applications To Algebraic Geometry}
+
+\newcommand{\ACF}[1]{\mathrm{ACF}_{#1}}
+
+\begin{definition}
+The first-order language of fields, denoted $F$, is generated by the signature $\sigma_F = \{0,1,+,\cdot\}$ where $0$ and $1$ are constant symbols and $+$ and $\cdot$ are 2-ary function symbols. 
+\end{definition}
+
+\begin{definition}
+The theory $\ACF{}$ is the first-order theory of algebraically closed fields is defined over $F$ and has axioms:
+\begin{enumerate}
+\item Field Axioms.
+\item Algebraic Closure: for each positive integer $n$, the sentence,
+\[ \forall a_0 \forall a_2 \cdots \forall a_n \exists x \: \left[ a_n \cdot x^n + \cdots + a_1 \cdot x + a_0 = 0 \right] \]
+\end{enumerate}
+where exponentiation by a fixed integer is shortand for repeated multiplication. 
+\end{definition}
+
+\begin{definition}
+The theory $\ACF{p}$ is the first-order theory of algebraically closed fields of characteristic $p$ is defined over $F$ and has axioms $\ACF{p} = \ACF{} \cup C_p$ where $C_p$ limits the characteristic. Let $\sigma_k$ be the sentence,
+\[ 1 + 1 + \cdots + 1 = 0 \]
+with exactly $k$ ones. Then $C_p = \{ \neg \sigma_k \mid k < p \} \cup \{ \sigma_p \}$ and $C_0 = \{ \neg \sigma_p \mid k \in \Zplus \}$.  
+\end{definition}
+
+\begin{theorem}[Steinitz]
+All algebraically closed fields of the same uncountable cardinality and characteristic are isomorphic. That is, $\ACF{p}$ is uncountably-categorical for any characteristic.
+\end{theorem}
+
+\begin{proof}
+This theorem uses the axiom of choice and equivalences of transendence bases. It is not wildly difficult but is outisde the scope of this discussion.
+\end{proof}
+
+
+\begin{corollary}
+$\ACF{p}$ is complete.
+\end{corollary}
+
+\begin{proof}
+There are infinitely many irreduicble polynomials and each have distinct roots. Thus any algebraially closed field is infinite. Let $ \Mmod \entails \ACF{p}$ and $\Nmod \entails \ACF{p}$ be models. By the L\"{o}wenhiem-Skolem theorem, there exists a model $\Mmod'$ of cardinaility $|\Nmod|$ (since it is infinite) such that $\Mmod \equiv \Mmod'$. However, by categoricity, we know that $\Mmod' \cong \Nmod$ since they are models with the same cardinality. Therefore, $\Mmod \equiv \Mmod' \equiv \Nmod$ so $\ACF{p}$ is model complete.  
+\end{proof}
+
+\begin{theorem}[Lefschetz Principle]
+The true first-order sentences about $\C$ and about $\overline{\Q}$ are the same. This is often stated as, the first-order theory of algebraic geometry over $\C$ is the same as over $\overline{\Q}$.
+\end{theorem}
+
+\begin{proof}
+By the completeness of $\ACF{0}$ we have $\overline{\Q} \equiv \C$. 
+\end{proof}
+
+\begin{theorem}[Cross-Characteristic Transfer]
+Let $A$ be a first order $F$-sentence. Then $\ACF{0} \entails A$ if and only if $\overline{\finfield{p}} \entails A$ for all but finitely many $p$.   
+\end{theorem}
+
+\begin{proof}
+Consider any finite subtheory $\Delta \subset \ACF{0} \cup \{A\}$. Since $\Delta$ may contain only finitely many sentences constraining the characteristic and for large enough $p$ we know that $\overline{\finfield{p}} \entails A$, we can choose $p$ large enough such that $\overline{\finfield{p}}  \entails \Delta$. Therefore, $\Delta$ is satisfiable so $\ACF{0} \cup \{A\}$ is finitely-satisfiable. Thus, by the compactness of first-order logic, $\ACF{0} \cup \{A\}$ is satisfiable so there exists a model of $\ACF{0}$ in which $A$ is true. Thus, by the completeness of $\ACF{0}$ we know that $\ACF{0} \entails A$.   
+\bigskip\\
+Conversely suppose we can find arbitrarily large $p$ such that $\overline{\finfield{p}} \entails \neg A$. Again, take a finite subtheory $\Delta \subset \ACF{0} \cup \{\neg A\}$ and choose $p$ large enought that it satisfies the finite number of sentences in $\Delta$ constraining the characteristic in which $A$ is false. Thus, $\overline{\finfield{p}} \entails \neg A$ so $\ACF{0} \cup \{\neg A\}$ is finitely satisfiable and thus, by compactness, satisfiable. As before, there exists a model of $\ACF{0}$ in which $A$ is false so, by completeness, $\ACF{0} \entails \neg A$. 
+\end{proof}
+
+\begin{theorem}[Ax-Grothendiek]
+If a polynomial map $f : \C^n \to \C^n$ is injective then it is surjective.
+\end{theorem}
+
+\begin{proof}
+For a fixed natural number $d$ consider the first order sentence,
+\begin{align*}
+AG = \forall \ul{a}_0 \forall \ul{a}_1 \cdots \forall \ul{a}_d \bigg[ &  \forall \ul{x} \forall \ul{y} \Big[ \left( \ul{a}_d \cdot \ul{x}^d + \cdots + \ul{a}_1 \cdot \ul{x} + \ul{a}_0 = \ul{a}_d \cdot \ul{y}^d + \ul{a}_1 \cdot \ul{y} + \cdots + \ul{a}_0 \right) \to \ul{x} = \ul{y} \Big]
+\\
+&\to \Big[ \forall \ul{y} \exists \ul{x} : \ul{a}_d \cdot \ul{x}^d + \cdots + \ul{a}_1 \cdot \ul{x} + \ul{a}_0 = \ul{y}  \Big] \bigg]
+\end{align*}
+which expresses the Ax-Grothendiek theorem for degree $n$. Here exponentiation is short for multiplication written a fixed number of times and underlined variables represent $n$-tuples with operations and comparisions defined componentwise i.e. each comparision is a conjunction of $n$ comparisions on the components. Furthermore, suppose that a map $f : \overline{\finfield{p}}^{\,n} \to \overline{\finfield{p}}^{\,n}$ given by polynomials is injective. For each element $\ul{y} \in \overline{\finfield{p}}^{\,n}$ consider the field extension $k = \finfield{p}[\ul{a}_0, \dots, \ul{a}_d, \ul{y}]$ given by adjoing the coefficients of $f$ and coordinates of $y$. Since these are elements of $\overline{\finfield{p}}$ each is algebraic and thus $k$ is a finite extension of $\finfield{p}$ and thus a finite field. Furthermore $f$ restricts to a map $f : k^n \to k^n$ since it is given by polynomials with coefficients in $k$. However, this restriction is still injective and therefore surjective because $k^n$ is a finite set. Thus, $\exists \ul{x} \in k^n$ such that $f(\ul{x}) = \ul{y} \in k^n$ so $f$ is surjective. 
+\bigskip\\
+Since $\overline{\finfield{p}} \entails AG$ for every $p$ we know that $\ACF{0} \entails AG$ and thus the Ax-Grothendiek theorem is true for every algebracially closed field of characteristic zero inculuding $\C \entails AG$. 
+\end{proof}
+
+\begin{theorem}[Strong Ax-Grothendiek]
+Let $V$ be an affine variety over an algebraically closed field and $f : V \to V$ a morphism. If $f$ is injective then it is surjective. 
+\end{theorem}
+
+\begin{theorem}
+Every extension of algebracially closed fields is elementary.
+\end{theorem}
+
+\begin{proof}
+This follows from quantifier elimination.
+\end{proof}
+
+\begin{theorem}[Hilbert's Nullstellensatz]
+Let $I \subset \overline{K}[\ul{X}]$ be a proper ideal then the common vanishing set $V(I) = \{p \in \bar{K}^n \mid \forall f \in I : f(p) = 0 \}$ is nonempty. 
+\end{theorem}
+
+\begin{proof}
+The ideal $I$ is contained in a maximal ideal. Consider the field $L = \overline{\overline{K}[\ul{X}] / \maxideal}$ and projecton map $\overline{K}[\ul{X}] \to L$. Since $I \subset \maxideal$ the image of $I$ is zero in $L$ and thus the image of $\ul{X}$ is a common solution for $I$. Since $K \subset L$ it is an elementary extension.
+Since $\overline{K}[\ul{X}]$ is Noetherian, we can find generators $I = (f_1, \dots, f_n)$. Let $\ul{a} \in \overline{K}$ a tuple encoding the coefficients of the polynomials $f_1, \dots, f_n$ and $\psi(\ul{a})$ the first order formula encoding the idea that the polynomials with coefficients $\ul{a}$ have a common zero. Since the extension is elementary and $\ul{a} \in K$ we have,
+\[ K \entails \psi(\ul{a}) \iff L \entails \psi(\ul{a}) \]
+However, $\ul{X}$ is a solution in $L$ so $K \entails \psi(\ul{a})$. Thus any proper ideal has nonempty vanishing set. 
+\end{proof}
+
+\section{Incompletness and Decidability}
+
+\section{Provability Logic}
+
+\end{document}

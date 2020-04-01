@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Cartier Divisors}
+
+\subsection{Regular Sections}
+
+\begin{definition}
+A section $f \in \Gamma(U, \struct{X})$ is \textit{regular} if $\struct{X}|_U \xrightarrow{f} \struct{X}|_U$ is injective.
+\end{definition}
+
+\begin{lemma}
+A section $f \in \Gamma(U, \struct{X})$ is regular iff $f_x \in \stalk{X}{x}$ is a nonzero divisor for each $x \in U$.
+\end{lemma}
+
+\begin{proof}
+$f$ is regular when for any open $V \subset U$ and $g \in \Gamma(V, \struct{X})$ we have $f|_V g = 0 \implies g = 0$ which is exactly the condition that $f_x \in \stalk{X}{x}$ is a nonzero divisor for each $x \in U$ since $f_x \in \stalk{X}{x}$ is a zero divisor if there is some neighborhood $x \in V$ and nonzero $g \in \Gamma(V, \struct{X})$ with $f|_V g = 0$. 
+\end{proof}
+
+\begin{definition}
+Let $(X, \struct{X})$ be a ringed space. Then define the sheaf of regular sections $S_X$ via, 
+\[ S_X(U) = \{ f \in \Gamma(U, \struct{X}) \mid \text{regular} \} \]
+Then $S_X$ is a sheaf because a section is regular exactly if it is regular on a cover.
+\end{definition}
+
+\begin{definition}
+Let $(X, \struct{X})$ be a ringed space. The sheaf $\K_X$ of \textit{meromorphic functions} on $X$ is the $\struct{X}$-module associated to the presheaf,
+\[ U \mapsto S_X(U)^{-1} \struct{X}(U) \]
+\end{definition}
+
+\begin{lemma}
+Let $X$ be an integral scheme $X$ with generic point $\xi \in X$. Then for any open $U \subset X$, the map $\struct{X}(U) \to \stalk{X}{\xi}$ is injective.
+\end{lemma}
+
+\begin{proof}
+Choose an open cover $U_i = \Spec{A_i} \subset X$ where $A_i$ is a domain then $K(X) = \stalk{X}{\xi} = \Frac{A_i}$ since $\xi \in \Spec{A_i}$ is the generic point. Thus, $\struct{X}(U) \to \stalk{X}{\xi}$ is an injection because, if $f_\xi = 0$ then consider $f|_{U \cap U_i} \in A_i$ but $A_i$ is a domain so if $f_\xi \in \Frac{A_i}$ is zero then $f|_{U \cap U_i} = 0$ for each $U_i$ so $f = 0$. 
+\end{proof}
+
+\begin{rmk}
+The above lemma alows us to view all functions on $X$ as elements of $K(X)$. In fact, the meromorphic functions on $X$ are exactly $K(X)$. 
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a integral scheme. Then $\K_X = \underline{K(X)}$.
+\end{prop}
+
+\begin{proof}
+Let $\xi \in X$ be the generic point and $U \subset X$ an open set. Consider the  presheaf map $S_X(U)^{-1} \struct{X}(U) \to K(X)$ sending $f \mapsto f_\xi$ which is well-defined because regular sections have $f_\xi \neq 0$ and $K(X)$ is a field so regular sections are invertible in $K(X)$. Sheafifying, gives a map $\K_X \to \underline{K(X)}$. To show this map is an isomorphism it suffices to check on the stalks which can be computed from the above presheaves. By above, the map $S_X(U)^{-1} \stalk{X}(U) \to K(X)$ is always injective. Furthermore, for any $x \in X$ choose an affine open neighborhood $U = \Spec{A}$ with $A$ a domain. Then $S_X(U) = A \setminus \{ 0 \}$ since $A \to A_\p$ is injective and $A_\p$ is a domain for each prime $\p$ so evey nonzero $f \in A$ is regular. Thus, $S_X(U)^{-1} \struct{X}(U) = \Frac{A}$ and the map $S_X(U)^{-1} \struct{X}(U) \to K(X) = A_{(0)} = \Frac{A}$ is an isomorphism.   
+\end{proof}
+
+\subsection{Cartier Divisors}
+
+\begin{defn}
+Let $X$ be a ringed space. The \textit{sheaf of Cartier divisors} on $X$ is $\shDiv_X = \K_X^\times / \struct{X}^\times$. The group of Cartier divisors is $\mathrm{Ca}\left( X \right) = H^0(X, \shDiv_X)$ and the Cartier class group is,
+\[ \CaCl{X} = \coker{(H^0(X, \K_X^\times) \to H^0(X, \shDiv_X))} \]
+\end{defn}
+
+\begin{prop}
+There is a natural embedding $\CaCl{X} \embed \Pic{X}$ which is an isomorphism when $H^1(X, \K_X^\times) = 0$.
+\end{prop}
+
+\begin{proof}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}^\times \arrow[r] & \K_X^\times \arrow[r] & \shDiv_X \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Taking cohomology gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \struct{X}^\times) \arrow[r] & H^0(X, \K_X^\times) \arrow[r] & H^0(X, \shDiv_X) \arrow[r] & H^1(X, \struct{X}^\times) \arrow[r] & H^1(X, \K_X^\times)
+\end{tikzcd}
+\end{center}
+But $H^1(X, \struct{X}^\times) = \Pic{X}$ and by exactness, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \CaCl{X} \arrow[r] & \Pic{X} \arrow[r] & H^1(X, \K_X^\times)
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{rmk}
+The condition $H^1(X, \K_X^\times) = 0$ occurs when $X$ is an integral scheme. Then $\K_X^\times = \underline{K(X)^\times}$ is a constant sheaf and $X$ is irreducible so its higher cohomology vanishes. 
+\end{rmk}
+
+\section{Effective Cartier Divisors}
+
+\subsection{Closed Subschemes}
+
+\subsection{Effective Cartier Divisors as Closed Subschemes}
+
+\subsection{Relationship to the Previous Definition}
+
+\section{Weil Divisors}
+
+We only consider Weil divisors for sufficiently nice schemes. (DEFINE)
+
+\subsection{The Sheaf Associated to a Weil Divisor}
+
+\subsection{The Relationship between Weil Divisors and Cartier Divisors}
+
+\section{Reflexive Sheaves}
+
+\section{The Chow Ring}
+
+\end{document}

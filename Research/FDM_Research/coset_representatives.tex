@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz-cd}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Pro}{\mathbb{P}}
+\newcommand{\pf}{\mathfrak{p}}
+\newcommand{\Pf}{\mathfrak{P}}
+\newcommand{\multzp}[1]{\left(\bb{Z}/#1\bb{Z}\right)^{\times}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\ia}{\mathfrak{a}}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[0]{\mathrm{Gal}}
+\newcommand{\Hom}[0]{\mathrm{Hom}}
+\newcommand{\Aut}[0]{\mathrm{Aut}}
+\newcommand{\Tr}[0]{\mathrm{Tr}}
+\newcommand{\Nm}[0]{\mathrm{Nm}}
+\newcommand{\Ker}[0]{\mathrm{Ker}}
+\newcommand{\Stab}[0]{\mathrm{Stab}}
+\newcommand{\coker}[0]{\mathrm{coker} \:}
+\newcommand{\im}[0]{\mathrm{im}}
+\newcommand{\Res}[0]{\mathrm{Res}}
+\newcommand{\Ind}[0]{\mathrm{Ind}}
+\newcommand{\Frob}[0]{\mathrm{Frob}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+\newcommand{\finunits}[1]{\mathbb{F}_{#1}^\times}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\s}[1]{s\left( #1 \right)}
+\newcommand{\spec}[1]{\mathrm{Spec}\left( #1 \right)}
+\newcommand{\proj}[1]{\mathrm{Proj}\left( #1 \right)}
+\renewcommand{\Im}{\mathrm{Im} \: }
+
+\newcommand{\lcm}[0]{\mathrm{lcm} \,}
+\newcommand{\cis}[0]{\mathrm{cis}}
+\newcommand{\ord}[0]{\mathrm{ord}}
+\newcommand{\Sing}[0]{\mathrm{Sing }}
+\newcommand{\mathfrac}[0]{\mathfrak}
+
+\newcommand{\frp}[2]{\left\{\frac{#1}{#2}\right\}}
+\newcommand{\pdiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\leg}[2]{\left(\frac{ #1}{ #2}\right)}
+
+%%%%Theorem + Equation Styles%%%%%%%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{fact}[theorem]{Fact}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\bphi}{\bar{\varphi}}
+
+\begin{document}
+
+\begin{lemma} \label{lem:surjective_quotient_maps}
+Let $H_1, H_2 \triangleleft G$ be normal subgroups with quotient maps $\pi_i : G \to G / H_i$ and consider the maps,
+\[ \varphi_{i,j} : H_i \hookrightarrow G \overset{\pi_j}{\twoheadrightarrow} G/H_j \]
+Then $\varphi_{1,2}$ is surjective iff $\varphi_{2,1}$ is surjective. 
+\end{lemma}
+
+\begin{proof}
+Consider the commutative diagram with exact rows and columns,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = huge]
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d] 
+\\
+0 \arrow[r] & H_1 \cap H_2 \arrow[d, hook] \arrow[r, hook] & H_1  \arrow[d, hook] \arrow[r, two heads] \arrow[dr, "\varphi_{1,2}"] & K_1 \arrow[d, hook, "\bphi_{1,2}"] \arrow[r] & 0  
+\\
+0 \arrow[r] & H_2 \arrow[rd, "\varphi_{2,1}"] \arrow[r, hook] \arrow[d, two heads] & G \arrow[d, "\pi_1", two heads] \arrow[r, "\pi_2", two heads] & G / H_2 \arrow[d, two heads] \arrow[r] & 0  
+\\
+0 \arrow[r] & K_2 \arrow[d] \arrow[r, hook, "\bphi_{2,1}"] & G/H_1 \arrow[d] \arrow[r, two heads] & C \arrow[r] \arrow[d] & 0
+\\
+& 0 & 0 & 0 
+\end{tikzcd}
+\end{center}
+where $K_i = H_i / (H_1 \cap H_2)$ and the maps $\bphi_{i,j} : K_i \to G/H_j$ are induced by the maps $\varphi_{i,j}$ and are injective by the first isomorphism theorem. Exactness and commutativity are obvious except at $C$ which I have yet to define! By commutativity and surjectivity, $\Im{\bphi_{i,j}} = \pi_j(H) \triangleleft \Im{\pi_j} = G/H_j$ so $\Im{\bphi_{i,j}}$ is a normal subgroup and thus $\coker{\bphi_{i,j}} = (G/H_j) / \Im{\bphi_{i,j}} $ exists. Take $C = \coker{\bphi_{1,2}}$. Furthermore, the exactness of columns gives a surjective map $G/H_1 \to C$ which makes the bottom right square commute (see Lemma \ref{three_surjective}). By the nine lemma, the bottom row is exact proving that $C = \coker{\bphi_{2,1}}$. Finally, by exactness, 
+\[ \bphi_{1,2} \text{ is an isomorphism } \iff C = 0 \iff \bphi_{2,1} \text{ is an isomorphism}  \]
+But $\varphi_{i,j}$ is a surjection iff $\bphi_{i,j}$ is an isomorphism so $\varphi_{1,2}$ is surjective iff $\varphi_{2,1}$ is surjective. 
+\end{proof}
+
+\begin{lemma} \label{lem:three_surjective}
+Consider the commutative diagram with exact rows, 
+\begin{center}
+\begin{tikzcd}
+A \arrow[d, "f"] \arrow[r, "r"] & B \arrow[r, "s"] \arrow[d, "g"] & C \arrow[r] \arrow[d, "h", dashed] & 0
+\\
+A' \arrow[r, "r'"] & B' \arrow[r, "s'"] & C' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+If $f$ and $g$ are defined then there exists a map $h$ making the diagram commute. Furthermore, if $g$ is surjective then $h$ is surjective. 
+\end{lemma}
+
+\begin{proof}
+Take $c \in C$ then lift to $b \in B$ then define $h(c) = s'(g(b))$. Since $c = s(b)$ clearly this makes the diagram commute. This map is defined up to an element of $\ker{s} = \Im{r}$ since if $b' \in B$ maps $s(b') = c = s(b)$ then $b^{-1}b' \in \ker{s} = \Im{r}$ so $b^{-1}b' = r(a)$ for some $a \in A$ and thus, by commutativity, $s'(g(b^{-1}b')) = s'(g(r(a))) = s'(r'(f(a))) = 0$ since $\ker{s'} = \Im{r'}$. Thus, $s'(g(b)) = s'(g(b'))$ so $h$ is well-defined. If $g$ is surjective then $s' \circ g = h \circ s$ is surjective (since $s'$ is) so $h$ is surjective. 
+\end{proof}
+
+This can probably be proven this with some variant of the four or five lemma but I needed diagram chasing practice anyway. For fun, I will consider the other case I did not end up needing. 
+
+\begin{lemma} \label{lem:three_injective}
+Consider the commutative diagram with exact rows, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[d, "f", dashed] \arrow[r, "r"] & B \arrow[r, "s"] \arrow[d, "g"] & C \arrow[d, "h"]
+\\
+0 \arrow[r] & A' \arrow[r, "r'"] & B' \arrow[r, "s'"] & C'
+\end{tikzcd}
+\end{center}
+If $g$ and $h$ are defined then there exists a map $f$ making the diagram commute. Furthermore, if $g$ is injective then $h$ is injective. 
+\end{lemma}
+
+\begin{proof}
+Take some $a \in A$ then by commutativity, $s'(g(r(a))) = h(s(r(a))) = 0$ since $\ker{s} = \Im{r}$. Thus, $g(r(a)) \in \ker{s'} = \Im{r'}$ so $g(r(a)) = r'(a')$ for some $a'$. Define $f(a) = a'$ which is well-defined because $r'(a') = g(r(a))$ and $r'$ is injective. Furthermore, if $g$ is injective then $g \circ r = r' \circ f$ is injective (since $r$ is) so $f$ is injective. 
+\end{proof}
+
+Now for the main result.
+
+\begin{proposition}
+Let $p : G \to G'$ be surjective and $H \triangleleft G$ a normal subgroup. Then there exist coset representatives for $G/H$ with fixed image in $G'$ if and only if $p(H) = G'$. Furthermore, we if this holds, we may take the coset representatives to be trivial in $G'$. 
+\end{proposition}
+
+\begin{proof}
+A set $S \subset G$ contains a full set of coset represenatives for $G/H$ if $\pi(S) = G/H$. Therefore, we require that $\pi(p^{-1}(x)) = G/H$ for some $x \in G'$. Since we must hit the identity, $H \cap p^{-1}(x) \neq \varnothing$ so there exits $h \in H$ such that $p(h) = x$. Thus, $p^{-1}(x) = h \ker{p}$ so $\pi(p^{-1}(h)) = \pi(h) \pi(\ker{p}) = \pi(\ker{p})$ so we may take $h = e$. The conclusion holds if and only if $\pi(\ker{p}) = G/H$. 
+\bigskip\\    
+Take $H_1 = H$ and $H_2 = \ker{p}$ in Lemma \ref{lem:surjective_quotient_maps} and thus, 
+\[\Im{\varphi_{2,1}} = \pi(\ker{p}) = G/H \iff \Im{\varphi_{1,2}} = \pi_2(H) = G/\ker{p} \]
+but the map $p$ naturally factors through $G / \ker{p}$ as,
+\begin{center}
+\begin{tikzcd}
+H \arrow[r, hook] & G \arrow[rr, two heads, "p"] \arrow[rd, hook, "\pi_2"] & & G'
+\\
+& & G /\ker{p} \arrow[ru, "\sim"]
+\end{tikzcd}
+\end{center}
+so $p(H) = G' \iff \pi_2(H) = G / \ker{p}$. 
+\end{proof}
+\end{document}

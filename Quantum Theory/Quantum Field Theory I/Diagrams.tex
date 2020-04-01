@@ -1,0 +1,510 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\include{QuantumCommands}
+\usepackage{relsize}
+\begin{document}
+
+
+
+\section*{Mass Renormalization}
+
+
+\section*{1-Loop Mass $\psi$}
+\begin{equation*}
+\feynmandiagram [horizontal = a to b, layered layout, baseline = (a)] {
+	i1 -- [fermion, momentum'=$p$] a -- [fermion, momentum'=$p - k$] b -- [fermion, momentum'=$p$] f1,
+	a -- [scalar, half left, momentum=$k$] b
+	};
+\quad
+\mathlarger{+}
+\quad 	
+\feynmandiagram [horizontal = a to b, layered layout, baseline = (a)] {
+	i1 -- [fermion, momentum'=$p$] a [crossed dot, label = \(- i c_2\)] -- [fermion, momentum'=$p$] b
+	};	
+\end{equation*}
+
+\section*{1-Loop Mass $\phi$}
+
+\begin{equation*}
+\feynmandiagram [horizontal = a to b, layered layout, baseline = (a)] {
+	i1 -- [scalar, momentum'=$p$] a -- [fermion, half right, momentum'=$p + k$] b -- [scalar, momentum'=$p$] f1,
+	b -- [fermion, half right, momentum'=$k$] a
+	};
+\quad
+\mathlarger{+}
+\quad 	
+\feynmandiagram [horizontal = a to b, layered layout, baseline = (a)] {
+	i1 -- [scalar, momentum'=$p$] a [crossed dot, label = \(- i c_3\)] -- [scalar, momentum'=$p$] b
+	};	
+\end{equation*}
+
+\section*{Vertex Function}
+
+\begin{equation*}
+\begin{tikzpicture}[baseline = (b)]
+\begin{feynman}
+\vertex [blob] (b) {};
+\vertex [above left=of b] (a);
+\vertex [below left=of b] (c);
+\vertex [right=of b] (d);
+\diagram* {
+(a) -- [fermion, momentum = $p_1$] (b) -- [fermion, rmomentum = $p_2$] (c),
+(b) -- [scalar, momentum=$p_1 + p_2$] (d)
+};
+\end{feynman}
+\end{tikzpicture}
+ = - i \Gamma(p_1, p_2)
+\end{equation*}
+
+\begin{equation*}
+\begin{tikzpicture}[baseline = (a)]
+\begin{feynman}[large]
+\vertex [dot, label = $-ig$] (a) {};
+\vertex [below left=of a] (b);
+\vertex [above left=of a] (c);
+\vertex [right=of a] (d);
+\diagram* {
+(a) -- [fermion, rmomentum'=$p_2$] (b),
+(c) -- [fermion, momentum'=$p_1$] (a),
+(a) -- [scalar, momentum'=$p_1 + p_2$] (d)
+};
+\end{feynman}
+\end{tikzpicture}
+\quad
+\mathlarger{+}
+\quad 	
+\feynmandiagram [horizontal = a to b, baseline = (a)] {
+	i1 -- [fermion, momentum'=$p_1$] t1 -- [fermion, momentum=$p_1 - k$] a,
+	a -- [fermion, rmomentum=$p_2 + k$] t2 -- [fermion, rmomentum'=$p_2$] i2, 
+	t1 -- [scalar, momentum'=$k$] t2,
+	a -- [scalar, momentum'=$p_1 + p_2$ ] b
+	};
+\quad
+\mathlarger{+}
+\quad 	
+\begin{tikzpicture}[baseline = (a)]
+\begin{feynman}[large]
+\vertex [crossed dot, label = $-ic_4$] (a) {};
+\vertex [below left=of a] (b);
+\vertex [above left=of a] (c);
+\vertex [right=of a] (d);
+\diagram* {
+(a) -- [fermion, rmomentum'=$p_2$] (b),
+(c) -- [fermion, momentum'=$p_1$] (a),
+(a) -- [scalar, momentum'=$p_1 + p_2$] (d)
+};
+\end{feynman}
+\end{tikzpicture}
+\end{equation*}
+
+\section*{All the Diagrams}
+
+\begin{equation*}
+\feynmandiagram [baseline=(b.base), horizontal=a to b] {
+i1 -- [fermion] a [blob],
+a -- [fermion] i2,
+f1 -- [fermion] b -- [fermion] f2,
+a -- [scalar] b
+};
+\quad
++ 
+\quad
+\feynmandiagram [baseline = (l.base), vertical =b to d] {
+a -- [fermion] b -- [fermion] c,
+b -- [scalar] l [blob],
+l -- [scalar] d,
+f2 -- [fermion] d -- [fermion] f1,
+};
+\quad
++
+\quad
+\feynmandiagram [baseline=(b.base), horizontal=b to a] {
+i1 -- [fermion] a [blob] ,
+a -- [fermion] i2,
+f1 -- [fermion] b -- [fermion] f2,
+a -- [scalar] b
+};
+\end{equation*}
+
+\begin{equation*}
+\feynmandiagram [baseline=(b.base), vertical=a to b] {
+i1 -- [fermion] a [blob],
+i2 -- [fermion] a,
+f1 -- [fermion] b -- [fermion] f2,
+a -- [scalar] b
+};
+\quad
++ 
+\quad
+\feynmandiagram [baseline = (l.base), horizontal =b to d] {
+a -- [fermion] b -- [fermion] c,
+b -- [scalar] l [blob],
+l -- [scalar] d,
+f2 -- [fermion] d -- [fermion] f1,
+};
+\quad
++
+\quad
+\feynmandiagram [baseline=(a.base), vertical=b to a] {
+i1 -- [fermion] a [blob] ,
+i2 -- [fermion] a,
+f1 -- [fermion] b -- [fermion] f2,
+a -- [scalar] b
+};
+\end{equation*}
+\begin{equation*}
+\feynmandiagram [horizontal=s1 to s2] {
+i1 -- [fermion] s1 -- [fermion] s2 -- [fermion] f1,
+f2 -- [fermion] s3 -- [fermion] s4 -- [fermion] i2,
+s1 -- [scalar] s4,
+s2 -- [scalar] s3
+};
+\quad 
+\quad 
+\feynmandiagram [horizontal=s1 to s4] {
+i1 -- [fermion] s1 -- [fermion] s2 -- [fermion] i2,
+f1 -- [fermion] s3 -- [fermion] s4 -- [fermion] f2,
+s1 -- [scalar] s4,
+s2 -- [scalar] s3
+};
+\quad 
+\quad
+\begin{tikzpicture}
+\begin{feynman}
+\vertex (i1) ;
+\vertex [below right=of i1] (s1);
+\vertex [right=of s1] (s2);
+\vertex [below=of s2] (s3);
+\vertex [left=of s3] (s4);
+\vertex [below left=of s4] (i2);
+\vertex [below right=of s3] (f2);
+\vertex [above right=of s2] (f1);
+\diagram* {
+(i1) -- [fermion] (s1) -- [fermion] (s4) -- [fermion] (i2),
+(f2) -- [fermion] (s3) -- [fermion] (s2) -- [fermion] (f1),
+(s1) -- [scalar] (s3)
+(s2) -- [scalar] (s4)
+};
+\end{feynman}
+\end{tikzpicture}
+\quad 
+\quad
+\begin{tikzpicture}
+\begin{feynman}
+\vertex (i1) ;
+\vertex [below right=of i1] (s1);
+\vertex [right=of s1] (s2);
+\vertex [below=of s2] (s3);
+\vertex [left=of s3] (s4);
+\vertex [below left=of s4] (i2);
+\vertex [below right=of s3] (f2);
+\vertex [above right=of s2] (f1);
+\diagram* {
+(i1) -- [fermion] (s1) -- [fermion] (s2) -- [fermion] (f1),
+(f2) -- [fermion] (s3) -- [fermion] (s4) -- [fermion] (i2),
+(s1) -- [scalar] (s3)
+(s2) -- [scalar] (s4)
+};
+\end{feynman}
+\end{tikzpicture}
+\end{equation*}
+
+
+\subsection{The Scattering Cross Amplitudes}
+
+We now have all the tools necessary to compute the scattering cross section for the $\psi \bar{\psi} \to \psi \bar{\psi}$ process at the one-loop level. Following the LSZ reduction formula, we need only consider connected amputated diagrams. The first step is to properly organize the Feynman diagrams to simplify computations. There are two tree-level diagrams, ten one-loop diagrams, and six counterterm diagrams. I will organize these diagrams into classes of diagrams that ``look like'' each of the schematics,
+
+(PUT IN DIAGRAM LIST)
+
+We must consider each class of diagrams. 
+
+\subsubsection{Class (a)}
+We must consider the class of diagrams,
+
+\begin{equation*}
+\begin{tikzpicture}[baseline = (b)]
+\begin{feynman}[large]
+\vertex [blob] (b) {};
+\vertex [above left=of b] (a);
+\vertex [below left=of b] (c);
+\vertex [right=of b] (d);
+\vertex [above right=of d] (e);
+\vertex [below right=of d] (f);
+\diagram* {
+(a) -- [fermion, momentum = $p_1$] (b) -- [fermion, rmomentum = $p_2$] (c),
+(b) -- [scalar, momentum=$p_1 + p_2$] (d)
+(e) -- [fermion, rmomentum' = $p_1'$] (d) -- [fermion, momentum' = $p_2'$] (f)
+};
+\end{feynman}
+\end{tikzpicture}
+\quad
+\mathlarger{=}
+\quad 	
+\feynmandiagram [horizontal = a to b, baseline = (a)] {
+	a -- [fermion] t1 -- [fermion, rmomentum=$p_1$] i1,
+	i2 -- [fermion, momentum=$p_2$] t2 -- [fermion] a, 
+	t1 -- [scalar] t2,
+	a -- [scalar] b,
+	o1 -- [fermion, rmomentum=$p_2'$] b -- [fermion, momentum=$p_1'$] o2
+	};
+\quad
+\mathlarger{+}
+\quad 	
+\begin{tikzpicture}[baseline = (a)]
+\begin{feynman}[large]
+\vertex [crossed dot, label = $-ic_4$] (a) {};
+\vertex [below left=of a] (b);
+\vertex [above left=of a] (c);
+\vertex [right=of a] (d);
+\vertex [above right=of d] (o1);
+\vertex [below right=of d] (o2);
+\diagram* {
+(a) -- [fermion, rmomentum=$p_2$] (b),
+(c) -- [fermion, momentum=$p_1$] (a),
+(a) -- [scalar] (d),
+(o1) -- [fermion, rmomentum'=$p_2'$] (d) -- [fermion, momentum'=$p_1'$] (o2)
+};
+\end{feynman}
+\end{tikzpicture}
+\end{equation*}
+which gives an amplitude,
+\[ i\mathcal{M}_a = -i \tilde{\Gamma}(p_1, p_2) \cdot \frac{i}{(p_1 + p_2)^2   - m^2} \]
+
+\subsubsection{Class (b)}
+Vertical middle loop diagrams look like,
+\begin{equation*}
+\feynmandiagram [baseline = (l), vertical = b to l] {
+a -- [fermion, rmomentum=$p_2'$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l [blob],
+l -- [scalar] d,
+f2 -- [fermion, momentum=$p_1$] d -- [fermion, momentum=$p_1'$] f1,
+};
+\quad
+=
+\quad
+\feynmandiagram [baseline = (l2.base), vertical =b to d] {
+a -- [fermion, rmomentum=$p_2'$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l1 
+-- [fermion, half left, looseness=1.5] l2 
+--[fermion, half left, looseness=1.5] l1,
+l2 -- [scalar] d,
+f2 -- [fermion, momentum=$p_1$] d -- [fermion, momentum=$p_1'$] f1,
+};
+\quad 
++
+\quad
+\feynmandiagram [baseline = (l.base), vertical =b to d] {
+a -- [fermion, rmomentum=$p_2'$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l [crossed dot],
+l -- [scalar] d,
+f2 -- [fermion, momentum=$p_1$] d -- [fermion, momentum=$p_1'$] f1,
+};
+\end{equation*}
+which give an amplitude,
+\[ i\mathcal{M}_b =  \frac{i}{(p_1 - p_1')^2   - m^2} \cdot\left[ -i \Sigma(p_1 - p_1') \right] \cdot \frac{i}{(p_1 - p_1')^2   - m^2}  \]
+\subsubsection{Class (c)}
+The next set of diagrams look like,
+\begin{equation*}
+\begin{tikzpicture}[baseline = (b)]
+\begin{feynman}[large]
+\vertex (b);
+\vertex [above left=of b] (a);
+\vertex [below left=of b] (c);
+\vertex [right=of b, blob] (d) {};
+\vertex [above right=of d] (e);
+\vertex [below right=of d] (f);
+\diagram* {
+(a) -- [fermion, momentum = $p_1$] (b) -- [fermion, rmomentum = $p_2$] (c),
+(b) -- [scalar, momentum=$p_1 + p_2$] (d)
+(e) -- [fermion, rmomentum' = $p_1'$] (d) -- [fermion, momentum' = $p_2'$] (f)
+};
+\end{feynman}
+\end{tikzpicture}
+\quad
+\mathlarger{=}
+\quad 	
+\feynmandiagram [horizontal = b to a, baseline = (a)] {
+	a -- [fermion] t1 -- [fermion, momentum=$p_1'$] i1,
+	i2 -- [fermion, rmomentum=$p_2'$] t2 -- [fermion] a, 
+	t1 -- [scalar] t2,
+	a -- [scalar] b,
+	o1 -- [fermion, momentum=$p_2$] b -- [fermion, rmomentum=$p_1$] o2
+	};
+\quad
+\mathlarger{+}
+\quad 	
+\begin{tikzpicture}[baseline = (a)]
+\begin{feynman}[large]
+\vertex (a);
+\vertex [below left=of a] (b);
+\vertex [above left=of a] (c);
+\vertex [right=of a, crossed dot, label = $-ic_4$] (d) {};
+\vertex [above right=of d] (o1);
+\vertex [below right=of d] (o2);
+\diagram* {
+(a) -- [fermion, rmomentum=$p_2$] (b),
+(c) -- [fermion, momentum=$p_1$] (a),
+(a) -- [scalar] (d),
+(o1) -- [fermion, rmomentum'=$p_2'$] (d) -- [fermion, momentum'=$p_1'$] (o2)
+};
+\end{feynman}
+\end{tikzpicture}
+\end{equation*}
+which gives an amplitude,
+\[ i\mathcal{M}_c = -i \tilde{\Gamma}(p_1', p_2') \cdot \frac{i}{(p_1 + p_2)^2   - m^2} \]
+
+
+\subsubsection{Class (d)}
+These diagrams are similar,
+\begin{center}
+\feynmandiagram [baseline=(b.base), vertical=a to b] {
+i1 -- [fermion, rmomentum=$p_1'$] a [blob],
+i2 -- [fermion, momentum'=$p_1$] a,
+f1 -- [fermion, rmomentum'=$p_2'$] b -- [fermion, rmomentum'=$p_2$] f2,
+a -- [scalar, momentum'=$p_1 - p_1'$] b
+};
+\end{center}
+which give an amplitude,
+\[ i\mathcal{M}_d = -i \tilde{\Gamma}(p_1, p_1') \cdot \frac{i}{(p_1 - p_1')^2   - m^2} \]
+
+\subsubsection{Class (e)}
+The horizontal middle loop diagrams,
+\begin{equation*}
+\feynmandiagram [baseline = (l.base), horizontal =b to d] {
+a -- [fermion, momentum=$p_1$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l [blob],
+l -- [scalar] d,
+f2 -- [fermion, rmomentum=$p_1'$] d -- [fermion, momentum=$p_2'$] f1,
+};
+\quad
+=
+\quad
+\feynmandiagram [baseline=(b.base), horizontal=b to d] {
+a -- [fermion, momentum=$p_1$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l1 
+-- [fermion, half left, looseness=1.5] l2 
+--[fermion, half left, looseness=1.5] l1,
+l2 -- [scalar] d,
+f2 -- [fermion, rmomentum=$p_1'$] d -- [fermion, momentum=$p_2'$] f1,
+};
+\quad 
++
+\quad
+\feynmandiagram [baseline = (l.base), horizontal =b to d] {
+a -- [fermion, momentum=$p_1$] b -- [fermion, rmomentum=$p_2$] c,
+b -- [scalar] l [crossed dot, label = $-ic_3$],
+l -- [scalar] d,
+f2 -- [fermion, rmomentum=$p_1'$] d -- [fermion, momentum=$p_2'$] f1,
+};
+\end{equation*}
+give an amplitude,
+\[ i \mathcal{M}_e = \frac{i}{(p_1 + p_2)^2 - m^2} \left[- i \Sigma(p_1 + p_2) \right] \frac{i}{(p_1 + p_2)^2 - m^2} \]
+
+\subsubsection{Class (f)}
+And finally,
+\begin{center}
+\feynmandiagram [baseline=(b.base), vertical=b to a] {
+i1 -- [fermion, momentum=$p_2$] a [blob],
+i2 -- [fermion, rmomentum'=$p_2'$] a,
+f1 -- [fermion, momentum'=$p_1$] b -- [fermion, momentum'=$p_2'$] f2,
+a -- [scalar, rmomentum=$p_1 - p_1'$] b
+};
+\end{center}
+which give an amplitude,
+\[ i\mathcal{M}_f = -i \tilde{\Gamma}(p_2, p_2') \cdot \frac{i}{(p_1 - p_1')^2   - m^2} \]
+
+\subsubsection{Box Diagrams}
+
+There are four Box diagrams at the one-loop level,
+
+\begin{equation*}
+\feynmandiagram [horizontal=s4 to s1] {
+i1 -- [fermion, rmomentum'=$p_2'$] s1 -- [fermion] s2 -- [fermion, momentum'=$p_1'$] i2,
+f1 -- [fermion, momentum'=$p_1$] s3 -- [fermion] s4 -- [fermion, rmomentum'=$p_2$] f2,
+s1 -- [scalar] s4,
+s2 -- [scalar] s3
+};
+\quad 
+\quad
+\feynmandiagram [horizontal=s1 to s2] {
+f1 -- [fermion, momentum'=$p_1$] s1 -- [fermion] s2 -- [fermion, momentum'=$p_1'$] i1,
+i2 -- [fermion, momentum=$p_2$] s4 -- [fermion] s3 -- [fermion, momentum=$p_2'$] f2,
+s1 -- [scalar] s4,
+s2 -- [scalar] s3
+};
+\quad 
+\quad 
+\begin{tikzpicture}
+\begin{feynman}
+\vertex (i1) ;
+\vertex [below right=of i1] (s1);
+\vertex [right=of s1] (s2);
+\vertex [below=of s2] (s3);
+\vertex [left=of s3] (s4);
+\vertex [below left=of s4] (i2);
+\vertex [below right=of s3] (f2);
+\vertex [above right=of s2] (f1);
+\diagram* {
+(i1) -- [fermion, momentum'=$p_1$] (s1) -- [fermion] (s4) -- [fermion, rmomentum'=$p_2$] (i2),
+(f2) -- [fermion, rmomentum'=$p_2'$] (s3) -- [fermion] (s2) -- [fermion, momentum'=$p_1'$] (f1),
+(s1) -- [scalar] (s3)
+(s2) -- [scalar] (s4)
+};
+\end{feynman}
+\end{tikzpicture}
+\quad 
+\quad
+\begin{tikzpicture}
+\begin{feynman}
+\vertex (i1) ;
+\vertex [below right=of i1] (s1);
+\vertex [right=of s1] (s2);
+\vertex [below=of s2] (s3);
+\vertex [left=of s3] (s4);
+\vertex [below left=of s4] (i2);
+\vertex [below right=of s3] (f2);
+\vertex [above right=of s2] (f1);
+\diagram* {
+(i1) -- [fermion, momentum'=$p_1$] (s1) -- [fermion] (s2) -- [fermion, momentum'=$p_1'$] (f1),
+(f2) -- [fermion, rmomentum'=$p_2'$] (s3) -- [fermion] (s4) -- [fermion, rmomentum'=$p_2$] (i2),
+(s1) -- [scalar] (s3)
+(s2) -- [scalar] (s4)
+};
+\end{feynman}
+\end{tikzpicture}
+\end{equation*}
+
+The amplitudes for each of these terms can be transformed into one another by swapping the values of the incoming/outgoing momenta and shifting the value of the undetermined momentum. It can be shown either by writing down the integrals explicitly or diagram chasing that the amplitude for these diagrams are,
+\[ i \mathcal{M}_{box} = i \mathcal{M}_B(p_1, p_2, p_1', p_2') + i \mathcal{M}_B(p_1, -p_1', -p_2, p_2') + i \mathcal{M}_B(p_1, p_2, p_2', p_1') + i \mathcal{M}_B(p_1, -p_2', p_1', -p_2)\]
+where each term corresponds to the respective box diagram shown above.  
+
+\subsubsection{Tree-Level Diagrams}
+
+As before, we have the two tree-level diagrams,
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  
+\feynmandiagram [vertical=b to a] {
+i1 -- [fermion, momentum = \(p_1\)] a -- [fermion, momentum = \(p_1'\)] f1,
+a -- [scalar, edge label = \(\Delta_F\)] b,
+f2 -- [fermion, momentum' = \(p_2\)] b -- [fermion, momentum' = \(p_2'\)] i2,
+};
+
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  
+\feynmandiagram [horizontal=a to b] {
+i1 -- [fermion, momentum = \(p_1\)] a -- [fermion, rmomentum = \(p_2\)] i2,
+a -- [scalar, edge label = \(\Delta_F\)] b,
+f1 -- [fermion, rmomentum' = \(p_1'\)] b -- [fermion, momentum' = \(p_2'\)] f2,
+};
+
+\end{minipage}
+\end{figure}
+with total amplitude,
+\[ i \mathcal{M}_{tree} = \frac{i}{(p_1 - p_1')^2 - m^2 } + \frac{i}{(p_1 + p_2)^2 - m^2 } \]
+
+\end{document}

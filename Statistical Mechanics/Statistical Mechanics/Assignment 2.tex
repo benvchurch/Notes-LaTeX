@@ -1,0 +1,220 @@
+\documentclass[12pt]{extarticle}
+\include{StatMechCommands}
+\usepackage{cancel}
+
+
+\begin{document}
+\atitle{2}
+ 
+\section{Problem 1}
+
+Consider the Boltzmann statistics of a gas of $N$ noninteracting highly-relativistic identical particles in a box of volume $V$. The single particle dispersion relation for these particles is,
+\[ E = c |p| \]
+and therefore the Hamiltonian is,
+\[ H(q_i, p_i) = \sum_{i = 1}^N c |p_i| \]
+Now the partition function is,
+\begin{align*}
+Z & = \frac{1}{N!} \frac{1}{h^{3 N}} \int \dn{3}{q_1} \cdots \dn{3}{q_N} \dn{3}{p_1} \cdots \dn{3}{p_N} e^{- \beta H}
+\\
+& = \frac{V^N}{N!} Z_1^N
+\end{align*}
+where $Z_1$ is the single particle momentum partiton function,
+\begin{align*}
+Z_1 & = \frac{1}{h^3} \int \dn{3}{p} e^{-\beta c |p|} = \int_{0}^{\infty} 4 \pi p^2 \d{p} e^{-\beta c p} 
+\\
+& = \frac{8 \pi}{\beta^3 h^3 c^3} 
+\end{align*}
+Therefore,
+\[ Z = \frac{V^N}{N!} \left( \frac{8 \pi}{\beta^3 h^3 c^3} \right)^N \]
+First, we compute the free energy,
+\[ F = - k_B T \log{Z} = - N k_B T \left[ \log{\left( \frac{k_B^3 T^3 V}{h^3 c^3} \right)} - (\log{N} - \log{(8 \pi)} - 1)  \right] \]
+Then we can compute the entropy and pressue,
+\begin{align*}
+P & = - \left( \pderiv{F}{V} \right)_{T} = \frac{N k_B T}{V} 
+\\
+S & = - \left( \pderiv{F}{T} \right)_{V} = N k_B \left[ \log{\left( \frac{k_B^3 T^3 V}{h^3 c^3} \right)} - (\log{N} - \log{(8 \pi)} - 4)  \right]
+\end{align*}
+Next, we compute the energy via,
+\begin{align*}
+E - \pderiv{\log{Z}}{\beta} = 3 N k_B T 
+\end{align*}
+and therfore the heat capacity is,
+\[ c_V = \pderiv{E}{T} = 3 N k_B \]
+
+\section{Problem 2}
+
+Consider an isotropic quantum rigid rotor with moment of inertia $I$ which has a Hamiltonian,
+\[ \hat{H} = \frac{L^2}{2 I} \]
+which has energy levels,
+\[ E_J = \frac{\hbar^2}{2 I} J(J + 1) \]
+and for each $J$ there is a $J$-multiplet with $g_J = 2 J + 1$ states. 
+
+\subsection*{(a)}
+
+Then we can write down the partition function,
+\[ Z = \Tr{e^{-\beta \hat{H}}} = \sum_{J = 0}^\infty g_J e^{- \beta E_J} = \sum_{J = 0}^\infty (2 J + 1) e^{-\frac{\beta \hbar^2}{2 I} J(J + 1)} \]
+For large temperatures we have $u = \frac{\beta \hbar^2}{2 I} \ll 1$ and thus the Boltzmann factor is approximatly flat for low $J$ values and thus the degeneracy $2 J + 1$ is dominant. Thus we can approximate this by an integral since,
+\[ \sum_{J = 0}^{J'} (2 J + 1) = J'(J' + 1) + J' \approx \int_{0}^{J'} (2 J + 1) \d{J} \]
+for large $J$.
+Therefore,
+\begin{align*}
+Z & \approx \int_0^{\infty} 2 (2 J + 1) e^{-u J(J + 1)} \: \d{J}
+\end{align*}
+Notice that,
+\[ 2 J + 1 = \pderiv{}{J} [J ( J + 1) ] \]
+and therefore,
+\[ Z = \int_0^{\infty} \deriv{}{J} e^{-u J ( J + 1)} \d{J} = \frac{1}{u} = \frac{2 I}{\beta \hbar^2} \]
+which is unreasonably simple. 
+
+\subsection*{(b)}
+
+The energy is then,
+\[ E = - \pderiv{\log{Z}}{\beta} = \frac{1}{\beta} = k_B T \]
+Therefore, at high temperature,
+\[ c_V = \pderiv{E}{T} = k_B \]
+
+\subsection*{(c)}
+
+At low temperature, we may apprimate the partition function by taking only the $J = 0$ and $J = 1$ states to be accessable. Then,
+\[ Z = 1 + 3 e^{-2 u } \]
+Then we have,
+\begin{align*}
+E & = - \pderiv{\log{Z}}{\beta} = \frac{\hbar^2}{I} \cdot \frac{3}{e^{\frac{\beta \hbar^2}{I}} + 3} = \frac{\hbar^2}{I} \cdot \frac{3}{e^{\frac{\hbar^2}{I k_B T}} + 3} 
+\end{align*}
+Now define,
+\[ T_Q = \frac{\hbar^2}{I k_B} \]
+and thus,
+\[ E = k_B T_Q \cdot \frac{3}{e^{\frac{T_Q}{T}} + 3} \]
+Thus,
+\begin{align*}
+c_V & = k_B \left( \frac{T_Q}{T} \right)^2 \cdot \frac{3 e^{\frac{\hbar^2}{I k_B T}}}{(e^{\frac{T_Q}{T}} + 3)^2}
+\end{align*}
+Then, at low temperatures, we have,
+\[ c_V \approx 3 k_B \left( \frac{T_Q}{T} \right)^2 \: e^{-\frac{T_Q}{T}}  \]
+which dies exponentially because the system is gapped. This approximaton is valid for,
+\[ T \ll T_Q \]
+
+\section{Problem 3}
+
+Consider an ideal gas of classical identical particles with mass $m$ and no internal degrees of freedom enclosed in a cylinder of radius $b$ and length $L$. The cylinder is rotating with angular velocity $\omega$ about is symmetry axis. The ideal gas is in thermal equilibrium at temperature $T$ in the rotating coordinate system.
+
+\subsection*{(a)}
+
+We first need to compute the Hamiltonian in a rotating coordinate system. First, we write down the Lagrangian for a single particle,
+\[ \lagrange = \tfrac{1}{2} m \dot{\vec{r}}^{\, 2} \]
+in the lab frame coordinates. Then, in terms of the rotating coordinate system,
+\[ \dot{\vec{r}} = R(t) (\dot{\vec{q}} + \vec{\omega} \times \vec{q} ) \] 
+where $R(t)$ is the rotation matrix sending the rotating frame coordinates to the lab frame coodinates. Therefore,
+\[ \lagrange = \tfrac{1}{2} m (\dot{\vec{q}} + \vec{\omega} \times \vec{q})^2 \] 
+Then the canonical momentum associated to $q$ is,
+\[ p_j = \pderiv{\lagrange}{\dot{q}_j} = m (\dot{\vec{q}} + \vec{\omega} \times \vec{q})_j \]
+Incidentally, we could write down the Euler Lagrange equations,
+\[ \deriv{}{t} p_j = \pderiv{\lagrange}{q_j} \]
+which gives,
+\[ m \ddot{\vec{q}} + m (\vec{\omega} \times \dot{\vec{q}}) + m (\dot{\vec{\omega}} \times \vec{q}) = m (\dot{\vec{q}} + \vec{\omega} \times \vec{q}) \times \vec{\omega} \]
+which allows us to identify the pseudoforces,
+\[ F_{\text{pseudo}} = - m (\dot{\vec{\omega}} \times \vec{q}) - 2 m (\vec{\omega} \times \dot{\vec{q}}) - m \vec{\omega} \times (\vec{\omega} \times \vec{q}) \]
+Back to our problem of computing the Hamiltonian. We have,
+\[ H = \vec{p} \cdot \dot{\vec{q}} - \lagrange = \tfrac{1}{m} \vec{p} \cdot (\vec{p} -  \vec{\omega} \times \vec{q}) - \tfrac{1}{2m} \vec{p}^{\, 2} = \frac{(\vec{p} - \vec{\omega} \times \vec{q})^2}{2 m} - \frac{(\vec{\omega} \times \vec{q})^2}{2m} \] 
+Thus, the Hamiltonian for our gas is,
+\[ H(\vec{q}_i, \vec{p}_i) = \sum_{i = 1}^N \frac{1}{2 m} \left[ (\vec{p}_i - \vec{\omega} \times \vec{q}_i)^2 - (\vec{\omega} \times \vec{q}_i)^2 \right] \]
+
+\subsection*{(b)}
+
+Now we can compute the partition function,
+\[ Z = \frac{1}{N! h^{3N}} \int \dn{3}{q_1} \cdots \dn{3}{q_N} \dn{3}{p_1} \cdots \dn{3}{p_N} \exp{\left[ - \frac{\beta}{2 m} \sum_{i = 1}^{\infty} \left( (\vec{p}_i - \vec{\omega} \times \vec{q}_i)^2 - (\vec{\omega} \times \vec{q}_i)^2 \right) \right]} \]
+Notice that these integrals factor since the Hamiltonian for each particle decouples (no interactions). Furthermore, I can seperate the integrals into position and momentum parts as follows,
+\[ Z = \frac{1}{N! h^{3 N}} \left( \int \dn{3}{q} \exp{\left[ \frac{\beta}{2 m} (\vec{\omega} \times \vec{q})^2 \right]} \int \dn{3}{p} \exp{\left[ - \frac{\beta}{2 m}  (\vec{p} - \vec{\omega} \times \vec{q})^2 \right]}   \right)^N \]
+The integral over $p$ appears to involve $q$ as well but since we integrate over $p$ first we may consider $q$ fixed and perform a change of variables, 
+\[ \vec{p}' = \vec{p} - \vec{\omega} \times \vec{q} \]
+and the $q$-dependence vanishes,
+\[ Z = \frac{1}{N! h^{3 N}} \left( \int \dn{3}{q} \exp{\left[ \frac{\beta}{2 m} (\vec{\omega} \times \vec{q})^2 \right]} \int \dn{3}{p} \exp{\left[ - \frac{\beta}{2 m} \vec{p}^{\, 2} \right]}   \right)^N \]
+We now consider these two integrals in detail. First,
+\begin{align*}
+Z_p \int \dn{3}{p} \exp{\left[ - \frac{\beta}{2 m} \vec{p}^{\, 2} \right]}  & = \left( \int_{-\infty}^{\infty} \d{p} e^{-\frac{\beta}{2m} p^2} \right)^3 = \left( \frac{2 \pi m}{\beta} \right)^{\frac{3}{2}}
+\end{align*} 
+Next we need to integrate over the cylinder,
+\begin{align*}
+Z_q = \int \dn{3}{q} \exp{\left[ \frac{\beta}{2 m} (\vec{\omega} \times \vec{q})^2 \right]} & = \int_0^{b} \d{r} \int_{0}^L \d{z} \int_0^{2 \pi} r \d{\phi} e^{-\frac{\beta}{2 m} r^2 \omega^2} 
+\\
+& = 2 \pi L \int_0^b r \d{r} e^{-\frac{\beta}{2 m} r^2 \omega^2} = 2 \pi L \int_0^b  \frac{2 m}{\beta \omega^2} \deriv{}{r} e^{-\frac{\beta}{2 m} r^2 \omega^2} \d{r}
+\\
+& = \frac{4 m \pi L}{\beta \omega^2} \left(1 - e^{-\frac{\beta b^2 \omega^2}{2m}} \right)
+\end{align*}
+Putting everything together, we find,
+\[ Z = \frac{1}{N!} \left( \frac{4 m \pi L}{\beta h^3 \omega^2} \right)^N \left(1 - e^{-\frac{\beta b^2 \omega^2}{2m}} \right)^N \left( \frac{2 \pi m}{\beta} \right)^{\frac{3N}{2}} \]
+
+\subsection*{(c)}
+
+The density of particles at a given radius is given by the operator,
+\[ \rho_r(\vec{q}_1, \dots, \vec{q}_N) = \sum_{i = 1}^N \delta(r_i - r) \]
+The average particle density is thus given by the expectation of this operator,
+\begin{align*}
+\rho(r) = \EV{\rho_r} = \frac{1}{N! h^{3 N}} \int \dn{3}{q_1} \cdots \dn{3}{q_N} \dn{3}{p_1} \cdots \dn{3}{p_N} \rho_r(\vec{q}_1, \dots, \vec{q}_N) P(\vec{q}_1, \dots, \vec{q}_N, \vec{p}_1, \dots, \vec{p}_N)
+\end{align*}
+where,
+\[ P(\vec{q}_1, \dots, \vec{q}_N, \vec{p}_1, \dots, \vec{p}_N)) = \frac{1}{Z} e^{-\beta H(\vec{q}_1, \dots, \vec{q}_N, \vec{p}_1, \dots, \vec{p}_N)} \]
+The above integral reduces to,
+\begin{align*}
+\rho(r) & = \frac{1}{Z_q} \sum_{i = 1}^N \int \dn{3}{q_i} \left[ \delta(r_i - r) e^{\frac{\beta}{2 m} (\vec{\omega} \times \vec{q}_i)^2} \right]
+\\
+& = \frac{N}{Z_q} \int_0^{b} \d{r'} \int_{0}^L \d{z} \int_0^{2 \pi} r' \d{\phi} \delta(r' - r) e^{-\frac{\beta}{2 m} r'^2 \omega^2} 
+\\
+& = \frac{N}{Z_q} (2 \pi L) \int_0^b r' \d{r'} \delta(r' - r) e^{-\frac{\beta}{2 m} r'^2 \omega^2} 
+\\
+& = \frac{N}{Z_p} (2 \pi L) \: r e^{-\frac{\beta}{2 m} r^2 \omega^2} 
+\end{align*}
+Therefore, we have shown that,
+\[ \rho(r) = \frac{N \omega^2}{2 m k_B^2 T^2} \left(1 - e^{-\frac{b^2 \omega^2}{2m k T}} \right)^{-1} r e^{-\frac{r^2 \omega^2 }{2 m k T} } \]
+
+\section{Problem 4}
+
+Consider a material of $n$ independent particles inside a weak magnetic field $H$. Each particle has spin $J$ and a magnetic moment $\mu m_J$ for $m_J \in \{ - J , -J + 1, \dots, J \}$. The system is in thermal equilibrium at constant temperature $T$.
+
+\subsection{(a)}
+
+First we need to compute the partition function. The Hamiltnian is,
+\[ \hat{H} = \sum_{i = 1}^n \mu \hat{S}_i \cdot H \]
+and thus, 
+\[ Z = \sum_{m \in [-J, J]^n} e^{-\beta \mu H \sum_{i = 1}^n m_i } = \left( \sum\limits_{m \in [-J, J]} e^{-\beta \mu m} \right)^n \]
+However, we can sum the geometric,
+\[ \sum_{m \in [-J, J]} e^{-\beta \mu H m} = \frac{e^{\beta \mu H J} - e^{- \beta  \mu H  (J+1)}}{1 - e^{-\beta \mu H}} = \frac{e^{\beta \mu H (J + \frac{1}{2})} - e^{- \beta \mu H (J + \frac{1}{2}}}{e^{\tfrac{1}{2} \beta \mu H} - e^{-\tfrac{1}{2} \beta \mu H }} = \frac{\sinh{(\beta \mu H (J + \frac{1}{2}))}}{\sinh{(\frac{1}{2} \beta \mu H )}} \]
+We can compute the average of the particle magnetic moment over the statistical ensemble,
+\[ \EV{M} = \EV{\sum_{i = 1}^n \mu m_i} = \frac{1}{Z} \sum_{m \in [-J, J]^n} \sum_{i = 1}^n \mu m_i \: e^{- \beta \mu H \sum\limits_{i = 1}^n m_i} = - \frac{1}{Z H} \deriv{Z}{\beta} = - \frac{1}{H} \deriv{\log{Z}}{\beta} = \frac{E}{H}  \]
+So in this case we see that the magnetization is also equal to the proportionality between energy and applied field. Computing,
+\[ -E = \deriv{\log{Z}}{\beta} = \tfrac{1}{2} \mu H \left[ \coth{(\tfrac{1}{2} \beta \mu H)} -  (2J + 1) \coth{(\beta \mu H (J + \tfrac{1}{2}))} \right] \]
+Therefore,
+\[ M = \tfrac{1}{2} \mu \left[  (2J + 1) \coth{(\beta \mu H (J + \tfrac{1}{2}))} - \coth{(\tfrac{1}{2} \beta \mu H)} \right] \]
+We can also compute the magnetic susceptibility which is the thermodynamic conjugate variable to the magnetizing field $H$,
+\[ \EV{M} = \pderiv{E}{H} \bigg|_{S} = \pderiv{F}{H} \bigg|_T \]  
+
+\subsection{(b)}
+
+Now we apply the series,
+\[ \coth{x} = \frac{1}{x} + \frac{x}{3} - \frac{x^3}{45} + O(x^5) \]
+Then we find, at high $T$,
+\begin{align*}
+M & = \tfrac{1}{2} \mu \left[ \frac{2}{\beta \mu H} + \frac{\beta \mu H}{6} (2 J + 1)^2 - \frac{(\beta \mu H)^3}{360} (2 J + 1)^4 + O(\beta^5) - \frac{2}{\beta \mu H} - \frac{\beta \mu H}{6} + \frac{(\beta \mu H)^3}{360} + O(\beta^5)  \right]
+\\
+& = \mu \left[ \frac{(2 J + 1)^2 - 1}{12} \cdot \frac{\mu H}{k_B T} - \frac{(2 J + 1)^4 - 1}{720} \cdot \left( \frac{\mu H}{k_B T} \right)^3 + O(T^{-5}) \right] 
+\end{align*}
+
+\section{Problem 7}
+
+Consider a classical system in phase space with $3 N$ dimensions and a Hamiltonian,
+\[ H(\vec{r}_r, \vec{p}_i) \]
+Conisder the application of an external magnetic field which has the effect of transforming the momenta,
+\[ \vec{p}_i \mapsto \vec{p}_i - \tfrac{e}{c} \vec{A}(\vec{r}_i) \]
+Then we consider the partition function,
+\[ Z = \frac{1}{N! h^{3N}} \int \dn{3}{r_1} \cdots \dn{3}{r_N} \dn{3}{p_1} \cdots \dn{3}{p_N} \exp{\left[- \beta H(r_i, p_i - \tfrac{e}{c} \vec{A}_i(r_i)) \right]} \]
+We perform the integral over momenta first,
+\[ Z = \frac{1}{N! h^{3N}} \int \dn{3}{r_1} \cdots \dn{3}{r_N} \int \dn{3}{p_1} \cdots \dn{3}{p_N} \exp{\left[- \beta H(\vec{r}_i, \vec{p}_i - \tfrac{e}{c} \vec{A}(\vec{r}_i)) \right]} \]
+Notice that we may treat the $r_i$ as fixed in the momentum integral and thus we can view $\vec{A}(\vec{r}_i)$ as a constant in this integral. Therefore, we are free to perform a substitution setting $p_i' = p_i - \tfrac{e}{c} \vec{A}$ and then the partition function loses its dependence on $A$, 
+\[ Z = \frac{1}{N! h^{3N}} \int \dn{3}{r_1} \cdots \dn{3}{r_N} \int \dn{3}{p'_1} \cdots \dn{3}{p'_N} \exp{\left[- \beta H(\vec{r}_i, \vec{p'}_i) \right]} \]
+therefore we have proven that all thermodynamic potentials derivable from $Z$ must be independent of the applied magnetic field. 
+
+
+
+
+\end{document}
+

@@ -1,0 +1,405 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Groups}
+
+\begin{definition}
+A group $G$ is a set with a binary operation $\circ$ which satisfies,
+\begin{enumerate}
+\item associativity, $x \circ (y \circ z) = (x \circ y) \circ z$
+\item there exists an identity $e \in G$ such that $e \circ g = g \circ e = g$ for any $g \in G$
+\item for each $g \in G$ there exists an inverse $g^{-1} \in G$ such that $g \circ g^{-1} = g^{-1} \circ g = e$
+\end{enumerate} 
+\end{definition}
+
+\begin{example}
+The following are groups,
+\begin{enumerate}
+\item the integers $\Z$ with addition $+$
+\item the nonzero rational numbers $\Q^\times$ with multiplication $\cdot$
+\item invertable matrices with matrix multiplication
+\item the permutations of a set with composition of functions
+\end{enumerate}
+\end{example}
+
+\begin{definition}
+We say that $(G, \circ)$ is \textit{abelian} if $\circ$ is commutative, $x \circ y = y \circ x$. In this case we usually write $x + y$ for the binary operation, $0$ for $e$ and $-x$ for $x^{-1}$ in analogy with the case of integers. 
+\end{definition}
+
+\begin{definition}
+A group $G$ is \textit{finitely generated} if there exists a finite set $S \subset G$ such that every element in $g \in G$ can be expressed as a finite combination of elements of $S$ (and the inverses of elements in $S$) i.e. $g = s_1 \circ \cdots \circ s_n$ for $s_1, \dots, s_n \in S \cup S^{-1}$ where $S^{-1} = \{ s^{-1} \mid s \in S \}$.
+\end{definition}
+
+\begin{example}
+The following are groups,
+\begin{enumerate}
+\item the integers $\Z$ are generated by one element, namely $1$ so finitely generated.
+\item the nonzero rational numbers $\Q^\times$ with multiplication $\cdot$ are not finitely generated since there are infinitely many prime numbers
+\item invertable matrices with matrix multiplication are not finitely generated because they contain diagonal matrices with $\Q^\times$ entries and these special matrices cannot be finitely generated by the above reason
+\item the permutations of a finite are finite in number and thus are obviously finitely generated.
+\end{enumerate}
+\end{example}
+
+\begin{remark}
+Notice that the notion of begin finitely generated is vacuous for finite groups.
+\end{remark}
+
+\begin{definition}
+A group that will be very important for us is the modular group $\MG$ is defined the group of matrices with integer coefficients and determinant one,
+\[ \MG = \left\{ \begin{pmatrix}
+a & b 
+\\
+c & d
+\end{pmatrix} \quad \middle| \quad a,b,c,d \in \Z \text{ and } ad - bc = 1  \right\} \]
+\end{definition}
+
+\begin{proposition}
+The modular group is finitely generated with two generators, 
+\begin{align*}
+\begin{pmatrix}
+1 & 1
+\\
+0 & 1
+\end{pmatrix}
+\quad \quad \quad
+\begin{pmatrix}
+0 & - 1
+\\
+1 & 0
+\end{pmatrix}
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Excercise for you.
+\end{proof}
+
+\begin{remark}
+If we have a group $G$ and a subgroup $H \subset G$ we would like a way to construct a  smaller group by ``sending $H$ to zero.'' We acomplish this by quotienting. However, we can only do this under the technical condition that the subgroup be normal.
+\end{remark}
+
+\begin{definition}
+Let $H \subset G$ be a normal subgroup (meaning that $g H g^{-1} \subset G$ for any $g \in G$) then we define,
+\[ G / H = \{ g H \mid g \in G \} \]
+We call these sets $g H$ cosets of $H$. Then they form a group via $g_1 H \cdot g_2 H = g_1 g_2 H$, one can show that this operation is well-defined exactly when $H$ is normal in $G$. We define the index of $H$ in $G$ to be the size of this group, $[G : H] = |G / H|$.
+\end{definition}
+
+\begin{example}
+Modular arithmetic modulo $n$, taking the numbers $0, 1, \dots, n-1$ and adding via ``clock arithmetic'' where $n$ maps back around to $n$ is accomplished via taking the subgroup of multiples of $n$ in the integers $n \Z \subset \Z$ and quotienting to get $\Z / n \Z$. This group has $n$ elements so we say $[\Z : n \Z] = n$. 
+\end{example}
+
+(QUOTIENT GROUPS, MODULAR ARITHMETIC)
+
+\section{Fields}
+
+\begin{remark}
+A field is an object that has the same algebraic structure as the rational numbers $\Q$ or the real numbers $\R$ or the complex numbers $\C$. It is a structure were we can add, subtract, multiply, and divide. In fields we can consider polynomials and if they have solutions. We will now give a formal definition.
+\end{remark}
+
+\begin{definition}
+(FIELD)
+\end{definition}
+
+\section{Galois Theory}
+
+(DO GALOIS THEORY)
+
+\section{Complex Analysis}
+
+\subsection{Holomorphic Functions}
+
+\begin{definition}
+A subset $\Omega \subset \C$ is a domain if $\Omega$ is open and connected.
+\end{definition}
+
+\begin{definition}
+A map $f : \Omega \to \C$ is \textit{holomorphic} at $z \in \Omega$ if the limit,
+\[ f'(z) = \lim_{h \to 0} \frac{ f(z + h) - f(z) }{h} \]
+exists. The map $f$ is holomorphic on $\Omega$ if it is holomorphic at each $z \in \Omega$. 
+\end{definition}
+
+\begin{definition}
+We say a map $f : \C \to \C$ is \textit{entire} if it is holomorphic on all of $\C$.
+\end{definition}
+
+\begin{proposition}
+Let $f : \Omega \to \C$ be holomorphic at $z \in \Omega$. Then we may write $f$ as a function of two real variables as, $f(x, y) = f(x + i y)$. This done,
+\[ f'(z) = \pderiv{f}{x} = \frac{1}{i} \pderiv{f}{y} \]
+and thus,
+\[ \pderiv{f}{x} + i \pderiv{f}{y} = 0 \] 
+\end{proposition}
+
+
+\begin{definition}
+\[ \pderiv{f}{z} = \frac{1}{2} \left[ \pderiv{f}{x} - i \pderiv{f}{y} \right] \quad \text{and} \quad \pderiv{f}{\bar{z}} = \frac{1}{2} \left[ \pderiv{f}{x} + i \pderiv{f}{y} \right] \]
+Therefore, if $f$ is holomorphic then 
+\[ \pderiv{f}{z} = f'(z) \quad \text{and} \quad \pderiv{f}{\bar{z}} = 0 \]
+\end{definition}
+
+
+\begin{remark}
+If we write $f : \Omega \to \C$ in real form i.e. as a function $F : \R^2 \to \R^2$ with $F(x,y) = (A(x,y), B(x,y))$ and $f(x + iy) = A(x,y) + i B(x,y)$ then,
+\[ \pderiv{f}{\bar{z}} = \frac{1}{2} \left[ \pderiv{f}{x} + i \pderiv{f}{y} \right] = \frac{1}{2} \left[ \pderiv{A}{x} + i \pderiv{B}{x} + i \pderiv{A}{y} - \pderiv{B}{y} \right] \]
+Therefore,
+\[ \pderiv{f}{\bar{z}} = 0 \iff \pderiv{A}{x} = \pderiv{B}{y} \quad \text{and} \quad \pderiv{B}{x} = - \pderiv{A}{y} \]
+These are known as the Cauchy-Riemann equations. We will see that satisfying these equations along with some weak regularity is necessary and sufficient for a function to be holomorphic. 
+\end{remark}
+
+\begin{theorem}
+Let $\Omega$ be a domain and $f : \Omega \to \C$. Then the following are equivalent,
+\begin{enumerate}
+\item $f : \Omega \to \C$ is holomorphic.
+\item $f$ is differentiable with continous derivative and,
+\[ \pderiv{f}{\bar{z}} = 0 \]
+\item around the boundary of any disc $D \subset \Omega$ we have,
+\[ \oint_{\partial D} f(z) \d{z} = 0 \]
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+Let $\Omega$ be a domain and $f : \Omega \to \C$. Then the following are equivalent,
+\begin{enumerate}
+\item $f : \Omega \to \C$ is holomorphic.
+\item $f \in \Class{1}{\Omega}$ and 
+\[ \pderiv{f}{\bar{z}} = 0 \]
+\item $f \in \Class{1}{\Omega}$ and for $D \subseteq \Omega$ with piecewise $\Class{1}{\Omega}$ boundary we have \[ \oint_{\partial D} f(z) \d{z} = 0 \]
+\item $\forall B_{r}(w) \subsetneq \Omega$ we have,
+\[ f(z) = \frac{1}{2 \pi i} \oint_{\partial B_{r}(w)} \frac{f(\zeta)}{\zeta - z} \d{\zeta} \] 
+for all $z \in B_r(w)$. 
+\item $f$ is complex analytic: $\forall w  \in \Omega : \exists r > 0$ such that whenever $|z - w| < r$ we have,
+\[ f(z) = \sum_{n = 0}^\infty a_n(x - w)^n \]
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Cauchy]
+Let $f : \Omega \to \C$ be holomorphic, for any disc $D \subset \Omega$ and $w \in D^\circ$ we have,
+\[ f^{(n)}(w) = \frac{n !}{2 \pi i} \oint_{\partial D} \frac{f(z)}{(z - w)^{n+1}} \d{z} \]
+In particular, the coefficients of the series expansion about $w$ are,
+\[ a_n = \frac{1}{2 \pi i} \oint_{\partial D} \frac{f(z)}{(z - w)^{n+1}} \d{z} \]
+\end{theorem}
+
+
+\begin{lemma}
+For any $z_0 \in \Omega$, either $f \equiv 0$ in a neighborhood of $z_0$ or we can express $f = (z - z_0)^n u(z)$ for $u(z)$ holomorphic and $u(z) \neq 0$.
+\end{lemma}
+
+
+\begin{proof}
+In a neighborhood of $z_0$, we can write,
+\[ f(z) = \sum_{n = 0}^\infty n_n(z - z_0)^n\]
+Either $c_n = 0$ for each $n$ so $f = 0$ or $c_N \neq 0$ for some $n$ and $c_n - 0$ for $n < N$. Therefore,
+\[ f(z) = \sum_{n \ge N}^\infty c_n(z - z_0)^n = (z - z_0)^N \left( \sum_{m = 0}^\infty c_{N + m} (z - z_0)^m \right) = (z - z_0)^N u(z) \]
+Furthermore, $u(z_0) = c_N \neq 0$ so there exists a neighborhood of $z_0$ on which $n(z) \neq 0$.  
+\end{proof}
+
+
+\begin{proposition}
+Let $f : \Omega \to \C$ be holomorphic (and not identically zero) then the set of zeros, $f^{-1}(0)$ is discrete.
+\end{proposition}
+
+\begin{proof}
+Let $f$ vanish at $z_0$. If $f$ were identically zero on some open neighborhood of $z_0$ then $f$ would be identically zero on $\Omega$. Thus, by the lemma, we can write $f = (z - z_0)^n u(z)$ on some open neighborhood $U$ of $z_0$ where $u(z)$ is nonvanishing on $U$. Furthermore, $(z - z_0)^n$ vanishes exactly at $z_0$ so we have $f^{-1}(0) \cap U = \{ z_0 \}$ implying that $f^{-1}(0)$ is discrete. 
+\end{proof}
+
+\begin{corollary}
+Let $f$ be a nonconstant holomorphic function. Then on any bounded set $f$ has finitely many zeros.
+\end{corollary}
+
+\begin{theorem}[Liouville]
+Every bounded entire\footnote{holomorphic on the entire complex plane} function is constant.
+\end{theorem}
+
+\begin{proof}
+Let $f : \C \to \C$ be entire and bounded everywhere by $M$. Take $w \in \C$ and let $C$ be a circle arround $z$ with radius $R$. Then applying the Cauchy integral formula,
+\[ f'(w) = \frac{1}{2 \pi i} \oint_C \frac{f(z)}{(z - w)^2} \d{z} = \frac{1}{2 \pi} \int_0^{2 \pi} \frac{f(w + R e^{i \theta})}{R^2 e^{2 i \theta}} R \d{\theta} \]
+Therefore,
+\[ |f'(w)| = \frac{1}{2 \pi} \left| \oint_C \frac{f(z)}{(z - w)^2} \d{z} \right| \le \frac{1}{2 \pi} \int_0^{2 \pi} \frac{|f(w + R e^{i \theta})|}{R^2} R \d{\theta} \le \frac{1}{2 \pi} \int_0^{2 \pi} \frac{M}{R} \d{\theta} = \frac{M}{R} \]
+which goes to zero in the limit $R \to \infty$. Since $R$ is arbitrarily large, $f'(w) = 0$ so $f$ is constant since it has zero derivative everywhere. 
+\end{proof}
+
+\subsection{Meromorphic Functions}
+
+\begin{definition}
+A function $f : \Omega \to \C$ is meromorphic if, near any $z_0 \in \Omega$, it can be written as,
+\[ f(z) = \sum_{n \ge - N} c_n (z - z_0)^n \] 
+We call $N$ the order of the pole (assuming that $c_n \neq 0$) and $c_{-1}$ the residue at $z_0$. This expansion shows that $f$ must have isolated poles and zeros. 
+\end{definition}
+
+\begin{theorem}
+Meromorphic functions $h : \Omega \to \C$ are exactly ratios of holomorphic functions,
+\[ h(z) = \frac{f(z)}{g(z)} \]
+Since $g$ is holomorphic it has isolated zeros and thus $h$ has isolated poles. 
+\end{theorem}
+
+
+\begin{theorem}[Residue]
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise smooth boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i  \sum_{p \in D} \Res{p} f \]
+\end{theorem}
+
+\begin{proof}
+We can deform the path $\partial D$ to a sum of small circles of radius $r$ surrounding each pole. Since $f$ is holomorphic on the region $D$ minus these circles the two integrals along these paths (whose difference is the integral over the boundary) are equal. Thus,
+\begin{align*}
+\oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} & = \sum_{p \in D} \left[ \oint_{\partial B_r(p)}  f(p + z) \d{z}  - 2 \pi i \Res{p}{f}   \right]
+\\
+& = \sum_{p \in D} \left[ \int_0^{2\pi} i \bigg( f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{f} \bigg) \d{\theta}   \right]
+\end{align*}
+However,
+\[ \Res{p}{f} = \lim_{z \to p} (z - p) f(z) = \lim_{h \to 0} f(p + h) h \]
+and thus, for each $\epsilon > 0$ we can choose some $\delta$ such that $r < \delta$ implies that,
+\[ \left| f(z + r r^{i \theta}) r e^{i \theta} - \Res{p}{f} \right| < \epsilon \]
+Therefore,
+\begin{align*}
+\left| \oint_{\partial D} f(z) \d{z} - 2 \pi i \sum_{p \in D} \Res{p}{f} \right| & \le \sum_{p \in D} \left[ \int_0^{2\pi} \Big| f(p + r e^{i\theta}) r e^{i \theta}  - \Res{p}{g} \Big| \d{\theta}   \right]
+\\
+\le \sum_{p \in D} \int_0^{2 \pi} \epsilon = 2 \pi N \epsilon 
+\end{align*}
+where $N$ is the number of poles. Since $\epsilon$ is arbitrary,
+\[ \oint_{\partial D} f(z) \d{z} = 2 \pi i \sum_{p \in D} \Res{p}{f} \]
+\end{proof}
+
+\begin{theorem}
+Let $f : \Omega \to \C$ be meromorphic and $D \subset \overline{D} \subset \Omega$ be a domain in $\Omega$ with piecewise smooth boundary $\partial D$ such that no poles of $g$ lie on $\partial D$. Then,
+\[ 
+\frac{1}{2 \pi i} \oint_{\partial D} \frac{f'(z)}{f(z)} \d{z} = \text{(\# of zeros)} - \text{(\# of poles)}
+\]
+\end{theorem}
+
+\begin{proof}
+At each point $p \in D$ we can expand,
+\[ f(z) = (z - p)^N u(z) \]
+where $u$ is holomorphic and nonvanishing. Therefore,
+\[ \frac{f'(z)}{f(z)} = \deriv{}{z} \log{f(z)} = \deriv{}{z} \left[ (z - p)^N u(z) \right] = \frac{N}{x - p} + \frac{u'(z)}{u(z)} \]
+Thus when $f$ has either a zero ($N > 0$) or a pole ($N < 0$) the logarithmic derivative has residue,
+\[ \Res{p}{\left(\frac{f'}{f}\right)} = N \]
+Therefore the result holds by the residue theorem. 
+\end{proof}
+
+\begin{corollary}
+Let $f : \Omega \to \C$ be holomorphic take $w \in \C$, then the number of solutions in $D$ to the equation $f(z) - w = 0$ is equal to,
+\[ \#\{ z \in D \mid f(z) = w \} = \oint_{\partial D} \frac{f'(z)}{f(z) - w} \d{z}  \]
+\end{corollary}
+
+\begin{proof}
+Since $f - w$ is holomorphic on $\Omega$ is has no poles. Therefore, the only residues are from roots of $f - w$ i.e. solutions to $f(z) - w = 0$. As above, the integral of the logarithmic derivative counts the number of such poles.  
+\end{proof}
+
+
+
+\end{document}

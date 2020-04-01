@@ -1,0 +1,311 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{Includes}
+
+
+\begin{document}
+
+\atitle{6}
+
+\section{Exercise 103.41.1.}
+
+\newcommand{\R}{\mathbb{R}}
+
+Let $p, q \in \R$ be two distinct points and consider the inclusions $\iota_x : \{ x \} \to \R$ at the point $x$. Then let $\F = \underline{\Z}$ be the constant sheaf $\Z$ over $\R$ and $\G = (\iota_p)_*(\underline{\Z}) \oplus (\iota_p)_*(\underline{\Z})$ be the sum of skyscraper sheaves at $p$ and at $q$. Then there is a surjection of sheaves $\F \to \G$ determined on the open cover $U = (-\infty, \tfrac{1}{2}(p + q))$ and $V = (\tfrac{1}{2}(p + q), \infty)$ by the identity map $\Z \to \Z$ on both since each open set contains exactly one of $p$ and $q$. This map is a surjection because $f_p : \F_p \to \G_p$ and $f_q : \F_q \to \G_q$ are both the identity maps $\Z \to \Z$ and $f_x : \F_x \to \G_x$ is the zero map for $x \neq p,q$. Taking the kernel of this map gives an exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathcal{K} \arrow[r] & \F \arrow[r] & \G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which gives a long exact sequence of cohomology,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(\R, \mathcal{K}) \arrow[r] & \Gamma(\R, \F) \arrow[r] & \Gamma(\R, \G) \arrow[r] & H^1(\R, \mathcal{K}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+However, $\Gamma(\R, \F) = \Z$ and $\Gamma(\R, \G) = \Gamma(\R, (\iota_p)_*(\underline{\Z})) \oplus \Gamma(\R, (\iota_q)_*(\underline{\Z})) = \Z \oplus \Z$. In particular, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Z \arrow[r] & \Z \oplus \Z \arrow[r] & H^1(\R, \mathcal{K}) 
+\end{tikzcd}
+\end{center}
+Since there does not exist a surjection $\Z \to \Z \oplus \Z$ the map $\Gamma(\R, \G) \to H^1(X, \mathcal{K})$ cannot be the zero map so $H^1(\R, \mathcal{K})$ must be nontrivial. 
+
+\section{Exercise 103.41.2.}
+
+Let $X = U \cup V$ be a topological space decomposed as the union of open subspaces and let $\F$ be a sheaf on $X$. Then to construct the long exact Mayer-Vietoris sequence, 
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(X, \F) \arrow[r] & H^0(U, \F|_U) \oplus H^0(V, \F|_V) \arrow[draw=none]{d}[name=Z, shape=coordinate]{}  \arrow[r] & H^0(U \cap V, \F |_{U \cap V})
+\arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1(X, \F) \arrow[r] & H^1(U, \F|_U) \oplus H^1(V, \F|_V) \arrow[r] & H^1(U \cap V, \F|_{U \cap V}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+we need to use the following two properties of injective sheaves.
+
+\begin{proposition}
+Let $(X, \struct{X})$ be a ringed space. Then any injective $\struct{X}$-module is flasque.
+\end{proposition}
+
+\begin{proof}
+Take any open subsets $V \subset U \subset X$ and the inclusion $j : U \to X$. Let $\F_U = j_!(\struct{X}|_U)$ be the sheaf $\struct{X}|_U$ extended by zero outside $U$. Now take any injective $\struct{X}$-module $I$. There is an inclusion of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_V \arrow[r] & \F_U
+\end{tikzcd}
+\end{center} 
+of $\struct{X}$-modules given by the identity on sections over open sets inside $V$ and zero outside. Since $I$ is an injective, $\Homover{\struct{X}}{-}{I}$ is exact and, in particular, we get a surjection,
+\begin{center}
+\begin{tikzcd}
+\Homover{\struct{X}}{\F_U}{\I} \arrow[r] & \Homover{\struct{X}}{\F_V}{\I} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, $(-)|_U$ is right adjoint to $(j_U)_!$ via,
+\[ \Homover{\struct{X}}{(j_U)_! \F}{\G} = \Homover{\struct{U}}{\F}{\G|_U} \]
+for any $\struct{U}$-module $\F$ and $\struct{X}$-module $\G$. Therefore, we have a diagram of surjections,
+\begin{center}
+\begin{tikzcd}
+\Homover{\struct{X}}{\F_U}{\I} \arrow[r] \arrow[d, "\sim"] & \Homover{\struct{X}}{\F_V}{\I} \arrow[d, "\sim"] \arrow[r] & 0
+\\
+\Homover{\struct{U}}{\struct{U}}{\I|_U} \arrow[r] & \Homover{\struct{V}}{\struct{V}}{\I |_V} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, since morphisms of $\struct{X}$-modules from $\struct{X}$ are uniquely determined by the image of the section $1 \in \struct{X}(X)$ we have,
+\[ \Homover{\struct{X}}{\struct{X}}{\F} \cong \F(X) \]
+Therefore, the above gives a surjection of sheaves,
+\begin{center}
+\begin{tikzcd}
+\Homover{\struct{U}}{\struct{U}}{\I|_U} \arrow[d, "\sim"] \arrow[r] & \Homover{\struct{V}}{\struct{V}}{\I |_V} \arrow[d, "\sim"] \arrow[r] & 0
+\\
+\I(U) \arrow[r, "\res_{V,U}"] & \I(V) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I claim the morphism $\I(U) \to \I(V)$ is exactly the restriction map. Take a section $s \in \I(U)$ corresponding the unique morphism $\struct{U} \to \I|_U$ taking $1 \in \struct{U}(U)$ to $s$. Under the adjunction, this is equivalent to a morphism $f : j_!(\struct{U}) \to \I$ which sends $1 \in (j_U)!(\struct{U})(U)$ to $s$. Now the surjection precomposes $f$ with the morphism $\F_V \to \F_U$ which is the identity on $V$. Therefore, the image of $f$ is the morphism $(j_V)_!(\struct{V}) \to \I$ sending $1 \mapsto f_V(1) = \res_{V,U} \circ f_U(1) = \res_{V,U}(s)$. This is equivalent under the isomorphisms to the section $s|_V \in \I(V)$ proving the claim. Therefore, the restriction map $\res_{V, W} : \I(U) \to \I(V)$ is surjective so $\I$ is flasque. 
+\end{proof}
+
+\begin{corollary}
+Let $X$ be a topological space then any injective sheaf of abelian groups on $X$ is flasque.
+\end{corollary}
+
+\begin{proof}
+Taking the constant sheaf on $X$ we get a ringed space $(X, \underline{\Z}_X)$. Furthermore, any sheaf of abelian groups on $X$ is a $\underline{\Z}_X$-module. Therefore, the result follows via the previous proposition for injective sheaves of abelian groups which are exactly injective sheaves of $\underline{\Z}_X$-modules.
+\end{proof}
+
+\begin{proposition}
+The restriction of an injective sheaf is injective.
+\end{proposition}
+
+\begin{proof}
+Use the fact that $(-)|_U$ is a right-adjoint to the restriction by zero functor $j_{!}$ which is exact. Conclude by applying Lemma \ref{right_adjoint_to_exact_preserves_injectives}.
+\end{proof}
+\noindent Now we may construct the long exact Mayer-Vietoris sequence. Take an injective resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \bf{\I}^\bullet
+\end{tikzcd}
+\end{center}
+Consider the short exact sequence of chain complexes of abelian groups,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I^\bullet(X) \arrow[r, "a"] & \I^\bullet(U) \oplus \I^\bullet(V) \arrow[r, "b"] & \I^\bullet(U \cap V) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+via the maps $a = \res_{U,X} \oplus \res_{V,X}$ and $b = \res_{U \cap V, U} - \res_{U \cap V, V}$. Since $U \cup V = X$ is an open cover, the sheaf property of $\I^\bullet$ gives that $a$ is an injection. Furthermore, flasquness of the injective $\I^\bullet$ gives that $\res_{U \cap V, U} : \I^\bullet(U) \to \I^\bullet(U \cap V)$ is a surjection and thus $b$ is a surjection. Next, $\ker{b}$ is exactly the pairs of sections,
+\[ (s_U, s_V) \in \I^\bullet(U) \oplus \I^\bullet(V) \]
+which agree on the overlap $U \cap V$. By the sheaf property, such pairs are exactly the restrictions of global sections i.e. $\ker{b} = \Im{a}$. The naturality of morphisms between the sheaves $\I^\bullet$ with respect to the restriction maps gives that the above is a short exact sequence of chain complexes. Therefore, we get a long exact sequence in the cohomology of these complexes,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(X, \F) \arrow[r] & H^0(U, \F|_U) \oplus H^0(V, \F|_V) \arrow[draw=none]{d}[name=Z, shape=coordinate]{}  \arrow[r] & H^0(U \cap V, \F |_{U \cap V})
+\arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1(X, \F) \arrow[r] & H^1(U, \F|_U) \oplus H^1(V, \F|_V) \arrow[r] & H^1(U \cap V, \F|_{U \cap V}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Because $\I^\bullet(U)$ is the complex $\Gamma(U, \I|_U^\bullet)$, taking its cohomology is, by definition, the sheaf cohomology of $\F|_U$ since the restriction
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F|_U \arrow[r] & \I|_U^\bullet
+\end{tikzcd}
+\end{center}
+is an injective resolution of sheaves. Finally, finite direct sums preserve kernels and cokernels (since they are biproducts with are both left and right adjoints) and therefore commute with taking cohomology. 
+
+\section{Exercise 103.41.4.}
+
+Let $A$ be a local ring and $X = \Spec{A}$ its spectrum. We need to show that the global sections functor $\Gamma(X, -) : \Ab(X) \to \Ab$ is exact. Given this claim, $H^q(X, \F)$ vanishes for any sheaf of abelian groups since exact functors have trivial derived functors. Since $\Gamma(X, -)$ is right-exact by abstract nonsense, it suffices to show that $\Gamma(X, -)$ preserves surjections. Let $f : \F \to \G$ be a surjective map of sheaves over $X$. Let $\m \subset A$ be the unique maximal ideal and consider the induced map on stalks at $\m$,
+\[ f_\m : \F_\m \to \G_\m \]
+which is surjective. 
+Since $\m$ is the unique maximal ideal, $\m \in V(I)$ for every proper ideal $I \subset A$ and thus is contained in every nonempty closed set. Equivalently, the only open set containing $\m$ is $X$. Therefore,
+\[ \F_\m = \varinjlim_{\m \in U} \F(U) = \F(X) \]
+i.e. the stalk at $\m$ is exactly the global sections of the sheaf. Therefore the induced map on global sections $f : \Gamma(X, \F) \to \Gamma(X, \G)$ is surjective. Alternatively, since the morphism of sheaves $f : \F \to \G$ is surjective, for any section $s \in \G(X)$ there is some cover of $X$ such that the restriction of $s$ is in the images of $f$. However, any open cover of $X$ must contain $X$ itself since the only open containing $\m$ is $X$. Therefore, $s$ is in the image of a global section in $\F(X)$.
+
+\section{Exercise 103.41.5.}
+
+I will provide two proofs of this fact, the first using the equivalence of sheaf cohomology and Cech cohomology for Noetherian separated schemes and the second not requiring any additional assumptions on the schemes.
+
+\subsection{Proof 1} 
+
+Let $f : X \to Y$ be an affine morphism of Noetherian separated schemes (which is the further conditions I am free to impose) and let $\F$ be a quasi-coherent $\struct{X}$-module on $X$. Let $\mathfrak{V}$ be an affine cover of $Y$ and then consider the open cover $\mathfrak{U} = \{ f^{-1}(V) \mid V \in \mathfrak{V} \}$ of $X$ which is affine because $f$ is an affine morphism. Now consider the Cech complex,
+\begin{align*}
+C^p(\mathfrak{U}, \F) & = \prod_{i_0 < \dots < i_p} \F(U_{i_0} \cap \cdots \cap U_{i_p}) = \prod_{i_0 < \dots < i_p} \F(f^{-1}(V_{i_0}) \cap \cdots \cap f^{-1}(V_{i_p})) 
+\\
+& = \prod_{i_0 < \dots < i_p} \F(f^{-1}(V_{i_0} \cap \cdots \cap V_{i_p})) 
+= \prod_{i_0 < \dots < i_p} (f_*\F)(V_{i_0} \cap \cdots \cap V_{i_p}) = C^p(\mathfrak{V}, f_* \F)
+\end{align*}
+Furthermore, the Cech boundary maps are likewise formally identical for these two complexes. Thus, for each $p \ge 0$,
+\[ \check{H}^p(\mathfrak{U}, \F) = \check{H}^p(\mathfrak{V}, f_* \F) \]
+To conclude that the sheaf cohomologies are also equal, we need to show that $f_* \F$ is a quasi-coherent $\struct{Y}$-module and then apply the equivalent of sheaf cohomology and Cech cohomology for quasi-coherent sheaves on Noetherian separated schemes. Therefore, the theorem follows from the following two propositions.
+
+\begin{proposition}
+Let $X$ be a Noetherian scheme and $f : X \to Y$ a morphism of schemes. If $\F$ is a quasi-coherent $\struct{X}$-module then $f_* \F$  is a quasi-coherent $\struct{Y}$-module.
+\end{proposition}
+
+\begin{proof}
+Proven in class and in Hartshorne proposition II 5.8.
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a Noetherian separated scheme, let $\mathfrak{U}$ be an open affine cover of $X$, and let $\F$ be a quasi-coherent sheaf on $X$. Then for all $ p \ge 0$, there are natural isomorphisms,
+\[ \check{H}^p(\mathfrak{U}, \F) \xrightarrow{\sim} H^p(X, \F) \]
+\end{theorem}
+
+\begin{proof}
+Hartshorne Theorem III 4.5. 
+\end{proof}
+\noindent
+Applying the first proposition shows that $f_* \F$ is quasi-coherent since $X$ is Noetherian. Given that both $X$ and $Y$ are Noetherian separated schemes, $\mathfrak{U}$ and $\mathfrak{V}$ are affine open covers, and $\F$ and $f_* \F$ are quasi-coherent sheaves, the theorem above combined with our isomorphism on the Cech complexes gives isomorphisms for each $p \ge 0$,
+\[ H^p(X, \F) \cong \check{H}^p(\mathfrak{U}, \F) \cong \check{H}^p(\mathfrak{V}, f_* \F) \cong H^p(Y, f_* \F) \]
+
+\subsection{Proof 2}
+
+
+Let $f : X \to Y$ be an affine morphism of schemes and $\F$ be a quasi-coherent $\struct{X}$-module. We proved in class that $R^q f_* \F = 0$ for $q \ge 0$ when $f$ is affine and $\F$ quasi-coherent (note that this proof uses the vanishing of higher cohomology for quasi-coherent sheaves on affine schemes which is difficult to prove without the Noetherian assumption but still true). Consider the commutative diagram of functors,
+\begin{center}
+\begin{tikzcd}
+\Ab(X) \arrow[dr, "\Gamma_X"'] \arrow[rr, "f_*"] & & \Ab(Y) \arrow[dl, "\Gamma_Y"]
+\\
+& \Ab
+\end{tikzcd}
+\end{center}
+Take an injective resolution of sheaves over $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I^\bullet
+\end{tikzcd}
+\end{center}
+Because $f_*$ is a right-adjoint to the exact functor $f^{-1}$ by Lemma \ref{right_adjoint_to_exact_preserves_injectives}, $f_*$ preserves injectives. I claim that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^\bullet 
+\end{tikzcd}
+\end{center}
+is an injective resolution of sheaves over $Y$.
+To show exactness, split the long exact resolution into short exact sequences of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I^0 \arrow[r] & \K^0 \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \K^{p-1} \arrow[r] & \I^p \arrow[r] & \K^p \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Now applying the long exact sequences of cohomology from the derived functors of the left-exact functor $f_*$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^0 \arrow[r] & f_* \K^0 \arrow[r] & R^1 f_* \F 
+\end{tikzcd}
+\end{center}
+but $R^1 f_* \F$ vanishes so the sequence remains short exact and 
+\begin{center}
+\begin{tikzcd}
+R^q f_* \F \arrow[r] & R^q f_* \I^0 \arrow[r] & R^q f_* \K^0 \arrow[r] & R^{q + 1} f_* \F 
+\end{tikzcd}
+\end{center}
+but $R^{q+1} f_* \F = 0$ and $R^q f_* \I^0 = 0$ because $\I^0$ is injective so we find $R^q f_* \K^0 = 0$ for all $q \ge 0$. Now assume for induction that $R^q f_* \K^{p - 1} = 0$ for all $q \ge 0$. The long exact sequence then gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \K^{p-1} \arrow[r] & f_* \I^p \arrow[r] & f_* \K^p \arrow[r] & R^1 f_* \K^{p - 1}
+\end{tikzcd}
+\end{center}
+by the induction hypothesis $R^1 f_* \K^{p - 1} = 0$ so the sequence remains short exact. Furthermore the long exact sequence gives,
+\begin{center}
+\begin{tikzcd}
+R^q f_* \K^{p-1} \arrow[r] & R^q f_* \I^p \arrow[r] & f_* R^q \K^p \arrow[r] & R^{q+1} f_* \K^{p - 1}
+\end{tikzcd}
+\end{center}
+but $R^{q+1} f_* \K^{p-1} = 0$ and $R^q f_* \I^p = 0$ because $\I^p$ is injective so we find that $R^q f_* \K^p = 0$ for all $q \ge 0$ so we may proceed by induction. Thus we have shown that $f_*$ preserves each short exact sequences which, laced together, shows that
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^\bullet 
+\end{tikzcd}
+\end{center}
+is exact and thus an injective resolution. Therefore, we may directly compute,
+\[ H^q(Y, f_* \F) = H^q(\Gamma(Y, f_* \I^\bullet)) = H^q(\Gamma(X, \I^\bullet)) = H^q(X, \F) \]
+
+\begin{remark}
+What I have shown here is a special case of the convergence of the Grothendieck spectral sequence applied to the left-exact functors $\Gamma(Y, -)$ and $f_*$ where $f_*$ takes injectives to injectives. This spectral sequence is characterized by,
+\[ E^{pq}_2 = H^p(Y, R^q f_* \F) \implies H^{p+q}(X, \F) \] 
+In the case of an affine morphism $f : X \to Y$ and quasi-coherent $\struct{X}$-module $\F$, we have $R^q f_* \F = 0$ and thus $E^{pq}_2$ collapses to $E_2^{p0} = H^p(Y, f_* \F)$ in which case we know that,
+\[ H^p(X, \F) = E^{p0}_2 = H^p(Y, f_* \F) \]
+\end{remark}
+
+
+\section{Exercise 103.41.9.}
+
+Suppose that $R$ is a ring such that every left-exact functor $F : \Mod{R} \to \Ab$ has trivial higher derived functors $R^q F = 0$ for $q > 0$. In particular, taking the left-exact functor $F = \Homover{R}{M}{-}$ for some fixed $R$-module $M$ we find that $\Ext{i}{R}{M}{N} = 0$ for all $R$-modules. Thus $\Homover{R}{M}{-}$ is actually exact so every $M \in \Mod{R}$ is projective. In particular, let $I \subset R$ be any ideal. Then we have an exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & R \arrow[r] & R / I \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+which splits because $R / I$ is projective. Therefore $R = I \oplus R / I$ as $R$-modules. Therefore we have proven that every submodule (ideal) of $R$ is a direct summand of $R$ so we have reduced the problem to proving two algebra facts. First, any module which has every submodule as a summand is semisimple. Second, any (commutative) ring $R$ which is semisimple as an $R$-module is a finite product of fields. 
+
+\begin{proposition}
+Let $A$ be a ring and $M$ and $A$-module such that for each submodule $N \subset M$ there exists some decomposition $M = N \oplus N'$. Then $M$ is semisimple.
+\end{proposition}
+
+\begin{proof}
+This is a straigforward yet tedius application of Zorn's lemma. See Rotman An Introduction to Homological Algebra chapter 4 section 1, proposition 4.1 for details.
+\end{proof}
+
+\begin{theorem}
+Any commutative ring $R$ which is semisimple as an $R$-module is a finite product of fields.
+\end{theorem}
+
+\begin{proof}
+This is a special case of the Wedderburn–Artin Theorem classifying (non necessarily commutative) semisimple rings. Here we provide an elementary proof. Decompose,
+\[ R = \bigoplus_{i \in I} R_i \]
+as a sum of simple modules. Since $R$ is a ring, the projection $R \to R_i$ induces a ring structure on $R_i \cong R / \ker{\pi_i}$. Any proper ideal $I \subset R_i$ is an $R$-module under the projection $R \to R_i$. However, $R_i$ is simple so $I = (0)$. Since $R_i$ has no nonzero ideals it must be a field. Now consider the element $1 \in R$ which under each projection is mapped to $\pi_i(1) = 1_i \in R_i$. This cannot be zero for any $i \in I$ (since we exclude the trivial module form our decompositions). By the definition of the direct sum, this implies that $I$ is a finite set. It remains to prove that the canonical map,
+\begin{center}
+\begin{tikzcd}
+R = \bigoplus\limits_{i \in I} R \arrow[r] & \prod\limits_{i \in I} R 
+\end{tikzcd}
+\end{center} 
+is an isomorphism \textit{of rings}. The map is surjective by the finiteness of $I$ and the fact that $\Mod{R}$ is an abelian category. This isomorphism of $R$-modules is a ring map because $1 \in R$ is mapped to $\pi_i(1) = 1_i \in R_i$ and thus $\prod \pi_i$ maps $1$ to $(1_i)$ which is the identity of the product ring.  
+\end{proof}
+
+\section{Lemma}
+
+\begin{lemma} \label{right_adjoint_to_exact_preserves_injectives}
+Let $R$ be a right-adjoint functor to an exact functor. Then $R$ preserves injectives.
+\end{lemma}
+
+\begin{proof}
+Let $R$ be right-adjoint to $L$ which is exact. Then, if $I$ is injective, consider,
+\[ \Hom{}{-}{R(I)} = \Hom{}{L(-)}{I} = \Hom{}{-}{I} \circ L \]
+which is the composition of exact functors and thus exact. Therefore, $R(I)$ is injective.
+\end{proof}
+
+\end{document}

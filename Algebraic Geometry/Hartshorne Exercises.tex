@@ -1,0 +1,2358 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+
+\AtBeginDocument{\renewcommand{\d}{\mathbf{d}}}
+\newcommand{\ch}[1]{\mathrm{char}\left( #1 \right)}
+ 
+
+\begin{document}
+
+\tableofcontents
+
+\newpage
+
+\section{I Varieties}
+
+\section{II Schemes}
+
+\subsection{1}
+
+\subsubsection{1.8}
+
+Given a continuous map $f : X \to Y$ the functor $f^{-1} : \Sh(Y) \to \Sh(X)$ is a left-adjoint to the functor $f_* : \Sh(X) \to \Sh(Y)$. Therefore $f^{-1}$ is cocontinuous and right-exact and $f_*$ is continuous and left-exact. In fact, $f^{-1}$ is exact. 
+
+\begin{lemma}
+The functor $f^{-1}$ preserves stalks.
+\end{lemma}
+
+\begin{proof}
+Let $\F$ be a sheaf on $Y$ and $f : X \to Y$ a continuous map. Then $f^{-1} \F$ is the sheafification of the presheaf,
+\[ U \mapsto \varinjlim_{V \supset f(U)} \F(V) \]
+The stalks of this presheaf are,
+\[ S_x = \varinjlim_{x \in U} \varinjlim_{V \supset f(U)} \F(V) = \varinjlim_{f(x) \in V} \F(V) = \F_x \]
+Since sheafification preserves stalks we have shown that $(f^{-1} \F)_x = \F_x$.
+\end{proof}
+
+\begin{proposition}
+The functor $f^{-1}$ is exact. 
+\end{proposition}
+
+\begin{proof}
+The functor $f^{-1}$ comutes with talking stalks. Therefore, applying $f^{-1}$ to an exact sequence preserves exactness on the stalks and thus exactness of the sequence.
+\end{proof}
+
+Consider two special cases. First, consider the constant map $C : X \to *$ sending all of $X$ to a point. Then $C_* \F = \Gamma(X, \F)$ is the sheaf which sends the only nonempty open set of $*$ to $\F(C^{-1}(*)) = \F(X)$. Furthermore, any abelian group $A$ is a sheaf on $*$ so $C^*(A)$ is the sheafification of $U \mapsto A$ and thus the constant sheaf $\underline{A}$ on $X$. Thus $\Gamma(X, -)$ is left-exact and $A \mapsto \underline{A}$ is exact.
+\bigskip\\
+Second, consider the inclusion $\iota_x : * \to X$ sendng $*$ to $x \in X$. Then given a sheaf $\F$ on $X$ we have,
+\[ \iota_x^{-1} \F = \varinjlim_{x \in U} \F(U) = \F_x \]
+and for an abelian group $A$ (as a sheaf on $*$) we have $(\iota_x)_* A$ is the skysraper sheaf at $x$ with stalk $A$. Thus, taking skyscrapers is left-exact and takiking stalks is exact.
+\bigskip\\
+Finally, this is easily proven directly. Given an exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r, "f"] & \G \arrow[r, "g"] & \H 
+\end{tikzcd}
+\end{center}
+then we must show that the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(U, \F) \arrow[r, "f"] & \Gamma(U, \G) \arrow[r, "g"] & \Gamma(U, \H)
+\end{tikzcd}
+\end{center}
+for any open set $U \subset X$. (FINISH)
+
+\subsubsection{1.14}
+
+Let $\F$ be a sheaf on $X$ and $s \in \F(U)$ a section on some open set $U$. Then consider the set,
+\[ \Supp{\F}{s} = \{ x \in U \mid s_x \neq 0 \} \]
+Suppose $x \in U \setminus \Supp{\F}{s}$ then $s_x = 0$. Thus, there exists some open neighborhood $x \in V \subset U$ such that $s|_V = 0$. Then for each $y \in V$ we have $_y = (s|_V)_y = 0$ so $y \in U \setminus \Supp{\F}{s}$ and thus $V \subset U \setminus \Supp{\F}{s}$. Therefore, $U \setminus \Supp{\F}{s}$ is open so $\Supp{\F}{s}$ is closed.
+\bigskip\\
+We furthermore define $\Supp{}{\F} = \{ x \in X \mid \F_x \neq 0 \}$ which is not necessarily closed without further assumptions on $\F$. If $\F$ is a coherent $\struct{X}$-module then this holds because on affine opens $\Supp{}{\F} \cap U = \Supp{}{M} = V(\Ann{A}{M})$ which is closed in $U$ where $U = \Spec{A}$ and $\F |_U = \widetilde{M}$ a finitely-generated $A$-module. 
+
+\subsubsection{1.15}
+
+Let $\F$ and $\G$ be sheaves of abelian groups on $X$ (in fact, $\F$ need only be a presheaf). Consider the presheaf $\shHom{}{\F}{\G}$ given by sending $U \mapsto \Hom{}{\F|_U}{\G|_U}$. I claim that this presheaf is actually a sheaf. First, let $f : \F|_U \to \G|_U$ be a morphism of sheaves and $\{ V_i \}$ and open cover of $U$ such that $f|_{V_i} = 0$ on each $V_i$. Let $\tilde{U} \subset U$ be any open subset and consider $f_{\tilde{U}} : \F(\tilde{U}) \to \G(\tilde{U})$. There is an open cover $\tilde{V}_i = \tilde{U} \cap V_i$ of $\tilde{U}$ and since $\tilde{V}_i \subset V_i$ we have $f|_{\tilde{V}_i} = 0$. Then for $s \in \F(V)$ we have \[ \res_{\tilde{V}_i, \tilde{U}} \circ f_{\tilde{U}}(s) = f_{\tilde{V}_i} \circ \res_{\tilde{V}_i, \tilde{U}}(s) = 0 \]
+Therefore, $f_{\tilde{U}}(s)$ restricted to the cover $\tilde{V}_i$ is zero so by the sheaf property of $\G$ we have $f_{\tilde{U}}(s) = 0$. Thus, $f = 0$ proving the locality property of $\shHom{}{\F}{\G}$. 
+\bigskip\\
+Now, suppose that $V_i$ is an open cover of the open subset $U \subset X$ as before and we have $f_i \in \shHom{}{\F}{\G}(V_i) = \Hom{}{\F|_{V_i}}{\G|_{V_i}}$ which agree on the overlaps. Take any open $\tilde{U} \subset U$ and cover it viw $\tilde{V}_i = \tilde{U} \cap V_i$. Now define a morphism $f : \F|_U \to \G|_U$ such that,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\F(\tilde{U}) \arrow[r, "f_{\tilde{U}}"] \arrow[d, "\res_{\tilde{V}_i, \tilde{U}}"']  & \G(\tilde{U}) \arrow[d, "\res_{\tilde{V}_i, \tilde{U}}"] 
+\\
+\F(\tilde{V}_i) \arrow[r, "(f_i)_{\tilde{V}_i}"] & \G(\tilde{V}_i)
+\end{tikzcd}
+\end{center}
+as follows. Given $s \in \F(\tilde{U})$ let $s_i = s |_{V_i}$. Then the sections $(f_i)_{\tilde{V}_i}(s_i)$ agree on overlaps because,
+\[ \res_{\tilde{V}_i \cap \tilde{V}_j, \tilde{V}_i} \circ (f_i)_{\tilde{V}_i}(s_i) = (f_i)_{\tilde{V}_i \cap \tilde{V}_j} \circ \res_{\tilde{V}_i \cap \tilde{V}_j, \tilde{V}_i}(s_i) = (f_i)_{\tilde{V}_i \cap \tilde{V}_j}(s |_{\tilde{V}_i \cap \tilde{V}_j}) \]
+However, by assumption, $(f_i)_{\tilde{V}_i \cap \tilde{V}_j} = (f_j)_{\tilde{V}_i \cap \tilde{V}_j}$ and thus,
+\[ \res_{\tilde{V}_i \cap \tilde{V}_j, \tilde{V}_j} \circ (f_j)_{\tilde{V}_j}(s_j) = (f_j)_{\tilde{V}_i \cap \tilde{V}_j}(s |_{\tilde{V}_i \cap \tilde{V}_j}) = \res_{\tilde{V}_i \cap \tilde{V}_j, \tilde{V}_i} \circ (f_i)_{\tilde{V}_i}(s_i) \]
+Therefore, by the sheaf property of $\G$ these sections glue to form a unique section $f_{\tilde{U}}(s) \in \G(\tilde{U})$. We must check that the constructed $f$ is a homomorphism and satisfies the naturality conditions. Take $s,t \in \tilde{U}$ then,
+\[ (f_i)_{\tilde{V}_i}((s + t)|_{\tilde{V}_i}) = (f_i)_{\tilde{V}_i}(s_i + t_i) = (f_i)_{\tilde{V}_i}(s_i) + (f_i)_{\tilde{V}_i}(t_i) \]
+We know that these sections lift to $f_{\tilde{U}}(s)$ and $f_{\tilde{U}}(s)$ respectively showing that the sum lifts to $f_{\tilde{U}}(s) + f_{\tilde{U}}(t)$ because restriction is linear. Therefore, be definition the lift of these sections gives,
+\[ f_{\tilde{U}}(s + t) = f_{\tilde{U}}(s) + f_{\tilde{U}}(t) \]
+so $f$ is a collection of homomorphisms. Furthermore, take any open $W \subset \tilde{U}$. Then, consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\F(\tilde{U}) \arrow[d, "\res_{W, \tilde{U}}"'] \arrow[r, "f_{\tilde{U}}"] & \G(\tilde{U}) \arrow[d, "\res_{W, \tilde{U}}"] 
+\\
+\F(W) \arrow[r, "f_{W}"'] & \G(W)
+\end{tikzcd}
+\end{center}  
+Given a cover $V_i$ of $U$ we get covers $\tilde{V}_i = \tilde{U} \cap V_i$ of $\tilde{U}$ and $W_i = W \cap V_i = W \cap \tilde{V}_i$ of $W$. For any section $s \in \F(\tilde{U})$ consider $f_{W}(s|_W)$ which is the lift of $(f_i)_{W_i}(\res_{W_i, W} (s|_W))$ to $\G(W)$. However,
+\[ \res_{W_i, W}(s|_W) = \res_{W_i, W} \circ \res_{W, \tilde{U}}(s) = \res_{W_i, \tilde{U}}(s) = \res_{W_i, \tilde{V}_i} \circ \res_{\tilde{V}_i, \tilde{U}}(s) = \res_{W_i, \tilde{V}_i}(s_i) \]
+Therefore, using the naturality of $f_i$ on subsets of $V_i$,
+\[ (f_i)_{W_i}(\res_{W_i, W} (s|_W)) = (f_i)_{W_i}(\res_{W_i, \tilde{V}_i}(s_i)) = \res_{W_i, \tilde{V}_i} \circ (f_i)_{\tilde{V}_i}(s_i) \]
+Furthermore, we know that the sections $(f_i)_{\tilde{V}_i}(s_i)$ lift to $f_{\tilde{U}}(s)$. Thus,
+\[ (f_i)_{W_i}(\res_{W_i, W} (s|_W)) = \res_{W_i, \tilde{V}_i} \circ \res_{\tilde{V}_i, \tilde{U}} \circ f_{\tilde{U}}(s) = \res_{W_i, W} \circ (\res_{W, \tilde{U}} \circ f_{\tilde{U}}(s)) \]
+Therefore, the sections which lift to $f_W(s|_W)$ (i.e. the restrictions of $f_W(s|_W)$ to $W_i$) are exactly the restrictions of $\res_{W, \tilde{U}} \circ f_{\tilde{U}}(s)$. By the sheaf property of $\G$, gluing is unique so $f_W(s|_W) = \res_{W, \tilde{U}} \circ f_{\tilde{U}}(s)$. Thus locality gives,
+\[ f_W \circ \res_{W, \tilde{U}} = \res_{W, \tilde{U}} \circ f_{\tilde{U}} \]
+Therefore the morphisms $f_i$ glue to a unique $f \in \shHom{}{\F}{\G}(U) = \Hom{}{\F|_U}{\G|_U}$ so $\shHom{}{\F}{\G}$ is a sheaf. 
+
+
+\subsubsection{1.16}
+
+\begin{enumerate}
+\item[(a)] Let $X$ be an irreducible space and $\underline{A}$ a constant sheaf on $X$. Take any open sets $V \subset U \subset X$. By Lemmas \ref{open_of_irreducible} and \ref{irreducible_implies_connected} the sets $V$ and $U$ are connected. Therefore, any continuous map $f : V \to A$ (with $A$ given the discrete topology) is constant (since the only connected sets in the discrete topology are points) so $f : V \to A$ is the restriction of the corresponding constant map $\tilde{f} : U \to A$. Therefore, the restriction map $\res_{V,U} : \underline{A}(U) \to \underline{A}(V)$ is surjective. Thus, the constant sheaf $\underline{A}$ is flasque.  
+
+\item[(b)] Consdier the exact sequence of sheaves over $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r, "f"] & \G \arrow[r, "g"] & \H \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\F$ is flasque. For an open set $U \subset X$, applying the left-exact functor $\Gamma(U, -)$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(U) \arrow[r, "f_U"] & \G(U) \arrow[r, "g_U"] & \H(U)
+\end{tikzcd}
+\end{center}
+It suffices to show that the map $\G(U) \to \H(U)$ is surjective. For each $x \in U$, consider the induced maps on stalks, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(U) \arrow[d] \arrow[r, "f_U"] & \G(U) \arrow[r, "g_U"] \arrow[d] & \H(U) \arrow[d]
+\\
+0 \arrow[r] & \F_x \arrow[r, "f_x"] & \G_x \arrow[r, "g_x"] & \H_x \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+For any section $s \in \H(U)$ its inclusion in the stalk $\H_x$ lifts to $t_x \in \G_x$. Therefore, there exists some open $W$ nbd. of $x$ such that $t_x \in \G(W)$ maps to $s|_{W} \in \H(W)$.  
+\bigskip\\
+Consder the poset $\mathcal{T}$ of pairs $(V, t)$ where $V \subset U$ is open, $t \in \G(V)$, and $g_V(t) = s|_V$. The ordering is $(V, t) \le (V', t')$ if and only if $V \subset V'$ and $t'|_V = t$. To apply Zorn's lemma, consider a totally ordered subset $(V_\alpha, t_\alpha) \subset \mathcal{T}$ with totally ordered index set $\alpha \in I$. Then take,
+\[ V = \bigcup_{\alpha \in I} V_\alpha \]
+and the unique $t$ which glues all $t_{\alpha}$ by the sheaf condition of $\G$. Such a gluing exists because for $\alpha < \alpha'$ we have $V_\alpha \subset V_{\alpha'}$ and $t_{\alpha'}|_{V_{\alpha}} = t$ where $V_{\alpha} \cap V_{\alpha'} = V_{\alpha}$ so these sections agree on the overlap. 
+\bigskip\\
+Now, by Zorn's lemma, there exists a maximal element $(V, t)$ in $\mathcal{T}$. It suffices to show that $V = U$ since then $g_U(t) = s$. For each $x \in U$ we have $(W, t_x) \in \mathcal{T}$ from before. Then,
+\begin{align*}
+g_{W \cap V}(t_x|_{W \cap V} - t|_{W \cap V}) & =  \res^\H_{W \cap V, W} \circ g_{W}(t_x) - \res^\H_{W \cap V, V} \circ g_V(t)
+\\
+& = \res^\H_{W \cap V, W}(s |_{W}) - \res^\H_{W \cap V, V}(s|_V) =  s|_{W\cap V} - s|_{W \cap V} = 0
+\end{align*}
+Therefore, the section $d = t_x|_{W \cap V} - t|_{W \cap V}$ lies in the image of $f_{W \cap V}$ and thus lifts to $q \in \F(W \cap V)$. 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(W) \arrow[d, two heads] \arrow[r, "f_W"] & \G(W) \arrow[r, "g_W"] \arrow[d] & \H(W) \arrow[d]
+\\
+0 \arrow[r] & \F(W \cap V) \arrow[r, "f_{W \cap V}"] & \G(W \cap V) \arrow[r, "g_{W \cap V}"] & \H(W \cap V)
+\end{tikzcd}
+\end{center}
+Because $\F$ is flasque, the section $q$ lifts to $q' \in \F(W)$. Now, \[ \res^\F_{W \cap V, W} \circ f_W(q') = f_{W \cap V} \circ \res^\G_{W \cap V, W}(q') = f_{W \cap V}(q) = d \]
+Therefore, 
+\[ \res^\G_{W\cap V, W} (t_x - f_W(q')) = t_x |_{W \cap V} - d = t_{W \cap V} \]
+Thus $t_x - f_W(q') \in \G(W)$ and $t \in \G(V)$ agree on the overlap and thus glue to a section $t' \in \G(W \cup V)$ by the sheaf property of $\G$. Furthermore, let $s' = g_{W \cup V}(t') \in \F(W \cup V)$. Then by exactness,
+\[ s'|_W = \res^\H_{W, W \cup V} \circ g_{W \cup V}(t') = g_W(t'|_W) = g_W(t_x - f_W(q')) = g_W(t_x) = s|_W \]
+and likewise,
+\[ s'|_V = \res^\H_{V, W \cap V} \circ g_{W \cup V}(t') = g_V(t'|_V) = g_V(t) = s|_V \]
+Then $g_{W \cup V}(t') = s' = s|_{W \cup V}$ since they restrict to the same sections on the open cover $W, V$ of $W \cup V$ so $(W \cup V, t') \in \mathcal{T}$. However, $W \cup V \supset W$ and, by construction, $t'|_V = t$  contradicting the maximality of $(V, t)$ unless $V = W \cup V$ i.e. $W \subset V$. Since $W$ was, by construction, a neighborhood of $x$, then for each $x \in U$ we have $x \in V \subset U$ so $V = U$ proving the claim.
+
+
+\item[(c)] Suppose that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r, "f"] & \G \arrow[r, "g"] & \H \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an exact sequence of sheaves over $X$ with $\F$ and $\G$ flasque. Now for any open sets $V \subset U \subset X$, consider the commuative diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(U) \arrow[d, two heads, "\res^\F_{V,U}"'] \arrow[r, "f_U"] & \G(U) \arrow[r, "g_U"] \arrow[d, two heads, "\res^\G_{V,U}"'] & \H(U) \arrow[d, "\res^\H_{V,U}"'] \arrow[r] & 0
+\\
+0 \arrow[r] & \F(V) \arrow[r, "f_{V}"] & \G(V) \arrow[r, "g_{V}"] & \H(V) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where the rows are exact by part (b) since $\F$ is flasque and the first two downward maps are surjective because $\F$ and $\G$ are flasque. Given a section $s \in \H(V)$ we can lift $s$ under $g_V$ (which is a surjection since $\F$ is flasque) and under $\res^\G_{V,W}$ (which is a surjection since $\G$ is flasque) to get a section $s' \in \G(U)$. By the commutativity of the diagram,
+\[ \res^\H_{V, U} \circ g_U(s') = g_V \circ \res^\G_{V,U}(s') = s \]
+Therefore the restriction map $\res^\H_{V, U} : \H(U) \to \H(V)$ is surjective so $\H$ is flasque. 
+
+\item[(d)] Let $f : X \to Y$ be a continuous map and $\F$ a flasque sheaf on $X$. Then consider the sheaf $f_* \F$ on $Y$. For open sets $V \subset U \subset Y$, we have restriction maps,
+\[ \res^{f_* \F}_{V,U} : f_* \F(U) \to f_* \F(V) \quad \text{given by} \quad \res^{\F}_{f^{-1}(V), f^{-1}(U)} : \F(f^{-1}(U)) \to \F(f^{-1}(V)) \]
+which is surjective since $\F$ is flasque. Therefore, $f_* \F$ is flasque. 
+
+\item[(e)] Let $\F$ be a sheaf on $X$. Consider the sheaf $\G$ constructed by sending open sets $U \subset X$ to the maps,
+\[ s : U \to \coprod_{x \in U} \F_x \quad \text{such that} \quad \forall x \in U : s(x) \in \F_x \]
+or equivalently,
+\[ U \mapsto \prod_{x \in U} \F_x \]
+This sheaf is globally,
+\[ \G = \prod_{x \in X} (\iota_x)_*(\F_x) \]
+where $\iota_x : \{x\} \to X$ is the inclusion of the point and $\F_x$ is viewed as a constant sheaf over $\{ x \}$. For open sets $V \subset U \subset X$, consider the restriction maps,
+\[ \res^\G_{U, V} : \G(U) \to \G(V) \quad \text{given by} \quad \prod_{x \in V} \pi_x : \prod_{x \in U} \F_x \to \prod_{x \in V} \F_x \]
+Clearly, this map is surjective so $\G$ is flasque. Furthermore, consider the canonical morphism $\F \to \G$ which is locally
+\[ \F(U) \to \prod_{x \in U} \F_x \]
+defined by mapping $s \in \F(U)$ to its image in the stalk at each $x \in U$. Suppose that $s \in \F(U)$ maps to zero under this canonical map i.e. that the image of $s$ in $\F_x$ is zero at each $x \in U$. Then there exists an open neighborhood of each $x \in U$ on which $s$ restricts to zero. Thus by locality of the sheaf $\F$ we have $s = 0$ since their restrictions are equal on an open cover of $U$. 
+\end{enumerate}
+
+\begin{proposition}
+Flasque abelian sheaves on a space $X$ are $\Gamma(X, -)$-acyclic.
+\end{proposition}
+
+\begin{proof}
+Let $\F$ be a flasque abelian sheaf on $X$. Since the category of abelian sheaves on $X$ has enough injectives we may form an exact sequence of sheaves on $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I \arrow[r] & \G \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+where $\I$ is injective. Now both $\F$ and $\I$ are flasque so $\G$ is also flasque. Since $\F$ is flasque, applying the functor $\Gamma(X, -)$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \I) \arrow[r] & \Gamma(X, \G) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Furthermore, applying the long exact cohomology sequence we get,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \I) \arrow[r] & \Gamma(X, \G) \arrow[r] & H^1(X, \F) \arrow[r] & H^1(X, \I) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^1(X, \G)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^2(X, \F) \arrow[r] & H^2(X, \I)  \arrow[r] & H^2(X, \G) \arrow[r] & H^3(X, \F) \arrow[r] & H^3(X, \I) \arrow[r] & H^3(X, \G) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Since $\I$ is an injective sheaf, $H^r(X, \I) = 0$ for $r > 0$ which gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \I) \arrow[r] & \Gamma(X, \G) \arrow[r] & H^1(X, \F) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+and isomorphisms $H^r(X, \G) \cong H^{r+1}(X, \F)$ for $r > 0$. Combining this exact sequence with the earlier one derived from the flasqueness of $\F$ shows that the cokernel of $\Gamma(X, \I) \to \Gamma(X, \G)$ is zero and thus $H^1(X, \F) = 0$. Since $\G$ is also a flasque sheaf on $X$ we can use the isomorphisms $H^{r+1}(X, \F) \cong H^r(X, \G)$ for $r > 0$ to show that $H^r(X, \F) = 0$ for all $r > 0$ by induction.  
+\end{proof}
+
+\begin{proposition}
+Let $(X, \struct{X})$ be a ringed space. The derived functors of $\Gamma(X, -)$ computed over the category $\Ab(X)$ of sheaves of abelian groups on $X$ and those computed over the category $\Mod{\struct{X}}$ of $\struct{X}$-modules agree. 
+\end{proposition}
+
+\begin{proof}
+There are enough injectives in the category of $\struct{X}$-modules. Taking an injective resolution of $\struct{X}$-modules is a resolution  of flasque sheaves of abelian groups which we have shown computes the derived functors of $\Gamma(X, -)$ in the full category $\Ab(X)$ since flasque sheaves are acyclic. 
+\end{proof}
+
+\subsubsection{1.17}
+
+Let $x \in X$ be some point and $\iota_x : \{ x \} \to X$ the inclusion. Then consider the sheaf $\iota_x(A) = (\iota_x)_*(\underline{A})$ where $\underline{A}$ is the constant sheaf on $\{ x \}$. Now for any open $U \subset X$, we have,
+\[ \iota_x(A)(U) = \underline{A}(\iota_x^{-1}(U)) = \begin{cases}
+A & x \in U
+\\
+0 & x \notin U
+\end{cases} \] 
+Now consider the stalks,
+\[ \iota_x(A)_y = \lim_{y \in U} \iota_x(A)(Y) \]
+If there exists some open $U$ containing $y$ but not $x$ then $\iota_x(A)_y = 0$. Otherwise, for any open with $y \in U$ then $x \in U$ so $\iota_x(A)(U) = A$ and thus $\iota_x(A)_y = A$. Furthermore, there exists such an open exactly when $y$ is not a limit point of $x$ and not equal to $x$ i.e. $y \notin \overline{\{ x \}}$. Therefore, 
+\[ \iota_x(A)_y = \begin{cases}
+A & y \in \overline{\{ x \}} 
+\\
+0 & y \notin \overline{\{ x \}}
+\end{cases} \]
+
+\subsubsection{1.18}
+
+Let $f : X \to Y$ be a continuous map, $\F$ a sheaf on $X$ and $\G$ a sheaf on $Y$. The restriction maps define a map,
+\[ \varinjlim_{V \supset f(U)} \F(f^{-1}(V)) \to \F(U) \]
+since $f^{-1}(V) \supset U$ gives restriction maps $\F(f^{-1}(V)) \to \F(U)$ compatilbe with restricton. Sheafifying gives a natural map $f^{-1} f_* \F \to \F$. Furthermore, we can define a map $\F \to f_* f^{-1} \F$ as follows. Consider the sheafification map $(f^{-1} \F)^P \to f^{-1} \F$ giving $\F \to f_* (f^{-1} \F)^P \to f_* f^{-1} \F$. The first map is defined by,
+\[ \F(U) \to \varinjlim_{V \supset f(f^{-1}(U))} \F(V) \]
+given since $U \supset f(f^{-1}(U))$ and then take the inclusion map of the colimit. These maps are natural. Then, given $f^{-1} \F \to \G$ we get $\F \to f_* f^{-1} \F \to f_* \G$ and given $\F \to f_* \G$ we get $f^{-1} \F \to f^{-1} f_* \G \to \G$. We need to show that these maps are inverse. That is,
+\[ \F \to f_* f^{-1} \F \to f_* f^{-1} f_* \G \to f_* \G \]
+is just $\F \to f_* \G$ and,
+\[ f^{-1} \F \to f^{-1} f_* f^{-1} \F \to f^{-1} f_* \G \to \G \]
+is just $f^{-1} \F \to \G$. 
+
+\subsubsection{1.19}
+
+Let $X$ be a topological space, $Z \subset X$ a closed subspace and $U = X \setminus Z$ open. Furthermore denote the inclusions $\iota : Z \to X$ and $j : U \to X$. 
+
+\begin{enumerate}
+\item Let $\F$ be a sheaf on $Z$. Then consider the sheaf $\iota_*(\F)$ on $X$. For $x \in Z$ we have, 
+\[ (\iota_* \F)_x = \varinjlim_{x \in V} (\iota_* \F)(V) = \varinjlim_{x \in V} \F(V \cap Z) = \varinjlim_{x \in V \cap Z} \F(V \cap Z) = \F_x \]
+where the equality holds because every open set of the subspace $Z$ is of the form $V \cap Z$  for some open $V \subset X$ and $x \in V \iff x \in V \cap Z$ since $x \in Z$.
+For $x \notin Z$ then for any $x \in V \subset U$ we have $\iota_*(\F)(V) = \F(\varnothing) = 0$ so $(\iota_* \F)_x = 0$. 
+
+\item Let $\F$ be a sheaf on $U$. Now consider the sheaf $j_! \F$ as the sheafification of the presheaf defined by,
+\[ (j_! \F)^P(V) = \begin{cases}
+\F(V) & V \subset U 
+\\
+0 & V \not\subset U
+\end{cases} \]
+The stalks of the sheaf $j_! \F$ are the same as those of the presheaf and thus may be computed as follows.
+For $x \in U$ we have,
+\[ (j_! \F)^P_x = \varinjlim_{x \in V} (j_! \F)^P(V) = \varinjlim_{x \in V \subset U} \F(V) = \F_x \]
+because both direct limits satisfy the same universal properties. For $x \notin U$ then any open $V$ containing $x$ cannot be contained in $U$ so,
+\[ (j_! \F)^P_x = \varinjlim_{x \in V} (j_! \F)^P(V) = 0 \]
+Now suppose that $\G$ is some sheaf on $X$ such that $\G|_U = \F$ and for which $\G_x = \F_x$ for all $x \in U$ and $\G_x = 0$ otherwise. To prove that $\G = j_! \F$, it suffices to show that $\G = j_! (\G|_U)$ since $\G|_U = \F$ by assumption. Consider the inclusion map $(j_! \G|_U)^P \to \G$. Since $\G$ is a sheaf this inclusion factors uniquely through the sheafification as $(j_! \G |_U)^P \to j_! (\G|_U) \to \G$. By assumption, the inclusion $(j_! \G|_U)^P \to \G$ is an isomorphism on stalks since $\G_x = 0$ for $x \notin U$. Thus $j_! (\G|_U) \to \G$ is an isomorphism but $\G|_U = \F$ so we get an isomorphism $j_! \F \to \G$. 
+
+
+\item Let $\F$ be a sheaf on $X$. By adjunction, there is a morphism $\F \to \iota_* \iota^* \F$.  By definition, $\iota^* \F = \F|_Z$ so we have a map $\F \to \iota_* (\F |_\Z)$ and the sheaf $\iota_* \iota^* \F$ has stalks,
+\begin{align*}
+(\iota_* \iota^* \F)_x & = 
+\begin{cases}
+(\iota^* \F)_x & x \in Z
+\\
+0 & x \notin Z
+\end{cases}
+\\
+& = 
+\begin{cases}
+\F_x & x \in Z
+\\
+0 & x \notin Z
+\end{cases}
+\end{align*}
+On stalks at $x \notin Z$ this gives $\F_x \to 0$ and on stalks at $x \in Z$ it gives the identity $\F_x \to \F_x$. Furthermore, we have shown there exists a map $j_! (\F |_U) \to \F$ above which is an isomorphism on stalks at $x \in U$ and is the map $0 \to \F_x$ on stalks at $x \notin U$. Thus consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & j_! (\F |_U) \arrow[r] & \F \arrow[r] & \iota_* (\F|_Z) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+On stalks at $x \in Z$ this sequence is,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 0 \arrow[r] & \F_x \arrow[r, "\id"] & \F_x \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and on stalks at $x \notin Z$ i.e. $x \in U$ this sequence is,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_x \arrow[r, "\id"] & \F_x \arrow[r] & 0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+both of which are exact so the sequence of sheaves is exact.
+\end{enumerate}
+
+\subsubsection{1.20}
+
+Let $Z \subset X$ be closed and $\F$ a sheaf on $X$. We say a section $s \in \F(X)$ has support in $Z$ if $\Supp{\F}{s} \subset Z$. In that case $s |_{X \setminus Z} = 0$ since for each $x \in X \setminus Z$ we have $x \notin \Supp{\F}{s}$ so $s_x = 0$ so $s |_{X \setminus Z} = 0$ by seperatedness. Conversely, if $s|_{X \setminus Z} = 0$ then for any $x \in X \setminus Z$ we have $s_x = 0$ so $x \notin \Supp{\F}{s}$ and thus $\Supp{\F}{s} \subset Z$. We denote the subgroup of $\Gamma(X, \F)$ of sections with support in $Z$ by $\Gamma_Z(X, \F)$.
+
+\begin{enumerate}
+\item Consider the presheaf $V \mapsto \Gamma_{Z \cap V}(V, \F|_V)$. Let $U \subset X$ be an open set and $\{ V_i \}$ be an open conver of $U$. Suppose that $s \in \Gamma_{Z \cap U}(U, \F|_U)$ is a section on $U$ with support in $Z \cap U$ such that $s|_{V_i} = 0$. Then since $\F$ is a sheaf $s = 0$. Furthermore, given sections $s_i \in \Gamma_{Z \cap V_i}(V_i, \F|_{V_i})$ with supports in $Z \cap V_i$ which agree on the overlaps, then since $\F$ is a sheaf, these sections glue to give $s \in \Gamma(X, \F)$. It suffices to prove that $s$ has support in $Z \cap U$. We know that $s |_{V_i} = s_i$ and thus for $x \in V_i$ we have $s_x = (s_i)_x$. Thus, 
+\[ \Supp{\F}{s} = \bigcup_{i \in I} \Supp{\F}{s_i} \subset \bigcup_{i \in I} Z \cap V_i \subset Z \cap U \]
+so this is a sheaf which we denote $\H^0_Z(\F)$. 
+\item Let $U = X \setminus Z$ and $j : U \to X$ be the inclusion. Consider the map $\F \to j_* (\F |_U)$ given by adjunction. For a section $s \in \F(V)$ on some open set $V \subset X$ to be in the kernel we must have $s_x \mapsto 0$ at each stalk. Consider,
+\begin{align*}
+(j_* (\F |_U))_x = \varinjlim_{x \in V} \F|_U(U \cap V) = \varinjlim_{x \in V} \F(U \cap V) 
+\end{align*}
+Thus, if $x \in Z$ then $(j_* (\F |_U))_x = 0$. Otherwise, if $x \in U$, suppose that the map $\F_x \to (j_* (\F |_U))_x$ take $s_x \mapsto 0$. Then $s|_{U \cap V} = 0$ on some $V$ meaning that $s_x = 0$ since $x \in U \cap V$. Therefore, the map $\F_x \to (j_* (\F |_U))_x$ is injective for $x \in U$. Thus $s$ is in the kernel exactly when $s_x = 0$ for each $x \in U$ i.e. $\Supp{\F}{s} \subset Z$ so $\H^0_Z(\F)$ is the kernel of the map $\F \to j_* (\F|_U)$ making the following sequence exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H^0_Z(\F) \arrow[r] & \F \arrow[r] & j_* (\F|_U) 
+\end{tikzcd}
+\end{center}
+Furthermore, if $\F$ is flasque then the restriction map $\F(V) \to \F(U \cap V)$ is surjective meaning that the stalk maps $\F_x \to (j_* (\F |_U))_x$ are surjective which implies that the morphism of sheaves $\F \to j_* (\F |_U)$ is surjective.
+\end{enumerate}
+
+\subsubsection{1.21}
+
+\subsubsection{1.22}
+
+\subsection{2}
+
+\subsubsection{2.2}
+
+\begin{proposition}
+Let $A$ be a ring. Then $A_\red = A / \nilrad{A}$ is reduced.
+\end{proposition}
+
+\begin{proof}
+Take $f \in A$ then if $f^n \in \nilrad{A}$ then $f \in \sqrt{\nilrad{A}} = \nilrad{A}$ since $\nilrad{A} = \sqrt{(0)}$ is a radical idel. Thus, if $f^n = 0$ in $A_\red$ then $f = 0$ in $A_\red$. 
+\end{proof}
+
+\subsubsection{2.3}
+
+\begin{enumerate}
+\item 
+Let $X$ be a reduced schemes. Take $x \in X$ and consider the stalk,
+\[ \stalk{X}{x} = \varinjlim_{x \in U} \struct{X}(U) \]
+Each $\struct{X}(U)$ is a reduced ring so if $f \in \stalk{X}{x}$ satisfies $f^n = 0$ then on each open neighborhood of $x$ we have $f = 0$ and thus $f = 0$i in $\stalk{X}{x}$. Conversely, if all stalks are reduced then for any open set $U \subset X$ conisder an element $f \in \struct{X}(U)$. If $f^n = 0$ then $f^n = 0$ in each stalk $\stalk{X}{x}$ at $x \in U$ which implies $f = 0$ since $\stalk{X}{x}$ is reduced. Thus $f = 0$ in $\struct{X}(U)$ so $X$ is reduced. Thus,
+\[ X \text{ is reduced} \iff \forall x \in X : \stalk{X}{x} \text{ is reduced} \]
+
+\item Let $(X, \struct{X})$ be a scheme. Let $(\struct{X})_\red$ be the sheaf associated to the presheaf $U \mapsto \struct{X}(U)_\red$. Consider the ringed space $X_\red = (X, (\struct{X})_\red)$ which is locally ringed because the stalks of $(\struct{X})_\red$ are $(\stalk{X}{x})_\red$ which are reduced rings. Furthermore, there is a morphism of locally ringed spaced $(\id_X, f^\#) : X_\red \to X$ where $f^\#$ is the natural morphism of sheaves induced by the sheafification of the morphism of presheaves $\struct{X}(U) \to \struct{X}(U)_\red$. This is indeed a morphism of locally ringed spaces because the induced map $\stalk{X}{x} \to (\stalk{X}{x})_\red$ is local. It suffices to show that $X_\red = (X, (\struct{X})_\red)$ is indeed a scheme. Let $U_i = \Spec{A_i}$ be an affine cover of $X$ then I claim that $\tilde{U}_i = \Spec{(A_i)_\red}$ is an affine cover of $X_{\red}$. Firstly, $A$ and $A_\red$ have the same prime ideals because all primes lie above $\nilrad{A}$ so $U_i = \tilde{U}_i$ as topological spaces. Furthermore, the structure sheaf $\struct{\Spec{(A_i)_\red}}$ has exactly the correct structure to be the unique sheaf $(\struct{\Spec{A_i}})_\red = (\struct{X})_\red|_{U_i}$. Therefore, this cover is affine. 
+\bigskip\\
+To be clever, define the sheaf of ideals $\mathcal{N}_X$ to be the kernel of the sheaf map $\struct{X} \to (\struct{X})_\red$ or alternatively the sheaf associated to the presheaf 
+\[ \mathcal{N}_X(U) = \nilrad{\struct{X}(U)} \] 
+Then there is an exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mathcal{N}_X \arrow[r] & \struct{X} \arrow[r] & (\struct{X})_\red \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then $X_\red$ is a closed subscheme of $X$. 
+
+\item Let $f : X \to Y$ be a morphism of schemes and assue that $X$ is reduced. Consider the cokernel diagram,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+\mathcal{N}_Y \arrow[r] & \struct{Y} \arrow[d, "\iota^\#"'] \arrow[r, "f^\#"] & f_* \struct{X}
+\\
+& (\struct{Y})_\red \arrow[ru, dashed, "g^\#"']
+\end{tikzcd}
+\end{center}
+The top row composes to zero because on the stalks $(\mathcal{N}_Y)_y \to (f_* \struct{X})_y$ the ring $(\mathcal{N}_Y)_y = \nilrad{\stalk{Y}{y}}$ which only contains nilpotent elements. Furthermore, $X$ is reduced so $(f_* \struct{X})_y$ is a limit of reduced rings and thus reduced. Thus the image of $f$ is nilpotent in $(f_* \struct{X})_y$ and therefore zero. Thus the map of sheaves $\mathcal{N}_Y \to f_* \struct{X}$ is zero so it factors through the cokernel $(\struct{Y})_\red$ uniquely as $g^\# : (\struct{Y})_\red \to f_* \struct{X}$. Therefore, the morphism of schemes $f : X \to Y$ factors via a unique morphism $g : X \to Y_\red$ with $g = (f, g^\#)$ through the closed immersion $Y_\red \to Y$.
+\end{enumerate}
+
+\subsubsection{2.16}
+
+Let $X$ be a locally ringed space and $f \in \Gamma(X, \struct{X})$. Define,
+\[ X_f = \{ x \in X \mid f_x \notin \m_x \subset \stalk{X}{x} \} \]
+\begin{enumerate}
+\item For any $x \in X_f$ then $f_x \notin \m_x$ so $f_x \in \stalk{X}{x}^\times$ since the stalk is a local ring. Therefore, there exists some open $U  \subset X$ with $x \in U$ such that $f|_U$ is invertible $g \cdot f|_U = 1$. Under the restriction to $\stalk{X}{y}$ for any point $y \in U$ we have $g_y \cdot f_y = 1$ so $f_y \in \stalk{X}{y}$ is invertible and thus $f_y \notin \m_y$. Therefore, $x \in U \subset X_f$ so $X_f$ is open. Furthermore, since inverses are unique, the inverses of $f|_{U_x}$ for each $x \in X_f$ agree on overlaps and thus glue to an inverse of $f|_{X_f}$.
+\bigskip\\
+Furthermore, let $X$ be a scheme and $U = \Spec{B}$ be an affine open subscheme $U \subset X$ with $f|_U = \bar{f} \in \struct{X}(U) = B$. 
+Consider,
+\[ U \cap X_f = \{ \p \subset B \mid \bar{f} \notin \p B_\p \} \]
+However, if $\bar{f} \in \p$ then $\bar{f} \in \p B_\p$ if $\bar{f} \notin \p$ then $\bar{f} \in B_\p^\times$ so $\bar{f} \notin \p B_\p$. Thus,
+\[ U \cap X_f = \{ \p \subset B \mid \bar{f} \notin \p B_\p \} = \{ \p \in \Spec{B} \mid \bar{f} \notin \p \} = D(\bar{f}) \]
+which is open in $U = \Spec{B}$. Thus we see again that $X_f$ is open.
+
+\item Let $X$ be a quasi-compact scheme and $A = \Gamma(X, \struct{X})$. Take $a \in A$ such that $a|_{X_f} = 0$. Now take an affine open $U \subset X$ with $U = \Spec{B}$ and consider $a |_{U \cap X_f} = 0$ i.e. $\bar{a} |_{D(\bar{f})} = 0$. Therefore, $\bar{a} \in \struct{X}(U \cap X_f) = \struct{\Spec{B}}(D(\bar{f})) = B_{\bar{f}}$ is zero so $\bar{f}^n \bar{a} = 0$ for some $n$. Thus, on each affine open $U$ there is some $n$ such that $(f^n a)|_U = 0$. Now since $X$ is quasi-compact we may take a finite affine cover $\{ U_i \}$ of $X$ such that $(f^{n_i} a)|_{U_i} = 0$. Let $N = \max_i n_i$, which exists by the finiteness of the cover, such that $(f^N a)|_{U_i} = 0$ for each open $U_i$ implying that $f^N a = 0$.  
+
+\item Suppose that $X$ has a finite affine open cover $\{ U_i \}$ with $U_i = \Spec{B_i}$ such that $U_i \cap U_j$ is quasi-compact. Let $b \in \Gamma(X_f, \struct{X_f})$. Now $b|_{U_i \cap X_f} \in (B_i)_{\bar{f}}$ and thus there exists $n_i$ such that $\bar{f}^{n_i}(b|_{U_i \cap X_f})$ is in the image of $B_i$. By finiteness of the cover, $n = \max_i n_i$ exists such that we may take $(f^{n} b)|_{U_i \cap X_f} = b_i |_{U_i \cap X_f}$ for some $b_i \in B_i$ i.e. some section $b_i \in \struct{X}(U_i)$. Now consider, $s_{ij} = (b_i - b_j)|_{U_i \cap U_j}$ which satisfies,
+\[ s_{ij} |_{U_i \cap U_j \cap X_f} = b_i|_{U_i \cap U_j \cap X_f} - b_j|_{U_i \cap U_j \cap X_f} = (f^{n} b)|_{U_i \cap U_J \cap X_f} - (f^{n} b)|_{U_i \cap U_j \cap X_f} = 0 \]
+By the quasi-compactness of $U_i \cap U_j$ we may apply the previous part to get some $n_{ij}$ such that $f^{n_{ij}} |_{U_i \cap U_j} s_{ij} = 0$. Using the finiteness of the cover again, we may take $m = \max_{ij} n_{ij}$ to find that $f^m |_{U_i \cap U_j} s_{ij} = 0$ and thus,
+\[ (f^m b_i - f^m b_j) |_{U_i \cap U_j} = 0 \]
+Therefore, the sections $f^m b_i \in B_i$ agree on overlaps and thus glue to a global section $a \in A = \Gamma(X, \struct{X})$. Furthermore, 
+\[ \res_{U_i \cap X_f, X_f}(a|_{X_f}) = (f^m b_i)|_{U_i \cap X_f} = (f^{n+m} b)|_{U_i \cap X_f} \]
+since $U_i \cap X_f$ is an open cover of $X_f$ we find that $a|_{X_f} = f^{n + m} b$ so $f^{n + m} b$ has a lift to a global section. 
+
+\item With the above hypothesis, consider the restricton map 
+\[ \res_{X_f, X} : \Gamma(X, \struct{X}) \to \Gamma(X_f, \struct{X_f}) \] 
+under which $f$ is mapped to a unit. 
+Therefore, this map factors uniquely through the localization, 
+\[ r : A_f \to \Gamma(X_f, \struct{X_f}) \]
+However, if $\res_{X_f,X}(a) = 0$ then $f^n a = 0$ for some $n$ i.e. $a = 0$ in $A_f$ so $\ker{r} = 0$. Furthermore, for any $b \in \Gamma(X_f, \struct{X_f})$ there is some $n$ such that $f^n b = \res_{X_f, X}(a)$ for $a \in A$. Thus, 
+\[ r(a/f^n) = \res_{X_f, X}(a) / f^n = f^n b / f^n  = b \]
+so $r$ is surjective making  $r$ an isomorphism giving $\Gamma(X_f, \struct{X_f}) \cong A_f$. Therefore,
+\[ \Gamma(X_f, \struct{X_f}) \cong \Gamma(X, \struct{X})_f \]
+\end{enumerate}
+
+\subsubsection{2.17}
+
+\begin{enumerate}
+\item Suppose that $f : X \to Y$ is a morphism of schemes such that $Y$ can be covered by open subsets $U_i$ such that for each $i$, the induced map $f_i : f^{-1}(U_i) \to U_i$ is an isomorphism. Let $g_i : U_i \to f^{-1}(U_i)$ be its inverse. Note that on the overlaps $f_i$ and $f_j$ agree,
+\[ f_i |_{f^{-1}(U_i \cap U_j)} = f_j |_{f^{-1}(U_i \cap U_j)} = f |_{f^{-1}(U_i \cap U_j)}  \]
+therefore, by uniqueness inverses, we know that the maps $g_i$ also agree on overlaps,
+\[ g_i |_{U_i \cap U_j} = g_j |_{U_i \cap U_j} \]
+Therefore, these functons glue to give a map $g : Y \to X$ such that $g_i = g |_{U_i}$. Now consider,
+\[ (g \circ f)|_{f^{-1}(U_i)} = g |_{u_i} \circ f |_{f^{-1}(U_i)} = g_i \circ f_i = \id_{f^{-1}(U_i)} \]
+and likewise,
+\[ (f \circ g)|_{U_i} = f|_{f^{-1}(U_i)} \circ g|_{U_i} = f_i \circ g_i = \id_{U_i} \]
+Therefore $g \circ f = \id_X$ and $g \circ f = \id_Y$ since these functions are locally the identity.
+
+\item Let $X$ be a scheme and $A = \Gamma(X, \struct{X})$. Suppose that $f_1, \dots, f_n \in A$ generate the unit ideal and further suppose that the open subsets $X_{f_i}$ are affine. First, the open sets $X_{f_i}$ cover $X$ since if $x \notin X_{f_i}$ then $f_i \in \m_x$ however $f_i$ generate the unit ideal so we cannot have $f_i \in \m_x$ for all $i$ so $x \in X_{f_i}$. There is a natural map $a : X \to \Spec{A}$ via adjunction of the identity on global sections. Consider the open cover $U_i = D(f_i)$ of $\Spec{A}$. For each open $U = U_i$ and $f = f_i$ consider the restriction of the map, $a : a^{-1}(U) \to U = D(f) = \Spec{A_{f}}$. Recall that $a(x) = \id^{-1} \circ \res^{-1}_x(\m_x) \in \Spec{A}$ so,
+\[ f \in a(x) \iff f \in \res^{-1}_x(\m_x) \iff f_x \in \m_x \]
+and therefore,
+\[ x \in a^{-1}(U) \iff a(x) \in D(f) \iff f \notin a(x) \iff f_x \notin \m_x \iff x \in X_f \]
+Thus, $a^{-1}(D(f)) = X_f$. However, by assumption, $X_{f}$ is an affine scheme so the map $a : X_{f} \to \Spec{A_{f}}$ is determined uniquely by the ring map on global sections $r : A_f \to \Gamma(X_f, \struct{X_f})$ which we have shown is an isomorphism. Thus $a : X_{f} \to \Spec{A_{f}}$ is an isomorphism of affine schemes for each $f$. Applying part (a) we find that $a : X \to \Spec{A}$ is an isomorphism so $X$ is affine.
+\bigskip\\
+Conversely, if $X$ is an affine scheme $X = \Spec{A}$ then take $f = 1 \in A$ which generates the unit ideal and $X_f = D(f) = \Spec{A}$ satisfying the criterion.
+\end{enumerate}
+
+\subsubsection{2.18}
+
+\begin{enumerate}
+\item Let $A$ be a ring and $X = \Spec{A}$ and $f \in A$. Then,
+\[ f \in \nilrad{A} \iff \forall \p \in \Spec{A} : f \in \p \iff D(f) = 0 \]
+
+\renewcommand{\P}{\mathfrak{P}}
+
+\item Let $\varphi : A \to B$ be a homomorphism of rings, $X = \Spec{A}$ and $Y = \Spec{B}$, and let $f : Y \to X$ be the induced morphism of affine schemes. Suppose that $\varphi : A \to B$ is injective. Then the sheaf map $f^\# : \struct{X} \to f_* \struct{Y}$ on the standard open $D(g)$ is the map $A_g \to B_{f(g)}$ which is injective since $a / g^n \mapsto f(a) / f(g)^n$ is zero exactly when $f(g)^k f(a) = 0$ for some $k$ but $f(g)^k f(a) = f(g^k a) = 0$ thus $g^k a = 0$ by injectivity meaning that $a / g^n = 0$ in $A_g$. Therefore, the morphism of sheaves $f^\# : \struct{X} \to f_* \struct{Y}$ is injective. We may also check this on the stalks. For $\p \in \Spec{A}$ consider the stalk map $f^\#_\p : \stalk{X}{\p} \to (f_* \struct{Y})_\p$. Now,
+\[ (f_* \struct{Y})_\p = \varinjlim_{g \notin \p} \struct{Y}(f^{-1}(D(g)) = \varinjlim_{g \notin \p} \struct{Y}(D(f(g)) = \varinjlim_{g \notin \p} B_{f(g)} = B_\p \]
+where $B_\p = S_\p^{-1} B = B \otimes_A A_\p$. Since localization of $A$-modules is exact, the map $\varphi_\p : A_\p \to B_\p$ remains an injection. Thus the stalk maps are injections so $f^\# : \struct{X} \to f_* \struct{Y}$ is an injective morphism of sheaves.
+\bigskip\\
+Conversely, if $f^\# : \struct{X} \to f_* \struct{Y}$ is injective then it is injective on sections so in particular $f^\# : \struct{X}(X) \to \struct{Y}(Y)$ which is the map $\varphi : A \to B$ is injective.
+\bigskip\\
+\begin{lemma}
+$\varphi^{-1}(\sqrt{I}) = \sqrt{\varphi^{-1}(I)}$
+\end{lemma}
+\begin{proof}
+\begin{align*}
+x \in \varphi^{-1}(\sqrt{I}) & \iff \varphi(x) \in \sqrt{I} \iff \varphi(x)^n = \varphi(x^n) \in I
+\\
+&  \iff x^n \in \varphi^{-1}(I) \iff x \in \sqrt{\varphi^{-1}(I)} 
+\end{align*}
+\end{proof}
+\begin{lemma}
+$\overline{f(V(I))} = V(\varphi^{-1}(I))$.
+\end{lemma}
+\begin{proof}
+Consider $f(V(I)) \subset V(J)$ then $J \subset \varphi^{-1}(\P)$ for each prime ideal $\P \subset B$ above $I$ so $\varphi(J) \subset \sqrt{I}$. By the above lemma, $J \subset \varphi^{-1}(\sqrt{I}) = \sqrt{\varphi^{-1}(I)}$ and thus,
+\[ V(J) \supset V(\sqrt{\varphi^{-1}(I)}) = V(\varphi^{-1}(I)) \] Furthermore, if $\p \supset f(V(I))$ then $\p = \varphi^{-1}(\P)$ with $\P \supset I$ so then $\p \supset \varphi^{-1}(I)$ and thus $\p \in V(\varphi^{-1}(I))$. Thus $f(V(I)) \subset V(\varphi^{-1}(I))$ which proves that $\overline{f(V(I))} = V(\varphi^{-1}(I))$.
+\end{proof}
+
+\begin{corollary}
+$\overline{f(Y)} = V(\ker{\varphi})$ so $f$ is dominant iff $\ker{\varphi} \subset \nilrad{A}$.
+\end{corollary} 
+Therefore, in this case, $\ker{\varphi} = 0$ so $f$ is dominant. 
+
+\item If $\varphi : A \to B$ is surjective then the stalk map $\varphi : A_{\varphi^{-1}(\P)} \to B_\P$ is clearly surjective because any $s'$ mapping to $s \in B \setminus \P$ lies in $\varphi^{-1}(B \setminus \P) = A \setminus \varphi^{-1}(\P)$. Thus, the sheaf map $f^\# : \struct{Y} \to f_* \struct{X}$ is surjective. Furthermore, let $I = \ker{\varphi}$ then $f : Y \to X$ is a homeomorphism of $Y$ to the closed subspace $V(I) \subset X$ by the lattice isomorphism theorem. 
+
+\begin{proposition}
+Let $\varphi : A \to B$ be a surjective map of rings with $I = \ker{\varphi}$. Then the induced map $f : \Spec{B} \to \Spec{A}$ is a homeomorphism onto its image, the closed subspace $V(I) \subset \Spec{A}$.
+\end{proposition}
+
+\begin{proof}
+Define the map $g : V(I) \to \Spec{B}$ via $\p \mapsto \varphi(\p)$. We must show that this map is well-defined and continuous. However, first note that because $\varphi$ is surjective that 
+$g \circ f(\P) = \varphi(\varphi^{-1}(\P)) = \P$
+and $f \circ g(\p) = \varphi^{-1}(\varphi(\p))$ but,
+\[ x \in \varphi^{-1}(\varphi(\p)) \iff \varphi(x) \in \varphi(\p) \iff \exists y \in \p : \varphi(x) = \varphi(y) \iff x \in \p + I \]
+so if $\p \supset I$ then $f \circ g(\p) = \varphi^{-1}(\varphi(\p)) = \p$. Thus, these maps are inverses as maps of subsets.
+\bigskip\\
+Let $\p \supset I$ is prime, then $\varphi(\p)$ is an ideal because $\varphi$ is surjective. Furthermore, if $f(x) \cdot f(y) \in \varphi(\p)$ then $f(xy) \in \varphi(\p)$ so $xy \in \varphi^{-1}(\varphi(\p)) = \p$ implying that $x \in \p$ or $y \in \p$ and thus $f(x) \in \varphi(\p)$ or $f(y) \in \varphi(\p)$. Therefore, $\varphi(\p) \subset B$ is a prime ideal so $g$ is well-defined. 
+\bigskip\\
+Take an ideal $J \subset B$ corresponding to the closed subset $V(J) \subset \Spec{B}$. Consider,
+\[ \p \in g^{-1}(V(J)) \iff \varphi(\p) \in V(J) \iff \varphi(\p) \supset J \iff \p \supset \varphi^{-1}(J) \iff \p \in V(\varphi^{-1}(J)) \]
+where I have used the fact that $f$ and $g$ are inclusion preserving inverses and $\p \in V(I)$. Thus, $g^{-1}(V(J)) = V(\varphi^{-1}(J))$ which is closed in $V(I)$ because $\varphi^{-1}(J)$ is an ideal of $A$ containing $I$ so $V(I) \cap V(\varphi^{-1}(J)) = V(\varphi^{-1}(J))$. Therefore, $g : V(I) \to \Spec{B}$ is a continuous inverse of $f : \Spec{B} \to V(I)$. 
+\end{proof}
+
+\item Let $f : Y \to X$ be a morphism of schemes such that $f^\# : \struct{X} \to f_* \struct{Y}$ surjective. Consider the ring maps,
+\begin{center}
+\begin{tikzcd}
+A \arrow[rr, "\varphi"] \arrow[rd, "\pi"'] & & B 
+\\
+& A / \ker{\varphi} \arrow[ru, "\tilde{\varphi}"']
+\end{tikzcd}
+\end{center}
+Then consider the scheme $X' = \Spec{A / \ker{\varphi}}$ and the induced morphism of affine schemes,
+\begin{center}
+\begin{tikzcd}
+X   & & Y \arrow[ll, "f"'] \arrow[dl, "\tilde{f}"] 
+\\
+& X' \arrow[ul, "p"]
+\end{tikzcd}
+\end{center}
+These morphisms of schemes give a morphism of sheaves on $X$,
+\begin{center}
+\begin{tikzcd}
+\struct{X} \arrow[rd, "p^\#"'] \arrow[rr, two heads, "f^\#"] & & f_* \struct{Y}
+\\
+& p_* \struct{X'} \arrow[ru, "p_* \tilde{f}^\#"', hook, two heads]
+\end{tikzcd}
+\end{center}
+By assumption $f^\# : \struct{X} \to f_* \struct{Y}$ is surjective so $p_* \tilde{f}^\# : p_* \struct{X'} \to f_* \struct{Y}$ is surjective as well. Furthermore, the ring map $\tilde{\varphi} : A / \ker{\varphi} \to B$ is injective meaning that $\tilde{f}^\#$ is an injective morphism of sheaves and, since $p_*$ is a right-adjoint functor, $p_* \tilde{f}^\#$ is also injective. Therefore, $p_* \tilde{f}^\# : p_* \struct{X'} \to f_* \struct{Y}$ is a bijection of sheaves over $X$ and, in particular, surjective on sections i.e. in the sense of pre-sheaves. Furthermore, $\pi : A \to A / \ker{\varphi}$ is a surjection and thus $p^\#$ is surjective on global sections. Thus, the composition $f^\# = p_* \tilde{f}^\# \circ p^\#$ is surjective on global sections i.e. $f^\# : \struct{X}(X) \to (f_* \struct{Y})(X) = \struct{Y}(Y)$ which is the map $\varphi : A \to B$ is surjective. 
+\end{enumerate}
+
+\subsubsection{2.19}
+
+Let $A$ be a ring. Suppose that $\Spec{A}$ is disconnected so there exist disjoint nonempty closed sets $V(I_1), V(I_2) \supset \Spec{A}$. Therefore, 
+\[ V(I_1) \cap V(I_2) = V(I_1 + I_2) = \varnothing \implies I_1 + I_2 = A \]
+and likewise,
+\[ V(I_1) \cup V(I_2) = V(I_1 I_2) = \Spec{A} \implies I_1 I_2 \subset \nilrad{A} \]
+Therefore, there must exist elements $e_1 \in I_1$ and $e_2 \in I_2$ such that $e_1 + e_2 = 1$ and furthermore $e_1 e_2 \in \nilrad{A}$. Note that,
+\[ (e_1 + e_2)^n = e_1^2 + n e_1 e_2^{n-1} + \cdots + n e_1^{n-1} e_2 + e_n^n = 1 \]
+Therefore, $1 - (e_1^n + e_2^n) \in \nilrad{A}$ so $e_1^n  + e_2^n \in A^\times$ and let $u \in A^\times$ be its inverse. Since $e_1 e_2$ is nilpotent there exists some $n \ge 0$ such that $(e_1 e_2)^n = 0$. Now set $\tilde{e}_1 = u e_1^n$ and $\tilde{e}_2 = u e_2^n$. Thus $\tilde{e}_1 + \tilde{e}_2 = u(e_1^n + e_2^n) = 1$ and $\tilde{e}_1 \tilde{e}_2 = u^2 e_1^n e_2^n = u^2 (e_1 e_2)^n = 0$. Finally, consider,
+\begin{align*}
+\tilde{e}_1 & = 1 \cdot \tilde{e}_1 = (\tilde{e}_1 + \tilde{e}_2) \tilde{e}_1 = \tilde{e}_1^2 + \tilde{e}_1 \tilde{e}_2 = \tilde{e}_1^2
+\\
+\tilde{e}_2 & = 1 \cdot \tilde{e}_2 = (\tilde{e}_1 + \tilde{e}_2) \tilde{e}_2 = \tilde{e}_1 \tilde{e}_2 + \tilde{e}_2^2 = \tilde{e}_2^2
+\end{align*}
+so $e_1$ and $e_2$ are perpendicular idempotent generators proving (i) $\implies$ (ii). 
+\bigskip\\
+First, note that because $e_i$ is idempotent the ideal $(e_i)$ is actually a ring with identity element $e_i$ since $e_i \cdot (a e_i) = a e_i^2 = a e_i$. Now, consider the ring map $\Phi : A \to (e_1) \times (e_2)$ via $a \mapsto (a e_1, a e_2)$ which indeed maps $1 \mapsto (e_1, e_2)$ the identity. Now suppose that $\Phi(a) = 0$ then $a e_1 = a e_2 = 0$ so $a = 1 \cdot a = (e_1 + e_2) \cdot a = 0$. Thus $\Phi$ is injective. Furthermore, for any $(a e_1, b e_2) \in (e_1) \times (e_2)$ consider the element $a e_1 + b e_2 \in A$. Then, 
+\[ \Phi(a e_1 + b e_2) = (a e_1^2 + b e_2 e_1, a e_1 e_2 + b e_2^2) = (a e_1, b e_2) \]
+so $\Phi$ is surjective. Thus $\Phi : A \xrightarrow{\sim} (e_1) \times (e_2)$ is an isomorphism.
+\bigskip\\
+Finally, suppose that $A = A_1 \times A_2$. Then $A_1, A_2 \subset A$ are ideals such that $A_1 A_2 = 0$ and $A_1 + A_2 = A$. Therefore in $\Spec{A}$ we have closed subsets $V(A_1)$ and $V(A_2)$ such that $V(A_1) \cup V(A_2) = V(A_1 A_2) = \Spec{A}$ and $V(A_1) \cap V(A_2) = V(A_1 + A_2) = V(A) = \varnothing$. Therefore, $\Spec{A}$ is disconnected. 
+
+\renewcommand{\P}{\mathbb{P}}
+
+\subsection{3}
+
+\subsubsection{3.1}
+
+Let $f : X \to Y$ be a morphism such that there exist affine open coverings $U_i = \Spec{A_i}$ and $V_i = \Spec{B_i}$ such that $f : U_i \to V_i$ makes $\varphi : B_i \to A_i$ finite type. Let $\Spec{B} = V \subset Y$ be any affine open and consider $V \cap V_i$ which is open and thus covered by affines $D(f_{ij}) \subset V_i$ for $f_{ij} \in B_i$. Then, inside the affine $U_i$ we have $U \cap U_i$ covered by $D(\varphi(f_{ij})) = f^{-1}(D(f_{ij}))$. Therefore, $U$ is covered by the affine opens $D(f_{ij}) = \Spec{(A_i)_{f_{ij}}}$. Furthermore, consider the maps $B \to (A_i)_{f_{ij}}$. Since $(B_i)_{f_{ij}} \to (A_i)_{f_{ij}}$ are finite type it suffices to show that $B \to (B_i)_{f_{ij}}$ via the inclusion of affine schemes $D(f_{ij}) \subset U$ is finite type. This is clear since restriction maps are generated by localization maps $B \to B_f$ which are finite type. Therefore, for any affine $V \subset Y$ then $f^{-1}(V)$ is covered by affine opens such that the ring map induced by $f$ is finite type. 
+
+\subsubsection{3.2}
+
+Suppose that $f : X \to Y$ is locally finit type according to Hartshorne i.e. there exists an open affine cover $V_i = \Spec{B_i}$ such that $f^{-1}(V_i)$ is quasi-compact. Let $V \subset Y$ be affine then $V \cap V_i$ is covered by affine opens $D(f_{ij}) \subset V \cap V_i$ and by quasi-compactness there are finitely many $D(f_{ij})$ covering $V$. For each $V_i$ by quasi-compactness we can write $f^{-1}(V_i)$ as a finite union of affine opens $U_{ik} = \Spec{A_{ik}}$. Now, $f^{-1}(D(f_{ij}) ) \cap U_{ik} \subset U_{ik}$ is the affine open $(f|_{U_{ik}})^{-1}(D(f_{ij})) = D(\varphi(f_{ij}))$ for the map $\varphi : B_i \to A_{ik}$. Therefore, $f^{-1}(V)$ is the union of the finitely many affine opens $f^{-1}(D(f_{ij})) \cap U_{ik}$. Thus, $f^{-1}(V)$ is quasi-compact as the finite union of quasi-compacts.
+
+\begin{definition}
+A continuous map $f : X \to Y$ is quasi-compact if for any quasi-compact open $K \subset Y$ we have $f^{-1}(K)$ is quasi-compact. A morphism of schemes $f : X \to Y$ is quasi-compact if the underlying map of topologcial spaces is quasi-compact
+\end{definition}  
+
+\begin{theorem}
+A morphism $f : X \to Y$ is quasi-compact iff the equivalent conditions above.
+\end{theorem}
+
+\begin{proof}
+If $f : X \to Y$ is quasi-compact then for any affine open $V \subset Y$ we have $V$ is quasi-compact (since any open cover can be refined to $D(f_i)$ and $\bigcup D(f_i) = D(\sum (f_i) ) = D(1)$ so $\sum f_i$ generates the unit ideal so there must be some finite sum $f_{i_1} + \cdots + f_{i_n} = 1$ so $D(f_{i_1}) \cup \cdots \cup D(f_{i_n})$ is a finite subcover). Thus $f^{-1}(V)$ is quasi-comact. Coversely, suppose that any affine open $V \subset Y$ satisfies $f^{-1}(V)$ is quasi-compact. Then take any quasi-compact open $K \subset Y$ and consider $f^{-1}(K)$. By quasi-compactness we can write $K$ as a finite union of affine opens and then each has quasi-compact preimage. Thus $f^{-1}(K)$ is a finite union of quasi-compacts and thus is quasi-compact.
+\end{proof}
+
+
+\subsubsection{3.3}
+
+\begin{definition}
+Let $f : X \to Y$ be a morphism of schemes.
+\begin{enumerate}
+\item $f$ is finite type at $x \in X$ if there exist affine opens $\Spec{A} = U \subset X$ and $\Spec{B} = V \subset Y$ with $f(U) \subset V$ and $x \in U$ such that $B \to A$ is finite type
+\item $f$ is locally finite type if it is finite type at each $x \in X$
+\item $f$ is finite type if it is locally finite type and quasi-compact.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+A morphism $f : X \to Y$ is quasi-compact iff there exists an affine open cover $V_i \subset Y$  such that $f^{-1}(V_i)$ is the finite union of affine opens. 
+\end{lemma}
+
+\begin{proof}
+If $f : X \to Y$ is quasi-compact then $f^{-1}(V)$ is quasi-compact for any affine open $V \subset Y$. Since affine opens form a base of the topology on $X$ the open $f^{-1}(V)$ is a union of affine opens which can by made finite by quasi-compactness. 
+\bigskip\\
+Conversely, if each $f^{-1}(V_i)$ is a finite union of affine opens then $f^{-1}(V_i)$ is quasi-compact so $f : X \to Y$ is quasi-compact by the above problem.
+\end{proof}
+
+\begin{enumerate}
+\item If $f : X \to Y$ is finite type (see above) then it is quasi-compact by definition and for some affine open cover $V_i \subset Y$ we know $f^{-1}(V_i)$ can be covered by affine open $U_{ij}$ such that $U_{ij} \to V_i$ is finite type on rings. By quasi-compactness we can take the covering $U_{ij}$ of $f^{-1}(V_i)$ to be finite. Conversely, suppose $f : X \to Y$ is finite type according to Hartshorne then it is trivially locally finite type and $f^{-1}(V_i)$ is covered by finitely many affine opens and thus, by the lemma, is quasi-compact. 
+
+\item If $f : X \to Y$ is finite type according to Hartshorne then we know it is locally finite type and by problem 3.2 we know for any affine open $V \subset Y$ we have $f^{-1}(V)$ is covered by affine opens $U_{i}$ such that $U_{i} \to V$ is finite type on rings. Furthermore, we have shown that $f$ is quasi-compact so $f^{-1}(V)$ is quasi-compact so we may take a finite subcover $U_i$ so $f^{-1}(V)$ is a finite union of affine opens with the finite type property. 
+
+\item Let $f : X \to Y$ be locally of finite type according to Hartshorne and let $\Spec{B} = V \subset Y$ and $\Spec{A} = U \subset f^{-1}(V)$ be affine opens. Then consider $\varphi : B \to A$. We know that $f^{-1}(V)$ has a cover of affine opens $U_i = \Spec{A_i}$ with $B \to A_i$ finite type. Then consider $U \cap U_i$ which is open in $U_i$ and thus covered by principal opens $D(f_{ij}) = \Spec{(A_i)_{f_{ij}}}$. Now, $B \to A_i \to (A_i)_{f_{ij}} = A_i[f_{ij}^{-1}]$ is finite type. Now the maps $A \to (A_i)_{f_{ij}}$ are the restriction maps from $D(f_{ij}) \subset U$ which are finite type since they are localizations. Then consider,
+\begin{center}
+\begin{tikzcd}
+B \arrow[r, "\varphi"] \arrow[rd, "\varphi"] & A \arrow[d]
+\\
+& (A_i)_{f_{ij}}
+\end{tikzcd}
+\end{center} 
+Since $D(f_{ij})$ cover $U$ I claim that $B \to A$ is finite type. (PROVE THIS CLAIM)
+\end{enumerate}
+
+\subsubsection{3.4}
+
+Let $f : X \to Y$ be finite and $\Spec{V} = V \subset Y$ be an affine open. Take an affine open cover $\Spec{B_i} = V_i \subset Y$ such that $f^{-1}(V_i) = U_i = \Spec{A_i}$ is an affine open cover of $X$ and $B_i \to A_i$ is finite. Consider $f^{-1}(V) \cap U_i = f^{-1}(V \cap V_i)$. Since $V_i$ is affine open we have $V \cap V_i$ covered by prinipal opens $D(f_{ij})$ and then $f^{-1}(V) \cap U_i = D(\varphi(f_{ij}))$ inside the affine open $U_i$. Thus replacing $X$ by $f^{-1}(V)$ we reduce to the case $a : X \to \Spec{B}$ where $D(f_i) \subset \Spec{B}$ is an open affine cover (which we may take to be finite) and $a^{-1}(D(f_i)) = X_{a^\#(f_i)} = \Spec{A_i}$ is affine open with $B_{f_i} \to A_i$ is finite. Then $f_1, \dots, f_n$ generate the unit ideal of $B$ since they cover $\Spec{B}$. Thus, $a^\#(f_1), \dots, a^\#(f_n) \in \Gamma(X, \struct{X})$ generate the unit ideal. Therefore, by 2.17, $X = \Spec{A}$ is affine with $A_i = A_{a^\#(f_i)}$. Now, the map $a^\# : B \to A$ localizes to $B_{f_i} \to A_{a^\#(f_i)}$ which is finite. Then by lemma \ref{finiteness_local} $B \to A$ is finite. 
+
+\begin{lemma} \label{finiteness_local}
+Let $\varphi : A \to B$ be a ring map such that for $f_1, \dots, f_n$ generating the unit ideal of $A$ the localized maps $\varphi : A_{f_i} \to B_{\varphi(f_i)}$ are finite then $\varphi$ is finite.
+\end{lemma}
+
+\begin{proof}
+Let $x_{i1}, \dots, x_{in} \in B_{\varphi(f_i)}$ generate $B_{\varphi(f_i)}$ as an $A_f$-module. Multiplying by a suitable power of $f_i$ we may assume these elements lift to $B$. I claim that $\{ x_{ij} \}$ generate $B$ as an $A$-module. For any $b \in B$ we know that $f_i^{N_i} (a_1 \cdot x_{i1} + \cdots + a_n \cdot x_{in} - b)$ in $B$ for some $n_i$.  Now, $f_1^N, \dots, f_n^N$ generate the unit ideal of $B$ where $N = \max_i N_i$ so for each $i$ we get,
+\[ f_i^N b \in A x_{i1} + \cdots + A x_{in} \]
+and thus,
+\[ b \in  \sum A x_{ij} \]
+since $f_1^N, \dots, f_n^N$ generate the unit ideal so $\varphi : A \to B$ is finite. 
+\end{proof}
+
+\subsubsection{3.5}
+
+\begin{definition}
+We say that $f : X \to Y$ is quasi-finite if for each $y \in Y$ the set $f^{-1}(y)$ is finite.
+\end{definition}
+
+\begin{enumerate}
+\item Let $f : X \to Y$ be finite. For any $y \in Y$ there must exist affine open sets $\Spec{A} = U \subset X$ and $y \in \Spec{B} = V \subset Y$ such that $U = f^{-1}(V)$ and $B \to A$ is finite. Then $f^{-1}(y) \subset U$ so it suffices to show that the set of primes above $\p \in \Spec{B}$ is finite. The fibre is $X_y = \Spec{A \otimes_B \kappa(y)} \to \Spec{\kappa(y)}$ which is finite then we use the fact that a finite-dimensional $k$-algebra has finitely many prime ideals. 
+\item Let $f : X \to Y$ be finite and $Z \subset X$ be closed. Because $f$ is finite we can find an affine open cover $V_i = \Spec{B_i}$ of $Y$ such that $U_i = f^{-1}(V)$ is affine, $U_i = \Spec{A_i}$ and $\varphi_i : B_i \to A_i$ is finite. Then $Z \cap U_i$ is closed in $\Spec{A_i}$ so there is an ideal $I_i \subset A_i$ such that $Z \cap U_i = V(I_i)$. Now, I claim that finite ring maps induce closed maps on spectra. 
+\bigskip\\
+Consider $V(I) \subset \Spec{A}$ and $\varphi : B \to A$. Then consider $\varphi^*(V(I))$
+We can reduce to the case $I = 0$ since $B \to A \to A / I$ is finite and $\varphi^*(V(I))$ is the image of $\Spec{A / I} \to \Spec{B}$. We can also reduce to $B \to A$ injective since the image of $\Spec{A}$ is contained in $\Spec{B / \ker{(B \to A)}}$ which is closed. Thus, take $B \to A$ injective and consider $\Spec{A} \to \Spec{B}$. Since $B \to A$ is finite it is integral so the going up property holds. Thus it suffices to show that minimal primes of $B$ are in the image. If $\p \in \Spec{B}$ is minimal then $B_\p$ has a unique prime ideal then the localization $B_\p \to A_\p$ is integral so the maximal ideals of $A_\p$ are exactly those prime ideals above the unique maximal ideal $\p \in \Spec{B_\p}$ so $\p$ is in the image of $\Spec{B} \to \Spec{A}$. Since $\Spec{A} \to \Spec{B}$ hits all minimal primes and has going up then it must be surjective. 
+\bigskip\\
+Therefore $f(Z \cap U_i)$ is closed in $V_i = \Spec{A_i}$. Now, $y \in f(Z) \cap V_i$ if $y \in V_i$ and $\exists x \in Z$ such that $f(x) = y$ so $x \in Z \cap f^{-1}(V_i) = Z \cap U_i$. Furthermore, $f(Z \cap U_i) \subset f(Z) \cap f(U_i) = f(Z) \cap V_i$ so $f(Z) \cap V_i = f(Z \cap U_i)$ so $f(Z) \cap V_i$ is closed. Then, I claim that $f(Z)$ is closed. 
+\bigskip\\
+If $x \in f(Z)^C$ then for some $V_i$ we have $x \in V_i \setminus f(Z)$ is open and $x \in V_i \setminus f(Z) \subset f(Z)^C$ so $f(Z)$ is closed. 
+
+\item Consider the map $\Gm^k \coprod \A^1_k \to \A^1_k$ via $k[x] \to k[x,x^{-1}]$ and the identity. This is clearly surjective and finitely generated since on rings it is,
+\[ k[x] \to k[x, x^{-1}] \times k[x] \]
+Furthermore, this map is quasi-finite since the fibers have at most two points. To see this, consider, $y = (x - a) \in \Spec{k[x]}$ then $\kappa(y) = k[x]/(x - a)$ and the fibre is,
+\begin{align*}
+X_y & = \Spec{(k[x x^{-1}] \times k[x]) \otimes_{k[x]} k[x]/(x  - a)} 
+\\
+& = \Spec{k[x, x^{-1}]/(x - a) \times k[x] / (x - a)} 
+\\
+& = \Spec{k[x, x^{-1}/(x - a)} \coprod \Spec{k[x]/(x - a)} 
+\\
+& = 
+\begin{cases}
+\Spec{k} & a = 0
+\\
+\Spec{k} \coprod \Spec{k} & a \neq 0
+\end{cases}
+\end{align*}
+However, this map is not closed since $\Gm^k \subset \Gm^k \coprod \A^1_k$ is closed but its image is $\A^1_k \setminus \{ 0 \}$ which is not closed. Thus the map cannot be finite. In particular,
+\[ k[x, x^{-1}] = \bigoplus_{n \ge 0} x^{-1} k[x] \]
+so $k[x, x^{-1}]$ is not a finitely-generated $k[x]$-module.  
+\end{enumerate}
+
+\subsubsection{3.6}
+
+Let $X$ be an integral scheme. Then $X$ is irreducible so it has a unique generic point $\xi \in X$. Since $\xi$ is generic, all points are its limit points i.e. it lies in every nonempty open $U \subset X$. In particular, if $U = \Spec{A}$ is an affine open then $\xi \in U$ corresponding to $\p_\xi \subset A$ such that $V(\p_\xi) = \Spec{A}$. Since $X$ is integral, $A$ is a domain then $\stalk{X}{\xi} = A_{\p_\xi} = \Frac{A}$ is a field.
+
+\subsubsection{3.7}
+
+\begin{definition}
+A morphism $f : X \to Y$ with $Y$ irreduclbe is \textit{generically finite} if $X_\eta$ is finite at the generic point $\eta \in Y$. 
+\end{definition}
+
+\begin{definition}
+A morphism $f : X \to Y$ is \textit{dominant} if $f(X) \subset Y$ is dense.
+\end{definition}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of irreducible schemes and let $\eta_X \in X$ and $\eta_Y \in Y$ be their generic points. Then $f$ is dominant iff $f(\eta_X) = \eta_Y$.
+\end{lemma}
+
+\begin{proof}
+If $f(\eta_X) = \eta_Y$ then $\overline{f(\eta_X)} = \overline{\eta_Y} = Y$. Conversely, if $\overline{f(X)} = Y$ then since $f$ is continuous $f(\overline{A}) \subset \overline{f(A)}$ for any set $A$. Thus,
+\[ f(X) = f(\overline{\eta_X}) \subset \overline{f(\eta_X)} \]
+Thus, $\overline{f(\eta_X)} = \overline{f(X)} = Y$ so $f(\eta_X) = \eta_Y$ since it is a point whose closure is $Y$.
+\end{proof}
+
+Let $f : X \to Y$ be a dominant, generically finite, finite-type morphism of integral schemes. Let $\eta_X \in X$ and $\eta_Y \in Y$ be their generic points. Then $f(\eta_X) = \eta_Y$ so we get a map $f^\# : \stalk{Y}{\eta_Y} \to \stalk{X}{\eta_X}$ whch is an extension of residue function, $K(Y) \embed K(X)$. 
+\bigskip\\
+First, take affine opens $\Spec{B} = U \subset X$ and $\Spec{A} = V \subset Y$ with $f : U \to V$ then $A$ and $B$ are domains and $\varphi : A \to B$ is finite type so there is a surjecton $A[x_1, \dots, x_n] \twoheadrightarrow B$. Since $f(\eta_X) = \eta_Y$ (because $f : U \to V$ is dominant), then $\ker{\varphi} = \varphi^{-1}(0) = (0)$ so $\varphi$ is injective so we get an extension of domains $A \subset B$. Furthermore, $K = \Frac{A} = K(Y)$ and $F = \Frac{B} = K(X)$. The morphism $f : U \to V$ must be generically finite which implies that the fibre,
+\[ U_{\eta_Y} = \Spec{B \otimes_A K} = \Spec{B \otimes_A S^{-1}_A A} = \Spec{S_A^{-1} B} \]
+is finite. However, $B_K = B \otimes_A K(Y)$ is a finitely generated $K$-algebra because the base change of the map $A[x_1, \dots, x_n] \twoheadrightarrow B$ gives $K[x_1, \dots, x_n] \twoheadrightarrow B_K$. Now we apply Noetherian normalization to the domain $B_K = S_A^{-1} B$ to get a finite (and hence integral) extension of domains $B_K \supset K[x_1, \dots, x_d]$ with $d = \dim{B_K}$. By Cohen, $\Spec{B_K} \to \Spec{K[x_1, \dots, x_d]}$ is surjective but for $d > 0$ the space $\Spec{K[x_1, \dots, x_d]}$ is infinite so $\dim{B_K} = 0$ and thus $B_K$ is a domain finite over $K$. Therefore, $B_K$ is a field but $B_K = S_A^{-1} B \subset F$ so $B_K = \Frac{B} = F$ meaining that $F / K$ is a finite extension of fields since $B_K / K$ is finite. 
+\bigskip\\
+Now, $F / K$ is generated by $x_1, \dots, x_n \in B$ all of which must satisfy monic $K$-equations since $F / K$ is finite. Let $g \in K$ be the product of the denominators of the coefficients then $A_g \subset B_g$ is a finite extension since $B_g$ is generated as an $A_g$-algebra by finitely many integral elements. Then $f : U_g \to V_g$ is finite with $U_g = \Spec{B_g}$ and $V_g = \Spec{A_g}$ and $V_g$ is dense since $Y$ is irreducible. Since $f^{-1}(V_g) \subset X$ is dense ($X$ is irreducible) replacing $X$ by $f^{-1}(V_g)$ and $Y$ by $V_g$ reduces to the case of $f : X \to \Spec{A}$ with an affine covering by $U_i = \Spec{B_i}$ such that $f : U_i \to \Spec{A}$ is finite and $A \embed B_i$ is a finite extension of domains. Then take,
+\[ W = \bigcap U_i \]
+which is nonempty since $X$ is irreducible. Now $U_i \setminus W$ is closed in $U_i$ so there is some ideal $\a_i \subset B_i$ strictly containing the nilradical (i.e. nonzero since these are domains) such that $U_i \setminus W = V(\a_i)$ (since $U_i \setminus W \subsetneq U_i$). If $\a_i \cap A = (0)$ then by Cohen $\a_i = (0)$ since there cannot be inclusions in the fibres of an integral extension. Therefore, $\a_i \cap A \supsetneq (0)$ so take some nonzero $f_i \in \a_i \cap A$ then in $U_i = \Spec{B_i}$ we have $D(f_i) \subset V(\a_i)^C = W$. Take $V = \Spec{A_{f_i}}$ which is open in $\Spec{A}$ and $f^{-1}(V) \cap U_i = D(f_i) \subset W \cap U_i$ meaning that $f^{-1}(V) \subset W$ since $U_i$ form a cover of $X$ so $f^{-1}(V) \subset U_i$ and so $f^{-1}(V) = \Spec{(B_i)_{f_i}}$ is affine. Finally, since $A \subset B_i$ is finite we know $A_{f_i} \to (B_i)_{f_i}$ is finite and thus $f : f^{-1}(V) \to V$ is finite and since $Y$ is irreducible and $V$ is nonempty open it is dense.
+
+\subsubsection{3.8}
+
+\subsubsection{3.9}
+
+\begin{enumerate}
+\item Let $\A^1_k = \Spec{k[x]}$ where $k$ is algebraically closed. The points of $\A^1_k$ are ideals $(x - \mu)$ for $\mu \in k$ and $(0)$. However, the points of $\A^2_k = \A^1_k \times_k \A^1_k = \Spec{k[x,y]}$ are ideals $(x - \mu, y - \lambda)$ with $\mu, \lambda \in k$ plus $(f(x,y))$ for any irreducible $f(x,y) \in k[x,y]$ plus $(0)$. Therefore, $\A^2_k$ has all points in the product plus a bunch of generic points of closed subschemes.
+
+\item Consider $k(s)$ and $k(t)$ with two independent inteterminants. These are fields so $\Spec{k(t)}$ and $\Spec{k(t)}$ are point point spaces. However, consider,
+\[ X = \Spec{k(s)} \times_{\Spec{k}} \Spec{k(t)} = \Spec{k(s) \otimes_k k(t)} \]
+This has at least as many closed points as $k^\times$ because the map $k(s) \otimes_k k(t) \to k(x)$ sending $s \otimes 1 \mapsto x$ and $1 \otimes t \mapsto r x$ for $r \in k^\times$ is surjective making its kernel $(rs \otimes 1 - 1 \otimes t)$  a maximal ideal. 
+\end{enumerate}
+
+\subsubsection{3.10}
+
+\begin{enumerate}
+\item Let $f : X \to Y$ be a morphism and $y \in Y$. Then consider the fibre $X_y$ defined as the pushout,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+X_y \arrow[r] \arrow[d] & X \arrow[d, "f"] 
+\\
+\Spec{\kappa(y)} \arrow[r] & Y 
+\end{tikzcd}
+\end{center}
+First, note that $X_y \to X$ as a map of topological spaces has image inside the fibre $f^{-1}(y)$ since the diagram commues and the image of $\Spec{\kappa(y)} \to Y$ is the single point $y \in Y$. Thus it suffices to show that $X_y \to f^{-1}(y)$ is a homeomorphism.
+\bigskip\\
+For any point $x \in f^{-1}(y)$ there is a morphism $\Spec{\kappa(x)} \to X$ and $f$ gives a map $\kappa(y) \to \kappa(x)$ and thus a morphism $\Spec{\kappa(x)} \to \Spec{\kappa(y)}$ such that the diagram commutes,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+\Spec{\kappa(x)} \arrow[rrd, bend left] \arrow[rd, dashed] \arrow[ddr, bend right]
+\\
+& X_y \arrow[r] \arrow[d] & X \arrow[d, "f"] 
+\\
+& \Spec{\kappa(y)} \arrow[r] & Y
+\end{tikzcd}
+\end{center} 
+Thus we get a point $\Spec{\kappa(x)} \to X_y$. Therefore, the map $X_y \to f^{-1}(y)$ is bijective. Therefore, it suffices to prove that $\iota : X_y \to f^{-1}(y)$ is closed. (DO THIS)
+\item Let $k$ be an algebraicall closed field of characteristic zero. Consider the scheme $X = \Spec{k[s,t]/(s - t^2)}$ and $Y = \Spec{k[s]}$ and consider the morphism $f : X \to Y$ via $k[s] \to k[s,t]/(s - t^2)$. For the prime $y = (s - a) \in Y$ consider the residue field,
+\[ \kappa(y) = k[s]_{(s - a)} / (s - a) = k[s]/(s - a) \]
+then the fibre is,
+\[ X_y = \Spec{k[s,t]/(s - t^2) \otimes_{k[s]} k[s]/(s - a)} \]
+furthermore,
+\[ k[s,t]/(s - t^2) \otimes_{k[s]} k[s]/(s - a) = k[t]/(a - t^2) \]
+which implies that,
+\[ X_y \cong V((a - t^2)) \subset \Spec{k[t]} \]
+Thus, if $a \neq 0$ then $t^2 - a$ splits (since $k$ is algebraically closed and $\ch{k} = 0$) so $\Spec{k[t]/(a - t^2)}$ has two points and is reduced. For $a = 0$ we have $X_y = \Spec{k[t]/(t^2)}$ which is one point and not reduced since $\nilrad{k[t]/(t^2)} = (t)$.  
+\bigskip\\
+Finally, consider the fibre above the generic point $\eta = (0) \subset k[s]$ which has resuide field $\kappa(\eta) = k[s]_{(0)} = k(s)$. Therefore the fibre is,
+\[ X_\eta = \Spec{k[s, t]/(s - t^2) \otimes_{k[s]} k(s)} = \Spec{k(s)[t]/(s - t^2)} \] 
+The polynomial $t^2 - s \in k(s)[t]$ is irreducible then $(s - t^2)$ is maximal. Then $k(s)[t]/(s - t^2)$ is a field extension of $k(s)$ of degree 2 and thus it has one prime so $X_\eta$ is a one point space.
+\end{enumerate}
+
+\subsubsection{3.11}
+
+\begin{enumerate}
+\item Let $f : Z \to Y$ be a closed immersion and $X \to Y$ a morphism then consider $f' : Z \times_Y X \to X$. Being a closed immersion is a local property since surjectivity of sheaves is local on the source and target and being a homeomorphism onto a closed set is local since the image of closed sets being closed is local on the source and target. Thus it suffices to prove the case of affine schemes $X = \Spec{A}$ and $Y = \Spec{B}$ and $Z = \Spec{C}$. Then we get,
+\begin{center}
+\begin{tikzcd}
+C \otimes_B A \arrow[from=r, two heads] & A
+\\
+C \arrow[u] & B \arrow[u] \arrow[l, two heads]
+\end{tikzcd}
+\end{center}
+If $B \to C$ is surjective then by right-exactness $A \to C \otimes_B A$ is surjective. Furthermore, by surjectivity of $B \to C$ we get $C = B / I$ and thus this is the closed immersion 
+$\Spec{B/I} \to \Spec{C}$. Then, $A \to (B / I) \otimes_B A = B / I B$ gives the closed immersion $\Spec{B / I B} \to \Spec{B}$.
+
+\item Let $X = \Spec{A}$ be affine and $\iota : Y \embed X$ a closed subscheme. Let $\Spec{B_i} = U_i \subset Y$ be an affine open cover of $Y$ and consider $\iota|_{U_i} : U_i \to \iota(U_i)$. Since $\iota : Y \to \iota(Y)$ is a homeomorphism with $\iota(Y) \subset X$ closed so $\iota(U_i)$ is open in $\iota(Y)$. Therefore, we can cover $\iota(U_i)$ by finitely may $D(f_{ij})$ and write,
+\[ \iota(U_i) = \bigcup_{j = 1}^{n_i} D(f_{ij}) \cap \iota(Y) \]
+Now, $\iota|_{U_i}^{-1}(D(f_{ij})) = U_i \cap \iota^{-1}(D(f_{ij})) = D(\varphi_i(f_{ij}))$ for $\varphi : A \to B_i$ inside $U_i = \Spec{B_i}$. However, $D(f_{ij}) \cap \iota(Y) \subset \iota(U_i)$ and $\iota$ is injective so,
+\[ \iota^{-1}(D(f_{ij})) \subset U_i \]
+and thus,
+\[ \iota^{-1}(D(f_{ij})) = U_i \cap \iota^{-1}(D(f_{ij})) = \iota^{-1}(D(f_{ij})) = D(\varphi_i(f_{ij})) \]
+Therefore, $Y$ is covered by affine opens $D(\varphi_i(f_{ij}))$. Furthermore, $\Spec{A}$ is quasi-compact so $\iota(Y) \subset X$ closed is quasi-comact and since $\iota : Y \to \iota(Y)$ is a homeomorphism then $Y$ is quasi-compact so we may take $D(\varphi_i(f_{ij}))$ to be a finite affine cover of $Y$. Since $\iota(Y)$ is closed we can cover $X \setminus \iota(Y)$ by finitely many principal opens $D(f_k)$ to give a finite cover of $X$ by opens $D(f_i)$ such that $\iota^{-1}(D(f_i))$ is empty or affine. Since $D(f_i)$ cover $X$ we have $f_1, \dots, f_n \in A$ generate the unit ideal so $\iota^\#(f_1), \dots, \iota^\#(f_n) \in \Gamma(Y, \struct{Y})$ generate the unit ideal and $\iota^{-1}(D(f_i)) = Y_{\iota^\#(f_i)} = D(\varphi(f_i))$. Therefore, by criterion 2.17 we have that $Y = \Spec{B}$ is affine. Furthermore, by 2.18d, since $Y \to X$ is a closed immersion we have $A \to B$ is surjective so $B \cong A / \a$ and our closed subscheme is equivalent to $\Spec{A / \a} \to \Spec{A}$.  
+
+\item Let $Y \subset X$ be a closed subset and give $Y$ the reduced induced subscheme structure. Let $Y' \embed X$ be any other closed subscheme of $X$ whose underlying space is $Y$. This question is local so it suffices to show the case that $X = \Spec{A}$ is affine and thus $Y = \Spec{A / I}$ where,
+\[ I = \bigcap_{\p \in V(I)} \p \]
+i.e. $I = \sqrt{I}$ is radical. Then $Y' = \Spec{A / J}$ for any ideal such that $V(J) = V(I)$ i.e. $\sqrt{J} = \sqrt{I} = I$. Therefore, $J \subset I$ so  the map $\Spec{A / I} \to \Spec{A}$ factors through $\Spec{A/J} \to \Spec{A}$ since the ring map $A \to A / I$ factors through $A \to A / J$ because $J \subset I$.  
+
+\item Let $f : Z \to X$ be a morphism. Consider the scheme theoretic image $Y$ of $f$ which is a closed subscheme of $Y$ such that $f$ factors $f : Z \to Y \to X$ and if $Y'$ is annother closed subscheme of $X$ such that $f$ factors as $f : Z \to Y' \to X$ then $Y \to X$ factors through $Y' \to X$,
+\begin{center}
+\begin{tikzcd}
+Z \arrow[rr, "f"] \arrow[rd, "\tilde{f}"] \arrow[rdd, "\tilde{f}", bend right] &  & X
+\\
+& Y \arrow[ru, "\iota"] \arrow[d, dashed]
+\\
+& Y' \arrow[ruu, "\iota'", bend right]
+\end{tikzcd}
+\end{center}
+Uniqueness is clear since if $Y$ and $Y'$ both satisfied this condition then we have morphisms $Y \to Y'$ and $Y' \to Y$ which compose to give an automorphism of $Y \to X$ which must be the identity since $Y \to X$ is a closed immersion.
+\bigskip\\
+We need to show that such a scheme exists. (SHOW THIS)
+\end{enumerate}
+
+\begin{lemma}
+Given a morphism of schemes $f : X \to \Spec{A}$ and $g \in A$ we have, 
+\[ f^{-1}(D(g)) = X_{f^\#(g)} = \{ x \in X \mid (f^\#(g))_x \notin \m_x \} \]
+\end{lemma}
+
+\begin{proof}
+Recall that $f(x) = \p$ iff $\p = (f^\#)^{-1} \circ \res_x^{-1}(\m_x)$ because for $f(x) = \p$ the sheaf diagram,
+\begin{center}
+\begin{tikzcd}
+A \arrow[d] \arrow[r, "f^\#"] & \struct{X}(X) \arrow[d, "\res_x"]
+\\
+A_\p \arrow[r, "f^\#_x"] & \stalk{X}{x}
+\end{tikzcd}
+\end{center} 
+And furthermore, $f^\#_x : A_\p \to \stalk{X}{x}$ is local so $(f^\#_x)^{-1}(\m_x) = \p A_\p$ and thus, by commutativity, $\p = (f^\#)^{-1} \circ \res_x^{-1}(\m_x)$. 
+Thus,
+\begin{align*}
+x \in f^{-1}(D(g)) & \iff f(x) \in D(g) \iff (f^\#)^{-1} \circ \res_x^{-1} (\m_x) \in D(g) 
+\\
+& \iff g \notin (f^\#)^{-1} \circ \res_{x}^{-1} (\m_x) \iff (f^\#(g))_x \notin \m_x 
+\\
+& \iff x \in X_{f^\#(g)}
+\end{align*}
+\end{proof}
+
+\subsubsection{3.12}
+
+\begin{enumerate}
+\item Let $\varphi : S \to B$ be a surjective graded ring map. (DO 2.14)
+\end{enumerate}
+
+\subsubsection{3.13}
+
+\subsubsection{3.14}
+
+Let $X$ be a scheme locally of finite type over a field $k$. A point $x \in X$ is closed iff $\kappa(x)$ is a finite extension of $k$. Take any nonempty open $U \subset X$ which must contain an affine open $\Spec{A}$. Since $X$ is of finite type over $k$ the ring $A$ is a finite $k$-algebra which we may write as $k[x_1, \dots, x_n]/I$. Take a maximal ideal $\m$ containing $I$ such that $\m \in \Spec{A}$ and,
+\[ \kappa(\m) = A_{\m} / \m A_{\m} = (A \setminus \m)^{-1} (A / \m) = A / \m \]
+since $A / \m$ is a field. Furthermore, $A / \m$ is a finitely-generated $k$-algebra so, by the nullstellensatz, $A / \m$ is a finite extension of $k$ so $\m \in \Spec{A} \subset U$ is a closed point of $X$ (not just of $\Spec{A}$ which is obvious). Therefore, closed points are dense. 
+\bigskip\\
+Conversely, take any local ring $R$ which is not a field. Then $R$ has a unique maximal ideal which is a unique closed point so the closure of the closed points is a single point. However $\Spec{R}$ has more than one point.  
+
+\subsubsection{3.15}
+
+Let $X$ be a scheme of finite type over $k$.
+
+\begin{enumerate}
+\item We say that $X$ is \textit{geomerically irreducible} if one of the three conditions hold,
+\begin{enumerate}
+\item[(i)] $X \times_k \Spec{\overline{k}}$ is irreducible
+\item[(ii)] $X \times_k \Spec{k^{\text{sep}}}$ is irreducible
+\item[(iii)] $X \times_k \Spec{K}$ is reduced for every extension $K / k$
+\end{enumerate}
+The map $k^{\text{sep}} \embed \overline{k}$ induces $X \times_k \Spec{\overline{k}} \to X \times_k \Spec{k^{\text{sep}}}$. Since the map $\Spec{k^{\text{sep}}} \to \Spec{\overline{k}}$ is surjective its base change to,
+\[ X \times_k \Spec{\overline{k}} \to X \times_k \Spec{k^{\text{sep}}} \]
+is surjective. Now, the image of irreducible sets is irreducible so (i) $\implies$ (ii). Furthermore, 
+(ii) $\implies$ (iii) (DO THIS)
+Finally, (iii) $\implies$ (i) is trivial. 
+
+\item We say that $X$ is \textit{geomerically reduced} if one of the three conditions hold,
+\begin{enumerate}
+\item[(i)] $X \times_k \Spec{\overline{k}}$ is reduced
+\item[(ii)] $X \times_k \Spec{k^{\text{perf}}}$ is reduced
+\item[(iii)] $X \times_k \Spec{K}$ is reduced for every extension $K / k$
+\end{enumerate}
+
+The map $k^{\text{perf}} \embed \overline{k}$ induces $X \times_k \Spec{\overline{k}} \to X \times_k \Spec{k^{\text{perf}}}$. Since the map $\Spec{k^{\text{perf}}} \to \Spec{\overline{k}}$ is surjective its base change to,
+\[ X \times_k \Spec{\overline{k}} \to X \times_k \Spec{k^{\text{perf}}} \]
+is surjective. Now, the image of irreducible sets is irreducible so (i) $\implies$ (ii). Furthermore, 
+(ii) $\implies$ (iii) (DO THIS)
+Finally, (iii) $\implies$ (i) is trivial. 
+
+\item We say that $X$ is \textit{geometrically integral} if $X \times_k \overline{k}$ is integral. 
+\end{enumerate}
+
+\subsubsection{3.16}
+
+Let $P$ be a property of closed subsets of a noetherian topological space $X$. Suppose that each closed subset $Y \subset X$ has the property that if $P$ is true for each proper closed subset of $Y$ then $P$ holds for $P$. Furthermore, suppose that $P$ holds for $\varnothing \subset X$.
+\bigskip\\
+Let $\Sigma = \{ Y \subset X \mid Y \text{ is closed and property P fails} \}$ which is a poset under inclusion. Assume that $\Sigma$ is nonempty. By the Noetherian propery all chains have a least element and thus, by Zorn's Lemma, $\Sigma$ has a least element $Y \in \Sigma$. Thus, any proper closed subset of $Y$ cannot lie in $\Sigma$ and thus has property $P$. By the induction assumption $Y$ has property $P$ contradicting $Y \in \Sigma$ so the assumption that $\Sigma \neq \varnothing$ must be false. Therefore, $X \notin \Sigma$ so $X$ has property $P$.
+
+\subsubsection{3.20}
+
+\begin{lemma}
+Let $Y \subset X$ be any subset then $\dim{Y} \le \dim{X}$. 
+\end{lemma}
+
+\begin{proof}
+Let $Y = Z_0 \supsetneq Z_1 \supsetneq \cdots \supsetneq Z_d$ be a maximal chain of closed irreducible sets in $Y$. Then consider $W_i = \overline{Z_i}$. I claim that $W_i$ is irreducible and forms a proper chain. First, if $W_i \supset C_1 \cup C_2$ for closed $C_1, C_2$ then $Z_i \subset W_i \subset C_1 \cup C_2$ but $Z_i$ is irreducible so (WLOG) $Z_i \subset C_1$ and thus $W_i = \overline{Z_i} \subset C_1$ since $C_1$ is cloed. Thus $W_i$ is irreducible. 
+\bigskip\\
+Now suppose that $\overline{Z_i} = \overline{Z_{i+1}}$ then $Z_i \subset \overline{Z_{i+1}}$ which implies that $Z_i \subset \overline{Z_{i + 1}} \cap Y = Z_{i + 1}$ (since $Z_{i + 1}$ is closed in $Y$) which contradicts the fact that $Z_i \supsetneq Z_{i+1}$. Thus the chain is proper so $\dim{X} \ge d = \dim{Y}$.  
+\end{proof}
+
+\begin{definition}
+If $Z \subset X$ is irreducible closed then $\codim(Z,X)$ is the length of the longest chain,
+\[ Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n \]
+Furthermore, if $Y \subset X$ is closed then we define,
+\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+\end{definition}
+
+\begin{lemma}
+Let $X$ be a topological space and $Z \subset X$ be an irreducible closed subspace. Let $U \subset X$ be open such that $U \cap Z$ is nonempty then $\codim{(Z, X)} = \codim{(Z \cap U, U)}$.
+\end{lemma}
+
+\begin{proof}
+Let $Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_d$ be a maximal chain of closed irreducible subsets in $X$ so $d = \dim{X}$. Consider,
+\[ U \cap Z_0 \subset U \cap Z_1 \subset \cdots \subset U \cap Z_d \]
+Then $U \cap Z_i$ is nonempty (contains $U \cap Z$) and thus is irreducible and furthermore is closed in $U$. Consider $(U^C \cap Z_i) \cup \overline{U \cap Z_i} \supset Z_i$ and both are closed so $\overline{U \cap Z_i} \supset Z_i$ since $U \cap Z_i$ is non empty which implies that $U^C \cap Z_i$ does not contain $Z_i$. Furthermore, $Z_i \supset U \cap Z_i$ and $Z_i$ is closed so $Z_i \supset \overline{U \cap Z_i}$. Therefore, $\overline{U \cap Z_i} = Z_i$. Thus we cannot have $U \cap Z_{i} = U \cap Z_{i+1}$ since their closures are $Z_i \subsetneq Z_{i+1}$ which are distinct. Thus, $\codim{(U \cap Z, U)} \ge d = \codim{(Z, X)}$ and by the argument in the previous lemma, $\codim{(U \cap Z, U)} \le \codim{(Z, X)}$.
+\end{proof}
+
+\begin{corollary}
+If $U \subset X$ is open and contains a point $x \in X$ such that $\dim_x(X) = \dim{X}$ then $\dim{U} = \dim{X}$.
+\end{corollary}
+
+\begin{proof}
+We have, \[ \dim_x(X) = \codim{(x, X)} = \codim{(x, U)} = \dim_x(U) \le \dim{U} \]
+Thus, $\dim{X} \le \dim{U}$ but we have shown that $\dim{U} \le \dim{X}$.
+\end{proof}
+
+\begin{lemma}
+Let $X$ be sober and $Z \subset X$ a closed irreducible subspace and $\xi \in Z$ its generic point. Then $\codim{(Z, X)} = \dim{\stalk{X}{\xi}}$.
+\end{lemma}
+
+\begin{proof}
+Choose any affine open $U \subset X$ containing the generic point $\xi \in Z$. Then,
+\[ \codim{(Z, X)} = \codim{(Z \cap U, U)} \]
+However, $U = \Spec{A}$ and $Z \cap U = V(\p)$ since it is closed irreducible in $U$ with $\p = \xi \in U$ its generic point. Then chains of irreducible subsets about $V(\p)$ correspond to chains of prime ideals below $\p$ so,
+\[ \codim{(Z \cap U, U)} = \codim{(V(\p), \Spec{A})} = \height{(\p)} = \dim{A_\p} = \dim{\stalk{X}{\xi}} \]
+\end{proof}
+
+Let $X$ be an integral scheme of finite type over a field $k$.
+\begin{enumerate}
+\item Let $x \in X$ be a closed point and $U \subset X$ any affine open containing $x$. Then $U = \Spec{A}$ with $A$ a finitely-generated $k$-algebra domain with $x$ corresponding to $\m \subset A$. In this case, the height satisfies,
+\[ \dim{\stalk{X}{x}} = \dim{A_\m} = \height{\m} = \dim{A} - \dim{A / \m} \]
+However, $A / \m$ is a field so $\dim{A / \m} = 0$. Thus,
+\[ \dim{\stalk{X}{x}} =  \dim{A} \]
+Now, let $X = Z_0 \supsetneq Z_1 \supsetneq \cdots \supsetneq Z_d = \{ p \}$ (with $p \in X$ closed) be a maximal chain of closed irreducible subsets so $d = \dim{X}$. Take an affine open $V = \Spec{B}$ with $p \in V$ then by the same argument $\dim{B} = \dim{\stalk{X}{p}}$. Furthermore, since $X$ is irreducible $U \cap V$ is nonempty open. Furthermore, since $X$ is finite type over $k$ closed points are dense so we can choose a closed point $q \in U \cap V$ and then we have,
+\[ \dim{\stalk{X}{x}} = \dim{A} = \dim{\stalk{X}{q}} = \dim{B} = \dim{\stalk{X}{p}} \]
+By the lemma, $\dim{V} = \dim{X}$ and thus,
+\[ \dim{X} = \dim{V} = \dim{B} = \dim{\stalk{X}{p}} =  \dim{\stalk{X}{x}} \]
+\item For any finitely-generated $k$-algebra domain $A$ we have $\dim{A} = \trdeg{k}{\Frac{A}}$ and thus, for any affine open $U \subset X$ with $U = \Spec{A}$ then we have shown,
+\[ \dim{X} = \dim{A} = \trdeg{k}{\Frac{A}} \]
+However, $\Frac{A} = K(X)$ is the function field $\stalk{X}{\xi}$ so we have,
+\[ \dim{X} = \trdeg{k}{K(X)} \]
+\item 
+Now, in the case of integral schemes of finite type over $k$, consider a closed subset $Y \subset X$ then,
+\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+for irreducible closed subsets $Z \subset Y$. First, for an irreducible closed subset $Z \subset X$ 
+
+We know that $\codim{(Z, X)} = \dim{\stalk{X}{\xi}}$ where $\xi \in Z$ is the generic point. Therefore, 
+\[ \codim{(Y, X)} = \inf \{ \dim{\stalk{X}{\xi}} \mid \xi \in Y \} \]
+since schemes are sober so points of $Y$ correspond exactly to closed irreducibe subspaces via closure. 
+
+\item 
+
+Let $Y \subset X$ be a closed subset. First, suppose that $Y$ is irreducible then for any affine open $U \subset X$ intersecting $Y$ we have,
+\[ \codim{(Y, X)} = \codim{(U \cap Y, U)} \]
+Furthermore, $U = \Spec{A}$ and $Y \cap U$ is irreducible closed in $U$ so $Y \cap U = V(\p)$. Thus,
+\[ \codim{(U \cap Y, U)} = \codim{(V(I), \Spec{A})} =\height{\p} \]
+However, since $A$ is a finitely generated $k$-algebra domain,
+\[ \dim{A} = \height{\p} + \dim{A / \p} \]
+Furthermore, since $U \subset X$ and  $U \cap Y \subset U$ are nonempty open subspaces, we have shown that, $\dim{X} = \dim{U} = \dim{A}$ and,
+\[ \dim{Y} = \dim{U \cap Y} = \dim{V(I)} = \dim{A / I} \]
+Therefore, we have,
+\[ \dim{X} = \codim{(Y, X)} + \dim{Y} \]
+Now suppose that $Y$ is not irreducible we then define,
+\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+for all irreducible closed subsets of $Y$ which are thus irreducible closed subsets of $X$. Thus,
+\[ \codim{(Y, X)} = \inf_{Z \subset Y} \left[ \dim{X} -  \dim{Z} \right] = \dim{X} - \sup_{Z \subset Y} \dim{Z} = \dim{X} - \dim{Y} \]
+since by definition,
+\[ \dim{Y} = \sup_{Z \subset Y} \dim{Z} \]
+is the maximal length of irreducible closed chains in $Y$. 
+
+\item Let $U \subset X$ be a nonempty open. Since $X$ is finite type over $k$ the closed points of $X$ are dense so there is a closed point $x \in U$ and then we have shown that,
+\[ \dim{X} = \dim{\stalk{X}{x}} = \dim{U} \]
+since $U$ is a scheme satisfying the conditions. Furthermore, for any affine open $\Spec{A} \subset U$ then we know,
+\[ \dim{A} \le \dim{U} \le \dim{X} \]
+and $\dim{A} = \dim{X}$ so $\dim{U} = \dim{X}$.
+  
+\item Assume that $k$ is a perfect field (HOW TO DO IT WHEN NOT PERFECT). Consider an extension $k \embed k'$ and base change to $X \times_k \Spec{k'}$. First, if $A$ is a finitely generated $k$-algebra domain then base chaning to $A' = A \otimes_k k'$ is a finitely generated $k'$-algebra. Furthermore, since $k' / k$ is seperable then $A' = A \otimes_k k'$ is reduced. Therefore, the irreducible components of $X \times_k k'$ are integral scheme of finite type over $k'$. Then, as we have shown, for any affine open $U = \Spec{A'}$ in a irreducible component $\dim{X'} = \dim{U} = \dim{A'}$. Furthermore, $\dim{X} = \dim{A}$ where $\Spec{A}$ is an affine open of $X$. Thus, it suffices to show that $\dim{A} = \dim{A'}$. However, these are finitely-generated $k$-algebra domains so we know that,
+\[ \trdeg{k}{\Frac{A}} = \trdeg{k'}{\Frac{A'}} \]
+and thus $\dim{A} = \dim{A'}$. (FIX THIS PROOF).
+\end{enumerate}
+
+\subsubsection{3.21}
+
+Let $R$ be a discrete valuation ring containing its residue field $k$ for example $R = k[[X]]$ and let $K = \Frac{R} = R_\varpi$. Let $X = \Spec{R[t]}$. We have $\dim{X} = 2$. 
+\bigskip\\
+However, consider the ideal $\m = (\varpi t - 1) \subset R[t]$ and the quotient $R[t]/(\varpi t - 1) \to K$ via $t \mapsto \varpi^{-1}$ is an isomorphism so $\m = (\varpi t - 1)$ is maximal. However, $\height{\m} = 1$ because it is principal (see Lemma \ref{principal_ideals_height_one}). Thus,
+\[ \dim{R[t]_{\m}} = \height{\m} = 1 \]
+but $\dim{X} = 2$ so property (a) does not hold.
+\bigskip\\
+Now consider the closed set $Y = V(\m)$ where $\m = (\varpi t - 1)$ then $\dim{Y} = \dim{R[t] / \m} = \dim{K} = 0$ and $\codim{(Y, X)} = \height{\m} = 1$ however $\dim{X} = 2$ so,
+\[ \dim{X} \neq \codim{(Y, X)} + \dim{Y} \]
+and thus property (d) does not hold. 
+\bigskip\\
+Consider the open $D(\varpi) \subset X$ then $D(\varpi) \cong \Spec{R[t]_\varpi} = \Spec{K[t]}$. Therefore,
+\[ \dim{D(\varpi)} = \dim{K[t]} = 1 \]
+but $\dim{X} = 2$ so property (e) does not hold.
+
+\begin{lemma} \label{principal_ideals_height_one}
+Let $A$ be Noetherian. Any principal prime ideal $\p = (a)$ has $\height{\p} \le 1$.
+\end{lemma}
+
+\begin{proof}
+If $\p = (a)$ is prime then consider the local ring$A_{(a)}$ which is Noetherian and has unique maximal ideal $a A_{(a)}$. Thus $A_{(a)}$ is Noetherian and has every maximal ideal prinipal so $A_{(a)}$ is a PID and thus $\height{(a)} = \dim{A_{(a)}} \le 1$.  
+\end{proof}
+
+\subsection{4}
+
+\begin{definition}
+A morphism $f : X \to Y$ is \textit{proper} if it is separated, of finite type, and universally closed. 
+\end{definition}
+
+\begin{lemma}
+Finite morphisms are preserved under base change. 
+\end{lemma}
+
+\begin{proof}
+This is local so we only need to check this for affine schemes. Then it follows from the fact that finite ring maps are preserved under tensor product because surjections are preserved by tensor products.
+\end{proof}
+
+\subsubsection{4.1}
+
+Let $f : X \to S$ be a finite morphism. Finite morphisms are affine and thus separated and clearly finite morphisms are of finite type. Furthermore, finite morphisms are closed and finite morphisms are preserved under base change so they are universally closed.  
+
+\subsubsection{4.2}
+
+Let $X$ be a reduced scheme over $S$ and $Y$ be a seperated scheme over $S$. Consider two $S$-morphisms $f,g : X \to Y$ and a dense open set $U \subset X$ such that $f|_U = g|_U$. Now, consider the map $F : X \to Y \times_S Y$ defined by $f$ and $g$. Now consider the diagonal map $\Delta : Y \to Y \times_S Y$ which is a closed immersion because $Y$ is seperated. Since $f|_U = g|_U$ we may factor $F |_U : X \to Y \times_S Y$ as $F|_U = \Delta \circ f|_U$ and thus $F(U) \subset \Delta(Y) \subset Y \times_S Y$ is closed. Therefore, $F(X) = F(\overline{U}) \subset \overline{F(U)} \subset \Delta(Y)$ since it is closed. Therefore, topologically, $f(x) = g(x)$ for $x \in X$. Thus, it remains to prove that the sheaf maps agree. By hypothesis, the map on stalks, $f^\#_x : \stalk{Y}{f(x)} \to \stalk{X}{x}$ and $g^\#_x : \stalk{Y}{g(x)} \to \stalk{Y}{x}$ agree for each $x \in U$. Consider a section $s \in \struct{Y}(V)$ for some open $V \subset Y$. Then consider the section $s' = f^\#(s) - g^\#(s) \in \struct{X}(f^{-1}(V))$. We know that for each $x \in f^{-1}(V) \cap U$ that $s'_x = f_x(s) - g_x(s) = 0$. Now the vanishing $V(s') = \{ x \in f^{-1}(V) \mid s'_x \in \m_x \}$ of the section $s'$ is closed in $f^{-1}(V)$. However, $\forall x \in U \cap f^{-1}(V)$ we know that $s'_x = 0$ so $x \in V(s')$. Thus, $V(s')$ is a closed set containing a dense set and thus $V(s') = f^{-1}(V)$. Therefore, $s'_x \in \m_x$ for each $x \in f^{-1}(V)$. Thus, on each affine open the restriction of $s'$ lies in every prime ideal and thus in the nilradical. Thus $s' \in \nilrad{\struct{X}(f^{-1}(V)}$. Since $X$ is reduced, $\nilrad{\struct{X}(f^{-1}(V)} = 0$ so $s' = 0$. Thus $f^\# = g^\#$. 
+
+(FINISH)
+
+\subsubsection{4.3}
+
+Let $X$ be a separated scheme over an affine scheme $S = \Spec{A}$ and $U, V \subset X$ be affine open subsets. The diagonal morphism $\Delta : X \to X \times_S X$ is a closed immersion which is affine. Then conider $U \times_S V \subset X \times_S X$ which is affine and we have $U \cap V = \Delta^{-1}(U \times_S V)$ is affine since $\Delta$ is affine.
+\bigskip\\
+However, take $\A^2_k$ with two origins. Then each copy of $\A^2_k$ is clearly affine but their intersection is $\A^2_k \setminus \{ 0 \}$ which is not affine. 
+
+\begin{lemma}
+Closed immersions are affine.
+\end{lemma}
+
+\begin{lemma}[Magic Square]
+The 
+\end{lemma}
+
+\subsubsection{4.4}
+
+\subsubsection{4.5}
+
+\subsection{5}
+
+\subsubsection{5.7}
+
+Let $X$ be a Noetherian scheme and $\F$ a coherent sheaf on $X$.
+
+\begin{enumerate}
+\item Suppose that the stalk $\F_x$ is a free $\stalk{X}{x}$-module for some $x$. We may reduced to an affine open $X = \Spec{A}$ with $A$ noetherian (since $X$ is a Noetherian scheme) and $\F = \widetilde{M}$ for some finitely generated $A$-module $M$ since $\F$ is coherent. Suppose that $M_\p$ is a free $A_\p$-module for some prime $\p \subset A$. Let $e_1, \dots, e_r$ be an $A_\p$ basis of $M_\p$ which we may choose to be elements of $M$ since we may reintroduce denominators via multiplication by $A_\p$. Now consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{E} \arrow[r] & A^{\oplus r} \arrow[r, "E"] & M \arrow[r] & \coker{E} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+where $E(a_1, \dots, a_r) = a_1 e_1 + \cdots + a_r e_r$. However, $\coker{E}$ is finitely genrerated because $M$ is and $\ker{E} \subset A^{\otimes r}$ is finitely generated because $A$ is Noetherian. Furthermore, we know that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\ker{E})_\p \arrow[r] & A_\p^{\oplus r} \arrow[r, "E"] & M_\p \arrow[r] & (\coker{E})_\p \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+remains exact and $A_\p^{\oplus r} \xrightarrow{\sim} M_\p$ is an isomorphism so $(\ker{E})_\p = (\coker{E})_\p = 0$. Therefore, there exists some $f \notin \p$ such that $(\ker{E})_f = (\coker{E})_f = 0$ since they are finitely generated (take the products of elements in $A \setminus \p$ killing their generating sets). Now localizing the exact sequence, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\ker{E})_f \arrow[r] & A_f^{\oplus r} \arrow[r, "E"] & M_f \arrow[r] & (\coker{E})_f \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+but $(\ker{E})_f = (\coker{E})_f = 0$ so $A_f^{\oplus r} \to M_f$ is an isomorphism. Therefore, 
+\[ \F|_{D(f)} = \widetilde{M_f} = \widetilde{A_f^{\oplus n}} = \struct{X}|_{D(f)}^{\oplus n} \] 
+is a free sheaf. 
+
+\item Suppose that $\F_x$ is a free $\stalk{X}{x}$-module for each $x \in X$. Then, by above, there exsits an open cover of $X$ on which $\F$ is free so $\F$ is a locally-free sheaf. Conversely, if $\F$ is a locally-free sheaf. Then for each $x \in X$ there exists an open neighbrohood with $x \in U$ such that $\F|_U \cong \struct{X} |_U^{\oplus n}$. Then the induced map $\F_x \cong \stalk{X}{x}^{\oplus n}$ is an isomorphism so $\F_x$ is a free $\stalk{X}{x}$-module for each $x \in X$. 
+
+\item A invertible sheaf is a locally free sheaf of rank $1$. First, suppose there exists a coherent sheaf $\G$ such that $\F \otimes_{\struct{X}} \G = \struct{X}$. Then for each $x \in X$ we have,
+\[ \F_x \otimes_{\stalk{X}{x}} \G_x = \stalk{X}{x} \]
+Since $\stalk{X}{x}$ is local, Lemma \ref{tensor_inverse} implies that $\F_x \cong \stalk{X}{x}$ and $\G_x \cong \stalk{X}{x}$ for each $x \in X$. Therefore, $\F$ is is locally free of rank $1$.
+\bigskip\\
+Conversely, suppose that $\F$ is an invertible $\struct{X}$-module. Consider the dual module,
+\[ \F^* = \shHom{\struct{X}}{\F}{\struct{X}} \]
+and then the evaluation map $\ev : \F \otimes_{\struct{X}} \F^* \to \struct{X}$ which is a morphism of $\struct{X}$-modules.
+Consider the induced map on stalks $\F_x \otimes_{\stalk{X}{x}} \F^*_x \to \stalk{X}{x}$. Since $\F$ is invertible, $\F_x \cong \stalk{X}{x}$. By Hartshorne III 6.8 we know that,
+\[ \F^*_x = \Homover{\stalk{X}{x}}{\F_x}{\stalk{X}{x}} \cong \Homover{\stalk{X}{x}}{\stalk{X}{x}}{\stalk{X}{x}} = \stalk{X}{x} \] and thus, $\ev_x(r \otimes (1 \mapsto r')) = rr'$ gives the natural map $\stalk{X}{x} \otimes_{\stalk{X}{x}} \stalk{X}{x} \to \stalk{X}{x}$ which is an isomorphism. Thus $\ev$ is an isomorphism since it is on the stalks. Therefore, 
+\[ \F \otimes_{\struct{X}} \F^* = \struct{X} \]
+\end{enumerate}
+
+\subsection{6}
+
+\subsection{7}
+
+\subsubsection{7.1}
+
+Let $(X, \struct{X})$ be a locally ringed space and $f : \L \to \I$ a surjective map of invertible sheaves on $X$. Then for each $x \in X$ the map $f_x : \L_x \to \I_x$ is a surjective map of free rank one $\stalk{X}{x}$-modules. Then we have get a diagram of $\stalk{X}{x}$-module morphisms,
+\begin{center}
+\begin{tikzcd}
+\L_x \arrow[r, "f_x", two heads] \arrow[d, "\sim"] & \I_x \arrow[d, "\sim"]
+\\
+\stalk{X}{x} \arrow[r, dashed, two heads] & \stalk{X}{x}
+\end{tikzcd}
+\end{center}
+Therefore, it suffices to prove that if a $\stalk{X}{x}$-module map $\stalk{X}{x} \to \stalk{X}{x}$ is surjective then it is injective. Such a map satisfies $f(a) = a \cdot f(1)$ and since $f$ is surjective we must have $a \cdot f(1) = 1$ for some $a$ and therefore $f(1)$ is a unit so $f(a) = a \cdot f(1)$ is injective.
+\bigskip\\
+The fact that $\stalk{X}{x}$ is local in not necessary. If $X$ is Noetherian then we have the following more general fact.
+
+\begin{theorem}
+Let $(X, \struct{X})$ be a ringed space and $f : \F \to \K$ be a surjective map of finite locally free $\struct{X}$-modules of equal rank then $f : \F \to \K$ is an isomorphism. 
+\end{theorem}
+
+\begin{proof}
+For each $x \in X$ the map $f_x : \F_x \to \K_x$ is surjective and since $\F$ and $\K$ are finite locally free both of rank $n$ we have a diagram,
+\begin{center}
+\begin{tikzcd}
+\F_x \arrow[r, "f", two heads] \arrow[d, "\sim"] & \K_x \arrow[d, "\sim"]
+\\
+\stalk{X}{x}^{\oplus n} \arrow[r, dashed] & \stalk{X}{x}^{\oplus n}
+\end{tikzcd}
+\end{center}
+Now since $X$ is Noetherian the ring $\stalk{X}{x}$ is noetherian and thus $\stalk{X}{x}^{\oplus n}$ as a finitely generated $\stalk{X}{x}$-modules is a Noetherian module. Then we use that any surjective endomorphism of a Noetherian module is injective to conclude that $f_x : \F_x \to \K_x$ is injective and thus $f : \F \to \K$ is an isomorphism. 
+\end{proof}
+
+\subsubsection{7.2}
+
+\subsubsection{7.3}
+
+\subsubsection{7.4}
+
+\begin{enumerate}
+\item Let $X$ be finite type over a Noetherian ring $A$. Suppose $\L$ is an ample line bundle on $X$. Then we know that for some $n > 0$ the line bundle $\L^{\otimes n}$ is very ample. Therefore, there must be an immersion $i : X \to \P^r_A$ for some $r > 0$. Now the immersion $i$ can be factored as,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "j", hook] & U \arrow[r, "q", hook] & \P^r_A
+\end{tikzcd}
+\end{center} 
+where $j : X \to U$ is a closed immersion and $q : U \to \P^r_A$ is an open immersion. Since $\P^r_A$ is a separated scheme over $A$ then $U \embed \P^r_A$ must be separated over $A$. Now we apply the following lemma. 
+
+\begin{remark}
+Hartshorne is wrong about the definition of an immersion which he defines to be a morphsism giving a homeomorphism onto an open subscheme of a closed subscheme and thus an open immersion followed by a closed immersion. This is backwards, an immersion is a closed immersion followed by an open immersion. The two definitions are incompatible (see Tag 01QW) and Hartshorne's definition is not even stable under composition so it is a bad notion.  
+\end{remark}
+
+\begin{lemma}
+Let $f : X \to Y$ be a closed immersion of schemes over $S$. If $Y$ is separated then $X$ is separated.
+\end{lemma}
+
+\begin{proof}
+Consider the compositions,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "f", bend right] \arrow[r, "\Delta_X"] & X \times_S X \arrow[r, "f \times f"] & Y \times_S Y
+\\
+& Y \arrow[ru, "\Delta_Y", bend right]
+\end{tikzcd}
+\end{center}
+Since $\Delta_Y$ and $f$ are both closed immersions, by separatedness of $Y$ and hypothesis respectily, the composition $\Delta_Y \circ f = (f \times f) \circ \Delta_X$ is a closed immersion. Furthermore, $f \times f : X \times_S X \to Y \times_S Y$ is a closed immersion which implies that $\Delta_X : X \to X \times_S X$ must also be a closed immersion since it must have surjective sheaf map if the composition does and since $f \times f$ and $(f \times f) \circ \Delta_X$ are homeomorphisms onto a closed image then for any closed $Z \subset X$ the image $\Delta_X(Z)$ must be closed because it maps to a closed set under $f \times f$ which is a homeomorphism onto its closed immage.
+\bigskip\\
+A better proof is to show that closed immersions are separated and composition of separated morphisms are separated so $X \to Y \to S$ gives $X \to S$ separated and thus $X$ is separated as a scheme over $S$.
+\end{proof}
+
+\item Consider the $X$ the affine line with a doubled point and let $U$ and $V$ the the open affine copies of $\A^1_k$ and $W$ the single glued open $U \setminus \{ P_1 \} = V \setminus \{ P_2 \}$. Since $X$ is not separated we cannot apply Weil divisors. However, $X$ is integral so the map $\CaCl{X} \to \Pic{X}$ is an isomorphism so we need only consider Cariter divisors. 
+\bigskip\\
+First we compute Cartier divisors on $\A^1_k$. We know that $k[x]$ is a UFD and thus its class group is trivial so $\CaCl{\A^1_k} = 0$. Now any Cartier diviosr $D \in \Gamma(X, \K^\times_X / \struct{X}^\times)$ its restriction to $U$ and $V$ must be principal i.e. rational functions $f, g \in K(\A^1_k) = k(x)$. Furthermore, on the overlap, we must have $f/g \in \struct{X}^\times(W)$ but $\struct{X}^\times(W) = k[x]_{(x)}$ then $f / g = a x^n$ for $a \in k^\times$ and $n \in \Z$. Then quotienting by principal divisors $k(x)$ we can set $g = 1$ and quoting by units on $U$ we can set $a = 1$ so we find $f = x^n$. This gives $\CaCl{X} = \Z$. 
+\bigskip\\
+Now we construct the line bundles defined by the Cartier divisor $D_n$ which is defined by $D|_U = x^n$ and $D|_V = 1$. Then, $\L_n = \L(D_n)$ satisfies $\L_n|_U = x^{-n} \struct{X}|_U$ and $\L_n|_V = \struct{X}|_V$.     
+Now the diagram,
+\begin{center}
+\begin{tikzcd}
+& \L_n(X) \arrow[ld] \arrow[rd]
+\\
+\L_n(U) \arrow[dr] & & \L_n(V) \arrow[dl]
+\\
+& \L(D)(W)
+\end{tikzcd}
+\end{center}
+is cartesian. So we have,
+\begin{center}
+\begin{tikzcd}
+& \L_b(X) \arrow[ld] \arrow[rd]
+\\
+x^{-n} k[x] \arrow[dr] & & k[x] \arrow[dl]
+\\
+& k[x]_{(x)}
+\end{tikzcd}
+\end{center}
+However, in $k[x]_{(x)}$ the intersection $x^{-n} k[x] \cap k[x] = 0$ unless $n = 0$. Therefore we have $\L_n(X) = 0$ unless $n = 0$ in which case $\L_0(W) = k[x]$. Therefore, the only line bundle on $X$ which is generated by global sections is $\L_0 = \struct{X}$. Therefore, there cannot be any ample line bundles on $X$ since any line bundle is of the form $\L_m$ but $\L_m^{\otimes n} = \L_{mn}$ has no global sections for $m \neq 0$ and furhtermore, 
+\[ \F \otimes_{\struct{X}} \L_0^{\otimes n} = \F \otimes_{\struct{X}} \struct{X}^{\otimes n} = \F \]
+is not generated by global sections for $\F = \L_1$ so $\L_0 = \struct{X}$ is not ample. 
+\end{enumerate}
+
+\subsubsection{7.5}
+
+\newcommand{\M}{\mathcal{M}}
+
+Let $X$ be a Noetherian scheme and $\L$ and $\M$ be line bundles.
+
+\begin{enumerate}
+\item Suppose that $\L$ is ample and $\M$ is generated by global sections. For any coherent $\struct{X}$-module $\F$ there is some $n(\F)$ such that for all $n \ge n(\F)$ we have,
+\[ \F \otimes_{\struct{X}} \L^{\otimes n} \]
+is generated by global sections. By $\M$ is generated by global sections and thus so is $\M^{\otimes n}$ so,
+\[  \F \otimes_{\struct{X}} (\L^{\otimes n} \otimes_{\struct{X}} \M^{\otimes n}) \]
+is generated by global sections. Since this holds for any $n \ge n(\F)$ the shead $\L \otimes_{\struct{X}} \M$ is ample. (See Tag 01AO)
+
+\item Let $\M$ be a line bundle. Since $\L$ is ample for sufficiently large $n$ the sheaf $\L^n \otimes_{\struct{X}} \M$ is generated by global sections and thus by the previous part,
+\[ \L \otimes_{\struct{X}} (\L^{\otimes n} \otimes_{\struct{X}} \M) = \L^{\otimes n+1} \otimes_{\struct{X}} \M \]
+is ample.
+\item Now let $\L$ and $\M$ be ample. There must exist $n$ such that,
+\[ \M \otimes_{\struct{X}} \L^{\otimes n} \]
+is generated by global sections and thus, since $\M$ is ample, by (a) we have,
+\[ (\M \otimes_{\struct{X}} \L^{\otimes n}) \otimes_{\struct{X}} \M^{\otimes n - 1} =  \L^{\otimes n} \otimes_{\struct{X}} \M^{\otimes n} = (\L \otimes_{\struct{X}} \M)^{\otimes n} \]
+is ample. This implies that $\L \otimes_{\struct{X}} \M$ is ample. 
+
+
+\item Now let $X$ be finite type over a noetherian ring $A$. Suppose that $\L$ is very ample and $\M$ is generated by global sections. Since $\L$ is very ample there must be an immersion $i : X \to \P^n_A$ such that $\L = i^* \struct{\P^n_A}(1)$. Furthermore a choice of sections generating $\M$ defines a map $j : X \to \P_A^m$ such that $\M = j^* \struct{\P^m_A}(1)$. Now consider the product under the Segre embedding,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Delta"] & X \times_A X \arrow[r, "i \times j"] & \P^n_A \times_A \P^m_A \arrow[r] & \P^{N}_A
+\end{tikzcd}
+\end{center} 
+Thus it suffices to prove that $q : X \to \P^N_A$ is an immersion and,
+\[ q^* \struct{\P^N_A}(1) = \L \otimes_{\struct{X}} \M \]
+which implies that $\L \otimes_{\struct{X}} \M$ is very ample. 
+\bigskip\\
+Under the Segre embedding $s : \P_A^n \times_A \P^m_A \to \P_A^N$ we have,
+\[ s^* \struct{\P^N_A}(1) = p_1^* \struct{\P^n_A}(1) \otimes_{\struct{}} p_2^* \struct{\P^m_A}(1) \]
+Now, consider,
+\begin{align*}
+(i, j)^* s^* \struct{\P^N_A}(1) & = (i, j)^* [p_1^* \struct{\P^n_A}(1) \otimes_{\struct{}} p_2^* \struct{\P^m_A}(1)] 
+\\
+& = [(i, j)^* p_1^* \struct{\P^n_A}(1)] \otimes_{\struct{X}} [(i, j)^*  p_2^* \struct{\P^m_A}(1)] 
+\\
+& = [p_1 \circ (i, j)]^* \struct{\P^n_A}(1)] \otimes_{\struct{X}} [p_2 \circ (i, j)]^* \struct{\P^m_A}(1)
+\\
+& = i^* \struct{\P^n_A}(1) \otimes_{\struct{X}} j^* \struct{\P^m_A}(1)
+\\
+& = \L \otimes_{\struct{X}} \M 
+\end{align*}
+Now we need to show that $s \circ (i \times j) \circ \Delta$ is an embedding. Using the lemma, $(i, j) = (i \times j) \circ \Delta$ is an embedding since $i : X \to \P^n_A$ is an embedding. Furthermore, $s : \P^n_A \times_A \P^m_A \to \P^N_A$ is an embedding so $s \circ (i, j) \circ \Delta$ is an embedding. 
+
+\item Let $X$ be finite type over a noetherian ring $A$ and $\L$ an ample sheaf on $X$. We know there exists some $n_0 > 0$ such that $\L^{\otimes n_0}$ is very ample and, as a consequence, generated by global sections. Furthermore, for $n \ge n_1$ we know $\L^{\otimes n}$ is generated by global sections since $\L$ is ample. Now, for any $n \ge n_0 + n_1$ the sheaf,
+\[ \L^{\otimes n} = \L^{\otimes n_0} \otimes_{\struct{X}} \L^{\otimes (n - n_0)} \] 
+is ample by the previous result since $\L^{\otimes n_0}$ is ample and $\L^{\otimes (n - n_0)}$ is generated by global sections because $n - n_0 \ge n_1$.   
+\end{enumerate}
+
+\begin{lemma}
+Tensor product of sheaves commutes with pullback.
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ be a morphism and $\F$ and $\G$ be $\struct{Y}$-modules on $Y$ and $\K$ a $\struct{X}$-module on $X$ then,
+\begin{align*}
+\Hom{\struct{X}}{f^* \F \otimes_{\struct{X}} f^* \G}{\K} & = \Hom{\struct{X}}{f^* \F}{\shHom{\struct{X}}{f^* \G}{\K}}
+\\
+& = \Hom{\struct{Y}}{\F}{f_* \shHom{\struct{X}}{f^* \G}{\K}}
+\\
+& = \Hom{\struct{Y}}{\F}{\shHom{\struct{X}}{\G}{f_* \K}}
+\\
+& = \Hom{\struct{Y}}{\F \otimes_{\struct{Y}} \G}{f_* \K}
+\\
+& = \Hom{\struct{X}}{f^* (\F \otimes_{\struct{Y}} \G)}{\K}
+\end{align*}
+Therefore, by Yoneda, $f^* \F \otimes_{\struct{X}} f^* \G \cong f^* (\F \otimes_{\struct{Y}} \G)$. 
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be an immersion and $g : X \to Z$ is any morphism all over $S$ then $X \to Y \times_S Z$ is an immersion. 
+\end{lemma}
+
+\begin{proof}
+The map $X \to Y \times_S Z$ can be factored into the graph morphism,
+\[ \Gamma_g = (\id_X, g) : X \to X \times_S Z \]
+and the product $f \times \id_Z : X \times_S Z \to Y \times_S Z$,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Gamma_g"] & X \times_S Z \arrow[r, "f \times \id"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+It suffices to show that both maps are immersions. Since $f$ and $\id_Z$ are immersion then $f \times \id_Z : X \times_S Z \to Y \times_S Z$ is an immersion. Furthermore, the morphism $\Gamma_g$ can be obtained via a base extension of $\Delta : Z \to Z \times_S Z$ along the map $X \times_S Z \xrightarrow{g \times \id_Z} Z \times_S Z$ since,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Gamma_g"] \arrow[d, "g"] & X \times_S Z \arrow[d, "g \times \id_Z"]
+\\
+Z \arrow[r, "\Delta"] & Z \times_S Z
+\end{tikzcd}
+\end{center}
+is cartesian because $(X \times_S Z) \times_{Z \times_S Z} Z = X$. (BE EXPLICIT) Since immersions are stable under base change, the morphism $\Gamma_g : X \to X \times_S Z$ is an immersion. Thus $(f, g) =  (f \times \id) \circ \Gamma_g$ is a composition of immersions and thus an immersion. 
+\end{proof}
+
+\begin{corollary}
+If with the above data $f : X \to Y$ is a closed immersion and $Z$ is separated then $X \to Y \times_S Z$ is a closed immersion.
+\end{corollary}
+
+\begin{proof}
+The above proof holds equally for closed immersions since they are stable under products and base extensions and composition. However, the map $\Delta : Z \to Z \times_S Z$ must be a closed immersion for the base extension to be a closed immersion so we must assume $Z$ is separated. 
+\end{proof}
+
+\subsection{8}
+
+\subsection{9}
+
+\section{III Cohomology}
+
+\subsection{1}
+
+
+\subsection{2}
+
+\subsection{2.1}
+
+\subsection{2.2}
+
+\subsection{2.3}
+
+Let $X$ be a topological space and $Y \subset X$ a closed subset. Let $\F$ be an abelian sheaf on $X$. Let $U = X \setminus Y$ and $j : U \to X$ be the inclusion.
+
+\begin{enumerate}
+\item Consider an exact sequence of sheaves on $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \H \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then since the functor $(-)|_U$ is exact and $j_*$ is right-exact then we get a commutative diagram with exact rows,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[d] \arrow[r] & \G \arrow[r] \arrow[d] & \K \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & j_*(\F |_U) \arrow[r] & j_*(\G |_U) \arrow[r] & j_*(\K |_U)
+\end{tikzcd}
+\end{center}
+Since taking kernels is left-exact (limits are right adjoints) we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H^0_Y(\F) \arrow[r] & \H^0_Y(\G) \arrow[r] & \H^0_Y(\K)
+\end{tikzcd}
+\end{center}
+Applying the left-exact functor $\Gamma(X, -)$ gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma_Y(X, \F) \arrow[r] & \Gamma_Y(X, \G) \arrow[r] & \Gamma_Y(X, \K)
+\end{tikzcd}
+\end{center}
+Since $\Gamma(X, \H^0_Y(\F)) = \Gamma_Y(X, \F)$ by definition. 
+\bigskip\\
+We define the sheaf cohomology with supports in $Y$ to be the right-derived functors $H^n_Y(X, -) = R^n \Gamma_Y(X, -)$ of the left-exact functor $\Gamma_Y(X, -)$. 
+
+\item Consider an exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where the sheaf $\F$ is flasque. Then consider the diagram, with exact rows and columns,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d]
+\\
+0 \arrow[r] & \H^0_Y(\F) \arrow[d] \arrow[r] & \H^0_Y(\G) \arrow[d] \arrow[r] & \H^0_Y(\K) \arrow[d]
+\\
+0 \arrow[r] & \F \arrow[d] \arrow[r] & \G \arrow[d] \arrow[r] & \K \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & j_*(\F |_U) \arrow[d] \arrow[r] & j_* (\G |_U) \arrow[r] & j_*(\K |_U) 
+\\
+& 0
+\end{tikzcd}
+\end{center}
+where $\H^0_Z(\F)$ is the kernel of $\F \to j_*(\F |_U)$ and when $\F$ is flasque then we have the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H^0_Z(\F) \arrow[r] & \F \arrow[r] & j_*(\F |_U) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, the maps $\H_Y^0(\F) \to \H^0_Y(\G)$ and $j_*(\F |_U) \to j_*(\F |_U)$ are injective becase these functors are left-exact (taking kernels is left-exact and $j_*$ is left-exact, recall that $(-)|_U = j^{-1}$ is exact). Now apply the left-exact functor $\Gamma(X, -)$ to find a diagram with exact rows and columns,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d]
+\\
+0 \arrow[r] & \Gamma_Y(X, \F) \arrow[d] \arrow[r] & \Gamma_Y(X, \G) \arrow[d] \arrow[r] & \Gamma_Y(X, \K) \arrow[d]
+\\
+0 \arrow[r] & \Gamma(X, \F) \arrow[d] \arrow[r] & \Gamma(X, \G) \arrow[d] \arrow[r] & \Gamma(X, \K) \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \Gamma(U, \F |_U) \arrow[d] \arrow[r] & \Gamma(U, \G |_U) \arrow[r] & \Gamma(U, \K |_U) 
+\\
+& 0
+\end{tikzcd}
+\end{center}
+Where $\Gamma(X, \F) \to \Gamma(U, \F |_U)$ remains surjective because $\F$ is a flasque sheaf so restriction is surjective. Furthermore, the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \G) \arrow[r] & \Gamma(X, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+remains exact because $\F$ is a flasque sheaf so $\Gamma(X, -)$ preserves the exact sequence since $H^1(X, \F) = 0$. Now, applying the snake lemma gives an exact sequence of the kernels to cokernels,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma_Y(X, \F)  \arrow[r] & \Gamma_Y(X, \G)  \arrow[r] & \Gamma_Y(X, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+
+\item Let $\F$ be a flasque sheaf. Now embedd $\F$ into an injective sheaf $\I$ to form an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I \arrow[r] & \K \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Since $\F$ and $\I$ are flasque then $\K$ is also flasque.
+Taking the long exact sequence of derived functors we find,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0_Y(X, \F) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0_Y(X, \I) \arrow[r] & H^0_Y(X, \K) \arrow[r] & H^1_Y(X, \F) 
+\arrow[dlll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1_Y(X, \I) \arrow[r] & H^1_Y(X, \K) \arrow[r] & H^2_Y(X, \F) \arrow[r] & H^2_Y(X, \I) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Since $\I$ is an injective sheaf $H^n_Y(X, \I) = 0$ for $n > 0$ so this long exact sequence gives exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0_Y(X, \F) \arrow[r] & H^0_Y(X, \I) \arrow[r] & H^0_Y(X, \K) \arrow[r] & H^1_Y(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^n_Y(X, \K) \arrow[r] & H^{n+1}_Y(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+for $n \ge 1$. However, we have shown that the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma_Y(X, \F) \arrow[r] & \Gamma_Y(X, \I) \arrow[r] & \Gamma_Y(X, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact when $\F$ is flasque and since $H_Y^1(X, \F)$ is the cokernel of this last map we have $H^1_Y(X, \F) = 0$ for any flasque sheaf. Now performing induction we find that $H^n_Y(X, \K) = 0$ for any flasque sheaf $\K$ implies $H^{n+1}_Y(X, \F) = 0$ via the second exact sequence. This proves that $H^n_Y(X, \F) = 0$ for all $n > 0$. 
+
+\item If $\F$ is flasque then we have shown that the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H^0_Y(\F) \arrow[r] & \F \arrow[r] & j_* (\F |_U) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact. Applying the functor $\Gamma(X, -)$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma_Y(X, \F) \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(U, \F) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+where the last map is restruction $\res_{U,X} : \F(X) \to \F(U)$ which is surjective by flasqueness. We have used $\Gamma(X, j_* (\F |_U)) = \Gamma(U, \F|_U) = \Gamma(U, \F)$. 
+
+
+\item The above exact sequence for flasque sheaves implies that the left-exact functors $\Gamma_Y(X, -)$ and $\Gamma(X, -)$ and $\Gamma(U, (-)|_U)$ satisfy the hypothesis of Lemma \ref{lem:exact_seq_of_functors} giving the required long-exact sequence of cohomology,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0_{Y}(X, \F) \arrow[r] & H^0(X, \F)  \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0(U, \F |_U)
+\arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1_{Y}(X, \F) \arrow[r] & H^1(X, \F)  \arrow[draw=none]{d}[name=Z', shape=coordinate]{} \arrow[r] & H^1(U, \F |_U) \arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z') [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\
+& H^2_Y(X, \F) \arrow[r] & H^2(X, \F) \arrow[r] & H^2(U, \F |_U) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+
+\item Let $Z \subset X$ be closed and $V \subset X$ be an open set such that $Z \subset V$ and let $\F$ be a sheaf on $X$. Then consider the restriction map $\res_{V, X} : \Gamma_Z(X, \F) \to \Gamma_Z(V, \F)$. Note that $V$ and $U = X \setminus Z$ form an open cover of $X$. If $s \mapsto 0$ then $s|_V = 0$ but also $s|_{X \setminus Z} = 0$ since $\Supp{\F}{s} \subset Z$ and thus $s_x = 0$ for each $x \in X \setminus Z$. Therefore, by the sheaf property of $\F$ we have $s = 0$ so $\res_{U,X}$ is injective. Furthermore, consider a section $s \in \Gamma_Z(V, \F)$. Since $\Supp{\F}{s} \subset Z$ we know that $s |_{V \cap U} = 0$ because $(V \cap U) \cap Z = \varnothing$. Therefore, $s$ and $0 \in \Gamma(U, \F)$ agree on the overlap and thus glue to a global section $s' \in \Gamma(X, \F)$ such that $s'|_V = s$. Furthermore, if $x \in U$ then $s' |_U = 0$ and thus $\Supp{\F}{s'} \subset Z$ so the map $\res_{V, X} : \Gamma_Z(X, \F) \to \Gamma_Z(V, \F)$ is surjective and thus an isomorphism. Therefore, there is a natural isomorphism $\Gamma_Z(X, -) \cong \Gamma_Z(V, (-)|_V)$. Therefore, these functors give rise to the same derived functors so,
+\[ H^p_Z(X, \F) \cong H^p_Z(V, \F|_V) \] 
+
+\end{enumerate}
+
+\subsection{2.4}
+
+Let $Z_1, Z_2 \subset X$ be closed subsets. Let $\F$ be a flasque sheaf and consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d] &
+\\
+0 \arrow[r] & \Gamma_{Z_1 \cap Z_2}(X, \F) \arrow[r] \arrow[d] & \Gamma_{Z_1}(X, \F) \oplus \Gamma_{Z_2}(X, \F) \arrow[r] \arrow[d] & \Gamma_{Z_1 \cup Z_2}(X, \F) \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] \arrow[d] & \Gamma(X, \F) \oplus \Gamma(X, \F) \arrow[r] \arrow[d] & \Gamma(X, \F) \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \Gamma(X \setminus (Z_1 \cap Z_2), \F) \arrow[r] \arrow[d] & \Gamma(X \setminus  Z_1, \F) \oplus \Gamma(X \setminus Z_2, \F) \arrow[r] \arrow[d] & \Gamma(X \setminus (Z_1 \cup Z_2), \F) \arrow[r] \arrow[d] & 0
+\\
+& 0 & 0 & 0 &
+\end{tikzcd}
+\end{center}
+where the columns are the exact sequences of 2.3 (d), the last row is the exact sequence of Lemma \ref{lem:flasque_mayer_vietoris}, the middle row is the diagonal exact sequence associated to the direct sum ($s \mapsto (s, s)$ then $(s, t) \mapsto s - t$), and the top rwo is given first inclusion maps and second by the difference of the inclusion maps (including the group of sections with support in a smaller set into the group of section with support in a larger set). Since this diagram commutes, has exact columns, and the last two rows are exact, by the nine-lemma, the top row is exact as well. Therefore for any flasque sheaf, and in particular any injective sheaf, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma_{Z_1 \cap Z_2}(X, \F) \arrow[r] & \Gamma_{Z_1}(X, \F) \oplus \Gamma_{Z_2}(X, \F) \arrow[r] & \Gamma_{Z_1 \cup Z_2}(X, \F) \arrow[r]  & 0
+\end{tikzcd}
+\end{center}
+Therefore, the left-exact functors $\Gamma_{Z_1 \cap Z_2}(X, -)$ and $\Gamma_{Z_1}(X, -) \oplus \Gamma_{Z_2}(X, -)$ and $\Gamma(Z_1 \cup Z_2, -)$ satisfy the conditions of Lemma \ref{lem:exact_seq_of_functors} giving an exact sequence of their derived functors. Furthermore, because direct sum is exact it commutes with taking cohomology and thus direct sum commutes with taking derived functors. Thus Lemma \ref{lem:exact_seq_of_functors} gives the required long exact sequence, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0_{Z_1 \cap Z_2}(X, \F) \arrow[r] & H^0_{Z_1}(X, \F) \oplus H^0_{Z_2}(X, \F) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0_{Z_1 \cup Z_2}(X, \F)
+\arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1_{Z_1 \cap Z_2}(X, \F) \arrow[r] & H^1_{Z_1}(X, \F) \oplus H^1_{Z_2}(X, \F) \arrow[draw=none]{d}[name=Z', shape=coordinate]{} \arrow[r] & H^1_{Z_1 \cup Z_2}(X, \F) \arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z') [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\
+& H^2_{Z_1 \cap Z_2}(X, \F) \arrow[r] & H^2_{Z_1}(X, \F) \oplus H^2_{Z_2}(X, \F) \arrow[r] & H^2_{Z_1 \cup Z_2}(X, \F) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+
+\subsection{2.5}
+
+\subsection{2.6}
+
+\subsection{2.7}
+
+
+
+\subsection{3}
+
+\subsection{4}
+
+\subsubsection{4.1}
+
+
+Let $f : X \to Y$ be an affine morphism of schemes and $\F$ be a quasi-coherent $\struct{X}$-module. We proved in class that $R^q f_* \F = 0$ for $q \ge 0$ when $f$ is affine and $\F$ quasi-coherent (note that this proof uses the vanishing of higher cohomology for quasi-coherent sheaves on affine schemes which is difficult to prove without the Noetherian assumption but still true). Consider the commutative diagram of functors,
+\begin{center}
+\begin{tikzcd}
+\Ab(X) \arrow[dr, "\Gamma_X"'] \arrow[rr, "f_*"] & & \Ab(Y) \arrow[dl, "\Gamma_Y"]
+\\
+& \Ab
+\end{tikzcd}
+\end{center}
+Take an injective resolution of sheaves over $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I^\bullet
+\end{tikzcd}
+\end{center}
+Because $f_*$ is a right-adjoint to the exact functor $f^{-1}$ by Lemma \ref{right_adjoint_to_exact_preserves_injectives}, $f_*$ preserves injectives. I claim that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^\bullet 
+\end{tikzcd}
+\end{center}
+is an injective resolution of sheaves over $Y$.
+To show exactness, split the long exact resolution into short exact sequences of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I^0 \arrow[r] & \K^0 \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \K^{p-1} \arrow[r] & \I^p \arrow[r] & \K^p \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Now applying the long exact sequences of cohomology from the derived functors of the left-exact functor $f_*$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^0 \arrow[r] & f_* \K^0 \arrow[r] & R^1 f_* \F 
+\end{tikzcd}
+\end{center}
+but $R^1 f_* \F$ vanishes so the sequence remains short exact and 
+\begin{center}
+\begin{tikzcd}
+R^q f_* \F \arrow[r] & R^q f_* \I^0 \arrow[r] & R^q f_* \K^0 \arrow[r] & R^{q + 1} f_* \F 
+\end{tikzcd}
+\end{center}
+but $R^{q+1} f_* \F = 0$ and $R^q f_* \I^0 = 0$ because $\I^0$ is injective so we find $R^q f_* \K^0 = 0$ for all $q \ge 0$. Now assume for induction that $R^q f_* \K^{p - 1} = 0$ for all $q \ge 0$. The long exact sequence then gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \K^{p-1} \arrow[r] & f_* \I^p \arrow[r] & f_* \K^p \arrow[r] & R^1 f_* \K^{p - 1}
+\end{tikzcd}
+\end{center}
+by the induction hypothesis $R^1 f_* \K^{p - 1} = 0$ so the sequence remains short exact. Furthermore the long exact sequence gives,
+\begin{center}
+\begin{tikzcd}
+R^q f_* \K^{p-1} \arrow[r] & R^q f_* \I^p \arrow[r] & f_* R^q \K^p \arrow[r] & R^{q+1} f_* \K^{p - 1}
+\end{tikzcd}
+\end{center}
+but $R^{q+1} f_* \F = 0$ and $R^q f_* \I^p = 0$ because $\I^p$ is injective so we find that $R^q f_* \K^p = 0$ for all $q \ge 0$ so we may proceed by induction. Thus we have shown that $f_*$ preserves each short exact sequences which, laced together, shows that
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & f_* \I^\bullet 
+\end{tikzcd}
+\end{center}
+is exact and thus an injective resolution. Therefore, we may directly compute,
+\[ H^q(Y, f_* \F) = H^q(\Gamma(Y, f_* \I^\bullet)) = H^q(\Gamma(X, \I^\bullet)) = H^q(X, \F) \]
+
+\begin{remark}
+What I have shown here is a special case of the convergence of the Grothendieck spectral sequence applied to the left-exact functors $\Gamma(Y, -)$ and $f_*$ where $f_*$ takes injectives to injectives. This spectral sequence is characterized by,
+\[ E^{pq}_2 = H^p(Y, R^q f_* \F) \implies H^{p+q}(X, \F) \] 
+In the case of an affine morphism $f : X \to Y$ and quasi-coherent $\struct{X}$-module $\F$, we have $R^q f_* \F = 0$ and thus $E^{pq}_2$ collapses to $E_2^{p0} = H^p(Y, f_* \F)$ in which case we know that,
+\[ H^p(X, \F) = E^{p0}_2 = H^p(Y, f_* \F) \]
+\end{remark}
+
+\subsubsection{4.2}
+
+\begin{enumerate}
+\item Let $f : X \to Y$ be a surjective morphism of integral noetherian schemes. Restrict to affine opens $U \subset X$ and $V \subset Y$ such that $U = f^{-1}(V)$ and denote $U = \Spec{A}$ and $V = \Spec{B}$ where $A$ and $B$ are noetherian integral domains. Then the sheaf map $f^\# : \struct{Y} \to f_* \struct{X}$ on $V$ gives a map $g : B \to A$ which makes $A$ a finitely generated $B$-module since $f : X \to Y$ is finite. Now localizing this map gives $g : \Frac{B} \to S^{-1} A$ which makes $S^{-1} A$ a finitely generated $\Frac{B}$-module. However, $S^{-1}A$ is a finite-dimensional $\Frac{B}$-vectorspace domain and thus a field i.e. $S^{-1} A = \Frac{A}$ since $\Frac{A}$ is the smallest field containing $A$. Therefore, $\Frac{A}$ is a finite extension of $\Frac{B}$. 
+
+\item
+
+\item
+
+\item
+\end{enumerate}
+
+\subsubsection{4.3}
+
+
+It will be convenient to label variables as,
+\[ \A^d_k = \Spec{k[x_0, \cdots, x_{d-1}]} \]
+and $n = d-1$ to line up with the definitions in projective space. Consider the projection morphism $\pi : \A^{n+1}_k \setminus \{ (x_1, \dots, x_n) \} \to \P^{n}_k$ and let $U = \A^d_k \setminus \{ (x_1, \dots, x_n) \}$ and $X = \P^n_k$. The schemes $D_{+}(X_i)$ for each variable $X_i$ constitute an affine open cover of $\P^{n}_k$. Furthermore, $\pi^{-1}(D_{+}(X_i)) = D(x_{i}) \subset k[x_1, \dots, x_d]$. Therefore, $\pi$ is an affine morphism and $\struct{U}$ is a quasi-coherent $\struct{U}$-module so we have shown that,
+\[ H^q(\P^{n}_k, \pi_* \struct{U}) = H^q(U, \struct{U}) \] 
+Furthermore, denote $S = k[x_0, \cdots, x_n]$, then,
+\begin{align*}
+\pi_* \struct{U} |_{D_{+}(X_i)} & = \struct{U} |_{D(x_{i})} = \struct{\A^{n+1}_k} |_{D(x_{i})} = \widetilde{S_{x_{i}}}  = \bigoplus_{k \in \Z} \widetilde{\left( S_{x_i} \right)_k} = \bigoplus_{k \in \Z} \widetilde{\left( S(k)_{x_i} \right)_{0}} = \bigoplus_{k \in \Z} \struct{X}(k)|_{D_+(X_i)}
+\end{align*}
+Thus, because the sheaves agree on an open affine cover, we can identify,
+\[ \pi_* \struct{U} = \bigoplus_{k \in \Z} \struct{X}(k) \]
+Hartshorne has computed the cohomology of the sum of twists (Hartshorne III.5, Theorem 5.1) to be,
+\[  H^q \left(X, \bigoplus_{n \in k} \struct{X}(k) \right) = 
+\begin{cases}
+k[X_0, \cdots, X_n] & q = 0
+\\
+0 & 0 < q < n
+\\
+\frac{1}{X_0 \cdots X_n} k[X_0^{-1}, \dots, X_n^{-1}] & q = n 
+\end{cases} \]
+Reverting to our initial notation and using the isomorphism $H^q(X, \pi_* \struct{U}) = H^q(U, \struct{U})$ we arrive at,
+\[ H^q(U, \struct{U}) = 
+\begin{cases}
+k[x_1, \cdots, x_d] & q = 0
+\\
+0 & 0 < q < n
+\\
+\frac{1}{x_1 \cdots x_d} k[x_1^{-1}, \dots, x_d^{-1}] & q = d-1 
+\end{cases} \]
+Therefore $U$ is not affine since $\struct{U}$ is coherent and yet has nontrivial cohomology on $U$.
+
+\subsubsection{4.4}
+
+Let $X$ be a topological space and $\F$ an abelian sheaf. 
+
+\renewcommand{\U}{\mathfrak{U}}
+\newcommand{\V}{\mathfrak{V}}
+
+\begin{enumerate}
+\item Let $\U = (U_i)_{i \in I}$ be an open cover of $X$ and $\V = (V_j)_{j \in J}$ a refinement i.e. an open cover of $X$ with a map $\lambda : J \to I$ of index sets such that $V_{j} \subset U_{\lambda(j)}$.  This refinement gives a morphism of Cech complexes $r : \check{C}^\bullet(\U, \F) \to \check{C}^\bullet(\V, \F)$ via the restriction map,
+\[ \res : \prod_{i_0 < \cdots < i_r} \F(U_{i_0, \dots, i_r}) \to \prod_{j_0 < \cdots < j_r} \F(V_{j_0, \dots, j_r}) \quad \quad (\xi_{i_0, \dots, i_r}) \mapsto (\xi_{\lambda(j_0), \dots, \lambda(j_r)} |_{V_{j_0, \dots, j_r}} ) \]
+making the diagram commute,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \prod\limits_{i_0} \F(U_{i_0}) \arrow[d] \arrow[r] & \prod\limits_{i_0 < i_1} \F(U_{i_0, i_1}) \arrow[d] \arrow[r] & \prod\limits_{i_0 < i_1 < i_2} \F(U_{i_0, i_1, i_2}) \arrow[d] \arrow[r] & \cdots
+\\ 
+0 \arrow[r] & \prod\limits_{j_0} \F(V_{j_0}) \arrow[r] & \prod\limits_{j_0 < j_1} \F(V_{j_0, j_1}) \arrow[r] & \prod\limits_{j_0 < j_1 < j_2} \F(V_{j_0, j_1, j_2}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+This induces a map of the cohomologies, 
+\[ \lambda^q : \check{H}^q(\U, \F) \to \check{H}^q(\V, \F) \]
+
+\item Take an injective resolution of abelian sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I^\bullet
+\end{tikzcd}
+\end{center}
+and consider the diagram of abelian sheaves lifting $\id_\F : \F \to \F$,
+\begin{center}
+\begin{tikzcd}[column sep={4em,between origins},row sep=1em]
+& 0 \arrow[rr] & & \F \arrow[rr] \arrow[from = dd] & & \I^\bullet
+\\
+0 \arrow[rr] & & \F \arrow[rr, crossing over] \arrow[ru] & & \I^\bullet \arrow[ru, "\id_\I"]
+\\
+& 0 \arrow[rr] & & \F \arrow[rr]  & & \Cech^\bullet(\V, \F) \arrow[uu, dashed]
+\\
+0 \arrow[rr] & & \F \arrow[rr] \arrow[uu, crossing over] \arrow[ur] & & \Cech^\bullet(\U, \F) \arrow[uu, dashed, crossing over] \arrow[ur, "\lambda"']
+\end{tikzcd}
+\end{center}
+Because the Cech resolutions are exact and $\I$ is an injective resolution $\id_\F$ lifts to morphisms of complexes $\Cech^\bullet(\U, \F) \to \I^\bullet$ and $\Cech^\bullet(\V, \F) \to \I^\bullet$. Since these lifts are unique up to homotopy and $\lambda$ is a chain map, the last square commutes up to homotopy. Therefore, taking the cohomology of the above complexes, these morphisms induce maps $\beta_\U^q : \check{H}^q(\U, \F) \to H^q(X, \F)$ and $\beta_\V^q : \check{H}^q(\V, \F) \to H^q(X, \F)$ making the following diagram commute,
+\begin{center}
+\begin{tikzcd}
+\check{H}^q(\U, \F) \arrow[d, "\lambda^q"] \arrow[r, "\beta_\U^q"] & H^q(X, \F) \arrow[d, "\id"]
+\\
+\check{H}^q(\V, \F) \arrow[r, "\beta_\V^q"] & H^q(X, \F)
+\end{tikzcd}
+\end{center}
+Consider the directed system of all open covers of $X$ partially ordered under refinement over which we define,
+\[ \check{H}^q(X, \F) = \varinjlim_{\U} \check{H}(\U, \F) \]
+with the given restricton maps $\lambda$. The morphisms $\beta^q_\U : \check{H}^q(\U, \F) \to H^q(X, \F)$ are compatible with the restrictions and thus define a natural morphism,
+\[ \check{H}^q(X, \F) \to H(X, \F) \]  
+
+\item Take the abelian sheaf $\F$ an inject it into a flasque sheaf $\G$ to give an exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Given this injection we construct an exact sequence of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \check{C}^\bullet(\U, \F) \arrow[r] & \check{C}^\bullet(\U, \G) \arrow[r] & D^\bullet(\U) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+\renewcommand{\Q}{\mathscr{Q}}
+
+where $D^\bullet(\U)$ is the cokernel complex which is given by $D^\bullet(\U) = \check{C}^\bullet(\U, \Q)$ where $\Q$ is the presheaf $U \mapsto \G(U) / \F(U)$ and thus $\K$ is its sheafification. Therefore, there is a natural sheafification map $\Q \to \K$ which, as a morphism of presheaves, induces a map of Cech complexes, $D^\bullet(\U) \to \check{C}^\bullet(\U, \K)$. Furthermore, because the map $\Q \to \K$ is an isomorphism on the stalks, under refinement we have,
+\[ \varinjlim_\U D^\bullet(\U) = \varinjlim_\U \check{C}^\bullet(\U, \Q) \xrightarrow{\sim} \varinjlim_\U \check{C}^\bullet(\U, \K) \]
+Now the above exact sequence of sheaves and exact sequence of complexes give long exact sequences of sheaf and Cech cohomology respectivly,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \G) \arrow[r] & \Gamma(X, \K) \arrow[r] & H^1(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I have used the fact that $H^1(X, \G) = 0$ because $\G$ is flasque and, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \G) \arrow[r] & H^0(D^\bullet(\U)) \arrow[r] & \check{H}^1(\U, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I have used the fact that $\check{H}^0(\U, \F) = H^0(\check{C}^\bullet(\U, \F)) = \Gamma(X, \F)$ for any sheaf $\F$ and that $\check{H}^1(\U, \G) = H^1(\check{C}^\bullet(\U, \G)) = 0$ because $\G$ is flasque. The morphism of complexes $D^\bullet(\U) \to \check{C}^\bullet(\U, \K)$ induces a map of cohomology,
+\[ H^0(D^\bullet(\U)) \to H^0(\check{C}^\bullet(\U, \K)) = \check{H}^0(\U, \K) = \Gamma(X, \K) \]
+and thus we get a morphism of exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[d] \arrow[r] & \Gamma(X, \G) \arrow[d] \arrow[r] & H^0(D^\bullet(\U)) \arrow[d] \arrow[r] & \check{H}^1(\U, \F) \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \G) \arrow[r] & \Gamma(X, \K) \arrow[r] & H^1(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Because the poset of covers under refinement maps is filtered the direct limit functor is exact. Appling it to the second sequence gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] &  \Gamma(X, \F) \arrow[d] \arrow[r] & \Gamma(X, \G) \arrow[d] \arrow[r] & \varinjlim\limits_\U H^0(D^\bullet(\U)) \arrow[r] \arrow[d] & \varinjlim\limits_\U \check{H}^1(\U, \F) \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \G) \arrow[r] & \Gamma(X, \K) \arrow[r] & H^1(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, $\varinjlim\limits_\U$ is exact so it commutes with taking cohomology so the maps,
+\begin{center}
+\begin{tikzcd}
+H^0(\varinjlim\limits_\U D^\bullet(\U)) \arrow[r, "\sim"] & H^0(\varinjlim\limits_\U \check{C}^\bullet(\U, \K))
+\\
+\varinjlim\limits_\U H^0(D^\bullet(\U)) \arrow[r] \arrow[u, equals] & \varinjlim\limits_\U H^0(\check{C}^\bullet(\U, \K)) \arrow[u, equals]  \arrow[r, equals] & \varinjlim\limits_\U \check{H}^0(\U, \K) = \Gamma(X, \K)
+\end{tikzcd}
+\end{center}
+are isomorphisms. Therefore since cokernels are unique, the map,
+\[ \varinjlim\limits_\U \check{H}^1(\U, \F) \to H^1(X, \F) \]
+is an isomorphism. 
+
+
+\renewcommand{\Q}{\mathbb{Q}}
+\end{enumerate}
+
+
+\subsubsection{4.5}
+
+
+Let $X$ be a locally ringed space. Notate by $\struct{X}^\times$, the sheaf of abelian groups given by $U \mapsto \struct{X}(U)^\times$. Now let $\L$ be an invertable sheaf on $X$ meaning that there exists an open cover $\mathfrak{U}$ such that for each $U \in \mathfrak{U}$ we have isomorphisms $\varphi_U : \struct{X}|_U \to \L|_U$. Therefore, on the overlaps we have isomorphism,
+\[ \varphi_{ij} = \varphi_{U_i}^{-1}|_{U_i \cap U_j} \circ \varphi_{U_j} |_{U_i \cap U_j} : \struct{X} |_{U_i \cap U_j} \to \struct{X} |_{U_i \cap U_j} \]
+which, as $\struct{X}|_{U_i \cap U_j}$-module maps are determined uniquely by $e_{ij} \in \struct{X}(U_i \cap U_j)^\times$ which is a unit because the map it defines is an isomorphism. Thus, $e = (e_{ij})_{ij}$ is an element of the second Cech complex group, $C^2(\mathfrak{U}, \struct{X}^\times)$. Consider the Cech complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \prod\limits_{i_0} \struct{X}^\times(U_{i_0}) \arrow[r] & \prod\limits_{i_0 < i_1}  \struct{X}^\times(U_{i_0} \cap U_{i_1}) \arrow[r] & \prod\limits_{i_0 < i_1 < i_2} \struct{X}^\times(U_{i_0} \cap U_{i_1} \cap U_{i_2}) 
+\end{tikzcd}
+\end{center}
+Furthermore, on triple overlaps,
+\begin{align*}
+\varphi_{ij}|_{ijk} \circ \varphi_{jk}|_{ijk} & = \varphi_{U_i}^{-1}|_{U_{ijk}} \circ \varphi_{U_j} |_{U_{ijk}} \circ \varphi_{U_j}^{-1}|_{U_{ijk}} \circ \varphi_{U_k} |_{U_{ijk}} 
+\\
+& = \varphi_{U_i}^{-1}|_{U_{ijk}} \circ \varphi_{U_k} |_{U_i \cap U_j \cap U_k} = \varphi_{ik} |_{ijk} 
+\end{align*}
+which clearly implies that $e_{ij} |_{U_{ijk}} \cdot e_{jk} |_{U_{ijk}} = e_{ik} |_{U_{ijk}}$. However, the Cech differential map $\mathrm{d} : C^1(\mathfrak{U}, \struct{X}^\times) \to \check{C}^2(\mathfrak{U}, \struct{X}^\times)$ acts via,
+\[ (\d{\alpha})_{ijk} = \alpha_{jk} |_{U_{ijk}} \cdot \alpha_{ik}^{-1} |_{U_{ijk}} \cdot \alpha_{ij} |_{U_{ijk}} \]
+Therefore, by the overlap identity,
+\[ (\d{e})_{ijk} = e_{jk}|_{U_{ijk}} \cdot e_{ik}|_{U_{ijk}}^{-1} \cdot e_{ij} |_{U_{ijk}} = 1 \]
+Thus $e$ is in the kernel of the Cech differential $\mathrm{d} : \check{C}^1(\mathfrak{U}, \struct{X}^\times) \to \check{C}^2(\mathfrak{U}, \struct{X}^\times)$ and thus $e$ represents a Cech cohomology class $[e] \in \check{H}^1(\mathfrak{U}, \struct{X}^\times)$. Furthermore, if $\tilde{\varphi}_{U_i} : \struct{X} |_{U_i} \to \L |_{U_i}$ is another choice of locally trivializing isomorphisms then denote $\tilde{e}_{ij} \in \struct{X}^\times(U_i \cap U_j)$ for the element determining the isomorphisms,
+\[ \tilde{\varphi}_{ij} = \tilde{\varphi}_{U_i}^{-1} |_{U_{ij}} \circ \tilde{\varphi}_{U_j} |_{U_{ij}} : \struct{X} |_{U_i \cap U_j} \to \struct{X} |_{U_i \cap U_j} \]
+Then we may consider the isomorphisms $t_i = \tilde{\varphi}_{U_i}^{-1} \circ \varphi_{U_i} : \struct{X} |_{U_i} \to \struct{X} |_{U_i}$ which are defined by an element $f_i \in \struct{X}^\times(U_i)$. Then we find that,
+\begin{align*}
+\tilde{\varphi}_{ij} & = \tilde{\varphi}_{U_i}^{-1} |_{U_{ij}} \circ \tilde{\varphi}_{U_j} |_{U_{ij}} = \tilde{\varphi}_{U_i}^{-1} |_{U_{ij}} \circ \varphi_{U_i} |_{U_{ijk}} \circ \varphi_{U_i}^{-1} |_{U_{ijk}} \circ \varphi_{U_j} |_{U_{ijk}} \circ  \varphi_{U_j} |_{U_{ijk}}^{-1} \circ \tilde{\varphi}_{U_j} |_{U_{ij}} 
+\\
+& = t_i |_{U_{ij}} \circ \varphi_{ij} \circ t_j^{-1} |_{U_{ij}}
+\end{align*}
+This shows that the elements must satisfy, $\tilde{e}_{ij} \cdot e_{ij}^{-1} = t_i |_{U_{ij}} \cdot t_j^{-1} |_{U_{ij}}$. Furthermore, the Cech differential map $\mathrm{d} : \check{C}^0(\mathfrak{U}, \struct{X}^\times) \to \check{C}^1(\mathfrak{U}, \struct{X}^\times)$ acts via,
+\[ (\d{\alpha})_{ij} = \alpha_{i} |_{U_{ij}} \cdot \alpha_{j}^{-1} |_{U_{ij}}  \]
+Therefore, let $f = (f_i)_i$ then $\d{f} = \tilde{e} \cdot e^{-1}$ which implies that $[\tilde{e}] = [e]$ in $\check{H}^1(\mathfrak{U}, \struct{X}^\times)$ so the cohomology class $[e]$ associated to the invertable sheaf $\L$ is well-defined. The map $\L \mapsto [e]$ is well-defined for sheaves which are locally trivialized on $\mathfrak{U}$. Therefore we get a well-defined map,
+\[ \Pic{X} \to \check{H}^1(X, \struct{X}^\times) = \varinjlim_{\mathfrak{U}} \check{H}(\mathfrak{U}, \struct{X}^\times) \]
+via decomposing,
+\[ \Pic{X} = \bigcup_{\mathfrak{U}} \Pic{\mathfrak{U}, X} \quad \text{where} \quad \Pic{\mathfrak{U}, X} = \{ \mathcal{L} \in \Pic{X} \mid \forall U \in \mathfrak{U} : \mathcal{L}|_U \cong \struct{U} \} \]
+and mapping,
+\[ \Pic{\mathfrak{U}, X} \to \check{H}^1(\mathfrak{U}, \struct{X}^\times) \to \varinjlim_{\mathfrak{U}} \check{H}(\mathfrak{U}, \struct{X}^\times) = \check{H}^1(X, \struct{X}^\times) \]
+using the constructed map. This map is an homomorphism because given invertable sheaves $\L_1$ and $\L_2$ and isomorphisms $\varphi^r_{U_i} : \struct{X} |_{U_i} \to \L_r$ corresponding to cohomology classes $[e^r]$ then there is a natural map,
+\[ \varphi^1_{U_i} \otimes \varphi^2_{U_i} \struct{X}|_{U_i} \to \L_1 |_{U_i} \otimes_{\struct{X} |_{U_i}} \L_2 |_{U_i} \]
+which therefore gives overlap maps,
+\[ \varphi_{ij}^\otimes = ((\varphi^1_{U_i})^{-1} \circ \varphi^1_{U_j}) \otimes ((\varphi^2_{U_i})^{-1} \circ \varphi^2_{U_j}) = \varphi_{ij}^1 \otimes \varphi_{ij}^2 \]
+and thus, $\varphi_{ij}^\otimes(1) = e_{ij}^1 \otimes e^2_{ij} \mapsto e_{ij}^1 e_{ij}^2$ under the natural identification,
+\[ \struct{X}(U_{ij}) \otimes_{\struct{X}(U_{ij})} \struct{X}(U_{ij}) \to \struct{X}(U_{ij}) \]
+Therefore, the invertable sheaf $\L_1 \otimes_{\struct{X}} \L_2$ maps to the cohomology class $[e^1 e^2] = [e^1] [e^2]$ so this map is a homomorphism. 
+\bigskip\\
+I claim that this map is, in fact, an isomorphism. Let $\L$ be an invertable sheaf represented by the cohomology class $[e] = [1]$ then we know that $e_{ij} = t_i |_{U_{ij}} \cdot t_j^{-1} |_{U_{ij}}$ for some set of invertable sections $t_i$. Therefore, modify the isomorphism $\varphi_{U_i} : \struct{X}|_{U_i} \to \L |_{U_i}$ which gave rise to this cohomology representative via $\tilde{\varphi}_{U_i} = t_i \varphi_{U_i}$ which are still isomorphism because $t_i \in \struct{X}(U_i)^\times$ is invertable. Therefore, 
+\[ \tilde{\varphi}_{U_i}^{-1}|_{U_{ij}} \circ \tilde{\varphi}_{U_j}|_{U_{ij}} = (t_i |_{U_{ij}}^{-1} \cdot t_j |_{U_{ij}}) \varphi_{U_i}^{-1}|_{U_{ij}} \circ \varphi_{U_j}|_{U_{ij}} = \id_{\struct{X}(U_{ij})} \]
+this map takes $1 \mapsto (t_i |_{U_{ij}}^{-1} \cdot t_j |_{U_{ij}}) e_{ij} = 1$ so as a morphism of $\struct{X}|_{U_{ij}}$-modules is the identity map. Thus $\tilde{\varphi}_{U_i} |_{U_{ij}} = \tilde{\varphi}_{U_j} |_{U_{ij}}$, so the isomorphisms $\tilde{\varphi}_{U_i} \in \shHom{}{\struct{X}|_{U_i}}{\L|_{U_i}}$ glue since they agree on this open cover to a global isomorphism $\tilde{\varphi} : \struct{X} \to \L$ so $\L$ is a trivial invertable sheaf. Thus $\Pic{X} \to \check{H}^1(X, \struct{X})$ is injective. It remains to prove that it is surjective. Given any cohomology class $[e] \in \check{H}^1(X, \struct{X}^\times)$ we may construct an invertable sheaf as follows. Define $\L$ via,
+\[ \L(V) = \{ f_i \in \struct{X}(U_i \cap V) \mid f_i |_{U_{ij} \cap V} \cdot e_{ij} |_{U_{ij} \cap V} = f_j |_{U_{ij} \cap V} \} \]
+It is clear that this is an invertable sheaf if $e_{ij}$ satisfies the transition property given by its Cech differential vanishing and that $\L \mapsto [e]$. 
+\bigskip\\
+Finally, we use the general fact that $H^1(X, \F) = \check{H}^1(X, \F)$ to conclude that,
+\[ \Pic{X} \cong H^1(X, \struct{X}^\times) \]
+
+\subsubsection{4.6}
+
+Let $(X, \struct{X})$ be a ringed space and $\J$ be a sheaf of ideals of $\struct{X}$ such that $\J^2 = 0$. Let $X_0$ be the ringed space $(X, \struct{X} / \J)$. Now consider the sequence of sheaves over $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \J \arrow[r] & \struct{X}^\times \arrow[r] & \struct{X_0}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\J \to \struct{X}^\times$ is the map $a \mapsto 1 + a$ which is a unit because $(1 + a)(1 - a) = 1 - a^2 = 1$ since $a^2 \in \J^2 = 0$. This map is clearly injective. The map $\struct{X}^\times \to \struct{X_0}^\times$ is the projection. At the stalks $\stalk{X}{x}^\times \to \stalk{X_0}{x}^\times$ the map is simply the projection $\stalk{X}{x}^\times \to (\stalk{X}{x} / \J_x)^\times$. Now if $ab - 1 \in \J_x$ then $ab = 1 + z$ for some $z \in \J_x$. Thus,
+\[ ab(1 - z) = (1 + z)(1 - z) = 1 - z^2 = 1 \]
+so $a \in \stalk{X}{x}^\times$ is actually invertible i.e. the stalk maps are surjective so $\struct{X}^\times \to \struct{X_0}^\times$ is a surjective morphism of sheaves. Now if $a \in \J_x$ then $1 + a = 1$ in $\stalk{X}{x} / \J_x$ so the sequence is a complex. Futhermore, if $1 + a = 1$ in $\stalk{X}{x} / \J_x$ then $a \in \J_x$ so the sequence is exact. Therefore, appling the long exact sequence of cohomology we get,
+\begin{center}
+\begin{tikzcd}
+H^1(X, \J) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & H^1(X, \struct{X_0}) \arrow[r] & H^2(X, \J)
+\end{tikzcd}
+\end{center}
+Furthermore, using the identification $H^1(X, \struct{X}) = \Pic{X}$ for any ringed space we find an exact sequence,
+\begin{center}
+\begin{tikzcd}
+H^1(X, \J) \arrow[r] & \Pic{X} \arrow[r] & \Pic{X_0} \arrow[r] & H^2(X, \J)
+\end{tikzcd}
+\end{center}
+
+\subsubsection{4.7}
+
+Let $X$ be the closed subscheme of $\P^2_k$ defined by the homogeneous polynomial $f(x_0, x_1, x_2) = 0$ of degree $d$. Let $S = k[x_0, x_1, x_2]$ be the graded ring such that $\P^2_k = \Proj{S}$. Now consider the exact sequence of graded rings,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & S(-d) \arrow[r, "\times f"] & S \arrow[r] & S / (f) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+which gives an exact sequence of $\struct{\P^2_k}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \widetilde{S(-d)} \arrow[r, "\times f"] & \widetilde{S} \arrow[r] & \widetilde{S / (f)} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Let $\iota : \Proj{S/(f)} \to \Proj{S}$ be the closed immersion of the closed subscheme $X = \Proj{S/(f)}$ which is the plane curve corresponding the vanishing of $f$. Then $\widetilde{S / (f)} = \iota_* \struct{X}$ so we may rewrite this exact sequence as,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{\P^2_k}(-d) \arrow[r, "\times f"] & \struct{\P^2_k} \arrow[r] & \iota_* \struct{X} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Taking the long exact sequence of cohmology we find,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(\P^2_k, \struct{\P^2_k}(-d)) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0(\P^2_k, \struct{\P^2_k}) \arrow[r] & H^0(\P^2_k, \iota_* \struct{X}) \arrow[r] & H^1(\P^2_k, \struct{\P^2_k}(-d)) 
+\arrow[dlll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1(\P^2_k, \struct{\P^2_k}) \arrow[r] & H^1(\P^2_k, \iota_* \struct{X}) \arrow[r] & H^2(\P^2_k, \struct{\P^2_k}(-d)) \arrow[r] & H^2(\P^2_k, \struct{\P^2_k}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $\iota : X \to \P^2_k$ is a closed immersion it is affine and thus,
+\[ H^q(\P^2_k, \iota_* \F) = H^q(X, \F) \]
+for any quasi-coherent $\struct{X}$-module and $q \ge 0$. In partiuclar, $H^q(\P^2_k, \iota_* \struct{X}) = H^q(X, \struct{X})$ and also we know that $H^1(\P^2_k, \struct{\P^2_k}(n)) = 0$. Therefore, the long exact sequence becomes,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(\P^2_k, \struct{\P^2_k}(-d)) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0(\P^2_k, \struct{\P^2_k}) \arrow[r] & H^0(X, \struct{X}) \arrow[r] & 0
+\arrow[dlll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& 0 \arrow[r] & H^1(X, \struct{X}) \arrow[r] & H^2(\P^2_k, \struct{\P^2_k}(-d)) \arrow[r] & H^2(\P^2_k, \struct{\P^2_k}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, since $-d < 0$ then $H^0(\P^2_k, \struct{\P^2_k}(-d)) = 0$ (because $S$ has no negative degree terms) and we know $H^0(\P^2_k, \struct{\P^2_k}) = k$. Therefore, $H^0(X, \struct{X}) = k$ and, in particular, it has dimension 1. Furthermore, 
+\[ H^2(\P^2_k, \struct{\P^2_k}(n)) = \left( \frac{1}{x_0 x_1 x_2} k[x_0^{-1}, x_1^{-1}, x_2^{-1}] \right)_n \]
+Thus, $\dim_k H^2(\P^2_k, \struct{\P^2_k}) = 0$ which implies that,
+\[ H^1(X, \struct{X}) = H^2(\P^2_k, \struct{\P^2_k}(-d)) \]
+Furthermore, a basis is given by $x_0^{-(a + 1)} x_1^{-(b + 1)} x_2^{-(c + 1)}$ where $a + b + c + 3 = d$. The number of solutions with $0 \le a,b,c \le d - 3$ is given as follows. There are $(d - 2)$ choices for $a$ in which case there are $d - a - 2$ choices for $b$ which fixes $c$. Then the number of solutions is thus,
+\begin{align*}
+\dim_k H^1(X, \struct{X}) & = \sum_{a = 0}^{d - 3} (d - a - 2) = (d - 2)^2 - \sum_{a = 0}^{d - 3} a 
+\\
+& = (d - 2)^2 - \tfrac{1}{2} (d - 3)(d - 2) = \tfrac{1}{2} (d - 1)(d - 2)
+\end{align*}
+
+\subsubsection{4.8}
+
+\begin{enumerate}
+\item
+
+\item
+
+\item
+
+\item
+
+\item
+\end{enumerate}
+
+\subsubsection{4.10}
+
+\subsubsection{4.11}
+
+Let $X$ be a topological space, $\F$ a sheaf of abelian groups on $X$, and $\U$ an open cover of $X$ such that on all finite intersections $V = U_{i_0} \cap \cdots \cap U_{i_p}$ the sheaf $\F|_V$ is acyclic i.e. $H^q(V, \F|_V) = 0$ for all $q > 0$. Now embedd $\F$ into an injective sheaf $\I$ and take its cokernel $\K$ to form a short exact sequence of sheaves on $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+The long exact sequence of the cohomology of the left-exact functor $\Gamma(V, (-)|_V)$ gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(V, \F|_V) \arrow[r] & H^0(V, \F_V) \arrow[r] & H^0(V, \K|_V) \arrow[r] & H^1(V, \F|_V) 
+\end{tikzcd}
+\end{center} 
+However, by assumption, $H^1(V, \F|_V) = 0$ on each finite intersection $V = U_{i_0} \cap \cdots \cap U_{i_p}$. Therefore, there is an exact sequence of abelian groups,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(V) \arrow[r] & \I(V) \arrow[r] & \K(V) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+and thus taking products over possible intersections $V$ we find that the sequence of Cech complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \check{C}^\bullet(\U, \F) \arrow[r] & \check{C}^\bullet(\U, \I) \arrow[r] & \check{C}^\bullet(\U, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact. Taking the long exact sequence associated to this sequence of Cech complexes gives a long exact sequence of Cech cohomology. However, $\I$ is injective and thus flasque so the higher Cech and sheaf cohomology vanishes. Therefore, we have a morphism of exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \check{H}^0(\U, \F) \arrow[r] \arrow[d] & \check{H}^0(\U, \F) \arrow[r] \arrow[d] & \check{H}^0(\U, \K) \arrow[r] \arrow[d] & \check{H}^1(\U, \F) \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & H^0(\U, \F) \arrow[r] & H^0(\U, \F) \arrow[r] & H^0(\U, \K) \arrow[r] & H^1(\U, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, for any abelian sheaf $\G$,
+\[ \check{H}^0(\U, \G) = H^0(\check{C}^\bullet(\U, \G)) = \Gamma(X, \G) = H^0(\U, \G) \]
+so the first three downwards maps are isomorphisms and thus, by the five lemma, the map,
+\[ \check{H}^1(\U, \F) \xrightarrow{\sim} H^1(\U, \F) \]
+is an isomorphism proving the theorem at $q = 1$. 
+\bigskip\\
+In proceed by induction on $q$, assume that the map,
+\[ \check{H}^q(\U, \G) \xrightarrow{\sim} H^q(X, \G) \]
+is an isomorphism for any abelian sheaf $\G$ satisfying $H^p(V, \G|_V) = 0$ for all $p \ge 1$ and finite intersection $V$. 
+\bigskip\\
+Now the long exact sequence of Cech cohomology gives an isomorphism,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \check{H}^q(\U, \K) \arrow[r,"\sim"] & \check{H}^{q+1}(\U, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, for $p \ge 1$ the long exact sequence of sheaf cohomology restricted to $V$ gives,
+\begin{center}
+\begin{tikzcd}
+H^p(V, \F|_V) \arrow[r] & H^p(V, \I|_V) \arrow[r] & H^p(V, \K|_V) \arrow[r] & H^{p+1}(V, \F|_V)
+\end{tikzcd}
+\end{center}
+By assumption, $H^p(V, \F|_V) = 0$ and since $\I|_V$ is injective $H^p(V, \I|_V) = 0$ and thus $H^p(V, \K|_V) = 0$ for all $p \ge 1$ and any finite intersection $V = U_{i_0} \cap \cdots \cap U_{i_p}$. Therefore, $\K$ is an abelian sheaf on $X$ satisfying the hypothesis. Thus the isomorphisms,
+\begin{center}
+\begin{tikzcd}
+\check{H}^q(\U, \K) \arrow[d] \arrow[r, "\sim"] & \check{H}^{q+1}(\U, \F) \arrow[d]
+\\
+H^q(\U, \K) \arrow[r, "\sim"] & H^{q+1}(\U, \F) 
+\end{tikzcd}
+\end{center}
+shift the isomorphism for $\K$ given by the induction hypothesis to an isomorphism for $\F$ in one degree higher,
+\[ \check{H}^{q+1}(\U, \F) \xrightarrow{\sim} H^{q+1}(X, \F) \]
+completing the proof by induction.
+
+\subsection{5}
+
+\subsubsection{5.1}
+
+Let $X$ be a proper scheme over $k$ and $\F$ a coherent $\struct{X}$-module. Then we know that $H^q(X, \F)$ are finite-dimensional $k$-vectorspaces and vanish for sufficiently large $q$. Therefore, the Euler-characteristic,
+\[ \chi(\F) = \sum_{i = 0}^\infty (-1)^i \dim_k H^i(X, \F) \]
+is a well-defined integer $\chi(\F) \in \Z$. 
+Consider an exact sequence of coherent sheaves,  
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \H \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+from which there is a long exact sequence of cohomology,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(X, \F) \arrow[r] & H^0(X, \G) \arrow[r] & H^0(X, \H) \arrow[r] & H^1(X, \F) \arrow[r] & H^1(X, \G) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^1(X, \H)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^2(X, \F) \arrow[r] & H^2(X, \G)  \arrow[r] & H^2(X, \H) \arrow[r] & \cdots \arrow[r] & H^n(X, \H) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where the cohomology vanishes above the dimension of the scheme $X$. These groups are $k$-vectorspaces because $X$ is a scheme over $k$. By Lemma \ref{alt_sum_exact} we have the alternating sum,
+\begin{align*}
+\sum_{i = 0}^n (-1)^n \left[ \dim_k H^i(X, \F) - \dim_k H^i(X, \G) + \dim_k H^i(X, \H) \right] = \chi(\F) - \chi(\G) + \chi(\H) = 0  
+\end{align*}
+Therefore,
+\[ \chi(\G) = \chi(\F) + \chi(\H) \]
+
+\subsubsection{5.2}
+
+\subsubsection{5.3}
+
+Let $X$ be a projective scheme of dimension $r$ over a field $k$. The \textit{arithmetic genus} of $X$ is defined by,
+\[ g_a(X) = (-1)^r \left( \chi(\struct{X}) - 1 \right) \]
+Note that being projective is equivalent to being quasi-projective and proper so $\chi$ is defined for any coherent $\struct{X}$-module so, in particular, for $\struct{X}$ itself. 
+ 
+\begin{enumerate}
+\item Let $X$ be a projective integral scheme over an algebraically closed field $k$. By Lemma \ref{projective_scheme_proper} the scheme $X$ is proper over $k$ so by Lemma \ref{global_sections_proper_scheme}, $\struct{X}(X) = H^0(X, \struct{X})$ is a finite and thus algebraic extension of $k$. Since $k$ is algebraically closed, $\struct{X}(X) = k$
+ and thus \[ \dim_k H^0(X, \struct{X}) = 1 \]
+Therefore,
+\begin{align*}
+g_a(X) & = (-1)^{r + 1} + (-1)^r \sum_{i = 0}^r (-1)^i \dim_k H^i(X, \struct{X})
+\\
+& = (-1)^{r + 1} + (-1)^r + (-1)^r \sum_{i = 1}^r (-1)^i \dim_k H^i(X, \struct{X})
+\\
+& = \sum_{i = 1}^r (-1)^{i + r} \dim_k H^i(X, \struct{X}) = \sum_{i = 0}^{r-1} (-1)^i \dim_k H^{r - i}(X, \struct{X})
+\end{align*}
+In particular, when $X$ is a projective curve,
+\[ p_a(X) = \dim_k H^1(X, \struct{X}) \]
+
+\item
+
+\item 
+
+
+\end{enumerate}
+
+\subsubsection{5.6}
+
+\subsubsection{5.8}
+
+\begin{enumerate}
+\item
+
+\item
+
+\item
+
+\item
+\end{enumerate}
+
+\subsection{6}
+
+\subsubsection{6.4}
+
+Let $X$ be a noetherian scheme and suppose that $\Coh{X}$ has enough locally frees (i.e. for each $\F \in \Coh{X}$ there exists a locally free $\G \in \Coh{X}$ and a surjection $\G \to \F$ making every coherent sheaf a quotient of a locally free). Then for any $\G \in \shMod{X}$, consider the contravariant $\delta$-functor $\shExt{i}{\struct{X}}{-}{\H} : \Coh{X}^{\op} \to \shMod{X}$. To show that such a functor is universal is suffices to prove that this contravariant $\delta$-functor is coeffaceable (or equivalently is an effaceable $\delta$-functor on the opposite category $\Coh{X}^{\op}$) meaning that for each $\F \in \Coh{X}$ there exists an epimorphism $a : \G \to \F$ such that $\shExt{i}{\struct{X}}{a}{\H} = 0$ for all $i \ge 1$. Since we are given such maps from locally free sheaves $\G \to \F$, it suffices to prove that $\shExt{i}{\struct{X}}{\G}{\H} = 0$ for all $i \ge 1$ and locally free $\G$. 
+\bigskip\\
+However, we have shown that for locally free coherent $\G$,
+\[ \shExt{i}{\struct{X}}{\G}{\H} = \shExt{i}{\struct{X}}{\struct{X}}{\H} \otimes \G^\vee = 0 \]
+for $i \ge 0$ since $\shExt{i}{\struct{X}}{\struct{X}}{\G} = 0$ because $\shHomover{\struct{X}}{\struct{X}}{-}$ is the identity functor. 
+
+\section{IV}
+
+\begin{definition}
+Here a curve is a regular integral scheme of dimension one which is finite type over an algebraically closed field $K$.
+\end{definition}
+
+\subsection{1}
+
+\subsection{1.1}
+
+Let $C$ be a curve ofgenus $g$ and a point $P \in C$. For $g = 0$ we know $C \cong \P^1$ in which case the desired functions are easily constructed. Thus we may assume $C$ has positive genus. Consider the divisor $[(1 + g)P]$ and the line bundle $\struct{C}((1 + g)[P])$. Then by Riemmann-Roch,
+\[ \ell((1 + g)[P]) - \ell(K - (1 + g)[P]) = 1 - g + \deg{(1 + g) [P]} = 2 \]
+Furthermore,
+\[ \deg{(K - (1+g)[P])} = \deg{K} - \deg{(1 + g)[P]} = 2 - 2g - (1 + g) = 1 - 3 g < 0 \]
+Therefore, $\ell(K - (1 + g)[P]) = 0$ so we find,
+\[ \ell((1 + g)[P]) = 2 \]
+and thus there must be nonconstant functions $f \in K(C)$ which are regular everywhere but $P$. 
+
+\subsection{1.2}
+
+Let $C$ be a curve and $P_1, \dots, P_n \in C$ points then using the above construction, we get a nonconstant function $f_i \in K(X)$ which has a pole of order $2$ at $P_i$ and is regular elsewhere. Then take $f = f_1^{e_1} \dots f_n^{e_n}$ has poles only at the points $P_1, \dots, P_n$ but it may not have a pole at each point if the $f_i$ have higher order zeros. There is a matrix $v_{ij} = \mathrm{ord}_{P_i} f_j$ which has $v_{ii} = -2$ and $0 \le v_{ij} \le 2$ for $i \neq j$ since $\deg{f_i} = 0$. We need to chose the vector $e_i$ sucht that $v \cdot e$ has negative entries. 
+
+\section{V}
+
+\section{Lemmata}
+
+
+\begin{lemma} \label{open_in_irreducible_is_dense}
+In an irreducible topological space every nonempty open set is dense.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X$ be open with $X$ irreducible. Then take any closed set $C \supset U$. Then $C \cup U^C = X$ since if $x \notin U$ then $x \in U \subset C$. Therefore, since $X$ is irreducible either $U = \varnothing$ or $C = X$. If $U$ is nonempty then we must have $\overline{U} = X$.  
+\end{proof}
+
+\begin{lemma} \label{open_of_irreducible}
+Let $X$ be an irreducible topological space and nonempty open $U \subset X$. Then $U$ is irreducible.
+\end{lemma}
+
+\begin{proof}
+Suppose that there were closed sets $Z_1, Z_2 \subset X$ such that
+ \[ (Z_1 \cap U) \cup (Z_1 \cap U) = U \]
+ i.e. such that $Z_1 \cup Z_2 \supset U$. However, by Lemma \ref{open_in_irreducible_is_dense}, we have $Z_1 \cup Z_2 = X$ since $U$ is a nonempty open and $X$ is irreducible. Therefore, either $Z_1 = X$ or $Z_2 = X$ implying that $Z_1 \cap U = U$ or $Z_2 \cap U = U$ so $U$ is irreducible.   
+\end{proof}
+
+\begin{lemma} \label{irreducible_implies_connected}
+Any irreducible topological space is connected.
+\end{lemma}
+
+\begin{proof}
+Suppose that $X$ is irreducible. Suppose that $U \subset X$ is clopen. Then $U$ and $U^C$ are both closed but $U \cup U^C = X$ so either $U = X$ or $U = \varnothing$ proving that $X$ is connected. 
+\end{proof}
+
+
+
+\begin{lemma} \label{alt_sum_exact}
+Consider the exact sequence of finite-dimensional $k$-vectorspaces,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & V_0 \arrow[r, "T_0"] & V_1 \arrow[r, "T_1"] & V_2  \arrow[r] & \cdots \arrow[r] & V_n \arrow[r, "T_n"] & 0 
+\end{tikzcd} 
+\end{center}
+Then we have the alternating sum,
+\[ \sum_{i = 0}^n (-1)^i \dim_k V_i = 0 \]
+\end{lemma}
+
+\begin{proof}
+The rank-nullty theorem gives,
+\[ \dim_k{V_i} = \dim_k{\ker{T_i}} + \dim_k{\Im{T_i}} \]
+However, by exactness, $\Im{T_i} = \ker{T_{i+1}}$ so consider,
+\begin{align*}
+\sum_{i = 0}^n (-1)^i \dim_k V_i & = \sum_{i = 0}^n (-1)^i \left[ \dim_k{\ker{T_i}} + \dim_k{\ker{T_{i + 1}}} \right]
+\\
+& = \sum_{i = 0}^n (-1)^i  \dim_k{\ker{T_i}} + \sum_{i = 0}^{n} (-1)^i  \dim_k{\ker{T_{i+1}}} 
+\\
+& = \sum_{i = 0}^n (-1)^i  \dim_k{\ker{T_i}} - \sum_{i = 1}^{n+1} (-1)^i  \dim_k{\ker{T_{i}}}
+\\
+& = \dim_k{\ker{T_0}} - (-1)^{n+1} \ker{T_{n+1}}
+\end{align*}
+However, $T_0$ is injective and $T_{n+1}$ is the map $0 \to 0$ so both kernels vanish. Therefore,
+\[ \sum_{i = 0}^n (-1)^i \dim_k V_i = 0 \]
+\end{proof}
+
+\begin{definition}
+We say a scheme is \textit{locally noetherian} if there is an open affine cover $U_i = \Spec{A_i}$ by spectra of noetherian rings $A_i$. Furthermore we say a scheme is \textit{noetherian} if it is locally noetherian and quasi-compact.
+\end{definition}
+
+\begin{definition}
+A morphism $f : X \to Y$ of schemes is \textit{locally of finite type} if on each open $U \subset Y$ the ring map $f^\# : \struct{Y}(U) \to \struct{X}(f^{-1}(U))$ is finite type. Furthermore a the morphism $f :  X \to Y$ is \textit{finite type} if it is locally finite type and quasi-compact.
+\end{definition}
+
+\begin{lemma}
+Let $f : X \to Y$ be a finite-type morphism of schemes and $Y$ noetherian. Then $X$ is noetherian.
+\end{lemma}
+
+\begin{proof}
+Since $Y$ is noetherian, it is quasi-compact and has an open affine cover by spectra of noetherian rings $U_i = \Spec{A_i}$. Since $f$ is a finite-type morphism $f$ is quasi-compact so $X = f^{-1}(Y)$ is quasi-compact. Furthermore, the ring map $f^\# : \struct{Y}(U_i) \to \struct{X}(f^{-1}(U_i))$ is finite-type meaning that $\struct{X}(f^{-1}(U_i))$ is a finitely-generated $A_i$-algebra since $\struct{Y}(U_i) = A_i$. Since $A_i$ is noetherian and there is a surjection, \begin{center}
+\begin{tikzcd}
+A_i[x_1, \dots, x_n] \arrow[r, two heads] & \struct{X}(f^{-1}(U_i))
+\end{tikzcd}
+\end{center}
+then by Hilbert's basis theorem $A_i[x_1, \dots, x_n]$ is noetherian and thus so is $\struct{X}(f^{-1}(U_i))$ proving that $X$ is a noetherian scheme. 
+\end{proof}
+
+\begin{corollary}
+Any variety is noetherian.
+\end{corollary}
+
+\begin{proof}
+By definition, a variety $X$ is a finite type scheme over $k$ i.e. the morphism $X \to \Spec{k}$ is finite type. However, $\Spec{k}$ is clearly noetherian thus so is $X$.
+\end{proof}
+
+\begin{lemma} \label{tensor_inverse}
+Let $R$ be a local ring and let $M, N$ be $R$-modules such that $M \otimes_R N = R$ then $M \cong R$ and $N \cong R$.
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{lemma} \label{projective_scheme_proper}
+Any projective scheme over $k$ is proper over $k$.
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{lemma} \label{global_sections_proper_scheme}
+Let $X$ be an integral scheme proper over $k$. Then $H^0(X, \struct{X})$ is a field which is a finite extension of $k$. 
+\end{lemma}
+
+\begin{proof}
+The sheaf $\struct{X}$ is coherent and $X$ is a proper scheme over $k$ so $H^0(X, \struct{X})$ is a finite-dimensional $k$-vectorspace. Furthermore, $X$ is integral so $H^0(X, \struct{X})$ is a field and thus a finite field extension of $k$.
+\end{proof}
+
+\begin{lemma}
+Let $B$ be an $A$-algebra giving $f : \Spec{B} \to \Spec{A}$. Then as quasi-coherent $\struct{\Spec{A}}$-modules,
+ \[ f_* \struct{\Spec{B}} = \widetilde{B} \]
+\end{lemma}
+
+\begin{proof}
+Denote the algebra map $\iota : A \to B$ and $f = \Spec{\iota}$. We have, 
+\[ f_* \struct{\Spec{B}}(D(x)) = \struct{\Spec{B}}(f^{-1}(D(x))) \] However, 
+\[ f(\p) = \iota^{-1}(\p) \quad \text{thus} \quad x \in \iota^{-1}(\p) \iff \iota(x) \in \p \quad \text{i.e.} \quad f(\p) \in D(x) \iff \p \in D(\iota(x)) \] Thus $f^{-1}(D(x)) = D(\iota(x))$ so,
+\[ f_* \struct{\Spec{B}}(D(x)) = \struct{\Spec{B}}(D(\iota(x))) = B_{\iota(x)}  = \widetilde{B}(D(x)) \]
+since localizing $B$ at $x$ as an $A$-module is the same as localizing $B$ at $\iota(x)$ as a ring.
+\end{proof}
+
+\begin{lemma} \label{lem:exact_seq_of_functors}
+Let $F, G, H : \mathcal{A} \to \mathcal{B}$ be additive functors between abelian categories and let $\mathcal{A}$ have enough injectives. Suppose there exists a sequence of natural transformations $F \xrightarrow{\alpha} G \xrightarrow{\beta} H$ such that for each injective object $I \in \mathcal{A}$ that the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(I) \arrow[r, "\alpha_I"] & G(I) \arrow[r, "\beta_I"] & H(I) \arrow[r] & 0  
+\end{tikzcd}
+\end{center}
+is exact. Then for any object $A \in \mathcal{A}$ there exists a long exact cohomology sequence relating the right-derived functors,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & R^0 F(A) \arrow[r] & R^0 G(A) \arrow[r] & R^0 H(A) \arrow[r] & R^1 F(A) \arrow[r] & R^1 G(A) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & R^1 H(A)
+\arrow[dlllll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& R^2 F(A) \arrow[r] & R^2 G(A) \arrow[r] & R^2 H(A) \arrow[r] & R^3 F(A) \arrow[r] & R^3 G(A) \arrow[r] & R^3 H(A) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+Consider an injective resolution of $A$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & I^0 \arrow[r] & I^1 \arrow[r] & I^2 \arrow[r] & I^3 \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Now consider the complex,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d] 
+\\
+& F(A) \arrow[r, "\alpha_A"] \arrow[d] & G(A) \arrow[r, "\beta_A"] \arrow[d] & H(A) \arrow[d] 
+\\
+0 \arrow[r] & F(I^0) \arrow[d] \arrow[r, "\alpha_I"] & G(I^0) \arrow[d] \arrow[r, "\beta_I"] & H(I^0) \arrow[d] \arrow[r] & 0  
+\\
+0 \arrow[r] & F(I^1) \arrow[d] \arrow[r, "\alpha_I"] & G(I^1) \arrow[d] \arrow[r, "\beta_I"] & H(I^1) \arrow[d] \arrow[r] & 0  
+\\
+0 \arrow[r] & F(I^2) \arrow[d] \arrow[r, "\alpha_I"] & G(I^2) \arrow[d] \arrow[r, "\beta_I"] & H(I^2) \arrow[d] \arrow[r] & 0  
+\\
+& \vdots & \vdots & \vdots
+\end{tikzcd}
+\end{center}
+with (except for the first) exact rows. Thus, this is an exact sequence of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(\bf{I}^\bullet) \arrow[r, "\alpha"] & G(\bf{I}^\bullet) \arrow[r, "\beta"] & H(\bf{I}^\bullet) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which gives rise to an exact sequence of cohomology coinciding with the required sequence since $R^p F(A) = H^p(F(\bf{I}^\bullet)$. 
+\end{proof}
+
+\begin{lemma} \label{lem:flasque_mayer_vietoris}
+Let $\F$ be a flasque sheaf on $X$ and $U, V \subset X$ be open sets. Then the following sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(U \cup V, \F) \arrow[r] & \Gamma(U, \F) \oplus \Gamma(V, \F) \arrow[r] & \Gamma(U \cap V, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with maps $s \mapsto (s|_U, s|_V)$ and $(s, t) \mapsto (s - t)|_{U \cap V}$ is exact.
+\end{lemma}
+
+\begin{proof}
+The first map is the kernel of the second by the sheaf property of $\F$ i.e. the pair of sections $(s, t)$ is the image of a global section exactly when then agree on the overlap i.e. $s|_{U \cap V} = t|_{U \cap V} \iff (s - t)|_{U \cap V} = 0$. Finally, the map sending $(s, t) \mapsto (s - t)|_{U \cap V}$ is surjective because $\F$ is flasque so the restriction map $(s, 0) \mapsto s|_{U \cap V}$ is surjective. 
+\end{proof}
+
+\begin{theorem}[Mayer-Vietoris]
+Let $\F$ be a sheaf on $X$ and $U, V \subset X$ be open sets. Then there is a long-exact sequence of cohomology, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(U \cup V, \F) \arrow[r] & H^0(U, \F) \oplus H^0(V, \F) \arrow[draw=none]{d}[name=Z, shape=coordinate]{} \arrow[r] & H^0(U \cap V, \F)
+\arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\ 
+& H^1(U \cup V, \F) \arrow[r] & H^1(U, \F) \oplus H^1(V, \F) \arrow[draw=none]{d}[name=Z', shape=coordinate]{} \arrow[r] & H^1(U \cap V, \F) \arrow[dll,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z') [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]
+\\
+& H^2(U \cup V, \F) \arrow[r] & H^2(U, \F) \oplus H^2(V, \F) \arrow[r] & H^2(U \cap V, \F) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+By the above lemma, the left-exact functors $\Gamma(U \cup V, -)$ and $\Gamma(U, -) \oplus \Gamma(V, -)$ and $\Gamma(U \cap V, -)$ satisfy the conditions of Lemma \ref{lem:exact_seq_of_functors} giving an exact sequence of their derived functors. Furthermore, because direct sum is exact it commutes with taking cohomology and thus direct sum commutes with taking derived functors. Thus Lemma \ref{lem:exact_seq_of_functors} gives the required long exact sequence. 
+\end{proof}
+\end{document}

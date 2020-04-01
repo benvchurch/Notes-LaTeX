@@ -1,0 +1,141 @@
+\documentclass[12pt]{extarticle}
+\include{AlgebraicNumberTheoryCommands}
+
+\begin{document}
+\atitle{11}
+
+\section*{Hindry}
+ 
+\begin{enumerate}
+\item[6.1] I will prove that $p_k \le 2^{k-1}$. The argument proceeds by induction. For $k = 1$, we compare $p_1 = 2$ and $2^{2^{k-1}} = 2^1 = 2$ so $p_1 \le 2^{2^0}$. Now, assume that, for $i \le k$, we have $p_i \le 2^{2^{i-1}}$ then consider,
+\[N = p_1 p_2 \cdots p_k - 1 \le 2^{2^0} \cdot 2^{2^{1}} \cdot 2^{2^{2}} \cdots 2^{2^{2^{k-1}}} = 2^{2^0 + 2^1 + 2^2 + \cdots + 2^{k-1}} = 2^{2^{k} - 1} \le 2^{2^k} \] 
+By the fundamental theorem of arithmetic, since $N > 1$, there is some prime $p_r$ such that $p_r \divides N$ but if $r \le k$ then $p_r \divides p_1 \cdots p_k$. In that case, $p_r \divides p_1 \cdots p_k - N = 1$ which is impossible. Thus, $r \ge k + 1$ so $p_{k+1} \le p_r \le N \le 2^{2^{k}}$. Therefore, by induction, $p_k \le 2^{2^{k-1}}$ for all $k$. \bigskip \\
+For $x > 2$ let $k$ be the least integer such that $2^{2^k} \ge x$ then $2^{2^k} \ge x \ge 2^{2^{k-1}} \ge p_k$. We choose $x > 2$ such that $k \ge 1$. Therefore, the first $k$ primes are all less than $x$ and therefore,
+\[\pi(x) \ge k = \log{\log{2^{2^k}}} \ge \log_2{\log_2{x}} \ge \log{\log{x}}\] 
+     
+\item[6.4]
+
+Let $\mathrm{1}$ be the function $\mathrm{1}(x) = 1$. Then, consider the function $\mu * \mathrm{1}$. Because both $\mu$ and $\mathrm{1}$ are multiplicative, thus tthe function $\mu * \mathrm{1}$ is as well. Therefore, we must only consider its values at prime powers. Because  the only square-free divisors of $p^k$ are $1$ and $p$ (for $k > 0$) then, 
+\[(\mu * \mathrm{1})(p^k) = \sum_{d \divides p^k} \mu(d) \mathrm{1}(\tfrac{p^k}{d}) = \mu(1) + \mu(p) = 1 - 1 = 0\] 
+and likewise, the only divisor of $1$ is $1$ so $(\mu * \mathrm{1})(1) = \mu(1) = 1$. Thus, if $n > 1$ then $n$ is divisible by some prime power (with $k > 0$) so we can write $n = p^k m$ with $(p^k, m) = 1$. Thus, $(\mu * \mathrm{1})(n) = (\mu * \mathrm{1})(p^k) \cdot (\mu * \mathrm{1})(m) = 0$. Therefore $(\mu * \mathrm{1})(n) = 0$ for $n > 1$ and $(\mu * \mathrm{1})(1) = 1$ so $\mu * \mathrm{1} = \delta$. \bigskip \\
+Next, we show that $*$ is an assoicative operation. Let $D_3(n) = \{(a, b, c) \in \N^3 \mid abc = n\}$. Consider,
+\[((f * g) * h)(n) = \sum_{d \divides n} (f * g)(d) h(\tfrac{n}{d}) = \sum_{d \divides n} \sum_{d' \divides d} f(d') g(\tfrac{d}{d'}) h(\tfrac{n}{d}) = \sum_{(a,b,c) \in D_3(n)} f(a) g(b) h(c)\]
+because $d' \cdot \tfrac{d}{d'} \cdot \tfrac{n}{d} = n$ so $(d', \tfrac{d}{d'}, \tfrac{n}{d}) \in D_3(n)$ and given $(a,b,c) \in D_3(n)$ we let $d' = a$ and $d = ab$ so $b = \tfrac{d}{d'}$ and $c = \tfrac{n}{ab} = \tfrac{n}{d}$. Likewise,
+\[(f * (g * h))(n) = \sum_{d \divides n} f(d) (g * h)(\tfrac{n}{d}) = \sum_{d \divides n} \sum_{d' \divides d} f(d) g(d') h(\tfrac{n}{d' \cdot d}) = \sum_{(a,b,c) \in D_3(n)} f(a) g(b) h(c)\]
+because $d \cdot d' \tfrac{n}{d' \cdot d} = n$ so $(d, d', \tfrac{n}{d' \cdot d}) \in D_3(n)$ and given $(a,b,c) \in D_3(n)$ we let $d = a$ and $d' = b$ so $c = \tfrac{n}{ab} = \tfrac{n}{d' \cdot d}$. Therefore, $(f * g) * h = f * (g * h)$. \bigskip \\
+Finally, suppose that,
+\[g(n) = \sum_{d \divides n} f(d) = (\mathrm{1} * f)(n) \]
+Then, $\mu * g = \mu * (\mathrm{1} * f) = (\mu * \mathrm{1}) * f = \delta * f$ and 
+\[(\delta * f)(n) = \sum_{d \divides n} \delta(d) f(\tfrac{n}{d}) = \delta(1) f(n) = f(n)\]
+therefore, 
+\[(\mu * g)(n) = \sum_{d \divides n} \mu(d) g(\tfrac{n}{d}) = (\delta * f)(n) = f(n)\] 
+ 
+\item[6.6]
+
+Let $\chi$ be a nontrivial Dirichlet character modulo $N$.
+
+\begin{enumerate}
+\item We make use of the taylor series for the logarithm,
+\[ -\log(1 - x) = \sum_{n = 1}^\infty \frac{x^n}{n}  \]
+which converges on the disk minus one point, $|x| \le 1$ and $x \neq 1$. Thus, take $x = e^{i \theta}$ for $\theta \in (0, 2 \pi)$ so that $|x| \le 1$ and $x \neq 1$. Therefore,
+\[ -\log(1 - e^{i \theta}) = \sum_{n = 1}^\infty \frac{(e^{i \theta})^n}{n} = \sum_{n = 1}^\infty \frac{e^{i n \theta}}{n} = L(\theta)\]
+We can rewrite this expression as,
+\begin{align*} 
+L(\theta) & = - \log(1 - e^{i \theta}) = - \log(-2 i e^{i \theta/2} \sin{(\theta/2)}) = - \log(2\sin{(\theta/2)}) - \log{(-i e^{i \theta/2})} \\ & = - \log(2\sin{(\theta/2)}) - \log(e^{-i\frac{\pi}{2} + i \frac{\theta}{2}}) = - \log(2\sin{(\theta/2)}) + i\left(\frac{\pi}{2} - \frac{\theta}{2}\right) 
+\end{align*}
+
+\item The formula given, 
+\[ \chi(a) = G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i ax}{N}\right)}\]
+where the Gauss sum $G$ of $\chi$ is given by,
+\[G(\chi) = \sum_{x \in \modring{N}} \chi(x) \exp{\left(\frac{2\pi i x}{N}\right)}\]
+only holds in general if $(a, N) = 1$. Suppose that $(a, N) = 1$ then $a \in \modunits{N}$. Because $\chi(a) = 0$ if and only if $a \notin \modunits{N}$ then we can replace the sum over $\modring{N}$ with a sum over $\modunits{N}$ in the Gauss sum. That is,
+\begin{align*}
+\chi(a) G(\bar{\chi}) & = \chi(a) \sum_{x \in \modunits{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i x}{N}\right)} = \sum_{x \in \modunits{N}} \bar{\chi}(a^{-1}) \bar{\chi}(x) \exp{\left(\frac{2\pi i x}{N}\right)} \\ & = \sum_{x \in \modunits{N}} \bar{\chi}(a^{-1} x) \exp{\left(\frac{2\pi i x}{N}\right)} = \sum_{y \in \modunits{N}} \bar{\chi}(y) \exp{\left(\frac{2\pi i ay}{N}\right)} 
+\end{align*}
+where $y = a^{-1}x$ and the sum runs over all $\modunits{N}$ because $a \in \modunits{N}$ so multiplication by $a^{-1}$ is simply a permutation of the group. Relabeling the summation variable,
+\[ \chi(a) = G(\bar{\chi})^{-1} \sum_{x \in \modunits{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i ax}{N}\right)} = G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i ax}{N}\right)} \]
+If $N$ is prime then this formula holds for all $a \in \modring{N}$ because the only nonunit is $a = 0$ for which the formula reduces to,
+\[\chi(a) = G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) = 0\] which is in fact true because $\chi(a) = 0$ for all nonunits of $\modring{N}$.
+
+\item Now consider the Dirichlet L function $L(s, \chi)$ evaluated at $s = 1$,
+\[L(s = 1, \chi) = \sum_{n = 1}^\infty \frac{\chi(n)}{n^s} = \sum_{n = 1}^\infty \frac{\chi(n)}{n}\]
+Now applying the Gauss sum formula from above,
+\[L(1, \chi) = \sum_{n = 1}^\infty n^{-1} G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i nx}{N}\right)} = G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \sum_{n = 1}^\infty n^{-1} \exp{\left(\frac{2\pi i nx}{N}\right)} \]
+Due to the subtlety of part (b) only generally holding for nonunits when $N$ is prime, this formula also only holds in general for prime $N$. 
+Now applying part (a),
+\begin{align*} L(1, \chi) & = G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \left[- \log\left(2\sin{\left(\frac{\pi x}{N}\right)}\right) + i\left(\frac{\pi}{2} - \left(\frac{\pi x}{N}\right)\right) \right] \\ & = - G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \left[ \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) + \log{2} \right] + i G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \left(\frac{\pi}{2} - \left(\frac{\pi x}{N}\right)\right)
+\end{align*}
+using the fact that any nontrivial character satsifeis, $\sum_{x \in \modring{N}} \chi(x) = 0$, we conclude that,
+\[L(1, \chi) = - G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) - \frac{i \pi}{N G(\bar{\chi})} \sum_{x \in \modring{N}} \bar{\chi}(x) x\]
+Suppose $\chi$ is an even character then clearly $\bar{\chi}$ is also an even character. Then, $\chi(x) x$ is an odd function so the terms $\bar{\chi}(x)x$ and $\bar{\chi}(-x)(-x)$ cancel. Futhermore, because $N$ is a prime and therefore odd (the case $N = 2$ has no nontrivial characters), only $0$ is its own additive inverse since $\mod{x}{-x}{p} \implies \mod{2x}{0}{p} \implies p \divides 2 x \implies p \divides x$ so the sum,
+\[ \sum_{x \in \modring{N}} \bar{\chi}(x) x = 0 \]
+Therefore, for an even character $\chi$,
+\[L(1, \chi) = - G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right)\]
+If $\chi$ is an odd character (so $\bar{\chi}$ is odd), then since the sin function is even about $\frac{\pi}{2}$, we can pair the terms in the first sum. The term, $\log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) = \log\left(\sin{\left(\frac{\pi (N - x)}{N}\right)}\right)$ and $\bar{\chi}(N - x) = \bar{\chi}(-x) = - \bar{\chi}(x)$. Therefore,
+\[\bar{\chi}(x) \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) + \bar{\chi}(N - x) \log\left(\sin{\left(\frac{\pi (N - x)}{N}\right)}\right) = 0\]
+again, because $N$ is odd, I can pair the terms in the sum like this without double counting (because $N - x \neq x$). Therefore,
+\[ \sum_{x \in \modring{N}} \bar{\chi}(x) \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) = 0\]
+so for an odd character, the entire expression for $L(1, \chi)$ reduces to,
+\[L(1, \chi) = - \frac{i \pi}{N G(\bar{\chi})} \sum_{x \in \modring{N}} \bar{\chi}(x) x\]
+
+\item First of all, for a character modulo $4$ the above expressions do not necessarily hold because $4$ is not prime and the above results rely upon $N$ being prime. Second of all, for the character modulo $4$ such that $\chi(-1) = -1$ the given value is simply wrong,
+\[L(1, \chi) \neq \frac{\pi}{2 \sqrt{2}}\]
+this is easily checked directly from the definition because,
+\[L(1, \chi) = \sum_{n = 1}^{\infty} \frac{\chi(n)}{n} = \sum_{k = 0}^{\infty} \frac{(-1)^k}{2k + 1} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots = \arctan{(1)} = \frac{\pi}{4}\]
+since $\chi(n) = 0$ for odd $n$ and $\chi(2k + 1) = (-1)^k$. \bigskip \\
+
+Next, let $\chi'$ be an even nontrivial character modulo $5$ such that $\chi'(2) = \chi'(3) = -1$. Because $5$ is prime we can apply the above results to conclude that,
+\begin{align*}
+L(1, \chi) & = - G(\bar{\chi})^{-1} \sum_{x \in \modring{N}} \bar{\chi}(x) \log\left(\sin{\left(\frac{\pi x}{N}\right)}\right) \\ &= - G(\bar{\chi})^{-1} \left[ \log\left(\sin{\left(\frac{\pi}{5}\right)}\right) - \log\left(\sin{\left(\frac{2\pi}{5}\right)}\right) - \log\left(\sin{\left(\frac{3\pi}{5}\right)}\right) + \log\left(\sin{\left(\frac{4\pi}{5}\right)}\right) \right]  \\ & = - G(\bar{\chi})^{-1} \log \left(\frac{ \sin{\left(\frac{\pi}{5}\right)} \sin{\left(\frac{4\pi}{5}\right)}}{\sin{\left(\frac{2\pi}{5}\right)} \sin{\left(\frac{3\pi}{5}\right)}}  \right)
+\end{align*}
+Also,
+\begin{align*} 
+G(\bar{\chi}) = \sum_{x \in \modring{N}} \bar{\chi}(x) \exp{\left(\frac{2\pi i x}{N}\right)} = e^{i \frac{2\pi}{5}} - e^{i \frac{4\pi}{5}} - e^{i \frac{6\pi}{5}} + e^{i \frac{8\pi}{5}} = \sqrt{5}  
+\end{align*}
+So our final answer is,
+\[L(1, \chi) = - \frac{1}{\sqrt{5}} \log \left(\frac{ \sin{\left(\frac{\pi}{5}\right)} \sin{\left(\frac{4\pi}{5}\right)}}{\sin{\left(\frac{2\pi}{5}\right)} \sin{\left(\frac{3\pi}{5}\right)}}  \right) = \frac{1}{\sqrt{5}} \log \left(\frac{\sin{\left(\frac{2\pi}{5}\right)} \sin{\left(\frac{3\pi}{5}\right)}}{ \sin{\left(\frac{\pi}{5}\right)} \sin{\left(\frac{4\pi}{5}\right)}}  \right) \]
+By the way, 
+\[ \eta = \frac{\sin{\left(\frac{2\pi}{5}\right)} \sin{\left(\frac{3\pi}{5}\right)}}{ \sin{\left(\frac{\pi}{5}\right)} \sin{\left(\frac{4\pi}{5}\right)}} = \frac{3 + \sqrt{5}}{2} \neq \frac{1 + \sqrt{5}}{2}\]
+but whatever.
+\end{enumerate} 
+\end{enumerate}
+
+\section*{Part II}
+
+Let $K$ be a number field and $\chi : CL(K) \to \C^\times$ a homomorphism.  
+
+\begin{enumerate}
+
+\item Since $Cl(K)$ is a finite group its image under $\chi$ is also a finite group in $\C^\times$. Thus, by Lagrange's theorem, $\chi(Cl(K))$ has an exponent. Therefore, for some $n \in \N$ we must have $\chi(\mathfrak{a})^n = 1$ so $|\chi(\mathfrak{a})| = 1$.   
+
+\item Define,
+\[L(s, \chi) = \sum_{\mathfrak{a} \subset \ints{K}} \frac{\chi(\mathfrak{a})}{\inorm{\mathfrak{a}}^s} \]
+Then, consider the sum of the absolute values with $\sigma = \mathrm{Re}(s)$,
+\[\sum_{\mathfrak{a} \subset \ints{K}} \left| \frac{\chi(\mathfrak{a})}{\inorm{\mathfrak{a}}^{s}} \right| = \sum_{\mathfrak{a} \subset \ints{K}} \frac{|\chi(\mathfrak{a})|}{\inorm{\mathfrak{a}}^{\sigma}} = \sum_{\mathfrak{a} \subset \ints{K}} \frac{1}{\inorm{\mathfrak{a}}^\sigma} = \zeta_K(\sigma) \]
+which we proved converges for $\mathrm{Re}(s) = \sigma > 1$. Therefore, $L(s, \chi)$ converges absolutly for $\mathrm{Re}(s) > 1$. \bigskip \\
+We can rewrite this function as,
+\[ L(s, \chi) = \sum_{\mathfrak{a} \subset \ints{K}} \frac{\chi(\mathfrak{a})}{\inorm{\mathfrak{a}}^s} = \sum_{n = 1}^{\infty} \frac{Y(n)}{n^s} \]
+where $Y(n) = \sum\limits_{\inorm{\mathfrak{a}} = n} \chi(\mathfrak{a})$ which exists because there are only a finite number of ideals of a given norm. This fact holds because any ideal of norm $n$ is a product of prime ideas with norms dividing $n$. However, each of these primes lies above a rational prime dividing the norm of the prime ideal. Since there is a finite set of rational primes dividing $n$ and each prime has a finite factorization in ideals, there are finitly many possible combinations of prime ideas to form an ideal of norm $n$. Now we apply Abel's summation formula to $L(s, \chi)$.
+\[ L(s, \chi, N) =  \sum_{n = 1}^{N} \frac{Y(n)}{n^s} = A(N) \frac{1}{N^s} - \int_{1}^{N} A(x) \left(\frac{1}{x^s}\right)' \d{x} = A(n) \frac{1}{n^s} + \int_{1}^{N} A(x) \frac{s}{x^{s+1}} \d{x}\]
+where $A(x) = \sum\limits_{n \le x} Y(n)$. If $A(x)$ is a bounded function, then $L(s, \chi) = \lim\limits_{N \to \infty} L(s, \chi, N)$ is convergent for $\mathrm{Re}(s) > 0$ because then the leading term goes to zero,
+\[\lim_{N \to \infty} A(N) \tfrac{1}{N^s} = 0\]
+because $A(N)$ is bounded and $N^s$ is unbounded. Also, the integral term in $L(s, \chi)$ is also convergent since,
+\[\int_{1}^\infty \frac{s}{x^{s + 1}} \d{x} = -\left[\frac{1}{x^s}\right]^{\infty}_1 = 1\]
+is convergent and the function $A(x)$ is bounded. Therefore, for $L(s, \chi)$ to be convergent on the half-plane $\mathrm{Re}(s) > 0$ we require the function,
+\[A(x) = \sum_{n \le x} Y(n) = \sum_{n \le x} \sum_{\inorm{\mathfrak{a}} = n} \chi(\mathfrak{a}) = \sum_{\inorm{\mathfrak{a}} \le x} \chi(\mathfrak{a})\]   
+to be bounded. In particular, this requires that $\chi : Cl(K) \to \C$ be a nontrivial homomorphism which clearly requires $Cl(K)$ to be a nontrivial group. Therefore, it is a necessary condition that $\ints{K}$ have a nontrivial class group and therefore not be a PID.  
+
+\item Let $I^S$ be the set of ideals not divisible by any ideal of $S$. Now define,
+\[L^S(s, \chi) = \sum\limits_{\mathfrak{a} \in I^S} \frac{\chi(\mathfrak{a})}{\inorm{\mathfrak{a}}^s} \]
+by Dedekind prime factorization,
+\begin{align*}
+L^S(s, \chi) & = \sum_{r \ge 0} \sum_{(k_1, \cdots, k_r) \in (\Zplus)^r}  \sum_{\mathfrak{p}_i \notin S} \frac{\chi{(\mathfrak{p}_1^{k_1} \cdots \mathfrak{p}_r^{k_r}})}{\inorm{ \mathfrak{p}_1^{k_1} \cdots \mathfrak{p}_r^{k_r}}^s} = \sum_{r \ge 0} \sum_{(k_1, \cdots, k_r) \in (\Zplus)^r}  \sum_{\mathfrak{p}_i \notin S} \prod_{i = 1}^{r} \frac{\chi{(\mathfrak{p}_1)}^{k_i}}{\inorm{ \mathfrak{p}_1}^{s \cdot k_i}} \\ 
+& = \prod_{\mathfrak{p} \notin S} \sum_{k = 0}^{\infty} \frac{\chi{(\mathfrak{p})}^{k_i}}{\inorm{ \mathfrak{p}}^{s \cdot k_i}} = \prod_{\mathfrak{p} \notin S} \Big(1 - \chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s} \Big)^{-1} \\ & = \prod_{\mathfrak{p} \in S} \Big(1 - \chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s} \Big)  \prod_{\mathfrak{p} \subset \ints{K}} \Big(1 - \chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s} \Big)^{-1} = \prod_{\mathfrak{p} \in S} \Big(1 - \chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s} \Big) L(s, \chi)
+\end{align*}
+
+In the region on which $L(s, \chi)$ converges absolutly, $L(s, \chi)$ cannot be zero because convergence of the Euler product requires convergence of $\log L(s, \chi)$ which implies that $L(s, \chi)$ cannot be zero. Futhermore, $|\chi(\mathfrak{p})| = 1$ and $|\inorm{\mathfrak{p}}^{-s}| < 1$ because $\inorm{\mathfrak{p}} > 1$. Therefore, $|\chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s}| < 1$ so $1 - \chi(\mathfrak{p}) \inorm{\mathfrak{p}}^{-s} \neq 0$. This means that neither of the terms in the factorization of $L^S(s, \chi)$ can be zero so there are no obvious zeros for $\mathrm{Rs}(s) > 1$. 
+
+\end{enumerate}
+
+
+\end{document}

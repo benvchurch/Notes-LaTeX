@@ -1,0 +1,174 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}  
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\bra}[1]{\left< #1 \right|}
+\newcommand{\ket}[1]{\left| #1 \right>}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\Xcut}{X_{\text{cut}}}
+\newcommand{\CP}{\mathbb{CP}}
+
+\begin{document}
+
+\title{Research Notes}
+\author{Ben Church}
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{March 8}
+
+\subsection{Attempt 1}
+
+Consider the metric on $S^2$,
+\[ \d{s^2} = a^2 \d{\theta^2} + a^2 \left( \frac{\beta}{2 \pi} \right)^2 \sin^2{\theta} \d{\phi^2} \]
+where $\phi \sim \phi + 2 \pi$. Then via Voss-Weyl, the Laplacian becomes,
+\[ \nabla^2_{S^2_\beta} \psi = \frac{1}{\sqrt{g}} \partial_i (\sqrt{g} g^{ij} \partial_j \psi ) = \frac{1}{a^2 \sin{\theta}} \pderiv{}{\theta} \left( \sin{\theta} \pderiv{}{\theta} \psi \right) + \left(\frac{2 \pi}{\beta} \right)^2 \frac{1}{a^2 \sin^2{\theta}} \parsq{}{\phi} \psi  \]
+Therefore,
+\[ \Delta H = -[\nabla^2_{S^2_\beta} - \nabla_{S^2}] \psi = \left[ 1 -  \left(\frac{2 \pi}{\beta} \right)^2  \right] \frac{1}{a^2 \sin^2{\theta}} \parsq{}{\phi} \psi \]
+On $S^2$ the eigenfunctions are,
+\[ Y_{\ell}^m(\theta, \phi) = \sqrt{\frac{(2 \ell + 1)}{4 \pi} \frac{(\ell - m)!}{(\ell + m)!}} P^m_{\ell}(\cos{\theta}) e^{i m \phi} \] 
+Consider the overlap of the degenerate states,
+\begin{align*}
+\bra{\ell, m} \Delta H \ket{\ell, m'} & = \frac{2 \ell + 1}{4 \pi} \sqrt{\frac{(\ell - m)!}{(\ell + m)!} \frac{(\ell - m')!}{(\ell + m')!}} \left[ 1 -  \left(\frac{2 \pi}{\beta} \right)^2  \right]
+\\
+& \quad \cdot \int_0^{\pi} a^2 \sin{\theta} \d{\theta} \int_0^{2 \pi} \d{\phi} P^{m}_{\ell}(\cos{\theta}) P^{m'}_{\ell}(\cos{\theta}) e^{-im\theta} \left(  \frac{1}{a^2 \sin^2{\theta}} \parsq{}{\phi}  \right) e^{i m' \phi}
+\\
+& = \frac{2 \ell + 1}{4 \pi} \sqrt{\frac{(\ell - m)!}{(\ell + m)!} \frac{(\ell - m')!}{(\ell + m')!}} \left[ 1 -  \left(\frac{2 \pi}{\beta} \right)^2  \right]
+\\
+& \quad \cdot \int_0^{\pi} a^2 \sin{\theta} \d{\theta} \int_0^{2 \pi} \d{\phi} P^{m}_{\ell}(\cos{\theta}) P^{m'}_{\ell}(\cos{\theta})  \left(  \frac{-m'^2}{a^2 \sin^2{\theta}}  \right) e^{i (m' - m) \phi}
+\end{align*}
+Which is zero unless $m = m'$ and then,
+\begin{align*}
+\bra{\ell, m} \Delta H \ket{\ell, m} & = -m^2 \frac{2 \ell + 1}{2} \frac{(\ell - m)!}{(\ell + m)!} \left[ 1 -  \left(\frac{2 \pi}{\beta} \right)^2  \right] \int_0^\pi \frac{\d{\theta}}{\sin{\theta}} (P^m_{\ell}(\cos{\theta}))^2 
+\\
+& = - m^2 \left[ 1 -  \left(\frac{2 \pi}{\beta} \right)^2  \right] \bra{\ell, m} \frac{1}{\sin^2{\theta}} \ket{\ell, m}
+\end{align*}
+From Wikipedia I find,
+\[ \int_0^\pi \frac{\d{\theta}}{\sin{\theta}} (P^m_{\ell}(\cos{\theta}))^2 = \frac{(\ell + m)!}{(\ell - m)!} \frac{1}{|m|} \]
+Therefore,
+\[ \bra{\ell, m} \Delta H \ket{\ell, m} = \frac{(2 \ell + 1) |m| }{2} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \]
+To first-order this gives eigenvalues,
+\[ E_{\ell, m} = \ell (\ell + 1) + \frac{(2 \ell + 1) |m| }{2} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \]
+Therefore,
+\begin{align*}
+\log{Z} & = \sum_{\ell, m} \log{\left( \ell (\ell + 1) + \frac{(2 \ell + 1) |m| }{2} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \right)}
+\\
+& = \sum_{\ell, m} \left[ \log{\ell(\ell + 1)} + \frac{(2 \ell + 1) |m| }{2 \ell(\ell + 1)} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \right]
+\end{align*}
+Furthermore,
+\[ \sum_{m = -\ell}^\ell |m| = \ell(\ell + 1) \]
+and thus,
+\[ \sum_{\ell = 0}^\infty \sum_{m = - \ell}^\ell \frac{(2 \ell + 1) |m| }{2 \ell(\ell + 1)} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right]  = \sum_{\ell = 0}^\infty \tfrac{1}{2} (2\ell + 1) \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \]
+Regularizing,
+\[ \sum_{\ell = 0}^\infty \tfrac{1}{2} (2\ell + 1) e^{-\epsilon \ell(\ell + 1)} =  \frac{1}{2 \epsilon} - \frac{1}{3} + O(\epsilon) \]
+Thus we find,
+\[ \log{Z} = \log{Z}_{0} - \frac{1}{3} \left[ \left(\frac{2 \pi}{\beta} \right)^2 - 1 \right] \]
+Therefore,
+\[ E = - \pderiv{\log{Z}}{\beta} \bigg|_{\beta = 2 \pi} = -\frac{1}{3 \pi} \]
+
+\section{Adding the Mass Term}
+
+Now we need to add a mass term $M^2$ to the ``Hamiltonian''. This gives,
+\[ E_{\ell, m} = \ell ( \ell + 1) + M^2 + \frac{(2 \ell + 1)|m|}{2} \left[ \left( \frac{2 \pi}{\beta} \right)^2 - 1 \right] \]
+Therefore,
+\begin{align*}
+\log{Z} & = \sum_{\ell, m} \log{\left( \ell ( \ell + 1) + M^2 + \frac{(2 \ell + 1)|m|}{2} \left[ \left( \frac{2 \pi}{\beta} \right)^2 - 1 \right] \right)}
+\\
+& = \sum_{\ell, m} \left[ \log{[\ell (\ell + 1) + M^2]} + \frac{(2 \ell + 1) |m|}{2 [\ell (\ell + 1) + M^2]} \left[ \left( \frac{2 \pi}{\beta} \right)^2 - 1 \right] \right] 
+\\
+& = \log{Z_0} + \sum_{\ell = 1}^\infty \frac{(2 \ell + 1)}{2 [1 + M^2/[\ell (\ell + 1)]]}  \left[ \left( \frac{2 \pi}{\beta} \right)^2 - 1 \right]
+\end{align*}
+Now we need to regularize,
+\begin{align*}
+\sum_{\ell = 1}^\infty & \frac{(2 \ell + 1)}{2 [1 + M^2/[\ell (\ell + 1)]]} e^{-\epsilon [\ell (\ell + 1) + M^2]} 
+\\
+& = \frac{1}{2\epsilon} + -\frac{13 M^2+8}{24 \left(M^2+2\right)^2}+\frac{3}{2 \left(M^2+2\right)}+\frac{1}{4} \left(2
+   \gamma  M^2 - 2 M^2 - 4 \right)+\frac{\left(2 M^4-28 M^2+17\right) M^2}{240
+   \left(M^2+2\right)^4}+\frac{\left(2 M^6-69 M^4+186 M^2-65\right) M^2}{504
+   \left(M^2+2\right)^6}+\frac{\left(2 M^8-128 M^6+804 M^4-1016 M^2+257\right) M^2}{480
+   \left(M^2+2\right)^8}+\frac{\left(2 M^{10}-205 M^8+2330 M^6-6455 M^4+5110 M^2-1025\right)
+   M^2}{264 \left(M^2+2\right)^{10}}+\frac{691 \left(2 M^{12}-300 M^{10}+5385 M^8-26248
+   M^6+43086 M^4-24564 M^2+4097\right) M^2}{65520 \left(M^2+2\right)^{12}} + O(\log{\epsilon}) + O(\epsilon)
+\end{align*}
+
+
+\begin{remark}
+As about modular forms and 3D higher spin gravity. 
+\end{remark}
+\end{document}
