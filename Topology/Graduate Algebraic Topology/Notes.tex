@@ -3,6 +3,7 @@
 \import{./}{Includes}
 
 \newcommand{\GL}[2]{\mathrm{GL}_{#1} \left( #2 \right)}
+\renewcommand{\H}{\mathbb{H}}
 
 \begin{document}
 
@@ -975,7 +976,7 @@ and
 Therefore, the total Chen class is poorly behaved as a ring map. 
 \bigskip\\
 \begin{theorem}[Splitting]
-Given a vectorbundle $E \to X$ then there exists $f : X' \to X$ s.t. $f^* E = L_1 \oplus \cdots \oplus L_n$ is a direct sum of line bundles with $n = \rank{E}$. Furthermore, $f^* H^*(X; \Z) \to H^*(X'; \Z)$ and $f^* : K(X) \to K(X')$ are injective. 
+Given a vectorbundle $E \to X$ then there exists $f : X' \to X$ s.t. $f^* E = L_1 \oplus \cdots \oplus L_n$ is a direct sum of line bundles with $n = \rank{E}$. Furthermore, $f^* : H^*(X; \Z) \to H^*(X'; \Z)$ and $f^* : K(X) \to K(X')$ are injective. 
 \end{theorem}
 
 \begin{rmk}
@@ -1122,5 +1123,163 @@ This is related to the following fact.
 \begin{theorem}
 Real division algebras has dimensions $n = 1,2,4,8$. 
 \end{theorem}
+
+\section{Mar 30}
+
+Since the Hopf invariant $h : \pi_{4n - 1}(S^{2n}) \to \Z$ is a homomorphism and in general there exists $f$ with $h(f) = 2$ so surjectivity of the Hopf map is equivalent to $h(f)$ being odd for some $f$. 
+\bigskip\\
+If $S^{2n-1}$ has the structure of an H-space with a strict unit (i.e the operation is unital not unital up to homotopy) then there is a map $f : S^{4n - 1} \to S^{2n}$ with $h(f) = 1$. 
+
+\begin{rmk}
+It is easy to show that $S^{2n}$ does not admit an H-space structure looking at the map on cohomology induced by $S^{2n} \times S^{2n} \to S^{2n}$.
+\end{rmk}
+
+\begin{theorem}
+If $\R^n$ has a division algebra structure on it then $S^{n-1}$ admits the structure of an H-space with a strict unit.
+\end{theorem}
+
+\begin{proof}
+WLOG we may assume that the division algebra is unital. Then define $\mu  : S^{n-1} \times S^{n-1} \to S^{n-1}$ via $\mu(x,y) = \frac{x \cdot y}{|x \cdot y|}$ which is well-defined since $x \cdot y = 0$ iff $x = 0$ or $y = 0$ because it is a division algebra structure and $x,y \in S^{n-1}$ are nonzero.
+\end{proof}
+
+\begin{corollary}
+If $\R^n$ admits a division algebra structure then $n = 1,2,4,8$ these are $\R, \C, \mathbb{H}, \mathbb{O}$.
+\end{corollary}
+
+\begin{proof}
+By above we must have an H-space structue on $S^{n-1}$ so $n-1$ is odd, take $n = 2k$. Then $h : \pi_{4k - 1}(S^{2k}) \to \Z$ must be surjective. By Adam's theorem, $k = 1,2,4$ and thus $n = 2,4,8$. 
+\end{proof}
+
+\begin{cor}
+If $S^{n-1}$ is parallelizable then $S^{n-1}$ is an H-space with strict unit.
+\end{cor}
+
+\begin{proof}
+Given indpendent vector fields $v_1, \dots, v_{n-1}$ on $S^{n-1}$. By Gram-Schmidt we can assume these everywhere form an orthonormal basis and at some point $e_n$ is the standard basis $e_1, \dots, e_{n-1}$. Then at each $x \in S^{n-1}$ we get an orthonormal basis of $\R^n$ via $\{v_1(x), \dots, v_{n-1}(x), x \}$ which forms a matrix $\alpha_x =  \, v_1(x) \, \dots \, v_{n-1}(x)] \in \mathrm{SO}(n)$ note it is determinant one by our choice at $P$ and connectedness of $S^{n-1}$. Then define $\mu : S^{n-1} \times S^{n-1} \to S^{n-1}$ via $\mu(x,y) = \alpha_x y \in S^{n-1}$ since $\alpha_x$ is an automorphism of the sphere. Furthermore, $\mu(e_n, x) = \mu(x, e_n) = x$ giving an $H$-space structure on $S^{n-1}$ with strict unit. 
+\end{proof}
+
+\begin{cor}
+$S^n$ is parallelizable iff $n = 0,1,3,7$ with trivialization explicitly given by the multiplication structure on the units in the $\R$-algebras $\R, \C, \mathbb{H}, \mathbb{O}$.
+\end{cor}
+
+\subsection{Proof of Adam's Theorem}
+
+We reinterpret $h(f)$ in terms of K-theory. If $f : S^{4n - 1} \to S^{2n}$ is a map then $C_f = S^{2n} \cup_f D^{4n}$. Then $C_f / S^{2n} = S^{4n}$. Then we look at the LES of the pair $(C_f, S^{2n})$ in $K$-theory,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \tilde{K}(S^{4n}) \arrow[r] & \tilde{K}(C_f) \arrow[r] & \tilde{K}(S^{2n}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+using that $\tilde{K}^1(S^{4n}) = \tilde{K}^1(S^{2n}) = 0$. Then the canonical class $(H - 1)^2 \mapsto \beta$ in $\tilde{K}(C_f)$ and $\alpha \mapsto (H - 1)^n$ then $\alpha^2 \mapsto 0$ so it is in the image and thus $\alpha^2 = h(f) \beta$ where $h(f)$ is the Hopf invariant.
+
+\subsection{Adams Operations}
+
+Given $k \in \N$ there is an operation $\psi^k : K(X) \to K(X)$ which is a ring homomorphism which satisfy,
+\begin{enumerate}
+\item $\psi^k(L) = L^{\otimes k}$ where $L$ is a line bundle
+\item naturality in $f : X \to Y$ then $f^* \circ \psi^k = \psi^k \circ f^*$ 
+\item $\psi^k \circ \psi^\ell = \psi^{k \ell}$
+\item $\psi^p(\alpha) \equiv \alpha^p \mod{p}$ for $p$ prime
+\end{enumerate}
+
+\begin{theorem}
+These Adams operations exist.
+\end{theorem}
+
+\begin{proof}
+Given a vector bundle $E$ apply the functor $E \mapsto \bigwedge^\ell E$. Notice that,
+\[ \bigwedge^\ell (L_1 \oplus \cdots \oplus L_n) = \bigoplus_{i_1 < \dots < i_\ell} L_{i_1} \otimes \cdots \otimes L_{i_j} = \sigma_j(L_1, \dots, L_n) \]
+Furthermore, 
+\[ \psi^k(L_1 \oplus \cdots \oplus L_n) = L_1^k \oplus \cdots \oplus L^k_n \]
+Now, since the polynomial $t_1^k + \cdots + t_n^k$ is symmetric we get a Newton decomposition,
+\[ t_1^k + \cdots + t^k_n = S_k(\sigma_1(t_1, \dots, t_n), \dots, \sigma_k(t_1, \dots, t_n)) \]
+Therefore, we define,
+\[ \psi^k(E) := S_k(\wedge^1(E), \dots, \wedge^k(E)) \]
+which gives the required form on line bundles and is clearly natural. Using the splitting principle, it suffices to check that the properties hold for sums of line bundles. 
+\bigskip\\
+Clealy on sums of line bundles $\psi^k$ is a ring homomorphism and $\psi^k \circ \psi^\ell = \psi^{k \ell}$ is clear since it is simply exponentiation. Furthermore, assuming $E = L_1 \oplus \cdots \oplus L_n$ we see,
+\[ \psi^p(E) = L_1^p \oplus \cdots \oplus L_n^p \equiv (L_1 \oplus \cdots \oplus L_n)^p = E^p \mod{p} \]
+since the multinomial coefficients are all divisible by $p$. 
+\end{proof}
+
+\section{Proof of Adams Theorem}
+
+Let $f : S^{4n - 1} \to S^{2k}$ be some map with odd Hopf invariant and take $C_f = S^{2n} \cup_f D^{4n}$. Then consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \tilde{K}(S^{4n}) \arrow[r] & \tilde{K}(C_f) \arrow[r] & \tilde{K}(S^{2n}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Choose generators $\alpha \in \tilde{K}(S^{4n})$ and $\gamma \in \tilde{K}(S^{2n})$ and $\beta \in \tilde{K}(C_f)$ mapping to $\gamma$. Then, since $\gamma^2 = 0$ we must have $\beta^2$ in the kernel so by exactness $\beta^2 = h(f) \alpha$. By the proposition $\psi^{k}(\alpha) = k^{2n} \alpha$. Then $\psi^k(\beta)$ maps to $k^n \cdot \gamma$. Therefore,
+\[ \psi^k(\beta) = k^n \beta  + \mu_k \alpha \]
+for $\mu_k \in \Z$. However, $\psi^k \circ \psi^\ell = \psi^{k\ell}$ applying to $\alpha$ and $\beta$ gives,
+\[ (k^{2n} - k^n) \mu_\ell = (\ell^{2n} - \ell^n) \mu_k \]
+Furthermore, $\psi^2(\beta) \equiv \beta^2 \mod{2}$ but $\beta^2 = h(f) \alpha$. Thus $s^n \beta + \mu_2 \alpha$ but $h(f)$ is odd so $\mu_2$ must be odd. Plugging in $k = 3$ and $\ell = 2$ we get,
+\[ (e^{2n} - 3^n) \mu_2 = (2^{2n} - 2^n) \mu_3 \]
+But $\mu_2$ is odd and thus $2^n \divides 3^n - 1$ which implies $n = 1,2,4$. 
+
+\begin{prop}
+
+\end{prop}
+
+\section{How Many Lineary Independent Vector Fields are on $S^{n-1}$}
+
+We showed that if $S^{n-1}$ is parallelizable then $n = 1,2,4,8$. Furthermore, since $\chi(S^{n-1}) = 2$ when $n-1$ is even which implies there are no nonvanishing vector fields.
+
+\begin{thm}[Adams]
+Let $n = (2a + 1) 2^{4b + c}$ for $0 \le c \le 3$. Then there are exactly $2^c + 8b - 1$ linearly indpendent vector fields on $S^{n-1}$. This is the Roda-Hurewicz number of $n$.
+\end{thm}
+
+\subsection{Clifford Algebras}
+
+\newcommand{\Cl}[1]{\mathrm{C}\ell \left( #1 \right)}
+
+\begin{defn}
+Let $(V, Q)$ be a vector space with a quadratic form. We define the clifford algebra, 
+\[ \Cl{V,Q} = T(V) / (v \otimes v - Q(v)) \] 
+which is a unital associative algebra but not a division algebra. 
+\end{defn}
+
+\begin{example}
+\begin{enumerate}
+\item If $Q = 0$ then $\Cl{V, Q} = \bigwedge^{*} V$.
+\item If $Q_{\mathrm{std}}(x_1, \dots, x_n) = -(x_1^2 + \cdots + x_n^2)$ on $V = \R^n$. Then,
+\[ \Cl{\R^n, Q_{\mathrm{std}}} = \frac{\R[e_1, \dots, e_n]}{(e_i^2 + 1, e_i e_j + e_j e_i)} \] Setting $\Cl{n} = \Cl{\R^n, Q_{\mathrm{std}}}$ we get,
+\begin{enumerate}
+\item $\Cl{0} = \R$
+\item $\Cl{1} = \C$
+\item $\Cl{2} = \H$
+\item $\Cl{3} = \H \oplus \H$
+\item $\Cl{4} = M_{2}(\H)$
+\item $\Cl{5} = M_{4}(\C)$
+\item $\Cl{6} = M_8(\R)$
+\item $\Cl{7} = M_8(\R) \oplus M_8(\R)$
+\item $\Cl(8) = M_{16}(\R)$
+\end{enumerate}
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+In general, $\dim{\Cl{V,Q}} = 2^{\dim{V}}$ with basis $e_1^{i_1} \dots e_n^{i_n}$ for $i_k = 0,1$. Furthermore, the composition $V \embed T(V) \onto \Cl{V, Q}$ is injective.
+\end{rmk}
+
+\begin{prop}
+The Clifford algebra $\Cl{V, Q}$ satisfies the following universal property. For any linear map $\phi : V \to A$ with $A$ an associative algebra with $\phi(v)^2 = q(v) \cdot 1$ then we get a diagram,
+\begin{center}
+\begin{tikzcd}
+V \arrow[d, hook] \arrow[r, "\phi"] & A
+\\
+\Cl{V,Q} \arrow[ru, dashed]
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{thm}
+Periodicty theorem if $\Cl{k} \cong M_n(F)$ then $C_{k+8} \cong M_{16 n}(F)$. Likewise, if $\Cl{k} \cong M_n(F) \oplus M_n(F)$ then $\Cl{k+8} = M_{16n}(F) \oplus M_{16n}(F)$. 
+\end{thm}
+
+\begin{rmk}
+$M_n(F)$ has a unique irreducible representation $F^n$. 
+\end{rmk}
 
 \end{document}
