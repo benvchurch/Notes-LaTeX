@@ -281,11 +281,59 @@ Let $f : X \to Y$ be a continuous map, $\F$ a sheaf on $X$ and $\G$ a sheaf on $
 \[ \varinjlim_{V \supset f(U)} \F(f^{-1}(V)) \to \F(U) \]
 since $f^{-1}(V) \supset U$ gives restriction maps $\F(f^{-1}(V)) \to \F(U)$ compatilbe with restricton. Sheafifying gives a natural map $f^{-1} f_* \F \to \F$. Furthermore, we can define a map $\F \to f_* f^{-1} \F$ as follows. Consider the sheafification map $(f^{-1} \F)^P \to f^{-1} \F$ giving $\F \to f_* (f^{-1} \F)^P \to f_* f^{-1} \F$. The first map is defined by,
 \[ \F(U) \to \varinjlim_{V \supset f(f^{-1}(U))} \F(V) \]
-given since $U \supset f(f^{-1}(U))$ and then take the inclusion map of the colimit. These maps are natural. Then, given $f^{-1} \F \to \G$ we get $\F \to f_* f^{-1} \F \to f_* \G$ and given $\F \to f_* \G$ we get $f^{-1} \F \to f^{-1} f_* \G \to \G$. We need to show that these maps are inverse. That is,
-\[ \F \to f_* f^{-1} \F \to f_* f^{-1} f_* \G \to f_* \G \]
-is just $\F \to f_* \G$ and,
-\[ f^{-1} \F \to f^{-1} f_* f^{-1} \F \to f^{-1} f_* \G \to \G \]
-is just $f^{-1} \F \to \G$. 
+given since $U \supset f(f^{-1}(U))$ and then take the inclusion map of the colimit. These maps are natural. We have produced two natural transformations, a unit $\eta : \id \to f_* f^{-1}$ and a counit $\epsilon : f^{-1} f_* \to \id$. Now we use the following proposition.
+
+\begin{prop}
+Let $F : \C \to \D$ and $G : \D \to \C$ be functors with unit and counit natural transformations $\eta : 1_{\C} \to G \circ F$ and $\epsilon : F \circ G \to \id_{\D}$ satisfying the coherence relations that,
+\begin{center}
+\begin{tikzcd}
+F \arrow[r, "F \eta"] & F \circ G \circ F \arrow[r, "\epsilon F"] & F
+\\
+G \arrow[r, "\eta G"] & G \circ F \circ G \arrow[r, "G \epsilon"] & G
+\end{tikzcd}
+\end{center}
+are the identity $\id_F$ and $\id_G$ respectively. 
+Then $F$ is left-adjoint to $G$.
+\end{prop}
+
+\begin{proof}
+We construct a natural transformation $\phi_{X,Y} : \Hom{\D}{F(X)}{Y} \to \Hom{\C}{X}{G(Y)}$ via sending,
+\[ (f : F(X) \to Y) \mapsto (G(f) \circ \eta_X : X \to G\circ F(X) \to G(Y))\]
+and a natural transformation $\psi_{X,Y} : \Hom{\C}{X}{G(Y)} \to \Hom{\D}{F(X)}{Y}$ given by sending,
+\[ (g : X \to G(Y)) \mapsto (\epsilon_Y \circ F(g) : F(X) \to F \circ G(Y) \to Y) \]
+I claim these are inverse to each other:
+\[ f \mapsto G(f) \circ \eta_X \mapsto \epsilon_Y \circ FG(f) \circ F(\eta_X) \]  
+However, $\epsilon : F \circ G \to \id_{\D}$ is a natural transformation so,
+\begin{center}
+\begin{tikzcd}
+FG(F(X)) \arrow[d, "\epsilon_{F(X)}"] \arrow[r, "FG(f)"] & FG(Y) \arrow[d, "\epsilon_Y"]
+\\
+F(X) \arrow[r, "f"] & Y
+\end{tikzcd}
+\end{center}
+commutes and therefore,
+\[ \eta_Y \circ FG(f) \circ F(\eta_Y) = f \circ \eta_{F(X)} \circ F(\eta_X) = f \]
+using the first coherence relation showing that $\psi _{X,Y} \circ \phi_{X,Y} = \id$. Furthermore, consider,
+\[ g \mapsto \epsilon_Y \circ F(g) \mapsto G(\epsilon_Y) \circ GF(g) \circ \eta_X  \]
+Hpwever, $\eta : \id_{\C} \to G \circ F$ is a natural transformation so,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "g"] \arrow[d, "\eta_X"] & G(Y) \arrow[d, "\eta_{G(Y)}"]
+\\
+GF(X) \arrow[r, "GF(f)"] & GF(G(Y))
+\end{tikzcd}
+\end{center}
+commutes and therefore,
+\[ G(\eta_Y) \circ GF(g) \circ \eta_X = G(\eta_Y) \circ \eta_{G(Y)} \circ g = g \]
+by the second coherence relation showing that $\phi_{X,Y} \circ \psi_{X,Y} = \id$ and providing a natural isomorphism,
+\begin{center}
+\begin{tikzcd}
+\Hom{\D}{F(X)}{Y} \arrow[r, "\phi_{X,Y}", shift left] & \Hom{\C}{X}{G(Y)} \arrow[l, "\psi_{X,Y}", shift left] 
+\end{tikzcd}
+\end{center}
+\end{proof}
+\noindent
+Therefore it suffices to prove the coherence relations in our case. (DO THIS!)
 
 \subsubsection{1.19}
 
@@ -693,7 +741,7 @@ X_y & = \Spec{(k[x x^{-1}] \times k[x]) \otimes_{k[x]} k[x]/(x  - a)}
 \end{cases}
 \end{align*}
 However, this map is not closed since $\Gm^k \subset \Gm^k \coprod \A^1_k$ is closed but its image is $\A^1_k \setminus \{ 0 \}$ which is not closed. Thus the map cannot be finite. In particular,
-\[ k[x, x^{-1}] = \bigoplus_{n \ge 0} x^{-1} k[x] \]
+\[ k[x, x^{-1}] = \bigoplus_{n \ge 0} x^{-n} k[x] \]
 so $k[x, x^{-1}]$ is not a finitely-generated $k[x]$-module.  
 \end{enumerate}
 
@@ -767,7 +815,9 @@ For any point $x \in f^{-1}(y)$ there is a morphism $\Spec{\kappa(x)} \to X$ and
 \end{tikzcd}
 \end{center} 
 Thus we get a point $\Spec{\kappa(x)} \to X_y$. Therefore, the map $X_y \to f^{-1}(y)$ is bijective. Therefore, it suffices to prove that $\iota : X_y \to f^{-1}(y)$ is closed. (DO THIS)
-\item Let $k$ be an algebraicall closed field of characteristic zero. Consider the scheme $X = \Spec{k[s,t]/(s - t^2)}$ and $Y = \Spec{k[s]}$ and consider the morphism $f : X \to Y$ via $k[s] \to k[s,t]/(s - t^2)$. For the prime $y = (s - a) \in Y$ consider the residue field,
+\item Let $k$ be an algebraicall closed field of characteristic zero. Consider the scheme,
+\[ X = \Spec{k[s,t]/(s - t^2)} \]
+and $Y = \Spec{k[s]}$ and consider the morphism $f : X \to Y$ via $k[s] \to k[s,t]/(s - t^2)$. For the prime $y = (s - a) \in Y$ consider the residue field,
 \[ \kappa(y) = k[s]_{(s - a)} / (s - a) = k[s]/(s - a) \]
 then the fibre is,
 \[ X_y = \Spec{k[s,t]/(s - t^2) \otimes_{k[s]} k[s]/(s - a)} \]
@@ -916,20 +966,20 @@ Now suppose that $\overline{Z_i} = \overline{Z_{i+1}}$ then $Z_i \subset \overli
 \end{proof}
 
 \begin{definition}
-If $Z \subset X$ is irreducible closed then $\codim(Z,X)$ is the length of the longest chain,
+If $Z \subset X$ is irreducible closed then $\codim{Z,X}$ is the length of the longest chain,
 \[ Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n \]
 Furthermore, if $Y \subset X$ is closed then we define,
-\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+\[ \codim{Y, X} = \inf_{Z \subset Y} \codim{Z, X} \]
 \end{definition}
 
 \begin{lemma}
-Let $X$ be a topological space and $Z \subset X$ be an irreducible closed subspace. Let $U \subset X$ be open such that $U \cap Z$ is nonempty then $\codim{(Z, X)} = \codim{(Z \cap U, U)}$.
+Let $X$ be a topological space and $Z \subset X$ be an irreducible closed subspace. Let $U \subset X$ be open such that $U \cap Z$ is nonempty then $\codim{Z, X} = \codim{Z \cap U, U}$.
 \end{lemma}
 
 \begin{proof}
 Let $Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_d$ be a maximal chain of closed irreducible subsets in $X$ so $d = \dim{X}$. Consider,
 \[ U \cap Z_0 \subset U \cap Z_1 \subset \cdots \subset U \cap Z_d \]
-Then $U \cap Z_i$ is nonempty (contains $U \cap Z$) and thus is irreducible and furthermore is closed in $U$. Consider $(U^C \cap Z_i) \cup \overline{U \cap Z_i} \supset Z_i$ and both are closed so $\overline{U \cap Z_i} \supset Z_i$ since $U \cap Z_i$ is non empty which implies that $U^C \cap Z_i$ does not contain $Z_i$. Furthermore, $Z_i \supset U \cap Z_i$ and $Z_i$ is closed so $Z_i \supset \overline{U \cap Z_i}$. Therefore, $\overline{U \cap Z_i} = Z_i$. Thus we cannot have $U \cap Z_{i} = U \cap Z_{i+1}$ since their closures are $Z_i \subsetneq Z_{i+1}$ which are distinct. Thus, $\codim{(U \cap Z, U)} \ge d = \codim{(Z, X)}$ and by the argument in the previous lemma, $\codim{(U \cap Z, U)} \le \codim{(Z, X)}$.
+Then $U \cap Z_i$ is nonempty (contains $U \cap Z$) and thus is irreducible and furthermore is closed in $U$. Consider $(U^C \cap Z_i) \cup \overline{U \cap Z_i} \supset Z_i$ and both are closed so $\overline{U \cap Z_i} \supset Z_i$ since $U \cap Z_i$ is non empty which implies that $U^C \cap Z_i$ does not contain $Z_i$. Furthermore, $Z_i \supset U \cap Z_i$ and $Z_i$ is closed so $Z_i \supset \overline{U \cap Z_i}$. Therefore, $\overline{U \cap Z_i} = Z_i$. Thus we cannot have $U \cap Z_{i} = U \cap Z_{i+1}$ since their closures are $Z_i \subsetneq Z_{i+1}$ which are distinct. Thus, $\codim{U \cap Z, U} \ge d = \codim{Z, X}$ and by the argument in the previous lemma, $\codim{U \cap Z, U} \le \codim{Z, X}$.
 \end{proof}
 
 \begin{corollary}
@@ -937,19 +987,19 @@ If $U \subset X$ is open and contains a point $x \in X$ such that $\dim_x(X) = \
 \end{corollary}
 
 \begin{proof}
-We have, \[ \dim_x(X) = \codim{(x, X)} = \codim{(x, U)} = \dim_x(U) \le \dim{U} \]
+We have, \[ \dim_x(X) = \codim{x, X} = \codim{x, U} = \dim_x(U) \le \dim{U} \]
 Thus, $\dim{X} \le \dim{U}$ but we have shown that $\dim{U} \le \dim{X}$.
 \end{proof}
 
 \begin{lemma}
-Let $X$ be sober and $Z \subset X$ a closed irreducible subspace and $\xi \in Z$ its generic point. Then $\codim{(Z, X)} = \dim{\stalk{X}{\xi}}$.
+Let $X$ be sober and $Z \subset X$ a closed irreducible subspace and $\xi \in Z$ its generic point. Then $\codim{Z, X} = \dim{\stalk{X}{\xi}}$.
 \end{lemma}
 
 \begin{proof}
 Choose any affine open $U \subset X$ containing the generic point $\xi \in Z$. Then,
-\[ \codim{(Z, X)} = \codim{(Z \cap U, U)} \]
+\[ \codim{Z, X} = \codim{Z \cap U, U} \]
 However, $U = \Spec{A}$ and $Z \cap U = V(\p)$ since it is closed irreducible in $U$ with $\p = \xi \in U$ its generic point. Then chains of irreducible subsets about $V(\p)$ correspond to chains of prime ideals below $\p$ so,
-\[ \codim{(Z \cap U, U)} = \codim{(V(\p), \Spec{A})} = \height{(\p)} = \dim{A_\p} = \dim{\stalk{X}{\xi}} \]
+\[ \codim{Z \cap U, U} = \codim{V(\p), \Spec{A}} = \height{(\p)} = \dim{A_\p} = \dim{\stalk{X}{\xi}} \]
 \end{proof}
 
 Let $X$ be an integral scheme of finite type over a field $k$.
@@ -968,29 +1018,29 @@ However, $\Frac{A} = K(X)$ is the function field $\stalk{X}{\xi}$ so we have,
 \[ \dim{X} = \trdeg{k}{K(X)} \]
 \item 
 Now, in the case of integral schemes of finite type over $k$, consider a closed subset $Y \subset X$ then,
-\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+\[ \codim{Y, X} = \inf_{Z \subset Y} \codim{Z, X} \]
 for irreducible closed subsets $Z \subset Y$. First, for an irreducible closed subset $Z \subset X$ 
 
-We know that $\codim{(Z, X)} = \dim{\stalk{X}{\xi}}$ where $\xi \in Z$ is the generic point. Therefore, 
-\[ \codim{(Y, X)} = \inf \{ \dim{\stalk{X}{\xi}} \mid \xi \in Y \} \]
+We know that $\codim{Z, X} = \dim{\stalk{X}{\xi}}$ where $\xi \in Z$ is the generic point. Therefore, 
+\[ \codim{Y, X} = \inf \{ \dim{\stalk{X}{\xi}} \mid \xi \in Y \} \]
 since schemes are sober so points of $Y$ correspond exactly to closed irreducibe subspaces via closure. 
 
 \item 
 
 Let $Y \subset X$ be a closed subset. First, suppose that $Y$ is irreducible then for any affine open $U \subset X$ intersecting $Y$ we have,
-\[ \codim{(Y, X)} = \codim{(U \cap Y, U)} \]
+\[ \codim{Y, X} = \codim{U \cap Y, U} \]
 Furthermore, $U = \Spec{A}$ and $Y \cap U$ is irreducible closed in $U$ so $Y \cap U = V(\p)$. Thus,
-\[ \codim{(U \cap Y, U)} = \codim{(V(I), \Spec{A})} =\height{\p} \]
+\[ \codim{U \cap Y, U} = \codim{V(I), \Spec{A}} =\height{\p} \]
 However, since $A$ is a finitely generated $k$-algebra domain,
 \[ \dim{A} = \height{\p} + \dim{A / \p} \]
 Furthermore, since $U \subset X$ and  $U \cap Y \subset U$ are nonempty open subspaces, we have shown that, $\dim{X} = \dim{U} = \dim{A}$ and,
 \[ \dim{Y} = \dim{U \cap Y} = \dim{V(I)} = \dim{A / I} \]
 Therefore, we have,
-\[ \dim{X} = \codim{(Y, X)} + \dim{Y} \]
+\[ \dim{X} = \codim{Y, X} + \dim{Y} \]
 Now suppose that $Y$ is not irreducible we then define,
-\[ \codim{(Y, X)} = \inf_{Z \subset Y} \codim{(Z, X)} \]
+\[ \codim{Y, X} = \inf_{Z \subset Y} \codim{Z, X} \]
 for all irreducible closed subsets of $Y$ which are thus irreducible closed subsets of $X$. Thus,
-\[ \codim{(Y, X)} = \inf_{Z \subset Y} \left[ \dim{X} -  \dim{Z} \right] = \dim{X} - \sup_{Z \subset Y} \dim{Z} = \dim{X} - \dim{Y} \]
+\[ \codim{Y, X} = \inf_{Z \subset Y} \left[ \dim{X} -  \dim{Z} \right] = \dim{X} - \sup_{Z \subset Y} \dim{Z} = \dim{X} - \dim{Y} \]
 since by definition,
 \[ \dim{Y} = \sup_{Z \subset Y} \dim{Z} \]
 is the maximal length of irreducible closed chains in $Y$. 
@@ -1014,8 +1064,8 @@ However, consider the ideal $\m = (\varpi t - 1) \subset R[t]$ and the quotient 
 \[ \dim{R[t]_{\m}} = \height{\m} = 1 \]
 but $\dim{X} = 2$ so property (a) does not hold.
 \bigskip\\
-Now consider the closed set $Y = V(\m)$ where $\m = (\varpi t - 1)$ then $\dim{Y} = \dim{R[t] / \m} = \dim{K} = 0$ and $\codim{(Y, X)} = \height{\m} = 1$ however $\dim{X} = 2$ so,
-\[ \dim{X} \neq \codim{(Y, X)} + \dim{Y} \]
+Now consider the closed set $Y = V(\m)$ where $\m = (\varpi t - 1)$ then $\dim{Y} = \dim{R[t] / \m} = \dim{K} = 0$ and $\codim{Y, X} = \height{\m} = 1$ however $\dim{X} = 2$ so,
+\[ \dim{X} \neq \codim{Y, X} + \dim{Y} \]
 and thus property (d) does not hold. 
 \bigskip\\
 Consider the open $D(\varpi) \subset X$ then $D(\varpi) \cong \Spec{R[t]_\varpi} = \Spec{K[t]}$. Therefore,
@@ -1131,7 +1181,7 @@ Let $(X, \struct{X})$ be a locally ringed space and $f : \L \to \I$ a surjective
 \end{center}
 Therefore, it suffices to prove that if a $\stalk{X}{x}$-module map $\stalk{X}{x} \to \stalk{X}{x}$ is surjective then it is injective. Such a map satisfies $f(a) = a \cdot f(1)$ and since $f$ is surjective we must have $a \cdot f(1) = 1$ for some $a$ and therefore $f(1)$ is a unit so $f(a) = a \cdot f(1)$ is injective.
 \bigskip\\
-The fact that $\stalk{X}{x}$ is local in not necessary. If $X$ is Noetherian then we have the following more general fact.
+The fact that $\stalk{X}{x}$ is local in not necessary. In fact, we have the following more general fact.
 
 \begin{theorem}
 Let $(X, \struct{X})$ be a ringed space and $f : \F \to \K$ be a surjective map of finite locally free $\struct{X}$-modules of equal rank then $f : \F \to \K$ is an isomorphism. 
@@ -1146,7 +1196,7 @@ For each $x \in X$ the map $f_x : \F_x \to \K_x$ is surjective and since $\F$ an
 \stalk{X}{x}^{\oplus n} \arrow[r, dashed] & \stalk{X}{x}^{\oplus n}
 \end{tikzcd}
 \end{center}
-Now since $X$ is Noetherian the ring $\stalk{X}{x}$ is noetherian and thus $\stalk{X}{x}^{\oplus n}$ as a finitely generated $\stalk{X}{x}$-modules is a Noetherian module. Then we use that any surjective endomorphism of a Noetherian module is injective to conclude that $f_x : \F_x \to \K_x$ is injective and thus $f : \F \to \K$ is an isomorphism. 
+Now since $\stalk{X}{x}^{\oplus n}$ as a finitely generated $\stalk{X}{x}$-module,  we use that any surjective endomorphism of a finitely generated module (Noetherian is not necessary) is injective to conclude that $f_x : \F_x \to \K_x$ is injective and thus $f : \F \to \K$ is an isomorphism. 
 \end{proof}
 
 \subsubsection{7.2}
@@ -2120,7 +2170,7 @@ Here a curve is a regular integral scheme of dimension one which is finite type 
 
 \subsection{1.1}
 
-Let $C$ be a curve ofgenus $g$ and a point $P \in C$. For $g = 0$ we know $C \cong \P^1$ in which case the desired functions are easily constructed. Thus we may assume $C$ has positive genus. Consider the divisor $[(1 + g)P]$ and the line bundle $\struct{C}((1 + g)[P])$. Then by Riemmann-Roch,
+Let $C$ be a curve of genus $g$ and a point $P \in C$. For $g = 0$ we know $C \cong \P^1$ in which case the desired functions are easily constructed. Thus we may assume $C$ has positive genus. Consider the divisor $[(1 + g)P]$ and the line bundle $\struct{C}((1 + g)[P])$. Then by Riemmann-Roch,
 \[ \ell((1 + g)[P]) - \ell(K - (1 + g)[P]) = 1 - g + \deg{(1 + g) [P]} = 2 \]
 Furthermore,
 \[ \deg{(K - (1+g)[P])} = \deg{K} - \deg{(1 + g)[P]} = 2 - 2g - (1 + g) = 1 - 3 g < 0 \]

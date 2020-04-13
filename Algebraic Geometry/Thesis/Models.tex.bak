@@ -2,16 +2,22 @@
 
 \section{Models of Curves}
 
+Here we discuss the general theory of models over discrete valuation rings (DVRs) which is the necessary theory for reduction of curves. Standard references for this topic are \cite[\href{https://stacks.math.columbia.edu/tag/0C2R}{Tag 0C2R}]{stacks-project} which discusses models in the context of semistable reduction and \cite[Chapter 9]{liu} who studies the more general problem of regular and minimal fibered surfaces over Dedekind schemes. We will not provide detailed proofs as doing so would require getting too much into the weeds of fibered surfaces but we will make care to lay out the definitions and properties in the necessary detail.
+
 \begin{rmk}
 We will be in the situation where $R$ is a DVR and $K = \Frac{R}$ its fraction field. Then let $\m \subset R$ be the maximal ideal and $\kappa = R / \m$ the residue field. We may distinguish the \textit{geometric} case in the special fiber when $\kappa$ is algebraically closed and otherwise when $\kappa$ admits algebraic extensions. 
 \end{rmk}
 
 \begin{defn}
-Let $X$ be a scheme of finite type over $K$. A \text{model} $\X$ of $X$ over $R$ is a scheme over $R$ such that $\X \to \Spec{R}$ is flat and finite type given an isomorphism $X \xrightarrow{\sim} \X_K$ where $\X_K = \X \times_{\Spec{R}} \Spec{K}$ is the generic fiber. A morphism $f : \X \to \X'$ of models of $X$ is an $R$-morphisms of schemes inducing an isomorphism $f : \X_K \to \X'_K$ compatible with the isomorphisms $X \xrightarrow{\sim} \X_K$ and $X \xrightarrow{\sim} \X_K'$.
+Let $C$ be a scheme of finite type over $K$. A \text{model} $X \to \Spec{R}$, of $C$ over $R$, consists of scheme $X$ flat and proper over $R$ with a given isomorphism $C \xrightarrow{\sim} X_K$ where $X_K = X \times_{\Spec{R}} \Spec{K}$ is the generic fiber. A morphism $f : X \to X'$ of models of $C$ is an $R$-morphisms of schemes inducing an isomorphism $f : X_K \xrightarrow{\sim} X'_K$ compatible with the isomorphisms $C \xrightarrow{\sim} X_K$ and $C \xrightarrow{\sim} X_K'$.
 \end{defn}
 
 \begin{rmk}
-We require models to be flat over $R$ so that the generic fiber $X_K$ and the special fiber $X_\kappa = X \times_{\Spec{R}} \Spec{\kappa}$ form a flat family over $\Spec{R}$ such that numerical invariants are preserved under the degeneration from the general to the special fiber.
+We require models to be flat over $R$ so that the generic fiber $X_K$ and the special fiber $X_\kappa = X \times_{\Spec{R}} \Spec{\kappa}$ form a flat family over $\Spec{R}$ such that numerical invariants are preserved under the degeneration from the general to the special fiber. Note, we further require models to be proper unlike the definition in \cite[\href{https://stacks.math.columbia.edu/tag/0C2R}{Tag 0C2R}]{stacks-project}. We will emphasize the definition whenever it becomes likely to cause confusion.
+\end{rmk}
+
+\begin{rmk}
+Our main reference \cite[Chapter 9]{liu} defines models not for curves over $K$ rather for fibered surfaces over a Dedekind scheme, e.g. $\Spec{R}$ in which a model of $X \to S$ is defined as a fibered surface $X'$ with a birational map $X' \rat X$. Notice, however, any two models $X, X'$ of $C$ are automatically birational since the map $X_K \iso C \iso X'$ is an isomorphism of dense open sets ($\Spec{K} \embed \Spec{R}$ is an open immersion when $R$ is a DVR so its base change to $X_K \embed X$ is an open immersion as well) giving a birational map $X \rat X'$. Therefore, $X$ and $X'$ are models of each other in the sense of Liu allowing a direct carrying over of the results. 
 \end{rmk}
 
 \begin{prop} \label{resolution_of_models}
@@ -19,16 +25,44 @@ Let $C$ be a smooth projective curve over $K$ and $X$ a model of $C$ over $R$. T
 \end{prop}
 
 \begin{proof}
-This result follows from the general criteria for resolution of surfaces due to Lipman \cite{Lipman}. See Stacks Tag 0C2U for details.
+This result follows from the general criteria for resolution of surfaces due to Lipman \cite{Lipman}. See \cite[\href{https://stacks.math.columbia.edu/tag/0C2U}{Tag 0C2U}]{stacks-project} for details.
 \end{proof}
 
-\subsection{Minmal Models} 
+\subsection{Minimal Models} 
+
 
 \renewcommand{\N}{\mathcal{N}}
 
-\begin{definition}
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. A \textit{minimal model} is a regular, proper model $X$ of $C$ such that $X$ does not contain an exceptional curve of the first kind. 
-\end{definition}
+\begin{defn}
+Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. A \textit{minimal model} of $X$ is a regular (proper) model $X \to \Spec{R}$ of $C$ such that for any other regular (proper) model $X' \to \Spec{R}$ there is a unique morphism of models $X' \to X$ i.e. a morphism $X' \to X$ making the diagram commute,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+X' \arrow[rr, dashed] & & X
+\\
+X'_K \arrow[u, hook] \arrow[rr, equals] & & X_K \arrow[u, hook] 
+\\
+& C \arrow[ru, equals] \arrow[lu, equals]
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{lemma}
+If it exists, a minimal model of $C$ is unique.
+\end{lemma}
+
+\begin{proof}
+This follows directly from the definition. If $X$ and $X'$ are two minimal models of $C$ then we get birational morphisms $X \to X'$ and $X' \to X$. Even better, they compose to the unique morphism of models $X \to X$ and $X' \to X'$ which must be the identities.
+\end{proof}
+
+\begin{rmk}
+Uniqueness of the morphism of models $X' \to X$ is automatic since it is required, on the generic fiber, to be the unique isomorphism determined by the identification of the generic fibers with $C$. Since the generic fiber is dense and these are reduced separated schemes there is a unique morphism $X' \to X$ extending this isomorphism. In fact, this argument shows a more general fact.
+\end{rmk}
+
+\begin{lemma} \label{existence_inverses}
+Between any two models $X, X'$ of $C$ there is a birational map $X \rat X'$. If there exists a morphism of models $X \to X'$ it is unique. In particular, if there exist morphisms $X \to X'$ and $X' \to X$ then they are inverses so $X \cong X'$. 
+\end{lemma}
+\noindent
+We can convert the fairly abstract notion of minimality into a concrete condition on sorts of exceptional curves which do not occur as divisors. In particular, a minimal model will turn out to be a model which does not contain any exceptional curves which may be blown down while retaining the regularity of the surface.
 
 \begin{definition}
 We call the following an \textit{exceptional curve of the first kind}:
@@ -42,30 +76,40 @@ Let $X$ be a Noetherian scheme. Let $E \subset X$ be a closed subscheme with the
 \end{definition}
 
 \begin{rmk}
-We can reinterpret the condition of the normal bundle $\N_{E/X}$ that it pullback to $\struct{\P^1_k}(-1)$ in terms of intersection theory. Recall that given Cartier divisors $C_1, C_2 \subset X$ we can define the intersection number $C_1 \cdot C_2 = \chi(\struct{X}(C_1)|_{C_2}) - \chi(\struct{C_2})$. In more generality, there is an intersection product on the Chow groups $\CH^i(X) \times \CH^j(X) \to \CH^{i+j}(X)$ giving $\CH^\bullet(X)$ a ring structure defining the Chow ring. In our case the intersection number is the map,
-\[ \CH^1(X) \times \CH^1(X) \to \CH^2(X) \xrightarrow{\deg} \Z \]
-where the degree map $\deg : \CH^2(X) \to \Z$ exists on a proper surface $X$ since relations in $\CH^2(X)$ are given by divisors of functions on closed curves in $X$ which have zero degree since they are proper. This agrees with the intersection number $C_1 \cdot C_2 = \chi(\struct{X}(C_1)|_{C_2})$. Now, consider the self-intersection $C \cdot C = \chi(\struct{X}(C)|_C)$. However, since $\struct{X}(C)$ is the dual of the sheaf of ideals defining $\iota : C \embed X$ then $\struct{X}(C)|_C = (\iota^* \I)^\vee = \N_{C/X}$ is the normal bundle. Therefore, $C \cdot C = \chi(\N_{C/X}) - \chi(\struct{C})$ for a Cartier divisor $C \embed X$. In the case that $C$ is a smooth curve on a projective surface, we have using Riemman-Roch,
+In the case that $X \to \Spec{k}$ is a surface over a field $k$. We can reinterpret the condition of the normal bundle $\N_{E/X}$ that it pullback to $\struct{\P^1_k}(-1)$ in terms of intersection theory. Recall that given dimension one cycles $C_1, C_2 \subset X$ we can define the intersection number,
+\[ C_1 \cdot C_2 = \chi(\struct{X}(C_1)|_{C_2}) - \chi(\struct{C_2}) \]
+In general, there is an intersection product on the Chow groups $\CH^i(X) \times \CH^j(X) \to \CH^{i+j}(X)$ giving $\CH^\bullet(X)$ a ring structure defining the Chow ring. In our case the intersection number is the map,
+\[ \CH^{1}(X) \times \CH^{1}(X) \to \CH^2(X) \xrightarrow{\deg} \Z \]
+where the degree map $\deg : \CH^2(X) \to \Z$ exists on a proper surface $X$ since relations in $\CH^2(X)$ are given by divisors of functions on closed curves in $X$ which have zero degree on proper curves. This agrees with the intersection number $C_1 \cdot C_2 = \chi(\struct{X}(C_1)|_{C_2}) - \chi(\struct{C_2})$. Now, consider the self-intersection $C \cdot C = \chi(\struct{X}(C)|_C) - \chi(\struct{C})$. However, since $\struct{X}(C)$ is the dual of the sheaf of ideals defining $\iota : C \embed X$ then $\struct{X}(C)|_C = (\iota^* \I)^\vee = \N_{C/X}$ is the normal bundle. Therefore, $C \cdot C = \chi(\N_{C/X}) - \chi(\struct{C})$ for a Cartier divisor $C \embed X$. In the case that $C$ is a smooth curve on a projective surface, we have using Riemann-Roch,
 \[ C \cdot C = \chi(\N_{C/X}) - \chi(\struct{C}) = \deg{(\N_{C/X})} \]
-When $E$ is an exceptional curve with an isomorphism $f : \P^1_k \xrightarrow{\sim} E$ such that $f^* \N_{E/X} = \struct{\P^1_k}(-d)$ then $E \cdot E = \deg{(\N_{E/X})} = \deg{\struct{\P^1_k}(-d)} = -d$. We say in this case that $E$ is a $-d$ curve. 
+When $E$ is an exceptional curve with an isomorphism $f : \P^1_k \xrightarrow{\sim} E$ such that $f^* \N_{E/X} = \struct{\P^1_k}(-d)$ then $E \cdot E = \deg{(\N_{E/X})} = \deg{\struct{\P^1_k}(-d)} = -d$. We say in this case that $E$ is a $(-d)$-curve. 
+\bigskip\\
+The astute reader that the arithmetic surfaces we wish to study are not defined over a field. However, if $C_1, C_2 \subset X$ are Cartier divisors contained the in special fiber $X_\kappa$, in particular if $C_1, C_2$ are irreducible components of $X_\kappa$, then we may salvage the above discussion. Such divisors above the residue field $k$ are sometimes in the literature (e.g. \cite{romagny_models}) called \textit{vertical divisors} to distinguish them from \textit{horizontal divisors} which are finite flat over $\Spec{R}$. Since $C_1, C_2$ are curves over $\kappa$ and thus the degree of the intersection, $(C_1 \cdot C_2) = \deg{(C_1 \cap C_2)}$ in $\CH^2(X)$ may be computed via degree and Euler characteristic as above. This intersection form is developed in detail in \cite[\href{https://stacks.math.columbia.edu/tag/0C5Y}{Tag 0C5Y}]{stacks-project}.
 \end{rmk}
+\noindent
+Following the conventions of Liu, we say that a model not containing any exceptional curves of the first kind is a relatively minimal model. We remark that this is the definition of a \textit{minimal model} given in \cite[\href{https://stacks.math.columbia.edu/tag/0C2R}{Tag 0C2R}]{stacks-project}. In the next section, we will see why this definition makes sense and coincides with ours in the case of positive genus curves.
 
-\begin{rmk}
-Four our purposes, the important fact about exceptional curves of the first kind is that they allow blowing down while retaining regularity of the surface which explains why our notion of minimality of a model excludes having exceptional curves of the first kind. 
-\end{rmk}
+\begin{definition}
+Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. A \textit{relatively minimal model} is a regular, proper model $X$ of $C$ such that $X$ does not contain an exceptional curve of the first kind. 
+\end{definition}
 
-\subsection{Contracting Exceptional Curves (WIP)}
+\subsection{Contracting Exceptional Curves}
 
 \begin{defn}
-Let $f : X \to Y$ be a morphism of schemes and $D \subset X$ an effective Cariter divisor. Then $f : X \to Y$ is a contraction of $D$ if $f$ is proper such that $f(E) = \{ y \}$ for some closed point $y \in Y$ where $\stalk{Y}{y}$ is regular and $\dim{\stalk{Y}{y}} = 2$ and such that $f : X \to Y$ is the blowup of $Y$ at $y$. 
+Let $f : X \to Y$ be a morphism of schemes and $E \subset X$ an effective Cartier divisor. Then $f : X \to Y$ is a \textit{contraction of} $E$ if $f$ is proper such that $f(E) = \{ y \}$ for some closed point $y \in Y$ where $\stalk{Y}{y}$ is regular and $\dim{\stalk{Y}{y}} = 2$ and such that $f : X \to Y$ is the blowup of $Y$ with center at the closed point $y$.
 \end{defn}
 
+\begin{rmk}
+Note that since $f : X \to Y$ is a blowup, it is a birational morphism giving an isomorphism $X \setminus E \iso Y \setminus \{ y \}$. Therefore, if $X$ is regular then $Y$ is regular automatically at every point except possibly $y \in Y$ which is assumed to be regular as part of the definition. Therefore, we see that contraction preserves regularity.
+\end{rmk}
+
 \begin{lemma}[0C5J]
-Let $X$ be a Noetherian scheme. Let $E \subset X$ be an exceptional curve of the first kind. If a contraction $f : X \to X'$ of $E$ exists, then it satisfies the following univesal property: for every morphism $\varphi : X \to Y$ such that $\varphi(E)$ is a point, then $\varphi$ factors uniquely through $f : X \to X'$,
+Let $X$ be a Noetherian scheme. Let $E \subset X$ be an exceptional curve of the first kind. If a contraction $f : X \to Y$ of $E$ exists, then it satisfies the following universal property: every morphism $\varphi : X \to Z$ such that $\varphi(E)$ is a point, then $\varphi$ factors uniquely through $f : X \to Y$,
 \begin{center}
-\begin{tikzcd}
-E \arrow[r, hook] \arrow[d, "f"] & X \arrow[r, "\varphi"] \arrow[d, "f"] & Y
+\begin{tikzcd}[column sep = small, row sep = large]
+E \arrow[r, hook] \arrow[d, "f"'] & X \arrow[r, "\varphi"] \arrow[d, "f"'] & Z
 \\
-\Spec{\kappa(x')} \arrow[r, hook] & X' \arrow[ru, dashed, "\tilde{\varphi}"']  
+\Spec{\kappa(x')} \arrow[r, hook] & Y \arrow[ru, dashed, "\tilde{\varphi}"']  
 \end{tikzcd}
 \end{center}
 \end{lemma}
@@ -78,57 +122,72 @@ If it exists, any contraction of $E \subset X$ is unique up to unique isomorphis
 Uniqueness following directly from the universal property.
 \end{proof}
 
-\begin{prop}[Tag 0C2L] \label{existence_of_blowdown}
-Let $X$ be Noetherian and $E \subset X$ an exceptional curve of the first kind. Suppose there is a morphism $f : X \to Y$ such that,
-\begin{enumerate}
-\item $Y$ is Noetherian
-\item $f$ is proper
-\item $f(E) = \{ y \}$ for a closed point $y \in Y$
-\item $f$ is quasi-finite at each point of $E$
-\end{enumerate}
-then there exists a contraction of $E$.
+
+\begin{prop}[\href{https://stacks.math.columbia.edu/tag/0C5L}{Tag 0C5L}] \label{picard_blowdown}
+Let $b : X \to X'$ be a contraction on an exceptional curve of the first kind $E \embed X$. Then the morphisms $E \embed X \to X'$ induce a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Pic{X'} \arrow[r] & \Pic{X} \arrow[r] & \Pic{E} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, since $E \cong \P^1_k$ we have $\Pic{E} \cong E$ and the map $\Pic{E} \to \Pic{X}$ via $n \mapsto \struct{X}(-n E)$ makes the above sequence split. 
 \end{prop}
 
-\subsection{Existence and Uniqueness of Minimal Models}
+\begin{prop}[\href{https://stacks.math.columbia.edu/tag/0C2M}{Tag 0C2M}] \label{existence_of_blowdown}
+Let $X \to S$ be proper over an affine Noetherian scheme $S$. Let $\L$ be an ample invertible $\struct{X}$-module and $E \subset X$ an exceptional curve of the first kind. Then there exists a contraction $b : X \to X'$ of $E$ such that $X' \to S$ is proper and $\L$ induces an invertible $\struct{X'}$-module $\L'$ via Lemma \ref{picard_blowdown}. 
+\end{prop}
 
-\begin{lemma}
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. If $X$ is a regular proper model for $C$, then there exists a sequence of morphisms,
+
+\subsection{Existence of Minimal Models}
+
+From now on in our dicsussion of models, let $C$ be a fixed smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. We will consider the existence of various models of $C$ over $R$. 
+
+\begin{lemma} \label{blow_down_chains}
+Let $X$ is a regular (proper) model of $C$ over $R$, then there exists a sequence of morphisms,
 \begin{center}
 \begin{tikzcd}
 X = X_m \arrow[r] & X_{m-1} \arrow[r] & \cdots \arrow[r] & X_1 \arrow[r] & X_0
 \end{tikzcd}
 \end{center}
-of proper regular models of $C$, such that each morphism is a contraction of an exceptional curve of the first kind, and such that $X_0$ is a minimal model.
+of proper regular models of $C$, such that each morphism is a contraction of an exceptional curve of the first kind, and such that $X_0$ is a relatively minimal model.
 \end{lemma}
 
+\begin{proof}
+This follows via a repeated application of Lemma \ref{existence_of_blowdown} until $X_0$ contains no further exceptional curves of the first kind since such contractions preserve properness, regularity, and the existence of an ample line bundle. Thus, it suffices to show that $X$ has an ample line bundle but $X$ is quasi-projective by \cite[\href{https://stacks.math.columbia.edu/tag/0C5N}{Tag 0C5N}]{stacks-project} so this is immediate from an immersion into projective space.
+\end{proof}
+
+
 \begin{proposition}
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$. A minimal model $X$ of $C$ over $R$ exists.
+A relatively minimal model of $C$ over $R$ exists.
 \end{proposition}
 
 \begin{proof}
-Choose a closed immersion $C \to \P^n_K$ and let $X$ be the scheme-theoretic image of the immersion, $C \to \P^n_K \to \P^n_R$. Then by some lemmas $X \to \Spec{R}$ is a proejctive model of $C$ and there exists a resolution of singularities $X' \to X$ and $X'$ is a model for $C$ (Lemma \ref{resolution_of_models}). Then $X' \to \Spec{R}$ is proper as a composition of proper morphisms. Then we use the previous result to obtain a minimal model by blowing down.  
+Choose a closed immersion $C \embed \P^n_K$ and let $X$ be the scheme-theoretic image of the immersion, $C \embed \P^n_K \embed \P^n_R$. Then $X \to \Spec{R}$ is a projective model of $C$ and there exists a resolution of singularities $\tilde{X} \to X$ and $\tilde{X}$ is a model for $C$ (Lemma \ref{resolution_of_models}). Then $\tilde{X} \to \Spec{R}$ is proper as a composition of proper morphisms. Then we use the previous result to obtain a minimal model by blowing down.  
 \end{proof}
 
-\begin{proposition}[Tag 0C6B]
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$ and positive genus. The minimal model $X$ of $C$ over $R$ is unique.
-\end{proposition}
-
-
-\begin{prop}[Tag 0C9Z]
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$ and positive genus. Let $X$ be the minimal model for $C$ over $R$. Let $Y$ be a regular proper model for $C$. Then there is a unique morphism of model $Y \to X$ which is a sequence of contractions of exceptional curves of the first kind. 
+\begin{prop} \label{existence_and_uniqueness_min_model}
+Suppose $C$ has $g(C) \ge 1$. Then the (unique) minimal model of $C$ over $R$ exists and coincides with the relatively minimal model.
 \end{prop}
 
-\begin{remark}
-If the curve $C$ has genus zero. Then minimal models are generically nonunique. An example is given in Tag 0CA0. 
-\end{remark}
+\begin{proof}
+Given a minimal model $X$ we may apply Lemma \ref{blow_down_chains} to give a contraction $X \to X_0$ where $X_0$ is a relatively minimal model. However, since $X_0$ is a regular proper model of $C$, we also have a unique morphism of models $X_0 \to X$ so by Lemma \ref{existence_inverses} we see that $X \cong X_0$. Therefore, it suffices to show that a minimal model exists. Since we have established the existence of a relatively minimal model, it suffices to show it is unique. Since, given a unique relatively minimal model $X$, Lemma \ref{blow_down_chains} provides the required morphisms of models $Y \to X$ via blowing down exceptional curves of the first kind to make $X$ satisfy the universal property of the minimal model. Indeed, the following does hold.
+\end{proof}
 
-\begin{remark}
-The minimal model (proper, regular, no exceptional curves of the first kind, then minimal with respect to these conditions) does not necessarily agree with the minimal regular normal crossings model (proper, regular, strict normal  crossings divisiors in the special fibre, minimal with respect to these conditions). This is because the minimal model may require blowing up to get strict normal crossings. However, the minimal regular normal corssings model gives the minimal model via blowing down. 
-\end{remark}
+\begin{proposition}[\href{https://stacks.math.columbia.edu/tag/0C6B}{Tag 0C6B}]
+Suppose that $C$ has $g(C) \ge 1$. Then there is a unique relatively minimal model of $C$ over $R$.
+\end{proposition}
 
-\subsection{Normal Crossings Models (WIP)}
+\begin{rmk}
+A consequence of the proof of Proposition \ref{existence_and_uniqueness_min_model} is that the unique morphism of regular (proper) models $Y \to X$ where $X$ is the minimal model is given by a sequence of contractions of exceptional curves of the first kind.
+\end{rmk}
 
-Our discussion thusfar has considered regular models in some generality. However, the special fiber of a regular model may have fairly nasty singularities in general. Therefore, we introduce the notion of a regular normal crossings divisor in order to control how bad the singularities can be. Intuitively, a regular normal crossings divisor has singularities only from smooth irreducible components intersecting transversally.
+\begin{rmk}
+When $C$ has positive genus, we have just seen that there is a unique relatively minimal model which is thus a minimal model. However, when $C$ is rational, relatively minimal models are generically non-unique. An example is given in \cite[\href{https://stacks.math.columbia.edu/tag/0CA0}{Tag 0CA0}]{stacks-project}. In particular, in the genus zero case, the minimal and relatively minimal models may not agree and the minimal model may not even exist since otherwise the relatively minimal model would necessarily be unique. 
+\end{rmk}
+
+\subsection{Normal Crossings Models}
+
+Our discussion thus far has considered regular models in some generality. However, the special fiber of a regular model may have fairly nasty singularities in general. Therefore, we introduce the notion of a regular normal crossings divisor in order to control how bad the singularities can be. Intuitively, a regular normal crossings divisor has singularities only from smooth irreducible components intersecting transversally.
 
 \begin{definition}
 Let $X$ be a locally Noetherian scheme. A \textit{strict normal crossings divisor} on $X$ is an effective Cartier divisor $D \subset X$ such that for each $p \in D$ the local ring $\stalk{X}{p}$ is regular and there exists a regular system of parameters $x_1, \dots, x_d \in \m_p$ and $1 \le r \le d$ such that $D$ is cut out by $x_1 \cdots x_r \in \stalk{X}{p}$ 
@@ -153,49 +212,47 @@ Then consider the point $p = (x, y)$ so we need to consider the ring,
 \[ \stalk{X}{p} = (k[x, y]/(y(x^2 - y)))_{(x, y)} \]
 with maximal ideal,
 \[ \m_p = (x, y) \]
-I claim that this is a regular system of parameters and
-\[ \m_p / \m_p^2 = k x \oplus k y \] 
-However, $\dim{\stalk{X}{p}} = 1$ since we have the maximal chain of primes $(y) \subset (x, y)$ so $\stalk{X}{p}$ is not regular. Furthermore, $X$ is a strict normal crossings divisor of $\A^2_k$ is not cut out by the products of the regular parameters. 
+Furthermore, $X$ is not a strict normal crossings divisor of $\A^2_k$ because it is cut out by $y (x^2 - y)$ which cannot be written as a products of regular parameters. 
 \end{example}
 
 \begin{defn}
-Let $X$ be a locally Noetherian scheme. A \textit{normal corssings divisor} on $X$ is an effective Cartier divisor $D \subset X$ such that for each $p \in D$ there is an \etale map $f : U \to X$ hiting $p$ such that $f^{-1}(D)$ is strict normal crossings.
+Let $X$ be a locally Noetherian scheme. A \textit{normal crossings divisor} on $X$ is an effective Cartier divisor $D \subset X$ such that for each $p \in D$ there is an \etale map $f : U \to X$ hitting $p$ such that $f^{-1}(D)$ is strict normal crossings.
 \end{defn}
 \noindent
-Now we define our notion of a regular normal crossings model.
+Now we define the notion of a regular normal crossings model which approximately requires that the special divisor intersects itself transversally. 
 
 \begin{defn}
-A regular normal crossings model $\X \to \Spec{R}$ of $X \to \Spec{K}$ is a regular model such that $X_\kappa$ is a normal crossings divisor.
+A \textit{regular normal crossings (r.n.c.) model} $X \to \Spec{R}$ of $X \to \Spec{K}$ is a (proper) regular model such that the special fiber $X_\kappa$ is a normal crossings divisor.
+\end{defn}
+
+\begin{defn}
+A \textit{minimal regular normal crossings (m.r.n.c) model} $X \to \Spec{R}$ of $X \to \Spec{K}$ is a regular normal crossings model such that for any regular normal crossings model $X' \to \Spec{R}$ there is a unique morphism $X' \to X$ of models.
 \end{defn}
 
 \begin{rmk}
-Note that $\Spec{\kappa} \embed \Spec{R}$ is a Cartier divisor so the special fiber $X_\kappa \embed X$ is a Cartier divisor via the base change.
+Unlike in the case of minimal (regular) models, normal crossings models which are minimal with respect to those conditions may contain exceptional curves of the first kind. We know that such curves admit blowing down while retaining the regularity of the model. However, such a blowing down may not preserve the property that the special fiber be a normal crossing divisor. An example is given in \cite[Rmk. 3.16]{tim}.
 \end{rmk}
 
-\begin{question}
-It it correct to say that a minimal regular normal corssings model is one with no $-2$-curves?
-\end{question}
+\begin{remark}
+The minimal model (proper, regular, no exceptional curves of the first kind, then minimal with respect to these conditions) does not necessarily agree with the minimal regular normal crossings model (proper, regular, strict normal  crossings divisors in the special fiber, minimal with respect to these conditions). This is because the minimal model may require blowing up to get strict normal crossings. However, the minimal regular normal crossings model gives the minimal model via blowing down. 
+\end{remark}
 
 \begin{theorem}
-Let $C$ be a curve over $K$ with $H^0(C, \struct{C}) = K$ with positive genus. Then $C$ admits a unique minimal regular normal crossings model over $R$.
+Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$ with $g(C) \ge 1$. Then $C$ admits a unique minimal regular normal crossings model over $R$.
 \end{theorem}
 
 \begin{proof}
-\cite{romagny_models} possible reference. (FIND REFERENCES)
+Proofs may be found in \cite[Sec. 9, Cor. 2.30]{liu} and \cite[Sec. 9, Thm. 3.36]{liu} or in \cite[Thm. 2.5.2]{romagny_models}.
 \end{proof}
 
-\subsection{Structure of the Special Fiber (WIP)}
+\subsection{Structure of the Special Fiber}
 
-\begin{definition}
-Let $C$ be a smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$ and $X$ a regular proper model of $C$. Let $C_1, \dots, C_n$ be the irreducible components of the special fibre $X_\kappa$. Then we write,
-\[ X_\kappa = \sum_i m_i C_i \]
-where $m_i$ is the multiplicity of $C_i$. 
-\end{definition}
+Given $C$, our fixed smooth projective curve over $K$ with $H^0(C, \struct{C}) = K$, we now fix $X \to \Spec{R}$, a regular (proper) model of $C$ over $R$. The special fiber $X_\kappa$ decomposes into irreducible curves denoted by $C_i \subset X_\kappa$. Then the following hold.
 
-\begin{lemma}[Tag 01WS]
+\begin{lemma}[\href{https://stacks.math.columbia.edu/tag//0C5Z}{Tag 0C5Z}]
 Let $X$ be a regular model of a smooth curve $C$ over $K$. Then,
 \begin{enumerate}
-\item the special fibre $X_\kappa$ is an effective Cartier divisor on $X$,
+\item the special fiber $X_\kappa$ is an effective Cartier divisor on $X$,
 \item each irreducible component $C_i$ of $X_\kappa$ is an effective Cartier divisor on $X$,
 \item as Cartier divisors,
 \[ X_\kappa = \sum_i m_i C_i \]
@@ -203,9 +260,17 @@ where $m_i$ is the multiplicity of $C_i$ in $X_\kappa$,
 \item $\struct{X}(X_\kappa) \cong \struct{X}$. 
 \end{enumerate}
 \end{lemma}
+\noindent
+In particular, these properties allow us to compute the intersection numbers of the components $C_i$ of the special fiber as follows. Since, as Cartier divisors,
+\[ X_\kappa = \sum_j m_j C_j \]
+and $X_\kappa$ is a trivial divisor, we must have, 
+\[ (C_i \cdot X_\kappa) = \sum_{j} m_j (C_i \cdot C_j) = 0 \]
+In particular, the self-intersection, which is an important numerical invariant of the genus zero components since it controls when blowing down is possible, may be computed as,
+\[ (C_i \cdot C_i) = - \frac{1}{m_i} \sum_{j \neq i} m_i (C_i \cdot C_j) \]
+\par
+Thus, the intersection graph of the special fiber along with the intersection product actually determines the numerical invariants of the generic fiber since the model is a flat family. In particular, we have the following formula for the genus of $C$.
 
-
-\begin{prop}
+\begin{prop}[\href{https://stacks.math.columbia.edu/tag/0CA3}{Tag 0CA3}]
 Let $X$ be a regular proper model of $C$ over $R$. Then genus $g_C$ of the curve $C$ may be computed on the special fiber $X_\kappa$ as follows,
 \[ g_C = 1 + \sum_{i = 1}^n m_i \left( [\kappa(C_i) : \kappa] (g_{C_i} - 1) - \frac{1}{2} (C_i \cdot C_i) \right) \]
 where $\kappa(C_i) = H^0(C_i, \struct{C_i})$ and $g_{C_i} = \dim_{\kappa(C_i)} H^1(C_i, \struct{C_i})$ is the genus.

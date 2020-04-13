@@ -43,37 +43,6 @@ When $X$ is connected, then groupoid $\Pi(X)$-representations are simply group r
 Let $X$ be a locally-path-connected. For each $n > 1$ (for $n = 1$ the representation is simply the inner automorphism representation of a groupoid) there is a groupoid representation $\pi_n(X) : \Pi(X) \to \AbGrp$ which generalizes the action at each point $\pi_1(X, x_0) \acts \pi_n(X, x_0)$. By the above theorem, this corresponds to a local group $\underline{\pi_n(X)}$. 
 \end{definition}
 
-\section{Maps of a Proper Curve are Finite}
-
-\begin{theorem}
-Let $C$ be a proper curve over $k$ and $X$ is separated of finite type over $k$. Then any nonconstant map $f : C \to X$ over $k$ is finite.
-\end{theorem}
-
-\begin{proof}
-Since $C \to \Spec{k}$ is proper and $X \to \Spec{k}$ is separated then by Tag 01W6 the map $f : C \to X$ is proper. The fibres of closed points $x \in X$ are proper closed subschemes $C_x \embed C$ (since if $C_x = C$ then $f : C \to X$ would be the constant map at $x \in X$) and thus finite since proper closed subsets of a curve are finite. Now I claim that if the fibres $f^{-1}(x)$ are finite at closed points $x \in X$ then all fibres are finite. Assuming this, $f : C \to X$ is proper with finite fibres and thus is finite by Tag 02OG.
-\bigskip\\
-To show the claim consider,
-\[ E = \{ x \in X \mid \dim{C_x} = 0 \} \]   
-Since $C$ is Noetherian, $\dim{C_x} = 0$ iff $C_x$ is finite (suffices to check for affine schemes since quasi-comact and dimension zero Noetherian rings are exactly Artinian rings which have finite spectrum). Then $E$ is locally constructible by Tag 05F9 and contains all the closed points of $X$. Since $X$ is finite type over $k$ then $X$ is Jacobinson which implies that $E$ is dense in every closed set. Then for any point $\xi \in X$ then $Z = \overline{\{ \xi \}}$ is closed and irreducible with generic point $\xi$ and thus $E \cap Z$ is dense in $Z$. Then by Tag 005K we have $\xi \in E$ so $E = X$ proving that all fibres are finite.
-\end{proof}
-
-\begin{remark}
-The only facts about $C$ that I used were that $C \to \Spec{k}$ is proper and that $C$ is irreducible of dimension one. The second two properties are needed for the following to hold.
-\end{remark}
-
-\begin{lemma}
-If $X$ is an irreducible Noetherian scheme of dimension one then every nontrivial closed subset of $X$ is finite.
-\end{lemma}
-
-\begin{proof}
-Since $X$ is quasi-compact it suffices to show this property for affine schemes $X = \Spec{A}$ with $\dim{A} = 1$ and prime nilradical. Any nontrivial closed subset is of the form $V(I)$ for some proper radical ideal $I \subset X$ with $I \supsetneq \nilrad{A}$. Then $\height{I} = 1$ since any prime above $I$ must properly contain $\nilrad{A}$ and thus have height at least one but $\dim{A} = 1$. Then,
-\[ \height{I} + \dim{A / I} \le \dim{A} \]
-so $\dim{A / I} = 0$. Since $A$ is Noetherian so is $A / I$ but $\dim{A / I} = 0$ and thus $A / I$ is Artianian. Therefore $\Spec{A / I}$ is finite proving the proposition. 
-\end{proof}
-
-\begin{remark}
-Since $C \to \Spec{k}$ is proper it is finite type over $k$ and thus $C$ is Noetherian.
-\end{remark}
 
 \section{Action on Fibres of Fibration}
 
@@ -1975,6 +1944,481 @@ Let $X$ be a projective variety over $k$. Then,
 (FIND CITATION OR DO).
 \end{proof}
 
+
+
+\section{Smooth Morphisms}
+
+\subsection{Kahler Differentials}
+
+\begin{prop}
+We have the following general facts about Kahler differentials.
+\item  Given ring maps $R \to A \to B$ we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & \Omega_{B/A} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\item Given $R \to A$ and $B = A / I$ we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+I/I^2 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\item Commutes with tensor product, given $R \to R'$ and setting $A' = A \otimes_R R'$ we have,
+\[ \Omega_{A'/R'} = \Omega_{A/R} \otimes_R R' \]
+\item Commutes with localization.
+\[ \Omega_{S^{-1} A/R} = S^{-1} \Omega_{A/R} \]
+\end{prop}
+
+\begin{prop}
+Let $A$ be a local $k$-algebra with $A/\m \cong k$. Then, the map,
+\[ \m / \m^2 \xrightarrow{\sim} \Omega_{A/k} \otimes_A k \]
+is an isomorphism.
+\end{prop}
+
+\subsection{Smooth Ring Maps}
+
+\begin{defn}
+Let $R \to S$ be a ring map. Consider the surjection $R[S] \to S$ and let $I$ be its kernel. We define the \textit{naive cotangent complex} as a complex supported in degree $-1$ and $0$,
+\[ NL_{S/R} = \left( I/I^2 \to \Omega_{R[S]/R}  \otimes_R S \right) \]
+The second exact says that $H^0(NL_{S/R}) = \Omega_{S/R}$. 
+\end{defn}
+
+\begin{defn}
+We say a ring map $R \to S$ is smooth if it is finitely presented and $NL_{S/R}$ is quasi-isomorphic to a finite projective $S$-module placed in degree zero. 
+\end{defn}
+
+\begin{example}
+We say a morphism $R \to S$ is \textit{standard smooth} if $S = R[x_1, \dots, x_n]/(f_1, \dots, f_c)$ and the polynomial,
+\[ g = \det{\left( \pderiv{f_i}{x_j} \right)_{\substack{i = 1, \dots, c \\ j = 1, \dots, c}}} \]
+in $R[x_1, \dots, x_n]$ maps to a unit in $S$. Such a ring map is smooth. 
+\end{example}
+
+\begin{defn}
+A ring map $R \to A$ is \textit{formally smooth} if every diagram of the form,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r] \arrow[dr, dashed] & B/I 
+\\
+R \arrow[u] \arrow[r] & B \arrow[u]
+\end{tikzcd}
+\end{center}
+where $I^2 = 0$ admits a map $A \to B$ making the diagram commute.
+\end{defn}
+
+\begin{prop}
+Standard smooth ring maps are formally smooth.
+\end{prop}
+
+\begin{proof}
+Let $A = R[x_1, \dots, x_n]/(f_1, \dots, f_c)$. Consider the map $\varphi : A \to B / I$ defined by $\varphi(x_i) = \bar{b_i}$. We may choose lifts $b_i + q_i \in B$ for $q_i \in I$ which define a morphism exactly when all $f_i(b + q) = 0$. Since $\varphi : A \to B/I$ is a ring map, we know that $\pi(f_i(b + q)) = f_i(\bar{b}) = 0$ meaning that $f_i(b + q) \in J$. Then, Taylor expanding,
+\[ f_i(b + q) = f_i(b) + \sum_{j = 1}^n \pderiv{f_i}{x_j} (b) q_j + O(q_j^2) \]
+but $I^2 = 0$ and thus the order $q_j^2$ terms vanish so we find,
+\[ f_i(b + q) = f_i(b) + \sum_{j = 1}^n \pderiv{f_i}{x_j} q_j \]
+Therefore, we can make the map $A \to B$ defined by the lifts $x_i \mapsto b_i + q_i$ well-defined if we can solve the matrix equation,
+\[ \left( \pderiv{f_i}{x_j}(b) \right) \cdot q = - f(b) \]
+Note that $I / I^2 = I$ so $I$ is naturally a $B/I$-module. Therefore, we may replace this with,
+\[ \left( \pderiv{f_i}{x_j}(\bar{b}) \right) \cdot q = - f(b) \]
+where $\pderiv{f_i}{x_j}(\bar{b})$ is the image of the matrix under $\pi : B \to B/I$. Finally, the determinant of the first $c \times c$ minor is a unit in $A$ and thus this matrix is a unit in $B/I$ so the above matrix equation admits a solution. Furthermore, the solution is unique if $n = c$ in which case the matrix is square an nonsingular so we get a unique map and we call $R \to A$ formally \etale. 
+\end{proof}
+
+\begin{prop}
+$R \to A$ is smooth iff it is of finite presentation and formally smooth.
+\end{prop}
+
+\begin{proof}
+Tag 00TN.
+\end{proof}
+
+\begin{prop}
+Consider ring maps $R \to A \to B$ with $A \to B$ formally smooth then the first exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is a split short exact sequence of $B$-modules.
+\end{prop}
+
+\begin{prop}
+Let $R \to A$ be a ring map and $B = A/I$ with $R \to B$ formally smooth. Then the second exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I/I^2 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is a split short exact sequence of $B$-modules.
+\end{prop}
+
+\subsection{Smooth Morphisms of Schemes}
+
+\begin{defn}
+We say that a morphism of schemes $f : X \to Y$ is \textit{smooth} at $x$ if there are affine opens $x \in U \subset X$ and $V \subset Y$ such that $f(U) \subset V$ and $f^\# : \struct{Y}(V) \to \struct{X}(U)$ is smooth. We say $f$ is smooth if it is smooth at every point.
+\end{defn}
+
+\begin{rmk}
+The smooth locus of a morphism $f : X \to Y$ is automatically open by definition.
+\end{rmk}
+
+\begin{rmk}
+Since $R \to A$ being smooth is a local property smoothness of a morphism implies smoothness on all affine ring maps.
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \to S$ be locally of finite presentation. Then $f$ is smooth at $x$ iff $\stalk{S}{f(x)} \to \stalk{X}{x}$ is flat and $X_{f(x)} \to \Spec{\kappa(f(x))}$ is smooth at $x$.
+\end{lemma}
+
+\begin{proof}
+Tag 01V9.
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to \Spec{k}$ be locally of finite type. Then $f$ is smooth iff $X$ is geometrically regular over $k$. 
+\end{lemma}
+
+\begin{proof}
+Tag 038X.
+\end{proof}
+
+\begin{rmk}
+The preceeding two facts gives an alternative description of a smooth morphism.
+\end{rmk}
+
+\begin{prop}
+A morphism $f : X \to Y$ is smooth iff it is
+\begin{enumerate}
+\item locally of finite presentation
+\item flat
+\item has geometrically regular fibers i.e. $X_y \to \Spec{\kappa(y)}$ is geometrically regular over $\kappa(y)$ for each $y \in Y$. 
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+Given a morphism $f : X \to Y$ of schemes over $S$, there is a canonical exact sequence,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega_{Y/S} \arrow[r] & \Omega_{X/S} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which when $f$ is smooth is short exact i.e. $f^* \Omega_{Y/S} \to \Omega_{X/S}$ is injective.
+\end{prop}
+
+\begin{defn}
+Given an immersion $\iota : Z \embed X$ with sheaf of ideals $\I = \ker{(\struct{X} \to \iota_* \struct{Z})}$ the nonormal sheaf is $\C_{Z/X} = \iota^* \I$ and $\iota_* \C_{Z/X} = \J \otimes_{\struct{X}} \struct{Z} = \J / \J^2$.
+\end{defn}
+
+\begin{prop}
+Given an immersion $\iota : Z \embed X$ of schemes over $S$ with sheaf of ideals $\J$ there is a canonical exact sequence,
+\begin{center}
+\begin{tikzcd}
+\C_{Z/X} \arrow[r] & \iota^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which, when $Z \to S$ is smooth, is short exact i.e. $\C_{Z/X} \to \iota^* \Omega_{X/S}$ is injective.
+\end{prop}
+
+\begin{prop}
+Let $f : X \to S$ be smooth. Then $\Omega_{X/S}$ is finite locally free and,
+\[ \mathrm{rank}_x(\Omega_{X/S}) = \dim_x (X_{f(x)}) \]
+\end{prop}
+
+\begin{defn}
+$f : X \to S$ is smooth of relative dimension $n$ if $f$ is smooth and $\Omega_{X/S}$ is locally free of constant rank $n$. 
+\end{defn}
+
+\begin{prop}
+A morphism $f : X \to S$ is smooth iff 
+\begin{enumerate}
+\item $f$ is locally of finite presentation
+\item $f$ is flat
+\item $\Omega_{X/S}$ is locally free with $\rank_x(\Omega_{X/S}) = \dim_x(X_{f(x)})$. 
+\end{enumerate}
+\end{prop}
+
+\begin{defn}
+A morphism $f : X \to Y$ is \textit{\etale} if it is smooth of relative dimension zero. Therefore, we see that etale is equivalent to.
+\begin{enumerate}
+\item locally of finite presentation
+\item flat
+\item $\Omega_{X/Y} = 0$.
+\end{enumerate}
+which is the same as saying $f : X \to Y$ is smooth and unramified or flat and G-unramified.
+\end{defn}
+
+\begin{prop}
+When $f : X \to Y$ is over $S$ is \etale the induced map $f^* \Omega_{Y/S} \xrightarrow{\sim} \Omega_{X/S}$ is an isomorphism.
+\end{prop}
+
+\begin{proof}
+By smoothness, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega_{Y/S} \arrow[r] & \Omega_{X/S} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but $\Omega_{X/Y} = 0$ since $f : X \to Y$ is \etale.
+\end{proof}
+
+\subsection{Formal Maps}
+
+\begin{defn}
+A morphism $f : X \to S$ consider every diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "f"'] & \Spec{A/I} \arrow[l] \arrow[d]
+\\
+S & \Spec{A} \arrow[l] \arrow[lu, dashed]
+\end{tikzcd}
+\end{center}
+with $I^2 = 0$. Searching for a lift $\Spec{A} \to X$ making the diagram commute, we say that $f$ is,
+\begin{enumerate}
+\item \textit{formally smooth} if a lift exists
+\item \textit{formally unramified} if at most one lift exists
+\item \textit{formally \etale} if a unique lift exists.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Clearly $f$ is formally \etale iff it is formally smooth and formally unramified. 
+\end{rmk}
+
+\begin{rmk}
+In particular, if $X$ and $S$ are affine then $X \to S$ is formally smooth (resp. unramified resp. \etale) iff $\struct{S}(S) \to \struct{X}(X)$ is formally smooth (rep. unramified resp. \etale) by definition and the anti-equivalence of categories between affine schemes and rings.
+\end{rmk}
+
+\begin{theorem}
+The following are equivalent for a morphism of schemes $f : X \to Y$,
+\begin{enumerate}
+\item $f$ is smooth
+\item $f$ is formally smooth and locally of finite type.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Tag 02H6.
+\end{proof}
+
+\begin{prop}
+Let $f : X \to Y$ over $S$ be formally smooth. Then the canonical exact sequence is short exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega_{Y/S} \arrow[r] & \Omega_{X/S} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, if $\iota : Z \to X$ is formally unramified over $S$ with $Z \to S$ formally smooth then the canonical exact sequence is short exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \C_{Z/X} \arrow[r] & \iota^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+Tag 06B6 and Tag 06B7.
+\end{proof}
+
+\subsection{Intuition}
+
+\begin{rmk}
+We give intuition for why it is correct to thing of the following correspondences between properties in algebraic and in differential geometry,
+\begin{enumerate}
+\item smooth morphisms $\iff$ submersions
+\item unramified morphisms $\iff$ immersions
+\item \etale morphisms $\iff$ local diffeomorphims
+\end{enumerate}
+\end{rmk}
+
+\noindent
+We now justify this intuition as follows. The important facts about submersions follows from the constant rank theorem,
+
+\begin{theorem}
+Let $f : M \to N$ me a morphism such that $\d{f} : T_p M \to T_{f(p)} N$ has constant rank in a neighborhood of $p \in M$. Then there exists opens $U \subset M$ and $V \subset N$ with $p \in U$ and $f(p) \in V$ and diffeomorphisms $u : T_p X \to U$ and $v : T_{f(p)} Y \to V$ making the diagram commute,
+\begin{center}
+\begin{tikzcd}
+T_p M \arrow[r, "u"] \arrow[d, "\d{f}"] & U \subset M \arrow[d, "f"]
+\\
+T_{f(p)} N \arrow[r, "v"] & V \subset N
+\end{tikzcd}
+\end{center} 
+\end{theorem}
+
+\begin{corollary}
+If $\d{f} : T_p M \to T_{f(p)} N$ is an isomorphism then $f$ is locally at $p$ a diffeomorphism.
+\end{corollary}
+
+\begin{corollary}
+Local immersions are locally the inclusion of a subspace and local submersion are locally a projection to a subspace. 
+\end{corollary}
+
+\begin{definition}
+Let $f : M \to N$ be a smooth map. Then $x \in M$ is a \textit{regular point} if $\d{f}_x : T_x M \to T_x N$ is surjective. We say that $y \in N$ is a \textit{regular value} if each $x \in f^{-1}(y)$ is a regular point. If every point (equivalently value) is regular then $f : M \to N$ is a \textit{submersion}. 
+\end{definition}
+
+\begin{theorem}[Preimage]
+Let $f : M \to N$ be smooth and $y \in N$ a regular value. Then $Y = f^{-1}(y)$ is an embedded submanifold of $M$ of codimension $\dim{N}$. Furthermore, for any $x \in Y$ the tangent space is $T_x Y = \ker{\d{f}_x} \subset T_x M$. 
+\end{theorem}
+
+\noindent
+The preimage theorem is analogous to the criterion that (let $f$ be locally of finite presentation and flat) $f : X \to Y$ is smooth at every point over $y$ (i.e. $y$ is a regular value) iff the fiber $X_y \to \Spec{\kappa(y)}$ is smooth i.e. $X_y$ is nonsingular. Therefore, a smooth map is one with smooth fibers just as a submersion is a map whose fibers are smooth submanifolds.
+\bigskip\\
+Furthermore, we can directly relate the algebraic geometry conditions to conditions about the pullback map on differential forms dual to the derivative map on tangent vectors which will directly relate these properties to the definitions of the associated differential geometry concepts.
+\bigskip\\
+We have the following,
+\begin{enumerate}
+\item smooth $\implies f^* \Omega_Y \embed \Omega_X$ is injective 
+\item unramified $\implies f^* \Omega_Y \onto \Omega_X$ is surjective
+\item \etale $\implies f^* \Omega_Y \xrightarrow{\sim} \Omega_X$ is an isomorphism.
+\end{enumerate}
+Then dualizing we see that on tangent sheaves,
+\begin{enumerate}
+\item smooth $\implies \T_X \onto f^* \T_Y$ is surjective 
+\item unramified $\implies \T_X \embed f^* \T_Y$ is surjective
+\item \etale $\implies T_Y \xrightarrow{\sim} f^* \T_X$ is an isomorphism.
+\end{enumerate}
+These exactly correspond to the differential geometry definitions of submersion, immersion, and local diffeomorphism. 
+\bigskip\\
+Finally, we may give intuition for the formal versions of these properties and how they relate to the condition on the differential map on tangent vectors. Let $f : X \to Y$ be formally smooth / unramified / \etale map of varieties over an algebraically closed field $k$. Then for each closed point $y \in Y$ and tangent vector at $y$ there is an associated map $\Spec{k[x]/(x^2)} \to Y$. Furthermore, for any closed point $\Spec{k} \to X$ above $y$, taking the ideal $(x)$ which has square zero we get a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "f"'] & \Spec{k} \arrow[l] \arrow[d]
+\\
+S & \Spec{k[x]/(x^2)} \arrow[l] \arrow[lu, dashed]
+\end{tikzcd}
+\end{center}
+\begin{enumerate}
+\item If $f$ is formally smooth there exists a lift $\Spec{k[x]/(x^2)} \to X$ so we may lift tangent vectors i.e. the differential $\d{f} : T_x X \to T_y Y$ is surjective ($f$ is a submersion).
+
+\item If $f$ is formally unramified there is at most one lift i.e. the differntial $\d{f} : T_x X \to T_y Y$ is injective ($f$ is an immersion).
+
+\item If $f$ is formally \etale then there is a unique lift i.e. the differential $\d{f} : T_x X \to T_y Y$ is an isomorphism ($f$ is a localy diffeomorphism). 
+\end{enumerate}
+
+\section{Maps between Curves}
+
+
+\subsection{Maps of a Proper Curve are Finite}
+
+\begin{theorem}
+Let $C$ be a proper curve over $k$ and $X$ is separated of finite type over $k$. Then any nonconstant map $f : C \to X$ over $k$ is finite.
+\end{theorem}
+
+\begin{proof}
+Since $C \to \Spec{k}$ is proper and $X \to \Spec{k}$ is separated then by Tag 01W6 the map $f : C \to X$ is proper. The fibres of closed points $x \in X$ are proper closed subschemes $C_x \embed C$ (since if $C_x = C$ then $f : C \to X$ would be the constant map at $x \in X$) and thus finite since proper closed subsets of a curve are finite. Now I claim that if the fibres $f^{-1}(x)$ are finite at closed points $x \in X$ then all fibres are finite. Assuming this, $f : C \to X$ is proper with finite fibres and thus is finite by Tag 02OG.
+\bigskip\\
+To show the claim consider,
+\[ E = \{ x \in X \mid \dim{C_x} = 0 \} \]   
+Since $C$ is Noetherian, $\dim{C_x} = 0$ iff $C_x$ is finite (suffices to check for affine schemes since quasi-comact and dimension zero Noetherian rings are exactly Artinian rings which have finite spectrum). Then $E$ is locally constructible by Tag 05F9 and contains all the closed points of $X$. Since $X$ is finite type over $k$ then $X$ is Jacobinson which implies that $E$ is dense in every closed set. Then for any point $\xi \in X$ then $Z = \overline{\{ \xi \}}$ is closed and irreducible with generic point $\xi$ and thus $E \cap Z$ is dense in $Z$. Then by Tag 005K we have $\xi \in E$ so $E = X$ proving that all fibres are finite.
+\end{proof}
+
+\begin{remark}
+The only facts about $C$ that I used were that $C \to \Spec{k}$ is proper and that $C$ is irreducible of dimension one. The second two properties are needed for the following to hold.
+\end{remark}
+
+\begin{lemma}
+If $X$ is an irreducible Noetherian scheme of dimension one then every nontrivial closed subset of $X$ is finite.
+\end{lemma}
+
+\begin{proof}
+Since $X$ is quasi-compact it suffices to show this property for affine schemes $X = \Spec{A}$ with $\dim{A} = 1$ and prime nilradical. Any nontrivial closed subset is of the form $V(I)$ for some proper radical ideal $I \subset X$ with $I \supsetneq \nilrad{A}$. Then $\height{I} = 1$ since any prime above $I$ must properly contain $\nilrad{A}$ and thus have height at least one but $\dim{A} = 1$. Then,
+\[ \height{I} + \dim{A / I} \le \dim{A} \]
+so $\dim{A / I} = 0$. Since $A$ is Noetherian so is $A / I$ but $\dim{A / I} = 0$ and thus $A / I$ is Artianian. Therefore $\Spec{A / I}$ is finite proving the proposition. 
+\end{proof}
+
+\begin{remark}
+Since $C \to \Spec{k}$ is proper it is finite type over $k$ and thus $C$ is Noetherian.
+\end{remark}
+
+\begin{rmk}
+The condition that $C$ be proper is necessary.
+Consider the map $\Gm^k \coprod \A^1_k \to \A^1_k$ via $k[x] \to k[x,x^{-1}]$ and the identity. This is clearly surjective and finitely generated since on rings it is,
+\[ k[x] \to k[x, x^{-1}] \times k[x] \]
+Furthermore, this map is quasi-finite since the fibers have at most two points. To see this, consider, $y = (x - a) \in \Spec{k[x]}$ then $\kappa(y) = k[x]/(x - a)$ and the fibre is,
+\begin{align*}
+X_y & = \Spec{(k[x x^{-1}] \times k[x]) \otimes_{k[x]} k[x]/(x  - a)} 
+\\
+& = \Spec{k[x, x^{-1}]/(x - a) \times k[x] / (x - a)} 
+\\
+& = \Spec{k[x, x^{-1}/(x - a)} \coprod \Spec{k[x]/(x - a)} 
+\\
+& = 
+\begin{cases}
+\Spec{k} & a = 0
+\\
+\Spec{k} \coprod \Spec{k} & a \neq 0
+\end{cases}
+\end{align*}
+However, this map is not closed since $\Gm^k \subset \Gm^k \coprod \A^1_k$ is closed but its image is $\A^1_k \setminus \{ 0 \}$ which is not closed. Thus the map cannot be finite. In particular,
+\[ k[x, x^{-1}] = \bigoplus_{n \ge 0} x^{-n} k[x] \]
+so $k[x, x^{-1}]$ is not a finitely-generated $k[x]$-module.  
+\end{rmk}
+
+\subsection{Maps of Normal Curves Are Flat}
+
+\begin{lemma} \label{generic_injection}
+Let $X$ be an integral scheme with generic point $\xi \in X$ and $\F \to \G$ a map of $\struct{X}$-modules,
+\begin{enumerate}
+\item if $\F$ is locally free then $\F \to \G$ is injective iff $\F_\xi \to \G_\xi$ is injective
+\item if $\F$ is invertible then $\F \to \G$ is injective iff $\F_\xi \to \G_\xi$ is nonzero.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\xi \in U$ for each nonempty open we have a diagram,
+\begin{center}
+\begin{tikzcd}
+\F(U) \arrow[d] \arrow[r] & \G(U) \arrow[d]
+\\
+\F_\xi \arrow[r] & \G_\xi 
+\end{tikzcd}
+\end{center}
+therefore it suffices to show the map $\F(U) \to \F_\xi$ is injective since then injectivity of $\F_\xi \to \G_\xi$ will imply injectivity of $\F(U) \to \G(U)$ for each $U$. Choose an affine open cover $U_i = \Spec{A_i}$ trivializing $\F$. For each $s \in \F(U)$ then $\F|_{U_i \cap U} \cong \struct{X}^{\oplus n}|_{U_i \cap U}$ but $X$ is integral so the restriction $\F(U_i \cap U) \to \F_\xi$ is simply $A_i^n \to \Frac{A}^n$ which is injective since $A_i$ is a domain. Thus if $s|_{U_i \cap U} \in \F(U \cap U_i)$ maps to zero in $\F_\xi$ then $s|_{U_i \cap U} = 0$ so $s = 0$ since $U_i$ form a cover.
+\bigskip\\
+The second follows from the first since we need only to show that $\F_\xi \to \G_\xi$ is injective. However, $\F_\xi$ is a rank-one free module over the field $K(X) = \stalk{X}{\xi}$. Thus every nonzero map $\F_\xi \to \G_\xi$ is injective.
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be a conconstant map of curves. Then $f$ is dominant.
+\end{lemma}
+
+\begin{proof}
+Let $\xi \in X$ be the generic point and consider $f(\xi) \in Y$. Suppose that $f(\xi)$ is a closed point. Then $f(X) = f(\overline{\{ \xi \}}) \subset \overline{f(\xi)} = f(\xi)$ so $f$ is constant. Therefore, we must have $f(\xi)$ a nonclosed point. But $\dim{Y} = 1$ and irreducible so any point is either closed or the generic point of the unique irreducible component. Therefore, $f(\xi) = \eta$ the generic point so $f$ is dominant.
+\end{proof}
+
+\begin{prop}
+Let $X$ and $Y$ be curves over $k$ with $Y$ normal. Then any nonconstant map $f : X \to Y$ is flat.
+\end{prop}
+
+\begin{proof}
+We need to check that $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is flat. Since $Y$ is a normal curve $\stalk{Y}{y}$ is a Noetherian domain ($Y$ is integral finite type over $k$) integrally closed ($Y$ is normal) and dimension at most one ($\dim{Y} = 1$) therefore $\stalk{Y}{y}$ is a local Dedekind domain or a field so $\stalk{Y}{y}$ is a DVR or a field. Then by Tag 0539, $\stalk{X}{x}$ is a flat $\stalk{Y}{f(x)}$-module iff it is torsion-free. However, $\stalk{X}{x}$ is a domain so it is a torsion-free $\stalk{Y}{f(x)}$-module iff $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is injective.
+\bigskip\\
+Since $f$ is dominant $f(\xi) = \eta$ (the generic points). Then $\stalk{Y}{\eta} \to \stalk{X}{\xi}$ is a map of fields which is automatically injective so $\struct{Y} \to f_* \struct{X}$ is injective because $Y$ is integral proving that $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is injective. 
+\end{proof}
+
+\begin{rmk}
+Morphisms of varieties are automatically finitely presented since curves are finite type over $k$ so morphisms between them are locally finite type but $Y$ is Noetherian so a locally finite type map is finitely presented. Furthermore, $X$ is Noetherian so morphisms from it are automatrically quasi-compact and quasi-separated.
+\end{rmk}
+
+\begin{prop}
+Nonconstant of curves $f : X \to Y$ with $Y$ normal are smooth iff unramified iff \etale iff $\Omega_{X/Y} = 0$
+\end{prop}
+
+\begin{proof}
+Maps of curves are automatically finitely presented. Furthermore, nonconstant maps of curves with $Y$ normal are flat. Furthermore, we have seen that nonconstant maps of curves are quasi-finite so $\dim{X_{f(x)}} = 0$. Therefore, $f$ is smooth iff $\Omega_{X/Y} = 0$ iff unramified but \etale is smooth an unramified so we see smooth iff \etale. 
+\end{proof}
+
+\begin{lemma}
+Let $X \to Y$ be a nonconstant map of curves with $K(X) / K(Y)$ separable and $Y$ smooth. Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega_Y \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, $f$ is \etale iff $f^* \Omega_Y \to \Omega_X$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+$K(X) / K(Y)$ is an extension of fields of transcendence degree one over $k$ so it must be algebraic. Furthermore, both are finitely-generated field extensions of $k$ so the algebraic extension $K(X) / K(Y)$ is finite. Then $(\Omega_{X/Y})_\xi = \Omega_{K(X)/K(Y)}$ which is zero iff $K(X) / K(Y)$ is separable. Thus, the standard exact sequence gives $(f^* \Omega_Y) \onto (\Omega_X)_\xi$ because $(\Omega_{X/Y})_\xi = 0$.  Furthermore, $f^* \Omega_Y$ is a line bundle since $Y$ is smooth so we conclude that $f^* \Omega_Y \to \Omega_X$ is an injection since it is nonzero on the generic fiber (Lemma \ref{generic_injection}).
+\end{proof}
 
 
 \end{document}
