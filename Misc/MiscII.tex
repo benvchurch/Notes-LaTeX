@@ -2479,5 +2479,380 @@ Therefore, $f$ is \etale iff $f^* \Omega_Y \to \Omega_X$ is an isomorphism.
 $K(X) / K(Y)$ is an extension of fields of transcendence degree one over $k$ so it must be algebraic. Furthermore, both are finitely-generated field extensions of $k$ so the algebraic extension $K(X) / K(Y)$ is finite. Then $(\Omega_{X/Y})_\xi = \Omega_{K(X)/K(Y)}$ which is zero iff $K(X) / K(Y)$ is separable. Thus, the standard exact sequence gives $(f^* \Omega_Y) \onto (\Omega_X)_\xi$ because $(\Omega_{X/Y})_\xi = 0$.  Furthermore, $f^* \Omega_Y$ is a line bundle since $Y$ is smooth so we conclude that $f^* \Omega_Y \to \Omega_X$ is an injection since it is nonzero on the generic fiber (Lemma \ref{generic_injection}).
 \end{proof}
 
+\section{Serre Duality}
+
+\subsection{Some Homological Algebra}
+
+\begin{rmk}
+Here we work in abelian cateogries $\mathcal{A}, \mathcal{B}$ with a left-exact additive functor $F : \mathcal{A} \to \mathcal{B}$.
+\end{rmk}
+
+\begin{lemma}
+Every summand of an injective object is injective. 
+\end{lemma}
+
+\begin{proof}
+Suppose that $I = K \oplus L$ is injective. Given an injection $A \embed B$ and a map $A \to K$ we get a diagram,
+\begin{center}
+\begin{tikzcd}
+A \arrow[dd, hook] \arrow[rd] \arrow[rr] & & K \arrow[dd] \arrow[ld, "\id"]
+\\
+& K 
+\\
+B \arrow[rr, dashed] \arrow[ru, dashed] & & I \arrow[ul]
+\end{tikzcd}
+\end{center}
+so $A \to K$ extends to $B \to K$ so $K$ is injective.
+\end{proof}
+
+\begin{cor}
+Suppose $K \embed I$ is an embedding of injective modules. Then the quotient $I/K$ is injective.
+\end{cor}
+
+\begin{proof}
+There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & I \arrow[r] & I/K  \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+But $K$ is injective so this splits giving $I = K \oplus I/K$ and thus $I/K$ is injective.
+\end{proof}
+
+\begin{lemma}
+Let $I^\bullet$ be a complex of injective objects. Define, 
+\[ B^n = \Im{I^{n-1} \to I^n} \quad \text{and} \quad Z^n = \ker{(I^n \to I^{n+1})} \]
+Fix $n$ such that $B^n$ and $Z^{n-1}$ are injective. Then $H^n(F(I^\bullet)) = F(H^n(I^\bullet))$. If further $Z^n$ is injective then $H^n(I^\bullet)$ is also injective.
+\end{lemma}
+
+\begin{proof}
+There are exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & Z^{n-1} \arrow[r] & I^{n-1} \arrow[r] & B^{n} \arrow[r] & 0
+\\
+0 \arrow[r] & B^{n} \arrow[r] & Z^{n} \arrow[r] & H^n(I^\bullet) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which split because $Z^{n-1}$ and $B^n$ are injective. Furthermore, since $I^{n-1}$ is injective then $B^n$ is injective. Likewise if $Z^n$ is injective then $H^n(I^\bullet)$ is also injective. Futhermore, because $F$ is additive, it preserves split exact sequences:
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(Z^{n-1}) \arrow[r] & F(I^{n-1}) \arrow[r] & F(B^{n}) \arrow[r] & 0
+\\
+0 \arrow[r] & F(B^{n}) \arrow[r] & F(Z^{n}) \arrow[r] & F(H^n(I^\bullet)) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+are exact. From the first exact sequence, $F(B^n) = \Im{F(I^{n-1}) \to F(I^n)}$. Since $F$ perserves kernels $F(Z^n) = \ker{(F(I^n) \to F(I^{n+1}))}$. Therefore, the second sequence gives $H^n(F(I^\bullet)) = F(H^n(I^\bullet))$.
+\end{proof}
+
+\begin{lemma} \label{compute_first_nonzero_cohomology}
+Let $I^\bullet$ be a bounded below complex of injectives and $c$ the smallest integer with $H^c(I^\bullet) \neq 0$. Then, $H^i(F(I^\bullet)) = 0$ for $i < c$ and $H^c(F(I^\bullet)) = F(H^c(I^\bullet))$.
+\end{lemma}
+
+\begin{proof}
+Since $I^\bullet$ is bounded below it begins with $0 \to I^0 \to I^1 \to I^2$. If $c = 0$ then the first condition is trivially true and the second condition says $\ker{(F(I^0) \to F(I^1))} = F(\ker{(I^0 \to I^1)}$ which holds because $F$ is left-exact. Otherwise $ c > 0$  so $I^\bullet$ is exact at $I^0$. Thus, $I^0 = \ker{(I^1 \to I^2)}$ is injective. By the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & Z^{n-1} \arrow[r] & I^{n-1} \arrow[r] & B^{n} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we find that if $Z^{n-1}$ is injective then so is $B^{n}$. If $n < c$ then $I^\bullet$ is exact at $I^{n}$ so $B^{n} = Z^{n}$ so $Z^{n}$ is injective. Therefore, $B^n$ is injective for all $n \le c$ and $Z^n = B^n$ is injective for $n < c$. By the previous lemma, for $n \le c$ we have $H^n(F(I^\bullet)) = F(H^n(I^\bullet))$ which is zero for $n < c$.
+\end{proof}
+
+\begin{rmk}
+Alternatively, there is a spectral sequence proof. There is a spectral sequence computing the hyperderived functors,
+\[ E^{p,q}_2 = R F^p(H^q(I^\bullet)) \implies \mathbb{R} F^{p + q}(I^\bullet) \]
+However, since $I^\bullet$ is injective, $\mathbb{R} F^{p + q}(I^\bullet) = H^{p + q}(F(I^\bullet))$. Then,
+\[ E^{p, q}_2 = R F^p(H^q(I^\bullet)) = 
+\begin{cases}
+0 & q < c
+\\
+R F^q(H^c(I^\bullet)) & q \ge 0
+\end{cases} \]
+Therefore, for $p + q < c$ all $E^{p,q}_2 = 0$ so $E^{p,q}_\infty = H^{p+q}(F(I^\bullet)) = 0$ for $p + q < c$. Furthermore, for $p + q = c$ the only nonzero term is $q = c$ and $p = 0$. However, for $r \ge 2$ all differentials starting at $(0, c)$ end outside the positive quadrant so are zero and all differentials ending at $(0, c)$ must start with $q < c$ and thus must be zero. Therefore, $E^{0,q}_{\infty} = F(H^c(I^\bullet))$ and $E^{p, q}_{\infty} = 0$ for $p + q = c$ and $q \neq c$. Thus, $H^c(F(I^\bullet)) = E^{0,q}_2 = F(H^c(I^\bullet))$. 
+\end{rmk}
+
+\subsection{Tensor-Hom Adjunction Done Right}
+
+\begin{theorem}
+Let $A, B, C, D$ be (non-commutative) rings and $M$ be an $(A, B)$-bimodule, $N$ be a $(B, C)$-bimodule, and $K$ be a $(D, C)$-bimodule. Then there is a natural adjunction,
+\[ \Hom{C}{M \otimes_B N}{K} \cong \Hom{B}{M}{\Hom{C}{N}{K}} \]
+as $(D, A)$-bimodules. Furthermore, let $M$ be an $(A, B)$-bimodule, $N$ be a $(B, C)$-bimodle, and $K$ be a $(A, D)$-bimodule. Then there is a natural adjunction,
+\[ \Hom{A}{M \otimes_B N}{K} \cong \Hom{B}{N}{\Hom{A}{M}{K}} \]
+as $(C, D)$-bimodules.
+\end{theorem}
+
+\begin{proof}
+Let $\varphi : M \otimes_B N \to K$ be a right $C$-module map. Send this to the map $\tilde{\varphi} : M \to \Hom{C}{N}{K}$ via $\tilde{\varphi} : m \mapsto (n \mapsto \varphi(m \otimes n))$ and $\tilde{\varphi}$ is a map of right $B$-modules since,
+\[ m \cdot b \mapsto (n \mapsto \varphi(m \otimes b n)) = (n \mapsto \varphi(m \otimes n)) \cdot b \]
+We must check this is an isomorphism of $(C, A)$-bimodules. 
+\end{proof}
+
+\begin{rmk}
+From here on we assume all rings are commutative. 
+\end{rmk}
+
+\begin{cor}
+Let $A \to B$ be a map of rings, $M, N$ be $B$-modules and $K$ an $A$-module. Then there is a natural adjunction of $B$-modules,
+\[ \Hom{A}{M \otimes_B N}{K} \cong \Hom{B}{M}{\Hom{A}{N}{K}} \]
+\end{cor}
+
+\begin{proof}
+We replace $A,B,C,D$ in the theorem by $B,B,A,A$. Via the ring map, we view $M$ as an $(B,B)$-bimodule, $N$ as an $(B, A)$-bimodule, and $K$ as an $(A, A)$-bimodule. Then we get a map of $(A, B)$-bimodules,
+\[ \Hom{A}{M \otimes_B N}{K} \cong \Hom{B}{M}{\Hom{A}{N}{K}} \]
+\end{proof}
+
+\begin{cor}
+Let $A \to B$ be a map of rings, $M$ be an $A$-module and $N, K$ be $B$-modules. Then there is a natural adjunction of $B$-modules,
+\[ \Hom{B}{M \otimes_A N}{K} \cong \Hom{A}{M}{\Hom{B}{N}{K}} \]
+\end{cor}
+
+\begin{proof}
+We replace $A,B,C,D$ in the theorem by $A,A,B,B$. Via the ring map, we view $M$ as an $(A,A)$-bimodule, $N$ as an $(A, B)$-bimodule, and $K$ as an $(B, B)$-bimodule. Then we get a map of $(B, A)$-bimodules,
+\[ \Hom{B}{M \otimes_A N}{K} \cong \Hom{A}{M}{\Hom{B}{N}{K}} \]
+\end{proof}
+
+\begin{cor}
+Let $A$ be a ring, $M, N, K$ be $A$-modules. Then there is a natural adjunction of $A$-modules,
+\[ \Hom{A}{M \otimes_A N}{K} \cong \Hom{A}{M}{\Hom{A}{N}{K}} \]
+\end{cor}
+
+\begin{proof}
+Viewing $M, N, K$ as $(A, A)$-bimodules we find,
+\[ \Hom{A}{M \otimes_A N}{K} \cong \Hom{A}{M}{\Hom{A}{N}{K}} \]
+as $(A,A)$-bimodules.
+\end{proof}
+
+\begin{cor}
+Let $A \to B$ be a map of rings. The restriction $(-)_A : \Mod{B} \to \Mod{A}$ functor and internal hom $\Hom{A}{B}{-} : \Mod{A} \to \Mod{B}$ are adjoint via,
+\[ \Hom{A}{M_A}{N} \cong \Hom{B}{M}{\Hom{A}{B}{N}} \]
+as $B$-modules.
+\end{cor}
+
+\begin{proof}
+We replace $A,B,C,D$ in the theorem by $B, B, A, A$. View $M$ as an $(B, B)$-bimodule, $B$ as a $(B, A)$-bimodule, and $N$ as a $(A, A)$-bimodule. Then we get,
+\[ \Hom{A}{M \otimes_B B}{N} \cong \Hom{B}{M}{\Hom{A}{B}{N}} \]
+as $(A, B)$-bimodules.
+\end{proof}
+
+
+\begin{cor}
+Let $A \to B$ be a map of rings. The tensor product $- \otimes_A B : \Mod{A} \to \Mod{B}$ and restriction $(-)_A : \Mod{B} \to \Mod{A}$ are adjoint via,
+\[ \Hom{B}{M \otimes_A B}{N} \cong \Hom{A}{M}{N_A} \]
+as $B$-modules.
+\end{cor}
+
+\begin{proof}
+We replace $A, B, C, D$ in the theorem by $A, A, B, B$. View $M$ as an $(A, A)$-bimodule, $B$ as a $(A, B)$-bimodule, and $N$ as a $(B, B)$-bimodule. Then we get,
+\[ \Hom{B}{M \otimes_A B}{N} \cong \Hom{A}{M}{\Hom{B}{B}{N}} \]
+as $(B, A)$-bimodules.
+\end{proof}
+
+\begin{cor}
+Let $A \to B$ be a ring map, $N$ a flat $B$-module, and $I$ an injective $A$-module. Then $\Hom{A}{N}{I}$ is an injective $B$-module.
+\end{cor}
+
+\begin{proof}
+The functor $\Hom{A}{N}{-}$ is right-adjoint to $- \otimes_B N$ which is exact so $\Hom{A}{B}{-}$ preserves injectives. Explicitly,
+the functor $\Hom{B}{-}{\Hom{A}{N}{I}} = \Hom{A}{- \otimes_B N}{I}$ is exact on $\Mod{B}$ since $\Hom{A}{-}{I}$ and $- \otimes_B N$ are exact. 
+\end{proof}
+
+\begin{cor}
+Let $A \to B$ be a ring map, $P$ a projective $A$-module, $Q$ a projective $B$-module. Then $P \otimes_A Q$ is a projective $B$-module.
+\end{cor}
+
+\begin{proof}
+The functor $- \otimes_A Q$ is left-adjoint to $\Hom{B}{Q}{-}$ which is exact since $Q$ is projective so $- \otimes_A Q$ preserves projectives. Explicitly, the functor $\Hom{B}{P \otimes_A N}{-} = \Hom{A}{P}{\Hom{B}{N}{-}}$ is exact on $\Mod{B}$ since $\Hom{A}{P}{-}$ and $\Hom{B}{Q}{-}$ are exact.
+\end{proof}
+
+\begin{theorem}
+Let $A \to B$ be a map of rings. Let $M, N$ be $B$-modules with $N$ flat over $B$ and $K$ an $A$-module. Then there is a spectral sequence,
+\[ E^{p,q}_2 = \Ext{p}{B}{M}{\Ext{q}{A}{N}{K}} \implies \Ext{p+q}{A}{M \otimes_B N}{K} \]
+\end{theorem}
+
+\begin{proof}
+The functors $\Hom{B}{M}{-}$ and $\Hom{A}{N}{-}$ satisfy,
+\[ \Hom{B}{M}{\Hom{A}{N}{-}} = \Hom{A}{M \otimes_B N}{-} \]
+Furthermore, $\Hom{A}{N}{-}$ preserves injectives because $N$ is flat so $\Hom{A}{N}{-}$ is right-adjoint to $- \otimes_B N$ which is exact. Therefore, the Grothendieck spectral sequence applies to this composition of functors giving a spectral sequence,
+\[ E^{p,q}_2 = \Ext{p}{B}{M}{\Ext{q}{A}{N}{K}} \implies \Ext{p+q}{A}{M \otimes_B N}{K} \]
+\end{proof}
+
+\subsection{Tensor-Hom Adjunction for Sheaves}
+
+\newcommand{\sA}{\mathcal{A}}
+\newcommand{\sB}{\mathcal{B}}
+
+\begin{prop} \label{tensor_hom_adjunction_sites}
+Let $X$ be a site and $\sA \to \sB$ be a map of sheaves of rings. Let $\F, \H$ be $\sB$-modules and $\H$ be a $\sA$-module. Then there is a natural isomorphism,
+\[ \shHom{\sA \:}{\F \otimes_{\sB} \G}{\H} \cong \shHom{\sB \:}{\F}{\shHom{\sA \:}{\G}{\H}} \]
+\end{prop}
+
+\begin{prop}
+Let $(X, \struct{X})$ be a ringed space, $\F, \G, \H$ be $\struct{X}$-modules. Then there is a canonical isomorphism,
+\[ \shHom{\struct{X}}{\F \otimes_{\struct{X}} \G}{\H} \iso \shHom{\struct{X}}{\F}{\shHom{\struct{X}}{\G}{\H}} \]
+\end{prop}
+
+\begin{proposition} \label{flat_hom_injective}
+Let $\sA \to \sB$ be a map of sheaves of rings. Let $\K$ be a flat (e.g. locally free) $\sB$-module and $\I$ an injective $\sA$-module. Then $\shHom{\sA \:}{\K}{\I}$ is an injective $\sB$-module.
+\end{proposition}
+
+\begin{proof}
+The functor
+\[ \shHom{\sA \:}{\K}{-} : \Mod{\sA} \to \Mod{\sB} \] 
+is right-adjoint to tensor product $- \otimes_{\sB} \K : \Mod{\sB} \to \Mod{\sA}$ which is exact because $\K$ is flat. Explicitly, the functor,
+\[ \Hom{\sB}{-}{\shHom{\sA \:}{\K}{\I}} = \Hom{\sA}{- \otimes_{\sB} \K}{\I} \]
+is exact since $\I$ is an injective $\sA$-module and $\L$ is $\sB$-flat.
+\end{proof}
+
+\begin{theorem}
+Let $\sA \to \sB$ be a map of sheaves of rings, $\F$ a $\sB$-module, $\K$ a flat $\sB$-module, and $\G$ a $\sA$-module. Then there exist two spectral sequences,
+\begin{align*}
+E^{p, q}_2 & = \shExt{p \:}{\sB}{\F}{\shExt{q \:}{\sA}{\K}{\G}} \implies \shExt{p+q \:}{\sA}{\F \otimes_{\sB} \K}{\G} 
+\\
+E^{p, q}_2 & = \Ext{p}{\sB}{\F}{\shExt{q \:}{\sA}{\K}{\G}} \implies \Ext{p+q}{\sA}{\F \otimes_{\sB} \K}{\G} 
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+The functors $\shHom{\sB \:}{\F}{-}$ and $\shHom{\sA \:}{\K}{-}$ satisfy,
+\[ \shHom{\sB \:}{\F}{\shHom{\sA \:}{\K}{-}} = \shHom{\sA \:}{\F \otimes_{\sB} \K}{-} \]
+Furthermore, by the previous lemma, $\shHom{\sA \:}{\K}{-}$ preserves injectives which are acyclic for $\shHom{\sB \:}{\F}{-}$ so we may apply the Grothendieck spectral sequence to this composition of functors to get a spectral sequence,
+\[ E^{p, q}_2 = \shExt{p \:}{\sB}{\F}{\shExt{q \:}{\sA}{\K}{\G}} \implies \shExt{p+q \:}{\sA}{\F \otimes_{\sB} \K}{\G} \]
+Furthermore, taking the global section of the first equation gives,
+\[ \Hom{\sB}{\F}{\shHom{\sA \:}{\K}{-}} = \Hom{\sA}{\F \otimes_{\sB} \K}{-} \]
+and $\shHom{\sA \:}{\K}{-}$ preserves injectives which are acyclic for $\Hom{\sB}{\F}{-}$ so we may apply the Grothendieck spectral sequence to this composition of functors to get a spectral sequence,
+\[ E^{p, q}_2 = \Ext{p}{\sB}{\F}{\shExt{q \:}{\sA}{\K}{\G}} \implies \Ext{p+q}{\sA}{\F \otimes_{\sB} \K}{\G} \]
+\end{proof}
+
+\subsection{Depth and Cohen-Macaulayness}
+
+\begin{prop}
+Let $A$ be a regular local ring and $B = A / I$. Then $\Ext{p}{A}{B}{-} = 0$ for $p > \dim{A} - \dim{B}$. 
+\end{prop}
+
+\begin{prop}
+Let $A$ be a Cohen-Macaulay local ring and $B = A/I$. Then $\Ext{p}{A}{B}{-} = 0$ for $p < \dim{A} - \dim{B}$. 
+\end{prop}
+
+\subsection{Serre Duality}
+
+(CHECK THE HYPOTHESES!!)
+
+(DEFINE DUALIZING SHEAF!)
+
+(UNIQUENESS OF DUALIZING SHEAF!)
+
+(EXISTENCE OF QUASI-COHERENT DUALIZING SHEAF)
+
+\begin{theorem}
+Let $X$ be projective, Cohen-Macaulay, $k$-scheme of equidimension $n$. Further, suppose $X$ has a dualizing sheaf $\omega_X$. Then, there is a natural isomorphism for any coherent sheaf $\F$ and $i \ge 0$,
+\[ \theta^i : \Ext{i}{\struct{X}}{\F}{\omega_X} \iso H^{n-i}(X, \F)^\vee \] 
+agreeing in $i = 0$ with $\Hom{\struct{X}}{\F}{\omega_X} \iso H^n(X, \F)^\vee$.
+\end{theorem}
+
+\begin{proof}
+(DO THISS!!!!)
+\end{proof}
+
+\begin{theorem}
+(DOOO!!!) Serre Duality for $\P^n$. 
+\end{theorem}
+
+
+\begin{prop}
+Let $\iota : X \embed Y$ be a closed immersion of projective $k$-schemes. Let $c = \dim{X} - \dim{Y}$ be the codimension. Suppose that $Y$ is Cohen-Macaulay, equidimensional and has a dualizing sheaf $\omega_Y$. Furthermore, suppose that $\shExt{p}{\struct{Y}}{\iota_* X}{\omega_Y} = 0$ for $p < c$. Then $\omega_X = \iota^* \shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}$ is a dualizing sheaf for $X$. 
+\end{prop}
+
+\begin{proof}
+Let $n = \dim{X}$ and $m = \dim{Y}$.
+We need to show there is a natural isomorphism,
+\[ \Hom{\struct{X}}{\F}{\omega_X} = H^n(X, \F)^\vee \]
+We compute,
+\[ \Hom{\struct{X}}{\F}{\omega_X} = \Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} \]
+Now I claim that,
+\[ \Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} = \Ext{c}{\struct{Y}}{\iota_* \F}{\omega_Y} \]
+To do this, we can use Prop. \ref{compute_first_nonzero_cohomology}.  Choose an injective resolution $\omega_Y \to \I^\bullet$. Then we take the complex $\shHom{\struct{Y}}{\iota_* \struct{X}}{\I^\bullet}$ which is a complex of injective $\iota_* \struct{X}$-modules since  \[ \shHom{\struct{Y}}{\iota_* \struct{X}}{-} : \Mod{\struct{Y}} \to \Mod{\iota_* \struct{X}} \] is right-adjoint to restriction $\Mod{\iota_* \struct{X}} \to \Mod{\struct{Y}}$ which is exact (see Lemma \ref{flat_hom_injective}). Furthermore,
+\[ \shExt{p}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y} = H^p(\shHom{\struct{Y}}{\iota_* \struct{X}}{\I^\bullet}) \]
+so by assumption the complex is exact for $p < c$. 
+Taking the right-exact functor $\Hom{\iota_* \struct{X}}{\iota_*}{-}$ we can apply Prop. \ref{compute_first_nonzero_cohomology} to get,
+\begin{align*}
+\Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} & = \Hom{\iota_* \struct{X}}{\iota_* \F}{H^c(\shHom{\struct{Y}}{\iota_* \struct{X}}{\I^\bullet})}
+\\
+& = H^c(\Hom{\iota_* \struct{X}}{\iota_* \F}{\shHom{\struct{Y}}{\iota_* \struct{X}}{\I^\bullet}})
+\end{align*}
+However, by Prop. \ref{tensor_hom_adjunction_sites}, we get,
+\[ \Hom{\iota_* \struct{X}}{\iota_* \F}{\shHom{\struct{Y}}{\iota_* \struct{X}}{\I^\bullet}}  = \Hom{\struct{Y}}{\iota_* \F}{\I^\bullet} \]
+Therefore,
+\begin{align*}
+\Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} & = H^c(\Hom{\struct{Y}}{\iota_* \F}{\I^\bullet}) = \Ext{c}{\struct{Y}}{\iota_* \F}{\omega_Y} 
+\end{align*}
+Furthermore, since $Y$ is Cohen-Macaulay and equidimensional, by Serre Duality, we have,
+\[ \Ext{c}{\struct{Y}}{\iota_* \F}{\omega_Y} = H^{m-c}(Y, \iota_* \F)^\vee = H^{n}(X, \F)^\vee \]
+Putting everything together we find,
+\[ \Hom{\struct{X}}{\F}{\omega_X} = \Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} = H^{n}(X, \F)^\vee \]
+as required.
+\end{proof}
+
+\begin{rmk}
+Alternatively, we may give a spectral sequence proof. The ring map $\struct{Y} \to \iota_* \struct{X}$ gives a spectral sequence,
+\[ E^{p, q}_2 = \Ext{p}{\iota_* \struct{X}}{\iota_* \F}{\shExt{q \:}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} \implies \Ext{p+q}{\struct{Y}}{\iota_* \F}{\omega_Y} \]
+where we have used that $\iota_* \struct{X}$ is trivially flat as a $\iota_* \struct{X}$-module. Now, $E^{p,q}_2 = 0$ for $q < c$ because $\shExt{q \:}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y} = 0$ for $q < c$. Furthermore, any differential with $r \ge 2$ ending or begining at $(0, c)$ hits zero since $d^{0,c}_r : E^{0,c}_r \to E^{r, c - r + 1}_r$ but $c - r + 1 < c$ so $E^{r, c - r + 1} = 0$ also $\d^{-r,c+r-1}_r : E^{-r, c + r - 1} \to E^{0, c}_r$ has $E^{-r, c + r - 1} = 0$. Therefore, $E^{0, c}_\infty = E^{0, c}_2$. Furthermore, $E^{p,q}_\infty = 0$ if $p < c$ so the $p + q = c$ diagonal of $E^{p,q}_\infty$ is zero except $E^{0,c}_\infty$ and thus,
+\[ \Ext{c}{\struct{Y}}{\iota_* \F}{\omega_Y} = E^{0, c}_\infty = E^{0,c}_2 = \Hom{\iota_* \struct{X}}{\iota_* \F}{\shExt{q\:}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}} \]
+proving the claim. This is just the spectral sequence proof of Prop. \ref{compute_first_nonzero_cohomology}. 
+\end{rmk}
+
+\begin{lemma} \label{ext_vanshing_regular}
+Let $\iota : X \embed Y$ be a closed immersion of projective $k$-schemes. Suppose that $Y$ is regular, equidimensional and has a locally free dualizing sheaf $\omega_Y$. Then $\shExt{p}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y} = 0$ for $p \neq \dim{X} - \dim{Y}$.
+\end{lemma}
+
+\begin{proof}
+(PROVE THIS!!)
+\end{proof}
+
+\begin{prop}
+Let $\iota : X \embed Y$ be a closed immersion of projective $k$-schemes. Let $c = \dim{X} - \dim{Y}$ be the codimension. Suppose that $Y$ is regular, equidimensional and has a locally free dualizing module $\omega_Y$. Then $\omega_X = \iota^* \shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y}$ is a dualizing sheaf for $X$. 
+\end{prop}
+
+\begin{proof}
+This follows from the previous two propositions.
+\end{proof}
+
+\begin{prop}
+Let $X \xrightarrow{\iota_1} Y \xrightarrow{\iota_2} P$ be closed immersion of projective $k$-schemes. Define,
+\begin{align*}
+\iota & = \iota_2 \circ \iota_1
+\\
+n  & = \dim{X}
+\\
+m & = \dim{Y}
+\\
+c_1 & = \dim{P} - \dim{X}
+\\
+c_2 & = \dim{P} - \dim{Y}
+\end{align*} 
+Suppose that $P$ is regular, equidimensional and has a locally free dualizing module $\omega_P$ then we have seen $\omega_X = \iota^* \shExt{c_1}{\struct{P}}{\iota_* \struct{X}}{\omega_P}$ and $\omega_Y = \iota_2^* \shExt{c_2}{\struct{P}}{\iota_{2*} \struct{Y}}{\omega_P}$ are dualizing modules for $X$ and $Y$. Then, if $Y$ is Cohen-Macaulay and equidimensional we have,
+\[ \omega_X = \iota_2^* \shExt{n-m}{\struct{Y}}{\iota_{1*} \struct{X}}{\omega_Y} \]
+\end{prop}
+
+\begin{proof}
+Consider the spectral sequence of sheaves on $P$,
+\[ E^{p,q}_2 = \shExt{p}{\iota_{2*} \struct{Y}}{\iota_* \struct{X}}{\shExt{q}{\struct{P}}{\iota_{2*} \struct{Y}}{\omega_P}} \implies \shExt{p+q}{\struct{P}}{\iota_* \struct{X}}{\omega_P} \]
+Futhermore, by Lemma \ref{ext_vanshing_regular}, $\shExt{q}{\struct{P}}{\iota_{2*} \struct{Y}}{\omega_P} = 0$ for $q \neq c_2$ so the spectral sequence degenerates on the second page. Therefore, 
+\[ \shExt{p + c_2}{\struct{P}}{\iota_* \struct{X}}{\omega_P} = E^{p,c_2}_\infty = \shExt{p}{\iota_{2*} \struct{Y}}{\iota_* \struct{X}}{\iota_{2*} \omega_Y} \]
+In particular, taking $p = c_1 - c_2 = n - m$ we find, 
+\[ \iota_* \omega_X = \shExt{c_1}{\struct{P}}{\iota_* \struct{X}}{\omega_P} = \shExt{n -m}{\iota_{2*} \struct{Y}}{\iota_* \struct{X}}{\iota_{2*} \omega_Y} = \iota_{2*} \shExt{n-m}{\struct{Y}}{\iota_{1*} \struct{X}}{\omega_Y} \]
+with the last equality using that $\iota_{2}$ is affine.
+Therefore, using the equivalence of categories induced by $\iota_*$ we find,
+\[ \omega_X = \iota_{1}^* \shExt{n-m}{\struct{Y}}{\iota_{1*} \struct{X}}{\omega_Y} \]
+\end{proof}
+
+\begin{cor}
+Let $\iota : X \to Y$ be closed immersion of projective $k$-schemes. If $Y$ is Cohen-Macaullay and equidimensional then $X$ and $Y$ have dualizing modules $\omega_X$ and $\omega_Y$ satisfying,
+\[ \omega_X = \iota^* \shExt{c}{\struct{Y}}{\iota_* \struct{X}}{\omega_Y} \] 
+\end{cor}
+
+\begin{proof}
+Consider $X \embed Y \embed \P^n$ and apply the previous proposition. 
+\end{proof}
 
 \end{document}

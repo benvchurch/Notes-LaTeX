@@ -1,0 +1,280 @@
+\documentclass[12pt]{extarticle}
+\usepackage{import}
+\import{./}{Includes}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Vect}{\mathrm{Vect}}
+
+\begin{document}
+\atitle{5}
+
+
+\section{The Gysin Sequence}
+
+For sphere bundles, there is a particularly nice exact sequence due to Gysin.
+
+\begin{theorem}[Gysin]
+Let $S^{n} \embed E \xrightarrow{p} B$ be a sphere bundle which is homotopically simple. Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r, "p_*"] & H_{i+1}(B) \arrow[r, "d"] & H_{i-n}(B) \arrow[r, "\ell"] & H_i(E) \arrow[r, "p_*"] & H_i(B) \arrow[r, "d"] & H_{i - n - 1}(B) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+Furthermore, let $C \in H^{n+1}(B; \pi_n(S^n)) = H^{n+1}(B; \Z)$ be the primary obstruction. Then $d(x) = x \frown C$ and $\ell$ is the map lifting a homology class of $B$ to its preimage in $E$.
+\end{theorem}
+
+\begin{proof}
+We consider the homological Serre spectral sequence,
+\[ E^2_{p,q} = H_p(B, H_q(S^n)) \implies H_{p + q}(E) \]
+Note that,
+\[ E^2_{p,q} = H_p(B, H_q(S^n)) = 
+\begin{cases}
+H_p(B; \Z) & q = 0, n
+\\
+0 & q \neq 0, n
+\end{cases} \]
+To choose an isomorphism $\pi_n(S^n) \cong \Z$ we need an orientation of $S^n$. However, this is not an issue since we have assumed that the fibration is homotopically simple so there is no obstruction to choosing a consistent orientation. 
+\bigskip\\
+Therefore, the second page of the Serre spectral sequence has two rows. The differential $\d^r_{p, q}$ has bidegree $(- r, r - 1)$ so the only relevant differentials occur at page $r = n + 1$ giving a differential,
+\[ \d^{n+1}_{p, 0} : E^{n+1}_{p,0} \to E^{n+1}_{p - n - 1, n} \]
+Therefore, we can explicitly describe the $\infty$-page,
+\[ E^\infty_{p, q} = 
+\begin{cases}
+H_p(B; \Z) & p < n + 1, q = 0
+\\
+\ker{\left( \d^{n+1}_{p, 0} \right)} & p \ge n + 1, q = 0
+\\
+\coker{\left( \d^{n+1}_{p + n + 1, 0} \right)} & q = n
+\end{cases} \]
+Since the spectral sequence converges,
+\[  E^2_{p,q} \implies H_{p + q}(E) \]
+there is a filtration $F_p H_n(E)$ such that,
+\[ E^\infty_{p, q} = F_p H_{p+q}(E) / F_{p-1} H_{p+q}(E) \] 
+Note that $E^\infty_{p, q} \neq 0$ only when $q = 0, n$ so for fixed $i = p + q$ we find,
+\[ F_{i} H_{i}(E) / F_{i-1} H_{i}(E) = E^\infty_{i, 0} = \ker{\left( \d^{n+1}_{i, 0} \right)} \] 
+and
+\[ F_{i - n} H_i(E) / F_{i - n - 1} H_{i}(E) = E^\infty_{i-n, n} = \coker{\left( \d^{n+1}_{i + 1, 0} \right) } \]
+and all other quotients are zero. Therefore, $F_i H_i(E) = H_i(E)$ and $F_{i-1} H_i(E) = \cdots = F_{i - n} H_i(E)$ and $F_{i - n - 1} H_i(E) = 0$. This gives an exact sequence, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E^\infty_{i-n, n} \arrow[r] & H_i(E) \arrow[r] & E^\infty_{i,0} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+and therefore,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \coker{\left( \d^{n+1}_{i+1, 0} \right) } \arrow[r] & H_i(E) \arrow[r] & \ker{\left( \d^{n+1}_{i, 0} \right)} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Now these are maps,
+\begin{align*}
+\d^{n+1}_{i,0} & : H_i(B ; \Z) \to H_{i - n - 1}(B ; \Z)
+\\
+\d^{n+1}_{i+1,0} & : H_{i+1}(B ; \Z) \to H_{i - n}(B ; \Z)
+\end{align*}
+Therefore, the following sequence is exact,
+\begin{center}
+\begin{tikzcd}
+H_{i+1}(B; \Z) \arrow[r, "\d^{n+1}_{i+1,0}"] & H_{i-n}(B; \Z) \arrow[r, "\ell"] & H_i(E; \Z) \arrow[r, "p_*"] & H_i(B; \Z) \arrow[r, "\d^{n+1}_{i,0}"] & H_{i - n - 1}(B; \Z)  
+\end{tikzcd}
+\end{center}
+These five term sequnces glue to form a long exact sequence as follows,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r, "\ell"] & H_{i+1}(E; \Z) \arrow[r, "p_*"] & H_{i+1}(B; \Z) \arrow[d, equals] \arrow[r, "\d^{n+1}_{i+1,0}"] & H_{i - n}(B; \Z) \arrow[d, equals]
+\\
+& & H_{i+1}(B; \Z) \arrow[r, "\d^{n+1}_{i+1,0}"] & H_{i-n}(B; \Z) \arrow[r, "\ell"] & H_{i}(E; \Z) \arrow[r, "p_*"] & \cdots  
+\end{tikzcd}
+\end{center}
+Now that we have demonstrated the existence of the Gysin sequence, we need to identify these  maps. 
+First, the morphism of fibrations,
+\begin{center}
+\begin{tikzcd}
+E \arrow[d, "p"] \arrow[r, "p"'] & B \arrow[d, "\id"] 
+\\
+B \arrow[r, "\id"'] & B
+\end{tikzcd}
+\end{center}
+induces a morphism on spectral sequences which shows that the map \[ H_i(E; \Z) \to E^2_{p,0} \subset E^2_{p,0} = H_p(B; \Z) \]
+is induced by $p : E \to B$.
+Note that this is the map $H_i(E; \Z) \to \ker{\left( \d^{n+1}_{i,0} \right)} \to H_i(B; \Z)$ which appear in our long exact sequence by the properties of a morphism of spectral sequences.
+\bigskip\\
+We need to investigate the map $\d^{n+1}_{i,0} : H_i(B ; \Z) \to H_{i - n - 1}(B; \Z)$. To do this, we use the cap product structure on the homological and cohomological spectral sequences $\frown : E^r_{p,q} \times E^{p', q'}_r \to E^r_{p-p', q-q'}$ which reduces to the usual cap product. Furthermore, the cap product structure is compatible with the differential. In paricular, for the differential $\d^{n+1}_{p, 0} : E^{n+1}_{p, 0} \to E^{n+1}_{p - n - 1, n}$ this is a map $H_p(B; \Z) \to H_{p - n - 1}(B ; \Z)$ which is cap product with some class $e \in H^{n+1}(B ; \Z)$ i.e. the map $\frown e : H_p(B ; \Z) \to H_{p - n - 1}(B ; \Z)$. Recall the definition of the primary obstruction. There is no obstruction to finding a section $s : B^{n} \to E$ since $\pi_{i}(F) = 0$ for $i < n$. Then for each $(n+1)$-cell $D^n$ with an attaching map $f : S^{n} \to B^n$ we have an inclusion $h : D^{n+1} \to B$. then pulling back the fibration gives $h^* E \to D^{n+1}$. We have a section $s : \partial D^{n+1} \to h^* E$ and since $h^* E$ is locally trivial then a map $s : S^n \to F$. Adding these together gives a cohomology class $H^{n+1}(X ; \pi_n(F)) = H^{n+1}(X; \Z)$. 
+\bigskip\\
+Notice that if the fibration $p : E \to B$ has a section $s : B \to E$ then by $p \circ s = \id_B$ we immediately see that $p_* \circ s_* = \id$ on homology so the map $p_* H_i(E) \to H_i(B)$ is surjective. Therefore, $d = 0$ and the Gysin sequence splits into short exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H_{i - n}(B) \arrow[r] & H_i(E) \arrow[r, "p_*"] & H_i(B) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+In particular, this shows that whenver $p : E \to B$ has a section, the class $e = 0$. Focus on degree $i = n + 1$ in which we have shown there is a sequence,
+\begin{center}
+\begin{tikzcd}
+H_{1}(B) \arrow[r] & H_{n+1}(E) \arrow[r, "p_*"] & H_{n+1}(B) \arrow[r, "\frown e"] & H_0(B)
+\end{tikzcd}
+\end{center}
+Choose a section $s : B^n \to E$ on the $n$-skelleton of $B$. Then the map $\smile e$ takes an $n+1$-cell $D^{n+1}$ to the degree of the map $\partial D^{n+1} \to F$ (as a map $S^n \to S^n$). Thus $e$ is the primary obstruction. 
+\end{proof}
+
+\section{Postnikov and Whitehead Towers}
+
+\newcommand{\X}{\mathcal{X}}
+
+\begin{defn}
+Let $X$ be a path-connected space. Then a \textit{Postnikov} tower $\X$ is a diagram of spaces,
+\begin{center}
+\begin{tikzcd}[column sep = large]
+& \vdots \arrow[d] 
+\\
+& X_3 \arrow[d, "q_2"]
+\\
+& X_2 \arrow[d, "q_1"] 
+\\
+X \arrow[ru] \arrow[r, "s_1"'] \arrow[ru, "s_2"'] \arrow[ruu, "s_3"']  & X_1 
+\end{tikzcd}
+\end{center}
+Such that,
+\begin{enumerate}
+\item $s_n : X \to X_n$ induces an isomorphism $(s_n)_* : \pi_i(X) \to \pi_i(X_n)$ for $i \le n$
+\item $\pi_i(X_n) = 0$ for $i > n$. 
+\end{enumerate}
+A morphism of Postnikov towers is a morphism of diagrams. 
+\end{defn}
+
+\begin{rmk}
+Note that any morphism of Postinkov towers $f : \X \to \X'$ induces a weak homotopy equivalence $f_n  : X_n \to X_n'$ because the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\pi_i(X_n) \arrow[rr, "(f_n)_*"] & & \pi_i(X_n')
+\\
+& \pi_i(X) \arrow[lu, "(s_n)_*"] \arrow[ru, "(s_n')_*"'] 
+\end{tikzcd}
+\end{center}
+commutes and either $\pi_i(X_n) = \pi_i(X_n') = 0$ for $i > n$ or the upward maps are isomorphism for $i \le n$ so $(f_n)_* : \pi_i(X_n) \iso \pi_n(X_n')$ is an isomorphism. 
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a path-connected CW complex. Then $X$ admits a Postinkov tower $\X$ of CW comples which is unique up to homotopy equivalence. 
+\end{prop}
+
+\begin{proof}
+Starting with the constant map $q_0 : X \to X_0 = *$ we construct a tower,
+\begin{center}
+\begin{tikzcd}[column sep = large]
+& \vdots \arrow[d] 
+\\
+& X_3 \arrow[d, "q_2"]
+\\
+& X_2 \arrow[d, "q_1"] 
+\\
+X \arrow[ru] \arrow[rd, "s_0"'] \arrow[r, "s_1"'] \arrow[ru, "s_2"'] \arrow[ruu, "s_3"']  & X_1 \arrow[d, "q_0"]
+\\
+& X_0
+\end{tikzcd}
+\end{center}
+Given a map $s_n : X \to X_n$ such that $(s_n)_* : \pi_i(X) \to \pi_i(X_n)$ with $i \le n$ and $\pi_i(X_n) = 0$ for $i > n$. For each $S^{n+1} \to X$ generating $\pi_{n+1}(X)$ define $X_{n+1}$ by attaching $(n+2)$-cells via the attaching maps $S^{n+1} \to X$ to kill $\pi_{n+1}(X)$ and for each $S^{n+i} \to X$ generating $\pi_{n+i}(X)$ attach an $(n+i+1)$-cell via the attaching maps $S^{n+i+1} \to X$ to kill $\pi_{n+i}(X)$. Then we have a map $s_{n+1} : X \embed X_{n+1}$ satisfying the required properties. Furthermore, since $\pi_{i}(X_{n}) = 0$ for $i > n$, the map $X \to X_n$ lifts to $X \to X_{n+1} \to X_n$ using Lemma 4.7 in Hatcher and noting that $X_{n+1} \setminus X$ is built from cells of dimension at least $n+2$.
+\bigskip\\
+Now suppose that $\X$ is a CW Postnikov tower for $X$ and $\X'$ be the tower constructed above via attaching cells to $X$. It suffices to show there is a morphism $\X \to \X'$ of Postnikov towers since such a morphism is a weak homotopy equivalence on $X_n$ and are CW complexes so any weak homotopy equivalence is automatically a homotopy equivalence. Such a morphism is given by Hatcher Proposition 4.18.
+\end{proof}
+
+\begin{rmk}
+For each $q_n : X_{n+1} \to X_{n}$ we can expand $X_{n} \embed X'_{n}$ to give a fibration $q_n' : X_{n+1}' \to X_n'$ fitting into the diagram,
+\begin{center}
+\begin{tikzcd}
+X_{n+1} \arrow[d, "q_n"] \arrow[r, hook] & X_{n+1}' \arrow[d, "q_n'"]
+\\
+X_{n} \arrow[r, hook] & X_{n}' 
+\end{tikzcd}
+\end{center} 
+Therefore, we may assume that $q_n : X_{n+1} \to X_{n}$ is a fibration in the definition of a Postnikov tower. This alows us to investigate the fiber $F_{n+1} \embed X_{n+1} \xrightarrow{q_n} X_n$ via the long exact sequence,
+\begin{center}
+\begin{tikzcd}
+\pi_{i+1}(X_{n+1}) \arrow[r, "q_*"] & \pi_{i+1}(X_n) \arrow[r] & \pi_i(F_{n+1}) \arrow[r] & \pi_i(X_{n+1}) \arrow[r, "q_*"] & \pi_i(X_n)
+\end{tikzcd}
+\end{center}
+For $i > n-1$ we have $\pi_{i+1}(X_n) = 0$ and for $i > n+1$ we have $\pi_i(X_{n+1}) = 0$. Therefore, for $i > n+1$ we have $\pi_i(F_{n+1}) = 0$. Furthermore, the diagram,
+\begin{center}
+\begin{tikzcd}
+\pi_i(X_{n+1}) \arrow[rr, "(q_{n+1})_*"] & & \pi_i(X_n)
+\\
+& \pi_i(X) \arrow[lu, "(s_{n+1})_*"] \arrow[ru, "(s_n')_*"'] 
+\end{tikzcd}
+\end{center} 
+Therefore, for $i \le n$ both upward maps are isomorphisms so $(q_{n+1})_* : \pi_i(X_{n+1}) \to \pi_i(X_n)$ is an isomorphism. Therefore, $\pi_i(F_{n+1}) = 0$ from the long exact sequence when $i < n$. Thus, we only need to consider the cases $i = n, n + 1$. For $i = n$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi_n(F_{n+1}) \arrow[r] & \pi_n(X_{n+1}) \arrow[r, "\sim"] & \pi_n(X_n)
+\end{tikzcd}
+\end{center}
+and thus $\pi_n(F_{n+1}) = 0$. For $i = n + 1$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi_{n+1}(F_{n+1}) \arrow[r] & \pi_{n+1}(X_{n+1}) \arrow[r, "q_*"] & 0
+\end{tikzcd}
+\end{center}
+and thus $\pi_{n+1}(F_{n+1}) = \pi_{n+1}(X_{n+1}) = \pi_n(X)$. Thus, we find that $F_{n+1} = K(\pi_n(X), n)$. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a connected CW complex and $\X$ its Postnikov tower. Then we define a completion,
+\[ \hat{X} = \varprojlim_{n} X_n \]
+\end{defn}
+
+\subsection{Whitehead Towers}
+
+\begin{defn}
+Let $X$ be a connected space. Then a \textit{Whitehead tower} $\X$ is a sequence of spaces,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & X^3 \arrow[r, "q^3"] & X^2 \arrow[r, "q^2"] & X^1 \arrow[r, "q^1"] & X^0 \arrow[r, equals] & X 
+\end{tikzcd}
+\end{center}
+where $X^n$ is $n$-connected and the morphism $q^n : X^n \to X^{n-1}$ induces an isomorphism,
+\[ (q^n)_* : \pi_i(X^n) \iso \pi_i(X^{n-1}) \]
+for all $i \ge n+1$. A morphism $f : \X \to \X'$ of Whitehead towers is a morphism $f^n : X^n \to X'^n$ of sequences such that $f^0 : X^0 \to X^0$ is the indentity.
+\end{defn}
+
+\begin{rmk}
+Given any morphism $f : \X \to \X'$ of Whithead towers, we have a commuting square,
+\begin{center}
+\begin{tikzcd}
+\pi_i(X^{n+1}) \arrow[d, "f^{n+1}_*"'] \arrow[r, "q^{n+1}_*"] & \pi_i(X^n) \arrow[d, "f^n_*"]
+\\
+\pi_i(X'^{n+1}) \arrow[r, "q'^{n+1}_*"'] & \pi_i(X'^n)
+\end{tikzcd}
+\end{center}
+For $i \ge n + 2$ the maps $q^{n+1}_*$ are isomorphism. For $i \le n + 1$ we have $\pi_i(X^{n+1}) = \pi_i(X'^{n+1}) = 0$ and thus if $f_*^n$ is an isomorphism for all $i$ then $f^{n+1}_*$ is also an isomorphism for each $i$. Furthermore, since $f^0 = \id$, by induction we see that $f^n_* : \pi_i(X^n) \to \pi_i(X^n)$ is an isormorphism for each $i$. Thus any morphism $f : \X \to \X'$ on Whitehead towers gives a weak homotopy equivalence $f^n : X^n \to X'^n$ on each $X^n$. 
+\end{rmk}
+
+\begin{theorem}
+Let $X$ be a connected CW complex. Then $X$ admits a Whitehead tower which is unique up to homotopy equivalence. 
+\end{theorem}
+
+\begin{proof}
+We may take a Postnikov tower of fibrations for $X$,
+\begin{center}
+\begin{tikzcd}[column sep = large]
+& \vdots \arrow[d] 
+\\
+& X_3 \arrow[d, "q_2"]
+\\
+& X_2 \arrow[d, "q_1"] 
+\\
+X \arrow[ru] \arrow[r, "s_1"'] \arrow[ru, "s_2"'] \arrow[ruu, "s_3"']  & X_1 
+\end{tikzcd}
+\end{center}
+Consider the map $s_n : X \to X_n$. Then we define the Whitehead tower $X^n$ to be the homotopy fiber of $s_n : X \to X_n$. Therefore, we get a fibration $X^n \embed N_{s_n} \to X_n$ where $N_{s_n}$ is homotopy equivalent to $X$. Furthermore, $\pi_i(N_{s_n}) \iso \pi_i(X_n)$ is an isomorphism for $i \le n$ and $\pi_{n+1}(X_n) = 0$ so by the long exact sequence of a fibration, we find that $\pi_i(X^n) = 0$ for $i \le n$. Furthermore, for $i > n$ we know $\pi_i(X_n) = 0$ and thus $\pi_i(X^n) \to \pi_i(X)$ is an isomorphism for $i > n$. Using the functoriality of homotopy fibers, we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\pi_i(X^{n+1}) \arrow[rr] \arrow[rd] \arrow[dd] & & \pi_i(X^n) \arrow[dd] \arrow[ld]
+\\
+& \pi_i(X) \arrow[rd] \arrow[ld]
+\\
+\pi_i(X_{n+1}) \arrow[rr, "(q_{n+1})_*"] & & \pi_i(X_{n})
+\end{tikzcd}
+\end{center}
+For $i > n + 1$ the upper triangle are isomorphism proving that the spaces $X^n$ form a Whitehead tower. Using a similar argument we see that Whitehead towers and Postnikov towers are dual and existence and uniqueness of Whitehead towers thus carries over from our discussion of Postnikov towers.
+\end{proof}
+
+
+\end{document}

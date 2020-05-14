@@ -1,0 +1,182 @@
+\documentclass[12pt]{extarticle}
+\usepackage{import}
+\import{../General/}{General_Includes}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\author{Benjamin Church}
+\title{\Huge Classical Mechanics from the Symplectic Viewpoint}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Symplectic Geometry}
+
+\begin{defn}
+Let $V$ be a finite $k$-vectorspace and $\omega \in \bigwedge^2 V^*$ a $2$-form. We say that $\omega$ is \textit{nondegenerate} if for all nonzero $v \in V$ the map $\omega(v, -) \in V^*$ is nonzero. Equivalently, $\omega$ is nondegenerate exactly when the map $V \to V^*$ defined by $v \mapsto \omega(v, -)$ is an isomorphism. 
+\end{defn}
+
+\begin{lemma}
+If $\omega$ is a nondegenerate $2$-form on $V$ then $\dim{V} = 2n$ is even.
+\end{lemma}
+
+\begin{proof}
+Choose a basis $e_1, \dots, e_k$ of $V$. Then we have a matrix $M_{ij} = \omega(e_i, e_j)$ which is antisymmetric. Then $\omega$ is nondegenerate implies that $\det{M} \neq 0$. However, $M^\top = - M$ so we must have,
+\[ \det{M} = \det{(-M)} = (-1)^{\dim{V}} \det{M} \]
+Thus $\dim{V} = 2n$ is even.
+\end{proof}
+
+\begin{defn}
+Let $M$ be a smooth $2n$-manifold. A \textit{symplectic form} $\omega$ on $M$ is a closed nondegenerate $2$-form. We say that the pair $(M, \omega)$ is a \textit{symplectic manifold}. A \textit{symplectomorphism} $f : (M, \omega_M) \to (N, \omega_N)$ is a smooth map $f : M \to N$ such that $f^* \omega_N = \omega_M$. 
+\end{defn}
+
+\begin{rmk}
+Consider a vector field $X$ on $M$. Such a vector field defines a flow $\phi_t : M \to M$. We consider when this flow preserves the symplectic structure. This occurs when $\phi_t$ is a symplectomorphism i.e. when $\phi_t^* \omega = \omega$. Now, recall that, the Lie derivative is defined via,
+\[ \L_X \omega = \deriv{}{t} \bigg|_{t = 0} \bigg( \phi^*_t \omega \bigg) \]
+Therefore $\phi_t : M \to M$ is symplectic iff $\L_X \omega = 0$.
+\end{rmk}
+
+\begin{defn}
+We say a vector field $X$ on $M$ is \textit{symplectic} if $\L_X \omega = 0$. 
+\end{defn}
+
+\begin{defn}
+We say a vector field $X$ on $M$ is \textit{Hamiltonian} if there exists a smooth function $H : M \to \R$ such that $\iota_X \omega = \d{H}$. 
+\end{defn}
+
+\begin{lemma}
+Hamiltonain vector fields are symplectic.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be Hamiltonian such that $\iota_X \omega = \d{H}$. Then, we use Cartan's magic formula,
+\[ \L_X \omega = \d (\iota_X \omega) + \iota_X \d \omega \]
+Applying $\iota_X \omega = \d{H}$ and using $\d{\omega} = 0$ we find,
+\[ \L_X \omega = \d(\d{H}) = 0 \]
+\end{proof}
+
+\section{Symptectic Geometry}
+
+\begin{definition}
+A \textit{symplectic form} on $M$ is a closed non-degenerate $2$-form $\omega$. We say that $(M, \omega)$ is a \textit{symplectic manifold}. A \textit{symplectomorphism} $f : (M, \omega_M) \to (N, \omega_N)$ is a smooth map $f : M \to N$ such that $f^* \omega_N = \omega_M$. 
+\end{definition}
+
+\begin{lemma}
+Symplectic forms can only exist on even-dimensional manifolds. 
+\end{lemma}
+
+\begin{proof}
+Locally, a symplectic form $\omega$ is a nondegenerate anti-symmetric bilinear form $S : T_p M \times T_p M \to \R$. So we have $S^\top = - S$ and $\det{S} \neq 0$. However, \[ \det{S} = \det{S^\top} = \det{(- S)} = (-1)^n \det{S} \]
+since $\det{S} \neq 0$ we must have $(-1)^n = 1$ i.e. $n$ is even.
+\end{proof}
+
+\begin{definition}
+We say that a vector field $X$ on $(M, \omega)$ is symplectic if $\L_X \omega = 0$.
+\end{definition}
+
+\begin{remark}
+We see that the condition $\L_X \omega = 0$ that a vector field be symplectic is equivalent to the condition that its flows $\phi_t :  M \to M$ be symplectomorphisms since,
+\[ \L_X \omega = \deriv{}{t} ((\phi_t)^* \omega) = 0 \]
+Thus, symplectic vector fields are fields whose flows preserve the symplectic structure.
+\end{remark}
+
+\begin{definition}
+We say that a vector field $X$ on $(M, \omega)$ is Hamiltonian if the form $\iota_X \omega \in \Omega^1(M)$ is exact i.e. there exists a function $H : M \to \R$ such that,
+\[ \d{H} = \iota_X \omega \]
+\end{definition}
+
+\begin{remark}
+Note that since $\omega$ is non-degenerate, the map $\omega : TM \to \Omega^1(M)$ via $X \mapsto \iota_X \omega$ is an isomorphism and thus we can consider $\omega^{-1} : \Omega^1(M) \to TM$. Then the above condition is that $X = \omega^{-1}(\d{H})$. 
+\end{remark}
+
+\begin{lemma}
+Hamiltonian vector fields are symplectic.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be Hamiltonian. Then consider,
+\[ \L_X \omega = \iota_X \d \omega + \d \iota_X \omega \]
+Since $\omega$ is a symplectic form $\d{\omega} = 0$ and since $X$ is Hamiltonainm $\iota_X \omega$ is exact and thus closed so $\d \iota_X \omega = 0$. Therefore,
+\[ \L_X \omega = 0 \]
+so $X$ is symplectic.
+\end{proof}
+
+\begin{lemma}
+Symplectic and Hamiltonian vector fields form Lie subalgebras.
+\end{lemma}
+
+\begin{proof}
+We know that,
+\[ \L_{[X,Y]} \omega = \L_X \L_Y \omega - \L_Y \L_X \omega \]
+so if $X,Y$ are symplectic then so is $[X, Y]$. Furthermore, 
+\[ \iota_{[X, Y]} \omega = \L_X \iota_Y \omega - \iota_Y \L_X \omega \]
+However, $\L_X \omega = 0$ since Hamiltonian fields are symplectic. Furthermore, by Cartan's formula,
+\[ \iota_{[X, Y]} \omega = \L_X \iota_Y \omega = \iota_X (\d \iota_Y \omega) + \d( \iota_X \iota_Y \omega) \]
+However, since $\iota_Y \omega$ is exact it is closed and thus,
+\[ \iota_{[X, Y]} \omega = \d (\iota_X \iota_Y \omega) = \d{(\omega(Y, X))} \]
+which is exact so $[X, Y]$ is Hamiltonian. 
+\end{proof}
+
+\begin{remark}
+We have $\L_X \d{\omega} = \d{(\L_X \omega)}$ because $\d$ is a natural transformation in the sense that $f^* \d = \d f^*$ for any smooth map and, in particular, for the flow of $X$. 
+\end{remark}
+
+\begin{definition}
+Let $f, g : M \to \R$ be functions and let $X_f = \omega^{-1}(\d{f})$ and $X_g = \omega^{-1}(\d{g})$ be the associated Hamiltonian vector fields. Then we define the \textit{Poisson bracket} via,
+\[ \{ f, g \} = \omega(X_f, X_g) \] 
+\end{definition}
+
+\begin{remark}
+From the definitions of $X_f$ and $X_g$,
+\begin{align*}
+\{ f, g \} & = \omega(X_f, X_g) = \d{f}(X_g) = X_g(f) = \L_{X_g} f
+\\
+& = - \omega(X_g, X_f) = -\d{g}(X_f) = - X_f(g) = - \L_{X_f} g
+\end{align*}
+So $\{ f, g \}$ represents the flow of $f$ along the vector field generated by $g$. 
+\end{remark}
+
+\begin{lemma}
+$[X_f, X_g] = - X_{\{ f, g \}}$ 
+\end{lemma}
+
+\begin{proof}
+We have shown that if $X$ and $Y$ are Hamiltonian then,
+\[ \iota_{[X,Y]} \omega = \d{(\omega(Y, X))} \]
+Therefore,
+\[ X_{\omega(Y, X)} = \omega^{-1}(\d{(\omega(Y, X))}) = [X, Y] \]
+Now applying this to $X_f$ and $X_g$ we find,
+\[ [X_f, X_g] = \omega^{-1}(\d{(\omega(X_g, X_f)}) = - \omega^{-1}(\d \{f, g \}) = - X_{\{ f, g \}} \]
+\end{proof}
+
+\begin{proposition}
+The Poisson bracket on smooth functions forms a Lie algebra.
+\end{proposition}
+
+\newcommand{\ad}{\mathrm{ad}}
+
+\begin{proof}
+Clearly the Poisson bracket is bilinear. Furthermore, it is antisymmetric because,
+\[ \{ f ,g \} = \omega(X_f, X_g) = - \omega(X_g, X_f) = - \{ g, f \} \]
+The Jacobi identity is equivalent to the fact that $\ad : \mathfrak{g} \to \mathfrak{gl}(\mathfrak{g})$ via $\xi \mapsto [\xi, -]$ is a Lie algebra homomorphism. 
+\bigskip\\
+In the current case, $\ad_f(g) = \{ f, g \} = -X_f(g)$ so $\ad_f = -X_f$ as a derivation. Then we know that,
+\[ [ \ad_f, \ad_g] = [-X_f, -X_g] = - X_{\{f, g\}} = \ad_{\{f, g \}} \]
+since the commutator of vector fields is their comutator as differential operators. 
+\end{proof}
+
+\begin{proposition}
+The map $f \mapsto -X_f = - \omega^{-1}(\d{f})$ is a homomorphism of Lie algebras from smooth functions to Hamiltonian vector fields.
+\end{proposition}
+
+\begin{proof}
+Immediate from $-X_{\{f, g\}} = [X_f, X_g] = [- X_f, - X_g]$. 
+\end{proof}
+
+
+\end{document}
+
+

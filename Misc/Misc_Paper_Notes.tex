@@ -1,0 +1,50 @@
+\documentclass[12]{article}
+\usepackage{import}
+\import{../General/}{General_Includes}
+
+
+\begin{document}
+
+\section{Uniform Continuity}
+
+\begin{defn}
+A continuous map $f : X \to Y$ of metric spaces is \textit{uniformly continuous} if for all $\varepsilon > 0$ there exists $\delta > 0$ such that,
+\[ \forall x,y \in X : d_X(x, y) < \delta \implies d_Y(f(x), f(y)) < \varepsilon \]
+\end{defn}
+
+\begin{lemma}
+Let $f : X \to Y$ be a continous map of metric spaces with $X$ compact. Then $f$ is uniformly continuous.
+\end{lemma}
+
+\begin{proof}
+Take $\varepsilon > 0$. Then for each $c \in X$ there exists $\delta_c > 0$ such that $f(B_{\delta_c}(c)) \subset B_{\frac{\varepsilon}{2}}(f(c))$. Now the open balls $\{ B_{\frac{\delta_c}{2}}(c) \}$ form an open cover of $X$. By compactness, there is a finite subcover $\{ c_i \}$ then take $\delta = \tfrac{1}{2} \min \{ \delta_{c_i} \}$ by finiteness $\delta > 0$. Now suppose that $d_X(x, y) < \delta$ then since the balls form a cover, $\exists c_x, c_y$ s.t. $x \in B_{\frac{\delta_{c_x}}{2}}(c_x)$ and $y \in B_{\frac{\delta_{c_y}}{2}}(c_y)$. However,
+\[ \d_X(c_x, y) \le d_X(c_x, x) + d_X(x, y) < \delta + \tfrac{1}{2} \delta_{C_x} \le \delta_{c_x} \]
+Therefore $x,y \in B_{\delta_{c_x}}(c_x)$. We know that $f(x), f(y) \in f(B_{\delta_{c_x}}(c_x)) \subset B_{\frac{\varepsilon}{2}}(f(c_x))$. Therefore,
+\[ d_Y(f(x), f(y)) \le d_Y(f(x), f(c_x)) + d_Y(f(c_x), f(y)) < \tfrac{1}{2} \varepsilon + \tfrac{1}{2} \varepsilon = \varepsilon \]
+so we find,
+\[ \forall x, y \in X : d_X(x, y) < \delta \implies d_Y(f(x), f(y)) < \varepsilon \]
+which shows uniform continuity.
+\end{proof}
+
+\section{Group Actions}
+
+
+\begin{lemma}[Burnside]
+Let $G \acts S$ then the number of orbits is,
+\[ |S/G| = \frac{1}{|G|} \sum_{g \in G} |\{ x \in S \mid g \cdot x = x \}| \]
+\end{lemma}
+
+\begin{proof}
+Consider the set of fixed pairs,
+\[ P = \{ (g, x) \mid g \in G \quad x \in S \quad g \cdot x = x \} \]
+Then we can compute the size of $P$ in two ways, 
+\[ |P| = \sum_{g \in G} | \{ x \in S \mid g \cdot x = x \} | \]
+Furthermore,
+\[ |P| = \sum_{x \in S} | \{ g \in G \mid g \cdot x = x \} | = \sum_{x \in S} | \Stab{x} | \]
+However, by Orbit-Stabilizer,
+\[ |\Stab{x}| = \frac{|G|}{|\orb{x}|} \]
+Furthermore, since the orbits partition $S$,
+\[ |P| = \sum_{x \in S} |\Stab{x}| = |G| \sum_{x \in S} \frac{1}{|\Orb{x}|} = |G| \sum_{O \in |S/G|} \sum_{x \in O} \frac{1}{|O|} \] 
+\end{proof}
+
+\end{document}

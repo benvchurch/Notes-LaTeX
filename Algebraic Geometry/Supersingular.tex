@@ -1,0 +1,140 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+
+\begin{document}
+
+\section{Kodaira Dimension}
+
+\begin{defn}
+Let $X$ be a smooth projective variety over $k$ with canonical bundle $\omega_X$. Then we define the \textit{plurigenera} of $X$ to be,
+\[ p_n(X) = \dim_k H^0(X, \omega_X^{\otimes n}) \]
+Furthermore, we define the \textit{Kodaira} dimension $\kappa(X)$ as the minimal integer $d$ such that the plurigenera satisfy $p_n(X) \in O(n^d)$ and $\kappa(X) = - \infty$ if $p_n(X) = 0$ for all $n > 0$.
+\end{defn}
+
+\begin{defn}
+We say that a variety is \textit{of general type} if $\kappa(X) = \dim{X}$.
+\end{defn}
+
+\begin{prop}
+For smooth projective curves $X$ over $k$ of genus $g$ we have,
+\[ p_\ell(X) = 
+\begin{cases}
+0 & g = 0
+\\
+1 & g = 1
+\\
+g & \ell = 1
+\\
+(2 \ell - 1)(g - 1) & g \ge 2, \ell > 1
+\end{cases} \]
+and therefore,
+\[ \kappa(X) = 
+\begin{cases}
+- \infty & g = 0
+\\
+0 & g = 1
+\\
+1 & g \ge 2
+\end{cases} \]
+\end{prop}
+
+\begin{proof}
+For $g = 0$ we know $\deg{\omega_X^{\otimes \ell}} = - \ell < 0$ so $H^0(X, \omega_X^{\otimes \ell}) = 0$ and thus $\kappa(X) = -\infty$. For $g = 1$ we know $\omega_X = \struct{X}$ and thus $p_\ell(X) = 1$ for all $\ell$ so $\kappa(X) = 0$.
+\bigskip\\
+Now consider $g \ge 2$. For any $\L \in \Pic{X}$ we know that $H^0(X, \L) = 0$ if $\deg{\L} < 0$ so if $\deg{\L} > 2g - 2$ then $H^0(X, \omega_X \otimes_{\struct{X}} \L^\vee) = 0$ and thus by Riemann-Roch,
+\[ \dim_k H^0(X, \L) = \deg{\L} + 1 - g \]
+In particular, for $\L = \omega_X^{\otimes \ell}$ we have $\deg{\omega_X^{\otimes \ell}} = (2 g - 2) \ell$ so for $g \ge 2$ and $\ell > 1$ we have,
+\[  p_\ell(X) = \dim_k H^0(X, \omega_X^{\otimes \ell}) = (2 g - 2) \ell + (1 - g) = (2 \ell - 1)(g - 1) \]
+Also, for $\ell = 1$ we get $H^0(X, \omega_X) = g$. Therefore, $p_\ell(X) \sim \ell$ so $\kappa(X) = 1$. 
+\end{proof}
+
+\begin{rmk}
+In particular, a curve is general type iff $g \ge 2$. 
+\end{rmk}
+
+\begin{prop}
+Let $X \subset \P^n_k$ be a smooth hypersurface of degree $d$. Then,
+\[ \kappa(X) =
+\begin{cases}
+-\infty & d < n + 1
+\\
+0 & d = n + 1
+\\
+n - 1 & d > n + 1
+\end{cases} \]
+Therefore, $X$ is of general type iff $d > n + 1$. 
+\end{prop}
+
+\begin{proof}
+Let $X \subset \P^n_k$ be a smooth hypersurface of degree $d$. Then $\omega_X = \struct{X}(d - n - 1)$. Thus,
+\[ \omega_X^{\otimes \ell} = \struct{X}((d - n - 1) \ell)  \]
+There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{\P}(-d) \arrow[r] & \struct{\P} \arrow[r] & \struct{X} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+then twisting we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{\P}(d(\ell - 1) - \ell(n + 1)) \arrow[r] & \struct{\P}((d - n - 1) \ell)) \arrow[r] & \omega_X^{\otimes \ell} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then we can compute,
+\[ p_\ell(X) = H^0(X, \omega_X^{\otimes \ell})  \]
+from the long exact sequence,
+\begin{center}
+\begin{tikzcd}
+H^0(\P^n_k, \struct{\P}(a)) \arrow[r] & H^0(\P^n_k, \struct{\P}(b)) \arrow[r] & H^0(X, \omega_X^{\otimes \ell}) \arrow[r] & H^1(X, \struct{\P}(a)) 
+\end{tikzcd}
+\end{center}
+where $a = d(\ell - 1) - (n + 1)\ell$ and $b = (d - n - 1) \ell$. For the case $n > 2$ we get vanishing of $H^1$ for line bundles in general. In the case $n = 2$ we can apply our results for curves to conclude. Now,
+\[ p_\ell(X) = h^0(\P^n, \struct{\P}(b)) - h^0(\P^n, \struct{\P}(a)) = { (d - n - 1) \ell + n  \choose n } - { (d - n - 1) \ell + n - d \choose n } \]
+Therefore, we have three cases depending on the sign of $d - n - 1$. If $d = n + 1$ then $\omega_X \cong \struct{X}$ is the trivial bundle so $p_\ell(X) = 1$ and thus $\kappa(X) = 0$. If $d < n + 1$ then $p_\ell(X) = 0$ for $\ell > 0$ and thus $\kappa(X) = - \infty$. If $d > n + 1$ then $p_\ell(X)$ is a degree $n-1$ polynomial in $\ell$ so $\kappa(X) = \dim{X} = n - 1$.
+\end{proof}
+
+\section{Weighted Projective Spaces}
+
+\begin{defn}
+For an $(r+2)$-tuple $(q_0, \dots, q_{r+1})$ we define the \textit{weighted projective space} over $k$,
+\[ \P_k(q_0, \dots, q_{r+1}) = \Proj{k[x_0, \dots, x_{r+1}]} \]
+where the ring $R = k[x_0, \dots, x_{r+1}]$ is graded with $\deg{x_i} = q_i$. Clearly, $\P_k(d q_0, \dots, q_{r+1}) \cong \P_k(q_0, \dots, q_{r+1})$ by scaling degrees. Thus we may assume that the ideal $(q_0, \dots, q_{r+1}) = \Z$.
+\end{defn}
+
+\subsection{Line Bundles and Divisors}
+
+\subsection{Toric Construction}
+
+\begin{prop}
+The weighted projective space $\P_k(q_0, \dots, q_{r+1})$ is a toric variety with torus,
+\[ D_+(x_0 \cdots x_{r+1}) = \Spec{k[y_1^{\pm 1}, \dots, y_{r+1}^{\pm 1}]} \]
+where $y_i$ is a monomial in $x_j^{\pm 1}$. 
+\end{prop}
+
+\begin{proof}
+We know that,
+\[ D_+(x_0 \cdots x_{r+1}) = \Spec{k[x_0, \dots, x_{r+1}] \left[ \frac{1}{x_0 \cdots x_{r+1}} \right]_{0}} \]
+Then monomials in, 
+\[ \tilde{R} = k[x_0, \dots, x_{r+1}] \left[ \frac{1}{x_0 \cdots x_{r+1}} \right]_{0} \]
+are of the form,
+\[ y = \prod_{i = 0}^{r+1} x_i^{a_i} \]
+for some $(r+2)$-tuple $a_i \in \Z$ such that,
+\[ \deg{y} = \sum_{i = 0}^{r + 1} q_i a_i = 0 \]
+Thus, the allowed monomials are given by $(r+2)$-tuples in $K \subset \Z^{r+2}$ the kernel of $\Z^{r+2} \to \Z$. There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r, hook] & \Z^{r + 2} \arrow[r, two heads] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where the map $\Z^{r+2} \onto \Z$ via $(q_i) \mapsto \sum q_i a_i$ is surjective since the ideal $(q_0, \dots, q_{r+1}) = \Z$. Since $\Z$ is projective, this sequence splits so,
+\[ \Z^{r + 2} = K \oplus \Z \]
+and thus $K$ is free of rank $r + 1$ which implies that there are generators $y_i$ for $1 \le i \le r + 1$ such that $\tilde{R} = k[y_1^{\pm 1}, \dots, y_{r+1}^{\pm 1}]$.
+\end{proof}
+\noindent\\
+Now we consider how weighted projective space may be constructed from combinatorial toric fan or polytope data. 
+
+\subsection{Weighted Hypersurfaces}
+
+\end{document}

@@ -497,7 +497,7 @@ If $X$ is affine open in $X$ (WAIT WHAT??)
 \subsection{Duality}
 
 \begin{lemma}
-Let $R$ be a ring, $M$ an $R$-module, and $X$ qc + sep over $R$. And some $n \ge 0$ such that $H^{n+1}(X, \F)$ for all $\F$ quasi-coherent. Then, the functor $F : \QCoh{\struct{X}} \to \Mod{R}$ via $\F \mapsto \Hom{R}{H^n(X, \F)}{N}$ is representable by some $\omega_{X/R, M} \in \QCoh{\struct{X}}$. That is,
+Let $R$ be a ring, $M$ an $R$-module, and $X$ qc + sep over $R$. And some $n \ge 0$ such that $H^{n+1}(X, \F) = 0$ for all $\F$ quasi-coherent. Then, the functor $F : \QCoh{\struct{X}} \to \Mod{R}$ via $\F \mapsto \Hom{R}{H^n(X, \F)}{M}$ is representable by some $\omega_{X/R, M} \in \QCoh{\struct{X}}$. That is,
 \[ F(-) = \Hom{\struct{X}}{-}{\omega_{X / R, M}} \]
 \end{lemma}
 
@@ -1390,6 +1390,344 @@ We will use the following notation,
 \[ h^p(X, \F) = \dim_k H^p(X, \F) \]
 \end{rmk}
 
+\section{April 21}
+
+\begin{lemma}
+Let $X$ be a normal curve. Let,
+\[ D = D' + \div_X{(f)} \]
+Then multiplication by $f$ defines an isomorphism,
+\[ \struct{X}(D) \to \struct{X}(D') \]
+\end{lemma}
+
+\begin{proof}
+If $U \subset X$ is open then,
+\[ \struct{X}(D)(U) = \{ g \in K(X) \mid \div_U(g) + D \ge 0 \]
+and,
+\[ \struct{X}(D')(U) = \{ g \in K(X) \mid \div_U(g) + D' \ge 0 \]
+But $\div_U(g) + D = \div_U(fg) + D'$ giving the result. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a projective curve and $f \in K(X)^\times$. then,
+\[ \deg{(\div_X(f))} = 0 \]
+\end{lemma}
+
+\begin{proof}
+Wrtie $\div_X{(f)} = D - D'$ where $D, D'$ are effective. Then,
+\[ \struct{X}(D) \cong \struct{X}(D') \]
+Therefore,
+\[ \chi(X, \struct{X}(D)) = \chi(X, \struct{X}(D')) \]
+We write,
+\[ D = \sum n_x [x] \]
+Then we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \struct{X}(D) \arrow[r] & \bigoplus_{x \in X} \stalk{X}{x} / \m_x^{n_x} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Therefore,
+\[ \chi(X, \struct{X}(D)) = \chi(X, \struct{X}) + \sum \dim_k (\stalk{X}{x} / \m_x^{n_x} \]
+However, since $\stalk{X}{x}$ is a DVR,
+\[ \sum \dim_k (\stalk{X}{x} / \m_x^{n_x} = \sum n_x \dim_k \kappa(x) = \deg{D} \]
+Therefore,
+\[ \chi(X, \struct{X}(D)) = \chi(X, \struct{X}) + \deg{D} \]
+However, the same holds for $D'$. Thus, since $\chi(X, \struct{X}(D)) = \chi(X, \struct{X}(D'))$ we get $\deg{D} = \deg{D'}$ proving the proposition.
+\end{proof}
+
+\begin{theorem}[Riemann-Roch]
+Let $X$ be a projective curve. Then for any $\L \in \Pic{X}$,
+\[ \chi(X, \L) = \chi(X, \struct{X}) + \deg{\L} \]
+\end{theorem}
+
+\begin{defn}
+Let $X$ be a projective curve over $k$ with $H^0(X, \struct{X}) = k$. The \textit{genus} of $X$ is,
+\[ g = \dim_k H^1(X, \struct{X}) \]
+\end{defn}
+
+\begin{rmk}
+Curves are always Cohen-Macaullay so we can apply Serre duality to show that,
+\[ g = \dim_k H^1(X, \struct{X}) = \dim_k H^0(X, \omega_X) = \dim_k H^0(X, \Omega_X) \]
+where the last equality holds when $X$ is smooth. Furthermore, we get $\dim_k H^1(X, \omega_X) = 1$.
+\end{rmk}
+
+\begin{cor}
+If $\omega_X$ is invertible and $H^0(X, \struct{X}) = k$. Then,
+\[ \deg{(\omega_X)} = 2 g - 2 \]
+If $X$ is smooth then $\deg{(\Omega^1_X)} = 2 g - 2$.
+\end{cor}
+
+\begin{proof}
+We know $\chi(X, \omega_X) = g - 1$ by Serre duality. But by Riemann-Roch,
+\[ \deg{(\omega_X)} = \chi(X, \omega_X)  + (g - 1) = 2 g - 2 \]
+\end{proof}
+
+\begin{rmk}
+If $\omega_X$ is invertible we may write $c_1(\omega_X) = K_X$ the canonical divisor. Then we can rewrite Riemann Roch as,
+\[ \chi(X, \L) = \deg{ \left( c_1(\L) - \tfrac{1}{2} K_X \right) } \]
+\end{rmk}
+
+\begin{rmk}
+We know,
+\[ \chi(X, \L) = \dim_k H^0(X, \L) - \dim_k H^1(X, \L) = \dim_k H^0(X, \L) - \dim_k H^0(X, \omega_X \otimes_{\struct{X}} \L^\vee) \]
+Therefore, we can write Riemann-Roch as,
+\[ h^0(X, \L) - h^0(X, \omega_X \otimes_{\struct{X}} \L^\vee) = \deg{\L} + 1 - g \]
+\end{rmk}
+
+\begin{prop}
+Let $X$ be projective curve and $\L \in \Pic{X}$. Then,
+\begin{enumerate}
+\item $\deg{\L} < 0 \implies H^0(X, \L) = 0$ 
+\item $\deg{\L}$ and $H^0(X, \L) \neq 0 \implies \L \cong \struct{X}$
+\end{enumerate}
+If $\omega_X$ is invertible, then,
+\begin{enumerate}
+\item $\deg{\L} > 2g - 2 \implies H^1(X, \L) = 0$
+\item $\deg{\L} = 2g - 2$ and $H^1(X, \L) \neq 0 \implies \L \cong \omega_X$.
+\end{enumerate}
+\end{prop}
+
+\begin{example}
+Let $k$ be a field and $X$ a smooth projective curve over $k$ with $H^0(X, \struct{X}) = k$ and $H^1(X, \struct{X}) = 0$ i.e. $g = 0$. 
+\bigskip\\
+Suppose that $X$ has a $k$-rational point $p \in X$. Then consider $\L = \struct{X}(p)$ so $\deg{\L} = 1$. Therefore, we have $H^1(X, \L) = 0$ so by Riemann-Roch,
+\[ \dim_k H^0(X, \L) = 2 \]
+Therefore, $\L$ has two independent sections and thus defines a rational map $X \rat \P^1$ of degree one. Since both are smooth and projective this extends to a morphism $X \to \P^1$.
+However, we can also use the following. Suppose that $s_0, s_1$ both vanish at $q$. Then consider $\struct{X}(p - q)$ which has sections $s_0$ and $s_1$ but still we have $H^1(X, \struct{X}(p - q)) = 0$ but by Riemann-Roch,
+\[ \dim_k H^0(X, \struct{X}(p - q)) = 1 \]
+a contradiction so $s_0$ and $s_1$ cannot all vanish. Then $X \to \P^1_k$ is degree one so it is an isomorphism.
+\end{example}
+
+\begin{lemma}
+Let $f : X \to  Y$ be a nonconstant morphism of normal projective curves. Then,
+\[ \deg{(f^* D)} = \deg{f} \cdot \deg{D} \]
+\end{lemma}
+
+\begin{rmk}
+Let $X$ be smooth projective of genus zero. Then consider $\L = \omega_X^\vee$. Then $\deg{\L} = 2$ so $X$ is a conic plane curve by Riemann Roch. 
+\end{rmk}
+
+\section{April 23}
+
+\subsection{Plane Curves}
+
+\begin{defn}
+A \textit{plane curve} is a curve with a closed embedding $X \embed \P^2_k$.
+\end{defn}
+
+\begin{rmk}
+$\P^2_k$ is smooth so $X \subset \P^2_k$ is a prime divisor and actually an effective Cartier divisor. For $F \in k[T_0, T_1, T_2]$ of degree $d$, actually $X$ is an effective Cartier divisor and $\struct{\P^2_k}(X) \cong \struct{\P^2_k}(d)$. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a scheme. An \textit{effective Cartier divisor} is a closed subscheme $D \subset X$ which is locally cut out by one nonzerodivisor. Meaning for each $x \in X$ we have $x \in U = \Spec{A}$ and $D \cap U = \Spec{A/(f)}$ for $f$ a nonzero divisor. In particular, $\struct{X}(D)$ is invertible.
+\bigskip\\
+Then $\struct{X}(D) = \I^\vee = \shHom{\struct{X}}{\I}{\struct{X}}$ comes with a canonical section $1 : \I \embed \struct{X}$ whose divisor of zeros is $D$.
+\end{defn}
+
+\begin{rmk}
+For a plane curve $X \subset \P^2_k$ there is $\I_X = \struct{\P^2_k}(-d)$. We get SES,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{\P^2}(-d) \arrow[r, "F"] & \struct{\P^2} \arrow[r] & \struct{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then from the long exact sequence we find, 
+\[ H^0(X, \struct{X}) = k \quad \quad g = \dim_k H^1(X, \struct{X}) =  { d - 1 \choose 2 } = \frac{(d - 1)(d - 2)}{2} \]
+\end{rmk}
+
+\begin{rmk}
+For $X \subset \P^N$ a variety, the Weil divisor class of $\struct{X}(1) = \struct{\P^N}(1)|_X$ is often denoted $H$ and then people write $\struct{X}(H) = \struct{X}(1)$. 
+\end{rmk}
+
+\subsection{Genus Zero}
+
+\begin{prop}
+Let $X$ be a smooth projective curve with $H^0(X, \struct{X}) = k$ and $g = 0$. Then $X$ is a plane conic.
+\end{prop}
+
+\begin{proof}
+We choose $\L = \omega^{\otimes -2}_X$. 
+By Riemann-Roch and trivial vanishing $\dim_k H^0(X, \L) = 3$. Pick a basis $s_0, s_1, s_2 \in H^0(X, \L)$. Take $D_0$, the vanishing of $s_0$. There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \L \arrow[r] & \L |_{D_0} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, $s_1, s_2$ generate $\L |_{D_0}$ because if $s_1, s_2$ both vanish on $D_0$ then they must be dependent. Therefore, $s_0, s_1, s_2$ generate $\L$ over $X$. Then we get a morphism $\phi : X \to \P^2_k$. I claim, $\phi$ is a closed immersion and the image is a conic. 
+\bigskip\\
+We may check this after base change to $\bar{k}$. Then $X \cong \P^1_k$ and $\L = \struct{X}(2)$ and can check this directly. 
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of varieties over $k$. Then $f : X \to Y$ has property $P$ iff $f_{\bar{k}} : X_{\bar{k}} \to Y_{\bar{k}}$ has property $P$ for the following properties,
+\begin{enumerate}
+\item closed immersion
+\item open immersion
+\item flat
+\item smooth
+\end{enumerate}
+Furthermore, for coherent $\F$ and $i \ge 0$,
+\[ H^i(X, \F) \otimes_k \bar{k} = H^i(X_{\bar{k}}, \F_{\bar{k}}) \]
+\end{lemma}
+
+\subsection{Separating Points and Tangent Spaces}
+
+Let $k = \bar{k}$ and $X$ projective variety over $k$. Choose $\L \in \Pic{X}$ and $V \subset H^0(X, \L)$ a $k$-vectorspace. If $V$ generates $\L$ i.e. it defines a surjective morphism $\struct{X}^V \onto \L$. This gives a morphism,
+\[ \phi_V : X \to \P(V) = \Proj{\Sym{k}{V}} \cong \P^{\dim{V} - 1}_k \]
+
+\begin{defn}
+We say that $V$ \textit{separates points} if $\forall x, y \in X : \exists s \in V : s(x) = 0 \text{ and } x(y) \neq 0$
+\bigskip\\
+Now consider the cotangent space,
+\[ T_x^* = \m_x / \m_x^2 = \Omega^1_{X/k, x} \otimes_{\stalk{X}{x}} \kappa(x) \]
+Furthermore, the tangent space is its dual,
+\[ T_x X = \Hom{\kappa(x)}{\m_x / \m_x^2}{\kappa(x)} = \Hom{\stalk{X}{x}}{\Omega^1_{X/k}}{\kappa(x)} = \Der{k}{\stalk{X}{x}}{\kappa(x)} \]
+We say that $V$ \textit{separates tangent vectors} if $\forall \vartheta \in T_x : \exists s : s = 0$ and one of the following equivalent conditions,
+\begin{enumerate}
+\item $\vartheta(s) \neq 0$
+\item $s_x \in \L_x / I_\vartheta \L_x$ is nonzero
+\item for any choice isomorphism $\psi : \L_X \iso \stalk{X}{x}$ we have $\vartheta(\psi(s_x)) \neq 0$
+\item $\vartheta^*(s)$ is not zero in $\Gamma(\Spec{k[\epsilon]}, \vartheta^* \L)$
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Ways to think about tangent vectors,
+\begin{enumerate}
+\item a derivation $\vartheta : \stalk{X}{x} \to k$
+\item an Ideal $\m_x^2 \subset I \subset \m_x$ given by $I/\m_x^2 = \ker{\vartheta}$
+\item a closed subscheme defined by the ideal $I$
+\item a morphism $\Spec{k[\epsilon]} \to X$
+\end{enumerate}
+\end{rmk}
+
+\begin{lemma}
+If $V$ separates points and tangent vectors then $\phi_V$ is a closed immersion. (Requires $X$ projective and $k = \bar{k}$).
+\end{lemma}
+
+\subsection{Linear Systems}
+
+Let $X$ be a smooth projective curve over $k = \bar{k}$.
+
+\newcommand{\g}{\mathfrak{g}}
+
+\begin{defn}
+A \textit{linear series} $\g^r_d$ of degree $d$ and dimension $r$ is a pair $(\L, V)$ as above with $\deg{\L} = d$ and $\dim_k(V) = r + 1$. 
+\end{defn}
+
+\begin{example}
+$(\struct{\P}(1), H^0(\struct{\P}(1))$ is a $\g^1_1$. 
+\end{example}
+
+\begin{prop}
+If $g_X > 0$ then there is no $\g^1_1$. 
+\end{prop}
+
+\begin{rmk}
+For a linear system, $(\L, V)$ we intoduce the following notation,
+\begin{enumerate}
+\item $V(-x) = \{ s \in V \mid s(x) = 0 \}$
+\item $V(-x - y) = \{ s \in V \mid s(x) = s(y) = 0 \}$
+\item $v(-2x) = \{ s \in V \mid s_x \in \m_x^2 \}$
+\end{enumerate}
+\end{rmk}
+
+\begin{prop}
+The linear system $(\L, V)$ gives a closed immersion $X \embed \P(V)$ if,
+\begin{enumerate}
+\item $\forall x \in X$ closed $\dim_k V(-x) = \dim{V} - 1$
+\item $\forall x, y \in X$ closed (alow $x = y$) we have,
+\[ \dim_k V(-x -y) = \dim{V} - 2 \]
+\end{enumerate}
+\end{prop}
+
+\section{Riemann-Hurevicz}
+
+Let $k = \bar{k}$ and $f : X \to Y$ be a nonconstant morphism of smooth curves.
+\bigskip\\
+There are two maps,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega_Y \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and also a trace map,
+\begin{center}
+\begin{tikzcd}
+f_* \omega_X \arrow[r] & \omega_Y 
+\end{tikzcd}
+\end{center}
+This is defined by,
+\[ \Hom{\struct{Y}}{f_* \omega_X}{\omega_Y} = H^1(Y, f_* \omega_X)^\vee \]
+and because $f$ is finite and thus affine,
+\[ H^1(Y, f_* \omega_X)^\vee = H^1(X, \omega_X)^\vee \]
+so we take the standard trace $t : H^1(X, \omega_X) \to k$. 
+
+\begin{example}
+Let $k$ have characteristic $p$. Look at,
+\begin{center}
+\begin{tikzcd}
+\P^1_k \arrow[r] & \P^1_k 
+\\
+\Spec{k[x]} \arrow[u, hook] \arrow[r] & \Spec{k[x]} \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+sending $x \mapsto x^p$. Then the map $f^* \Omega_{Y} \to \Omega_X$ is the zero map. 
+\end{example}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of smooth projective curves over $k$ (any field). 
+The following are equivalent,
+\begin{enumerate}
+\item $f^* \Omega_{Y/k} \to \Omega^1_{X/k}$ nonzero
+\item $\Omega_{X/Y}$ supported at finitely many points
+\item there exists an open $U \subset X$ s.t. $f|_U : U \to Y$ is \etale
+\item $k(X) / k(Y)$ is separable
+\end{enumerate}
+\end{lemma}
+\noindent\\
+We assume the lemma holds. Then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega_Y \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is injective because $f^* \Omega^1_{Y} \to \Omega_X$ is a nonzero map of line bundles. 
+\bigskip\\
+We know,
+\begin{align*}
+\deg{\Omega_X} & = 2 g_X - 2
+\\
+\deg{\Omega_Y} & = 2 g_Y - 2
+\\
+\deg{f^* \Omega_Y} & : \deg{f} (2 g_Y - 2)
+\\
+\deg{\Omega_{X/Y}} & \ge 0
+\end{align*}
+
+So we find,
+\[ 2 g_X - 2 \ge \deg{f} (2 g_Y - 2) \]
+
+\begin{lemma}
+Let $x \in X$ be a closed point. Let $s \in \stalk{X}{x}$ be a uniformizer. Then $\d{s} \in \Omega_{X/k}$ is a local generator.
+\end{lemma}
+\noindent
+Recall that $e_x$ is the ramification index of $f : X \to Y$ at $x$ defined by $\m_y \cdot \stalk{X}{x} = \m_x^{e_x}$. Choose uniformizers $t \in \stalk{Y}{y}$ and $u \in \stalk{X}{x}$ then $t \mapsto u \cdot s^e$ with $u \in \stalk{X}{x}^\times$. Then,
+\[ \d{t} \mapsto \d{(u s^e)} = \d{u} s^e + e u s^{e-1} \d{s} = \left( s^e \frac{\d{u}}{\d{s}} + e u s^{e - 1} \right) \d{s} \]
+Therefore,
+\[ (\Omega_{X/Y})_x \cong \stalk{X}{x} / \left( e u s^{e - 1} + \frac{\d{u}}{\d{s}} s^e \right) \stalk{X}{x} \]
+This has length $e - 1$ unless $e = 0$ in $k$ which case it is larger than $e$. Putting everything together,
+\[ 2 g_X - 2 = \deg{(f)} (2 g_Y - 2) + \sum_{x \in X} 
+\begin{cases}
+e_x - 1 & e_x \in k^\times
+\\
+> e_x - 1 & e_x = 0
+\end{cases} \]
+In particular, in characteristic zero,
+\[ 2 g_X - 2 = \deg{(f)} (2 g_Y - 2) + \sum_{x \in X} (e_x - 1) \]
+and furthermore,
+\[ K_X = f^* K_Y + \sum_{x \in X} (e_x - 1) [x] \]
+in $\Cl{X} = \Pic{X}$. 
 \end{document}
 
 
