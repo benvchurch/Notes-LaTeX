@@ -9,15 +9,27 @@
 \subsection{Regular Sections}
 
 \begin{definition}
-A section $f \in \Gamma(U, \struct{X})$ is \textit{regular} if $\struct{X}|_U \xrightarrow{f} \struct{X}|_U$ is injective.
+Let $(X, \struct{X})$ be a ringed space. We say a section $f \in \Gamma(U, \struct{X})$ is \textit{regular} if the morphism $\struct{X}|_U \xrightarrow{f} \struct{X}|_U$ via $s \mapsto f s$ is injective.
 \end{definition}
 
 \begin{lemma}
-A section $f \in \Gamma(U, \struct{X})$ is regular iff $f_x \in \stalk{X}{x}$ is a nonzero divisor for each $x \in U$.
+Let $X$ be a locally ringed space and $f \in \Gamma(U, \struct{X})$ a section. Then the following are equivalent,
+\begin{enumerate}
+\item $f$ is a regular section 
+\item for any $x \in U$ the image $f \in \stalk{X}{x}$ is a non-zero divisor.
+\end{enumerate}
+If $X$ is a scheme there are also equivalent to,
+\begin{enumerate}
+\item for any affine open $\Spec{A} = V \subset U$ the image $f \in A$ is a non-zero divisor
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
 $f$ is regular when for any open $V \subset U$ and $g \in \Gamma(V, \struct{X})$ we have $f|_V g = 0 \implies g = 0$ which is exactly the condition that $f_x \in \stalk{X}{x}$ is a nonzero divisor for each $x \in U$ since $f_x \in \stalk{X}{x}$ is a zero divisor if there is some neighborhood $x \in V$ and nonzero $g \in \Gamma(V, \struct{X})$ with $f|_V g = 0$. 
+\bigskip\\
+The sheaf map $\struct{X} \to \struct{X}$ given by $f \mapsto fs$ is injective iff on stalks $\stalk{X}{x} \to \stalk{X}{x}$ is injective i.e. $f \in \stalk{X}{x}$ is a non-zero divisor. 
+\bigskip\\
+Now let $X$ be a scheme. If on each affine open $\Spec{A} = V \subset U$ the image $f \in A$ is a non zero divisor then, since affine opens form a base for the topology on $X$, then $f_x \in \stalk{X}{x}$ is a non zero divisor since otherwise it would be a zero divisor on some open neighborhood containing an affine open. Conversely, if $f |_U$ is a zero divisor on some affine open then for each $x \in U$ the image $f_x \in \stalk{X}{x}$ is a zero divisor.
 \end{proof}
 
 \begin{definition}
@@ -87,24 +99,401 @@ But $H^1(X, \struct{X}^\times) = \Pic{X}$ and by exactness, we get an exact sequ
 The condition $H^1(X, \K_X^\times) = 0$ occurs when $X$ is an integral scheme. Then $\K_X^\times = \underline{K(X)^\times}$ is a constant sheaf and $X$ is irreducible so its higher cohomology vanishes. 
 \end{rmk}
 
+
+\subsection{Cousins Problems} 
+
+Here we let $X$ be a complex manifold and $\struct{X}$ be its sheaf of holomorphic functions and $\K_X$ be its sheaf of meromorphic functions. The Cousins problems are the following questions given a cover $U_i$ and a meromorphic function $f_i \in \Gamma(U_i, \K_X)$ on $U_i$. 
+
+\begin{defn}
+The Cousins problems ask the following. 
+\begin{enumerate}
+\item (First or additive Cousin Problem) if $(f_i - f_j)|_{U_i \cap U_j}$ is holomorphic for each pair $i,j$ then does there exist a global meromorphic function $f \in \Gamma(X, \K_X)$ such that $f|_{U_i} - f_i$ is holomorphic?
+\item (Second or multiplicative Cousin Problem) if $(f_i / f_j)|_{U_i \cap U_j}$ is non-vanishing holomoprhic for each pair $i,j$ then does there exist a global meromorphic function $f \in \Gamma(X, \K_X)$ such that $f|_{U_i} / f_i$ is holomorphic and non-vanishing?
+\end{enumerate}
+\end{defn}
+\noindent\\
+Notice that set of pairs $\{ (U_i, f_i) \}$ in the first Cousin problem defines a global section of the sheaf $\K_X / \struct{X}$ exactly because $(f_i - f_j)|_{U_i \cap U_j} \in \struct{X}(U_i \cap U_j)$ is holomorphic. Likewsie, the set of pairs $\{ (U_i, f_i) \}$ in the second Cousin problem defined a global section of the sheaf $\K_X^\times / \struct{X}^\times$ exactly because $(f_i / f_j) |_{U_i \cap U_j} \in \struct{X}^\times(U_i \cap U_j)$ is holomorphic and nonvanishing. Therefore, we can restate the Cousins problems as follows.
+
+\begin{defn}
+The Cousins problems ask the following. 
+\begin{enumerate}
+\item (First Cousin Problem) is the map $H^0(X, \K_X) \to H^0(X, \K_X / \struct{X})$ surjective?
+\item (Second Cousin Problem) is the map $H^0(X, \K_X^\times) \to H^0(X, \K_X^\times / \struct{X}^\times)$ surjective?
+\end{enumerate}
+\end{defn}
+\noindent\\
+Now we can solve these problems using the following two exact sequences of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \K_X \arrow[r] & \K_X / \struct{X} \arrow[r] & 0
+\\
+0 \arrow[r] & \struct{X}^\times \arrow[r] & \K_X^\times \arrow[r] & \K_X^\times / \struct{X}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and we can relate the sheaf cohomology needed in the two problems via the exponential exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \underline{\Z} \arrow[r, "2 \pi i"] & \struct{X} \arrow[r, "\exp"] & \struct{X}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+\begin{theorem}
+The first cousin problem is solvable when $H^1(X, \struct{X}) = 0$. 
+\end{theorem}
+
+\begin{proof}
+The first exact sequence gives a cohomology exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \struct{X}) \arrow[r] & H^0(X, \K_X) \arrow[r] & H^0(X, \K_X/\struct{X}) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & H^1(X, \K_X)
+\end{tikzcd}
+\end{center}
+Clearly, if $H^1(X, \struct{X}) = 0$ then, by exactness, $H^0(X, \K_X) \to H^0(X, \K_X / \struct{X})$ is surjective. 
+\end{proof}
+
+\begin{rmk}
+By Cartan's theorem B, we know $H^1(X, \struct{X}) = 0$ for any Stein manifold. So the first Cousin problem is always solvable for Stein manifolds.
+\end{rmk}
+
+\begin{theorem}
+The second cousin problem is solvable when $H^1(X, \struct{X}^\times) = 0$ or when $H^1(X, \struct{X}) = H^2(X, \struct{X}) = 0$ and $H^2(X; \Z) = 0$.
+\end{theorem}
+
+\begin{proof}
+The second exact sequence gives a cohomology exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \struct{X}^\times) \arrow[r] & H^0(X, \K_X^\times) \arrow[r] & H^0(X, \K_X^\times/\struct{X}^\times) \arrow[r] & H^1(X, \struct{X}^\times) \arrow[r] & H^1(X, \K_X^\times)
+\end{tikzcd}
+\end{center}
+Clearly, if $H^1(X, \struct{X}^\times) = 0$ then, by exactness, $H^0(X, \K_X) \to H^0(X, \K_X / \struct{X})$ is surjective. Now consider the cohomology of the exponential sequence,
+\begin{center}
+\begin{tikzcd}
+H^1(X; \Z) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & H^1(X, \struct{X}^\times) \arrow[r] & H^2(X; \Z) \arrow[r] & H^2(X, \struct{X}) 
+\end{tikzcd}
+\end{center}
+Then if $H^1(X, \struct{X}) = 0$ and $H^2(X, \struct{X}) = 0$ we get an isomorphism (the first Chern class) $H^1(X, \struct{X}^\times) = H^2(X; \Z)$ so if $H^2(X; \Z) = 0$ then $H^1(X, \struct{X}^\times) = 0$ giving the surjection. 
+\end{proof}
+
+\begin{rmk}
+For Stein manifolds we always have $H^p(X, \struct{X}) = 0$ for $p > 0$ by Cartan's theorem B. Therefore, the second cousin problem is solvable for Stein manifolds when $H^2(X; \Z) = 0$. 
+\end{rmk}
+
+
 \section{Effective Cartier Divisors}
 
 \subsection{Closed Subschemes}
 
+\begin{defn}
+A \textit{closed subscheme} $Z \subset X$ is an equivalence class of closed immersions $Z \embed X$ where we say two closed immersions $\iota_1 : Z_1 \embed X$ and $\iota_2 : Z_2 \embed X$ are equivalent if there exists an isomorphism $f : Z_1 \to Z_2$ making the diagram,
+\begin{center}
+\begin{tikzcd}
+Z_1 \arrow[rr, "f"] \arrow[rd, "\iota_1", hook] & & Z_2 \arrow[ld, hook, "\iota_2"]
+\\
+& X
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+
+\begin{theorem}
+There is a correspondence between closed subschemes $Z$ of $X$ and quasi-coherent sheaves of ideals $\I \subset \struct{X}$ i.e. injections of quasi-coherent $\struct{X}$-modules up to isomorphism,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{X} 
+\end{tikzcd}
+\end{center}
+Via the correspondence: given $\iota : Z \to X$ the map of sheaves $\iota^\# : \struct{X} \to \iota_* \struct{Z}$ is surjective take $\I = \ker{(\iota^\# : \struct{X} \to \iota_* \struct{Z})}$ which thus fits into an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \iota_* \struct{Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Conversely, given a sheaf of ideals $\I \subset \struct{X}$ then take $Z = (\Supp{\struct{X}}{\struct{X} / \I}, \struct{X} / \I)$.
+\end{theorem}
+
+\begin{proof}
+Given a quasi-coherent sheaf of ideals $\I \subset \struct{X}$ then we must show that,
+\[ Z = (\Supp{\struct{X}}{\struct{X} / \I}, \struct{X} / \I) \]
+is a closed subscheme. This is a local property so take an affine open $U \subset X$ on which $U = \Spec{A}$ and $\I = \widetilde{\mathfrak{a}}$ for some ideal $\mathfrak{a} \subset A$. Then in the induced supspace topology $U \cap Z = \Supp{A}{A / \mathfrak{a}} = V(\mathfrak{a})$ and the sheaf $\struct{Z} |_{U \cap Z} = \wt{A / \mathfrak{a}}$ so locally $Z \cap U = \Spec{A / \mathfrak{a}}$ as schemes. Furthermore, the map $\iota : Z \embed X$ is given locally by the ring map $A \to A / \mathfrak{a}$ which gives a closed immersion. Finally, it is clear that the sheaf of ideals corresponding to this $Z$ is exactly $\I$ since it is the kernel of the map $\struct{X} \to \struct{X} / \I$. 
+\bigskip\\
+Given a closed subscheme $\iota : Z \embed X$ we need to check that the corresponding ideal sheaf $\I$ generates $Z$. Since closed immersions are separated and quasi-compact then $\iota_* \struct{Z}$ is a quasi-coherent $\struct{X}$-module which implies that $\I$ is also quasi-coherent. In this case there is an isomorphism $\iota_* \struct{Z} \cong  \struct{X} / \I$. Note that $\iota(Z)$ is closed and thus if $x \notin \iota(Z)$ then any open neighborhood of $x$ contains some $U \subset X \setminus \iota(Z)$ open neighborhood of $x$ on which,
+\[ (\iota_* \struct{Z})(U) = \struct{Z}(f^{-1}(U)) = \struct{Z}(\varnothing) = 0 \]
+Thus if $x \notin \iota(Z)$ then $(\iota_* \struct{Z})_x = 0$ Furthermore, if $\iota(z) \in \iota(Z)$ then because $\iota$ is a homeomorphism onto its image, every open neighborhood of $z$ is of the form $\iota^{-1}(U)$ for some open $U \subset X$ and thus,
+\[ (\iota_* \struct{Z})_{\iota(z)} = \varinjlim_{\iota(z) \in U} \struct{Z}(\iota^{-1}(U)) = \varinjlim_{z \in V} \struct{Z}(V) = \stalk{Z}{z}  \] 
+In particular, if $\iota(z) \in \iota(Z)$ then $(\iota_* \struct{Z})_{\iota(z)} = \stalk{Z}{z} \neq 0$. Therefore we have shown that,
+\[ x \in \iota(Z) \iff (\iota_* \struct{Z})_x \neq 0 \iff x \in \Supp{\struct{X}}{\struct{X} / \I} \]
+Thus let $Z' = (\Supp{\struct{X}}{\struct{X} / \I}, \struct{X} / \I)$ then there is an isomorphism $\iota : Z \to Z'$ which has $\iota^\# : \struct{X} / \I \to \iota_* \struct{X}$ which makes the diagram commute,
+\begin{center}
+\begin{tikzcd}
+Z \arrow[d, "\sim"] \arrow[r, hook] & X \arrow[d, "\id_X"]
+\\
+Z' \arrow[r, hook] & X
+\end{tikzcd}
+\end{center} 
+\end{proof}
+
+
+\subsection{Sheaves Defining Closed Subschemes}
+
+\begin{defn}
+Let $\G \subset \F$ be a subsheaf of a coherent sheaf $\struct{X}$-module. Then $Z(\G)$ is the closed subscheme associated to the sheaf of ideals, $\I = \Im{\G \otimes_{\struct{X}} \F^\vee \to \struct{X}}$.
+\end{defn}
+
+DO!!
+
+What about defining $I = \Ann{A}{M/N}$. Which is correct? When do these give the same results??
+
 \subsection{Effective Cartier Divisors as Closed Subschemes}
 
+\begin{definition}
+Let $X$ be a scheme then \textit{a locally principal closed subscheme} of $X$ is a closed subsheme $Z \subset X$ such that the sheaf of ideals $\I_Z$ is locally generated by a single element. 
+\end{definition}
+
+\begin{definition}
+An \textit{effective Carier divisor} on $X$ is a closed subscheme $D \subset X$ whose ideal sheaf $\I_D \subset \struct{X}$ is an invertible $\struct{X}$-module. 
+\end{definition}
+
+\begin{definition}
+Let $X$ be a scheme and $D \subset X$ a closed subscheme then the following are equivalent,
+\begin{enumerate}
+\item $D$ is an effective Cartier divisor on $X$
+\item for each $x \in D$ there exists an affine open neighborhood $x \in U \subset X$ with $U = \Spec{A}$ such that $U \cap D = \Spec{A / (f)}$ for $f \in A$ a nonzerodivisor. 
+\end{enumerate}
+\end{definition}
+
+\begin{proof}
+Assume that $D$ is an effective Cartier divisor then for each $x \in X$ there exists an affine open $x \in U \subset X$ such that $\I_D |_U \cong \struct{X} |_U$. Since $\I_D$ is quasi-coherent, we may further shrink $U$ such that $\I_D |_U = \widetilde{\a}$ for some ideal of $A$ where $U = \Spec{A}$. The isomorphism $A \to \a$ is uniquely determined by the image of $1 \in \a \subset A$ say $1 \mapsto f$ then $\a = (f)$. Therefore, $\I_D |_U = \widetilde{(f)}$ meaning that locally $D \cap U = \Supp{A}{A / (f)} = \Spec{A / (f)}$. Furthermore, suppose that $\exists g \in A$ such that $fg = 0$. Consider the preimage $\tilde{g} \mapsto g$ under the isomorphism $A \to \tilde{\a}$ and thus $\tilde{g} = 1 \tilde{g} \mapsto fg = 0$ so $\tilde{g}$ is in the kernel of the map so $g = 0$ implying that $f$ cannot be a zero divisor.
+\bigskip\\
+Conversely, we have $U \cap D = \Spec{A / (f)}$ then locally the map $D \to X$ is given by the ring map $A \to A / (f)$ so $\I_D |_U = \widetilde{(f)}$. Since $f$ is a non-zero divisor, the map $f : A \to (f)$ is an isomorphism proving that $\I_D$ is an invertible sheaf since $\struct{X}|_U = \widetilde{A}$. 
+\end{proof}
+
+\begin{definition}
+Let $X$ be a scheme. Given effective Carteir divisors $D_1$ and $D_2$ on $X$ we set $D = D_1 + D_2$ to be the closed subscheme of $X$ corresponding o the quasi-coherent sheaf of ideals $\I_{D_1} \cdot \I_{D_2} \subset \struct{X}$. 
+\end{definition}
+
+\begin{proposition}
+The sum of effective Cartier divisors is an effective Cartier divisor.
+\end{proposition}
+
+\begin{proof}
+The product of non-zero divisors is a non-zero divisor and thus the product of these ideals is locally invertible.
+\end{proof}
+
+\begin{definition}
+Let $X$ be a scheme and $D \subset X$ an effective Cartier divisor with an ideal sheaf $\I_D$. Recall that $\I_D$ is an invertible $\struct{X}$-module so we may define,
+\begin{enumerate}
+\item The invertible sheaf $\struct{X}(D)$ associated to $D$ is defined by,
+\[ \struct{X}(D) = \shHomover{\struct{X}}{\I_D}{\struct{X}} = \I_D^{\otimes - 1} \]
+\item The canonical section, $1_D \in \struct{X}(D)$ is the inclusion morphism $\I_D \to \struct{X}$. 
+\item We write $\struct{X}(-D) = \struct{X}(D)^{\otimes -1} = \I_D$.
+\item Given a second effective Cartier divisor $D' \subset X$ we define,
+\[ \struct{X}(D - D') = \struct{X}(D) \otimes_{\struct{X}} \struct{X}(-D') \]
+\end{enumerate}
+\end{definition}
+
+\begin{rmk}
+By definition, for any effective Cartier divisor $D \subset X$ there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-D) \arrow[r] & \struct{X} \arrow[r] & \struct{D} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{lemma}
+Let $X$ be a scheme and $D, C \subset X$ be effective Cartier divisors with $C \subset D$ and let $D' = D + C$. Then there exists a short exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-D) |_C \arrow[r] & \struct{D'} \arrow[r] & \struct{D} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+Let $\I$ be the ideal sheaf of $D \to D'$. Then there is a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{D'} \arrow[r] & \struct{D} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now I claim that $\struct{X}(-D) |_C = \I_D |_C = \I$. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a scheme and $D_1, D_2 \subset X$ be effective Cartier divisors on $X$. Let $D = D_1 + D_2$. Then there is a unique isomorphism,
+\[ \struct{X}(D_1) \otimes_{\struct{X}} \struct{X}(D_2) \to \struct{X}(D) \]
+which maps $1_{D_1} \otimes 1_{D_2} \to 1_D$.
+\end{lemma}
+
+\begin{proof}
+By definition $\I_D = \I_{D_1} \cdot \I_{D_2}$. Consider the map,
+\[ \shHomover{\struct{X}}{\I_{D_1}}{\struct{X}} \otimes_{\struct{X}} \shHomover{\struct{X}}{\I_{D_2}}{\struct{X}} \to \shHomover{\struct{X}}{\I_{D}}{\struct{X}} \]
+via $f_1 \otimes f_2 \mapsto f_1 \cdot f_2$. Clearly, this map sends $1_{D_1} \otimes 1_{D_2}$ to $1_D$. Thus, it is sufficient to prove that this map is the unique isomorphism. Because these sheaves are invertible, on stalks, this map becomes the isomorphism,
+\[ \Homover{\stalk{X}{x}}{(f_1)}{\stalk{X}{x}} \otimes_{\stalk{X}{x}} \Homover{\stalk{X}{x}}{(f_2)}{\stalk{X}{x}} \to \Homover{\stalk{X}{x}}{(f_1 f_2)}{\stalk{X}{x}} \]
+This is unique because each side is abstractly isomorphic to $\struct{X}{x}$ and the map abstractly the identity since it sends $(f_1 \mapsto 1) \otimes (f_2 \mapsto 1) \mapsto (f_1 f_2 \mapsto 1)$. 
+\end{proof}
+
+\begin{cor}
+Let $G$ be the group completion of the monoid of effective Cartier divisors. Then $D \mapsto \struct{X}(D)$ induces a well-defined group homomorphism $G \to \Pic{X}$.
+\end{cor}
+
+\begin{proof}
+Sending $D - D' \mapsto \struct{X}(D - D') = \struct{X}(D) \otimes_{\struct{X}} \struct{X}(-D')$ as before gives a well-defined map because $D + D' \mapsto \struct{X}(D + D') = \struct{X}(D) \otimes_{\struct{X}} \struct{X}(D')$ so this is a homomorphism where $\otimes$ is multiplication in $\Pic{X}$.
+\end{proof}
+
+\begin{rmk}
+Recall that the conormal sheaf is the $\struct{D}$-module, $\C_{D/X} = \I_D / \I_D^2 = \iota^* \I_D$. Therefore, the normal bundle is,
+\[ \sN_{D/X} = \iota^* \I_D^{\vee} = \shHom{\struct{Z}}{\iota^* \I_D}{\struct{Z}} = \iota^* \shHom{\struct{X}}{\I_D}{\struct{X}} = \iota^* \I_D^{\otimes -1} = \iota^* \struct{X}(D) \]
+Furthermore, from the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-D) \arrow[r] & \struct{X} \arrow[r] & \iota_* \struct{D} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+tensoring with $\struct{X}(D)$ and using the projection formula $\iota_* \struct{D} \otimes_{\struct{X}} \struct{X}(D) = \iota_* \iota^* \struct{X}(D) = \iota_* (\sN_{D/X})$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r, "1_D"] & \struct{X}(D) \arrow[r] & \iota_* (\sN_{D/X}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\subsection{Checking Effective Cartier Divisors on Noetherian Schemes}
+
+\begin{lemma}
+Let $X$ be a locally Noetherian scheme. Let $D \subset X$ be a closed subscheme corresponding to the quasi-coherent sheaf $\I \subset \struct{X}$. Then,
+\begin{enumerate}
+\item if $\I_x \subset \stalk{X}{x}$ for all $x \in D$ can be generated by a single element then $D$ is locally prinipal
+\item if $\I_x \subset \stalk{X}{x}$ for all $x \in D$ can be generated by a single nonzerodivisor then $D$ is an effective Cartier divisor.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $U = \Spec{A}$ be an affine open neighborhood of $x \in D$ and $\p \subset A$ correspond to $x$. Then $U \cap D = V(I)$ for some ideal $I \subset A$. Since $A$ is Noetherian $I = (f_1, \dots, f_r)$ is finitely generated. In the first case $I_\p = (f)$ for some $f \in A_\p$ thus $f_i = g_i f$ for $g_i \in A_\p$. We may write $g_i = a_i / h_i$ and $f = f' / h$ for $a_i, h_i, f', h \in A$ and $h, h_i \notin \p$. Then $I_{h_1 \dots h_r h} \subset A_{h_1 \dots h_r h}$ is generagted by $f'$ so $\I_D |_{D(h_1 \dots h_r h)} = (f')$ is principal proving the first claim. If furthermore, $f \in A_\p$ is a nonzerodivisor then it must be a nonzerodivisor on some open $\tilde{U} \subset U$ thus $\I_{D}|_{\tilde{U} \cap D(h_1 \dots h_r h)} = (f')$ is generated by a single nonzerodivisor so $D$ is an effective Cartier divisor.
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Noetherian scheme. Let $D \subset X$ be an integral closed subscheme with,
+\begin{enumerate}
+\item $\codim{D,X} = 1$
+\item $\forall x \in D : \stalk{X}{x}$ is a UFD
+\end{enumerate}
+then $D$ is an effective Cartier divisor.
+\end{lemma}
+
+\begin{proof}
+Let $x \in D$ and let $A = \stalk{X}{x}$ with $\p \subset A$ corresponding to the generic point $\eta \in D$. Then,
+\[ \height{\p} = \dim{A_\p} = \dim{\stalk{X}{\eta}} = \codim{D, X} = 1 \]
+Furthermore, since $A$ is a UFD, every height one prime is principal so $\p = (f)$ for some nonzerodivisor\footnote{$A$ is a domain} $f \in A$. Therefore, by the previous lemma $D$ is an effective Cartier divisor since $(\I_D)_x = \p = (f)$. To see the last equality, choose an affine open $U = \Spec{R}$ with $x \in U$ corresponding to a prime $\q$. Then $U \cap D = V(\p)$ where $\I_D = \wt{\p}$ which is prime since $D$ is closed irreducible and $\p \subset \q$ and $A = R_\q$ and $\p \in \Spec{R_\q}$ thus $(\I_D)_x = \p R_\p = \p A$.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a Noetherian locally factorial (e.g. regular) scheme. Then every integral codimension one closed subscheme is an effective Cartier divisor.
+\end{cor}
+
+\begin{lemma}
+Let $X$ be a Noetherian scheme. Let $D \subset X$ be an integral closed subscheme which is also an effective Cartier divisor. Let $\eta \in D$ be its generic point then $\stalk{X}{\eta}$ is a DVR.
+\end{lemma}
+
+\begin{proof}
+We may choose an affine open neighborhood $U = \Spec{A}$ of $x \in D$ such that $D \cap U = \Spec{A / (f)}$ for a nonzerodivisor $f \in A$. Furthermore, $D$ is irreducible so $D \cap U = V(\p)$ for a prime $\p \subset A$ and thus $\sqrt{(f)} = \p$ but furthermore, $D$ is reduced so $(f)$ is radical i.e. $(f) = \p$ is prime. Then $D \cap U = V(\p)$ has generic point $\eta = \p \in U$. Thus, $\stalk{X}{\eta} = A_{\p}$ is a local Noetherian PID\footnote{First $A_{\p}$ is a principal ideal ring since its unique maximal ideal is principal. Furthermore, $A_{\p}$ is a domain because if $g \in A_{\p}$ is a zero divisor then $\Ann{A}{(g)} \subset (f)$ (else $g = 0$ in $A_\p$) then let $\q$ be a maximal anihilator and thus a prime above $\Ann{A}{(g)}$ but $\q \subset (f)$ because $A_\p$ is local so $\q = (a)$ since $A_\q$ is a principal ideal ring. Thus $a = a'f$ is a zero divisor so $a'$ is a zero divisor since $f$ is not but $(a'f)$ is prime so either $a \in (af)$ or $f \in (a'f)$ but $f \notin (a'f)$ since $f$ is not a zero divisor and thus $a' \in (a'f)$. We can write $a' = r a' f$ and thus $a' (rf - 1) = 0$ but $rf - 1 \notin (f)$ and thus $rf - 1$ is a unit so $a' = 0$ and thus $g = 0$ showing that $A_\p$ is a domain.} and thus a DVR.
+\end{proof}
+
+
+\subsection{Effective Cartier Divisors Defined by Global Sections}
+
+\begin{rmk}
+Recall the definition of a regular global section.
+\end{rmk}
+
+\begin{definition}
+Let $X$ be a locally ringed space and $\L$ an invertible sheaf on $X$. A global section $s \in \Gamma(X, \L)$ is called a regular section in the map $\struct{X} \to \L$ via $f \mapsto fs$ is injective.
+\end{definition}
+
+\begin{remark}
+Let $\L$ be an invertible $\struct{X}$-module and $s \in \Gamma(X, \L)$ is a global section. We may realize $s$ as an $\struct{X}$-module map $s : \struct{X} \to \L$. Its dual then gives a map $s : \L^{\otimes - 1} \to \struct{X}$. 
+\end{remark}
+
+\begin{definition}
+Let $X$ be a scheme and $\L$ an invertible sheaf on $X$. Let $s \in \Gamma(X, \L)$ be a global section. The \textit{zero scheme} of $s$ is the closed subscheme $Z(s) \subset X$ defined by the quasi-coherent sheaf of ideals $\I \subset \struct{X}$ defined by $s : \L^{\otimes -1} \to \struct{X}$. 
+\end{definition}
+
+\begin{remark}
+Let $f : X \to Y$ be a morphism of locally ringed spaces and $\F$ a sheaf of $\struct{X}$-modules. A global section $s \in \Gamma(Y, \F)$ can be realized as a morphism $s : \struct{Y} \to \F$. Applying the functor $f^*$ gives a morphism $f^* s : f^* \struct{Y} \to f^* \F$ which is equivalent to a section $f^* s : \struct{X} \to f^* \F$ since $f^* \struct{Y} = \struct{X}$. 
+\end{remark}
+
+\begin{lemma}
+Let $X$ be a scheme and $\L$ an invertible sheaf on $X$ and $s \in \Gamma(X, \L)$ a global section. Then,
+\begin{enumerate}
+\item Consider the closed immersions $\iota : Z \embed X$ such that $\iota^* s \in \Gamma(Z, \iota^* \L)$ is zero, ordered by inclusion. The zero scheme $Z(s)$ is the maximal element of this poset.
+\item The zero scheme $Z(s)$ is a locally principal closed subscheme.
+\item a morphism of schemes $f : X' \to X$ factors through $Z(s) \embed X$ iff $f^* s = 0$.
+\item $Z(s)$ is an effective Cartier divisor iff $s$ is a regular section of $\L$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Suppose that $\iota : Z \embed X$ is a closed subscheme such that $\iota^* s \in \Gamma(Z, \iota^* \L)$ is zero. It suffices to show that $\I_{Z(s)} \subset \I_{Z}$. However, $s : \L^{\otimes -1} \to \struct{X} \to \iota_* \struct{Z}$ is zero because $\iota^* s = 0$ and thus $\J_{Z(s)} = \Im{s} \subset \ker{(\struct{X} \to \iota_* \struct{Z})} = \J$.
+\bigskip\\
+Since $\L$ is invertible, there is an affine open cover such that $\L |_U \cong \struct{X} |_U$ on each open $\Spec{A} = U \subset X$. Thus, $\L|_U = \widetilde{M}$ for some $A$-module $M$ such that $M \cong A$ as $A$-modules i.e. $M$ is free of rank $1$. Then consider the map $s : \struct{X} \to \L$ which restricts to the map $s |_U : A \to M$ given by $a \mapsto a s|_U$ whose dual is $s |_U : \L^{\otimes - 1} \to \struct{X}$ takes $(f : M \to A) \mapsto f(s|_U)$. Since $M$ is free of rank $1$ we may write $s|_U = s_A m$ for $s_A \in A$ and $m \in M$ the basis element. Then every $A$-module map $f : M \to A$ is determined by the image of $m \mapsto f(m)$ so $f(s|_U) = s_A f(m)$. In particular, there exists an isomorphism $M \to A$ which has $f(m) = 1$ so $\Homover{A}{M}{A} \cong A$ via $f \mapsto f(m)$ so $\Im{s|_U} = \{s_A f(m) \mid f \in \Homover{A}{M}{A} \} = (s_A) \subset A$. Thus the sheaf of ideals of $Z(s)$ is locally generated by a single element.
+\bigskip\\
+Furthermore, $s \in \Gamma(X, \L)$ is a regular section iff $s|_U$ is regular for each affine open $U$ i.e. the map $a \mapsto a s_A$ is injective meaning $A \cong (s_A)$. Thus, since locally the sheaf of ideals of $Z(s)$ is $(s_A)$, the section $s$ is regular iff $Z(s)$ is an effective Cartier divisor. 
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a scheme. 
+\begin{enumerate}
+\item If $D \subset X$ is an effective Cartier divisor then the canonical section $1_D$ of $\struct{X}(D)$ is regular.
+\item Conversely, if $s$ is a regular section of the invertible sheaf $\L$ then there exists a unique effective Cartier divisor $D = Z(s) \subset X$ and a unique isomorphism $\struct{X}(D) \to \L$ sending $1_D \mapsto s$. 
+\end{enumerate}
+The construction $D \mapsto (\struct{X}(D), 1_D)$ and $(\L, s) \mapsto Z(s)$ are inverse giving a bijective correspondence between effective Cartier divisors on $X$ and isomorphism classes of pairs $(\L, s)$ where $\L$ is an invertible sheaf of $\struct{X}$-modules and $s \in \Gamma(X, \L)$ is a regular global section. 
+\end{theorem}
+
+\begin{proof}
+Let $D \subset X$ be an effective Cartier divisor and consider the canonical section $1_D$ of $\struct{X}(D) = \shHomover{\struct{X}}{\I_D}{\struct{X}}$. Consider the map $\struct{X} \to \struct{X}(D)$ given by $f \mapsto f \cdot 1_D$. On stalks, we know that the ideal $(\I_D)_x \cong \stalk{X}{x}$ so $(\I_D)_x = (f)$ where $f \in \stalk{X}{x}$ is the preimage of $1$. Given any section $g \in \stalk{X}{x}$ if $g_x (1_D)_x = 0$ then $g \cdot f = 0$ meaning that either $g_x = 0$ or $f$ is a zero divisor. However, since $\I_D$ is invertible, $f$ is a nonzerodivisor thus $g_x = 0$. Therefore this map $1_D : \struct{X} \to \struct{X}(D)$ is injective at the stalks and therefore injective.
+\bigskip\\
+Now suppose that $\L$ is an invertible sheaf and $s \in \Gamma(X, \L)$ a regular secton. Consider $D = Z(s) \subset X$. Since $s$ is regular, we have shown that $Z(s)$ is an effective Cartier divisor. Furthermore, $\I_D = \Im{s : \L^{\otimes - 1} \to \struct{X}} = \L^{\otimes - 1}$ where $s$ is regular so this is injective. Thus, $\struct{X}(D) = \I_D^{\otimes - 1} = \L$. Finally, given an effective Cartier divisor we know that $(\struct{X}(D), 1_D)$ is an invertible sheaf with a regular section. Consider $Z(s)$ which is the closed subscheme uniquely defined by the sheaf of ideals given by the image of $1_D : \struct{X}(D)^{\otimes -1} \to \struct{X}$ which is exactly the inclusion map $\I_D \to \struct{X}$ since $\struct{X}(D) = \I_D^{\otimes -1}$. Therefore, we find that $Z(s) \cong Z$. 
+\end{proof}
+
+\begin{rmk}
+Let $(\L, s)$ be a invertible module and a global regular section. Then there are exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \L^{\otimes -1}\arrow[r, "s^\vee"] & \struct{X} \arrow[r] & \iota_* \struct{D} \arrow[r] & 0
+\\
+0 \arrow[r] & \struct{X} \arrow[r, "s"] & \L \arrow[r] & \iota_* (\L |_D) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\iota : D \embed \L$ is the inclusion of the effective Cartier divisor $D = Z(s)$. 
+\end{rmk}
+
 \subsection{Relationship to the Previous Definition}
+
+\begin{thm}
+There is a natural bijection $G \iso \mathrm{Ca}{X}$ between the group completion of effective Cartier divisors and the group of Cartier divisors. 
+\end{thm}
+
+\begin{proof}
+Given $D$ we can find a open affine cover $U_i = \Spec{A_i}$ such that $\I_D |_{U_i} = \wt{(f_i)}$ so we send $D \mapsto \{ (U_i, f_i) \}$ the Cartier divisor. Since $\I_D$ is a sheaf, we must have $(f_i) |_{U_i \cap U_j} = (f_j) |_{U_i \cap U_j}$ on the overlaps and thus $f_i / f_j$ is a unit on the overlap so $ \{ (U_i, f_i) \}$ defines a Cartier divisor. We say that $ \{ (U_i, f_i) \}$ is effective because each $f_i \in \struct{X}(U_i)$ has no poles. Furthermore, any such divisor $\{ (U_i, f_i) \}$ defines an invertible sheaf $\L$ (OKAY WE NEED EVERY BUNDLE IS THE DIFFERENCE OF BUNDLES!! Tag 0B3Q) 
+\end{proof}
 
 \section{Weil Divisors}
 
 We only consider Weil divisors for sufficiently nice schemes. (DEFINE)
 
+\subsection{Reflexive Sheaves}
+
 \subsection{The Sheaf Associated to a Weil Divisor}
 
 \subsection{The Relationship between Weil Divisors and Cartier Divisors}
 
-\section{Reflexive Sheaves}
+\section{Linear Systems of Divisors}
 
 \section{The Chow Ring}
+
+\section{Pushforward and Pullback of Divisors}
+
+\section{Divisors on Curves}
 
 \end{document}

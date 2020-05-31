@@ -117,7 +117,7 @@ If $A$ is a PID then it is Noetherian and thus a factorization domain. Furthermo
 \subsection{Height One Prime Ideals}
 
 \begin{proposition}
-Let $A$ be a Noetherian ring. Then any principal prime ideal has height at most one.
+Let $A$ be Noetherian. Then any principal prime ideal has height at most one.
 \end{proposition}
 
 \begin{proof}
@@ -145,5 +145,173 @@ We showed one direction above. Conversely, suppose every height one prime ideal 
 \begin{theorem}[Krull's Hauptidealsatz]
 Let $I \subset A$ be an ideal in a Noetherian ring $A$ with $n$ generators then any minimal prime ideal $\p \supset I$ has height at most $n$.
 \end{theorem}
+
+\section{Simple Modules}
+
+\begin{defn}
+A nonzero $R$-module is \textit{simple} if it has no nontrivial submodules.
+\end{defn}
+
+\begin{prop}
+Let $R$ be a ring and $M$ an $R$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is simple
+\item $\ell_R(M) = 1$
+\item $M = R / \m$ for some maximal ideal $\m \subset R$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The first two are equivalent by definition. Clearly if $\m \subset R$ is maximal then $R / \m$ is simple. Now suppose that $M$ is simple and take a nonzero $x \in M$. Then $(x) = M$ by simplicity so consider $I = \ker{(R \xrightarrow{x} M)} = \Ann{A}{x} = \{r \in R \mid r x = 0\}$. Since $M = R x$ we know that $M \cong R / I$. However, by the lattice isomorphism theorem, submodules of $R / I$ correspond to ideals above $I$ so since $M$ is simple we must have $I$ maximal.  
+\end{proof}
+
+\section{Artinian Modules}
+
+\begin{defn}
+An $R$-module $M$ is \textit{noetherian/artinian} if it satisfies the ascending/descending chain condition on submodules.
+\end{defn}
+
+\begin{theorem}
+An $R$-module $M$ has finite length iff it is both noetherian and artinian.
+\end{theorem}
+
+\begin{proof}
+If $M$ has finite length then clearly it is noetherian and artinian since chains of submodules are bounded in length. Alternatively, simple modules are noetherian and artinian  so given a composition series we see that $M$ is noetherian and artinian by repeated extension. Now, conversely, assume that $M$ is noetherian and artinian. By the artinian property we can take a minimal nonzero submodule $M_1 \subset M$. Then $M_1$ is simple. Either $M / M_1$ is simple or we may repeat to get $M_2 \supset M_1$ and $M_2 / M_1$ is simple. Thus we get an ascending chain $0 = M_0 \subset M_1 \subset M_2 \subset M_3 \subset  \cdots$ with $M_{i+1}/M_i$ simple. Since $M$ is Noetherian, this must terminate at $M_n = M$ so we get a finite length composition series showing that $M$ has finite length.
+\end{proof}
+
+\section{Artinian Rings}
+
+\begin{defn}
+A ring $A$ is \textit{artinian} if it satisfies the descending chain condition on ideals: given a chain of ideals,
+\[ I_0 \supset I_1 \supset I_2 \supset \cdots \]
+the chain stabilizes $I_{n+i} = I_n$. 
+\end{defn}
+
+\begin{rmk}
+$A$ is artinian iff it is artinian as a module over itself.
+\end{rmk}
+
+\begin{prop}
+An artinian ring has finitely many maximal ideals.
+\end{prop}
+
+\begin{proof}
+Let $\m_1, \m_2, \m_3, \dots$ be a list of maximal ideals. Then consider the chain,
+\[ \m_1 \supset \m_1 \m_2 \supset \m_1 \m_2 \m_3 \supset \cdots \]
+By the artinian condition, we must have $\m_1 \cdots \m_n = \m_1 \cdots \m_n \m_{n+1}$ for some $n$. But then by prime avoidence $\m_{n+1}$ must be one of $\m_1, \dots, \m_n$ since $\m_{n+1} \supset \m_1 \cdots \m_n$ so $\m_{n+1} \supset \m_i$ and $\m_i$ is maximal.
+\end{proof}
+
+\begin{prop}
+Let $A$ be an artinian ring. Then every prime ideal is maximal so $\dim{A} = 0$.
+\end{prop}
+
+\begin{proof}
+Let $\p$ be prime and $x \notin \p$. Consider the chain,
+\[ (x) \supset (x^2) \supset (x^3) \supset \cdots \]
+By the artinian condition $(x^n) = (x^{n+1})$ for some $n$ so $x^n = r x^{n+1}$ for some $r \in A$. Thus $x^n(rx - 1) = 0$. However, $x^n \notin \p$ so $rx - 1 \in \p$ and thus $x \in A / \p$ is invertible so $A / \p$ is a field and thus $\p$ is maximal.
+\end{proof}
+
+\begin{prop}
+Let $A$ be artinian. Then $\nilrad{A}$ is a nilpotent ideal.
+\end{prop}
+
+\begin{proof}
+Let $I = \nilrad{A}$. Consider the chain of ideals,
+\[ I \supset I^2 \supset I^3 \supset \cdots \]
+By the artinian condition, $I^{n+1} = I^n$ for some $n$. 
+
+Consider $J = \{ x \in A \mid x I^n = 0 \}$. If $J \neq R$ we can choose $J' \supsetneq J$ minimal (using the artinian property). Then take $y \in J'$ so by minimality $J' = J + (y)$. Suppose $J + I(y) = J'$ then, since $J \subset \Jac{A}$ and $(y)$ is finitely generated, by Nakayama, $J' = J + I(y) = J$ which is false so $J \subset J + I(y) \subsetneq J'$ and thus $J = J + I(y)$ by minimality so $I(y) \in J$. Therefore, $y \cdot I^{n+1} = 0$ but $I^{n+1} = I^n$ so $y \cdot I^n = 0$ and thus $y \in J$ contradicting our situation so $J = R$ and thus $I^n = 0$.
+\end{proof}
+
+\begin{prop}
+Every artinian ring is a product of local artinian rings: $A_{\m_i} = A / \m_i^n$.
+\end{prop}
+
+\begin{proof}
+Let $\m_1, \dots, \m_r$ be the maximal ideals. Then we know that $\m_1^{n_1} \cdots \m_r^{n_r} = 0$ for some integers $n_1, \dots, n_r \in \Z$. Therefore, by the Chinese remainder theorem,
+\[ A = A / (\m_1^{n_1} \cdots \m_r^{n_r}) = \prod_{i = 1}^r A / \m_i^{n_i} \]
+Furthermore, $A / \m_i^{n_i}$ is local because $\m_i$ is the only maximal ideal above $\m_i^{n_i}$. Furthermore, 
+\[ A_{\m_i} = (A / \m_i^{n_i})_{\m_i} = A / \m_i^{n_i} \]
+since $A \setminus \m_i$ is not contained in any maximal ideal of $A / \m_i^{n_i}$ and thus is invertible.   
+\end{proof}
+
+\begin{prop}
+A ring $A$ is artinian iff it has finite length as a module over itself.
+\end{prop}
+
+\begin{proof}
+If $A$ has finite length as an $A$-module then it satisfies both the ascending and descending chain conditions on $A$-submodules i.e. ideals thus $A$ is both noetherian and artinian. Conversely, let $A$ be artinian. Since $A$ is a finite product of local artinian rings we may reduce to the case that $A$ is local artinian with maximal ideal $\m$. Since $\nilrad{A} = \m$ then $\m^n = 0$ for some $n$ so we get a series,
+\[ 0 = \m^n \subset \m^{n-1} \subset \cdots \subset \m \subset A \]
+Then $\m^i / \m^{i+1}$ is a $A / \m$-module and,
+\[ \ell_A(\m^i / \m^{i+1}) = \ell_{A/\m}(\m^i / \m^{i+1}) = \dim_{A/\m} \m^i / \m^{i+1} \]
+which must be finite since $\m^i / \m^{i+1}$ is an artinian module and thus must have finite dimension else there would be a nonterminating descending chains. Thus from the series $A$ has finite length. 
+\end{proof}
+
+\begin{theorem}
+A ring $A$ is artinian iff $A$ is noetherian and $\dim{A} = 0$.
+\end{theorem}
+
+\begin{proof}
+If $A$ is artinian then it has finite length over itself and thus is noetherian. Also every prime is maximal so $\dim{A} = 0$. Conversely, suppose that $A$ is noetherian and $\dim{A} = 0$. Then $\Spec{A}$ is a noetherian topological space which has finitely many irreducible componets so $A$ has finitely many minimal primes which are also maximal since $\dim{A} = 0$. Thus $A$ has finitely many primes all of which are maximal. Since $\dim{A} = 0$ we have $I = \Jac{A} = \nilrad{A}$ so any $f \in I$ is nilpotent so $I$ is nilpotent because $A$ is noetherian so $I$ is finitely generated. Thus by the Chines remainder theorem $A$ is a finite product of local rings so we reduce to the case that $A$ is local with maximal ideal $\m$. Then we get a series,
+\[ 0 = \m^n \subset \m^{n-1} \subset \cdots \subset \m \subset A \]
+but $\m^i / \m^{i+1}$ is a finite $A / \m$-module since $A$ is noetherian so,
+\[ \ell_A(\m^i / \m^{i+1}) = \ell_{A/\m}(\m^i / \m^{i+1}) = \dim_{A/\m} \m^i / \m^{i+1} \]
+is finite and thus $\ell_A(A)$ is finite from the series showing that $A$ is artinian.
+\end{proof}
+
+
+\begin{prop}
+Let $A$ be an artinian ring. Then,
+\[ \ell_A(A) = \sum_{i = 1}^r \ell_{A_{\m_i}}(A_{\m_i}) \]
+\end{prop}
+
+\begin{proof}
+We can write, $A = A_{\m_1} \times \cdots \times A_{\m_r}$ and thus the formula immediately follows.
+\end{proof}
+
+
+\begin{prop}
+Any finite dimensional $k$-algebra is artinian.
+\end{prop}
+
+\begin{proof}
+By dimensionality arguments every descending chain stabilizes. 
+\end{proof}
+
+\begin{prop}
+Let $A \to B$ be a local map and $M$ an $B$-module of finite length. Then,
+\[ \ell_A(M) = \ell_B(M) \cdot [ \kappa(\m_B) : \kappa(\m_A) ] \]
+and in particular $\ell_A(M)$ is finite if $\kappa(\m_B)$ is a finite extension of $\kappa(\m_A)$.
+\end{prop}
+
+\begin{proof}
+Consider a composition series,
+\[ 0 = M_0 \subset M_{1} \subset \cdots \subset M_n = M \]
+Then $M_i / M_{i - 1}$ is a simple $A$-module so $M_i / M_{i-1} \cong B / \m_B = \kappa(\m_B)$ since $B$ is local. Therefore,
+\[ \ell_A{M} = \sum_{i = 1}^n \ell_A{M_i / M_{i-1}} = \sum_{i = 1}^n \ell_A(\kappa(\m_B)) = n \cdot [ \kappa(B_\m) : \kappa(A_\m) ] \]
+where $\ell_A(\kappa(\m_B)) = \ell_{\kappa(\m_A)}(\kappa(\m_B))$ because $A \to B$ is local and,
+\[ \ell_{\kappa(\m_A)}(\kappa(\m_B)) = \dim_{\kappa(\m_A)}(\kappa(\m_B)) = [\kappa(\m_B) : \kappa(\m_A)] \]
+\end{proof}
+
+\begin{cor}
+If $A$ is a local artinian finite type $k$-algebra. Then,
+\[ \dim_k{A} = \ell_A(A) \cdot \dim_k{(A / \m)} \]
+in particular $A$ is a finite $k$-module. 
+\end{cor}
+
+\begin{proof}
+Viewing $A$ as a module over itself we know it has finite length since $A$ is artinian. Furthermore, $A / \m$ is a field finitely generated over $k$ and thus a finite extension of $k$ by the Nullstellensatz. Then applying the previous result we conclude. 
+\end{proof}
+
+\begin{cor}
+Let $A$ be an artinian finite type $k$-algebra. Then,
+\[ \dim_k{A} = \sum_{i = 1}^r \ell_{A_{\m_i}}(A_{\m_i}) \cdot \dim_k{(A / \m_i)} \]
+\end{cor}
+
+\begin{proof}
+Since $A$ is artinian we can write,
+\[ A = \prod_{i = 1}^r A_{\m_i} \]
+where $A_{\m_i}$ are the local artinian factors associated to the finitely many prime ideals $\m_1, \dots, \m_r$. The result follows from above by additivity of the dimensions.
+\end{proof}
 
 \end{document}
