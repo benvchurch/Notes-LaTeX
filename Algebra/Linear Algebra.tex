@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgebraCommands}
+
+
+\begin{document}
+
+\begin{rmk}
+All rings are commutative and unital.
+\end{rmk}
+
+
+\section{Bases and Generating Sets}
+
+\begin{defn}
+Let $M$ be an $R$-module. Elements $\alpha_1, \dots, \alpha_n \in M$ define a map $R^n \to M$. We say that,
+\begin{enumerate}
+\item $\{ \alpha_1, \dots, \alpha_n \}$ are $R$-linearly independent or simply \textit{independent} if the map $R^n \to M$ is injective
+\item $\{ \alpha_1, \dots, \alpha_n \}$ \textit{span} $M$ if $R^n \to M$ is surjective
+\item $\{ \alpha_1, \dots, \alpha_n \}$ is a basis of $M$ if $R^n \to M$ is an isomorphism. 
+\end{enumerate}
+\end{defn}
+
+\subsection{The Case for Vector Spaces}
+
+\begin{lemma}
+Let $V$ be a finitely generated $k$-module. Then $V$ has a basis i.e. $V \cong k^n$.
+\end{lemma}
+
+\begin{proof}
+Since $M$ is finitely generated, there is a spaning set defining a surjection $k^n \onto V$. However, 
+\end{proof}
+
+
+\section{Modules over a PID}
+
+\begin{thm}
+Let $A$ be a PID. Every submodule of a free module of rank $n$ is free of rank at most $n$.
+\end{thm}
+
+\begin{proof}
+We proceed by induction on $n$. For $n = 1$ we consider submodules $I \subset R$ which are ideals. Since $R$ is a PID then $I = (a)$ for some $a \in A$ and thus $I \cong R$ or $I = (0)$ since $R$ is a domain proving the claim. Now we assume the claim for $n$. Consider a submodule $M \subset R^{n+1}$. Write $R^{n+1} = R \oplus R^n$ and consider the projection $\pi : R^{n+1} \onto R^n$. Then $N = \pi(M) \subset R^n$ is a free module of rank at most $n$ by the induction hypothesis. Furthermore the map $\pi|_M : M \onto N$ gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\pi|_M} \arrow[r] & M \arrow[r] & N \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+but $N$ is free and thus projective so this exact sequence splits givign,
+\[ M \cong N \oplus \ker{\pi|_M} \]
+Furthermore, $\ker{\pi|_M} = M \cap (R \oplus 0) \subset R$ so again because $R$ is a PID we find $\ker{\pi|_M}$ is a free module of rank at most $1$. Thus, 
+\[ M = N \oplus \ker{\pi|_M} \]
+is a free module of rank at most $n + 1$.
+\end{proof}
+
+\begin{defn}
+Let $R$ be a PID and $M$ a finite free $A$-module, $M' \subset M$ a submodule. A basis $\{ v_1, \dots, v_n \}$ of $M$ and a basis $\{ a_1 v_1, \dots, a_m v_m \}$ of $M'$ with $a_i \in R \setminus \{ 0 \}$ and $m \le n$ are called a pair of \textit{aligned} bases. Such a bair of bases gives a map in the category of product modules,
+\begin{center}
+\begin{tikzcd}
+R^m \arrow[d, "\sim"] \arrow[r, dashed] & R^n \arrow[d, "\sim"]
+\\
+M' \arrow[r, hook] & M
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{lemma}
+Let $R$ be a PID. Any finite free $R$-module with a nonzero submodule $M' \subset M$ of rank $m \le n$ admit a pair of aligned bases. Thus there is a basis $v_1, \dots, v_n \in M$ and nonzero $a_1, \dots, a_m \in A$ such that,
+\[ M = A v_1 + \cdots + A v_n \quad \text{and} \quad M' = A a_1 v_1 + \cdots + A a_m v_m \]
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on the rank $n$ of $M$. For $n = 1$ we have $M' \subset R$ is an ideal and thus $M' = A a$ since $R$ is a PID giving aligned bases $\{ 1 \}$ and $\{ a \}$. Now we assume the claim for $n-1$ and let $M$ be a free $R$-module of rank $n$.
+
+Consider the poset of ideas $S = \{ \varphi(M') \mid \varphi \in \Hom{R}{M}{R} \}$ ordered with respect to inclusion. Because $R$ is Noetherian $S$ contains a maximal element $I = \varphi_0(M')$ for some $\varphi_0 \in \Hom{R}{M}{R}$. Furthermore, since $R$ is a PID, $I = (a)$ for some $a \in R$. Thus we must have $a = \varphi_0(v')$ for some $v' \in M'$. For any $\varphi \in \Hom{R}{M}{R}$ consider $a_\varphi = \varphi(v')$. Since $R$ is a PID, $(a_\varphi) + (a) = (d)$ so we can write $x a_\varphi + y a = d$ and thus $( x \varphi + y \varphi_0)(v') = d$ meaning that $(a) \subset (d) \subset (x \varphi + y \varphi_0)(M')$ but $(a) = I$ is maximal in $S$ so we must have $(a) = (d)$ and thus $a_\varphi \in (a)$. Therefore we have shown,
+\[ \{ \varphi(v') \mid \varphi \in \Hom{R}{M}{R} \} \subset (a) = I  \]
+Choose a basis $e_1, \dots, e_{n} \in M$ and write,
+\[ v' = c_1 e_1 + \cdots + c_n e_n \quad \text{for} \quad c_1, \dots, c_n \in R \]
+Then consider the dual basis $\{ e_i^* \in \Hom{R}{M}{R} \}$ such that $e_i^*(e_j) = \delta_{ij}$. Then $e_i^*(v') = c_i \in (a)$ so we can write $c_i = a b_i$ for $b_i \in R$. Let,
+\[ v = b_1 e_1 + \cdots + b_n e_n \]
+and thus $v' = a v$. Then $\varphi(v') = a$ so $a \varphi_0(v) = a$ so $\varphi_0(v) = 1$ since $R$ is a domain. Therefore, $\varphi_0 : M \onto R$ is surjective. Since $R$ is a free and thus projective $R$-module, the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\varphi_0} \arrow[r] & M \arrow[r, "\varphi_0"] & R \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+splits with $R \to M$ via $1 \mapsto v$ so $M = R v \oplus \ker{\varphi_0}$ as an internal direct sum. Simultaneously, $\varphi_0(M') = R a$ so we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\varphi_0} \arrow[r] & M \arrow[r, "\varphi_0"] & R \arrow[l, bend left] \arrow[r] & 0
+\\
+0 \arrow[r] & \ker{\varphi_0|_{M'}} \arrow[u, hook] \arrow[r] & M' \arrow[u, hook] \arrow[r, "\varphi_0"] & R a \arrow[l, bend left] \arrow[u, hook] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+splits with $R a \to M'$ via $a \mapsto av = v'$. Therefore, we get compatible decompositions i.e. an inclusion,
+\begin{center}
+\begin{tikzcd}
+M = \ker{\varphi_0} \oplus R 
+\\
+M' = \ker{\varphi_0|_{M'}} \oplus R a \arrow[u, hook]
+\end{tikzcd}
+\end{center} 
+in the category of products defined by the inclusions $\ker{\varphi_0|_{M'}} \subset \ker{\varphi_0}$ and $R a \subset R$.
+Then $\ker{\varphi_0|_{M'}} \subset \ker{\varphi_0}$ are free modules of rank $n-1$ and $m-1$ respectively so by the induction hypothesis, $\ker{\varphi_0}$ and $\ker{\varphi_0|_{M'}}$ have aligned bases $\{ v_2, \dots, v_{n} \}$ and $\{ a_2 v_2, \dots, a_m v_m \}$ for $a_2, \dots, a_m \in R$. Then, $\{ v, v_2, \dots, v_n \}$ and $\{ a v, a_2 v_2, \dots, a_m v_m \}$ give aligned bases for $M' \subset M$.
+\end{proof}
+
+\begin{theorem}[Structure Theorem for Modules over a PID]
+Let $R$ be a PID and $M$ a finitely generated $R$-module. Then,
+\[ M \cong R^r \oplus R/(a_1) \oplus \cdots \oplus R/(a_n) \]
+\end{theorem}
+
+\begin{proof}
+Since $M$ is finitely generated, there is a map $\varphi : R^n \onto M$. Then $\ker{\varphi} \subset R^n$ is a free module of rank $m \le n$. Therefore, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & R^m \arrow[r] & R^n \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+We can choose aligned bases for $R^m \cong \ker{\varphi} \subset R^n$ so that the map $R^m \to R^n$ is in the category of products i.e. represented by a diagonal matrix such that $e_i \mapsto a_i e_i$ for $i = 1, \dots, m$. Therefore,
+\[ M \cong \frac{R \oplus \cdots \oplus R}{R a_1 \oplus \cdots \oplus R a_m} = R/(a_1) \oplus \cdots \oplus R / (a_m) \oplus R^{n - m} \]
+\end{proof}
+
+\end{document}
+

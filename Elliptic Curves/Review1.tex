@@ -1,0 +1,237 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+
+\begin{document}
+
+\title{Diagnostic Problems}
+
+\section{Calculus}
+
+
+\subsection{}
+
+Compute the following derivatives:
+
+\begin{enumerate}
+\item[(a.)] $\deriv{}{x} x^2$
+\item[(b.)] $\deriv{}{x} (x^3 + a x + b)$
+\item[(c.)] $\deriv{}{x} \tan{x}$
+\end{enumerate}
+
+\subsection{}
+
+Compute the following definite and indefinite integrals:
+
+\begin{enumerate}
+\item[(a.)] \[ \int (x^3 + x + 1) \d{x} \]
+\item[(b.)] \[ \int_0^{\pi/2} \sin{x} \d{x} \]
+\item[(c.)] \[ \int_2^{\infty} \frac{3 x^2 - 1}{x(x^2 - 1)} \d{x}  \]
+\item[(d.)] \[ \int_1^{\infty} \frac{3 x^2 - 1}{\sqrt{x(x^2 - 1)}} \d{x}  \]
+\item[(e.)] \[ \int \frac{1}{x^2 - 1} \d{x} \]
+\end{enumerate}
+
+\subsection{}
+
+Demonstrate uning limits why
+\[ \deriv{}{x} e^x = e^x \]
+use your favorite definition of $e^x$ and justify all limits used. 
+
+\subsection{}
+
+Do the following series converge or diverge?
+
+\begin{enumerate}
+\item[(a.)] \[ \sum_{n = 1}^\infty \frac{1}{n} \]
+\item[(b.)] \[ \sum_{n = 1}^\infty \frac{1}{n^2} \]
+\item[(c.)] \[ \sum_{n = 1, m = 1}^\infty \frac{1}{n^2 + m^2} \]
+\item[(d.)] \[ \prod_{p \text{ primes}} \frac{1}{1 - p^{-2}} \]
+\end{enumerate}
+
+\section{Polynomials}
+
+\subsection{}
+
+Find all complex roots of the following polynomials
+
+\begin{enumerate}
+\item[(a.)] $x^3 - 6 x^2 + 11 x - 6$
+
+\item[(b.)] $x^6 - 1$
+
+\item[(c.)] $x^4 - 2 x^2 + 6$
+\end{enumerate}
+
+\subsection{}
+
+Find as many integer solutions to 
+\[ y^2 = x^3 + x + 1 \]
+as you can.
+
+\subsection{}
+
+How many integer solutions does $x^2 - 2 y^2 = 1$ have?
+
+
+\section{Complex Numbers}
+
+\subsection{}
+
+How many real roots does $x^3 + x + 1$ have? How many complex roots does $x^3 + x + 1$ have? What is the sum of the roots? What is the product?
+
+\subsection{}
+
+Find and justify reasonable values for the following expressions (here $i = \sqrt{-1}$)
+
+\begin{enumerate}
+\item[(a.)] $i^i$
+
+\item[(b.)] $\log{(-1)}$
+
+\item[(c.)] $\log{i}$
+\end{enumerate}
+
+\section{Algebra}
+
+
+\begin{definition}
+A group $G$ is a set with a binary operation $\circ$ which satisfies,
+\begin{enumerate}
+\item associativity, $x \circ (y \circ z) = (x \circ y) \circ z$
+\item there exists an identity $e \in G$ such that $e \circ g = g \circ e = g$ for any $g \in G$
+\item for each $g \in G$ there exists an inverse $g^{-1} \in G$ such that $g \circ g^{-1} = g^{-1} \circ g = e$
+\end{enumerate} 
+\end{definition}
+
+\subsection{}
+
+Which of the following pairs of a set and a binary operation are groups? If not, why?
+
+\begin{enumerate}
+\item[(a.)] the natural numbers $\{0, 1, 2, \dots \}$ with addition $+$
+\item[(b.)] the integers $\Z$ with addition $+$
+\item[(c.)] the integers $\Z$ with multiplication $\cdot$
+\item[(d.)] the rational numbers $\Q$ with addition $+$
+\item[(e.)] the rational numbers $\Q$ with multiplication
+\item[(f.)] the nonzero rational numbers $\Q^\times$ with addition $+$
+\item[(g.)] the nonzero rational numbers $\Q^\times$ with multiplication $\cdot$
+\item[(h.)] the permutations of the numbers $\{1, \dots, n\}$ with composition of functions
+\item[(i.)] pairs of integers $(a,b)$ with $a,b \in \Z$ and addition $(a,b) + (c,d) = (a+c, b+d)$.
+\end{enumerate}
+
+\begin{definition}
+A group $G$ is \textit{finitely generated} if there exists a finite set $S \subset G$ such that every element in $g \in G$ can be expressed as a finite combination of elements of $S$ (and the inverses of elements in $S$) i.e. $g = s_1 \circ \cdots \circ s_n$ for $s_1, \dots, s_n \in S \cup S^{-1}$ where $S^{-1} = \{ s^{-1} \mid s \in S \}$.
+\end{definition}
+
+\subsection{}
+
+Of the groups you identified above, which are finitely generated? If yes, provide a finite generating set. If no, justifty why no finite generating set exists.
+
+\end{document}

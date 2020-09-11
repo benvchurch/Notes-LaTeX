@@ -1,0 +1,687 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Irreducible Spaces}
+
+\subsection{Irreducibility}
+
+\begin{defn}
+A topological space $X$ is \textit{irreducible} if $X$ is nonempty and whenever $X = Z_1 \cup Z_2$ for closed subsets $Z_1, Z_2 \subset X$ then either $Z_1 = X$ or $Z_2 = X$.
+\end{defn}
+
+\begin{lemma}
+Let $X$ be a topological space. The following are equivalent,
+\begin{enumerate}
+\item $X$ is irreducible
+\item every nomepty open $U \subset X$ is dense
+\item any two nonempty opens $U_1, U_2 \subset X$ have nonempty intersection $U_1 \cap U_2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $X$ be irreducible and suppose $U \subset X$ is open. Then $\overline{U} \cup U^C = X$ so either $\overline{U} = X$ or $U^C = X$ because both $\overline{U}, U^C \subset X$ are closed. Thus, if $U$ is nonempty then $\overline{U} = X$.
+\bigskip\\
+Conversely, let $X = Z_1 \cup Z_2$ with $Z_1, Z_2 \subset X$ closed. Then $Z_1^C \subset Z_2$ so either $Z_1^C$ is empty or dense so $Z_2 = X$ thus either $Z_1 = X$ or $Z_2 = X$ so $X$ is irreducible. 
+\bigskip\\
+Now (a) and (c) are equivalent because,
+\[ U_1 \cap U_2 = \empty \iff (U_1 \cap U_2)^C = X \iff U_1^C \cup U_2^C = X \]
+So,
+\begin{align*}
+[U_1, U_2 \neq \empty \implies U_1 \cap U_2 \neq \empty] & \iff [U_1 \cap U_2 = \empty \implies U_1 = \empty \text{ or } U_2 = \empty]
+\\
+& \iff [U_1^C \cup U_2^C = X \implies U_1^C = X \text{ or } U_2^C = X]
+\end{align*}
+\end{proof}
+
+
+\begin{lemma}
+Let $S \subset X$ be a subspace with the subspace topology. Then $S$ is irreducible iff for any closed $Z_1, Z_2 \subset X$ such that $S \subset Z_1 \cup Z_2$ then either $S \subset Z_1$ or $S \subset Z_2$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $S$ is irreducible. Then $\tilde{Z}_i = Z_i \cap S$ are closed in $S$ and $S = \tilde{Z}_1 \cup \tilde{Z}_2$ so $S = \tilde{Z}_i$ i.e. $S \subset Z_i$ for some $i$.
+\bigskip\\
+Conversely, let $\tilde{Z}_1, \tilde{Z}_2 \subset S$ be closed such that $S = \tilde{Z}_1 \cup \tilde{Z}_2$. Then $\tilde{Z}_i = Z_i \cap S$ for some closed $Z_i \subset X$ because $S$ has the subspace topology. Then $S \subset Z_1 \cup Z_2$ so $S \subset Z_1$ or $S \subset Z_2$ and thus $S = \tilde{Z}_1$ or $S = \tilde{Z}_2$ so $S$ is irreducible.
+\end{proof}
+
+\begin{rmk}
+If $S \subset Y \subset X$ with the subspace topologies then,
+\begin{center}
+$S$ is ``irreducible in $Y$'' $\iff$ $S$ is ``irreducible in $X$''
+\end{center}
+because irreducibility is an absolute property.
+\bigskip\\
+Explicitly, if $S$ is ``irreducible in $Y$'' and $S \subset Z_1 \cup Z_2$ for $Z_1, Z_2 \subset X$ closed then $Z_1 \cap Y, Z_2 \cap Y \subset Y$ are closed and $S \subset (Z_1 \cap Y) \cup (Z_2 \cap Y)$ so $S \subset Z_1 \cap Y$ or $S \subset Z_2 \cap Y$ so $S \subset Z_1$ or $S \subset Z_2$ menaing $S$ is ``irreducible in $X$''. Conversely, if $S$ is ``irreducible in $X$'' then if $S \subset Z_1 \cup Z_2$ for closed $Z_1, Z_2 \subset Y$ then there exist closed $Z'_i \subset X$ such that $Z_i = Z'_i \cap Y$ and $S \subset Z'_1 \cup Z'_2$ so $S \subset Z'_1$ or $S \subset Z'_2$ and thus $S \subset Z_1$ or $S \subset Z_2$ showing that $S$ is ``irreducible in $Y$''.
+\end{rmk}
+
+\begin{lemma}
+Let $U \subset X$ be open and $Z \subset X$ irreducible. Then $Z \cap U$ is irreducible iff $Z \cap U \neq \empty$.
+\end{lemma}
+
+\begin{proof}
+If $Z \cap U = \empty$ then it is not irreducible by definition. Otherwise, assume $Z \cap U \neq \empty$ and suppose $Z \cap U \subset Z_1 \cup Z_2$ for closed subsets $Z_1, Z_2 \subset X$. Then $Z \subset Z_1 \cup Z_2 \cup U^C$ so $Z \subset Z_1$ or $Z \subset Z_2$ or $Z \subset U^C$ by irreducibility of $Z$ and the previous lemma. However, $Z \not\subset U^C$ because $Z \cap U \neq \empty$ so $Z \subset Z_1$ or $Z \subset Z_2$ so by the above lemma $Z \cap U$ is irreducible.
+\end{proof}
+
+\begin{lemma}
+Let $Z \subset X$ be irreducible. Then $\overline{Z} \subset X$ is irreducible.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\overline{Z} = Z_1 \cup Z_2$ with $Z_1$ and $Z_2$ closed. Then $Z \subset Z_1 \cup Z_2$ so either $Z \subset Z_1$ or $Z \subset Z_2$. But since $Z_1$ and $Z_2$ are closed, we get $\overline{Z} = Z_1$ or $\overline{Z} = Z_2$. 
+\end{proof}
+
+
+\subsection{Irreducible Components}
+
+
+\begin{lemma}
+Increasing unions of irreducible subsets are irreducible.
+\end{lemma}
+
+\begin{proof}
+Consider a chain $T$ of irreducible subsets and consider,
+\[ U = \bigcup_{S \in T} S \]
+Suppose $U = Z_1 \cup Z_2$ for closed subsets $Z_1$ and $Z_2$ of $U$. Then for each $S \in T$ we have $S \subset Z_1$ or $S \subset Z_2$. If for some $S_0 \in T$ we have $S_0 \not\subset Z_2$ (otherwise $Z_2 \supset U$ and we are done) then $S_0 \subset Z_1$ and for any $S \in T$ with $S \supset S_0$ we cannot have $S \subset Z_2$ else $S_0 \subset Z_2$. Therefore, $S \subset Z_1$. For any $S \in T$, since $T$ is totally ordered, either $S \subset S_0$ in which case $S \subset Z_1$ or $S \supset S_0$ in which case $S \subset Z_1$ (as we have just shown). Therefore, $U \subset Z_1$ so $U$ is irreducible.
+\end{proof}
+
+\begin{defn}
+Let $X$ be a topological space then its irreducible components are the maximal irreducible subsets of $X$.
+\end{defn}
+
+\begin{rmk}
+The irreducible subsets of $X$ form a poset under inclusion. Furthermore, since chains have a maximum, by Zorn's lemma $X$ always has some irreducible component.  
+\end{rmk}
+
+\begin{lemma}
+Let $X$ be a topological space. The following hold,
+\begin{enumerate}
+\item irreducible components are closed
+\item every irreducible subset of $X$ is contained in some irreducible component
+\item the irreducible components of $X$ cover $X$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $C \subset X$ be an irreducible component. Then $\overline{C}$ is irreducible and $S \subset \overline{C}$ so $\overline{C} = C$ by maximality. Thus, $C$ is closed. For any irreducible set $S \subset X$, Zorn's Lemma gives a maximal element in the irreducible components above $S$ i.e. $S \subset C$ is contained in some irreducible component. In particular, since any point $x \in X$ is irreducible so $x \in C$ is contained in some irreducible component. Thus the irreducible components cover $X$.
+\end{proof}
+
+\begin{lemma}
+Noetherian spaces have finitly many irreducible components.
+\end{lemma}
+
+\begin{proof}
+Let $S$ be the poset of closed subspaces with infinitely many components ordered by inclusion. By the Noetherian hypothesis, descending chains in $S$ have minima so, by Zorn's lemma, $S$ has a minimum $Z$ which has infinitely many irreducible components. Clearly, $Z$ cannot be irreducible so we can write $Z = Z_1 \cup Z_2$ with $Z_1, Z_2 \subsetneq Z$ are proper closed subsets. By minimality, $Z_1, Z_2 \notin S$ and thus $Z_1, Z_2$ have finitely many irreducible components. Thus, $Z = Z_1 \cup Z_2$ has finitely many irreducible components so $S$ is empty. 
+\end{proof}
+
+
+
+\section{Quasi-Compactness and Noetherian Spaces}
+
+\subsection{Noetherian Spaces}
+
+\begin{defn}
+A topological space $X$ is Noetherian if every descending chain of closed sets stabilizes.
+\end{defn}
+
+\begin{lemma}
+Subspaces of Noetherian subspaces are Noetherian.
+\end{lemma}
+
+\begin{proof}
+Let $S \subset X$ with $X$ noetherian. Then the closed sets of $S$ are exactly $S \cap Z$ for $Z \subset X$ closed. Thus descending chains of closed sets in $S$ stabilize.
+\end{proof}
+
+\begin{defn}
+A space is quasi-compact if every open cover has a finite subcover.
+\end{defn}
+
+\begin{lemma}
+Noetherian spaces are quasi-compact. 
+\end{lemma}
+
+\begin{proof}
+Let $U_{\alpha}$ be an open cover of $X$ which is Noetherian. Then consider the poset $A$ under inclusion of finite unions of the $U_\alpha$ all of which are open sets of $X$. Since $X$ is Noetherian any ascending chain of opens must stabilize so any chain in $A$ has a maximum. Then by Zorn's lemma $A$ has a maximal element which must be $X$ since the $U_\alpha$ form a cover. Therefore there exists a finite subcover.
+\end{proof}
+
+\begin{cor}
+Every subset of a noetherian topological space is quasi-compact.
+\end{cor}
+
+\begin{defn}
+A continuous map $f : X \to Y$ is quasi-compact if for each quasi-compact open $U \subset Y$ then $f^{-1}(U)$ is quasi-compact open.
+\end{defn}
+
+\subsection{The Case for Schemes}
+
+\begin{lemma}
+Affine schemes are quasi-compact.
+\end{lemma}
+
+\begin{proof}
+Let $U_i$ be an open cover of $\Spec{A_i}$. Since $D(f)$ for $f \in A$ forms a basis of the topology on $\Spec{A_i}$ we can shrink to the case $U_i = D(f_i)$. Then.
+\[ X = \bigcup_{i  \in I} D(f_i) = \bigcup_{i \in I} D(( \{ f_i \mid i \in I \} )) \]
+And thus the ideal $I = ( \{ f_i \mid i \in I \} )$ is not contained in any maximal ideal so $I = (1)$. Therefore, there are $f_1, \dots, f_n$ such that $a_1 f_1 + \cdots a_n f_n = 1$ and thus $(f_1, \dots, f_n) = (1)$ which implies that,
+\[ X = D((f_1, \dots, f_n)) = \bigcup_{i = 1}^n D(f_i) \]
+so $X$ is quasi-compact.
+\end{proof}
+
+\begin{defn}
+A scheme $X$ is \textit{locally Noetherian} if for every affine open $U$ the ring $\struct{X}(U)$ is Noetherian. $X$ is \textit{Noetherian} if it is quasi-compact and locally-Noetherian. 
+\end{defn}
+
+\begin{lemma}
+If $(f_1, \dots, f_n) = A$ and $A_{f_i}$ is Noetherian then $A$ is Noetherian.
+\end{lemma}
+
+\begin{proof}
+For any ideal $I \subset A$ we know $I_{f_i} \subset A_{f_i}$ is finitely generated. Clearing denominators and collecting the finite union of these finite generators gives a map $A^N \to I$ which is surjective when localized $A^N_{f_i} \onto I_{f_i}$. Consider the $A$-module $K = \coker{(A^N \to I)}$ then for any $x \in K$ we have $f_i^{n_i} \cdot x = 0$ for each $i$ but $f_i^{n_i}$ generate the unit ideal (since $D(f_i^{n_i}) = D(f_i)$ which cover $\Spec{A}$) so $x = 0$ to $A^N \onto I$ so $I$ is finitely generated showing that $A$ is Noetherian.
+\end{proof}
+
+\begin{lemma}
+If $X$ has an open affine cover $U_i = \Spec{A_i}$ with $A_i$ noetherian then $X$ is locally noetherian. Moreover, if the cover can be made finite then $X$ is noetherian. 
+\end{lemma}
+
+\begin{proof}
+Let $V = \Spec{B} \subset X$ be an affine open, Then $V \cap U_i \subset V$ is open so it may be covered by principal opens $D(f_{ij}) \subset V \cap U_i$ for $f_{ij} \in B$. Since $V$ is quasi-compact we may find a finite subcover. We need to show that $B_{f_{ij}}$ is Noetherian then since $D(f_{ij})$ cover $V$ we use the lemma to conclude that $B$ is Noetherian. However, $D(f_{ij}) \subset V \cap U_i$ can be covered by principal opens (of $U_i = \Spec{A_i}$) $W_{ijk} \subset D(f_{ij}) \subset U_i = \Spec{A_i}$ and each $(A_i)_{f_{ijk}}$ is Noetherian since $A_i$ is, so using the same lemma we find that $B_{f_{ij}}$ is Noetherian. 
+\bigskip\\
+Now suppose the cover is finite and let $V_j$ be any open cover of $X$. We need to show $X$ is quasi-compact so we must show that $V_i$ has a finite subcover. Consider $U_i \cap V_j$  which is open in the affine $U_i = \Spec{A_i}$ so it may be covered by principal opens $D(f_{ijk}) \subset U_i \cap V_j$. Now,
+\[ U_i = \bigcup_{j,k} D(f_{ijk}) \]
+but $U_i$ is affine and thus quasi-compact so we may find an finite subcover which only uses finitely many $V_i$ but the cover $U_i$ of $X$ is also finite so only finitely many $V_i$ are needed to cover $X$.  
+\end{proof}
+
+\begin{cor}
+$X = \Spec{A}$ is Noetherian iff $A$ is a Noetherian ring.
+\end{cor}
+
+\begin{proof}
+If $X$ is Noetherian then $\struct{X}(X) = A$ is a Noetherian ring ($X$ is affine and thus quasi-compact). Conversely $\Spec{A}$ is a finite Noetherian affine cover so $X$ is Noetherian.
+\end{proof}
+
+\begin{rmk}
+It is not the case that for a Noetherian scheme we must have $\struct{X}(X)$ a noetherian ring even for varieties. See http://sma.epfl.ch/~ojangure/nichtnoethersch.pdf. 
+\end{rmk}
+
+\begin{cor}
+A Noetherian ring has finitely many minimal primes.
+\end{cor}
+
+\begin{proof}
+Let $A$ be Noetherian then primes $\p \in \Spec{A}$ correspond to irreducible closed subsets $V(\p)$ and thus minimal primes correspond to irreducible components of $\Spec{A}$. Therefore, since $\Spec{A}$ is Noetherian, we see that $\Spec{A}$ has finitely many irreducible components and thus finitely many minimal primes. 
+\end{proof}
+
+\begin{lemma}
+If $A$ is Noetherian then $\Spec{A}$ is a Noetherian topological space.
+\end{lemma}
+
+\begin{proof}
+Every descending chain of subsets is of the form $V(I_1) \supsetneq V(I_2) \supsetneq V(I_3) \supsetneq \cdots$ but the ideals,
+\[ \sqrt{I_1} \subsetneq \sqrt{I_2} \subsetneq \sqrt{I_3} \subsetneq \cdots \]
+satbilize since $A$ is Noetherian and thus so does the chain of closed subsets.
+\end{proof}
+
+\begin{lemma}
+If $X$ is a Noetherian scheme then its underlying topological space is Noetherian.
+\end{lemma}
+
+\begin{proof}
+Choose a finite covering $U_i = \Spec{A_i}$ by Noetherian rings. Then for any descending chain of closed subsets $Z_1 \supsetneq Z_2 \supsetneq Z_3 \supsetneq \cdots$ we know $Z \cap U_i$ stabilizes at $n_i$ since $\Spec{A_i}$ is a Noetherian space. Thus, $Z$ satibilizes at $\max{n_i}$ which exists since the cover is finite. 
+\end{proof}
+
+\begin{rmk}
+The converses of the above are false and so is $X$ Noetherian. Let $R$ be a non-Noetherian valuation ring. Then $\Spec{R}$ has two points and thus is Noetherian as a topological space but not as a scheme since $R$ is not a Noetherian ring. 
+\end{rmk}
+
+\begin{lemma}
+If $X$ is locally Noetherian then any immersion $\iota : Z \embed X$ is quasi-compact.
+\end{lemma}
+
+\begin{proof}
+Closed immersions are affine and thus quasi-compact so it suffices okay to show that open immersions are quasi-compact. Let $j : U \to X$ be an open immersion. It suffices to check that $j^{-1}(U_i)$ is quasi-compact on an affine open cover $U_i = \Spec{A_i}$ with $A_i$ Noetherian. But $j : j^{-1}(U_i) \to U_i \cap U$ is a homeomorphism and $\Spec{A_i}$ is a Noetherian topological space so every subset is quasi-compact and, in particular, $U_i \cap U$ is quasi-compact so $j^{-1}(U_i)$ is also.
+\end{proof}
+
+\begin{rmk}
+When $X$ is Noetherian then it is a Noetherian space so any inclusion map $\iota : Z \embed X$ for \textit{any} subset $Z \subset X$ is quasi-compact since every subset is quasi-compact. In particular, every subset of $X$ is retrocompact. 
+\end{rmk}
+
+\subsection{Quasi-Compact Morphisms}
+
+\begin{lemma}
+A morphism $f : X \to Y$ is quasi-compact iff $Y$ has a cover by affine opens $V_i$ such that $f^{-1}(V_i)$ is quasi-compact.
+\end{lemma}
+
+\begin{proof}
+Clearly if $f$ is quasi-compact then any affine open cover $V_i$ of $Y$ satisfies $f^{-1}(V_i)$ is quasi-compact since $V_i$ is a quasi-compact open by virtue of being affine open.
+\bigskip\\
+Now assume that such a cover exists. Let $U \subset Y$ be a quasi-compact open. Then $U$ is covered by finitely may $V_1, \dots, V_n$. Then $U \cap V_i$ is open in $V_i$ which is affine so it is covered by standard opens $W_{ij}$. Since $U$ is quasi-compact then we can choose finitely many $W_{ij}$. Now $f^{-1}(V_i)$ is quasi-compact by assumption so it has a finite cover by affine opens,
+\[ f^{-1}(V_i) = \bigcup_{j = 1}^N \tilde{V}_{ij} \]
+Then $f : \tilde{V}_{ik} \to V_i$ is a morphism of affine schemes so $f^{-1}(W_{ij}) \cap \tilde{V}_{ik}$ is a principal affine. Therefore,
+\[ f^{-1}(U) = \bigcup_{i = 1}^n f^{-1}(V_i \cap U) = \bigcup_{i,j} f^{-1}(W_{ij}) = \bigcup_{i,j,k} f^{-1}(W_{ij}) \cap \tilde{V}_{ik} \]
+is a finite union of principal affines each of which is quasi-compact so $f^{-1}(U)$ is quasi-compact. 
+\end{proof}
+
+\begin{proposition}
+$X$ is quasi-compact iff any morphism $X \to T$ for some affine scheme $T$ is quasi-compact.
+\end{proposition}
+
+\begin{proof}
+If $X$ is quasi-compact then $f : X \to T$ is quasi-compact since $T$ is an affine open cover of itself and $f^{-1}(T)$ is quasi-compact. Conversely, if $f : X \to T$ is quasi-compact with $T$ affine then $T$ is quasi-compact open in $T$ so $X = f^{-1}(T)$ is quasi-compact.
+\end{proof}
+
+\begin{lemma}
+The base change of a quasi-compact morphism is quasi-compact.
+\end{lemma}
+
+\begin{proof}
+(DO THIS)
+\end{proof}
+
+\subsection{Affine Morphisms}
+
+\begin{defn}
+A morphism $f : X \to Y$ is \textit{affine} if the preimage of every affine open is affine.
+\end{defn}
+
+\begin{lemma}
+Every morphism of affine schemes is affine and thus quasi-compact.
+\end{lemma}
+
+\begin{proof}
+Let $X = \Spec{A}$ and $Y = \Spec{B}$ and $f : X \to Y$ be a morphism of affine schemes given by a ring map $\varphi : B \to A$. Then, any affine open $\Spec{C} = V \subset Y$ can be covered by principal opens $D(f_i)$ for $f_i \in B$. Note that under $\psi : B \to C$ we see that $D(f_i) = D(\psi(f_i))$ since $D(f_i) \subset \Spec{C}$. Since $D(\psi(f_i))$ cover $\Spec{C}$ then $\psi(f_i) \in C$ generate the unit ideal. Then we have $f^{-1}(D(f_i)) = D(\varphi(f_i))$ which is affine and $\varphi(f_i)$ generate the unit ideal of $\Gamma(f^{-1}(V), \struct{X})$ so $f^{-1}$ is affine.
+\end{proof}
+
+\begin{rmk}
+An alternative proof goes as follows. Consider the pullback diagram,
+\begin{center}
+\begin{tikzcd}
+f^{-1}(U) \arrow[d, hook] \arrow[r] & U \arrow[d, hook]
+\\
+X \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+then open immersions are stable under base change so $f^{-1}(U) = U \times_Y X = \Spec{C \otimes_B A}$ if affine.
+\end{rmk}
+
+\begin{rmk}
+In fact, by Tag 01S8, a morphism $f : X \to S$ is affine iff $X$ is relatively affine over $S$ meaning $X = \rSpec{S}{\mathcal{A}}$ for some quasi-coherent $\struct{S}$-algebra $\mathcal{A}$. 
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism and $W_i$ an affine open cover of $Y$ such that $f^{-1}(W_i)$ is affine. Then $f$ is affine.
+\end{lemma}
+
+\begin{proof}
+Let $\Spec{A} = V \subset Y$ be affine open. Then $V_i = V \cap W_i$ is open in the affine open $V = \Spec{A}$ so it can be covered by principal opens $D(f_{ij}) \subset V \cap W_i$ for $f_{ij} \in A$. Since $f : f^{-1}(W_i) \to W_i$ is a morphism of affine schemes, the preimage of the affine open $D(f_{ij}) \subset V \cap W_i$ is affine $f^{-1}(D(f_{ij}))$ (note that $D(f_{ij}) \subset V \cap W_i$ is not necessarily a prinicpal affine open of $W_i$). But since $D(f_{ij})$ cover $\Spec{A}$ the $f_{ij} \in A$ generate the unit ideal and thus $f^\#(f_{ij}) \in \Gamma(f^{-1}(V), \struct{X})$ generate the unit ideal and $(f^{-1}(V))_{f_{ij}} = f^{-1}(D(f_{ij}))$ is affine so $f^{-1}(V)$ is affine.
+\end{proof}
+
+\begin{lemma}
+The base change of an affine morphism is affine. 
+\end{lemma}
+
+\begin{proof}
+(DO THIS)
+\end{proof}
+
+
+\begin{lemma}
+Affine morphisms are quasi-compact.
+\end{lemma}
+
+\begin{proof}
+If $f : X \to Y$ is affine then any affine open cover $V_i$ of $Y$ gives $f^{-1}(V_i)$ is affine and thus quasi-compact so $f$ is quasi-compact. 
+\end{proof}
+
+\subsection{Separatedness}
+
+\begin{defn}
+A morphism $f : X \to Y$ with diagonal $\Delta_{X/Y} : X \to X \times_Y X$ is,
+\begin{enumerate}
+\item \textit{separated} if the diagonal $\Delta_{X/Y}$ is a closed immersion
+\item \textit{affine-separated} if the diagonal $\Delta_{X/Y}$ is affine
+\item \textit{quasi-separated} if the diagonal $\Delta_{X/Y}$ is quasi-compact
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+Any morphism of affine schemes is separated. Furthermore, affine morphisms are separated.
+\end{lemma}
+
+\begin{proof}
+For a map $\Spec{A} \to \Spec{B}$ the diagonal is $\Spec{A} \to \Spec{A \otimes_B A}$ given by $A \otimes_B A \to A$ via $a_1 \otimes a_2 \mapsto a_1 a_2$ which is surjective so the diagonal is a closed immersion. The second fact is Tag 01S7.
+\end{proof}
+
+\begin{lemma}
+The composition of (quasi/affine)-separated morphisms are (quasi/affine)-separated. 
+\end{lemma}
+
+\begin{proof}
+(DO THIS)
+\end{proof}
+
+\begin{lemma}
+For any morphism $f : X \to Y$ the diagonal $\Delta_{X / Y} : X \to X \times_Y X$ is an immersion.
+\end{lemma}
+
+\begin{proof}
+Let $V_i$ be an affine cover of $Y$ then choose an affine open cover $U_{ij}$ of $X$ with $f(U_{ij}) \subset V_i$. Then the diagonal of the affine map $U_{ij} \to V_j$ is $U_{ij} \to U_{ij} \times_{V_i} U_{ij}$ which is a closed immersion since it corresponds to $A_{ij} \otimes_{B_i} A_{ij} \to A_{ij}$ via $a_1 \otimes a_2 \mapsto a_1 a_2$ is surjective. Therefore $f : X \to Y$ is locally on $X$ a closed immersion and thus an immersion. 
+\end{proof}
+
+\begin{rmk}
+Therefore, to show that $f : X \to Y$ is separated, it suffices to show that the diagonal is closed (here equivalently meaning that the map or its image is closed). 
+\end{rmk}
+
+\begin{lemma}
+If $X$ is Noetherian then every morphism $f : X \to S$ is quasi-compact and quasi-seperated. 
+\end{lemma}
+
+\begin{proof}
+Every subset of $X$ is quasi-compact since $X$ is (topologically) Noetherian. Then apply the first part to the diagonal $\Delta_{X/S} : X \to X \times_S X$ which is then quasi-compact and thus $f : X \to S$ is quasi-separated.
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to S$ be affine-separated/quasi-separated with $S = \Spec{A}$ affine. Then for any two affine opens $U, V \subset X$ the intersection $U \cap V$ is affine/quasi-compact. 
+\end{lemma}
+
+\begin{proof}
+Consider the pullback diagram,
+\begin{center}
+\begin{tikzcd}
+U \cap V \arrow[d, hook] \arrow[r] & U \times_S V \arrow[d, hook]
+\\
+X \arrow[r, "\Delta_{X/S}"] & X \times_S X 
+\end{tikzcd}
+\end{center}
+where $U \cap V = \Delta_{X/S}(U \times_S V)$ using the basechange of an open immersion is an open immersion. Then since $S$ is affine, $U \times_S V$ is affine and thus quasi-compact open of $X \times_S X$. Then if $f$ is affine-separated then $\Delta_{X/S}$ is affine so $U \cap V = \Delta_{X/S}(U \times_S V)$ is affine. If $f$ is quasi-separated then $\Delta_{X/S}$ is quasi-compact so $U \cap V = \Delta_{X/S}(U \times_S V)$ is quasi-compact.
+\end{proof}
+
+\begin{rmk}
+In the separated case, we see that $U \cap V$ is affine and $\struct{X}(U) \otimes_{\struct{S}(S)} \struct{X}(V) \to \struct{X}(U \cap V)$ is surjective.
+\end{rmk}
+
+\begin{rmk}
+Tag 01KO gives a generalization of this lemma. For the separated case see Tag 01KP.
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \to Y$ be quasi-compact and quasi-separated and $\F$ be a quasi-coherent $\struct{X}$-module then $f_* \F$ is a quasi-coherent $\struct{Y}$-module.
+\end{lemma}
+
+\begin{proof}
+Sinsce this is local on $Y$ we can restrict to the case that $Y$ is affine. Then   $X = f^{-1}(Y)$ is quasi-compact (when $Y$ is not affine $f^{-1}(V)$ will be quasi-compact) so take a finite affine open cover $U_i$ and since $f : X \to Y$ is quasi-seperated over an affine then by the above lemma $U_i \cap U_j$ is quasi-compact so it has a finite affine open cover $U_{ijk}$. Then, by the sheaf property, there is an exact sequence of sheaves on $Y$
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f_* \F \arrow[r] & \bigoplus\limits_{i} f_* (\F|_{U_i}) \arrow[r] & \bigoplus\limits_{ijk} f_* (\F|_{U_{ijk}}) 
+\end{tikzcd}
+\end{center}
+which works because these are finite sums. However, $f : U_{ijk} \to Y$ is a morphism of affine schemes and since $\F$ is quasi-coherent we have $\F |_{U_{ijk}} = \wt{M_{ijk}}$ so $f_* (\F|_{U_{ijk}}) = \wt{M_{ijk}}$ as an $\struct{Y}(Y)$-module. Thus, $f_* \F$ is a kernel of quasi-coherent $\struct{Y}$-modules and thus is quasi-coherent. 
+\end{proof}
+
+\begin{rmk}
+If $X$ is Noetherian then $f : X \to Y$ is automatically quasi-compact and quasi-separated so there is no issue in the above lemma.
+\end{rmk}
+
+
+\section{Sober Spaces}
+
+\begin{definition}
+A topological space is $T_0$ if for each pair of distinct points there is a neighborhood of one that does not contain. 
+\end{definition}
+
+\begin{proposition}
+All schemes are $T_0$. 
+\end{proposition}
+
+\begin{proof}
+Let $X$ be a scheme and $x, y \in X$ distinct points. If $x$ and $y$ lie in different affine opens then this is an open seperation. If $x, y$ lie in the same affine open $U = \Spec{A}$ then they correspond to distinct prime ideals $\p, \q \subset A$. Since $\p \neq \q$ there exists some element of one that is not in the other. Without loss of generality suppose that there is some $f \in \p$ with $f \notin \q$. Thus, $\q \in D(f)$ and $\p \notin D(f)$ so $x$ and $y$ are seperated by some open $D(f) \subset U \subset X$.  
+\end{proof}
+
+\begin{definition}
+A \textit{generic point} $\xi \in Z$ of a closed irreducible set $Z$ is such that $\overline{\{ \xi \} } = Z$. 
+\end{definition}
+
+\begin{proposition}
+Let $X$ be a toplogical space and $\xi \in X$ then $\overline{\{ \xi \} }$ is a closed irreducible set with generic point $\xi$. 
+\end{proposition}
+
+\begin{proof}
+Clearly, $\{ \xi \}$ is closed. Suppose that $\overline{\{ \xi \}} \subset Z_1 \cup Z_2$ then $\xi \subset Z_1$ or $\xi \subset Z_2$ and thus $\overline{\{ \xi \} } \subset Z_1$ or $\overline{\{ \xi \} } \subset Z_2$ so $\overline{\{ \xi \}}$ is irreducible. Clearly, $\xi$ is a generic point of $\overline{\{ \xi \}}$. 
+\end{proof}
+
+\begin{definition}
+A topological space is \textit{sober} if every irreducible closed set has a unique generic point. 
+\end{definition}
+
+\begin{proposition}
+Any Hausdorff space is sober.
+\end{proposition}
+
+\begin{proof}
+Let $Z$ be irreducible and closed. Suppose that $Z$ has more than one point. Take distinct $x, y \in Z$ and, using the Hausdorff property, open sets $x \in U$ and $y \in V$ such that $U \cap V = \varnothing$. Now consider $Z_1 = Z \cap U^C$ and $Z_2 = Z \cap V^C$ which are closed in $Z$ proper because $x \notin Z_1$ and $y \notin Z_2$. Furthermore, $Z_1 \cup Z_2 = Z \cap (U^C \cup V^C) = Z \cap (U \cap V)^C = Z$ so $Z$ cannot be irreducble. Thus, the only irreducible sets are points which clearly have a unique generic point because all points in a $T_2$ space are closed.
+\end{proof}
+
+\begin{lemma}
+Any prime $\p \in \Spec{A}$ in an affine scheme satisfies $\overline{\{\p\}} = V(\p)$. 
+\end{lemma}
+
+\begin{proof}
+Any closed set in $\Spec{A}$ is of the form $V(I)$ for some ideal $I \subset A$. Consider the closed sets $\p \in V(I)$ containing $\p$ which correspond to $\p \supset I$. Clearly, $\p \in V(\p)$ and if $\p \in V(I)$ then $V(\p) \subset V(I)$ since $\p \supset I$. Therefore $V(\p)$ is the closure of $\p$.
+\end{proof}
+
+\begin{lemma}
+Every closed irreducible set of an affine scheme $\Spec{A}$ is of the form $V(\p)$ for some prime $\p \subset A$. 
+\end{lemma}
+
+\begin{proof}
+First, all closed subsets of $\Spec{A}$ are of the form $V(I)$. First, if $I = \p$ is prime and $V(\p) \subset V(I_1) \cup V(I_2) = V(I_1 I_2)$ then $\p \supset I_1 I_2$. However, since $\p$ is prime we have either $\p \supset I_1$ or $\p \subset I_2$ so $V(\p) \subset V(I_1)$ or $V(\p) \subset V(I_2)$ proving that $V(\p)$ is irreducible. Conversely, if $V(I)$ is irreducible then take $x, y \in A$ such that $xy \in \sqrt{I}$ and thus,
+\[ \sqrt{(xy)} \subset \sqrt{I} \implies V(I) \subset V((xy)) = V((x)) \cup V((y)) \]
+Since $V(I)$ is irreducible we must have either $V(I) \subset V((x))$ or $V((y)) \subset V(I)$ which implies that $\sqrt{(x)} \subset \sqrt{I}$ or $\sqrt{(y)} \subset \sqrt{I}$. Therefore, $x \in \sqrt{I}$ or $y \in \sqrt{I}$ so $\sqrt{I}$ is prime and $V(I) = V(\sqrt{I})$.  
+\end{proof}
+
+\begin{proposition}
+Any scheme is sober. 
+\end{proposition}
+
+\begin{proof}
+First consider the affine case $X = \Spec{A}$. Any irreducible closed set in $X$ is of the form $V(\p)$ for some prime $\p \subset A$. Thus $\overline{\{ \p \}} = V(\p)$ is the unique generic point. Now let $X$ be any scheme and $Z \subset X$ a closed irreducible subset. $X$ has a cover by affine opens so take some affine open $U$ which intersects $Z$. Since $U$ is an affine scheme and $U \cap Z$ is a closed irreducible subet of $U$ there exists a unique generic point $\xi \in U \cap Z$. Because $Z$ is closed in $X$ we then have $Z \cap U \subset \overline{\{\xi\}} \subset Z$. However, $Z \cap U$ is open in $Z$ and $\overline{\{\xi\}}$ is closed in $Z$, an irreducible, which implies that either $U \cap Z$ is empty (which is false by assumption) or $\overline{\{\xi\}} = Z$. Thus $Z$ has a generic point $\xi$. Suppose that $\xi, \xi' \in Z$ were both generic points then both must be limit points of each other and thus have exactly the same open neighborhoods contradicting the fact that $Z \subset X$ is $T_0$. 
+\end{proof}
+
+\subsection{Specialization}
+
+\begin{defn}
+Let $X$ be a topological space and $\xi_1, \xi_2 \in X$. We write $\xi_1 \leadsto \xi_2$ if $\xi_2 \in \overline{\{ \xi_1 \}}$ i.e if $\xi_2$ is a limit point of $\xi_1$. We say $\xi_1$ is a \textit{generalization} of $\xi_2$ and $\xi_2$ is a \textit{specialization} of $\xi_1$.
+\end{defn}
+
+\section{Dimension Theory}
+
+\subsection{Introduction}
+
+\begin{defn}
+Let $X$ be a topological space. The \textit{Krull dimension} or \textit{combinatorial dimension} of $X$ is the maximal length of chains of irreducible closed subsets,
+\[ \dim(X) = \max \{ n \in \Z \mid Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n \text{ is a chain of closed irreducible subsets } Z_i \subset X \} \]
+and $\dim{X} = \infty$ if there is no maximum and $\dim{X} = -\infty$ if $X$ is empty.
+\end{defn}
+
+\begin{defn}
+For $x \in X$ we define the dimension at $x$ as,
+\[ \dim_{x}(X) = \inf_{x \in U} \dim{(U)} \]
+taken over open neighborhoods $U$ of $x$.
+\end{defn}
+
+\begin{rmk}
+For any subset $S \subset X$, if $Z \subset S$ is closed irreducible then $\overline{Z} \subset X$ is closed irreducible so we get an inclusion of chains in $S$ to chains in $X$. Thus,
+\[ \dim{S} \le \dim{X} \]
+\end{rmk}
+
+\begin{defn}
+Let $Z \subset X$ be a closed irreducible subset. Then,
+\[ \codim{Z,X} = \{ n \in \Z \mid Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n  \text{ is a chain of closed irreducible subsets } Z_i \subset X \} \]
+and for any closed subspace $Y \subset X$ we define,
+\[ \codim{Y, X} = \inf_{Z \subset Y} \codim{Z, X} \]
+over $Z \subset Y \subset X$ closed irreducible subsets in $X$. Furthermore, for any subspace $S \subset X$ we may define,
+\[ \codim{S, X} = \codim{\overline{S}, X} \]
+\end{defn}
+
+\begin{prop}
+For any subspace $Y \subset X$,
+\[ \dim{(X)} \ge \codim{Y, X} + \dim{(Y)} \]
+\end{prop}
+
+\begin{proof}
+Let $Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n$ be a maximal chain of closed irreducible subset of $Y$ realizing $\dim{(Y)}$. Then taking closures gives a chain of irreducible closed subsets of $X$ conainted in $\overline{Y}$. Then choose a maximal chain $\tilde{Z}_i$ realizing $\codim{\overline{Z_n}, X}$ to give a chain,
+\[ \overline{Z_0} \subsetneq \cdots \subsetneq \overline{Z_n} = \tilde{Z}_0 \subsetneq \tilde{Z}_1 \subsetneq \cdots \subsetneq \tilde{Z}_k \]
+Therefore, $n + k \le \dim{(X)}$. However, $n = \dim{(Y)}$ and because $\overline{Z_n} \subset \overline{Y}$ we have,
+\[ k = \codim{\overline{Z_n}, X} \ge \codim{Y, X} = \codim{Y, X} \]
+and thus,
+\[ \dim{(X)} \ge n + k \ge \codim{Y, X} + \dim{(Y)} \]
+\end{proof}
+
+\begin{lemma}
+If $Z \subset X$ is irreducible and $U$ is open and $U \cap Z \neq \empty$ then $Z \cap U$ is irreducible. Furthermore, if $Z \subset X$ is irreducible then $\overline{Z}$ is irreducible.
+\end{lemma}
+
+\begin{proof}
+If we have closed $Z_1, Z_2 \subset X$ with $Z_1 \cup Z_2 \supset Z \cap U$ then $Z_1 \cup Z_2 \cup U^C \supset Z$ so one must cover $Z$ since it is irreducible but $Z \not\subset U^C$ so either $Z_1 \supset Z \cap U$ or $Z_2 \supset Z \cap U$.
+\bigskip\\
+Likewise, for closed $Z_1, Z_2 \subset X$ with $Z_1 \cup Z_2 \supset \overline{Z} \supset Z$ then by irreducibility $Z_1 \supset Z$ or $Z_1 \supset Z$ but these are closed so $Z_1 \supset \overline{Z}$ or $Z_2 \supset \overline{Z}$. 
+\end{proof}
+
+\begin{lemma} \label{codimension_opens}
+Consider a closed subset $Y \subset X$ and an open $U \subset X$ with $U \cap Z \neq \empty$ for each irreducible component $Z \subset Y$. Then $\codim{Y, X} = \codim{Y \cap U, U}$. 
+\end{lemma}
+
+\begin{proof}
+Consider a chain of irreducibles $Z_i \supsetneq Z_{i+1}$ with $Z_0 \subset Y$. I claim that $Z_i \mapsto Z_i \cap U$ and $Z_i \mapsto \overline{Z_i}$ are inverse functions giving a bijection between closed irreducible chains in $X$ with final terms containined in $Y$ and closed irreducible chains in $U$ with final term contained in $Y \cap  U$. Note, if $Z_i \subset Y \cap U$ then $\overline{Z_i} \subset Y$ since $Y$ is closed in $X$. Furthermore, $Z_i \mapsto Z_i \cap U$ remains irreducible if it is nonempty. The chain $Z_i$ realizing $\codim{Y, X}$ must begin an irreducible component of $Y$ so we have indeed that $Z_i \cap U \neq \varnothing$.
+\bigskip\\
+First, $\overline{Z_i \cap U} \subset Z_i$ and is closed in $X$. Then $\overline{Z_i \cap U} \cup U^C \supset Z_i$ so because $Z_i$ is irreducible $\overline{Z_i \cap U} = Z_i$ since by assumption $Z_i \not\subset U^C$. Conversely, if $Z_i \subset U$ is a closed irreducible subset then $\overline{Z_i}$ is closed and irreducible in $X$ and $Z_i \subset \overline{Z_i} \cap U$ but $Z_i = C \cap U$ for closed $C \subset X$ so $Z_i \subset C$ and thus $\overline{Z_i} \subset C$ so $\overline{Z_i} \cap U \subset C \cap U = Z_i$ meaning $Z_i = \overline{Z_i} \cap U$. Thus we have shown these operations are inverse to eachother.
+\bigskip\\
+Finally, if $Z_i \cap U = Z_{i+1} \cap U$ then $\overline{Z_i \cap U} = \overline{Z_i \cap U}$ so $Z_i = Z_{i+1}$ so the chain does not degenerate. Likewise, if $\overline{Z_i} = \overline{Z_{i+1}}$ then $\overline{Z_i} \cap U = \overline{Z_{i+1}} \cap U$ so $Z_i = Z_{i+1}$. Therefore, we get a length-preserving bijection between the chains defining $\codim{Y,X}$ and $\codim{Y \cap U, U}$. 
+\end{proof}
+
+
+\subsection{Equidimensionality}
+
+\begin{prop}
+Let $X$ be a topological space and $Z_i$ its irreducible components. Then,
+\[ \dim{(X)} = \sup_{i \in I} \dim{(Z_i)} \]
+\end{prop}
+
+\begin{proof}
+Clearly, $\dim{(X)} \ge \dim{(Z_i)}$. Furthermore, choose a maximal chain of closed irreducible subsets of $X$,
+\[  W_0 \subsetneq W_1 \subsetneq \cdots \subsetneq W_n \]
+Since $W_n$ is irreducible, we must have $W_n \subset Z_i$ for some $i \in I$ so this is a chain in $Z_i$ showing that,
+\[ \dim{(Z_i)} \ge \dim{(X)} \]
+\end{proof}
+
+\begin{defn}
+We say that $X$ is \textit{equidimensional} if $\dim{(Z)} = \dim{(X)}$ for any irreducible component $Z \subset X$.
+\end{defn}
+
+\begin{rmk}
+Equidimensionality is equivalent to: all irreducible components have the same dimension.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a topological space. Then,
+\[ \dim{(X)} = \sup_{x \in X} \dim_{x}{(X)} \]
+\end{prop}
+
+\begin{proof}
+Clearly $\dim{(X)} \ge \dim_{x}{(X)}$. Furthermore, choose a maximal chain of closed irreducibles,
+\[  Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n \]
+and choose a point $x \in Z_0$. Then for any open neighborhood $x \in U$ we see that,
+\[  Z_0 \cap U \subsetneq Z_1 \cap U \subsetneq \cdots \subsetneq Z_n \cap U \]
+is a chain of closed irreducible subsets of $U$ (since all are nonempty because they contain $x$). Thus $\dim_{x}{(X)} \ge \dim{(X)}$.
+\end{proof}
+
+
+\begin{defn}
+A space $X$ is \textit{equicodimensional} if $\codim{x, X} = \dim{(X)}$ for every point $x \in X$.
+\end{defn}
+
+\begin{defn}
+A space $X$ is \textit{biequidimensional} if every maximal chain of closed irreducible subsets has length $\dim{(X)}$.
+\end{defn}
+
+\begin{rmk}
+If $X$ is biequidimensional this clearly implies $X$ is equidimensional, equicodimensional, and catenary but the converse is false in general. However, the converse holds if $X$ is finite dimensional and irreducible [Emerton and Gee, Lem. 2.32] (https://arxiv.org/pdf/1704.07654v2.pdf).
+\end{rmk}
+
+\begin{lemma}
+If $X$ is biequidimensional then for any closed subset $Y \subset X$,
+\[ \dim{(X)} = \codim{Y, X} + \dim{(Y)} \]
+\end{lemma}
+
+\begin{proof}
+Choose a chain of closed irreducibles achieving $\codim{Y, X}$ and thus terminating at some $Z \subset Y$. Then this chain may be extended to a maximal chain by adding irreducible closed subsets of $Y$ (since closed subsets of $Y$ are closed in $X$ since $Y$ is closed). By biequidimensionality, all such maximal chains have length $\dim{(X)}$ and thus,
+\[ \dim{(X)} \le \codim{Y, X} + \dim{(Y)} \]
+which along with the reverse innequality (which holds generally) proves the claim.
+\end{proof}
+
+\subsection{Catenary Spaces}
+
+\begin{defn}
+A topological space $X$ is \textit{catenary} if for every pair $Z \subset Z'$ of closed irreducible subsets,
+\begin{enumerate}
+\item $\codim{Z, Z'} < \infty$
+\item every maximal chain $Z = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n = Z'$ has the same length.
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+Let $X$ be a topological space. Then the following are equivalent,
+\begin{enumerate}
+\item $X$ is catenary
+\item for any triple of irreducible closed subsets $Z_1 \subset Z_2 \subset Z_3$,
+\[ \codim{Z_1, Z_3} = \codim{Z_1, Z_2} + \codim{Z_2, Z_3} \]
+and $\codim{Z_1, Z_3}$ is finite.
+\end{enumerate}
+\end{lemma}
+
+
+\subsection{Catenary Rings}
+
+\begin{defn}
+We say a ring $A$ is \textit{catenary} if $\Spec{A}$ is catenary as a a topological space. Explicitly, $A$ is catenary if for all pairs of prime ideals $\p \subset \p'$ all chains of prime ideals
+\[ \p = \p_0 \subsetneq \p_1 \subsetneq \cdots \subsetneq \p_n = \p' \]
+can be extended to a maximal chain and all maximal chains have the same length.
+\end{defn}
+
+\begin{defn}
+A Noetherian ring $A$ is \textit{universally catenary} if every finite type $A$-algebra is catenary.
+\end{defn}
+
+\begin{prop}
+If $A$ is one of the following,
+\begin{enumerate}
+\item a field
+\item a Dedekind domain
+\item a localization of a univerally catenary ring
+\end{enumerate}
+then $A$ is universally catenary.
+\end{prop}
+
+\begin{example}
+There exist Noetherian rings of dimension two which are not universally catenary and thus there exist non catenary Noetherian rings. For an example see Tag 02JE.
+\end{example}
+
+\subsection{Dimension Theory of Schemes}
+
+\begin{lemma} \label{codimension_loc_rings}
+Let $Z \subset X$ be a closed irreducible subset with generic point $\xi \in Z$. Then,
+\[ \codim{Z,X} = \dim{\stalk{X}{\xi}} \]
+\end{lemma}
+
+
+\begin{proof}
+Take affine open neighborhood $\xi \in U = \Spec{A} \subset X$. Then for $\p \in \Spec{A}$ corresponding to $\xi$ we get $A_\p = \stalk{X}{\xi}$. However, $\codim{Z, X} = \codim{Z \cap U, U}$ and $Z \cap U = \overline{\{ \p \}} = V(\p)$. Therefore,
+\[ \codim{Z, X} = \codim{Z \cap U, U} = \height{\p} = \dim{A_\p} = \dim{\stalk{X}{\xi}} \]
+\end{proof}
+
+\subsection{Dimension Theory for Finite Type $k$-Schemes}
+
+\end{document}

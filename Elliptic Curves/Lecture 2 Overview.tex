@@ -1,0 +1,210 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+\newcommand{\res}{\mathrm{res}}
+
+\begin{document}
+
+\title{Lecture 2}
+
+\maketitle
+
+\section{The Cauchy Integral Formula}
+
+Recall that if $f(z)$ has a single simple pole at $z_0$ then for any path containing $z_0$ we get,
+\[ \oint_{\gamma} f(z) \d{z} = 2 \pi i \res_{z_0}(f) \]
+In particular, suppose that $f$ is holomorphic everywhere inside the disk bounded by $\gamma$. Then the function,
+\[ g(z) = \frac{f(z)}{z - z_0} \]
+has a simple pole at $z_0$. Therefore, by the residue theorem,
+\[ \oint_{\gamma} \frac{f(z)}{z - z_0} \d{z} = 2 \pi i \res_{z_0}(g) = 2 \pi i f(z_0) \]
+This gives us the following incredible formula.
+
+\begin{theorem}[Cauchy]
+Let $\gamma : [0,1] \to \C$ be a closed curve bounding a disk $D \subset \C$. Suppose that $f : \C \to \C$ is holomorphic on all of $D$ then for any $w \in D^\circ$ (in the interior of $D$),
+\[  f(w) = \frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z - w} \d{z} \]
+\end{theorem}
+
+\noindent\\
+This amazing theorem tells us that we can compute the values of a holomorphic function everywhere on a disk just given its values on the boundary.
+
+\section{Power Series Expansion}
+
+The Cauchy integral formula has another possibly even more amazing implication: that all holomorphic functions are analytic i.e. can be expressed as a convergent power series. The argument goes as follows. Suppose that $f : \C \to \C$ is holomorphic. Then for any point $w \in \C$ we can choose a fixed circle $\gamma$ centered at $w_0$ and enclosing $w$. Then by Cauchy's formula,
+\[ f(w) = \frac{1}{2 \pi i} \oint_\gamma \frac{f(z)}{z - w} \d{z} \]
+Now the trick! Notice that the right hand side only depends on $a$ through the function,
+\[ \frac{1}{z - w}  \]
+which we already know has a convergent Laurent series as follows,
+\[ \frac{1}{z - a} = \frac{1}{(z - w_0) + (w_0 - w)} = \frac{1}{z - w_0} \cdot \frac{1}{1 - \frac{w - w_0}{z - w_0}} = \frac{1}{z - w_0} \left( 1 + \left( \frac{w - w_0}{z - w_0} \right) + \left( \frac{w - w_0}{z - w_0} \right)^2 + \cdots \right) \]
+Why does this converge? Well because $w$ is inside the circle centered at $w_0$ (say of radius $r$) so $|w - w_0| < r$ and $z$ is on the boundary of this circle so $|z - w_0| = r$. Therefore,
+\[ \left| \frac{w - w_0}{z - w_0} \right| < 1 \]
+and thus we know this power series converges. Now here comes the analysis black magic. Because convergent power series converge absolutly, we can exchange sums and integrals to get,
+\begin{align*}
+f(w) & = \frac{1}{2 \pi i} \oint_\gamma \frac{f(z)}{z - w} \d{z} = \frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z - w_0} \left( 1 + \left( \frac{w - w_0}{z - w_0} \right) + \left(\frac{w - w_0}{z - w_0} \right)^2 + \cdots \right)  \d{z} 
+\\
+& = \sum_{n = 0}^{\infty} \frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z - w_0} \cdot \left( \frac{w - w_0}{z - w_0} \right)^{n} \d{z}
+\\
+& = \sum_{n = 0}^\infty (w - w_0)^n \left[ \frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{(z - w_0)^{n+1}} \d{z} \right] 
+\end{align*}
+Bam a convergent power series expression for $f$ centered at $w_0$. Even better we get a formula for the coefficients,
+\[ f(w) = \sum_{n = 0}^\infty a_n (w - w_0)^n \quad \text{where} \quad a_n = \frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{(z - w_0)^{n+1}} \d{z} \]
+In particular, these coefficients again only depend on the values of $f$ on the boundary of the disk. Amazing! 
+Since any power series expansion for $f$ must be the taylor series,
+\[ f(w) = \sum_{n = 0}^\infty a_n (w - w_0)^n = \sum_{n = 0}^\infty \frac{f^{(n)}(w_0)}{n!} (w - w_0)^n \]
+Therefore, we can identify the coefficients $a_n$ from our integral formulae with the derivates of $f$ at $w_0$,
+\[ a_n = \frac{f^{(n)}(w_0)}{n!} \]
+Therefore, we conclude,
+\[ f^{(n)}(w_0) = \frac{n!}{2 \pi i} \oint_\gamma \frac{f(z)}{(z - w_0)^{n+1}} \d{z} \]
+This generalizes the Cauchy integral formula which the above reduces to in the case $n = 1$.
+
+\section{Elliptic Functions}
+
+On the real line, analytic periodic functions like sinusoids have wonderful properties are are intimately related to the points quadratic curves i.e. circles. We might naturally ask: ``what is the analogue of a periodic function on the complex plane?'' The following is one such notion.
+
+\begin{definition}
+A function $f : \C \to \C$ is \textit{doubly periodic} or \textit{elliptic} if there exits two independent (not real multiples of each other) complex numbers $\omega_1$ and $\omega_2$ such that,
+\[ f(z + \omega_1) = f(z) \quad \text{and} \quad f(z + \omega_2) = f(z) \]
+We define the lattice of periods,
+\[ \Lambda = \{ n \omega_1 + m \omega_2 \mid n,m \in \Z \} \]
+so that $f(z + \omega) = f(z)$ for all $\omega \in \Lambda$ so $f$ factors as a function on the quotient $f : \C / \Lambda \to \C$. 
+\end{definition}
+
+\begin{remark}
+The space $\C / \Lambda$ is topologically a torus. It is equivalent to the ``fundamental parallelogram''
+\[ \{ \alpha \omega_1 + \beta \omega_2 \mid \alpha, \beta \in [0, 1] \} \]
+with opposite edges identified. This is the standard construction of a torus. However, different lattices $\Lambda$ will put a different complex structure on $\C / \Lambda$ which we therefore call a complex torus. 
+\end{remark}
+\noindent
+We would want to consider elliptic homomorphic functions. However, a classical theorem in complex analysis poses a difficulty.
+
+\begin{theorem}[Liouville]
+Every bounded entire\footnote{holomorphic on the entire complex plane} function is constant.
+\end{theorem}
+
+\begin{proof}
+Let $f : \C \to \C$ be entire and bounded everywhere by $M$. Take $w \in \C$ and let $C$ be a circle arround $z$ with radius $R$. Then applying the Cauchy integral formula,
+\[ f'(w) = \frac{1}{2 \pi i} \oint_C \frac{f(z)}{(z - w)^2} \d{z} = \frac{1}{2 \pi} \int_0^{2 \pi} \frac{f(w + R e^{i \theta})}{R^2 e^{2 i \theta}} R \d{\theta} \]
+Therefore,
+\[ |f'(w)| = \frac{1}{2 \pi} \left| \oint_C \frac{f(z)}{(z - w)^2} \d{z} \right| \le \frac{1}{2 \pi} \int_0^{2 \pi} \frac{|f(w + R e^{i \theta})|}{R^2} R \d{\theta} \le \frac{1}{2 \pi} \int_0^{2 \pi} \frac{M}{R} \d{\theta} = \frac{M}{R} \]
+which goes to zero in the limit $R \to \infty$. Since $R$ is arbitrarily large, $f'(w) = 0$ so $f$ is constant since it has zero derivative everywhere. 
+\end{proof}
+
+\begin{corollary}
+There do not exist nonconstant doubly periodic holomorphic functions.
+\end{corollary}
+
+\begin{proof}
+Suppose that $f : \C \to \C$ is holomorphic and doubly periodic with periods $\omega_1$ and $\omega_2$. Consider $f$ restricted to the so-called ``fundamental domain''
+\[ D = \{ \alpha \omega_1 + \beta \omega_2 \mid \alpha, \beta \in [0, 1] \} \]
+By using the periodicity, the behavior of $f$ everywhere is determined by its values on $D$. 
+Since $D$ is compact\footnote{closed and bounded for subsets of Euclidean space} and $f$ is continuous (since it is holomorphic) it must be bounded\footnote{A continuous function on a compact set cannot diverge approaching a point because the set is closed nor diverge off to infinity because the set is bounded.} on $D$. Therefore, $f$ is entire and bounded and thus, by Liouville's theorem, constant. 
+\end{proof}
+Our plan has been thwarted as soon as it was devised. Since we cannot find interesting holomorphic examples of elliptic functions we now ask for the next best thing.
+We want to consider elliptic meromorphic functions. That is, meromorphic functions $f : \C / \Lambda \to \C$. It turns out that now were are in luck. A canonical example of a meromorphic function is $z^{-2}$, think about how we might modify such a function such that it is doubly periodic.
+\end{document}

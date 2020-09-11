@@ -1,0 +1,591 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{revsymb}
+\usepackage{xspace}
+\usepackage{hyperref}
+
+\usepackage{calligra,mathrsfs}
+\DeclareMathOperator{\calHom}{\mathscr{H}\text{\kern -3pt {\calligra\large om}}}
+\DeclareMathOperator{\calExt}{\mathscr{E}\text{\kern -3pt {\calligra\large xt}}}
+\DeclareMathOperator{\calTor}{\mathscr{T}\text{\kern -3pt {\calligra\large or}}}
+\DeclareMathOperator{\calEnd}{\mathscr{E}\text{\kern -3pt {\calligra\large nd}}}
+\DeclareMathOperator{\calDer}{\mathscr{D}\text{\kern -3pt {\calligra\large er}}}
+
+
+\newcommand{\shHom}[3]{\calHom_{#1} \! \left( #2, #3 \right)}
+\newcommand{\shExt}[4]{\calExt^{\: \: \: #1}_{#2}\left( #3, #4 \right)}
+\newcommand{\shTor}[4]{\calTor^{\: \: \: #1}_{#2}\left( #3, #4 \right)}
+\newcommand{\shEnd}[2]{\calEnd_{#1} \! \left( #2 \right)}
+\newcommand{\shDer}[2]{\calDer\left( #1, #2 \right)}
+\newcommand{\Hom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+
+\DeclareMathOperator{\im}{\mathrm{Im}}
+
+\newcommand{\T}{\mathscr{T}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\End}[1]{\mathrm{End}\left(#1\right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{ \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{ \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^{#1}}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\npar}[3]{\frac{\partial^{#1}{#2}}{\partial{#3}^{#1}}}
+\newcommand{\fderiv}[2]{\frac{\delta #1}{\delta #2}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{question}[theorem]{QUESTION}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\m}{\mathfrak{m}}
+
+\newcommand{\GL}[1]{\mathrm{GL}\left(#1\right)}
+\newcommand{\SL}[1]{\mathrm{SL}\left(#1\right)}
+\newcommand{\PGL}[1]{\mathrm{PGL}\left(#1\right)}
+\newcommand{\PSL}[1]{\mathrm{PSL}\left(#1\right)}
+
+\newcommand{\Orth}[1]{\mathrm{O}\left(#1\right)}
+\newcommand{\U}[1]{\mathrm{U}\left(#1\right)}
+\newcommand{\SO}[1]{\mathrm{SO}\left(#1\right)}
+\newcommand{\SU}[1]{\mathrm{SU}\left(#1\right)}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\gl}[1]{\mathfrak{gl}\left(#1\right)}
+\newcommand{\Lie}[1]{\mathrm{Lie}\left(#1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut}\left(#1 \right)}
+
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\PAU}[1]{\mathrm{PAU}\left( #1 \right)}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\Cl}{\mathrm{C} \ell}
+\newcommand{\fchar}[1]{\mathrm{char}(#1)}
+
+\newcommand{\sm}{\! \setminus \!}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\embed}{\hookrightarrow}
+\newcommand{\onto}{\twoheadrightarrow}
+\newcommand{\ad}{\mathrm{ad}}
+\newcommand{\Gm}{\mathbb{G}_m}
+\begin{document}
+
+\section{Geometry Identities}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\Har}{\mathcal{H}}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\Inner}[2]{\left< \left< #1, #2 \right> \right>}
+\newcommand{\struct}[1]{\mathcal{O}_{#1}}
+
+
+\subsection{Interior Derivatives}
+
+\begin{definition}
+Let $\omega$ be a $k$-form and $X$ a vector field $X$. Then, we define the interior derivative,
+\[ (\iota_X \omega)(X_1, \dots, X_{k-1}) = \omega(X, X_1, \dots, X_{k-1}) \] 
+\end{definition}
+
+\begin{remark}
+By antisymmetry of forms $(\iota_X \circ \iota_Y + \iota_Y \circ \iota_X) \omega = 0$ and thus $\iota_X \circ \iota_X = 0$. 
+\end{remark}
+
+\begin{lemma}
+\[ \L_X f = \d{f}(X) = X(f) \]
+\end{lemma}
+
+\begin{proof}
+Consider the flow $\phi_t : M \to M$ along the vector field $X$. Then we define,
+\begin{align*}
+(\L_X f)(x) & = \deriv{}{t} \bigg|_{t = 0} (\phi_t^* f) = \deriv{}{t} \bigg|_{t = 0} (f \circ \phi_t)
+\\
+& = \d{f} \circ \d{\phi(x)} \left( \pderiv{}{t} \right) = \d{f} (X) 
+\end{align*}
+because, by definition,
+\[ \deriv{}{t} \phi_t(x) = \d{\phi(x)} \left( \pderiv{}{t} \right) = X_x \]
+\end{proof}
+
+\begin{theorem}
+For any $k$-form $\omega$ and vector field $X$ we have,
+\[ \L_X \omega = \d{\iota_X \omega}  + \iota_X \d{\omega} \]
+\end{theorem}
+
+\begin{proof}
+We will prove this by induction on $k$. For $k = 0$ we have,
+\[ \L_X f = \d{f}(X) \]
+and furthermore,
+\[ \d{\iota_X f} + \iota_X \d{f} = \iota_X \d{f} = \d{f}(X) \]
+Now we can also consider,
+\[ \L_X (\d{f}) = \d{(\L_X f)} = \d{ X(f)} \]
+Furthermore,
+\[ [\d{\iota_X} + \iota_X \d{} ](\d{f}) = \d{(\iota_X \d{f})} = \d{X(f)} \] 
+Now, since $\Omega^1_M$ is generated as a $\struct{M}$-module by the forms $\d{f}$ it will suffice to show that both sides are derivations. Then, for $\alpha$ a $p$-form and $\beta$ a $q$-form,
+\begin{align*}
+[\d{\iota_X} + \iota_X \d{} ](\alpha \wedge \beta) & = \d{\left( \iota_X \alpha \wedge \beta + (-1)^p \alpha \wedge \iota_X \beta \right)} + \iota_X {\left( \d{\alpha} \wedge \beta + (-1)^p \alpha \wedge \d{\beta} \right)}
+\\
+& = \d{\iota_X \alpha} \wedge \beta + (-1)^{p-1} \iota_X \alpha \wedge \d{\beta} + (-1)^p \d{\alpha} \wedge \iota_X \beta + \alpha \wedge \d{\iota_X \beta} 
+\\
+& + \iota_X \d{\alpha} \wedge \beta + (-1)^{p+1} \d{\alpha} \wedge \iota_X \beta + (-1)^p \iota_X \alpha \wedge \d{\beta} + \alpha \wedge \iota_X \d{\beta}
+\\
+& = [ \d{\iota_X} + \iota_X \d{} ] \alpha \wedge \beta + \alpha \wedge [ \d{\iota_X} + \iota_X \d{} ]  \beta 
+\end{align*}
+so both sides are derivations and thus they must be equal since they agree for a basis of 1-forms. 
+\end{proof}
+
+\section{The Hodge Complex}
+
+
+
+\begin{definition}
+Let $(M, g)$ be an oriented Riemannian $n$-manifold and $\omega$ the canonical volume form. Then $g : TM \otimes TM \to \struct{M}$ defines a fiberwise nondegenerate inner product which we may view as an isomorphism $g : TM \to T^*M$ which, along with its inverse $g^{-1} : T^*M \to TM$, extends to isomorphisms on dual tensor bundles $T^n_m M \xrightarrow{\sim} T^m_n M$ and thus a nondegenerate pairing $\inner{-}{-} : T^{n}_{m} M \otimes T^{n}_{m} M \to \struct{M}$.
+\bigskip\\
+Then we can define a Hilbert space $L^2(\mathcal{C}^\infty(M, T^n_m M))$ on the tensor bundles $T^n_m$ via the inner product,
+\[ \Inner{\alpha}{\beta} = \int_M \inner{\alpha}{\beta} \omega \]
+Since $\omega$ is nonvanishing and the functions are smooth (and thus continuous) then,
+\[ ||\alpha||^2 = \Inner{\alpha}{\alpha} = 0 \iff \alpha = 0 \]
+ 
+\end{definition}
+
+\begin{definition}
+On an oriented Riemannian $n$-manifold with canonical volume form $\omega$ we define the Hodge dual $\star : \Omega^k_M \to \Omega^{n - k}_M$ as the unique map such that, \[ \forall \alpha, \beta \in \Omega^k_M(U) : \alpha \wedge (\star \beta) = \inner{\alpha}{\beta} \omega \]
+Furthermore, we have $\star \star \eta = (-1)^{n(n-k)} \eta$. 
+\end{definition}
+
+\begin{definition}
+We define the codifferential $\delta : \Omega^{k+1}_M \to \Omega^k_M$ via $\delta = (-1)^{k+1} \star^{-1} \d \star$. 
+\end{definition}
+
+\begin{remark}
+This makes a chain complex since,
+\[ \delta \circ \delta = (-1)^{2k - 1} (\star^{-1} \d \star) \circ (\star^{-1} \d \star) = - \star^{-1} \d \circ \d \star = 0 \]
+\end{remark}
+
+\begin{lemma}
+For all $\alpha \in \Omega_M^k(U)$ and $\beta \in \Omega_M^{k+1}(U)$ we have,
+\[ \Inner{\d{\alpha}}{\beta} = \Inner{\alpha}{\delta \beta} \] 
+\end{lemma}
+
+\begin{proof}
+We have $\inner{\d{\alpha}}{\beta} \omega = \d{\alpha} \wedge (\star \beta)$. Now consider,
+\begin{align*}
+\d{( \alpha \wedge ( \star \beta ))} & = \d{\alpha} \wedge (\star \beta) + (-1)^k \alpha \wedge \d{(\star \beta)} 
+\\
+& = \d{\alpha} \wedge (\star \beta) + (-1)^k \alpha \wedge (\star (\star^{-1} \d (\star \beta ))) 
+\\
+& = \d{\alpha} \wedge (\star \beta) - \alpha \wedge (\star \delta \beta )
+\end{align*}
+Then, by Stokes' theorem,
+\[ \int_M \d{(\alpha \wedge (\star \beta))} = \int_{\partial M} \alpha \wedge (\star \beta) = 0 \]
+because $M$ is closed. Therefore,
+\[ \Inner{\d{\alpha}}{\beta} = \int_M \inner{\d{\alpha}}{\beta} \omega = \int_M \d{\alpha} \wedge (\star \beta) = \int_M \alpha \wedge (\star \delta \beta ) = \int_M \inner{\alpha}{\delta \beta} \omega = \Inner{\alpha}{\delta \beta} \]
+\end{proof}
+
+\begin{definition}
+We define the Laplace-deRham operator,
+\[ \Delta = \delta \circ \d{} + \d \circ \delta : \Omega^k_M \to \Omega^k_M \]
+We say a $k$-form $\omega$ is \textit{harmonic} if $\Delta \omega = 0$ and we denote the space of harmonic $k$-forms as $\Har^k(M)$. 
+\end{definition}
+
+\begin{remark}
+To motivate this definition, choose local coordinates such that,
+\[ \omega = g \d{x_1} \wedge \cdots \wedge \d{x_n} \] 
+and consider a $k$-form in local coodinates,
+\[ \eta = \sum_{i_1 < \cdots < i_k} f_{i_1, \dots, i_k} \d{x_1} \wedge \cdots \wedge \d{x_{i_k}} \]
+Then,
+\[ \d{\eta} = \sum_j \sum_{i_1 < \cdots < i_k} \pderiv{f_{i_1, \dots, i_k}}{x_j} \d{x_j} \wedge \d{x_1} \wedge \cdots \wedge \d{x_{i_k}} \]
+(FINISH)
+\end{remark}
+
+\begin{lemma}
+$\star \Delta = \Delta \star$
+\end{lemma}
+
+\begin{proof}
+It is clear that $\star \delta = (-1)^k \d \star$ and $\star \d = (-1)^k \delta \star$. Therefore,
+\begin{align*}
+\star \Delta & = \star (\delta \d + \d \delta ) = (-1)^k \d \star \d + (-1)^k \delta \star \delta 
+\\
+& = \d  \delta \star + \delta \d \star = \Delta \star 
+\end{align*} 
+\end{proof}
+
+\begin{lemma}
+We have $\Delta \omega = 0$ iff $\d{\omega} = \delta{\omega} = 0$.
+\end{lemma}
+
+\begin{proof}
+Clearly if $\d{\omega} = \delta{\omega} = 0$ then $\Delta \omega = 0$. Conversely, suppose that,
+\[ \Delta \omega = [\delta \d + \d \delta ] \omega = 0 \]
+Consider,
+\[ \Inner{\Delta \omega}{\omega} = \Inner{\delta \d{\omega}}{\omega} + \Inner{\d \delta \omega}{\omega}  = \Inner{\d{\omega}}{\d{\omega}} + \Inner{\delta \omega}{\delta \omega} = ||\d{\omega} || + ||\delta \omega||  \]
+Since $|| \alpha || \ge 0$ we see that if $\Inner{\Delta \omega}{\omega} = 0$ then $|| \delta \omega || = 0$ and $|| \d{\omega} || = 0$ and thus $\delta \omega = 0$ and $\d{\omega} = 0$.
+\end{proof}
+
+\begin{theorem}[Hodge]
+The space $\Har^k(M)$ is finite dimensional and there is a canonical decomposition,
+\[ \Omega^k(M) = \Delta(\Omega^k(M)) \oplus \Har^k(M) = \d{(\Omega^{k-1}(M))} \oplus \delta(\Omega^{k+1}(M)) \oplus \Har^k(M) \]
+\end{theorem}
+
+\begin{proof}
+The decomposition,
+\[ \Omega^k(M) = \Delta(\Omega^k(M)) \oplus \Har^k(M) = \im{\Delta} \oplus \ker{\Delta} \]
+follows immediately from splitting the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\Delta} \arrow[r] & \Omega^k(M) \arrow[r] & \im{\Delta} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+First, suppose that $\eta = \d{\alpha} = \delta \beta$ then,
+\[ ||\eta|| = \Inner{\eta}{\eta} = \Inner{\d{\alpha}}{\delta \beta} = \Inner{\d^2{\alpha}}{\beta} = 0 \]
+and thus $\eta = 0$. Thus, $\d(\Omega^{k-1}(M)) \cap \delta(\Omega^{k+1}(M)) = (0)$ so,
+\[ \d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M)) \subset \Omega^k(M) \]
+Clearly,
+\[ \Delta(\Omega^k(M)) \subset \d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M)) \]
+because $\Delta \alpha = \d (\delta \alpha) + \delta (\d{\alpha})$. Furthermore, if $\d{\alpha} \in \Har^k(M)$ then $\delta \d{\alpha} = 0$ 
+but
+\[ ||\d{\alpha}|| = \Inner{\d{\alpha}}{\d{\alpha}} = \Inner{\alpha}{\delta \d{\alpha}} = 0 \]
+so $\d{\alpha} = 0$ and similarly if $\delta \beta \in \Har^k(M)$ then $\d \delta \beta = 0$ but,
+\[ || \delta \beta || = \Inner{\delta \beta}{\delta \beta} = \Inner{\d \delta \beta}{\beta} = 0 \]
+so $\delta \beta = 0$. Therefore,
+\[ [\d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M))] \cap \Har^k(M) = (0) \]
+showing that,
+\[ \Delta(\Omega^k(M)) = \d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M)) \]
+The finite dimensionality of $\Har^k(M)$ follows from the theory of elliptic operators on compact manifolds. However, we will prove it using the following result plus the following results: de Rham's theorem $H^k_{\mathrm{dR}}(M) \cong H^k_{\text{sing}}(M)$, the fact that singular cohomology is finitely generated for a finite CW complex, and that any compact manifold has the homotopy type of a finite CW complex.
+\end{proof}
+
+\begin{theorem}[Hodge]
+Let $M$ be compact oriented Riemann manifold. Then every deRham cohomology class on $M$ has a unique harmonic representative and thus the canonical map,
+\[ \Har^k(M) \xrightarrow{\sim} H_{\text{dR}}^k(M) \]
+is an isomorphism.
+\end{theorem}
+
+
+\begin{proof}
+I claim that,
+\[ \ker{(\d : \Omega^k(M) \to \Omega^{k+1}(M)}) = \d{(\Omega^{k-1}(M))} \oplus \Har^k(M) \]
+We can write $\eta = \d{\alpha} + \delta \beta + \varphi$ where $\varphi$ is harmonic. Suppose that $\d{\eta} = 0$ then $\d \delta \beta = 0$ which we have shown implies that $\delta \beta = 0$ so $\eta = \d{\alpha} + \varphi$ and thus,
+\[ \ker{\d} \subset \d{(\Omega^{k-1}(M))} \oplus \Har^k(M) \]
+but it is clear that $\d : \Omega^k(M) \to \Omega^{k+1}(M)$ vanishes on $\d{(\Omega^{k-1}(M))} \oplus \Har^k(M)$ so,
+\[ \ker{\d} = \d{(\Omega^{k-1}(M))} \oplus \Har^k(M) \]
+Using this we immediately see that the map,
+\[ \Har^k(M) \to H^k_{\text{dR}}(M) \quad \quad \varphi \mapsto [\varphi] \]
+is an isomorphism because,
+\[ \ker{\d} / \im{\d} = [\d{(\Omega^{k-1}(M))} \oplus \Har^k(M)] / \d{(\Omega^{k-1}(M))} = \Har^k(M) \]
+Explicily, if $[\varphi] = 0$ then $\varphi = \d{\alpha}$ but then $\Delta \d {\alpha} = \delta \d{\alpha} = 0$ which implies that $\varphi = \d{\alpha} = 0$ so $\Har^k(M) \to H^k_{\mathrm{dR}}(M)$ is injective. Furthermore, consider a class $[\alpha] \in H^k_{\mathrm{dR}}(N)$ with $\d{\alpha} = 0$ then, by above, $\alpha \in \d{(\Omega^{k-1}(M))} \oplus \Har^k(M)$ so $\alpha = \varphi + \d{\beta}$ for some harmonic form $\varphi \in \Har^k(M)$ and thus,
+\[ [\alpha] = [\varphi] \]
+so the map $\Har^k(M) \to H^k_{\mathrm{dR}}(M)$ is surjective.
+\end{proof}
+
+\begin{theorem}[Poincare]
+Let $M$ be compact oriented Riemann manifold. There is a canonical isomorphism $H^k_{\mathrm{dR}}(M) \xrightarrow{\sim} H^{n-k}_{\mathrm{dR}}(M)^\vee$. 
+\end{theorem}
+
+\begin{proof}
+Consider the bilinear pairing $H^k_{\mathrm{dR}}(M) \times H^{n-k}_{\mathrm{dR}}(M) \to \R$ via,
+\[ B([\omega], [\eta]) = \int_M \omega \wedge \eta \]
+This is well-defined since if $\tilde{\omega} = \omega + \d{\alpha}$ and $\tilde{\eta} = \eta + \d{\beta}$ then,
+\begin{align*}
+\int_M \tilde{\omega} \wedge \tilde{\eta} & = \int_M (\omega + \d{\alpha}) \wedge (\eta  + \d{\beta}) 
+\\
+& = \int_M \omega \wedge \eta + \int_M \omega \wedge \d{\beta} + \int_M \d{\alpha} \wedge (\eta + \d{\beta}) 
+\end{align*}
+However,
+\[ \d{(\omega \wedge \beta)} = \d{\omega} \wedge \beta + (-1)^k \omega \wedge
+ \d{\beta} \]
+But $\omega$ is closed so we have,
+\[ \int_M \omega \wedge
+ \d{\beta} = (-1)^k \int_M \d{(\omega \wedge \beta)} = (-1)^k \int_{\partial M} \omega \wedge \beta = 0 \]
+since $M$ has no boundary. Likewse, since $\eta + \d{\beta}$ is closed we have,
+\[ \int_M \d{\alpha} \wedge (\eta + \d{\beta}) = \int_{\partial M} \alpha \wedge (\eta + \d{\beta}) = 0 \]
+Thus,
+\[ \int_M \tilde{\omega} \wedge \tilde{\eta} = \int_M \omega \wedge \eta \]
+so this bilinear pairing is well-defined. 
+\bigskip\\
+Now, it suffices to prove that the pairing is non-degenerate. For any class $[\omega]$ we can choose a harmonic representative $\varphi$. Furhtermore $\star \varphi$ is harmonic since,
+\[ \Delta \star \varphi = \star \Delta \varphi = 0 \]
+so it represents a class $[\star \varphi] \in H^{n-k}_{\text{dR}}$. Then,
+\[ B([\omega], [\star \varphi]) = B([\varphi], [\star \varphi]) = \int_M \varphi \wedge (\star \varphi) = \int_M \inner{\varphi}{\varphi} \omega = || \varphi || = 0 \iff \varphi = 0 \]
+which shows that $B$ is nondegenerate.
+\end{proof}
+
+
+\section{Local Systems}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\E}{\mathcal{E}}
+
+\begin{definition}
+A $\A$-local system is a locally constant sheaf in the category $\A$ i.e. a sheaf $\L$ on $X$ such that for each $x \in X$ there exists some open neighborhood $U$ and an object $A$ such that $\L |_U \cong \underline{A}$.
+\end{definition}
+
+\begin{lemma}
+If $X$ is connected then any local system has constant fibers and thus we may take its constant objects on the trivializing neighborhoods to be equal.
+\end{lemma}
+
+\begin{proof}
+For some fixed $p \in X$ let $D_p = \{ x \in X \mid \L_x \cong \L_p \}$. Since $\L$ is a local system, for any $x \in X$ we have an open $U$ s.t. $\L |_U = \underline{A_x}$. If $x \in D_p$ then $\L_x \cong A_x \cong \L_p$. But then for any $y \in U$ we have,
+\[ \L_y \cong A_x \cong \L_x \cong \L_p \]
+so $x \in U \subset D_p$ and thus $D_p$ is open. Therefore,
+\[ X = \bigcup_{p \in X} D_p \]
+is an open partition which implies that,
+\[ D_p^C = \bigcup_{x \neq p} D_p \]
+is open so $D_p$ is clopen. Since $X$ is connected and $p \in D_p$ we have $D_p = X$. 
+\end{proof}
+
+
+\begin{proposition}
+Let $X$ be locally connected and $\L$ be a $\A$-local system. Then there is a canonical functor $A : \Pi_1(X) \to \A$. 
+\end{proposition}
+
+\begin{proof}
+Consider a path $\gamma : I \to X$ from $x$ to $y$. Then, since $\im{\gamma}$ is compact, we can choose a finite conver of $\im{\gamma}$ by connected trivializing neighborhoods $U_i$ s.t. $U_i \cap U_{i+1} \neq \varnothing$ and $x \in U_0$ and $y \in U_n$. Then on each we have $\L |_{U_i} \cong F$. Now we construct a map $[\gamma] : \F_{x} \to \F_{y}$ as follows. For a germ $f \in \L_{x}$ we lift to a section $f \in \L(U_0)$ since $\:$ is constant on $U_0$. Now, suppose we have a section $f_i \in \L(U_i)$, choose a connected open $V \subset U_i \cap U_{i+1}$ then $f_i |_V \in \L(V)$. Since $\L |_{U_{i+1}}$ is constant then the restriction map,
+\[ \res_{V, U_{i+1}} : \L(U_{i+1}) \to \L(V) \]
+is an isomorphism and thus we get a section $f_{i+1} = \res_{V, U_{i+1}}^{-1}(f_i |_V)$. Then we choose $\alpha_\gamma f = f_n$ which is the germ of $f_n \in \L(U_n)$. It is clear that this is a morphism and invariant under homotopy giving a well-defined map $\Pi_1(X, x, y) \to \catHom{\A}{\L_{x}}{\L_{y}}$. 
+\end{proof}
+
+\begin{proposition}
+Let $X$ be path-connected and locally connected and $\L$ be a local system with fiber $\L_p \cong F$. Then there is a canonical action $\pi_1(X, x_0) \to \Aut{\L_{x_0}}$ and $\Gamma(X, \F) = \L_{x_0}^{\pi_1(X, x_0)}$.
+\end{proposition}
+
+\begin{proof}
+Consider the case $x_0 = x = y$ then we have a map $\pi_1(X, x_0) \to \Aut{\L_{X_0}}$.  
+Now, consider the restriction map $\Gamma(X, \L) \to \L_{x_0}$. Since restrictions compose we have $\alpha_\gamma f|_{x_0} = f|_{x_0}$ since $f_i = f|_{U_i}$ and $(f|_{U_n})_{x_0} = f_{x_0}$ so the image lies in $\L_{x_0}^{\pi_1(X, x_0)}$. Conversely, consider $f \in \L_{x_0}^{\pi_1(X, x_0)}$ such that $[ \gamma ] \cdot f = f$ for any loop $\gamma : I \to X$. Now, taking $x \in X$ we can define $f_x = [\gamma] \cdot f$ where $\gamma$ is a path from $x_0$ to $x$. This is well-defined because if $\gamma, \delta : I \to X$ are two paths from $x_0$ to $x$ then $\delta^{-1} * \gamma$ is a loop at $x_0$ and $\alpha_{\delta^{-1} * \gamma} = \alpha_\delta^{-1} \circ \alpha_\gamma$ but by assumption $\alpha_{\delta^{-1} * \gamma} = \id$ so $\alpha_\gamma = \alpha_\delta$. Furthermore, each $f_x$ lifts to $f_x \in \L(U_x)$ for some trivializing neighborhood and these sections glue to a global section by the construction of the morphisms. This construction gives an inverse map $\L_{x_0}^{\pi_1(X, x_0)} \to \Gamma(X, \L)$ showing the given isomorphism.
+\end{proof}
+
+\subsection{Connections}
+
+
+\begin{definition}
+Let $\E$ be a coherent sheaf on $X$. Then a \textit{connection} on $\E$ is a morphism $\nabla : \E \to \Omega^1_X \otimes_{\struct{X}} \E$ of \textit{abelian} sheaves (not $\struct{X}$-modules) which satisfies the Leibniz rule,
+\[ \nabla (f s) = \d{f} \otimes s + f \nabla  s \]
+\end{definition}
+
+\begin{proposition}
+Given a connection $\nabla : \E \to \Omega^1_X \otimes_{\struct{X}} \E$ it naturally extends to a connection $\nabla_k : \Omega^k_X \otimes_{\struct{X}} \E \to \Omega^{k+1}_X \otimes_{\struct{X}} \E$ via,
+\[ \nabla_k (\omega \otimes e) = \d{\omega} \otimes e + (-1)^k \omega \wedge \nabla e \]   
+\end{proposition}
+
+
+\begin{definition}
+The connection $\nabla$ defines a corresponding curvature form,
+\[ \omega_\nabla = \nabla_1 \circ \nabla : \E \to \Omega^2_X \otimes_{\struct{S}} \E \]
+We say that $\nabla$ is flat or integrable if the curvature vanishes $\omega_\nabla = \nabla_1 \circ \nabla = 0$.
+\end{definition}
+
+\begin{proposition}
+When $\nabla$ is flat we have $\nabla_{k + 1} \circ \nabla_k = 0$ for all $k$. In this case we have the $\E$-valued deRham complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E \arrow[r, "\nabla"] & \Omega^1_X \otimes_{\struct{X}} \E \arrow[r, "\nabla_1"] & \Omega^2_X \otimes_{\struct{X}} \E \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+whose hypercholomogy gives the deRham cohomology with coefficients in $\E$,
+\[ H^k_{\text{dR}}(X, \E) = \H^k(X, \Omega^\bullet_X \otimes_{\struct{X}} \E) \]
+\end{proposition}
+
+\begin{definition}
+A connection $\nabla$ on $\E$ defines a subsheaf $\E^\nabla = \ker{\nabla} \subset \E$ of \textit{horizontal} or \textit{flat} sections.
+\end{definition}
+
+
+\begin{lemma}
+The curvature $\omega_\nabla : \E \to \Omega^2_X \otimes_{\struct{X}} \E$ is a $\struct{X}$-module map.
+\end{lemma}
+
+\begin{proof}
+Consider,
+\begin{align*}
+\omega_\nabla(f s) & = \nabla_1 (\d{f} \otimes s + f \nabla s) = \d{\d{f}} \otimes s - \d{f} \wedge \nabla s + \d{f} \wedge \nabla s + f \nabla_1 \circ \nabla 
+\\
+& = f \nabla_1 \circ \nabla s = f \: \omega_\nabla (s) 
+\end{align*} 
+\end{proof}
+
+\begin{remark}
+If we write locally,
+\[ \nabla e = \sum_i f_i \d{g_i} \otimes s_i \]
+then the curvature takes the form,
+\[ \omega_\nabla (e) = \sum_{i} (\d{f_i} \wedge \d{g_i} \otimes e - f_i \d{g_i} \otimes \nabla s_i) \]
+\end{remark}
+
+\begin{proposition}
+$\nabla$ is flat iff the $\struct{X}$-map $Q : \shDer{\struct{X}}{\struct{X}} \to \shEnd{\struct{X}}{\mathcal{E}}$ given by sending $D$ to,
+\[ \mathcal{E} \xrightarrow{\nabla} \Omega^1_X \otimes_{\struct{X}} \mathcal{E} \xrightarrow{D \otimes \id} \struct{X} \otimes_{\struct{X}} \mathcal{E} \xrightarrow{a \otimes b \mapsto ab} \mathcal{E} \]
+is a morphism of sheaves of Lie algebras.
+\end{proposition}
+
+\begin{remark}
+In the definition of $Q(D)$ we have used $D$ as an $\struct{X}$-module morphism $\Omega^1_X \to \struct{X}$ via the universal property of $\Omega^1_X$,
+\[ \shDer{\struct{X}}{\struct{X}} \cong \shHom{\struct{X}}{\Omega^1_X}{\struct{X}} = \T_X \]
+which identifies $\shDer{\struct{X}}{\struct{X}}$ with the tangent sheaf $\T_X$. 
+\end{remark}
+
+\begin{proof}
+We need to check that $Q[D_1, D_2] = [Q(D_1), Q(D_2)]$ is equivalent to $\nabla_1 \circ \nabla = 0$. Now,
+\[ [D_1, D_2] \in \catHom{\struct{U}}{\Omega^1_U}{\struct{U}} \]
+is the unique $\struct{X}$-map such that,
+\[ [D_1, D_2] \circ \d = D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d \]
+Now consider this action locally,
+\begin{align*}
+[D_1, D_2] \otimes \id \circ \nabla = \sum_i f_i (D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d)(g_i) \cdot s_i 
+\end{align*}
+Furthermore, 
+\[ [Q(D_1), Q(D_2)] = (D_1 \otimes \id) \circ \nabla \circ (D_2 \otimes \id) \circ \nabla - (D_2 \otimes \id) \circ \nabla \circ (D_1 \otimes \id) \circ \nabla \]
+Again consider its local action,
+\begin{align*}
+Q(D_1) \circ  Q(D_2)(e) & = (D_1 \otimes \id) \circ \nabla \left( \sum_i f_i D_2(\d{g_i}) \cdot s_i \right) 
+\\
+& = \sum_i \Big( [D_2(\d{g_i}) D_1(\d{f_i}) + f_i D_1(\d{(D_2(\d{g_i}))}) ] \cdot s_i + f_i D_2(\d{g_i}) D_1( \nabla s_i ) \Big)
+\end{align*}
+Now consider,
+\begin{align*}
+\Big[ Q(D_1) \circ Q(D_2) & - Q(D_2) \circ Q(D_1)] - Q([D_1, D_2]) \Big](e)
+\\
+& = \sum_i \Big( D_1(\d{f_i}) D_2(\d{g_i}) - D_2(\d{f_i}) D_1(\d{g_i})  \Big) \cdot s_i
+\\
+& + \sum_i f_i \Big(D_1(\d{(D_2(\d{g_i}))}) - D_2(\d{(D_1(\d{g_i}))}) \Big) \cdot s_i
+\\
+& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - g_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
+\\
+& - \sum_i f_i (D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d)(g_i) \cdot s_i
+\\
+& = \sum_i \Big( D_1(\d{f_i}) D_2(\d{g_i}) - D_2(\d{f_i}) D_1(\d{g_i})  \Big) \cdot s_i 
+\\
+& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - g_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
+\\
+& = (D_1 \otimes D_2 - D_2 \otimes D_1) \otimes \id_{\E} \circ \omega_\nabla 
+\end{align*}
+which is defined on $(\Omega^1_X)^{\otimes 2} \otimes_{\struct{X}} \E$ but descends to $\Omega^2_X \otimes_{\struct{X}} \E$ since it sends the ideal $\omega \otimes \omega \mapsto 0$. Therefore, we see that $Q$ is a Lie algebra map iff
+\[ \forall D_1, D_2 \in \catHom{\struct{X}}{\Omega^1_X}{\struct{X}} : (D_1 \otimes D_2 - D_2 \otimes D_1) \otimes \id_{\E} \circ \omega_\nabla = 0 \]
+in particular when $\omega_\nabla = 0$. Furthermore when $Q$ is a Lie algebra map then we must have $\omega_\nabla = 0$ since, for any fixed form, there exists sections of $\Omega^1_X$ which do not kill it. 
+\end{proof}
+
+\begin{example}
+For $\E = \struct{X}$ we have the universal connection $\d : \struct{X} \to \Omega^1_X$. Then the statment that $\d$ is flat is equivalent to $\d^2 = 0$ leading to the deRham complex. Furthermore this means that $\d$ induces a Lie algebra map,
+\[ \T_X \to \shEnd{\struct{X}}{\struct{X}} = \struct{X} \]
+sending a vector field $v$ to the map $f \mapsto \inner{v}{\d{f}}$ proving the identity, $\inner{[v,u]}{\d{f}} = 0$ since $\struct{X}$ has trivial Lie algebra structure. 
+\end{example}
+
+\begin{example}
+A connection on a scheme or manifold $X$ is a connection on the cotangent (or equivalently tangent) bundle $\nabla : \Omega^1_X \to (\Omega^1_X)^{\otimes 2}$. Such a connection is equivalent to a choice of global section $g \in \Gamma(X, \mathrm{Sym}^2(\Omega^1_X))$ i.e. a metric. We say that $(X, g)$ is flat if this connection $\nabla$ is flat. In this case we have an augmented deRham complex $(\Omega^\bullet_X \otimes_{\struct{X}} \Omega^1_X, \nabla)$. 
+\end{example}
+
+\begin{remark}
+Note that a connection $\nabla : \struct{X} \to \Omega^1_X$ does NOT induce a connection on $\Omega^1_X$. Such a connection induces a connection,
+\[ \nabla_1 : \Omega^1_X \otimes_{\struct{X}} \struct{X} = \Omega^1_X \to \Omega^2_X \otimes_{\struct{X}} \struct{X} = \Omega^2_X = \bigwedge^2 \Omega^1_X \]
+but it is only well-defined in the exterior algebra not on the tensor algebra $\Omega^1_X \otimes_{\struct{X}} \Omega^1_X$. 
+There is always a canonical derivation i.e. connection $\d : \Omega_X \to \Omega^1_X$ but there is not generically a map $\Omega^1_X \to (\Omega^1_X)^{\otimes 2}$. 
+\end{remark}
+
+
+\subsection{Vector Bundles}
+
+
+\begin{proposition}
+Let $\E$ be a vector bundle on $X$ with a flat connection 
+\[ \nabla : \E \to \Omega^1_X \otimes_{\struct{X}} \E   \]
+Then $\E^\nabla = \ker{\nabla}$ is a local system. 
+\end{proposition}
+
+\begin{proof}
+Since $\E$ is locally free, we can find a cover of trivializing neighbrohoods $U$ such that $\E|_U \cong \struct{U}^{\oplus n}$. Then $\nabla : \struct{U}^{\oplus n} \to (\Omega^1_U)^{\oplus n}$ is a connection. Define,
+\[ \nabla e_j = \sum_{i = 1}^n \omega_{ij} \otimes e_i  \]
+where $\omega_{ij} \in \Omega_X^1(U)$ is a form.
+This uniquely defines the connection since,
+\begin{align*}
+\nabla (f_1, \dots, f_n) & = \nabla \left( \sum_{i = 1}^n f_i e_i \right) = \sum_{i = 1}^n \left( f_i \nabla e_i + \d{f_i} \otimes e_i \right)
+\\
+& = \sum_{i,j = 1}^n \omega_{ij} \otimes f_j e_i + (\d{f_1}, \dots, \d{f_n})
+\end{align*}
+Therefore, $\E^\nabla$ is given locally by $(f_1, \dots, f_n)$ solving the linear system of differential equations,
+\[ \d{f_i} + \sum_{j = 1}^n \omega_{ij} f_j = 0 \]
+The condition of flatness is that,
+\[ \nabla_1 \circ \nabla = 0 \]
+which locally is,
+\begin{align*}
+\nabla_1 \circ \nabla (f_1, \dots, f_n) & = \nabla_1 \left( \sum_{i,j = 1}^n \omega_{ij} \otimes f_j e_i + \sum_{j = 1}^n \d{f_j} \otimes e_j  \right) 
+\\
+& = \sum_{i,j = 1}^n \left[ \d{\omega_{ij}} \otimes f_j e_i - \omega_{ij} \wedge \nabla (f_j e_i) \right]  + \sum_{i = 1}^n \left[ \d \d f_i \otimes e_i - \d{f_j} \wedge \nabla e_j \right]
+\\
+& = \sum_{i,j = 1}^n \left[ \d{\omega_{ij}} \otimes f_j e_i - \omega_{ij} \wedge  \left(  \d{f_j} \otimes e_i  + f_j \sum_{k = 1}^n \omega_{ki} \otimes e_k \right) \right]  - \sum_{i,j = 1}^n \left[ \d{f_j} \wedge \omega_{ij} \otimes e_i  \right]
+\\
+& = \sum_{i,j = 1}^n  \left[ \d{\omega_{ij}} \otimes  e_i -  \sum_{k = 1}^n \omega_{ij} \wedge \omega_{ki} \otimes e_k \right] f_j
+\\
+& = \sum_{i,j = 1}^n \left[ \d{\omega_{ij}} + \sum_{k = 1}^n \omega_{ik} \wedge \omega_{kj} \right] \otimes f_j e_i
+\end{align*}
+So the curvature $\omega_\nabla$ is given by coefficients,
+\[ \Theta_{ij} = \d{\omega_{ij}} + \sum_{k = 1}^n \omega_{ik} \wedge \omega_{kj} \]
+Now I claim that if $\varepsilon^{\nabla}$ as a full set of solutions then $\omega_\Delta = 0$. To show this, consider,
+\[ \d{\left( \d{f_i} + \sum_{j = 1}^n \omega_{ij} f_j \right)} = 0 \]
+This implies,
+\[ \sum_{j = 1}^n \left( \d{\omega_{ij}} f_j - \omega_{ij} \wedge \d{f_j} \right) = 0 \]
+However, using the relation,
+\[ \sum_{j = 1}^n \left( \d{\omega_{ik}} + \omega_{ij} \wedge \omega_{jk} \right) f_k = 0 \]
+and thus,
+\[ \sum_{j = 1}^n \Theta_{ij} f_j = 0 \]
+If we assume that $f_i$ can be choosen to span then we must have $\Theta_{ij} = 0$ which implies $\omega_\nabla = 0$. This is also sufficient for integrability. 
+\end{proof}
+
+\end{document}
+
+

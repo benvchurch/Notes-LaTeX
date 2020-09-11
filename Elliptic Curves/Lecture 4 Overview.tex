@@ -1,0 +1,165 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{exercise}{Exercise}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+\newcommand{\res}{\mathrm{res}}
+
+\begin{document}
+
+\title{Lecture 4}
+
+\maketitle
+
+\section{Projective Space}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{CP}}
+
+Projective space is the space of lines through the origin in some linear space. For example, real projective space, $\RP^n$, is the space of lines through the origin in $\R^{n+1}$. 
+
+\section{Projective Elliptic Curves}
+
+We homogenize the defining equation of an elliptic curve,
+\[ y^2 = x^3 + a x + b \]
+to get,
+\[ Y^2 Z = X^3 + a X Z^2 + b Z^3 \]
+which is a homogeneous polynomial in two variables which therefore naturally lives in $\CP^2$. The elliptic curve should be defined as the projective algebraic set,
+\[ E = \{ [X : Y : Z] \mid Y^2 Z = X^3 + a X Z^2 + b Z^3 \} \subset \CP^2 \]
+We call this a compactification or projectivization of the affine curve,
+\[ y^2 = x^3 + ax + b \]
+which we need to justify. Why is this new curve ``the same'' as the original affine curve up to completion by adding ``points at infinity''. Consider the decomposition,
+\[ \CP^2 = \{ Z \neq 0 \} \cup \{ Z = 0 \} = \C^2 \cup \CP^1 \]
+Now,
+\begin{align*}
+ E \cap \C^2 & = E \cap \{ Z \neq 0 \} = \{ [X : Y  : Z] \mid Y^2 Z = X^3 + a X Z^2 + b Z^3 \text{ and } Z \neq 0 \} 
+\\
+& = \{ [x : y : 1] \mid y^2 = x^3 + a x + b \} \cong \{ (x,y) \mid y^2 = x^3 + ax + b \} \subset \C^2
+\end{align*}
+which corresponds to setting $Z = 1$ recovering the original equation. This justifies the process of homogenizing our affine equation since when we set $Z = 1$ we recover the original form. Furthermore, the curve $E$ intersects the Riemann sphere at infinity $\{ Z = 0 \} = \CP^1 \subset \CP^2$ in the following way,
+\[ E \cap \CP^1 = E \cap \{ Z = 0 \} = \{ [X : Y : 0] \mid X^3 = 0 \} = \{ [0 : Y : 0] \} = \{ [0 : 1 : 0] \}
+\]
+so $E$ intersects infinity in a single point which we call ``the point at infinity on the elliptic curve $E$''. 
+
+\section{Projectivizing the Weierstrass $\wp$ function}
+
+Recall we wanted to use the Weierstrass $\wp$ function to create a map,
+\[ \C / \Lambda \xrightarrow{\Phi} \C^2 \]
+defined by $z \mapsto (\wp(z), \wp'(z)/2)$ which satisfies the differential equation,
+\[ (\wp'(z)/2)^2 = \wp(z)^3 - g_2 \wp(z) - g_3 \] 
+and therefore the image of $\Phi$ is contained in the affine elliptic curve,
+\[ E = \{ (x,y) \mid y^2 = x^3 - g_2 x - g_3 \} \]
+However, there is a problem. At $z = 0$, the $\wp$ function has a pole and therefore the map $\C / \Lambda \to \C^2$ is not well-defined. We want to extend $\C^2$ by adding ``points at infinity'' to take care of the poles of $\wp$. We do this by extending $\C^2$ to $\CP^2$. Then we can define a map,
+\[ \C / \Lambda \xrightarrow{\Phi} \CP^2 \]
+given by $z \mapsto [ z^3 \wp(z) : z^3 \wp'(z) / 2  : z^3]$. Notice that when $z \neq 0$,
+\[ [ z^3 \wp(z) : z^3 \wp'(z) / 2  : z^3] = [\wp(z) : \wp'(z) / 2 : 1 ] \in \C^2 \subset \CP^2 \]
+so this new map agrees with our prior definition hitting the affine patch $\C^2 \subset \CP^2$. However, when $z = 0$, the power of $z^3$ cancels of the poles of $\wp(z)$ and $\wp'(z)$. To see this recall the expansions,
+\[ \wp(z) = \frac{1}{z^2} + \sum_{k 
+
+\end{document}
