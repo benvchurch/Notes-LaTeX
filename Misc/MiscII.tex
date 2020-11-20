@@ -1477,11 +1477,11 @@ Since $\iota : Z \embed X$ is a closed immersion with dense image, $Z \embed X$ 
 Let $X$ be a scheme and consider an exact sequence of quasi-coherent $\struct{X}$-modules,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \mathcal{A} \arrow[r] & 0
+0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \cA \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-and $\A$ is a sheaf of $\struct{X}$-algebra. 
-Suppose that $\F_x \neq 0$ for each $x \in X$. Then $\I \embed \Nil$ where $\Nil$ is the sheaf of nilpotents.
+and $\cA$ is a sheaf of $\struct{X}$-algebras. 
+Suppose that $\cA_x \neq 0$ for each $x \in X$. Then $\I \embed \Nil$ where $\Nil$ is the sheaf of nilpotents.
 \end{lemma}
 
 \begin{proof}
@@ -1500,7 +1500,7 @@ Since $\iota: Z \embed X$ is a homeomorphism onto its image $X$ it suffices to s
 \end{tikzcd}
 \end{center} Furthermore, 
 \[ \Supp{\struct{X}}{\iota_* \struct{Z}} = \Im{\iota} = X \]
-since $(\iota_* \struct{Z})_x = \stalk{Z}{x}$ when $x \in \Im{\iota}$ (and zero elsewhere). by the above, $\I \embed \Nil = 0$ since $X$ is reduced to $\iota^\# : \struct{X} \to \iota_* \struct{Z}$ is an isomorphism.  
+since $(\iota_* \struct{Z})_x = \stalk{Z}{x}$ when $x \in \Im{\iota}$ (and zero elsewhere). by the above, $\I \embed \Nil = 0$ since $X$ is reduced so $\iota^\# : \struct{X} \to \iota_* \struct{Z}$ is an isomorphism.  
 \end{proof}
 
 \begin{lemma}
@@ -3363,6 +3363,12 @@ Immersions are monic and thus separated. Furthermore, composition of separated m
 
 \subsection{Implication of Properties}
 
+\subsubsection{Categorical Pullback Properties}
+
+\begin{rmk}
+These lemmas are categorical results hold in any category with fiber products.
+\end{rmk}
+
 \begin{lemma}[Magic Square]
 Let $X_1, X_2 \to Y$ and $Y \to Z$ be morphisms. The following diagram is a pullback,
 \begin{center}
@@ -3378,26 +3384,61 @@ Y \arrow[r, "\Delta_{Y/Z}"] & Y \times_Z Y
 Consider a diagram,
 \begin{center}
 \begin{tikzcd}[row sep = huge]
-Z \arrow[rrd, bend left] \arrow[ddr, bend right] \arrow[dr, dashed]
+T \arrow[rrd, bend left] \arrow[ddr, bend right] \arrow[dr, dashed]
 \\
 & X_1 \times_Y X_2 \arrow[d] \arrow[r] & X_1 \times_Z X_2 \arrow[d]
 \\
 & Y \arrow[r, "\Delta_{Y/Z}"] & Y \times_Z Y
 \end{tikzcd}
 \end{center}
-A map $Z \to X_1 \times_Z X_2$ is a pair of maps $Z \to X_1$ and $Z \to X_2$ agreeing on $Z$. However, composing with $X_1 \times_Z X_2 \to Y \times_Z Y$ must agree with $Z \to Y \to Y \times_Z Y$ and thus the maps $Z \to X_1$ and $Z \to X_2$ must agree on $Y$ so this defines a map $Z \to X_1 \times_Y X_2$. 
+A map $T \to X_1 \times_Z X_2$ is a pair of maps $T \to X_1$ and $T \to X_2$ agreeing on $Z$. However, composing with $X_1 \times_Z X_2 \to Y \times_Z Y$ must agree with $T \to Y \to Y \times_Z Y$ and thus the maps $T \to X_1$ and $T \to X_2$ must agree on $Y$ so this defines a map $Z \to X_1 \times_Y X_2$. 
 \end{proof}
 
 \begin{lemma}
-Let $f : X \to Y$ be unramified over $S$. Then $\Delta_{X/Y} : X \to X \times_Y X$ is an open immersion.
+Let $f,g : X \to Y$ be morphims over $S$. Then $Z \to X$ in the following pullback diagram,
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = large]
+Z \arrow[r] \arrow[d] \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] & Y \arrow[d, "\Delta_{X/S}"]
+\\
+X \arrow[r, "\mathit{(f,g)}"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+is the equalizer of $f, g : X \to Y$.
 \end{lemma}
 
 \begin{proof}
-Tag 02GE.
+Consider a morphism $h : T \to X$ such that $f \circ h = g \circ h$. Then $(f \circ h, g \circ h) : T \to Y \times_S Y$ equals $(f \circ h, f \circ h) = \Delta_{X/S} \circ f \circ h$ giving a commutative diagram,
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = large]
+T \arrow[rrd, bend left] \arrow[ddr, bend right] \arrow[dr, dashed] 
+\\
+& Z \arrow[d] \arrow[r] \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] & Y \arrow[d, "\Delta_{X/S}"]
+\\
+& X \arrow[r, "\mathit{(f,g)}"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+There is thus a unique map $T \to Z$ such that $T \to Z \to X$ is $h$ proving that $Z$ is the equalizer.
 \end{proof}
 
 \begin{cor}
-Let $f : X \to Y$ be a morphism over $S$. Then the graph $\Gamma_f : X \to X \times_S Y$ is a base change of the diagonal $\Delta_{Y/S} : Y \to Y \times_S Y$.
+Given $S$-morphisms $f_1 : X_1 \to Y$ and $f_2 : X_2 \to Y$ the morphism $Z \to X_1 \times_S X_2$ in the pullback diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+Z \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d] \arrow[r] & X_1 \times_S X_2 \arrow[d]
+\\
+Y \arrow[r, "\Delta_{Y/Z}"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+is the equalizer of $f_1 \circ \pi_1, f_2 \circ \pi_2 : X_1 \times_S X_2 \to Y$. Giving three descriptions of $Z \to X_1 \times_S X_2$,
+\begin{enumerate}
+\item the natural map $X_1 \times_Y X_2 \to X_1 \times_S X_2$
+\item the base change / pullback of $\Delta_{Y/S}$ along $f_1 \times f_2$
+\item the equalizer of $f \circ \pi_1, g \circ \pi_2 : X_1 \times_S X_2 \to Y$.
+\end{enumerate}
+\end{cor}
+
+\begin{cor}
+Let $f : X \to Y$ be a morphism over $S$. Then the graph $\Gamma_f : X \to X \times_S Y$ is the base change of the diagonal $\Delta_{Y/S} : Y \to Y \times_S Y$ by $f \times \id_Y$.
 \end{cor}
 
 \begin{proof}
@@ -3412,8 +3453,22 @@ Y \arrow[r, "\Delta_{Y/S}"] & Y \times_S Y
 is cartesian (a pullback) by the magic diagram applied to $f : X \to Y$ and $\id_Y : Y \to Y$ over $S$.
 \end{proof}
 
+\begin{rmk}
+Furthermore, the graph $\Gamma_f : X \to X \times_S Y$ is the equalizer of $f \circ \pi_1, \pi_2 : X \times_S Y \to Y$.
+\end{rmk}
+
+\subsubsection{Properties of The Graph Morphism of Schemes}
+
+\begin{lemma}
+Let $f : X \to Y$ be unramified over $S$. Then $\Delta_{X/Y} : X \to X \times_Y X$ is an open immersion.
+\end{lemma}
+
+\begin{proof}
+Tag 02GE.
+\end{proof}
+
 \begin{cor}
-Let $f : X \to Y$ be a morphism over $S$ in general, $\Gamma_f : X \to X \times_S Y$ is an embedding (locally closed immersion). Furthermore,
+Let $f : X \to Y$ be a morphism over $S$. In general, $\Gamma_f : X \to X \times_S Y$ is a locally closed immersion. Furthermore,
 \begin{enumerate}
 \item if $Y \to S$ is quasi-separated then $\Gamma_f : X \to X \times_S Y$ is quasi-compact
 \item if $Y \to S$ is affine-separated then $\Gamma_f : X \to X \times_S Y$ is affine
@@ -3423,8 +3478,14 @@ Let $f : X \to Y$ be a morphism over $S$ in general, $\Gamma_f : X \to X \times_
 \end{cor}
 
 \begin{proof}
-These properties are preserved under base change and the diagonal map $\Delta_{Y/S} : Y \to Y \times_S Y$ has the corresponding property for each separation axiom. 
+These properties are preserved under base change and the diagonal $\Delta_{Y/S} : Y \to Y \times_S Y$ has the corresponding property for each case and is, in general, a locally closed immersion.
 \end{proof}
+
+\subsubsection{Implication of Properties}
+
+\begin{rmk}
+The following hold in any category with fiber products.
+\end{rmk}
 
 \newcommand{\cP}{\mathcal{P}}
 
@@ -3444,7 +3505,7 @@ Both morphisms have $\cP$ by base change so $f \times g$ does as well by composi
 \end{proof}
 
 \begin{prop}
-Let $\cP$ be a property of morphisms which is perserved under composition and base change. Consider a morphisms $f : X \to Y$ of $S$-schemes giving a diagram,
+Let $\cP$ be a property of morphisms which is perserved under composition and base change. Consider a morphism $f : X \to Y$ of $S$-objects giving a diagram,
 \begin{center}
 \begin{tikzcd}[row sep = large]
 X \arrow[rr, "f"] \arrow[rd, "p"'] & & Y \arrow[ld, "q"]
@@ -3469,6 +3530,12 @@ X \arrow[rr, "f"] \arrow[ru, "\Gamma_f"] \arrow[rd, "p"'] & & Y \arrow[ld, "q"]
 Since $\Gamma_f$ is a base change of $\Delta_{Y/S} : Y \to Y \times_S Y$, it has property $\cP$. Since $\pi_2 : X \times_S Y \to Y$ is the base change of $p : X \to S$ by $q : Y \to S$ so it has property $\cP$. Composing, $f$ has property $\cP$.
 \end{proof}
 
+\subsubsection{Application to the Category of Schemes}
+
+\begin{rmk}
+From now on we work in the category of schemes over $S$.
+\end{rmk}
+
 \begin{prop}
 Let $\cP$ be a property of morphisms such that,
 \begin{enumerate}
@@ -3476,7 +3543,7 @@ Let $\cP$ be a property of morphisms such that,
 \item $\cP$ is preserved under base change
 \item any closed immersion has $\cP$
 \end{enumerate} 
-then if $f : X \to Y$ has $\cP$ is reduction $f_{\red} : X_{\red} \to Y_{\red}$ also has $\cP$.
+then if $f : X \to Y$ has $\cP$ its reduction $f_{\red} : X_{\red} \to Y_{\red}$ also has $\cP$.
 \end{prop}
 
 \begin{proof}
@@ -3498,7 +3565,6 @@ X_{\red} \arrow[rd, "f \circ \pi_X"'] \arrow[rr, "f_{\red}"] & & Y_{\red} \arrow
 \end{center} 
 Since $\pi_Y$ is a closed immersion and thus separated so $\Delta_{Y_\red / Y}$ is a closed immersion so it has $\cP$. Furthermore, $f \circ \pi_X$ has $\cP$ because $f$ does by hypothesis and $\pi_X$ does because it is a closed immersion and $\cP$ is closed under composition. Therefore, by the main lemma, $f_{\red}$ has $\cP$.
 \end{proof}
-
 
 \begin{cor}
 Let $Y$ be an $S$-scheme and $X$ a $Y$-scheme.
@@ -3523,7 +3589,7 @@ Conversely, if $Y \to S$ is separated and $X \to Y$ is separated then $X \to S$ 
 \end{proof}
 
 \begin{cor}
-Let $f : X \to Y$ be a morphism of $S$-schemes with $Y \to S$ quasi-separated. Then, if the structue morphsim $X \to S$ is any of the following,
+Let $f : X \to Y$ be a morphism of $S$-schemes. Then, if the structue morphsim $X \to S$ is any of the following,
 \begin{enumerate}
 \item an immersion
 \item locally of finite type
@@ -3533,18 +3599,10 @@ then $f : X \to Y$ satisfies those same properties.
 \end{cor}
 
 \begin{proof}
-All properties here are preserved under composition and base change. Furthermore, the diagonal is an immersion (in particular locally of finite type and quasi-projective) giving the first two. 
-\bigskip\\
+All properties here are preserved under composition and base change. Furthermore, the diagonal is an immersion (in particular locally of finite type and quasi-separated) giving the first two. 
 The diagonal is an immersion and thus monic and thus separated. In particular the diagonal is generally quasi-separated so quasi-separated maps satisfy the cancellation property.
 \end{proof}
 
-\begin{cor}
-Morphism of varieties over $k$ are finite type and separated. 
-\end{cor}
-
-\begin{proof}
-A morphism $f : X \to Y$ of varieties over $\Spec{k}$ is finite type since $X$ is finite type and separated since $X$ is separated.
-\end{proof}
 
 \begin{cor}
 Let $f : X \to Y$ be a morphism of $S$-schemes with $Y \to S$ quasi-separated. Then, if the structue morphsim $X \to S$ is any of the following,
@@ -3558,6 +3616,14 @@ then $f : X \to Y$ satisfies those same properties.
 
 \begin{proof}
 If $Y \to S$ is quasi-separated then (by definition) the diagonal is a quasi-compact immersion and thus finite type and quasi-projective so the cancellation property holds for quasi-compact, finite type, and quasi-projective morphisms.
+\end{proof}
+
+\begin{cor}
+Morphism of varieties over $k$ are finite type and separated. 
+\end{cor}
+
+\begin{proof}
+A morphism $f : X \to Y$ of varieties over $\Spec{k}$ is finite type since $X$ is finite type and separated since $X$ is separated.
 \end{proof}
 
 \begin{cor}
@@ -3620,7 +3686,7 @@ Consider the locus $Z$ on which $f, g : X \to Y$ agree i.e. the equalizer of $f,
 \begin{tikzcd}[row sep = large]
 Z \arrow[d, "\iota"] \arrow[r] & Y \arrow[d, "\Delta_{Y/S}"]
 \\
-X \arrow[r, "(f \, g)"] & Y \times_S Y
+X \arrow[r, "\mathit{(f,g)}"] & Y \times_S Y
 \end{tikzcd}
 \end{center}
 Since $q : Y \to S$ is unramified and separated the diagonal $\Delta_{Y/S} : Y \to Y \times_S Y$ is an open and closed immersion. Thus, by base change $\iota : Z \embed X$ is an open and closed immersion. Since $X$ is connected, if $Z$ is nonempty then $\iota : Z \to X$ is an isomorphism which shows that $f = g$. Consider the point $\Spec{\kappa(x)} \to X$. But $Z$ is the equalizer of $f, g : X \to Y$ so $\Spec{\kappa(x)} \to X$ factors through $Z \to X$ iff $f,g : \Spec{\kappa(x)} \to Y$ are equal which is ensured by the hypotheses so $Z$ has a point and thus $\iota : Z \iso X$ is an isomorphism showing that $f = g$.
@@ -3659,6 +3725,74 @@ Let $X \to S$ be projective. Then $X \to S$ is proper.
 \begin{proof}
 Follows from the fact that $\P^n_S \to S$ is proper and that closed immersions are proper as well.
 \end{proof}
+
+\subsection{Proper and Universally Closed Morphisms}
+
+\begin{defn}
+A morphism $f : X \to S$ is \textit{universally} closed if for any $T \to S$ the base change $f_T : X \times_S T \to T$ is closed. 
+\end{defn}
+
+\begin{defn}
+A morphism $f : X \to Y$ is \textit{proper} if it is finite type, separated, and universally closed. 
+\end{defn}
+
+\begin{lemma}
+Universally closed morphisms are preserved under composition and under arbitrary base change.
+\end{lemma}
+
+\begin{proof}
+The composition of closed morphisms is closed and composition is preserved under base change. Furthermore, universally closed morphisms are obviously preserved under base change.
+\end{proof}
+
+\begin{prop}
+Consider a morphism $f : X \to Y$ of $S$-schemes giving a diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+X \arrow[rr, "f"] \arrow[rd, "p"'] & & Y \arrow[ld, "q"]
+\\
+& S
+\end{tikzcd}
+\end{center}
+If $p : X \to S$ is universally closed and $f : X \to Y$ is surjective then $q : Y \to S$ is universally closed. 
+\end{prop}
+
+\begin{proof}
+The base change of a surjective morphism is surjective (Tag 01S1). Then under any base change $T \to S$ we get the diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+X_T \arrow[rr, "f_T"] \arrow[rd, "p_T"'] & & Y_T \arrow[ld, "q_T"]
+\\
+& T
+\end{tikzcd}
+\end{center}
+satisfying the hypotheses. Therefore, it suffices to show that $q : Y \to S$ is closed. Take a closed $C \subset Y$ then, because $f$ is surjective, $q(C) = q(f^{-1}(C))$ is closed.
+\end{proof}
+
+\begin{cor}
+Consider a morphism $f : X \to Y$ of $S$-schemes giving a diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large]
+X \arrow[rr, "f"] \arrow[rd, "p"'] & & Y \arrow[ld, "q"]
+\\
+& S
+\end{tikzcd}
+\end{center}
+If we have,
+\begin{enumerate}
+\item $p : X \to S$ is proper
+\item $f : X \to Y$ is surjective 
+\item $q : Y \to S$ is finite type and separated
+\end{enumerate}
+then both $f : X \to Y$ and $q : Y \to S$ are proper.
+\end{cor}
+
+\begin{proof}
+By above, $q : Y \to S$ is universally closed and, by assumption, finite type and separated and thus proper. Furthermore, since $q : Y \to S$ is separated, by the previous discussion $f : X \to Y$ is proper.
+\end{proof}
+
+\begin{rmk}
+This gives a proof of Hartshorne II.4.4.
+\end{rmk}
 
 \section{Interesting Flasque Resolutions on Curves}
 
@@ -3794,12 +3928,7 @@ Locally, on affine opens
 \end{proof}
 
 
-\section{Classifying Principal $G$-bundles}
 
-Recall that $K(G, n)$ is the classifying space for $H^n(- ; G)$. Explicitly,
-\[ H^n(X, G) = [X, K(G, n)] \]
-given by pulling back along a function $f : X \to K(G,n)$ the class,
-\[ \id \in \Hom{}{G}{G} = \Hom{}{\pi_n(X)}{G} = H^n(X, G) \]
 
 \section{Submodules of Locally Free Modules}
 
@@ -3914,4 +4043,905 @@ which is exact on the left because $X \to S$ is smooth. Furthermore, since $X$ a
 
 \subsection{Computing (Co)Normal Bundles}
 
+\renewcommand{\R}{\mathbb{R}}
+
+\section{Canonical Forms}
+
+\begin{defn}
+Let $M$ be a smooth manifold and let $P = TM$ and $Q = T^* M$ denote its tangent bundle and cotangent bundle. Then there are canonical objects:
+\begin{enumerate}
+\item a vector field $V \in \Gamma(P, TP)$
+\item a 1-form $\theta \in \Gamma(Q, T^*Q)$
+\end{enumerate}
+defined as follows. Choose $(x, v) \in P$ where $x \in M$ and $v \in T_x M$ then the projection $\pi : T^*P \to P$ induces $\d{\pi}  : TP \to TM$ so 
+
+$v \in TP$ 
+
+For the canonical 1-form, consider a point $(x, \varphi) \in Q$ where $x \in M$ and $\varphi : T_x M \to \mathbb{R}$. Using the projection $\pi : Q \to M$ we define $\theta_{(x, \varphi)} = \varphi \circ \d{\pi_{(x, \varphi)}} : T_m Q \to \mathbb{R}$ giving a smooth section $\theta : Q \to T^* Q$. We describe this as the 1-form given at $(x, \varphi)$ by pulling back $\varphi$ along $\pi$.
+
+\end{defn}
+
+\begin{rmk}
+For a chart $\varphi : U \to M$ we get coordinate functions $x_i = \varphi^{-1} \circ \pi_i : M \to \mathbb{R}$ and a basis of vector fields $\pderiv{}{x^i} = \d{\varphi} \left( \pderiv{}{x^i} \right)$ and a basis of 1-forms $\d{x^i} = \varphi^* \d{x^i}$. 
+\end{rmk}
+
+\begin{rmk}
+Therefore, we get a chart for $P$,
+\[ \varphi : U \times \R^n \to  P \quad \text{via} \quad ( \{ x_i \}, \{ v^i \} ) \mapsto \left( \varphi(\{ x_i \}), v^i \pderiv{}{x^i} \right) \] 
+and a chart for $Q$,
+\[ \varphi : U \times \R^n \to Q \quad \text{via} \quad ( \{ x_i \}, \{ p_i \} ) \mapsto \left( \varphi(\{ x_i \}), p_i \: \d{x^i} \right) \] 
+Consider two charts $\varphi : U \to M$ and 
+\end{rmk}
+
+\section{There is only one conic in $\P^2$}
+
+\begin{theorem}
+All irreducible conics in $\P^2$ are related by an automorphism of $\P^2$.
+\end{theorem}
+
+\begin{proof}
+By definition, a conic is a degree $2$ subscheme $C \embed \P^2$ thus defined by a section of $\struct{\P^2}(2)$. Thus, if irreducible it is a curve of arithmetic genus $0$. Normalizing gives a degree two map $f : \P^1 \to \P^2$ with $f^* \struct{\P^2}(1) = \struct{\P^1}(2)$ (since $\struct{\P^1}(2)$ is the unique degree $2$ line bundle). Now I claim the pullback map $H^0(\P^2, \struct{\P^2}(1)) \to H^0(\P^1, \struct{\P^1}(2))$ is an isomorphism. Indeed, pushing forward we get a map $\struct{\P^2}(1) \to f_* f^* \struct{\P^2}(1)$ and by the projection formula $f_* f^* \struct{\P^2}(1) = f_* \struct{\P^1} \otimes_{\struct{\P^2}} \struct{\P^2}(1)$ which fits into the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] \struct{\P^2}(1-d) \arrow[r] & \struct{\P^2}(1) \arrow[r] & \struct{C}(1) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+giving a long exact sequence containing,
+\begin{center}
+\begin{tikzcd}
+H^0(\P^2, \struct{\P^2}(1-d)) \arrow[r] & H^0(\P^2, \struct{\P^2}(1)) \arrow[r] & H^0(C, \struct{C}(1)) \arrow[r] & H^1(\P^2, \struct{\P^2}(1-d)) 
+\end{tikzcd}
+\end{center}
+for $d > 1$ we get $H^i(\P^2, \struct{\P^2}(1-d)) = 0$ for $i \le 1$ and thus an isomorphism,
+\[ H^0(\P^2, \struct{\P^2}(1)) \iso H^0(C, \struct{C}(1)) \]
+given by pulling back. Any map $\P^1 \to \P^2$ of degree two is defined by a basis of sections of $H^0(\P^1, \struct{\P^1}(2))$ (since we showed the above map is surjective and has the correct dimension $3$) and any two bases are related by $\mathrm{PGL}_3$ giving an automorphism of $\P^2$.
+\end{proof}
+
+\section{Connected Etale Covers}
+
+\begin{rmk}
+Integrality is not purely local in the sense that $\stalk{X}{x}$ being a domain does not imply that $X$ is integral nor does having an affine open cover by domains. For example, take $\A^1 \coprod \A^1$.
+\end{rmk}
+
+\begin{lemma}
+Let $X$ be a connected scheme with finitely many irreducible components such that $\stalk{X}{x}$ is a domain at each $x \in X$. Then $X$ is integral.
+\end{lemma}
+
+\begin{proof}
+Since $X$ is automatically reduced we must show $X$ is irreducible. Let $Z_1, \dots, Z_n \subset X$ be the irreducible components. It suffcies to show that $Z_i \cap Z_j = \empty$ for $i \neq j$ since in that case,
+\[ Z_1 \cap \left( \bigcup_{j = 2}^n Z_j \right) = \empty \]
+and because there are finitely many,
+\[ Y = \bigcup_{j = 2}^n Z_j \]
+is closed and $Z_1 \cup Y = X$. Thus either $Z_1 = X$ or $Y = X$ by connectedness. Proceeding we see that $Z_i = X$ for some $Z_i$ so $X$ has a single irreducible component i.e. $X$ is irreducible. 
+\bigskip\\
+Suppose otherwise that $p \in Z_i \cap Z_j$. Then $Z_i$ and $Z_j$ correspond to distinct minimal primes in $\stalk{X}{p}$ contradicting the fact that $\stalk{X}{p}$ is a domain and thus has a unique minimal prime. 
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be an \etale morphism of locally Noetherian schemes and $f(x) = y$. Then $\stalk{X}{x}$ is a normal domain iff $\stalk{Y}{y}$ is a normal domain.
+\end{lemma}
+
+\begin{proof}
+See Tag 025P and note that $f : X \to Y$ is \etale at $x$ iff $\stalk{Y}{y} \to \stalk{X}{x}$ is an \etale homomorphism of local rings.
+\end{proof}
+
+\begin{prop}
+Let $Y$ be a normal Noetherian integral scheme and $f : X \to Y$ a quasi-compact \etale cover with $X$ connected. Then $X$ is a normal Noetherian integral scheme.
+\end{prop}
+
+\begin{proof}
+Since $X \to Y$ is finite presentation and $Y$ is Noetherian then $X$ is Noetherian. Furthermore, by the previous result we have $\stalk{X}{x}$ is a normal domain for each $x \in X$, in particular a domain. Therefore, since $X$ is connected and Noetherian we find that $X$ is integral by previous results and normal by definition. 
+\end{proof}
+
+\begin{cor}
+Let $X$ be a normal Noetherian integral scheme. Then quasi-compact \etale covers by normal Noetherian integral schemes are cofinal in $X_{\et}$.
+\end{cor}
+
+\begin{proof}
+For any quasi-compact \etale cover $f : \tilde{X} \to X$ since $X$ is Noetherian and $f$ is finitely presented $\tilde{X}$ is Noetherian and thus has finitely many connected components $U_i$ which are thus clopen. Then $U_i \embed \tilde{X}$ are open immersions and thus \etale. Furthermore, $\tilde{X}$ is Noetherian so $U_i \embed \tilde{X}$ is quasi-compact. Thus, composing gives a quasi-compact \etale cover  $U_i \to X$ with $U_i$ connected so, by the previous proposition, the $U_i$ are normal Noetherian integral schemes.
+\end{proof}
+
+\begin{example}
+The normality assumption is necessary. Indeed let,
+\[ X = \Spec{k[x,y]/(y^2 - x^2 (x + 1)} \]
+be an affine nodal cubic which is a curve (in particular Noetherian and integral). Then consider the cover $\tilde{X} = \A^1 \coprod_{\{ \pm 1 \}} \A^1$ (glued at $1$ and $-1$) where $\A^1 \to X$ is the normalization map. We need to show that this map is etale. Notice that $\A^1 \to X$ is not flat at $1 \mapsto (0,0)$ and $-1 \mapsto (0,0)$. However, $\stalk{X}{(0,0)} \to \stalk{\tilde{X}}{1}$ and $\stalk{X}{(0,0)} \to \stalk{\tilde{X}}{-1}$ are isomorphims because these local rings are both isomorphic to $k[x,y]/(xy)$ (note the change of variables $y^2 - x^2 = (u + v)^2 - (u - v)^2 = 4 uv$). However, this cover is not irreducible.
+\end{example}
+
+
+\section{Hilbert Spaces}
+
+\subsection{Basic Definitions}
+
+\newcommand{\inner}[2]{\left< #1 , #2 \right>}
+\renewcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathcal{H}}
+
+\begin{defn}
+A \textit{norm} on a $\R$-vector space $V$ is a function $|| \bullet || : V \to \R$ such that,
+\begin{enumerate}
+\item $||v|| \ge 0$
+\item $||v|| = 0 \iff v = 0$
+\item $||v + u|| \le ||v|| + ||u||$
+\item $|| \alpha v || = \alpha || v ||$ for any $\alpha \in \R$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+These imply that $d(u,v) = ||u - v||$ is a metric and thus a normed vector space is a topological vector space.
+\end{rmk}
+
+\begin{defn}
+A Banach space is a normed vector space $|| \bullet || : V \to \R$ which is complete with respect to its metric.
+\end{defn}
+
+\begin{defn}
+An Hermitian inner product on a $\C$-vector space is a conjugate-symmetric bilinear form $\inner{-}{-} : V \times \overline{V} \to \C$ such that $|| v || = \sqrt{\inner{v}{v}}$ is a norm. Explicitly,
+\begin{enumerate}
+\item $\inner{\alpha v + \beta u}{w} = \alpha \inner{v}{w} + \beta \inner{u}{w}$
+\item $\inner{u}{v} = \overline{\inner{v}{u}}$
+\item $\inner{v}{v} \ge 0$ and $\inner{v}{v} = 0 \iff v = 0$
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+A \textit{Hilbert Space} $\H$ is a Hermitian inner product space which is complete with respect to the induced norm. 
+\end{defn}
+
+\begin{rmk}
+Therefore a Hilbert space is a Banach space whose norm is induced by an inner product.
+\end{rmk}
+
+
+\begin{prop}
+A norm $|| \bullet ||$ is induced by a (real) inner product if and only if the real polarization identity holds:
+\[ \tfrac{1}{2} \left( || v + u ||^2 + || v - u ||^2 \right) = || v ||^2 + || u ||^2 \]
+and by a Hermitian inner product if and only if the complex polarization identities hold:
+\[ \tfrac{1}{2} \left( || v + i u ||^2 + || v - u ||^2 \right) = || v ||^2 + || u ||^2 \]
+\end{prop}
+
+\begin{proof}
+Suppose that $|| v ||^2 = \inner{v}{v}$ then,
+\begin{align*}
+\tfrac{1}{2} \left( || v + u ||^2 + || v - u ||^2 \right) & = \tfrac{1}{2} \left( \inner{v +  u}{v + u} + \inner{v - u}{v - u} \right) 
+\\
+& = \tfrac{1}{2} \left( \inner{v}{v} + 2 \inner{v}{u} + \inner{u}{u} + \inner{v}{v} - 2 \inner{v}{u} + \inner{u}{u} \right) 
+\\
+& = \inner{v}{v} + \inner{u}{u} = || v ||^2 + || u ||^2 
+\end{align*}
+Conversely, we define $\inner{v}{u} = \tfrac{1}{2} \left( || v + u ||^2 - || v ||^2 - || u ||^2 \right)$. Then clearly $\inner{v}{u} = \inner{u}{v}$ and,
+\[ \inner{v}{v} =  \tfrac{1}{2} \left( || 2 v ||^2 - || v ||^2 - || v ||^2 \right) = \tfrac{1}{2} \left( 4 || v ||^2 - 2 || v ||^2 \right) = || v ||^2 \]
+Finally, 
+\begin{align*}
+\inner{\alpha v + \beta u}{w} - \alpha \inner{v}{w} - \beta \inner{u}{w}  & = \tfrac{1}{2} \left( || \alpha v + \beta u + w ||^2 - || \alpha v + \beta u ||^2 - || w ||^2 \right)
+\\
+& - \tfrac{1}{2} \alpha \left( || v + w ||^2 - || v ||^2 - || w ||^2 \right) - \tfrac{1}{2} \beta \left( ||u + w||^2 - || u ||^2 - || w ||^2 \right)
+\\
+& = 
+\end{align*}
+(WTFF!!)
+\end{proof}
+
+\begin{prop}[Cauchy-Schwarz]
+Let $(V, \inner{-}{-})$ be a Hermitian inner product space. Then, for any $v, u \in V$,
+\[ | \inner{u}{v} | \le || u || \cdot || v || \]
+With equality exactly when $u, v$ are linearly dependent.
+\end{prop}
+
+\begin{proof}
+If $v = 0$ equality is obvious. Consider,
+\[ u' = u - \frac{\inner{u}{v}}{\inner{v}{v}} v \]
+Then we have,
+\[ \inner{u'}{v} = \inner{u}{v} - \frac{\inner{u}{v}}{\inner{v}{v}} \inner{v}{v} = \inner{u}{v} - \inner{u}{v} = 0 \]
+Therefore, writing 
+\[ u = u' + \frac{\inner{u}{v}}{\inner{v}{v}} v \]
+and thus we get
+\[ ||u||^2 = || u' ||^2 + \left| \frac{\inner{u}{v}}{\inner{v}{v}} \right|^2 || v ||^2 + \inner{u'}{v} \frac{\inner{v}{u}}{\inner{v}{v}} + \inner{v}{u'} \frac{\inner{u}{v}}{\inner{v}{v}} = || u' ||^2 + \left| \frac{\inner{u}{v}}{\inner{v}{v}} \right|^2 || v ||^2 \]
+Therefore, 
+\[ || u ||^2 \ge \left| \frac{\inner{u}{v}}{\inner{v}{v}} \right|^2 || v ||^2 \]
+or equivalently
+\[ | \inner{u}{v} | \le || u || \cdot || v || \]
+with equality exactly when,
+\[ || u' || = 0 \iff u' = 0 \iff u \inner{v}{v} = \inner{u}{v} v \]
+which is exactly when $u$ and $v$ are dependent (recally we assumed $v \neq 0$).
+\end{proof}
+
+\subsection{Operators}
+
+\begin{defn}
+A \textit{densely defined} operator $T : \H_1 \to \H_2$ of Hilbert spaces is a linear map defined on a dense subspace $D(T) \subset \H_1$. An operator is everywhere defined if $D(T) = \H_1$ which is generically called an operator. 
+\end{defn}
+
+\begin{defn}
+An operator $T : X \to Y$ is \textit{bounded} if the operator norm,
+\[ || T || = \sup_{v \in X} \frac{|| T(v) ||_{Y}}{|| v ||_{X}} = \sup_{v \in X} \frac{\inner{T(v)}{T(v)}_{Y}}{\inner{v}{v}_{X}} = \sup_{|| v ||_{X} = 1} \inner{T(v)}{T(v)}_{Y} \]
+exists i.e. there exists some $M \in \R$ such that $||T(v)||_{Y} \le M || v ||_{X}$ for all $v \in X$..
+\end{defn}
+
+\begin{prop}
+An operator $T : X \to Y$ the following are equivalent,
+\begin{enumerate}
+\item $T$ is bounded
+\item $T$ is Lipschitz
+\item $T$ is continuous
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Suppose that $T : X \to Y$ is bounded by $M$. Then consider,
+\[ || T(v) - T(u) || = || T (v - u) || \le M || v - u || \]
+and thus $T : X \to Y$ is Lipschitz which implies continuous. Now suppose that $T$ is continuous. At $v = 0$, for $\epsilon = 1$ there exists $\delta > 0$ such that,
+\[ || v || \le \delta \implies || T(v) || \le 1 \]
+Then for any nonzero $v$ we set $u = \frac{\delta}{||v||} v$ and then,
+\[ ||u|| = \delta \implies || T(u) || \le 1 \]
+and thus,
+\[ || T(v) || \le \frac{1}{\delta} || v || \]
+proving that $T$ is bounded.
+\end{proof}
+
+\subsection{Basic Topological Properties}
+
+
+\begin{prop}
+Let $(M, d)$ be a metric space. Then $d : M \times M \to \R$ is continuous with respect to the metric topology.
+\end{prop}
+
+\begin{proof}
+It suffices to show that for any $x,y \in X$ and $\epsilon > 0$ we have $| d(x',y') - d(x,y)| < 2 \epsilon$ for all $(x', y') \in B_\epsilon(x) \times B_\epsilon(y)$. From the triangle innequality,
+\[ d(x',y') \le d(x, y') + d(x', x) \quad \text{and} \quad d(x, y') \le d(x', y') + d(x', x) \implies | d(x', y') - d(x, y') | \le d(x', x) \]
+likewise $|d(x, y') - d(x, y) | \le d(y', y)$ and therefore,
+\[ | d(x', y') - d(x, y) | \le d(x', x) + d(y', y) < 2 \epsilon \]
+\end{proof}
+
+\begin{prop}
+Let $\H$ be a Hilbert space then $\inner{-}{-} : \H \to \C$ is continuous.
+\end{prop}
+
+\begin{proof}
+This follows from the complex polarization identifies and the continuity of $|| v ||^2 = \inner{v}{v}$.
+\end{proof}
+
+\begin{lemma}
+A subspace $S \subset M$ of a metric space is closed iff every convergent sequence $x_n \to x$ with $x_n \in W$ converges to $x \in S$.
+\end{lemma}
+
+\begin{proof}
+If $W$ is closed then $x \in \overline{W} = W$ since every open neighborhood of $x$ contains points in the sequence $x_n \in W$. Conversely, suppose that $x \in \overline{W}$ we need to show $x \in W$. By hypothesis it suffices to find a sequence $x_n \in W$ converging to $x$. For any $n \in \N$ there exists $x_n \in W \cap B_{\frac{1}{n}}(x)$ and clearly $x_n \to x$.
+\end{proof}
+
+\begin{prop}
+Let $W \subset \H$ be a subspace of a Hilbert space. Then,
+\[ W^\perp = \{ v \in \H \mid \forall u \in W : \inner{v}{u} = 0 \} \]
+is a closed subspace.
+\end{prop}
+
+\begin{proof}
+Consider a sequence $x_n \in W^\perp$ such that $x_n \to x$ converges. Then $\forall v \in W : \inner{x_n}{v} = 0$ so,
+\[ \inner{x}{v} = \inner{\lim_n x_n}{v} = \lim_n \inner{x_n}{v} = 0 \]
+because $\inner{-}{-}$ is continuous with respect to the metric topology. Thus $x \in W$ and thus $W$ is closed. 
+\end{proof}
+
+\begin{rmk}
+Note we do not assume $W$ is closed.
+Warning: when $W$ is not closed we may not have $\H = W \oplus W^\perp$. For example, take $\ell_2$ and the subset $W$ of finite sequences. Then $W^\perp = (0)$. We now see that this cannot happen if $W$ is closed.
+\end{rmk}
+
+
+\begin{prop}
+Let $W \subset \H$ be a closed subspace. Then there is a direct sum decomposition of the Hilbert space into $\H \cong W \oplus W^\perp$. 
+\end{prop}
+
+\begin{proof}
+Fix $v \in \H$. Now consider a sequence $w_k \in W$ such that $|| v - w_k ||^2 \to \inf\limits_{w \in W} || v - w ||^2$. Notice that,
+\[ || w - v ||^2 = || v ||^2 + || w ||^2 - \Re{\inner{w}{v}} \]  
+Now for $v_n$ and $v_m$ consider,
+\begin{align*}
+|| w_n - v ||^2 + || w_m - v ||^2 & - 2 || \tfrac{1}{2}(w_n + w_m) - v ||^2
+\\
+& = || w_n ||^2 + || w_m ||^2 - 2 || \tfrac{1}{2} (w_n + w_m) ||^2 - 2 \Re{\inner{w_n}{v}} - 2 \Re{\inner{w_m}{v}} + 2 \Re{\inner{w_n + w_m}{v}}
+\\
+& = || w_n ||^2 + || w_m ||^2 - \tfrac{1}{2} || w_n + w_m ||^2 
+\\
+& = \tfrac{1}{2} || w_n - w_m ||^2
+\end{align*}
+However, as $n, m \to \infty$ I claim that,
+\[ || w_n - v ||^2 + || w_m - v ||^2 - 2 || \tfrac{1}{2}(w_n + w_m) - v ||^2 \to 0 \]
+Let $L = \inf\limits_{w \in W} || v - w ||^2$ which bounds $|| \tfrac{1}{2}(w_n + w_m) - v || \ge L$ meaning that,
+\[ 0 \le || w_n - v ||^2 + || w_m - v ||^2 - 2 || \tfrac{1}{2}(w_n + w_m) - v ||^2 \le || w_n - v ||^2 + || w_m - v ||^2 - 2 L \]
+which is nonegative because it equals $\tfrac{1}{2} || w_n - w_m ||^2$. Furthermore, both $|| w_n - v ||^2 \to L$ and $|| w_m - v ||^2 \to L$ so in the limit this quantity is zero.
+Thus $|| w_n - w_m || \to 0$ so the sequence $w_n$ is Cauchy and thus converges to a limit $w_n \to w$. Since $W$ is closed and $w_n \in W$ we have $w \in W$. Furthermore, $|| v - w_ ||^2 \to || v - w ||^2$. And thus for any $\tilde{w} \in W$ we must have,
+\[ || v - \tilde{w} ||^2 \ge || v - w ||^2 \]
+In particular, take,
+\[ || v - (w + t \tilde{w}) ||^2 = || v - w ||^2 - t \Re{\inner{v - w}{\tilde{w}}} + t^2 || \tilde{w} || \]
+Thus, $- t \Re{\inner{v - w}{\tilde{w}}} + t^2 || \tilde{w} ||$ is positive for all $t$ which implies that $\Re{\inner{v - w}{\tilde{w}}} = 0$. Chainging $\tilde{w} \mapsto i \tilde{w}$ we see the imaginary part must vanish as well so $\inner{v - w}{\tilde{w}} = 0$. Since this holds for all $\tilde{w} \in W$ we find $v - w \in W^\perp$. Thus we can write $v = w + (v - w)$ for $w \in W$ and $v - w \in W^\perp$. Furthermore, clearly $W^\perp \cap W = (0)$ giving an internal direct sum decomposition $\H = W \oplus W^\perp$.
+\end{proof}
+
+
+\begin{prop}
+For any subspace $W \subset \H$ of a Hilbert space, we have $(W^\perp)^\perp = \overline{W}$.
+\end{prop}
+
+\begin{proof}
+$W \subset (W^\perp)^\perp$ since for any $w \in W$ if $v \in W^\perp$ then $\inner{w}{v} = 0$ so $w \in (W^\perp)^\perp$. Since $(W^\perp)^\perp$ is closed, $\overline{W} \subset (W^\perp)^\perp$. Conversely, $\overline{W}$ is closed so $\H = \overline{W} \oplus \overline{W}^\perp$ and thus any $v \in (\overline{W}^\perp)^\perp$ decomposes as $v = v_1 + v_2$ with $v_1 \in \overline{W}$ and $v_2 \in \overline{W}^\perp$ so $\inner{v_1}{v_2} = 0$. However, $v \in (\overline{W}^\perp)^\perp$ so $\inner{v}{v_2} = 0$ and thus $\inner{v_2}{v_2} = 0$ which implies that $v_2 = 0$ and thus $v = v_1 \in \overline{W}$. Therefore, $(W^\perp)^\perp \subset (\overline{W}^\perp)^\perp \subset \overline{W}$.
+\end{proof}
+
+\begin{cor}
+A subspace $W \subset \H$ of a Hilbert space is trivial iff $W^\perp = \H$.
+\end{cor}
+
+\begin{proof}
+Suppose $W^\perp = \H$. Then $W \subset W^\perp$ but $W \cap W^\perp = (0)$ so $W = (0)$.
+\end{proof}
+
+\begin{cor}
+A subspace $W \subset \H$ of a Hilbert space is dense iff $W^\perp = (0)$.
+\end{cor}
+
+\begin{proof}
+From before $\overline{W} = \H \iff (W^\perp)^\perp = \H \iff W^\perp = (0)$.
+\end{proof}
+
+\subsection{Dual Spaces}
+
+\begin{defn}
+Let $\H$ be a Hilbert space. A linear functional is a continuous linear map $\varphi : \H \to \R$. The dual space $\H^*$ is the Hilbert space of linear functionals along with the inner product,
+\[ \inner{\varphi}{\psi} = \sup_{v \in \H} \frac{\inner{\varphi(v)}{\psi(v)}}{\inner{v}{v}} \]
+\end{defn}
+
+\begin{rmk}
+We need to justify that this inner product exists. We need to show that $\inner{\varphi(v)}{\psi(v)}$ is bounded on the unit sphere $||v|| = 1$. This holds by continuity and the compactness of $S(\H)$.
+We need to show this is an inner product. Linearity and conjugate-symmetry are clear. Furthermore positivity for $\inner{\varphi}{\varphi}$ is clear. Finally suppose that,
+\[ \inner{\varphi}{\varphi} = \sup_{v \in \H^*} \frac{\inner{\varphi(v)}{\varphi(v)}}{\inner{v}{v}} = 0 \implies \forall v \in \H : \inner{\varphi(v)}{\varphi(v)} = 0 \implies \forall v \in \H : \varphi(v) = 0 \implies \varphi = 0 \]
+\end{rmk}
+
+\begin{theorem}[Riesz]
+Let $\H$ be a Hilbert space\footnote{we require that $\inner{-}{-}$ be linear in its first argument.} For any linear functional $\varphi \in \H^*$ there exists a unique $v_\varphi \in \H$ such that $\forall u \in \H : \varphi(u) = \inner{u}{v_\varphi}$. Furthermore, $|| v_\varphi ||_{\H} = || \varphi ||_{\H^*}$.
+\end{theorem}
+
+\begin{proof}
+Consider $K = \ker{\varphi}$ which is closed (since $\varphi$ is continuous). If $k = \H$ then $\varphi = 0$ so we may take $v_\varphi = 0$ and conclude. If $K \subsetneq \H$ then because $\K$ is closed and $\H$ is complete $K^\perp$ is nonempty. I claim, $K^\perp$ is one dimensional since if $v_1, v_2 \in K^\perp$ are nonzero then $\varphi(v_1)$ and $\varphi(v_2)$ are nonzero so there exists $\lambda \in \R$ such that $\varphi(v_1) = \lambda \varphi(v_2)$ and thus $\varphi(v_1 - \lambda v_2) = 0$ so $v_1 - \lambda v_2 \in K^\perp \cap K$ and thus $v_1 = \lambda v_2$ so we may choose a unit vector $u \in K^\perp$. Therefore, for any $v \in \H$ the vector $v - \inner{v}{u} u \in K$ therefore,
+\[ \varphi(v) = \inner{v}{u} \varphi(u) = \inner{v}{u \overline{\varphi(u)}} \]
+Hence we take $v_\varphi = \overline{\varphi(u)} u$. Furthermore,
+\[ || v_{\varphi} ||^2_{\H} = \inner{v_\varphi}{v_{\varphi}} = \inner{u \overline{\varphi(u)}}{u \overline{\varphi(u)}} = | \varphi(u) |^2 \inner{u}{u} = | \varphi(u) |^2 \]
+and likewise,
+\[ || \varphi ||_{\H^*} = \sup_{v \in \H} \frac{|| \varphi(v) ||}{|| v ||} = \sup_{v \in \H} \frac{|| \inner{v}{u} \varphi(u) ||}{|| v ||} = \sup_{v \in \H} \frac{| \inner{v}{u} |}{|| v ||} | \varphi(u) | = | \varphi(u) | \]
+Because $|| u || = 1$ so by Cauchy-Schwarz,
+\[ | \inner{v}{u} | \le || v || \]
+with equality when $v \in \vspan{v}$. Therefore, $||v_\varphi|| = || \varphi ||_{\H^*}$.
+\end{proof}
+
+\begin{cor}
+Let $\H$ be a Hilbert space. Then the map $\overline{\H} \to \H^*$ defined by $v \mapsto \inner{-}{v}$ is an isometric isomorphism.
+\end{cor}
+
+\begin{proof}
+This map is linear because $\lambda \cdot v = \bar{\lambda} v \mapsto \inner{-}{\bar{\lambda} v} = \lambda \inner{-}{v}$. Furthermore, if $\inner{u}{v} = 0$ for all $u$ then $\inner{v}{v} = 0$ and thus $v = 0$ so the map is injective. By the Riesz representation theorem, this map is surjective and isometric.
+\end{proof}
+
+\begin{cor}
+The natural map $\H \to \H^{**}$ is an isomorphism of Hilbert spaces.
+\end{cor}
+
+\subsection{Adjoints}
+
+\subsection{Weak Convergence}
+
+\begin{defn}
+We say a sequence $x_n \in \H$ converges weakly to $x \in \H$ if for all $y \in \H$ we get a covergent sequence,
+\[ \inner{x_n}{y} \to \inner{x}{y} \] 
+\end{defn}
+
+
+\section{Soft Sheaves}
+
+\begin{defn}
+Let $X$ be a topological space. A sheaf $\F$ is \textit{soft} if for any closed $Z \subset X$ the induced map $\Gamma(X, \F) \to \Gamma(Z, \F|_Z)$ is surjective.
+\end{defn}
+
+\begin{rmk}
+Let $\F$ be a sheaf. For any open $U \subset X$ the sheaf takes values $\F(U)$ and we know $\F(U) = \Gamma(U, \F|_U)$. Analogously, for a closed $Z \subset X$ we define,
+\[ \F(Z) = \Gamma(\F, \F|_Z) \] 
+\end{rmk}
+
+\begin{lemma}
+Let $X$ be paracompact and $Z \subset X$ closed. Then for any sheaf $\F$ the natural map,
+\[ \varinjlim_{U \supset Z} \F(U) \to \F(Z) = \Gamma(Z, \F|_Z) \]
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{lemma}
+If $\F$ is flasque then $\F$ is soft.
+\end{lemma}
+
+\begin{proof}
+The restriction maps $\F(X) \to \F(U)$ are surjective and thus the induced maps,
+\[ \F(X) \to \varinjlim_{U \supset Z} \F(U) \iso \F(Z) \]
+are surjective.
+\end{proof}
+
+\begin{cor}
+Any injective sheaf is soft.
+\end{cor}
+
+\begin{prop}
+Let $\cP$ be a class of sheaves on $X$ such that,
+\begin{enumerate}
+\item injectives are in $\cP$ 
+\item for any exact sequence where $\F \in \cP$ and $\I$ is injective,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+then also $\K \in \cP$ and the sequence of sections,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \I) \arrow[r] & \Gamma(X, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact.
+\end{enumerate}
+Then all sheaves in $\cP$ are acyclic for $H^i(X, -)$ i.e. if $\F \in \cP$ then $H^i(X, \F) = 0$ for all $i > 0$.
+\end{prop}
+
+\begin{proof}
+We show by induction on $n$ that $H^n(X, \F) = 0$ for all $\F \in \cP$. Take $\F \in \cP$ and embedd $\F$ into an injective,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \I \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $\F, \I \in \cP$ then $\K \in \cP$. Since $\I$ is injective $H^i(X, \I) = 0$ for all $i > 0$. Thus, from the long exact sequence we find,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[r] & \Gamma(X, \I) \arrow[r] & \Gamma(X, \K) \arrow[r] & H^1(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^i(X, \H) \arrow[r] & H^{i+1}(X, \F) & 0
+\end{tikzcd}
+\end{center} 
+However, by assumption the global sections sequence is exact so $H^1(X, \F) = 0$ proving the $i = 1$ base case. Now for induction assume that $H^n(X, \G) = 0$ for all $\G \in \cP$. Then  because $\K \in \cP$ using the long exact sequence,
+\[ H^{n+1}(X, \F) = H^n(X, \K) = 0 \]
+proving the statement for $n + 1$ and any $\F \in \cP$. 
+\end{proof}
+
+\begin{lemma}
+Let $\F$ be a sheaf such that for any closed $Z \subset X$,
+\[ \F(X) \to \varinjlim_{U \supset Z} \F(U) \]
+is surjective. Then for any exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then for any open $U \subset X$, the sequence of sections,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(U, \F) \arrow[r] & \Gamma(U, \G) \arrow[r] & \Gamma(U, \K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact.
+\end{lemma}
+
+\begin{proof}
+Fix a global section $s \in \K(U)$. Now we consider the poset of (local) sections mapping to $s$,
+\[ P = \{ (V, t) \mid V \subset U \text{ and } t \in \G(V) \text{ with } t \mapsto s|_V \} \]
+with the order $(V, t) \le (V', t') \iff V \subset V'$ and $t'|_V = t$. 
+We want to show $P$ contains $(U, t)$ for some $t$. Notice that for any chain $\{ (V_i, t_i) \mid i \in I \}$ in $P$ with a totally ordered index set $I$ we can define,
+\[ V = \bigcup_{i \in I} V_i \]
+and the $t_i$ glue to $t \in \G(V)$ because the $t_i$ agree on overlaps. Then $(V, t)$ is an upper bound of $\{ (V_i, t_i) \mid \i \in I \}$ so by Zorn's Lemma $P$ contains a maximal element $(V, t)$. Suppose that $V \neq U$ (i.e. $V \subset U$ is a proper subset) and take $Z = V^C$. 
+\end{proof}
+
+\begin{lemma}
+Let $\F, \G$ be soft. Then for any exact sequence of sheaves,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \G \arrow[r] & \K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the sheaf $\K$ is also soft.
+\end{lemma}
+
+\begin{proof}
+For any closed subspace $Z \subset X$ the diagram of sections,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(X, \F) \arrow[d, two heads] \arrow[r] & \Gamma(X, \G) \arrow[d, two heads]\arrow[r] & \Gamma(X, \K) \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \Gamma(Z, \F|_Z) \arrow[r] & \Gamma(X, \G|_Z) \arrow[r] & \Gamma(X, \K|_Z) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+with exact rows because restrictions of soft sheaves remain soft so we may apply the previous lemma to both exact sequences.
+The first two vertical maps are surjections and thus so is the last by exactness.
+\end{proof}
+
+
+\section{Acyclicity}
+
+\renewcommand{\C}{\mathcal{C}}
+
+\begin{prop}
+Let $\C$ be an abelian category and $\cP$ a class of objects such that,
+\begin{enumerate}
+\item for every injective $I \in \C$ there exists a monic $I \embed B$ with $B \in \cP$
+\item if $A \oplus B \in \cP$ then $A, B \in \cP$.
+\end{enumerate}
+Then every injective object of $\C$ is in $\cP$.
+\end{prop}
+
+\begin{proof}
+Let $I$ be injective. Take a monic $I \embed B$ with $B \in \cP$. Taking the cokernel gives a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & B \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which splits because $I$ is injective. Thus $B = I \oplus K$ and $B \in \cP$ so $I, K \in \cP$.
+\end{proof}
+
+\begin{prop}
+Let $F : \cA \to \cB$ be an additive functor of abelian categories where $\cA$ has enough injectives and $\cP$ be a class of $\cA$-objects such that
+\begin{enumerate}
+\item injectives are in $\cP$ 
+\item for any exact sequence where $A \in \cP$ and $I$ is injective,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & I \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+then also $K \in \cP$ and the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(A) \arrow[r] & F(I) \arrow[r] & F(K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact.
+\end{enumerate}
+Then all onjects in $\cP$ are $F$-acyclic i.e. if $A \in \cP$ then $R^p F(A) = 0$ for all $p > 0$.
+\end{prop}
+
+\begin{proof}
+We show by induction on $n$ that $R^n F(A) = 0$ for all $A \in \cP$. Take $A \in \cP$ and embedd $A$ into an injective,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & I \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $F, I \in \cP$ then $K \in \cP$. Since $I$ is injective $R^i F(I) = 0$ for all $i  > 0$. Thus, from the long exact sequence we find,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(A) \arrow[r] & F(I) \arrow[r] & K(K) \arrow[r] & R^1 F(A) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & R^i F(K) \arrow[r] & R^{i+1} F(A) & 0
+\end{tikzcd}
+\end{center} 
+However, by assumption the global sections sequence is exact so $R^1 F(A) = 0$ proving the $i = 1$ base case. Now for induction assume that $R^n F(B) = 0$ for all $B \in \cP$. Then  because $K \in \cP$ using the long exact sequence,
+\[ R^{n+1} F(A) = R^n F(K) = 0 \]
+proving the statement for $n + 1$ and any $A \in \cP$. 
+\end{proof}
+
+\begin{prop}
+Let $F : \cA \to \cB$ be an additive functor of abelian categories where $\cA$ has enough injectives and $\cP$ be a class of $\cA$-objects such that,
+\begin{enumerate}
+\item for every $A \in \cA$ there exists a monic $A \embed B$ with $B \in \cP$
+\item if $A \oplus B \in \cP$ then $A, B \in \cP$
+\item for any exact sequence where $A \in \cP$ and $I$ is injective,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & I \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+then also $K \in \cP$ and the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & F(A) \arrow[r] & F(I) \arrow[r] & F(K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact.
+\end{enumerate}
+Then the derived functors $R^p F$ may be computed on $\cP$-resolutions. Explicitly, for any $A \in \C$ there exists an exact sequence $0 \to A \to P^\bullet$ with $P^i \in \cP$ and for any such resolution,
+\[ R^p F(A) = H^p(F(P^\bullet)) \]
+\end{prop}
+
+\begin{proof}
+The first two properties imply that all injectives are in $\cP$. The second two properties then imply that objects in $\cP$ are $F$-acyclic. Finally (a) implies that $\cP$-resolutions exist and that cohomology (e.g. derived functors) is computed from them follows from the Leray acyclicity lemma.
+\end{proof}
+
+\section{Classifying Principal $G$-bundles}
+
+Recall that $K(G, n)$ is the classifying space for $H^n(- ; G)$. Explicitly,
+\[ H^n(X, G) = [X, K(G, n)] \]
+given by pulling back along a function $f : X \to K(G,n)$ the class,
+\[ \id \in \Hom{}{G}{G} = \Hom{}{\pi_n(X)}{G} = H^n(X, G) \]
+When $G$ is a discrete abelian group, we want to justify the claim that $BG = K(G, 1)$ is the classifying space for principal $G$-bundles. Since $G$ is discrete, these are nearly Galois covering spaces except they need not be connected. Let $X$ be a connected CW complex then the universal coefficient theorem gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Ext{1}{\Z}{H_0(X, \Z)}{G} \arrow[r] & H^1(X, G) \arrow[r] & \Hom{}{H_1(X, \Z)}{G} \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Howver, since $X$ is connected $H_0(X, \Z) = \Z$ and from the Hurewicz theorem $\pi_1(X) \to H_1(X, \Z)$ is the abelianization map. Therefore, there is an isomorphism,
+\[ H^1(X, G) = \Hom{}{H_1(X, \Z)}{G} = \Hom{}{\pi_1(X)^\ab}{G} = \Hom{}{\pi_1(X)}{G} \]
+Since $K(G, 1)$ classifies $H^1(X, G)$, we need to show that principal $G$-bundles are classified by $\Hom{}{\pi_1(X)}{G}$ which implies that the functor sending $X$ to its set of principal $G$-bundles up to isomorphism is represented by $K(G,1)$.
+
+
+\subsection{The Connected Case}
+
+Notice that since $G$ is discrete a connected principal $G$-bundle is exactly a Galois cover of $X$ with deck transformation group $G$. Furthermore, such Galois covers are classified by normal subgroups $N \triangleleft \pi_1(X)$ such that $\pi_1(X) / N \cong G$ or equivalent surjective morphims $\pi_1(X) \onto G$. Therefore the surjective subset of $\Hom{}{\pi_1(X)}{G}$ corresponds to the connected $G$-bundles.
+
+\subsection{Group Cohomology and Cocycles}
+
+\begin{defn}
+Let $G$ be a group consider the category $\Mod{G}$ of left $\Z[G]$-modules. The functor $M \mapsto M^G$ where $M^G = \{ m \in M \mid \sigma(m) = m \forall \sigma \in G \}$ is left exact. Then we define the group cohomology $H^n(G, -)$ as the right-derived functors of $(-)^G$.
+\end{defn}
+
+\begin{rmk}
+Notice that $(-)^G = \Hom{}{\Z}{-}$ where $\Z$ is a trivial $G$-module. Therefore, 
+\[ H^n(G,-) = \Ext{n}{\Z[G]}{\Z}{-} \]
+By general homological algebra, we can compute $\Ext{n}{\Z[G]}{\Z}{M}$ via projective resolutions in the first argument. 
+\end{rmk}
+
+\begin{defn}
+The complex $P_n(G) = \Z[G^{n+1}]$ with the diagonal $G$-action where the boundary map $\d : P_{n+1}(G) \to P_n(G)$ is defined by,
+\[ \d (g_0, \dots, g_n) = \sum_{i = 0}^{n} (-1)^i (g_1, \dots, \hat{g}_i, \dots g_n) \]
+\end{defn}
+
+\begin{prop}
+$P_\bullet(G) \to \Z$ with $\epsilon : \Z[G] \to \Z$ sending $g \mapsto 1$ is a projective resolution.
+\end{prop}
+
+\begin{proof}
+The modules $P_n = \Z[G^{n+1}]$ is a free $\Z[G]$-module with basis $\{ (1, g_1, \dots, g_n) \mid g_i \in G \}$ and thus projective. Furthermore, we see,
+\begin{align*}
+\d^2 (g_0, \dots, g_n) & = \sum_{i = 0}^n  (-1)^i \d (g_0, \dots, \hat{g}_i, \dots, g_n) 
+\\
+& = \sum_{i = 0}^n \sum_{j = 0}^{i-1} (-1)^{i+j} (g_0, \dots, \hat{g}_j , \dots, \hat{g}_i, \dots, g_n) + \sum_{i = 0}^n \sum_{j = i+1}^{n} (-1)^{i+j} (g_0, \dots, \hat{g}_i , \dots, \hat{g}_j, \dots, g_n)
+\\
+& = 0
+\end{align*}
+Furthermore, this complex is exact because there exists a map $k_r : P_r \to P_{r+1}$ defined by sending $(g_0, \dots, g_r) \mapsto (1, g_0, \dots, g_r)$ which satisfies,
+\[ k_{r-1} \circ \d_{r} + \d_{r+1} \circ k_{r} = \id \]
+because,
+\[ k_{r-1} \circ \d_{r}(g_0, \dots, g_{r}) = \sum_{i = 0}^{r} (-1)^i (1, g_0, \dots, \hat{g}_i, \dots, g_{r}) \]
+and likewise,
+\[ \d_{r+1} \circ k_r(g_0, \dots, g_{r}) = (g_0, \dots, g_r) + \sum_{i = 0}^{r} (-1)^{i+1} (1, g_0, \dots, \hat{g}_i, \dots, g_r) \]
+proving that,
+\[ (k_{r-1} \circ \d_{r} + \d_{r+1} \circ k_r)(g_0, \dots, g_r) = (g_0, \dots, g_r) \]
+Therefore, $P_\bullet$ is homotopic to the zero complex in positive degrees and is thus exact. Expliclty, if $\d_r{\gamma} = 0$ for $\gamma \in \Z[G^{r+1}]$ for $r > 0$ then,
+\[ \gamma = (k_{r-1} \circ \d_r + \d_{r+1} \circ k_r)(\gamma) = \d_{r + 1}(k_r(\gamma)) \]
+so $\gamma \in \Im{\d : P_{r+1} \to P_r}$.
+Finally, notice that $\ker{\epsilon}$ is the submodule generated by $g_i - g_j$ which is exactly the image of $\d : P^1 \to P^0$. 
+\end{proof}
+
+\begin{prop}
+Let $G$ be a group then,
+\[ H^n(G, M) = H^n(\Hom{}{P_\bullet}{M}) \]
+\end{prop}
+
+\begin{proof}
+Becuase $P_\bullet \to \Z$ is a projective resolution this computes $\Ext{n}{\Z[G]}{\Z}{M} = H^n(G, M)$. 
+\end{proof}
+
+\begin{defn}
+The homogeneous $n$-cochains $\tilde{C}^n(G, M) = \Hom{}{P_n}{M}$ are $\varphi : G^{n+1} \to M$ (as sets) satisfying $\varphi(g g_0, \dots, g g_r) = g \varphi(g_0, \dots, g_r)$ with boundary map $\d^r : \tilde{C}^r(G, M) \to \tilde{C}^{r+1}(G, M)$,
+\[ \d{\varphi}(g_0, \dots, g_{r+1}) = \sum_{i = 0}^{r} (-1)^i \varphi(g_0, \dots, \hat{g}_i, \dots, g_r) \]
+\end{defn}
+
+\begin{rmk}
+Notice that such a map $\varphi : G^{n+1} \to M$ is uniquely determined on $(1, g_1, \dots, g_n)$ since we may pull out $g_0$ (and replace $g_1 \mapsto g_0^{-1} g_1$). However, restricting to elements of this sort does not play nicely with the boundary map because,
+\[ \d{\varphi}(1, g_1, \dots, g_{r+1}) = \varphi(g_1, \dots, g_{r+1}) + \sum_{i = 1}^{r+1} (-1)^i \varphi(1, g_1, \dots, \hat{g}_i, \dots, g_{r+1}) \]
+but the first term,
+\[ \varphi(g_1, \dots, g_{r+1}) = g_1 \varphi(1, g_1^{-1} g_2, \dots, g_1^{-1} g_{r+1}) \]
+which is a bit nasty because of all the $g_1^{-1}$. We can use the following trick to put the differential in a nicer form on our basis. Because multiplication is bijective elements of the form $(1, g_1, g_1 g_2, \dots, g_1 \cdots g_r)$ are exactly the same as the elements of the form $(1, g_1, \cdots, g_r)$. However, furthermore the differential acts via,
+\begin{align*}
+\d{\varphi}(1, g_1, g_1 g_2, \dots, g_1 \cdots g_{r+1}) & = \varphi(g_1, g_1 g_2, \dots, g_1 \cdots g_{r+1}) + \sum_{i = 1}^{r+1} (-1)^i \varphi(1, g_1, \dots, \widehat{g_1 \cdots g_i}, \dots, g_1 \cdots g_{r+1}) 
+\\
+& = g_1 \varphi(g_2, \dots, g_2 \cdots g_{r+1}) + \sum_{i = 1}^{r} \varphi(1, g_1, \dots, g_1 \cdots \tilde{g}_i, \dots, g_1 \cdots \tilde{g}_{r+1})
+\\
+& + \varphi(1, g_1, \dots, g_1 \cdots g_r) 
+\end{align*}
+where $\tilde{g}_i = g_i g_{i+1}$ and $\tilde{g}_j = g_{j + 1}$ for $j > i$. Therefore, if we define $\varphi' : G^n \to M$ via,
+\[ \varphi'(g_1, \dots, g_r) = \varphi(1, g_1, g_1 g_2, \dots, g_1 \cdots g_r) \]
+we find that,
+\begin{align*}
+\d{\varphi}(1, g_1, g_1 g_2, \dots, g_1 \cdots g_{r+1}) & = g_1 \varphi'(g_2, \dots, g_{r+1}) + \sum_{i = 1}^r \varphi'(g_1, \dots, g_i g_{i+1}, \dots, g_{r+1}) + (-1)^{r+1} \varphi(g_1, \dots, g_r) 
+\end{align*}
+Thus we define the following equivalent description of the complex $P_\bullet \to \Z$.
+\end{rmk}
+
+\begin{defn}
+The inhomogeneous $n$-cochains $C^n(G, M)$ are (set) maps $\varphi : G^n \to M$ with corresponding boundary maps $\d^r : C^r(G, M) \to C^{r+1}(G, M)$ defined via,
+\[ \d{\varphi}(g_1, \dots, g_{r+1}) = g_1 \varphi(g_2, \dots, g_{r+1}) + \sum_{i = 1}^r (-1)^i \varphi(g_1, \dots, g_i g_{i+1}, \dots, g_{r+1}) + (-1)^{r + 1} \varphi(g_1, \dots, g_r) \]
+\end{defn}
+
+\begin{prop}
+The group cohomology may be computed as,
+\[ H^n(G, M) = H^n(C^\bullet(G, M)) \]
+\end{prop}
+
+\begin{proof}
+We have shown the map $\tilde{C}^\bullet(G, M) \to C^\bullet(G, M)$ via sending $\varphi \mapsto \varphi'$ is an isomorphism comuting with the boundary maps by the preceeding remarks.
+\end{proof}
+
+\subsubsection{Low Degree Computations}
+
+\begin{prop}
+Let $M$ be a $G$-module. Then,
+\[ H^1(G, M) = \frac{ \{ \varphi : G \to M \mid \varphi(g_1 g_2) = g_1 \varphi(g_2) + \varphi(g_1) \} }{\{ \varphi : G \to M \mid  \varphi(g) = g \cdot m - m \}} \]
+and likewise,
+\[ H^2(G, M) = \frac{\{ \varphi : G^2 \to M \mid g_1 \varphi(g_2, g_3) - \varphi(g_1 g_2, g_3) + \varphi(g_1, g_2 g_3) - \varphi(g_1, g_2) = 0 \}}{\{ \varphi : G^2 \to M \mid \varphi(g_1, g_2) = g_1 \eta(g_2) - \eta(g_1 g_2) + \eta(g_1) \}} \]
+\end{prop}
+
+\begin{rmk}
+These $2$-cocycles $G^2 \to M$ have an important interpretation.
+\end{rmk}
+
+\begin{defn}
+Let $M$ be a $G$-module. Then an $M$-extension is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & M \arrow[r] & E \arrow[r] & G \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+where for any $g \in G$ any preimage $e_g$ acts on $m \in M$ via $e_g m e_g^{-1} = g \cdot m$.
+\end{defn}
+
+\begin{rmk}
+Notice that the formula $e_g \, m  \, e_g{-1} = g \cdot m$ is well-defined because for any other lift $e_g'$ of $g$ we must have $e_g' = e_g \, m'$ for some $m' \in M$ and,
+\[ e_g' \, m \, e_g'^{-1} = e_g \, m' \, m \, m'^{-1} \, e_g^{-1} = e_g \, m \, e_g^{-1} \]
+because $M$ is commutative.
+\end{rmk}
+
+\begin{prop}
+Let $M$ be a $G$-module. Then isomorphism classes of $M$-extensions are bijective to $H^2(G, M)$ where the split extension corresponds to the trivial cocycle.
+\end{prop}
+
+\begin{proof}
+Given an $M$-extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & E \arrow[r] & G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then we consider a (set-theoretic) section $s : G \to E$. This may not be a group homomorphism so we can measure its failure to be a homomorphism by a map $\varphi(g_1, g_2) = s(g_1 g_2) s(g_1)^{-1} s(g_2)^{-1}$. However, $\pi(\varphi(g_1, g_2)) = (g_1 g_2) g_1^{-1} g_2^{-1} = 1$ (because $\pi : E \to G$ is a group homomorphism). Therefore, this defines a cochain $\varphi : G^2 \to M$. Furthermore, consider the tripple products,
+\[ s(g_1 g_2 g_3) = \varphi(g_1 g_2, g_3) s(g_1 g_2) s(g_3) = \varphi(g_1 g_2, g_3) \varphi(g_1, g_2) s(g_1) s(g_2) s(g_3) \]
+but we can also write,
+\begin{align*}
+s(g_1 g_2 g_3) & = \varphi(g_1, g_2 g_3) s(g_1) s(g_2 g_3) = \varphi(g_1, g_2 g_3) s(g_1) \varphi(g_2, g_3) s(g_2) s(g_3) 
+\\
+& = \varphi(g_1, g_2 g_3) [ s(g_1) \varphi(g_2, g_3) s(g_1)^{-1} ] s(g_1) s(g_2) s(g_3)
+\end{align*}
+Therefore, writing in additive notaiton, we find,
+\[ \varphi(g_1 g_2, g_3) + \varphi(g_1, g_2) = \varphi(g_1, g_2 g_3) + g_1 \cdot \varphi(g_2, g_3) \]
+where, by definition, $s(g_1) m s(g_1)^{-1} = g_1 \cdot m$ for all $m \in M$. Therefore $\varphi : G^2 \to M$ is a cocycle. This defines a map from $M$-extensions to $H^1(G, M)$. It suffices to construct an inverse. Given a $2$-cocycle $\varphi : G^2 \to M$. We define an extension,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & M \arrow[r] & E \arrow[r] & G \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+where $E = G \times M$ with a ``twisted'' product structure,
+\[ (g_1, m_1) \cdot (g_2, m_2) = (g_1 g_2, m_1 + g_1 \cdot m_2 + \varphi(g_1, g_2)) \]
+\end{proof}
+
+\subsection{The General Case}
+
+Consider a cocylce $\varphi : N^2 \to G/N$ 
+
+We want to construct a principal $G$-bundle $P(\varphi) = \tilde{X} \times G/N$ with the following action,
+\[ g_1 \cdot (x, g_2 N) = (g_1 \cdots x, g_1 g_2 N) \]
+
+\subsection{Examples}
+
+\section{Low Degree Terms of Specral Sequences}
+
+Suppose we have a bounded spectral sequence $E_r^{p,q} \implies H^{p+q}(E^\bullet)$ converging to $H^n$. Explicitly the differentials are maps $\d_r : E^{p,q}_r \to E^{p + r, q - r + 1}_r$. Then there is a filtration $F^p H^{n}(E^\bullet)$ of $H^n(E^\bullet)$ with $F^0 H^n(E^\bullet) = H^n(E^\bullet)$ and $F^{n+1} H^n(E^\bullet) = 0$ such that,
+\[ F^{p} H^{p+q}(E^\bullet) / F^{p+1} H^{p+q}(E^\bullet) = E_\infty^{p,q} \] 
+\begin{prop}
+Given a spectral sequence $E^{p,q}_r \implies H^{p+q}(E^\bullet)$ then $H^0(E^\bullet) = E^{0,0}_2$ and there is a spectral sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E^{1, 0}_2 \arrow[r] & H^1(E^\bullet) \arrow[r] & E^{0, 1}_2 \arrow[r, "\d_2"] & E^{2, 0}_2 \arrow[r] & H^2(E^\bullet)
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+First, notice that differentials $\d_r : E^{1, 0}_r \to E^{1 + r, 1 - r}_r$ and $\d_r : E^{1 - r, r - 1} \to E^{1, 0}_r$ both contain terms outside the support of the spectral sequence when $r > 1$. Therefore, $E^{1,0}_2 = E^{1,0}_{\infty}$. Furthermore, since $F^2 H^1(E^\bullet) = 0$ we get,
+\[ F^1 H^1(E^\bullet) = E^{1, 0}_\infty = E^{1, 0}_2 \]
+Furthermore, since $F^0 H^1(E^\bullet) / F^1 H^1(E^\bullet) = E^{0, 1}_\infty$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E_2^{1, 0} \arrow[r] & H^1(E^\bullet) \arrow[r] & E^{0, 1}_\infty \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, consider the differentials $\d_r : E^{-r, r} \to E^{0, 1}$ and $\d_r : E^{0, 1}_r \to E^{r, 2-r}_r$. The first lies outside the support and thus is zero when $r > 1$ and the second is outside the support and thus zero when $r > 2$. Therefore, $E^{0, 1}_\infty = E^{0, 1}_3 = \ker{(\d_r : E^{0, 1}_2 \to E^{2, 0}_2)}$. 
+This alows us to refine the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E_2^{1, 0} \arrow[r] & H^1(E^\bullet) \arrow[r] & E^{0, 1}_2 \arrow[r, "\d_2"] & E^{2, 0}_2
+\end{tikzcd}
+\end{center}
+Finally, since $F^3 H^2(E^\bullet) = 0$ we find $F^2 H^2(E^\bullet) = E^{2, 0}_\infty$ embedds inside $H^2(E^\bullet)$. However, the differentials $\d_r : E^{2,0}_r \to E^{2+r, 1-r}$ is outside the support when $r > 1$ and $\d_r : E^{2-r, r-1} \to E^{2, 0}$ is zero for $r > 2$ so $E^{2,0}_\infty = E^{2, 0}_2 / \Im{\d_r : E^{0, 1} \to E^{2, 0}_2}$. Therefore, the kernel of $E^{2, 0}_2 \to E^{2, 0}_\infty \to H^2(E^\bullet)$ is $\Im{\d_r : E^{0, 1} \to E_2^{2, 0}}$ and thus the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E_2^{1, 0} \arrow[r] & H^1(E^\bullet) \arrow[r] & E^{0, 1}_2 \arrow[r, "\d_2"] & E^{2, 0}_2 \arrow[r] & H^2(E^\bullet)
+\end{tikzcd}
+\end{center}
+is exact. Finally, the differentials $\d_r : E^{0,0}_r \to E^{r, 1-r}$ and $\d_r : E^{-r, r-1} \to E^{0,0}$ are zero for $r > 1$ so $E^{0,0}_\infty = E^{0,0}_2$ and $F^1 H^0(E^\bullet) = 0$ so 
+\[ H^0(E^\bullet) = F^0 H^0(E^\bullet) = E^{0, 0}_\infty = E^{0, 0}_2 \]
+\end{proof}
+
+\begin{example}
+The Hodge to de Rham spectral sequence,
+\[ E_1^{p,q} = H^q(X, \Omega^p_X) \implies H^{p+q}_{\dR}(X) \]
+for curves gives a low degree exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \Omega_X^1) \arrow[r] & H^1_{\dR}(X) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+because $E^{p,q}_1 = 0$ if $p > 1$ or $q > 1$ and thus $E^{p,q}_2 = E^{p,q}_1$. Analytically, we can compare this to the differential sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \underline{\mathbb{C}} \arrow[r] & \struct{X} \arrow[r, "\d"] & \Omega^1_X \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+since this gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \Omega^1_X) \arrow[r] & H^1(X, \mathbb{C}) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+notice that the map $\d : H^0(X, \struct{X}) \to H^0(X, \Omega^1_X)$ is zero for proper curves since the global functions are constant and similarly $\d : H^1(X, \struct{X}) \to H^1(X, \Omega_X^1)$ by Serre duality.
+\end{example}
+
+\begin{example}
+There is a dual Hodge to de Rham spectral sequence,
+\[ E^{p,q}_2 = H^p(X, \mathcal{H}^q(\Omega^\bullet)) \implies H^{p+q}_{\dR}(X) \]
+which gives an exact sequence of low degree terms,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(X, \ker{\d}) \arrow[r] & H^1_{\dR}(X) \arrow[r] & H^0(X, \mathcal{H}^1(\Omega^\bullet)) \arrow[r, "\d_2"] & H^1(X, \ker{\d}) \arrow[r] & H^2_{\dR}(X)
+\end{tikzcd}
+\end{center}
+Often we will have $H^i(X, \ker{\d}) = 0$ for $i > 0$ in which case $H^1_{\mathrm{dR}}(X) = H^0(X, \mathcal{H}^1(\Omega^\bullet))$.
+\end{example}
+
+\begin{example}
+The Leray spectral sequence for a morphism $f : X \to Y$ and a sheaf $\F$ on $X$,
+\[ E^{p,q}_2 = H^p(Y, R^q f_* \F) = H^{p+q}(X, \F) \]
+gives an exact sequence of low degree terms,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(Y, f_* \F) \arrow[r] & H^1(X, \F) \arrow[r] & H^0(Y, R^1 f_* \F) \arrow[r, "\d_2"] & H^2(Y, f_* \F) \arrow[r] & H^2(X, \F)
+\end{tikzcd}
+\end{center}
+A particular example is when $f : X \to Y$ has $f_* \struct{X} = \struct{Y}$ and $\F = \struct{X}^\times$ in which case,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Pic{Y} \arrow[r] & \Pic{X} \arrow[r] & H^0(Y, R^1 f_* \struct{X}^\times) \arrow[r, "\d_2"] & H^2(Y, f_* \struct{X}^\times) \arrow[r] & H^2(X, \struct{X}^\times)
+\end{tikzcd}
+\end{center}
+which is why we define $\Pic{X/Y} = H^0(Y, R^1 f_* \struct{X}^\times)$.
+\end{example}
+
+\begin{example}
+The Grothendieck spectral sequence,
+\[ E^{p,q}_2 = R^p F \circ R^q G(A) \implies R^{p+q}(F \circ G)(A) \]
+gives an exact sequence of low degree terms,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & R^1 F \circ G(A) \arrow[r] & R^1(F \circ G)(A) \arrow[r] & F \circ R^1 G(A) \arrow[r, "\d_2"] & R^2 F \circ G(A) \arrow[r] & R^2(F \circ G)(A)
+\end{tikzcd}
+\end{center}
+\end{example}
+
 \end{document}
+

@@ -201,6 +201,8 @@ Let $\m_1, \m_2, \m_3, \dots$ be a list of maximal ideals. Then consider the cha
 By the artinian condition, we must have $\m_1 \cdots \m_n = \m_1 \cdots \m_n \m_{n+1}$ for some $n$. But then by prime avoidence $\m_{n+1}$ must be one of $\m_1, \dots, \m_n$ since $\m_{n+1} \supset \m_1 \cdots \m_n$ so $\m_{n+1} \supset \m_i$ and $\m_i$ is maximal.
 \end{proof}
 
+
+
 \begin{prop}
 Let $A$ be an artinian ring. Then every prime ideal is maximal so $\dim{A} = 0$.
 \end{prop}
@@ -341,5 +343,570 @@ Let $(A, \m)$ be a Noetherian local ring and $f \in \m$ a nonzero divisor. Then 
 \begin{proof}
 We have $\depth{A/(f)} = \depth{A} - 1$ and $\dim{A/(f)} = \dim{A} - 1$.
 \end{proof}
+
+
+\section{Weakly Associated Points}
+
+\newcommand{\WAss}[2]{\mathrm{WAss}_{#1}\left(#2 \right)}
+
+\subsection{Weakly Associated Primes}
+
+\begin{defn}
+Let $A$ be a ring and $M$ an $A$-module. Then a prime $\p \subset A$ is \textit{weakly associated} to $M$ if $\p$ is minimal over $\Ann{A}{m}$ for some $m \in M$. We denote these primes $\WAss{A}{M}$.
+\end{defn}
+
+\begin{lemma}
+Let $M$ be an $A$ module then the natural map,
+\[ M \to \prod_{\p \in \WAss{A}{M}} M_\p \]
+is injective.
+\end{lemma}
+
+\begin{proof}
+Suppose that $m \in M$ maps to zero. Then $\p \not\subset \Ass{A}{m}$ for each $\p \in \WAss{A}{M}$ which implies $\Ass{A}{m} = A$ since otherwise some associated prime will be minimal over $\Ann{A}{m}$. Thus $m = 0$.
+\end{proof}
+
+\begin{lemma}
+Let $M$ be an $A$-module. Then,
+\[ M = (0) \iff \WAss{A}{M} = \empty \]
+\end{lemma}
+
+\begin{proof}
+If $M = (0)$ then this is clear. Otherwise, by the previous lemma $M \embed (0)$ is injective so $M = (0)$. 
+\end{proof}
+
+\begin{lemma} \label{weak_ass_primes_localization}
+Let $A$ be a ring and $M$ an $A$-module. Then,
+\[ \p \in \WAss{A}{M} \iff \p A_\p \in \WAss{A_\p}{M_\p} \]
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence for each $m \in M$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Ann{A}{m} \arrow[r] & A \arrow[r, "m"] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since localization is exact, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\Ann{A}{m})_\p \arrow[r] & A_\p \arrow[r, "m"] & M_\p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, $\Ann{A_\p}{m} = (\Ann{A}{m})_\p$. If $\p \supset \Ann{A}{m}$ is minimal then $\p A_\p \subset (\Ann{A}{m})_\p = \Ann{A_\p}{m}$ is minimal. Conversely, if $\p A_\p \supset \Ann{A_\p}{m/s}$ is minimal then,
+\[ \Ann{A_\p}{m/s} = \Ann{A_\p}{m} = (\Ann{A}{m})_\p \]
+which implies that $\p \supset \Ann{A}{m}$ is minimal because if $x \in \Ann{A}{m}$ and $x \notin \p$ then $(\Ann{A}{m})_\p = A_\p$ and any prime $\q$ such that $\p \subset \q \subset \Ann{A}{m}$ implies that $\q A_\p$ is intermediate.
+\end{proof}
+
+\begin{lemma} \label{minimal_supp_wass}
+Let $A$ be a ring and $M$ an $A$-module. Then $\WAss{A}{M} \subset \Supp{A}{M}$ furthermore any minimal element of $\Supp{A}{M}$ is an element of $\WAss{A}{M}$.
+\end{lemma}
+
+\begin{proof}
+Since $\p \subset \Ann{A}{m}$ we know $M_\p \neq 0$ since $m$ is nonzero in $M_\p$. Furthermore, suppose that $\p \in \Supp{A}{M}$ is minimal. Then $\Supp{A_\p}{M_\p} = \{ \p A_\p \}$ and $M_\p \neq 0$ so $\WAss{A_\p}{M_\p} = \{ A_\p \}$ and thus $\p \in \WAss{A}{M}$.
+\end{proof}
+
+
+\begin{lemma} \label{ass_primes_localization}
+Let $A$ be a ring and $M$ an $A$-module and $S \subset A$ a multiplicative subset. Then.
+\begin{enumerate}
+\item $\WAss{A}{S^{-1} M} = \WAss{S^{-1} A}{S^{-1} M}$ 
+\item $\WAss{A}{M} \cap \Spec{S^{-1} A} = \WAss{A}{S^{-1} M}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We have,
+\[ \p \in \WAss{A}{S^{-1} M} \iff \p A_\p \in \WAss{A_\p}{S^{-1} M_\p}  \]
+For $\p \in \Spec{S^{-1} A}$ (i.e. $S \subset A \setminus \p$) we have $S^{-1} M_\p = M_\p$ and $(S^{-1} A)_\p = A_\p$ so both equalities hold. Otherwise, $\p A_\p$ containes an element of $S$ so $\p A_\p$ has some nonzero divisor on $S^{-1} M_\p$ and thus $\p \notin \WAss{A}{S^{-1} M}$. 
+\end{proof}
+
+
+\begin{proposition}
+Let $A$ be a ring $M$ an $A$-module then $\p \in \Supp{A}{M}$ if and only if there exists $\q \subset \p$ with $\q \in \WAss{A}{M}$. Therefore, \[ \bigcap_{\p \in \Supp{A}{M}} \p = \bigcap_{\p \in \WAss{A}{M}} \p \]
+\end{proposition}
+
+\begin{proof}
+Take $\p \in \Supp{A}{M}$ so $M_\p \neq 0$ and then $\Ass{A}{M_\p} \neq \varnothing$. Using the previous lemma, there exists $\q \in \Ass{A}{M_\p} = \Ass{A}{M} \cap \{ \q \mid \q \subset \p \}$. Furthermore, the support is an upward set (if $\q \subset \p$ and $M_\q \neq 0$ then $M_\p \neq 0$ since $M_\p \to M_\q$ is localization). Thus, if we have $\q \subset \p$ with $\q \in \Ass{A}{M} \subset \Supp{A}{M}$ then $\p \in \Supp{A}{M}$.  
+\end{proof}
+
+
+\begin{lemma}
+Let $M \embed N$ be an injection of $A$-modules. Then $\WAss{A}{M} \subset \WAss{A}{N}$.
+\end{lemma}
+
+\begin{proof}
+This follows because the set of annihilators of elements of $M$ is a subset of the set of annihilators of elements of $N$.
+\end{proof}
+
+\begin{lemma} \label{exact_seq_weak_ass}
+Consider an exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] & M_3 
+\end{tikzcd}
+\end{center}
+then,
+\[ \WAss{A}{M_2} \subset \WAss{A}{M_1} \cup \WAss{A}{M_3} \]
+\end{lemma}
+
+\begin{proof}
+Let $\p \in \WAss{A}{M_2}$ and $\p \notin \WAss{A}{M_1}$. Using the previous lemma it suffices to consider the case that $A$ is local with maximal ideal $\p$ (since we may localize the exact sequnence at $\p$). 
+Then $\p$ is minimal over $\Ann{A}{m}$ for some $m \in M_2$ not in the image of $M_1 \to M_2$ (else $\p \in \WAss{A}{M_1}$). Therefore $\bar{m} \in M_3$ is nonzero and $\Ann{A}{\bar{m}} \supset \Ann{A}{m}$ but $\Ann{A}{\bar{m}}$ is proper since $\bar{m}$ is nonzero and thus contained in $\p$. Since $\p$ is minimal over $\Ann{A}{m}$ it must also be minimal over $\Ann{A}{\bar{m}}$ and thus we conclude that $\p \in \WAss{A}{M_3}$.
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a ring and $M$ and $A$-module. Then,
+\[ \bigcup_{\p \in \WAss{A}{M}} = \{ \text{zero divisors on } M \} \]
+\end{lemma}
+
+\begin{proof}
+Let $m \in M$ have zero divisors then there is exists a minimal prime (by Zorn's Lemma) above $\Ann{A}{m}$ which must be associated. Conversely, if $f \in \p \in \WAss{A}{M}$ then $\p$ is minimal over $\Ann{A}{m}$ for some $m \in M$. Then $R = (A / \Ann{A}{m})_\p$ has a unique minimal prime $\p$ so $\p = \nilrad{R}$ and thus $g f^n \in \Ann{A}{m}$ for some least $n > 0$ and $g \notin \p$. Thus $g f^n m = 0$ so $f (g f^{n-1} m) = 0$ but $g f^{n-1} m \neq 0$ because $n$ is minimal so $f$ is a zero divisor.
+\end{proof}
+
+\begin{prop}
+Let $(A, \m)$ be a local ring then $\m \in \WAss{A}{A}$ iff $\m = \{ \text{zero divisors} \}$.
+\end{prop}
+
+\begin{proof}
+Immediate from the above since zero divisors are not units and thus contained in $\m$.
+\end{proof}
+
+\begin{cor}
+Given a prime $\p \in \Spec{A}$ and an $A$-module $M$ we have,
+\[ \p \in \WAss{A}{A} \iff \p A_\p = \{ \text{zero divisors of } A_\p \} \]
+\end{cor}
+
+\begin{prop}
+Let $A$ be reduced then $\WAss{A}{A}$ are exactly the minimal primes of $A$.
+\end{prop}
+
+\begin{proof}
+The minimal primes are in $\WAss{A}{A}$ by Lemma \ref{minimal_supp_wass}. Because $\p \in \WAss{A}{A} \iff \p A_\p \in \WAss{A_\p}{A_\p}$ is suffices to consider the case of a reduced local ring $(R, \m)$ and $\m \in \WAss{R}{R}$. Then $\m$ is minimal over $\Ann{R}{x}$ for some $x \in \m$ so $\m = \sqrt{\Ann{R}{x}}$. Thus $x^n \in \Ann{R}{x}$ so $x^{n+1} = x \cdot x^n = 0$ so $x = 0$ because $R$ is reduced a contradiction unless $\m = 0$ so $R$ is a field so $\m$ is minimal showing that $\p A_\p \subset \A_\p$ and thus $\p \subset A$ are minimal primes and that $A_\p$ is a field. 
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a ring and $\p \subset A$ a prime then $\WAss{A}{A / \p} = \{ \p \}$. 
+\end{lemma}
+
+\begin{proof}
+For nonzero $a \in A / \p$ (i.e. $a \notin \p$) the set $\Ann{A}{a} = \{ r \in A \mid ra \in \p \} = \p$ since $\p$ is prime and therefore therefore $\p$ is the unique minimal prime over an annihilator.
+\end{proof}
+
+\begin{proposition} \label{noetherian_finite_wass}
+Let $A$ be a ring and $M$ a Noetherian $A$-module. Then,
+\begin{enumerate}
+\item there exists a finite filtration,
+\[ (0) = M_0 \subsetneq M_1 \subsetneq M_2 \subsetneq \cdots \subsetneq M_n = M \]
+such that each $M_{i} / M_{i-1} \cong A / \p_{i}$ for some $\p_i \in \supp{A}{M}$
+\item for any such filtration, $\WAss{A}{M} \subset \{ \p_1, \p_2, \dots, \p_n\}$
+\item $\WAss{A}{M}$ is finite.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Since $M \neq (0)$ there is some $\p \in \WAss{A}{M}$ so we have an injection $A / \p \to M$ let $M_1 \subset M$ be the image of this map so $M_1 / M_0 \cong A / \p_1$. Now take $M / M_1$ and $\p_2 \in \WAss{A}{M/M_1}$ then we have an injection $A / \p_2 \to M/M_1$ so take $\bar{M}_2$ to be the image inside $M/M_1$ and $M_2$ its preimage in $M$. Then $M_2 / M_1 \cong A / \p_2$ and continuing by induction we construct a sequence,
+\[ 0 \subsetneq M_1 \subsetneq M_2 \subsetneq M_3 \subsetneq \cdots \]
+with $M_{i}/M_{i-1} = A / \p_i$ and 
+\[ \p_i \in \WAss{A}{M/M_{i-1}} \subset \Supp{A}{M/M_{i-1}} \subset \Supp{A}{M} \]
+However, $M$ is Noetherian so this sequence must stabilize but it is striclty increasing when $M_i \subset M$ is proper. Thus, $M_n  = M$ for some $n$. 
+\bigskip\\
+For any such filtration we get exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_i \arrow[r] & M_{i+1} \arrow[r] & A / \p_{i+1} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Assume for induction that $\Ass{A}{M_i} \subset \{\p_1, \dots, \p_i \}$ then, by Lemma \ref{exact_seq_weak_ass},
+\[ \WAss{A}{M_{i+1}} \subset \WAss{A}{M_i} \cup \WAss{A}{A / \p_{i+1}} \subset \{\p_1, \dots, \p_{i+1} \} \]
+proving (b) by induction. (c) follows directly from (a) and (b). 
+\end{proof}
+
+\subsection{Associated Primes}
+
+\begin{defn}
+Let $A$ be a ring and $M$ an $A$-module. We say that $\p \subset A$ is an \textit{associated prime} of $M$ if $\p = \Ann{A}{m}$ for some $m \in M$. We write $\Ass{A}{M}$ for the set of associated primes of $M$.
+\end{defn}
+
+\begin{rmk}
+Note $\p = \Ann{A}{m} \iff A / \p \embed M$ via $a \mapsto a \cdot m$.
+\end{rmk}
+
+\begin{rmk}
+Clearly $\Ass{A}{M} \subset \WAss{A}{M}$. We will see equality holds when $A$ is Noetherian.
+\end{rmk}
+
+
+\begin{lemma}
+Given an exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] & M_3
+\end{tikzcd}
+\end{center}
+we have, 
+\[ \Ass{A}{M_2} \subset \Ass{A}{M_1} \cup \Ass{A}{M_3} \]
+\end{lemma}
+
+\begin{proof}
+If $\p \in \Ass{A}{M}$ then we have an embedding
+\begin{center}
+\begin{tikzcd}
+A / \p \arrow[r, hook] & M_2
+\end{tikzcd}
+\end{center}
+which is injective and $\iota(A / \p) \cap N_1 = (0)$
+then we get an injective map $A / \p \to M_3$ so $\p \in \Ass{A}{M_3}$. If $\iota(A / \p) \cap M_1 \neq (0)$ then take nonzero $n \in \iota(A / \p) \cap M_1$. Then $\Ann{A}{n} = \Ann{A}{\iota(x)}$ for $x \in A / \p$ nonzero. However, if $a \cdot \iota(x) = 0$ then $\iota(a \cdot x) = 0$ but $\iota$ is injective so $a \cdot x = 0$ and thus $\Ann{A}{\iota(x)} = \Ann{A}{x} = \p$ because if $a \cdot x \in \p$ for $x \notin \p$ then $a \in \p$. 
+\end{proof}
+
+\begin{lemma}
+Let $S_{M, \p} = \{ \Ann{A}{m} \subset \p \mid m \in M \setminus \{0\} \}$ then any maximal element in $S_{M, \p}$ is a prime ideal.
+\end{lemma}
+
+\begin{proof}
+Let $\q \in S_{M, \p}$ be maximal with $\q = \Ann{A}{m}$ for $m \neq 0$. Suppose $ab \in \q$ and $a, b \notin \q$. Then $\q \subsetneq \Ann{A}{a m}$ since $b \in \Ann{A}{a m} \setminus \Ann{A}{m}$ so by maximality $\Ann{A}{am} \not\subset \p$. Choose $s \in \Ann{A}{am} \setminus \p$. Then $a \in \Ann{A}{sm}$ so $\Ann{A}{m} \subsetneq \Ann{A}{sm}$ and thus by maximality we can choose $t \in \Ann{A}{sm} \setminus \p$ so $st \in \Ann{A}{m} \subset \p$ but $s,t \notin \p$ contradicting the primality of $\p$. Thus $\q$ is prime. 
+\end{proof}
+
+\begin{prop}
+Let $A$ be Noetherian and $A$-module $M$. Then,
+\[ \Ass{A}{M} = \WAss{A}{M}  \]
+In particular, $\Ass{A}{M} \neq \empty$ and all other properties of $\WAss{A}{M}$ apply to $\Ass{A}{M}$.
+\end{prop}
+
+\begin{proof}
+The first inclusion is obvious. If $\p \in \WAss{A}{M}$ then $\p \supset \Ann{A}{m}$ for some $m \in M$ and thus $m$ is nonzero in $M_\p$ so $\p \in \Supp{A}{M}$. Let $A$ be Noetherian then ascending chains in $S_{M, \p}$ stabilize and thus by Zorn's Lemma every annhilator $\Ann{A}{m} \subset \p$ is contained in some maximal $\Ann{A}{m'} \subset \p$. Thus, if $\p \in \WAss{A}{M}$ then $\p$ is a minimal prime over some $\Ann{A}{m}$ so $\p = \Ann{A}{m'}$ since $\Ann{A}{m'}$ is prime and $\Ann{A}{m} \subset \Ann{A}{m'} \subset \p$.
+\end{proof}
+
+
+\begin{lemma} \label{ass_primes_localization}
+Let $A$ be a ring and $M$ an $A$-module and $S \subset A$ a multiplicative subset. Then.
+\begin{enumerate}
+\item $\Ass{A}{S^{-1} M} = \Ass{S^{-1} A}{S^{-1} M}$ 
+\item $\Ass{A}{M} \cap \Spec{S^{-1} A} \subset \Ass{A}{S^{-1} M}$ with equality when $A$ is Noetherian.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Tag 05BZ.
+\end{proof}
+
+
+\begin{proposition} \label{noetherian_finite_wass}
+Let $A$ be a Noetherian ring and $M$ a finite $A$-module. Then,
+\begin{enumerate}
+\item there exists a finite filtration,
+\[ (0) = M_0 \subsetneq M_1 \subsetneq M_2 \subsetneq \cdots \subsetneq M_n = M \]
+such that each $M_{i} / M_{i-1} \cong A / \p_{i}$ for some $\p_i \in \supp{A}{M}$
+\item for any such filtration, $\Ass{A}{M} \subset \{ \p_1, \p_2, \dots, \p_n\}$
+\item $\WAss{A}{M}$ is finite.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+$M$ is a Noetherian module so this applies directly from Prop. \ref{noetherian_finite_wass}.
+\end{proof}
+
+\subsection{Primary Decomposition}
+
+\begin{rmk}
+In this section we let $A$ be a Noetherian ring.
+\end{rmk}
+
+\begin{definition}
+An $A$-module $M$ is called coprimary if $\Ass{A}{M} = \{\p\}$ and if $N \subset M$ we say that $N$ is $\p$-primary if $M / N$ is coprimary with $\Ass{A}{M/N} = \{ \p \}$.  
+\end{definition}
+
+\begin{lemma}
+$M$ is coprimary iff any zero divisor of $M$ is locally nilpotent i.e. if $a \cdot m = 0$ for some $m \in M \setminus \{0\}$ then $\forall m' \in M : a^n \cdot m' = 0$ for some $n$. 
+\end{lemma}
+
+\begin{proof}
+Assume that $M$ is coprimary, $\Ass{A}{M} = \{ \p \}$. If $x \in M$ is nonzero then $Ax$ is a nonzero submodule of $M$ so $\Ass{A}{Ax} = \{ \p \}$ since it is nonempty. Therefore, $\p$ is a minimal element in $\Supp{A}{A x} = V(\Ann{A}{x})$
+because $Ax \cong A / \Ann{A}{x}$. Thus, $\sqrt{\Ann{A}{x}} = \p$. If $a$ is a zero divisor of $M$ then $a \in \p$ so $a^n \in \Ann{A}{x}$ so $a$ is locally nilpotent. Converely, assume that the set of zero divisors equals the set of locally nilpotent elements. Take $\p$ to be the ideal of all locally nilpotents. Take $\q \in \Ass{A}{M}$ then $\q = \Ann{A}{x}$ for some $x$. If $a \in \p$ then $a^n \cdot x = 0$ for some $n$ implies that $a^n \in \q$ so $a \in \q$. so $\p \subset \q$. Furthermore,
+\[ \bigcup_{\q \in \Ass{A}{M}} \q = \{ \text{zero divisors} \} = \p \]
+so for any $\q \in \Ass{A}{M}$ we have $\q \subset \p$. Thus, $\p = \q$ so $\Ass{A}{M}$ constains a unique prime.
+\end{proof}
+
+\begin{corollary}
+If $I \subset A$ is an ideal then $\Ass{A}{A / I} = \{ \p \}$ if and only if $I$ is a primary ideal and in that case $\sqrt{I} = \p$. 
+\end{corollary}
+
+\begin{proof}
+Consider $I \subset A$ and $A / I$ is coprimary then take $x,y \in A$ such that $y \notin I$ and $\bar{x} \cdot \bar{y} = 0$ in $A / I$. Then $\bar{x}$ is a zero divisor of $A / I$ so it is locally nilpotent by the above. Thus, $\bar{x}^n \cdot 1 = 0$ for some $n$ so $x^n \in I$ so $x \in \sqrt{I}$ and thus $I$ is primary. Furthermore,
+\[ \sqrt{I} = \bigcap_{\p \in V(I)} \p = \bigcap_{\p \in \Supp{A}{A / I}} \p = \bigcap_{\p \in \Ass{A}{A / I}} \p = \p \]
+since $\Ass{A}{M}$ is the set of minimal primes of $\Supp{A}{M}$ and $\Ass{A}{A / I} = \p$.  
+\end{proof}
+
+\begin{definition}
+Let $M$ be an $A$-module and $N \subset M$. We say $N$ has a primary decomposition if,
+\[ N = Q_1 \cap Q_2 \cap \cdots \cap Q_n \]
+where each $Q_i$ is primary. Moreover, we say that this decomposition is irredundant if 
+\begin{enumerate}
+\item if $i \neq j$ then $\Ass{A}{M / Q_i} \neq \Ass{A}{M / Q_j}$ 
+
+\item we cannot remove any $Q_j$ from the intersection.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Let $M$ be an $A$-module then,
+\begin{enumerate}
+\item If $Q_1, Q_2 \subset M$ are $\p$-primary then $Q_1 \cap Q_2$ is $\p$-primary.  
+
+\item If $N = Q_1 \cap \cdots \cap Q_n$ is a irredundant primary decomposition and for each $i$, $Q_i$ is $\p_i$-primary then,
+\[ \Ass{A}{M / N} = \{ \p_1, \dots, \p_n \} \] 
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider the injection,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M / Q_1 \cap Q_2 \arrow[r, hook] & M / Q_1 \oplus M / Q_2
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{M / Q_1 \cap Q_2} \subset \Ass{A}{M / Q_1 \oplus M / Q_2} = \Ass{A}{M/Q_1} \cup \Ass{A}{M/Q_2} = \{ \p \} \]
+proving the first.
+For the second, consider the injection,
+\begin{center}
+\begin{tikzcd}
+M / N \arrow[r, hook] & M / Q_1 \oplus \cdots \oplus M / Q_n 
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{M / N} \subset \Ass{A}{M/Q_1} \cup \cdots \cup \Ass{A}{M/Q_n} \subset \{ \p_1, \dots, \p_n \} \]
+We need to show that $\p_i \in \Ass{A}{M / N}$ for each $i$.
+We have the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & Q_2 \cap \cdots \cap Q_n \arrow[r] & M / Q_1
+\end{tikzcd}
+\end{center}
+and therefore,
+\begin{center}
+\begin{tikzcd}
+(Q_2 \cap \cdots \cap Q_n) / N \arrow[r, hook] & M / Q_1
+\end{tikzcd}
+\end{center}
+which implies that,
+\[ \Ass{A}{(Q_2 \cap \cdots \cap Q_n) / N} \subset \Ass{A}{M / Q_1} = \{ \p_1 \} \]
+so since it is nonempy we have,
+\[ \{ \p_1 \} = \Ass{A}{(Q_2 \cap \cdots \cap Q_n) / N} \subset \Ass{A}{M / N} \]
+where the inclusion holds via the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & Q_2 \cap \cdots \cap Q_n \arrow[r] & M / N
+\end{tikzcd}
+\end{center}
+The same argument holds for each $i$. 
+\end{proof}
+
+\begin{theorem}
+Let $M$ be Noetherian. For each $\p \in \Ass{A}{M}$, there exist $Q_{\p} \subset M$ which are $\p$-primary such that,
+\[ \bigcap_{\p \subset \Ass{A}{M}} Q_{\p} = 0 \]
+\end{theorem}
+
+\begin{proof}
+Fix $\p \in \Ass{A}{M}$ and consider the set $S_{\p} = \{ Q \subset M \mid \p \notin \Ass{A}{Q} \} \neq \varnothing$ since the zero module is contained in this set. Since $M$ is Noetherian ascending chains stabilize so by Zorn's lemma there exists a maximal element $Q_\p \in S_\p$. We know,
+\[ \Ann{A}{M / Q_\p}  \neq \varnothing \]
+since we have $M / Q_\p \neq (0)$. Otherwise, $M = Q_\p$ which implies $\p \in \Ass{A}{Q_\p}$ but $Q_\p \in S_\p$. Let $\p' \in \Ass{A}{M / Q_\p}$ and suppose that $\p' \neq \p$ then we have,
+\begin{center}
+\begin{tikzcd}
+A / \p' \arrow[r, hook] & M / Q_\p
+\end{tikzcd}
+\end{center}    
+The image of this embedding is a submodule, $Q_\p \subsetneq Q' \subset M$ such that $Q' / Q_\p \cong A / \p'$ implying that,
+\[ \Ass{A}{Q' / Q_\p} = \{ \p' \} \]
+Thus we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & Q_\p \arrow[r] & Q' \arrow[r] & A / \p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which implies that $\Ass{A}{Q'} \subset \Ass{A}{Q_\p} \cup \Ass{A}{A / \p'} =  \Ass{A}{Q_\p} \cup \{ \p' \}$.
+However, this contradicts the fact that $Q_\p$ is maximal in $S_\p$ since $Q' \in S_\p$ as long as $\p' \neq \p$. Therefore, $\p' = \p$ so $\Ass{A}{A / Q_\p} = \{ \p \}$. Now consider,
+\[ \Ass{A}{\bigcap_{\p \in \Ass{A}{M}} Q_\p} \subset \bigcap_{\p \in \Ass{A}{M}} \Ass{A}{Q_\p} = \varnothing \]
+because for any $\p$ we know $\p \notin \Ass{A}{Q_\p}$. Therefore,
+\[ \bigcap_{\p \in \Ass{A}{M}} Q_\p = (0) \]
+since it has no associated primes. 
+\end{proof}
+
+\begin{corollary}
+If $M$ is a finite $A$-module then any submodule has a primary decomposition. 
+\end{corollary}
+
+\begin{proof}
+Let $N \subset M$ be a submodule. 
+Apply the theorem to $\bar{M} = M / N$ which has finite type so $\Ass{A}{M / N}$ is finite. Write, $\Ass{A}{M / N} = \{ \p_1, \dots, \p_r \}$. Therefore, there exist primary ideals $Q_i$ such that,
+\[ Q_{\p_1} \cap \cdots \cap Q_{\p_r} = (0) \]
+in $M / N$. Take $Q_i$ to be the preimage of $Q_{\p_i}$. Thus,
+\[ Q_1 \cap \cdots \cap Q_r = N \]
+and 
+\[ M / Q_i \cong \bar{M} / Q_{\p_i} \implies \Ass{A}{M / Q_i} = \{ \p_i \} \]
+\end{proof}
+
+
+\subsection{Weakly Associated Points}
+
+\begin{defn}
+Let $X$ be a scheme and $\F$ a quasi-coherent $\struct{X}$-module. Then we define,
+\begin{enumerate}
+\item $x \in X$ is \textit{weakly associated} to $\F$ if $\m_x \subset \stalk{X}{x}$ is weakly associated to $\F_x$
+\item $\WAss{\struct{X}}{\F}$ is the set of weakly associated points of $\F$
+\item the (weakly) associated points of $X$ are $\WAss{\struct{X}}{\struct{X}}$.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+Let $X = \Spec{A}$ and $\F = \wt{M}$ be a quasi-coherent $\struct{X}$-module then we have,
+\[ \WAss{\struct{X}}{\F} = \WAss{A}{M} \]
+\end{prop}
+
+\begin{proof}
+Immediate consequence of Lemma \ref{weak_ass_primes_localization}.
+\end{proof}
+
+\begin{prop}
+Let $X$ be a scheme and $\F$ a quasi-coherent sheaf. Then,
+\[ \F = 0 \iff \WAss{\struct{X}}{\F} = 0 \]
+\end{prop}
+
+\begin{proof}
+Choose an affine open cover $U_i = \Spec{A_i}$ such that $\F|_{U_i} = \wt{M_i}$. Then $\WAss{A}{M_i} = \WAss{\struct{X}}{\F} \cap U_i = \empty$ so $M_i = 0$ and thus $\F = 0$. 
+\end{proof}
+
+\begin{prop}
+Let $X$ be a scheme and $\F \to \G$ a morphism of quasi-coherent $\struct{X}$-modules. If $\F_x \to \G_x$ is injective for each $x \in \WAss{\struct{X}}{\F}$ then $\F \to \G$ is injective.
+\end{prop}
+
+\begin{proof}
+Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \K \arrow[r] & \F \arrow[r] & \G
+\end{tikzcd}
+\end{center}
+Since $\F_x \to \G_x$ is an injection $\K_x = 0$ for each $x \in \WAss{\struct{X}}{\F}$. Furthermore, $\WAss{\struct{X}}{\K} \subset \WAss{\struct{X}}{\F}$ and thus $\WAss{\struct{X}}{\K} = \empty$ so $\K = 0$.
+\end{proof}
+
+\subsection{Associated Points: the Noetherian Case}
+
+\begin{rmk}
+By analogy, we might define an \textit{associated point} of $\F$ on $X$ to be a point $x \in X$ such that $\m_x \subset \stalk{X}{x}$ is an associated prime of $\F_x$. However, this definition is problematic because, in general, associated primes do not play nicely with localization. In particular $\p \in \Ass{A}{M} \implies \p A_\p \in \Ass{A_\p}{M_\p}$ but the converse may not hold. Therefore, we may have a scheme $X$ and a quasi-coherent sheaf $\F$ such that on an affine open $U = \Spec{A}$ with $\F |_U = \wt{M}$ we have $\p \in \Ass{A}{M}$ but $\p = x \in X$ is not as associated point of $\F$ on $X$. To recify this pathology, we only consider associated points on locally noetherian schemes in which case there is no difference between weakly associated points and associated points. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a locally noetherian scheme and $\F$ a quasi-coherent $\struct{X}$-module. We say $x \in X$ is an \textit{associated point} of $\F$ if $x$ is a \textit{weakly associated point}. Likewise we write, 
+\[ \Ass{\struct{X}}{\F} = \WAss{\struct{X}}{\F} \]
+\end{defn}
+
+\begin{rmk}
+Notice this definition is purely notational. In the locally noetherian case we simply will write $\Ass{\struct{X}}{\F}$ for $\WAss{\struct{X}}{\F}$ as a reminder that these sets behave as expected for associated points in the case of Noetherian rings.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be noetherian and $\F$ a coherent $\struct{X}$-module. Then $\Ass{\struct{X}}{\F}$ is finite.
+\end{prop}
+
+\begin{proof}
+Since $X$ is quasi-compact we may choose a finite open cover $U_i = \Spec{A_i}$ with $A_i$ Noetherian on which $\F|_{U_i} = \wt{M_i}$ for finite $A_i$-modules. Then $\Ass{\struct{X}}{\F} \cap U = \Ass{A_i}{M_i}$ each of which is finite  since $M_i$ is a Noetherian module.
+\end{proof}
+
+\section{Pseudomorphisms}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of schemes such that for each weakly associated point $y \in Y$ there exists a point $x \in X$ such that $f(x) = y$ and $\stalk{Y}{y} \to \stalk{X}{x}$ is injective. Then the map on sheaves $\struct{Y} \to f_* \struct{X}$ is injective.
+\end{lemma}
+
+\begin{proof}
+To show that $\struct{Y} \to f_* \struct{X}$ is injective, it suffices to show that $\stalk{Y}{y} \to (f_* \struct{X})_y$ is injective on each weakly associated point $y \in Y$. Furthermore, we know there exists $x \in X$ with $f(x) = y$ and the composition $\stalk{Y}{y} \to (f_* \struct{X})_y \to \stalk{X}{x}$ is injective and thus $\stalk{Y}{y} \to (f_* \struct{X})_y$ is injective.
+\end{proof}
+
+\begin{rmk}
+In particular, if $f : X \to Y$ is a dominant map of integral schemes then $\struct{Y} \to f_* \struct{X}$ is injective.
+\end{rmk}
+
+\begin{example}
+Consider the map $\Spec{k[x]} \to \Spec{k[x,y]/(xy, y^2)}$. Although this map hits the generic point $(y)$, it does not hit the embedded associated point $(x, y^2)$ at the origin and thus $k[x,y]/(xy, y^2) \to k[x]$ is not injective since $y \mapsto 0$.
+\end{example}
+
+\begin{defn}
+We say an immersion $\iota : Y \embed X$ is \textit{scheme theoretically dense} if the scheme theoretic image is $X$. 
+\end{defn}
+
+\begin{lemma}
+An open immersion $\iota : U \to X$ is scheme theoretically dense iff $U$ contained all weakly associated points of $X$.
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+When can we ensure that the coker of $\struct{Y} \to f_* \struct{X}$ is supported in codimension one.
+
+\subsection{Annhiliators}
+
+\begin{rmk}
+Here we let $X$ be a scheme. Warning: many of these results do not hold for arbitrary locally ringed spaces. In particular, the kernel of quasi-coherent sheaves need not be quasi-coherent on an arbitrary locally ringed space. However, this holds locally on schemes because kernels and cokerns of sheaves associated to modules are associated to modules.
+\end{rmk}
+
+\begin{defn}
+Let $\F$ be a sheaf of $\struct{X}$-modules. Then we define the sheaf of annihilators: 
+\[ \shAnn{\struct{X}}{\F} = \ker{(\struct{X} \to \shHom{\struct{X}}{\F}{\F})} \]
+\end{defn}
+
+\begin{lemma}
+Let $\F, \G$ be quasi-coherent $\struct{X}$-modules with $\F$ finitely presented. Then $\shHom{\struct{X}}{\F}{\G}$ is quasi-coherent.
+\end{lemma}
+
+\begin{proof}
+Locally on $U \subset X$ we have a presentation,
+\begin{center}
+\begin{tikzcd}
+\bigoplus_{i = 1}^m \struct{U} \arrow[r] & \bigoplus_{j = 1}^n \struct{U} \arrow[r] & \F|_U \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Applying the functor $\shHom{\struct{U}}{-}{\G}$ gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \shHom{\struct{U}}{\F|_U}{\G|_U} \arrow[r] & \bigoplus_{j = 1}^n \G|_U \arrow[r] & \bigoplus_{i = 1}^m \G|_U
+\end{tikzcd}
+\end{center}
+Since $\G$ is quasi-coherent and finite sums and kernels of quasi-coherent sheaves are quasi-coherent we see that $\shHom{\struct{X}}{\F}{\G}$ is locally quasi-coherent and thus quasi-coherent.
+\end{proof}
+
+\begin{lemma}
+If $\F$ is finitely presented then $\shAnn{\struct{X}}{\F}$ is quasi-coherent.
+\end{lemma}
+
+\begin{proof}
+From the previous lemma, $\shHom{\struct{X}}{\F}{\F}$ is quasi-coherent. Therefore, the kernel,
+\[ \shAnn{\struct{X}}{\F} = \ker{(\struct{X} \to \shHom{\struct{X}}{\F}{\F})} \]
+is quasi-coherent.
+\end{proof}
+
+\begin{prop}
+Let $\F$ be finitely presented. Then $\Supp{\struct{X}}{\F}$ is closed and the quasi-coherent sheaf of ideals $\Ann{\struct{X}}{\F}$ gives a scheme structure on $\Supp{\struct{X}}{\F}$. Furthermore, $\F$ is naturally a $\struct{X} / \shAnn{\struct{X}}{\F}$ - module.
+\end{prop}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of schemes. Assume that $\struct{Y}$ and $f_* \struct{X}$ are coherent on $Y$. Furthermore, for each generic point of an irreducible component $\xi \in Y$ assume that there exists some $x \in X$ with $f(x) = \xi$ and $\stalk{Y}{\xi} \to \stalk{X}{x}$ surjective. Then $\Csh = \coker{(\struct{Y} \to f_* \struct{X})}$ has $Z = \Supp{\struct{Y}}{\Csh}$ in positive codimension.
+\end{lemma}
+
+
+\section{Singularities of Curves}
+
+
+\begin{defn}
+NORMALIZATION
+\end{defn}
+
+\begin{prop}
+Normalization of a curve exists and is regular. 
+\end{prop}
+
+(CAN WE GET $H^0(O_X)$ is the same?)
+
+
 
 \end{document}

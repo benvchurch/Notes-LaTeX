@@ -40,7 +40,9 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Zplus}{\mathbb{Z}^{+}}
 \newcommand{\Primes}{\mathbb{P}}
-\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+
+\DeclareMathOperator{\colim}{\mathrm{colim}}
+
 \newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
 \newcommand{\cat}[1]{\mathcal{#1}}
 \newcommand{\id}{\mathrm{id}}
@@ -1303,12 +1305,12 @@ A local homeomorphism of Hausdroff spaces $f : X \to Y$ with compact $X$ and con
 \begin{proof}
 Any continuous map $f : X \to Y$ is closed ($X$ is compact and $Y$ is Hausdorff) and $f$ is open since it is a local homeomorphism. However, $Y$ is connected so $f$ must be surjective since $f(X)$ is clopen. 
 \bigskip\\
-Since $f$ is a local homeomorphism $f^{-1}(y)$ is discrete and closed but since $X$ is compact then $f^{-1}(y) = \{ x_1, \dots x_n \}$ is finite. Now, by the Hausdorff property, choose nonintersecting open neighbrohoods $U_i$ of $x_i$. Shrinking if necessary, we may assume that $f|_{U_i} : U_i \to f(U_i)$ is a homeomorphism with $f(U_i) \subset Y$ since this must be the case for some neighborhood of each $x_i$ and is compatbile with shrinking.  
+Since $f$ is a local homeomorphism $f^{-1}(y)$ is discrete and closed but since $X$ is compact then $f^{-1}(y) = \{ x_1, \dots x_n \}$ is finite. Now, by the Hausdorff property, choose nonintersecting open neighbrohoods $U_i$ of $x_i$. Shrinking if necessary, we may assume that $f|_{U_i} : U_i \to f(U_i)$ is a homeomorphism with $f(U_i) \subset Y$ open since this must be the case for some neighborhood of each $x_i$ and is compatbile with shrinking.  
 \bigskip\\
 Now, take $C = X \setminus (U_1 \cup \cdots \cup U_n) \supset X \setminus f^{-1}(y)$ and then $f(C)$ is closed so take,
 \[ V = \bigcap_{i = 1}^n f(U_i) \setminus f(C) \]
 an open neighborhood of $y$. Since,
-\[ f^{-1}(V) = \bigcap f^{-1}(f(U_i) \setminus f(C)) \subset \bigcap_{i = 1}^n U_i \setminus f(C) \subset U_1 \cup \cdots \cup U_n \]
+\[ f^{-1}(V) = \bigcap_{i = 1}^n f^{-1}(f(U_i) \setminus f(C)) \subset \bigcap_{i = 1}^n f^{-1}(f(U_i)) \setminus C \subset U_1 \cup \cdots \cup U_n \]
 Therefore,
 \[ f^{-1}(V) = \bigcup_{i = 1}^n [U_i \cap f^{-1}(V)] \]
 where $U_i \cap f^{-1}(V)$ is open and inside $U_i$ so it maps homeomorphically to the open set $f(U_i \cap f^{-1}(V)) = V$ since $V \subset f(U_i)$. Furthermore, these sets are disjoint by construction $U_i \cap U_j = \varnothing$ so $[U_i \cap f^{-1}(V)]$ and $[U_j \cap f^{-1}(V)]$ are disjoint. Therfore $f : X \to Y$ is a covering map.
@@ -2850,7 +2852,7 @@ H^n(Y, \F) \arrow[r] & H^n(\Gamma(X,  f^* \I^\bullet)) \arrow[r] & H^n(X, f^* \F
 \end{proof}
 
 \begin{remark}
-We may give an abstract nonsense proof to get that this map is natural and furthermore commutes with connecting homomorphisms. The natural adjunction map $\F \to f_* f^* \F$ gives a morphism $H^0(Y, -) \to H^0(X, f^* -)$ of left-exact functors where $H^0(X f^* -)$ is left-exact since $f^*$ is exact. Furthermore, exactness of $f^*$ makes $H^*(X, f^* - )$ a $\delta$-functor. However, $H^*(Y, -)$ is a universal $\delta$-functor to the map $H^0(Y, -) \to H^0(X, f^* - )$ lifts to give a morphism of $\delta$-functors,  \begin{center}
+We may give an abstract nonsense proof to get that this map is natural and furthermore commutes with connecting homomorphisms. The natural adjunction map $\F \to f_* f^* \F$ gives a morphism $H^0(Y, -) \to H^0(X, f^* -)$ of left-exact functors where $H^0(X, f^* -)$ is left-exact since $f^*$ is exact. Furthermore, exactness of $f^*$ makes $H^*(X, f^* - )$ a $\delta$-functor. However, $H^*(Y, -)$ is a universal $\delta$-functor to the map $H^0(Y, -) \to H^0(X, f^* - )$ lifts to give a morphism of $\delta$-functors,  \begin{center}
 \begin{tikzcd}
 H^*(Y, -) \arrow[r] & H^*(X, f^* - )
 \end{tikzcd}
@@ -3456,20 +3458,171 @@ For an object $A \in \A$ this existence theorem gives a quasi-isomorphism $A[0] 
 must be a quasi-isomorphism which implies that $\im{A \to I^0} \cong \ker{I^0 \to I^1}$ and $H^i(I^\bullet) = 0$ for $i > 0$ so $0 \to A \to I^\bullet$ is exact.
 \end{remark}
 
-\section{Thurston's Geometrization}
 
 
-\section{Cartesian Categories}
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\inthom}[3]{\underline{\mathrm{hom}}_{#1} \! \left( #2, #3 \right)}
+
+\section{Cartesian and Closed Categories}
+
+\subsection{Closed Categories}
+
+\newcommand{\op}{\mathrm{op}}
+
+\begin{definition}
+We say a monoidal category $(\C, \otimes)$ is \textit{closed} if $- \otimes Y : \C \to \C$ has a right adjoint $\inthom{\C}{Y}{-} : \C \to \C$ forming a bifunctor, $\inthom{\C}{-}{-} : \C^\op \times \C \to \C$
+\[ \Hom{\C}{X \otimes Y}{Z} = \Hom{\C}{X}{\inthom{\C}{Y}{Z}} \]
+naturally in $X, Y, Z$.
+\end{definition}
+
+\begin{remark}
+We call $\inthom{\C}{-}{-}$ the \textit{interal hom}. To justify this notation notice that if $I$ is the identity object of the monoid then,
+\[ \Hom{\C}{I}{\inthom{\C}{X}{Y}}  = \Hom{\C}{I \otimes X}{Y} = \Hom{\C}{X}{Y}  \]
+Furthermore, notice that,
+\[ \Hom{\C}{X}{-} = \Hom{\C}{X \otimes I}{-} = \Hom{\C}{X}{\inthom{\C}{I}{-}} \]
+and thus by Yoneda $\inthom{\C}{I}{-} \cong \id_{\C}$.
+Therefore, $\inthom{\C}{-}{-}$ and $I$ gives a closed structure on the underlying category $\C$ (https://ncatlab.org/nlab/show/closed+category).
+\end{remark}
+
+\begin{proposition}
+There is an internal natural adjunction,
+\[ \inthom{\C}{X \otimes Y}{Z} = \inthom{\C}{X}{\inthom{\C}{Y}{Z}} \]
+\end{proposition}
+
+\begin{proof}
+Consider the following,
+\begin{align*}
+\Hom{\C}{W}{\inthom{\C}{X \otimes Y}{Z}} & = \Hom{\C}{W \otimes (X \otimes Y)}{Z} = \Hom{\C}{(W \otimes X) \otimes Y}{Z}
+\\
+& = \Hom{\C}{W \otimes X}{\inthom{\C}{Y}{Z}} 
+\\
+& = \Hom{\C}{W}{\inthom{\C}{X}{\inthom{\C}{Y}{Z}}} 
+\end{align*}
+The result then follows from Yoneda.
+\end{proof}
+
+\begin{proposition}
+Let $(\C, \otimes)$ be closed. Then $- \otimes Y  : \C \to \C$ preserves all colimts and $\inthom{\C}{Y}{-}$ preserves all limits.
+\end{proposition}
+
+\begin{proof}
+Immediate from the adjunction $- \otimes Y \dashv \inthom{\C}{Y}{-}$.
+\end{proof}
+
+\begin{corollary}
+We have $(X \coprod Y) \otimes Z = (X \otimes Z) \coprod (Y \otimes Z)$.
+\end{corollary}
+
+\begin{proposition}
+Let $(\C, \otimes)$ be a symmetric monoidal category then $X \otimes -$ preserves colimits and $\inthom{\C}{-}{X}$ transforms colimits to limits.
+\end{proposition}
+
+\begin{proof}
+That $X \otimes -$ preserves colimits follows from the fact that $- \otimes X \cong X \otimes -$ and $- \otimes X$ preserves colimts because it is left adjoint to $\inthom{\C}{X}{-}$. Furthermore,
+\begin{align*}
+\Hom{\C}{X}{\inthom{\C}{\colim{J}}{Y}} & = \Hom{\C}{X \otimes \colim{J}}{Y} = \Hom{\C}{\colim(X \otimes J)}{Y}
+\\
+& = \lim \Hom{\C}{X \otimes J}{Y} = \lim \Hom{\C}{X}{\inthom{\C}{J}{Y}}
+\\
+& = \Hom{\C}{X}{\lim \inthom{\C}{J}{Y}}
+\end{align*}
+Thus, by Yoneda, $\inthom{\C}{\colim J}{Y} = \lim \inthom{\C}{J}{Y}$.
+\end{proof}
+
+\begin{remark}
+The unit and counit of the adjunction are,
+\[ s : X \to \inthom{\C}{Y}{X \otimes Y} \quad \quad \ev : \inthom{\C}{Y}{Z} \times Y \to Z \] called slice and evaluation respectively.
+\end{remark}
+
+\subsection{Cartesian Categories}
 
 \begin{definition}
 A monoidal category is called \textit{cartesian} if the monoidal product is the categorical product. Thus any category with finite products is a cartesian monoial category (since the empty product is the terminal object which serves as the identity). 
 \end{definition}
 
+\begin{definition}
+A category is \textit{cartesian closed} if the cartesian monoidal product is closed. In this case we write $Y^X := \inthom{\C}{X}{Y}$.
+\end{definition}
+
+\begin{proposition}
+Let $\C$ be closed cartesian. Then $X \times - : \C \to \C$ preserves limits and colimits.
+\end{proposition}
+
+\begin{proof}
+Immediate from the fact that $X \times -$ is a limit and a left adjoint to $(-)^X$. 
+\end{proof}
+
+\begin{proposition}
+Let $\C$ be closed cartesian. Then the following formulae hold,
+\begin{enumerate}
+\item $(\lim J)^X = \lim J^X$
+\item $(X \times Y)^Z = X^Z \times Y^Z$
+\item $Y^{\colim J} = \lim Y^J$
+\item $X^{(Y \coprod Z)} = X^Y \times X^Z$
+\item $I^X = X$
+\item $(X^Y)^Z = X^{Y \times Z}$
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+These formulae have been proven previously for a general closed symmetric monoidal category.
+\end{proof}
+
+\begin{definition}
+An \textit{exponential object} $Y^X$ is an object along with a map $\ev : Y^X \times X \to Y$ universal in the sense that for any $g : Z \times X \to Y$ there exists a unique $\lambda g : Z \to Y^X$ such that
+\begin{center}
+\begin{tikzcd}[row sep = huge]
+Z \arrow[d, dashed, "\lambda g"'] & Z \times X \arrow[d, dashed, "\lambda g \times \id_X"'] \arrow[rd, "g"]
+\\
+Y^X & Y^X \times X \arrow[r, "\ev"'] & Y
+\end{tikzcd}
+\end{center}
+commutes. A coexponential object is an exponential object in $\C^\op$.
+\end{definition}
+
+
+\begin{lemma}
+Let $\C$ be cartesian closed. Then $Y^X = \inthom{\C}{X}{Y}$ is an exponential object with $\ev : Y^X \times X \to Y$ the counit.
+\end{lemma}
+
+\begin{proof}
+Consider $g : Z \times X \to Y$ then given the adjunction,
+\begin{center}
+\begin{tikzcd}
+\Hom{\C}{Y^X \times X}{Y} \arrow[r, "(\lambda g \times \id_X)^*"] \arrow[d, equals] & \Hom{\C}{Z \times X}{Y} \arrow[d, equals]
+\\
+\Hom{\C}{Y^X}{Y^X} \arrow[r, "(\lambda g)^*"] & \Hom{\C}{Z}{Y^X}
+\end{tikzcd}
+\end{center}
+where $\lambda g$ is the image of $g$ in $\Hom{\C}{Z}{Y^X}$. Since $\ev : Y^X \times X \to Y$ corresponds to $\id : Y^X \to Y^X$ under the vertical map and $(\lambda g)^* \id_{Y^X} = \lambda g$ we see by commutativity that $(\lambda g \times \id_X)^* \ev = g$ i.e. $\ev \circ (\lambda g \times \id_X) = g$. Furthermore, if there were some other $h \in \Hom{\C}{Z}{Y^X}$ such that $\ev \circ (h \times \id_X) = g$ then by the corresponding diagram $h^* \id_{Y^X} = \lambda g$ so $h = \lambda g$.
+\end{proof}
+
+\subsection{Coexponential Objects}
+
+\begin{definition}
+A cocartesian coclosed category is a category such that $\C^\op$ is cartesian closed.
+\end{definition}
+
+\newcommand{\coev}{\mathrm{coev}}
+
+\begin{remark}
+Explicitly, a coexponential object $Y_X$ has a map $\coev : Y \to Y_X \coprod X$ universal in the sense that for any $g : Y \to Z \coprod X$ there exists a unique $\lambda g : Y_X \to Z$ such that,
+\begin{center}
+\begin{tikzcd}[row sep = huge]
+Y_X \arrow[d, dashed, "\lambda g"'] & Y_X \coprod X \arrow[d, dashed, "\lambda g \coprod \id_X"'] & Y \arrow[l, "\coev"'] \arrow[ld, "g"] 
+\\
+Z & Z \coprod X 
+\end{tikzcd}
+\end{center}
+\end{remark}
+
+\begin{definition}
+A 
+\end{definition}
 
 \section{Concrete Categoies}
 
-\renewcommand{\C}{\mathcal{C}}
-\newcommand{\D}{\mathcal{D}}
 
 \begin{definition}
 A concrete category is a pair $(\C, U)$ where $U : \C \to \Set$ is a faithful functor called the forgetful functor to the underlying set. 
@@ -3480,7 +3633,7 @@ A morphism $f : X \to Y$ is monic iff $f_* : \Hom{\C}{-}{X} \to \Hom{\C}{-}{Y}$ 
 \end{lemma}
 
 \begin{proof}
-
+Holds by definition.
 \end{proof}
 
 \begin{lemma}
@@ -3504,7 +3657,7 @@ A morphism $f : X \to Y$ in $\C$ is monic iff $\Delta : X \to X \times_Y X$ is a
 \end{lemma}
 
 \begin{proof}
-
+DO THIS
 \end{proof}
 
 \begin{lemma}
@@ -3512,7 +3665,7 @@ Let $U : \C \to \D$ preserve fibre products. Then $U$ preserves monics. Dually, 
 \end{lemma}
 
 \begin{proof}
-
+DO THIS
 \end{proof}
 
 \begin{proposition}
@@ -3541,6 +3694,8 @@ An algebraic category is a complete and cocomplete concrete category $(\C, F, U)
 \bigskip\\
 However, not all epimorphisms need be surjective. For example, in the category of rings $\Z \to \Q$ is epic but not surjective. 
 \end{remark}
+
+\section{Thurston's Geometrization}
 
 \section{Products of Schemes (WWIP)}
 
@@ -3757,7 +3912,6 @@ The map $f : X \to \Spec{A}$ is flat iff $\struct{X}$ is flat over $\Spec{A}$. T
 \[ \pi_X^* \struct{X} = \pi_Y^* \struct{Y} = \struct{X \times_A Y} \]
 \end{proof}
 
-\newcommand{\op}{\mathrm{op}}
 \newcommand{\Ring}{\mathbf{Ring}}
 
 \begin{remark}

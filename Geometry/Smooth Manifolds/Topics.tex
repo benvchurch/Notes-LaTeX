@@ -194,20 +194,20 @@ so both sides are derivations and thus they must be equal since they agree for a
 
 \section{The Hodge Complex}
 
-
+\newcommand{\vol}{\mathrm{vol}}
 
 \begin{definition}
-Let $(M, g)$ be an oriented Riemannian $n$-manifold and $\omega$ the canonical volume form. Then $g : TM \otimes TM \to \struct{M}$ defines a fiberwise nondegenerate inner product which we may view as an isomorphism $g : TM \to T^*M$ which, along with its inverse $g^{-1} : T^*M \to TM$, extends to isomorphisms on dual tensor bundles $T^n_m M \xrightarrow{\sim} T^m_n M$ and thus a nondegenerate pairing $\inner{-}{-} : T^{n}_{m} M \otimes T^{n}_{m} M \to \struct{M}$.
+Let $(M, g)$ be an oriented Riemannian $n$-manifold and $\vol_g$ the canonical volume form. Then $g : TM \otimes TM \to \struct{M}$ defines a fiberwise nondegenerate inner product which we may view as an isomorphism $g : TM \to T^*M$ which, along with its inverse $g^{-1} : T^*M \to TM$, extends to isomorphisms on dual tensor bundles $T^n_m M \xrightarrow{\sim} T^m_n M$ and thus a nondegenerate pairing $\inner{-}{-} : T^{n}_{m} M \otimes T^{n}_{m} M \to \struct{M}$.
 \bigskip\\
 Then we can define a Hilbert space $L^2(\mathcal{C}^\infty(M, T^n_m M))$ on the tensor bundles $T^n_m$ via the inner product,
-\[ \Inner{\alpha}{\beta} = \int_M \inner{\alpha}{\beta} \omega \]
-Since $\omega$ is nonvanishing and the functions are smooth (and thus continuous) then,
+\[ \Inner{\alpha}{\beta} = \int_M \inner{\alpha}{\beta} \vol_g \]
+Since $\vol_g$ is nonvanishing and the functions are smooth (and thus continuous) then,
 \[ ||\alpha||^2 = \Inner{\alpha}{\alpha} = 0 \iff \alpha = 0 \]
  
 \end{definition}
 
 \begin{definition}
-On an oriented Riemannian $n$-manifold with canonical volume form $\omega$ we define the Hodge dual $\star : \Omega^k_M \to \Omega^{n - k}_M$ as the unique map such that, \[ \forall \alpha, \beta \in \Omega^k_M(U) : \alpha \wedge (\star \beta) = \inner{\alpha}{\beta} \omega \]
+On an oriented Riemannian $n$-manifold with canonical volume form $\vol_g$ we define the Hodge dual $\star : \Omega^k_M \to \Omega^{n - k}_M$ as the unique map such that, \[ \forall \alpha, \beta \in \Omega^k_M(U) : \alpha \wedge (\star \beta) = \inner{\alpha}{\beta} \vol_g \]
 Furthermore, we have $\star \star \eta = (-1)^{n(n-k)} \eta$. 
 \end{definition}
 
@@ -226,7 +226,7 @@ For all $\alpha \in \Omega_M^k(U)$ and $\beta \in \Omega_M^{k+1}(U)$ we have,
 \end{lemma}
 
 \begin{proof}
-We have $\inner{\d{\alpha}}{\beta} \omega = \d{\alpha} \wedge (\star \beta)$. Now consider,
+We have $\inner{\d{\alpha}}{\beta} \vol_g = \d{\alpha} \wedge (\star \beta)$. Now consider,
 \begin{align*}
 \d{( \alpha \wedge ( \star \beta ))} & = \d{\alpha} \wedge (\star \beta) + (-1)^k \alpha \wedge \d{(\star \beta)} 
 \\
@@ -237,7 +237,7 @@ We have $\inner{\d{\alpha}}{\beta} \omega = \d{\alpha} \wedge (\star \beta)$. No
 Then, by Stokes' theorem,
 \[ \int_M \d{(\alpha \wedge (\star \beta))} = \int_{\partial M} \alpha \wedge (\star \beta) = 0 \]
 because $M$ is closed. Therefore,
-\[ \Inner{\d{\alpha}}{\beta} = \int_M \inner{\d{\alpha}}{\beta} \omega = \int_M \d{\alpha} \wedge (\star \beta) = \int_M \alpha \wedge (\star \delta \beta ) = \int_M \inner{\alpha}{\delta \beta} \omega = \Inner{\alpha}{\delta \beta} \]
+\[ \Inner{\d{\alpha}}{\beta} = \int_M \inner{\d{\alpha}}{\beta} \vol_g = \int_M \d{\alpha} \wedge (\star \beta) = \int_M \alpha \wedge (\star \delta \beta ) = \int_M \inner{\alpha}{\delta \beta} \vol_g = \Inner{\alpha}{\delta \beta} \]
 \end{proof}
 
 \begin{definition}
@@ -277,9 +277,17 @@ We have $\Delta \omega = 0$ iff $\d{\omega} = \delta{\omega} = 0$.
 Clearly if $\d{\omega} = \delta{\omega} = 0$ then $\Delta \omega = 0$. Conversely, suppose that,
 \[ \Delta \omega = [\delta \d + \d \delta ] \omega = 0 \]
 Consider,
-\[ \Inner{\Delta \omega}{\omega} = \Inner{\delta \d{\omega}}{\omega} + \Inner{\d \delta \omega}{\omega}  = \Inner{\d{\omega}}{\d{\omega}} + \Inner{\delta \omega}{\delta \omega} = ||\d{\omega} || + ||\delta \omega||  \]
-Since $|| \alpha || \ge 0$ we see that if $\Inner{\Delta \omega}{\omega} = 0$ then $|| \delta \omega || = 0$ and $|| \d{\omega} || = 0$ and thus $\delta \omega = 0$ and $\d{\omega} = 0$.
+\[ \Inner{\Delta \omega}{\omega} = \Inner{\delta \d{\omega}}{\omega} + \Inner{\d \delta \omega}{\omega}  = \Inner{\d{\omega}}{\d{\omega}} + \Inner{\delta \omega}{\delta \omega} = ||\d{\omega} ||^2 + ||\delta \omega||^2  \]
+Since $|| \alpha || \ge 0$ we see that if $\Inner{\Delta \omega}{\omega} = 0$ then $|| \delta \omega ||^2 = 0$ and $|| \d{\omega} ||^2 = 0$ and thus $\delta \omega = 0$ and $\d{\omega} = 0$.
 \end{proof}
+
+\newcommand{\dR}{\mathrm{dR}}
+
+\begin{remark}
+Using this alternative characterization, we can make an alternative motivation for the definition of $\Delta$. Suppose we wanted to choose the representative $[\alpha] \in H^k_{\dR}(X)$ with minimum norm $|| \alpha ||$. According to calculus of variation we should perturb alpha slightly by an exact form to give $\alpha t d{\eta}$ and compute,
+\[ || \alpha +  t \, \d{\eta} ||^2 = || \alpha ||^2 + 2 t \Inner{\alpha}{\d{\eta}} + t^2 || \d{\eta} ||^2 = || \alpha ||^2 + 2 t \Inner{\delta \alpha}{\eta} + O(t^2) \]
+Therefore, since we want the norm to be extremal we require it be constant to first order for every test form $\eta$. Setting $\eta = \delta \alpha$ forces $\delta \alpha = 0$. Since $[\alpha]$ is a cohomology class, we also have $\d{\alpha} = 0$ and thus the minimal norm classes are represented by harmonic forms $\Delta \alpha = 0$. 
+\end{remark}
 
 \begin{theorem}[Hodge]
 The space $\Har^k(M)$ is finite dimensional and there is a canonical decomposition,
@@ -296,16 +304,16 @@ follows immediately from splitting the sequence,
 \end{tikzcd}
 \end{center}
 First, suppose that $\eta = \d{\alpha} = \delta \beta$ then,
-\[ ||\eta|| = \Inner{\eta}{\eta} = \Inner{\d{\alpha}}{\delta \beta} = \Inner{\d^2{\alpha}}{\beta} = 0 \]
+\[ ||\eta||^2 = \Inner{\eta}{\eta} = \Inner{\d{\alpha}}{\delta \beta} = \Inner{\d^2{\alpha}}{\beta} = 0 \]
 and thus $\eta = 0$. Thus, $\d(\Omega^{k-1}(M)) \cap \delta(\Omega^{k+1}(M)) = (0)$ so,
 \[ \d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M)) \subset \Omega^k(M) \]
 Clearly,
 \[ \Delta(\Omega^k(M)) \subset \d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M)) \]
 because $\Delta \alpha = \d (\delta \alpha) + \delta (\d{\alpha})$. Furthermore, if $\d{\alpha} \in \Har^k(M)$ then $\delta \d{\alpha} = 0$ 
 but
-\[ ||\d{\alpha}|| = \Inner{\d{\alpha}}{\d{\alpha}} = \Inner{\alpha}{\delta \d{\alpha}} = 0 \]
+\[ ||\d{\alpha}||^2 = \Inner{\d{\alpha}}{\d{\alpha}} = \Inner{\alpha}{\delta \d{\alpha}} = 0 \]
 so $\d{\alpha} = 0$ and similarly if $\delta \beta \in \Har^k(M)$ then $\d \delta \beta = 0$ but,
-\[ || \delta \beta || = \Inner{\delta \beta}{\delta \beta} = \Inner{\d \delta \beta}{\beta} = 0 \]
+\[ || \delta \beta ||^2 = \Inner{\delta \beta}{\delta \beta} = \Inner{\d \delta \beta}{\beta} = 0 \]
 so $\delta \beta = 0$. Therefore,
 \[ [\d(\Omega^{k-1}(M)) \oplus \delta(\Omega^{k+1}(M))] \cap \Har^k(M) = (0) \]
 showing that,
@@ -364,7 +372,7 @@ so this bilinear pairing is well-defined.
 Now, it suffices to prove that the pairing is non-degenerate. For any class $[\omega]$ we can choose a harmonic representative $\varphi$. Furhtermore $\star \varphi$ is harmonic since,
 \[ \Delta \star \varphi = \star \Delta \varphi = 0 \]
 so it represents a class $[\star \varphi] \in H^{n-k}_{\text{dR}}$. Then,
-\[ B([\omega], [\star \varphi]) = B([\varphi], [\star \varphi]) = \int_M \varphi \wedge (\star \varphi) = \int_M \inner{\varphi}{\varphi} \omega = || \varphi || = 0 \iff \varphi = 0 \]
+\[ B([\omega], [\star \varphi]) = B([\varphi], [\star \varphi]) = \int_M \varphi \wedge (\star \varphi) = \int_M \inner{\varphi}{\varphi} \omega = || \varphi ||^2 = 0 \iff \varphi = 0 \]
 which shows that $B$ is nondegenerate.
 \end{proof}
 
@@ -585,6 +593,7 @@ and thus,
 \[ \sum_{j = 1}^n \Theta_{ij} f_j = 0 \]
 If we assume that $f_i$ can be choosen to span then we must have $\Theta_{ij} = 0$ which implies $\omega_\nabla = 0$. This is also sufficient for integrability. 
 \end{proof}
+
 
 \end{document}
 

@@ -1,0 +1,303 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\tors}{\mathrm{tors}}
+\renewcommand{\C}{\mathbb{C}}
+\usepackage{mathdots}
+
+\begin{document}
+
+\subsection*{The L\"{u}roth Problem}
+
+\begin{defn}
+We say a variety over $k$ is,
+\begin{enumerate}
+\item \textit{rational} if there exists a birational map $\P^n \birat X$ or equivalently $k(X) \cong k(x_1, \dots, x_n)$
+\item \textit{unirational} if there exists a dominant rational map $\P^n \rat X$ or equivalently an embedding $k(X) \embed k(x_1, \dots, x_n)$.
+\end{enumerate}
+\end{defn}
+
+J. L\"{u}roth showed \cite{Luroth} that the notions of rationality and unirationality coincide for algebraic curves. This observation sparked the L\"{u}roth problem asking if rationality and unirationality are equivalent for higher dimensional varieties. Intuitively, the L\"{u}roth problem asks: if $X$ can be parametrized almost everywhere by rational functions, can this parametrization be made (generically) one-to-one? 
+\par
+The answer is affirmative for surfaces over a field of characteristic zero. This follows from Castelnuovo's criterion using the fact that field extensions in characteristic zero are separable. Therefore unirational dominations are generically \etale which implies that any variety dominated by $\P^n$ must have vanishing canonical invariants and thus must be rational by Castelnuovo's theorem. However, in positive characteristic, this argument fails due to the existence of inseparable maps and, consequently, counterexamples to the L\"{u}roth problem exist. The best known are due to Zariski \cite{zariski1958}, defined  by equations of the form $z^p = f(x, y)$, and Shioda \cite{shioda1974}, for certain Fermat surfaces of the form $x^n + y^n = z^n$. However, unlike the case of rational surfaces in which Castelnuovo's criterion applies, there are no known numerical techniques for detecting unirationality for surfaces in positive characteristic.
+\par
+Furthermore, the L\"{u}roth conjecture also fails for complex 3-folds as we aim to show. We can show a variety $X$ is unirational by exhibiting an explicit dominant rational map $\P^n \rat X$. However, to show that $X$ is not rational we need some invariant. Establishing irrationality of previous examples is either extremely complication or irrcorrect. Here we produce a cohomological invariant which is ``easy'' to check in practice.
+
+
+\section{Cohomology of Rational and Unirational Varities}
+
+\begin{rmk}
+Let $X$ be a variety over $\mathbb{C}$. Then let $H^q(X, \Z)$ denote the singular cohomology of $X^\an$ and $H_q(X, \Z)$ denote the singular homology of $X$ both with coefficients in $\Z$.
+\end{rmk}
+
+\begin{rmk}
+Let $X$ be a variety over $\mathbb{C}$. We write,
+\[ H_i(X, \Z) = \Z^{b_i} \oplus T_i \] 
+where $b_i = \dim_{\C} H^i(X, \C)$ is the $i^{\mathrm{th}}$ Betty number and $T_i$ is torsion. Notice that from the universal coefficient theorem, 
+\[ H^i(X, \C) = \Hom{\Z}{H_i(X, \Z)}{\C} = \C^{b_i} \]
+showing the above makes sense. Furthermore, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Ext{1}{\Z}{H_{i-1}(X, \Z)}{\Z} \arrow[r] & H^i(X, \Z) \arrow[r] & \Hom{\Z}{H_i(X, \Z)}{\Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but,
+\begin{align*}
+\Hom{\Z}{H_i(X, \Z)}{\Z} & = \Hom{\Z}{\Z^{b_{i}} \oplus T_{i}}{\Z} = \Z^{b_{i}}
+\\
+\Ext{1}{\Z}{H_{i-1}(X, \Z)}{\Z} & = \Ext{1}{\Z}{\Z^{b_{i-1}} \oplus T_{i-1}}{\Z} = \Ext{1}{\Z}{T_{i-1}}{\Z} = T_{i-1} 
+\end{align*}
+Therefore, the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T_{i-1} \arrow[r] & H^i(X, \Z) \arrow[r] & \Z^{b_{i}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+splits so we get $H^i(X, \Z) = \Z^{b_i} \oplus T_{i-1}$.
+\end{rmk}
+
+\begin{rmk}
+Let $X$ be a smooth proper variety over $\C$. Poincare duality gives an isomrophism $H^k(X, \Z) \iso H_{2n - k}$. Thus if $X$ is a smooth proper complex $3$-fold the cohomology takes the form,
+\begin{align*}
+H^0(X, \Z) & & & \cong \Z 
+\\
+H^1(X, \Z) & & &  \cong \Z^{b_1}
+\\
+H^2(X, \Z) & & & \cong \Z^{b_2} \oplus T_1
+\\
+H^3(X, \Z) & & &\cong \Z^{b_3} \oplus T_2
+\\
+H^4(X, \Z) & = H_2(X, \Z) & & \cong \Z^{b_2} \oplus T_2
+\\
+H^5(X, \Z) & = H_1(X, \Z) & & \cong \Z^{b_1} \oplus T_1
+\\
+H^6(X, \Z) & = H_0(X, \Z) & & \cong \Z
+\end{align*}
+\end{rmk}
+
+\begin{rmk}
+Furthermore, recall that for $X$ smooth and proper over $\mathbb{C}$ we get a Hodge decomposition,
+\[ H^n(X, \C) = H^n(X, \Z) \otimes_{\Z} \C = \bigoplus_{p + q = n} H^{p,q}(X) \]
+We also have shown the following result.
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \rat Y$ be a generically \etale dominant rational map of smooth proper varieties over $k$. Then there is an injection $f^* : H^0(Y, (\Omega_Y^p)^{\otimes m}) \embed H^0(X, (\Omega_X^p)^{\otimes m})$ in particular the Hodge numbers and plurigenera satisfy $h^{p,0}(Y) \le h^{p,0}(X)$ and $p_m(Y) \le p_m(X)$.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X$ be the domain on which $f$ is defined. Then $f : U \to X$ is a dominant generically \etale morphism. Therefore, $f^* \Omega_Y \to \Omega_U$ is an isomorphism at the generic point. Since $X$ and $Y$ are smooth these are vector bundles and thus $f^* \Omega_Y \to \Omega_U$ is injective. Likewise $(f^* \Omega_Y^p)^{\otimes m} \to (\Omega_U^p)^{\otimes m}$ is injective. Then there is a diagram,
+\begin{center}
+\begin{tikzcd}
+H^0(Y, (\Omega_Y^p)^{\otimes m})) \arrow[d, hook] \arrow[r, dashed] & H^0(X, (\Omega_X^p)^{\otimes m}) \arrow[d, equals]
+\\
+H^0(U, (f^* \Omega_Y^p)^{\otimes m}) \arrow[r, hook] & H^0(U, (\Omega_U^p)^{\otimes m}) 
+\end{tikzcd}
+\end{center}
+Restriction $H^0(X, (\Omega_X^p)^{\otimes m}) \to H^0(U, (\Omega_U^p)^{\otimes m})$ is an isomorphism because $\Omega_X$ is a vector bundle and $\codim{U, X} \ge 2$ since $X$ is smooth and $Y$ is proper. Furthermore the pullback map $H^0(Y, (\Omega_Y^p)^{\otimes m}) \to H^0(U, f^* (\Omega_Y^p)^{\otimes m})$ is injective because $f$ is dominant since we can check if a section vanishes by its value at the generic point. Thus, $H^0(Y, (\Omega_Y^p)^{\otimes m})) \embed H^0(X, (\Omega_X^p)^{\otimes m})$ is an injection.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a smooth proper separably unirational variety over $k$. Then $H^0(X, (\Omega^p_X)^{\otimes m}) = 0$. In particular, $h^{p, 0}(X) = 0$ for $p \ge 1$ and $p_m(X) = 0$ for $m \ge 1$.
+\end{cor}
+
+\begin{proof}
+Let $\P^n_k \rat X$ be a dominant rational map. Taking sufficiently general hyperplanes (may require infinite $k$) we reduce to the case $n = \dim{X}$ and $\P^n_k \rat X$ is generically finite. Since we assumed separability, $\P^n_k \rat X$ is generically \etale so there is an injection,
+\[ H^0(X, (\Omega_X^p)^{\otimes m}) \embed H^0(X, (\Omega_{\P^n}^p)^{\otimes m}) = 0 \]
+\end{proof}
+
+\begin{rmk}
+Over $\C$ all unirational varieties are separable unirational. Therefore, if $X$ is unirational then $h^{p, 0} = 0$. By Hodge symmetry $h^{0,p} = h^{p, 0} = 0$ and by Serre duality $h^{n-p,n} = h^{p,0} = 0$ as well. Thus, the complex cohomology of a unirational complex $3$-fold is,
+\begin{align*}
+H^0(X, \C) & = H^{0,0}(X) & & = \C
+\\
+H^1(X, \C) & = H^{1,0}(X) \oplus H^{0,1}(X) & & = 0
+\\
+H^2(X, \C) & = H^{2,0}(X) \oplus H^{1,1}(X) \oplus H^{0,2} & & = H^{1,1}(X)
+\\
+H^3(X, \C) & = H^{3,0}(X) \oplus H^{2,1}(X) \oplus H^{1,2}(X) \oplus H^{0,3}(X) & & =  H^{2,1}(X) \oplus H^{1,2}(X)
+\\
+H^4(X, \C) & = H^{3, 1}(X) \oplus H^{2, 2}(X) \oplus H^{3, 1}(X) & &  =H^{2, 2}(X)
+\\
+H^5(X, \C) & = H^{3, 2}(X) \oplus H^{2, 3}(X) & &  = 0
+\\
+H^6(X, \C) & = H^{3,3}(X) & & = \C
+\end{align*}
+\end{rmk}
+
+\begin{thm}[Serre]
+Let $X$ be a unirational complex varitety then $\pi_1(X) = 0$. In particular, by Hurewicz, $H_1(X, \Z) = 0$ so $b_1 = 0$ and $T_1 = 0$.
+\end{thm}
+
+\begin{rmk}
+Therefore, if $X$ is a unirational smooth proper complex $3$-fold, the cohomology takes the form,
+\begin{align*}
+H^0(X, \Z) & \cong \Z 
+\\
+H^1(X, \Z) & \cong 0
+\\
+H^2(X, \Z) & \cong \Z^{b_2}
+\\
+H^3(X, \Z) & \cong \Z^{b_3} \oplus T_2
+\\
+H^4(X, \Z) & \cong \Z^{b_2} \oplus T_2
+\\
+H^5(X, \Z) & \cong 0
+\\
+H^6(X, \Z) & \cong \Z
+\end{align*}
+Therefore, there are three remaining isomorphism invariants: $b_2, b_3$ and $T_2 = H^3(X, \Z)_{\tors}$. We can change $b_2$ by blowing up points and $b_3$ by blowing up curves, however it turns out that $T_2$ will be our birational invariant detecting rationality.
+
+\end{rmk}
+
+
+
+\section{The Main Theorem}
+
+
+
+\begin{theorem}
+For smooth proper varieties over $\mathbb{C}$, the torsion group $H^3(X, \Z)_{\tors}$ is a birational invariant.
+\end{theorem}
+
+The structure of the proof is as follows:
+\begin{enumerate}
+\item[(1)] if $f : X \to Y$ is a birational \textit{morphism} then $f^* : H^3(Y, \Z)_{\tors} \to H^3(X, \Z)_{\tors}$ is injective.
+\item[(2)] if $f : \tilde{X} \to X$ is a blowup of a smooth subvariety $Y \subset X$ then $f^* : H^3(X, \Z)_{\tors} \iso H^3(\tilde{X}, \Z)_{\tors}$ is an isomorphism.
+\item[(3)] use Hironaka's resolution of singularities to reduce to the general case: if $f : X \birat Y$ is a birational morphism then there is an injection $H^3(Y, \Z)_{\tors} \to H^3(X, \Z)_{\tors}$
+\item[(4)] finally if $X$ and $Y$ are birational then we get embeddings $H^3(Y, \Z)_{\tors} \embed H^3(X, \Z)_{\tors}$ and $H^3(X, \Z)_{\tors} \embed H^3(Y, \Z)_{\tors}$ which implies $H^3(X, \Z)_{\tors} \cong H^3(Y, \Z)_{\tors}$ since these are finitely generated abelian groups.
+\end{enumerate}
+
+\subsection{Step 1}
+
+Let $f : X \to Y$ be a birational morphism. The standard pullback map $f^* : H^q(Y, \Z) \to H^q(X, \Z)$ has a left inverse as follows. Consider the pushforward map $f_* : H_q(X, \Z) \to H_q(Y, \Z)$ on homology. Now applying Poincare duality: $H^q(X, \Z) \iso H_{2n-q}(X, \Z)$ via $\alpha \mapsto [X] \frown \alpha$ we get,
+\begin{center}
+\begin{tikzcd}
+H^q(X, \Z) \arrow[r, dashed, "f_*"] \arrow[d, equals] & H^q(Y, \Z) \arrow[d, equals]
+\\
+H_{2n - q}(X, \Z) \arrow[r, "f_*"] & H_{2n - q}(Y, \Z)
+\end{tikzcd}
+\end{center}
+Furthermore, I claim that $f_* f^* = \id$. It suffices to show that $f_*([X] \frown f^* \alpha) = [Y] \frown \alpha$. However, there is a general formula $f_*(\eta \frown f^* \alpha) = f_* \eta \frown \alpha$ so it suffices to show that $f_* [X] = [Y]$ which follows from the fact that $f$ is birational. 
+\bigskip\\
+Now the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K^q \arrow[r] & H^q(X, \Z) \arrow[r, "f_*"'] & H^q(Y, \Z) \arrow[r] \arrow[l, bend right, "f^*"'] & 0
+\end{tikzcd}
+\end{center}
+splits so,
+\[ H^q(X, \Z) = H^q(Y, \Z) \oplus K^q \]
+Likewise, $f^* : H^q(Y, \Z) \to H^q(X, \Z)$ is injective so $f^* : H^q(Y, \Z)_{\tors} \embed H^q(X, \Z)_{\tors}$ is injective.
+
+\subsection{Step 2}
+
+Let $f : \tilde{X} \to X$ be the blowup of a smooth subvariety $Y \subset X$ of codimension $r + 1$. Above each point $y \in Y$ the fiber of $f$ is $X_y = \P^r \to \Spec{\C}$ and on $U = X \setminus Y$ the map $f : f^{-1}(U) \to U$ is an isomorphism. Thus $f : E \to Y$ is a $\P^r$-bundle and, away from $E \subset \tilde{X}$, $f$ is an isomorphism. Complex analytically $E \to Y$ is a $\P^r$-bundle meaning locally isomorphic to $U \times \P^r$ over $U$. Therefore, 
+\[ R^q f'_* \Z_E = \underline{H^q(\P^r, \Z)} = 
+\begin{cases}
+\Z_Y & q = 2i \text{ and } 0 \le i \le r
+\\
+0 & \text{else}
+\end{cases} \]
+Consider the base change via $Y \embed X$ which gives a cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+E \arrow[d, "f'"'] \arrow[r] & \tilde{X} \arrow[d, "f"] 
+\\
+Y \arrow[r, "\iota"] & X
+\end{tikzcd}
+\end{center}
+for which we apply proper base change to conclude that,
+\[ \iota^* R^q f_* \Z_{\tilde{X}} = R^q f'_* \Z_E \]
+Furthermore, $f : f^{-1}(U) \to U$ is an isomorphism so $(R^q f_* \Z_{\tilde{X}}) = 0$ for $q > 0$ and $f_* \Z_{\tilde{X}} = \Z_X$. Therefore, since $\iota : Y \to X$ is a closed embedding the functors $\iota^*$ and $\iota_*$ give an equivalence of categories between sheaves on $Y$ and sheaves supported on $Y$ so we compute,
+\[ R^q f_* \Z_{\tilde{X}} = 
+\begin{cases}
+\Z_{X} & q = 0
+\\
+\iota_* \Z_{Y} & q = 2i \text{ and } 0 < i \le r
+\\
+0 & \text{else}
+\end{cases} \]
+Now we consider the Leray spectral sequence, $E_2^{p,q} = H^p(X, R^q f_* \Z) \implies H^{p+q}(X, \Z)$. Notice that $E_2$ page only has columns in even degree so $d_r = 0$ for $r$ even. In particular, $E_3^{p,q} = E_2^{p,q}$ and $E_5^{p,q} = E_4^{p,q}$. However, interesting stuff happens in the $E_3$ differential. We are interested in $H^3(X, \Z)$ and $H^4(X, \Z)$ and notice that if $p + q \le 4$ and $r > 4$ then $\d : E^{p - r, q + r - 1}_r \to E^{p, q}_r$ is zero and $\d : E^{p,q}_r \to E^{p + r, q - r + 1}_r$ is zero except for $E^{0, 4}_5 \to E^{5, 0}_5$ so when $p + q \le 4$,
+\[ E^{p,q}_{\infty} =
+\begin{cases}
+E^{0, 4}_6 = \ker{(E^{0, 4}_5 \to E^{5,0}_5)} & (p,q) = (0,4)
+\\
+E^{p,q}_5 = E^{p,q}_4 & (p,q) \neq (0, 4)
+\end{cases} \]
+Now we need to investigate the $E_4$ page. The relevant terms are,
+\begin{align*}
+E^{4,0}_\infty & = E^{4,0}_4 = \coker{(\d_3 : E^{1,2}_3 \to E^{4,0}_3)} 
+\\
+E^{3,0}_\infty & = E^{3,0}_4 = \coker{(\d_3 : E^{0,2}_3 \to E^{3,0}_3)}
+\\
+E^{2,2}_{\infty} & = E^{2,2}_4 = \ker{(\d_3 : E^{2,2}_3 \to E^{5, 0}_3)}
+\\
+E^{1,2}_{\infty} & = E^{1,2}_4 = \ker{(\d_3 : E^{1,2}_3 \to E^{4, 0}_3)}
+\\
+E^{0,4}_{\infty} & = E^{0,4}_4 = \ker{(\d_3 : E^{0, 4}_4 \to E^{3, 2}_3)}
+\end{align*}
+Now there is a filtration,
+\[ 0 = F^4 \subset F^3 \subset F^2 \subset F^1 \subset F^0 = H^3(\tilde{X}, \Z) \]
+where $F^p / F^{p+1} = E^{p,3-p}_\infty$ so $F^1 = F^0$ and $F^2 = F^3$ giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E^{3,0}_\infty \arrow[r] & H^3(\tilde{X}, \Z) \arrow[r] & E^{1,2}_{\infty} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore a sequence,
+\begin{center}
+\begin{tikzcd}
+E_3^{0,2} \arrow[r] & E^{3,0}_2 \arrow[r] & H^3(\tilde{X}, \Z) \arrow[r] & E^{1,2}_2 \arrow[r] & E^{4,0}_2 
+\end{tikzcd}
+\end{center}
+Furthermore, $\coker{(\d_3 : E^{1,2}_3 \to E^{4,0}_2)} = E^{4,0}_{\infty} \embed H^4(\tilde{X}, \Z)$ because the filtration,
+\[ 0 = F^5 \subset F^4 \subset F^3 \subset F^2 \subset F^1 \subset F^0 \subset H^4(\tilde{X}, \Z) \]
+satisfies $F^4 = F^4/F^5 = E^{4,0}_\infty$ so we may extend our sequence to,
+\begin{center}
+\begin{tikzcd}
+E_3^{0,2} \arrow[r] & E^{3,0}_2 \arrow[r] & H^3(\tilde{X}, \Z) \arrow[r] & E^{1,2}_2 \arrow[r] & E^{4,0}_2 \arrow[r] & H^4(\tilde{X}, \Z)
+\end{tikzcd}
+\end{center}
+Now plugging in $E_2^{p,q} = H^p(X, R^q f_* \Z)$ and using that $H^p(X, \iota_* \Z_Y) = H^p(Y, \Z)$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+H^0(Y, \Z) \arrow[r] & H^3(X, \Z) \arrow[r, "f^*"'] & H^3(\tilde{X}, \Z) \arrow[l, bend right, "f_*"'] \arrow[r] & H^1(Y, \Z) \arrow[r] & H^4(X, \Z) \arrow[r, "f^*"'] & H^4(\tilde{X}, \Z) \arrow[l, bend right, "f_*"']
+\end{tikzcd}
+\end{center}
+which is split at $f^* : H^p(X, \Z) \to H^p(\tilde{X}, \Z)$ via $f_* : H^p(\tilde{X}, \Z) \to H^p(X, \Z)$ satisfying $f_* f^* = \id$. In particular $f^*$ is injective meaning that $H^0(Y, \Z) \to H^3(X, \Z)$ and $H^1(Y, \Z) \to H^4(X, \Z)$ are zero. This gives a split short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^3(X, \Z) \arrow[r, "f^*"'] & H^3(\tilde{X}, \Z) \arrow[l, bend right, "f_*"'] \arrow[r] & H^1(Y, \Z) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore,
+\[ H^3(\tilde{X}, \Z) = H^3(X, \Z) \oplus H^1(Y, \Z) \]
+Since $Y$ is a smooth proper complex variety over $\C$ (thus a complex manifold) we have shown $H^1(Y, \Z)$ is torsion-free. Therefore, it is clear that $H^3(\tilde{X}, \Z)_{\tors} = H^3(X, \Z)_{\tors}$.
+
+\subsection{Step 3}
+
+Finally, let $f : X \rat Y$ be a birational map. We can turn this into a birational \textit{morphism} by invoking Hironaka's resolution of singularities. By resolving the graph of $f$ we get a diagram,
+\begin{center}
+\begin{tikzcd}
+& & & \tilde{X}_n \arrow[ld] \arrow[rrrrrddd, "f'"] 
+\\
+& & \iddots \arrow[ld]
+\\
+& \tilde{X}_1 \arrow[ld]
+\\
+X \arrow[rrrrrrrr, dashed, "f"] & & & & & & & & Y
+\end{tikzcd}
+\end{center}
+Where the maps $p_i : \tilde{X}_i \to \tilde{X}_{i-1}$ are blowups at smooth subvarieties and $f' : \tilde{X}_n \to Y$ is a birational morphism. Using the previous parts we conclude that $H^3(X, \Z)_{\tors} = H^3(\tilde{X}_n, \Z)_{\tors}$ and $H^3(Y, \Z)_{\tors} \embed H^3(\tilde{X}_n, \Z)_{\tors}$ giving an embedding,
+\[ H^3(Y, \Z)_{\tors} \embed H^3(\tilde{X}_n, \Z)_{\tors} \]
+Since $X$ and $Y$ are birational the same argument applies in the opposite direction. Finally, because these groups are finitely generated abelian groups which embed into eachother we must have $H^3(X, \Z)_{\tors} = H^3(Y, \Z)_{\tors}$.
+
+\subsection{Positive Characteristic}
+
+\section{Brauer Classes}
+
+\section{Examples}
+
+\end{document}

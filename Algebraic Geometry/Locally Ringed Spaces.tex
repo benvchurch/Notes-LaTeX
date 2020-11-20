@@ -1,0 +1,340 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+
+\begin{document}
+
+\section{The Categories of Ringed and Locally Ringed Spaces}
+
+\begin{defn}
+A \textit{ringed space} $(X, \struct{X})$ is a topological space $X$ and a sheaf of rings $\struct{X}$ on $X$. A morphism of ringed spaces $f : (X, \struct{X}) \to (Y, \struct{Y})$ is a pair $(f, f^\#)$ such that $f : X \to Y$ is a continuous map and $f^\# : \struct{Y} \to f_* \struct{X}$ is a morphism of sheaves on $Y$.
+\end{defn}
+
+\begin{defn}
+A \textit{locally ringed space} $(X, \struct{X})$ is a ringed space such that at each point $x \in X$ the stalk $\stalk{X}{x}$ is a local ring. A morphism of locally ringed spaces $f : (X, \struct{X}) \to (Y, \struct{Y})$ is a morphism of ringed spaces such that $f^\# : \stalk{Y}{y} \to \stalk{X}{x}$ is a local map.
+\end{defn}
+
+\begin{rmk}
+Denote the unique maximal ideal $\m_x \subset \stalk{X}{x}$ and the residue field $\kappa(x) = \stalk{X}{x} / \m_x$.
+\end{rmk}
+
+\newcommand{\RS}{\mathbf{RS}}
+\newcommand{\LRS}{\mathbf{LRS}}
+
+\begin{defn}
+We write the category of ringed spaces as $\RS$ and the category of locally ringed spaces as $\LRS$. There are functors $\LRS \embed \RS \to \Top$.
+\end{defn}
+
+\begin{rmk}
+The forgetful functor $\RS \to \Top$ is neither full nor faithful.
+\end{rmk}
+
+\begin{prop}
+The categories $\RS$ and $\LRS$ are complete and cocomplete.
+\end{prop}
+
+\begin{proof}
+REFERENCE!
+\end{proof}
+
+\begin{prop}
+The forgetful functor $F : \RS \to \Top$ admits a left and a right adjoint and thus preserves all limits and colimits.
+\end{prop}
+
+\begin{proof}
+Consider the functors $A, B : \Top \to RS$ defined by $A(X) = (X, \underline{0})$ and $B(X) = (X, \underline{\Z})$. Then,
+\[ \Hom{\RS}{Y}{A(X)} = \Hom{\Top}{F(Y)}{X} \]
+because there is a unique map of sheaves $\underline{\Z} \to f_* \struct{Y}$. Furthermore,
+\[ \Hom{\RS}{B(X)}{Y} = \Hom{\Top}{X}{F(Y)} \]
+because there is a unique map of sheaves $\struct{Y} \to f_* \underline{0} = \underline{0}$.
+\end{proof}
+
+\begin{prop}
+The inclusion $\iota : \LRS \embed \RS$ admits a right adjoint and thus preserves all colimits.
+\end{prop}
+
+\begin{proof}
+There is a localization functor $\mathrm{Spec} : \RS \to \LRS$ (see https://arxiv.org/pdf/1103.2139.pdf) such that,
+\[ \Hom{\LRS}{X}{\Spec{Y}} = \Hom{\RS}{\iota(X)}{Y} \]
+\end{proof}
+
+\begin{rmk}
+The inclusion $\iota : \LRS \embed \RS$ cannot admit a left adjoint since it does not preserve all limits. In particular, $\Spec{\Z}$ is the finial object (empty limit) in $\LRS$ however $(*, \underline{\Z})$ is the final object in $\RS$.
+\end{rmk}
+
+\section{The Categories of Schemes and Affine Schemes}
+
+\begin{defn}
+An \textit{affine scheme} is a locally ringed space isomorphic to $\Spec{A}$ for a ring $A$.
+\end{defn}
+
+
+\begin{defn}
+A \textit{scheme} is a locally ringed space locally isomorphic to an affine scheme.
+\end{defn}
+
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\CRing}{\mathbf{CRing}}
+
+\begin{rmk}
+We write the category of affine schemes as $\AffSch$ and the category of schemes as $\Sch$. There are fully faithful inclusions $\AffSch \embed \Sch \embed \LRS$.
+\end{rmk}
+
+\begin{lemma}
+The functor $\LRS \to \AffSch$ given by $X \mapsto \Spec{\Gamma(X, \struct{X})}$ is left adjoint to the inclusion $\AffSch \embed \LRS$ via,
+\begin{align*}
+\Hom{\LRS}{X}{\Spec{R}} & = \Hom{\CRing}{R}{\Gamma(X, \struct{X})} = \Hom{\CRing^\op}{\Gamma(X, \struct{X})}{R}
+\\
+& = \Hom{\AffSch}{\Spec{\Gamma(X, \struct{X})}}{\Spec{R}}
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+DO THSI!!!
+\end{proof}
+
+\begin{rmk}
+Note the locality of $\stalk{X}{x}$ is essential in the proof. Therefore, there cannot exist an ajoint to $\AffSch \embed \RS$ and correspondingly this functor preserves neither colimts or limits. In fact, it does not preserve either products or coproduts in general.
+\end{rmk}
+
+\begin{prop}
+There is an equivalence of categories $\CRing^\op \iso \AffSch$.
+\end{prop}
+
+\begin{proof}
+Obvious from the above applied to,
+\[ \Hom{\AffSch}{\Spec{A}}{\Spec{R}} = \Hom{\CRing}{R}{A} \]
+\end{proof}
+
+\begin{lemma}
+Let $\cA \xrightarrow{F} \cB \xrightarrow{G} \C$ functors with $G$ fully faithful. Suppose that $G \circ F : \cA \to \C$ has a left (right) adjoint $A : \C \to \cA$ then $A \circ G$ is left (right) adjoint to $F : \cA \to \cB$.
+\end{lemma}
+
+\begin{proof}
+We know,
+\[ \Hom{\cA}{A(X)}{Y} = \Hom{\C}{X}{GF(Y)} \]
+Now consider,
+\[ \Hom{\cB}{X}{F(Y)} = \Hom{\C}{G(X)}{GF(Y)} = \Hom{\cA}{AG(X)}{Y} \]
+where the first equality uses that $G$ is fully faithful.
+\end{proof}
+
+\begin{cor}
+The functor $\Sch \to \AffSch$ given by $X \mapsto \Spec{\Gamma(X, \struct{X})}$ is right adjoint to the inclusion $\AffSch \embed \Sch$.
+\end{cor}
+
+\begin{rmk}
+In particular, the inclusions $\AffSch \embed \Sch$ and $\AffSch \embed \LRS$ preserve limits. 
+\end{rmk}
+
+\begin{rmk}
+Neither inclusion has a right adjoint because they do not preserve arbitrary colimits. For example, there are pushouts off affine schemes in the category of schemes which produce non affine schemes via gluing.
+\end{rmk}
+
+\begin{lemma}
+Let $F : \cA \to \cB$ be left adjoint to $G : \cB \to \cA$. Then $F$ is fully faithfull iff the unit $\id_{\cA} \to GF$ is a natural isomorphism and $G$ is fully faithfull iff the counit $FG \to \id_{\cB}$ is a natural isomorphism.
+\end{lemma}
+
+\begin{proof}
+Consider,
+\[ \Hom{\cA}{X}{Y} \to \Hom{\cB}{F(X)}{F(Y)} \iso \Hom{\cA}{X}{GF(Y)} \]
+By Yoneda, this is a natural isomorphism iff $\eta_Y : Y \to GF(Y)$ is a natural isomorphism. A similar argument holds for $G$.
+\end{proof}
+
+\section{``Geometrical'' Spaces over Fields}
+
+\begin{defn}
+Let $k$ be a field. A \textit{geometrical} $k$-space is a locally ringed space $X \to \Spec{k}$ over $\Spec{k}$ such that the structure map $k \to \kappa(x)$ is an isomorphism at each point $x \in X$ and $X$ is $T_1$ and for any $f \in \struct{X}(U)$ that $(\forall x \in X : f(x) = 0) \iff f = 0$ ($f(x) = f_x \in \stalk{X}{x} / \m_x = k$). Morphisms of geometrical $k$-spaces are morphisms of locally ringed spaces over $\Spec{k}$.
+\end{defn}
+
+\begin{rmk}
+We require that all residue fields are the base field (which is preserved by morphisms), that all points are closed, and that regular functions are determined by their values at points.
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphims of locally ringed spaces. Then for any section $s \in \struct{Y}(U)$ we have $f^{-1}(V(s)) = V(f^\#(s))$.
+\end{lemma}
+
+\begin{proof}
+Because the map $f^\# : \stalk{Y}{y} \to \stalk{X}{x}$ is local we get,
+\begin{align*}
+x \in f^{-1}(V(s)) & \iff f(x) \in V(s) \iff s_{f(x)} \in \m_{f(x)} = (f^\#)^{-1}(\m_x) 
+\\
+& \iff f^\#(s_{f(x)}) = (f^{\#}(s))_x \in \m_x \iff x \in V(f^{\#}(s))
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphims of locally ringed spaces. Then for any section $s \in \struct{Y}(U)$ and any point $x \in X$ we have $[f^\#(s)](x) = s(f(x))$. 
+\end{lemma}
+
+\begin{proof}
+Since the map $f^\# : \stalk{Y}{y} \to \stalk{X}{x}$ is local it descends to residue fields such that there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+\struct{Y}(U) \arrow[r, "f^\#"] \arrow[d, "\res"] & \struct{X}(f^{-1}(U)) \arrow[d, "\res"]
+\\
+\stalk{Y}{f(x)} \arrow[d, two heads] \arrow[r, "f^\#"] & \stalk{X}{x} \arrow[d, two heads]
+\\
+\kappa(f(x)) \arrow[r, hook] & \kappa(x)
+\end{tikzcd}
+\end{center}
+Therefore, the image of $s$ in $\kappa(f(x)) \subset \kappa(x)$ is the same as the image of $f^\#(s)$ in $\kappa(x)$.
+\end{proof}
+
+\begin{prop}
+Morphisms of geometrically $k$-spaces are determined uniquely by their underlying continuous map of topological spaces.
+\end{prop}
+
+\begin{proof}
+Suppose that $f, g : X \to Y$ are two morphims of geometrical $k$-spaces which agree on topological spaces. Then consider a section $s \in \struct{Y}(U)$ and consider $f^\#(s) - g^\#(s) \in \stalk{X}(f^{-1}(U))$. Then,
+\[ [f^\#(s) - g^\#(s)](x) = s(f(x)) - s(f(x)) = 0 \]
+and thus $f^\#(s) - g^\#(s) = 0$ because regular functions on geometrical $k$-spaces are determined by their values. Thus $f = g$.
+\end{proof}
+
+\begin{rmk}
+In this proof we only require locally ringed space with the property that for any $f \in \struct{X}(U)$,
+\[ (\forall x \in X : f(x) = 0) \iff f = 0 \] 
+\end{rmk}
+
+\begin{defn}
+
+\end{defn}
+
+\subsection{Manifolds}
+
+\begin{rmk}
+If we did not require our morphisms to be over $\Spec{k}$ we would get the wrong category whenever $k$ admits automorphisms. For example, $\struct{X}$ has automorphisms on a complex manifold given by $\struct{X}(U) \to \struct{X}(U)$ sending $s \mapsto \bar{s}$. However, this is the identity topologically so morphims of these spaces would not be determined by the underlying continuous maps. Therefore, to get the correct category of complex manifolds we need to require our maps to be over $\Spec{\mathbb{C}}$.
+\end{rmk}
+
+\subsection{Classical Varieties}
+
+\section{Open Immersions}
+
+\section{Closed Immersions}
+
+\begin{defn}
+A map $f : X \to Y$ of ringed spaces is a \textit{closed immersion} if,
+\begin{enumerate}
+\item $f : X \to Y$ is topologically a homeomorphism onto a closed subset
+\item $\struct{Y} \to f_* \struct{X}$ is surjective,
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The stacks project requires that $\I = \ker{(\struct{Y} \to f_* \struct{X})}$ be locally generated by sections such that in the case of schemes $\I$ is quasi-coherent. Therefore, every closed immersion into a scheme comes from a scheme showing that closed subspaces of schemes are automatically schemes. We do not take this definition so schemes may have closed subspaces which are not schemes however the closed subspaces given by quasi-coherent sheaves of ideals are schemes.
+\end{rmk}
+
+\begin{rmk}
+Recall the Zariski tangent space at $x \in X$ is $T_{X,x} = \Hom{\kappa(x)}{\m_x / \m_x^2}{\kappa(x)}$ and we likewise define $T^*_{X,x} = \m_x / \m_x^2$, the Zariski cotangent space.
+\end{rmk}
+
+\begin{prop}
+A closed immersion $f : Z \to X$ of locally ringed spaces induces a surjective map of Zariski cotangent spaces.
+\end{prop}
+
+\begin{proof}
+By definition $\struct{X} \to f_* \struct{Z}$ is surjective and thus $\stalk{X}{x} \to (f_* \struct{Z})_x$ is surjective. Furthermore, because $f$ is a homeomorphism onto its image the map $(f_* \struct{Z})_x \to \stalk{Z}{x}$ is an isomorphism when $x \in Z$ (because every open neighborhood of $x \in Z$ is a preimage of an open neighborhood of $x \in X$). Therefore, we get a surjection $\stalk{X}{x} \to \stalk{Z}{x}$ for $x \in Z$. Since this map is local, we get a surjection $\m_x \to \m_z$ (since $\m_x$ is the preimage of $\m_z$) and thus a surjection $\m_x / \m_x^2 \to \m_z / \m_z^2$.  
+\end{proof}
+
+\begin{prop}
+A closed immersion $f : Z \to X$ of geometric $k$-spaces induces injective maps $T_{Z, x} \to T_{X, x}$ for each $x \in Z$.
+\end{prop}
+
+\begin{proof}
+From the previous proposition $\m_x / \m_x^2 \to \m_z / \m_z^2$ is surjective. Then recall that $\kappa(x) = k$ and thus dualizing to $T_{X, x} = \Hom{k}{\m_x / \m_x^2}{k}$ gives injections $T_{Z,z} \to T_{X, x}$.
+\end{proof}
+
+\newcommand{\R}{\mathbb{R}}
+
+\begin{prop}
+A morphism of smooth manifolds $f : M \to N$ (viewed as geometrical $k$-spaces) is a closed immersion (in the sense of locally ringed spaces) iff
+\begin{enumerate}
+\item $f : M \to N$ is a topological embedding i.e. a homeomorphism onto a closed immage
+\item for each $x \in M$ the map $T_{M,x} \to T_{N,x}$ is injective i.e. $f$ is a (classical) immersion.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The only if direction follows from the previous propositions. Now consider the if direction. Let $f : M \to N$ be a morphism of geometrical $k$-spaces satisfying the hypothesis. It suffices to show that the sheaf map $\struct{N} \to f_* \struct{M}$ is surjective. Let $y = f(x)$ then the hypothesis give surjections $\m_y / \m_y^2 \to \m_x / \m_x^2$. We need to show that $\stalk{N}{y} \to \stalk{M}{x}$ is a surjection (recally that $(f_* \struct{N})_y = \stalk{M}{x}$). This follows from the constant rank theorem since we can replace $f$ locally by $\d{f} : T_{M,x} \to T_{N,y}$ which is linear and injective and thus admits a left inverse showing that the sheaf map is locally surjective.
+\end{proof}
+
+
+\begin{example}
+Consider the map $\R \to \R^2$ via $t \mapsto (t^2, t^3)$. Then for any smooth map $F : \R^2 \to \R$ it pulls back to $\R \to \R$ via $t \mapsto F(t^2, t^3)$. Such a function must have vanishing derivative at $t = 0$ since $F$ is smooth everywhere and thus $\id : \R \to \R$ is not of this form. Thus we see that the sheaf map giving by pulling back is not surjective. This reflects the fact that $t \mapsto (t^2, t^3)$ is not an immersion of manifolds.
+\end{example}
+
+\begin{rmk}
+This example and the previous propositions justify our definition for a closed immersion of arbitrary locally ringed spaces.
+\end{rmk}
+
+\begin{prop}
+There is a correspondence between closed subspaces $\iota : Z \embed X$ and sheaves of ideals $\I \subset \struct{X}$.
+\end{prop}
+
+\begin{proof}
+DO THISS!!
+\end{proof}
+
+\begin{prop}
+Let $X$ be a scheme. Then the closed subschemes correspond exactly the quasi-coherent sheaves of ideals $\I \subset \struct{X}$.
+\end{prop}
+
+\begin{proof}
+DO THIS!!
+\end{proof}
+
+\begin{lemma}
+Let $\iota : Z \embed X$ be a topological embedding. Then there is an equivalence of categories,
+\begin{align*}
+\{ \text{abelian sheaves on } Z \} & \iso \{ \text{abelian sheaves on } X \text{ supported on } \iota(Z) \}
+\\
+\F & \mapsto \iota_* \F
+\\
+\iota^{-1} \G & \mapsfrom \G
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+Because $\iota : Z \embed X$ is a topological closed embedding,
+\[ (\iota_* \F)_x = 
+\begin{cases}
+\F_x & x \in Z
+\\
+0 & \text{else} 
+\end{cases} \]
+Therefore, $\iota_*$ is exact. Furthermore, consider the adjunction map $\iota^{-1} \iota_* \F \to \F$ then for any $z \in Z$ the stalk map $(\iota^{-1} \iota_* \F)_z \to \F_z$ is an isomorphism since $\iota^{-1}$ preserves stalks. Furthermore, suppose $\G$ is a sheaf on $X$ supported on $\iota(Z)$. Consider the adjunction map $\G \to \iota_* \iota^{-1} \G$ which is again an isomorphism because on stalks $\G_x \to (\iota_* \iota^{-1} \G)_x$ is an isomorphism since $\G_x = 0$ for $x \notin Z$.
+\end{proof}
+
+\begin{prop}
+Let $\iota : Z \embed X$ be a closed immersion of locally ringed spaces with corresponding ideal sheaf $\I \subset \struct{X}$. Then the functor $\iota_* : \shMod{\struct{Z}} \to \shMod{\struct{X}}$ has essential image those $\struct{X}$-modules with $\I \F = 0$ giving an equivalence of categories,
+\begin{align*}
+\shMod{\struct{Z}} & \iso \{ \F \in \shMod{\struct{X}} \mid \I \F = 0 \}
+\\
+\F & \mapsto \iota_* \F
+\\
+\iota^{*} \G & \mapsfrom \G
+\end{align*}
+\end{prop}
+
+\begin{proof}
+Consider the adjunction map $\iota^* \iota_* \F \to \F$. For $z \in Z$ we have,
+\[ (\iota^* \iota_* \F)_z = (\iota_* \F)_z \otimes_{\stalk{X}{z}} \stalk{Z}{x} = \F_z \otimes_{\stalk{X}{z}} \stalk{Z}{x} = \F_z \]
+because $\F_z$ is a $\stalk{Z}{z}$-module and the map $\stalk{X}{z} \to \stalk{Z}{z}$ is surjective. Therefore, $\iota^* \iota_* \F \to \F$ is an isomorphism. Likewise, suppose that $\G$ is a sheaf of $\struct{X}$-modules with $\I \G = 0$. Then consider the adjunction map $\G \to \iota_* \iota^* \G$. For $x \in \iota(Z)$ as previously,
+\[ (\iota_* \iota^* \G)_x = (\iota^* \G)_x = \G_x \otimes_{\stalk{X}{x}} \stalk{Z}{x} = \G_x \otimes_{\stalk{X}{x}} (\stalk{X}{x} / \I_x) = \G \]
+because tensoring the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I_x \arrow[r] & \stalk{X}{x} \arrow[r] & \stalk{Z}{x} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with the $\stalk{X}{x}$-module $\G_x$ gives,
+\begin{center}
+\begin{tikzcd}
+\G_x \otimes_{\stalk{X}{x}} \I_x \arrow[r] & \G_x \arrow[r] & \G_x \otimes_{\stalk{X}{x}} \stalk{Z}{x} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+however the image of $\G_x \otimes_{\stalk{X}{x}} \I_x = \I_x \G_x = 0$ so we get an isomorphims $\G_x \iso \G_x \otimes_{\stalk{X}{x}} \stalk{Z}{x}$. Furthermore, if $x \notin \iota(Z)$ then $(\iota_* \iota^* \G)_x = 0$. However, I claim $\G_x = 0$ so the map $\G \to \iota_* \iota^* \F$ is still an isomorphism at $x \notin \iota(Z)$. This follows because $\I_x = \stalk{X}{x}$ when $x \notin \Supp{\struct{X}}{\struct{X}/\I}$ and thus if $\I_x \G_x = 0$ then $\G_x = 0$. 
+\end{proof}
+
+\end{document}
