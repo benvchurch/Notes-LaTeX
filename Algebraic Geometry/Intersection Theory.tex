@@ -1,0 +1,204 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\section{The Chow Group}
+
+\subsection{Flat Pullback}
+
+
+\subsection{Proper Pushforward}
+
+\section{Introduction to Intersection}
+
+Let $X$ be an integral scheme proper over $S = \Spec{R}$ of dimension $2$ with $R$ noetherian. Given integral closed subschemes $C, D \subset X$ we want to make sense of the intersection $C \frown D$. For simplicitly, suppose that $C, D$ are prime Cartier divisors. Then we would want the intersection multiplicity at $x \in X$ to be,
+\[ \iota_x(C, D) = \ell_{\stalk{X}{x}} \left( \stalk{X}{x}/(f, g) \right) \]
+where $f, g$ are the local equations cutting out $C$ and $D$ i.e. there is an affine open neightborhood $x \in U = \Spec{A}$ with $C \cap U = V(f)$ and $D \cap U = V(g)$. I claim these intersection multiplicities piece together to give a meaningful cycle in $A_0(X)$. 
+
+\begin{defn}
+Let $X$ be a noetherian scheme and $Z_i \subset X$ its irreducible components. Then the fundamental class of $X$ is,
+\[ [X] := \sum_{i = 1}^n m_i [Z_i] \in A_*(X) \]
+where the multiplicities are,
+\[ m_i = \ell_{\stalk{X}{\xi_i}}\left( \stalk{X}{\xi_i} \right) \] 
+where $\xi_i$ is the generic point of $Z_i$.
+\end{defn}
+
+\begin{example}
+Let $X = \Spec{k[x,y]/(xy^2)}$. Then the irreducible components are $Z_1 = V(x)$ and $Z_2 = V(y)$ with generic points $\xi_1 = (x)$ and $\xi_2 = (y)$. However, notice that,
+\[ \stalk{X}{\xi_1} = k(y) \]
+is a field so $m_1 = 1$ but,
+\[ \stalk{X}{\xi_2} = k(x)[y]/(y^2) \]
+has length $2$ over itself with submodule $(0) \subset (y) \subset \stalk{X}{\xi_2}$ reflecting the doubling of the $x$-axis. Therefore,
+\[ [X] = [Z_1] + 2 [Z_2] \]
+\end{example}
+
+\begin{example}
+Suppose that $X$ is noetherian dimension zero scheme. Then $X = \Spec{A}$ for an artinian ring $A$. Then,
+\[ [X] = \sum_{\m \subset A}  \ell_{A_\m} \left( A_\m \right) \cdot [V(\m)] \]
+and we see that,
+\[ \deg{[X]} = \sum_{\m \subset A} \ell_{A_\m} \left( A_\m \right) = \ell_{A} \left( A \right) \]
+\end{example}
+
+
+\begin{rmk}
+When $C$ and $D$ intersect properly, i.e. $\dim{(C \cap D)} = 0$, we might define the intersection class of $C, D \subset X$ as follows. Let $(C \cap D) \subset X$ be the scheme theoretic intersection,
+\begin{center}
+\begin{tikzcd}
+C \cap D \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d, hook] \arrow[r, hook] & D \arrow[d, hook]
+\\
+C \arrow[r, hook] & X
+\end{tikzcd}
+\end{center}
+then define $C \frown D = \iota_* [C \cap D]$ where $\iota : C \cap D \to X$ is the inclusion. If we take a point $x \in C \cap D$ and a sufficiently small open neighborhood $U = \Spec{A}$ then notice $C \cap D \cap U = \Spec{A / (f, g)}$ which is artinian so,
+\begin{align*}
+[C \cap D \cap U] & = \sum_{\m \in V(f, g)} \ell_{A_\m / (f, g)} \left( A_\m / (f, g) \right) \cdot [\m] = \sum_{\m \in V(f, g)} \ell_{A_\m} \left( A_\m /(f, g) \right) \cdot [\m] 
+\\
+& = \sum_{x \in C \cap D \cap U} \ell_{\stalk{X}{x}} \left( \stalk{X}{x} / (f, g) \right) \cdot [x] 
+\end{align*}
+which agrees with our definition of the intersection multiplicity.
+\end{rmk}
+
+\begin{prop}
+Suppose that $C, D \subset X$ are prime Cartier divisors intersecting properly. Since the intersection is proper, $s$ is not identically zero and therefore,
+\[ C \frown D = (\iota_C)_* [c_1( \iota^*_C \struct{X}(D))] = \iota_* [C \cap D] \]
+where $\iota_C : C \to X$ and $\iota : C \cap D \to X$ are the inclusions.
+\end{prop}
+
+\begin{proof}
+Since $C$ is a curve, to compute $c_1$ of the line bundle $\L = \iota^*_C \struct{X}(D)$ we need a nonzero section. The effective divisor $D$ corresponds to a section $s_D \in \Gamma(X, \struct{X}(D))$ which pulls back to $s = \iota_C^* s_D$. Then,
+\[ c_1(\L) = \sum_{p \in C} \ord_{p} \left( s / s_\L \right) \cdot [p] \]
+where $s_\L$ is a local trivializing section of $\L$. Choose a sufficiently small affine open $U \subset X$ with $p \in U$ trivializing $\struct{X}(D)$ then $\struct{X}(D)|_U = g^{-1} \struct{U}$ and $s_D$ corresponds to $1$. Then we can take $s_\L = g^{-1}$ and $s_D = 1$ which gives,
+\[ \ord_p(s / s_\L) = \ord_p(g) = \ell_{\stalk{C}{p}} \left( \stalk{C}{p}/(g) \right) = \ell_{\stalk{X}{p}} \left( \stalk{X}{p} / (f, g) \right) \]
+Therefore,
+\[ c_1(\L) = \sum_{p \in C} \ord_{p} \left( s / s_\L \right) \cdot [p] = [C \cap D]_C \]
+and pushing forward by $\iota_C$ gives the desired result.
+\end{proof}
+
+\begin{rmk}
+This result proves the symmetry,
+\[ (\iota_C)_* [c_1( \iota_C^* \struct{X}(D) )] = (\iota_D)_* [c_1( \iota_D^* \struct{X}(C) )] \]
+\end{rmk}
+
+\begin{rmk}
+Notice that even when $C$ and $D$ do not intersect properly the quantity,
+\[ C \frown D = (\iota_C)_* [c_1(\iota_C^* \struct{X}(D))] \]
+is well-defined. In particular, the self-intersection equals,
+\[ C^2 := C \frown C = (\iota_C)_* [c_1 (\iota_C^* \struct{X}(C))] = (\iota_C)_* [c_1(\sN_{C/X})] \]
+where $\sN_{C/X} = \iota_C^* \struct{X}(C) = \struct{C} \otimes \struct{X}(C) = \struct{X} / \I \otimes \I^\vee = (\I / \I^2)^\vee = \C_{C/X}^\vee$ is the normal bundle. In paricular,
+\[ \deg{C^2} = \deg{\sN_{C/X}} \] 
+\end{rmk}
+
+
+\begin{rmk}
+There is a more general formula due to Serre for the intersection multiplicity. Suppose that $C, D \subset X$ are closed subschemes. Let $Z \subset C \cap D$ be an irreducible component with generic point $\xi \in Z$. Then the multiplicity of $Z$ in $C \cap D$ is defined to be,
+\[ \iota(Z; C, D) := \sum_{i = 0}^\infty (-1)^i \ell_{\stalk{X}{\xi}} \left( \Tor{\stalk{X}{\xi}}{i}{\stalk{X}{\xi}/I}{\stalk{X}{\xi}/J} \right) \]
+where $I$ and $J$ are the ideals defining $C$ and $D$ in $\stalk{X}{\xi}$ and then the intersection cycle is,
+\[ C \frown D = \sum_{Z \subset C \cap D} \iota(Z; C, D) \]
+Notice that when $C$ and $D$ are prime Cartier divisors we get $I = (f)$ and $J = (g)$ and thus,
+\[ \Tor{\stalk{X}{\xi}}{i}{\stalk{X}{\xi}/I}{\stalk{X}{\xi}/J}
+= \begin{cases}
+\stalk{X}{\xi}/(f,g) & i = 0
+\\
+\ker{(\stalk{X}{\xi}/(g) \xrightarrow{f} \stalk{X}{\xi}/(g))} & i = 1
+\\
+0 & i > 1
+\end{cases} \]
+because $f$ is a nonzerodivisor since we assumed that $C$ is Cartier. Furthermore, since the intersection is proper, we cannot have $f \in (g)$ and since $(g)$ is prime ($Z$ is a prime Cartier divisor) the map $\stalk{X}{\xi}/(g) \xrightarrow{f} \stalk{X}{\xi}/(g)$ is injective. Therefore,
+\[ \Tor{\stalk{X}{\xi}}{i}{\stalk{X}{\xi}/I}{\stalk{X}{\xi}/J}
+= \begin{cases}
+\stalk{X}{\xi}/(f,g) & i = 0
+\\
+0 & i > 0
+\end{cases} \]
+giving,
+\[ \iota(Z; C, D) = \ell_{\stalk{X}{\xi}} \left( \stalk{X}{\xi}/(f, g) \right) \]
+which agrees with our previous formula.
+\end{rmk} 
+
+\subsection{Adjunction}
+
+Given a smooth subvariety $Z \subset X$ of a smooth variety $X$, we know
+\[ \omega_Z = \omega_X |_Z \otimes \bigwedge^{\mathrm{top}} \sN_{Z|X} \]
+Therefore, taking chern classes,
+\[ c_1(\omega_Z) = \iota^* c_1(\omega_X) + c_1(\sN_{Z|X}) \]
+and thus we find,
+\[ K_Z = K_X |_Z + c_1(\sN_{Z|X}) \]
+
+\subsubsection{Divisors}
+
+In particular, if $Z = V(D)$ for some divisor $D$ then if $Z$ is smooth,
+\[ \sN_{Z | X} = \iota^* \struct{X}(D) \]
+and therefore,
+\[ \omega_Z = \iota^* (\omega_X \otimes \struct{X}(D)) = \omega_X |_Z \otimes \struct{D}(D) \]
+meaning,
+\[ K_Z = (K_X + D)|_Z \]
+In fact, even when $Z$ is not smooth we can compute,
+\[ \omega_Z = \iota_* \shExt{1}{\struct{X}}{\iota_* \struct{Z}}{\omega_X} \]
+However, there is a locally-free resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-D) \arrow[r] & \struct{X} \arrow[r] & \iota_* \struct{Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and then we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \shHom{\struct{X}}{\iota_* \struct{Z}}{\omega_X} \arrow[r] & \omega_X \arrow[r] & \omega_X(D) \arrow[r] & \iota_* \omega_Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, $\iota_* \omega_Z$ is the cokernel of the map $\omega_X \to \omega_X(D)$ defined by $\id_{\omega_X} \otimes s_D$ where $s_D : \struct{X} \to \struct{X}(D)$ is the canonical section corresponding to the inclusion $\struct{X}(-D) \to \struct{X}$. Therefore,
+\[ \iota_* \omega_Z = \omega_X \otimes \iota_* \struct{Z} \otimes \struct{X}(D) = \omega_X(D) \otimes \iota_* \struct{Z} \]
+because $\omega_X$ is locally free.
+By the projection formula, 
+\[ \iota_* \iota^* \omega_X(D) = \iota_* (\struct{Z} \otimes \iota^* \omega_X(D)) = \iota_* \struct{Z} \otimes \omega_X(D) \]
+and therefore,
+\[ \omega_Z = \iota^* \omega_X(D) \]
+
+\subsection{Adjunction for Surfaces}
+
+Let $X$ be a smooth surface which is a complete intersection in $P = \P^{c+2}$. Then $X \subset \P^{c+2}$ is cut out by $r$ equations $f_1, \dots, f_r$ of degrees $d_1, \dots, d_c$. Because $\dim{X} = 2$ these form a regular sequence meaning the Kozul complex is exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{P}(-\sum\limits_{i = 1}^c d_i) \arrow[r] & \bigoplus\limits_{i = 1}^c \struct{P}(-\sum\limits_{j \neq i} d_j) \arrow[r] & \cdots \arrow[r] & \bigoplus\limits_{i = 1}^c \struct{P}(-d_i) \arrow[r] & \struct{P} \arrow[r] & \struct{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which gives a locally free resolution of $\struct{X}$. Therefore, we can compute,
+\[ \iota_* \omega_X = \shExt{c}{\struct{P}}{\struct{X}}{\omega_P} \]
+using this resolution via,
+\[ \iota_* \omega_X = H^c(\shHom{\struct{P}}{K_\bullet}{\omega_P}) = \coker{ \left( \bigoplus\limits_{i = 1}^c \omega_P( \sum_{j \neq i} d_j) \xrightarrow{f_1, \dots, f_c} \omega_P(\sum_{i = 1}^c d_i) \right)} = \omega_P(d_1 + \cdots + d_c) \otimes_{\struct{P}} \struct{X} \]
+Therefore, we find that,
+\[ \omega_X = \omega_P(d_1 + \cdots + d_c) |_X = \struct{X}(d - c - 3) \]
+where $d = d_1 + \cdots + d_c$ is the total degree. Therefore, when $X$ is smooth we find,
+\[ K_X = (d - c - 3) H \]
+where $H = \iota^* c_1(\struct{P}(1))$ is the hyperplane class of the embedding $X \embed P$. 
+\bigskip\\
+Now consider a divisor $C \subset X$. By the adjunction formula,
+\[ \omega_C = \omega_X(C)|_C \]
+Therefore, by Riemann-Roch for singular curves,
+\[ 2 p_a - 2 = \deg{\omega_C} = \deg{\omega_X(C)|_C} \]
+However, we have shown,
+\[ D \frown (K_X + C) = c_1(\omega_X(C)|_C) \]
+and therefore,
+\[ D \cdot (K_X + C) = \deg{[D \frown (K_X + C)]} = \deg{\omega_X(C)|_C} \]
+so we find that,
+\[ 2 p_a - 2 = C \cdot (K_X + C) \]
+However, 
+\[ C \cdot K_X = \deg{\omega_X |_C} = \deg{\struct{P}(d - c - 3)|_C} = (d - c - 3) \deg{\struct{P}(1)|_C} \]
+we define $\deg{C} = \deg{\struct{P}(1)|_C}$ which implies that,
+\[ C \cdot K_X = (d - c - 3) \deg{C} \]
+Alternatively, we can use adjunction,
+\[ C \cdot K_X = C \cdot (d - c - 3) H = (d - c - 3) C \cdot H \]
+and we write $\deg{C} = C \cdot H$ for the intersection of $C$ with a generic hyperplane. Therefore,
+\[ 2 p_a - 2 = C^2 + (d - c - 3) \deg{C} \]
+In particular, consider the case of $(-1)$-curves i.e. rational curves with $C^2 = -1$. Then we find,
+\[ \deg{C} = \frac{1}{3 + c - d} \]
+Therefore, we can only have $(-1)$-curves when $d = c + 2$ i.e. when $\omega_X = \struct{X}(-1)$. In this case, $\deg{C} = 1$ meaning that the $(-1)$-curves are lines in $P$. Furthermore, lines in $P$ have $\deg{C} = 1$ and $p_a = 0$ meaning that for a line $L \subset X$ it has self-intersection,
+\[ L^2 = c + 1 - d \]
+
+\section{General Intersection Theory}
+
+\section{Chern Classes}
+
+\end{document}

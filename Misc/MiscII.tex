@@ -1091,6 +1091,14 @@ A morphism $f : X \to Y$ is \textit{affine} if the preimage of every affine open
 \end{defn}
 
 \begin{lemma}
+A composition of affine morphisms is affine.
+\end{lemma}
+
+\begin{proof}
+If $f : X \to Y$ and $g : Y \to Z$ are affine then for any affine open $U \subset Z$ we know $(g \circ f)^{-1}(U) = f^{-1}(g^{-1}(U))$ but $g^{-1}(U)$ is affine open so $(g \circ f)^{-1}(U) = f^{-1}(g^{-1}(U))$ is affine open.
+\end{proof}
+
+\begin{lemma}
 Every morphism of affine schemes is affine and thus quasi-compact.
 \end{lemma}
 
@@ -1165,7 +1173,33 @@ The composition of (quasi/affine)-separated morphisms are (quasi/affine)-separat
 \end{lemma}
 
 \begin{proof}
-(DO THIS)
+Let $f : X \to Y$ and $g : Y \to Z$ be (quasi/affine)-separated. Then,
+\[ \Delta_{X/Z} = \Delta_{Y/Z}' \circ \Delta_{X/Y} : X \to X \times_Y X \to X \times_Z X \]
+where $\Delta_{Y/Z}' : X \times_Y X \to X \times_Z X$ is the following base change (use magic square),
+\begin{center}
+\begin{tikzcd}
+X \times_Y X \arrow[r, "\Delta_{Y/Z}'"] \arrow[d] &  X \times_Z X \arrow[d, "f \times f"] 
+\\
+Y \arrow[r, "\Delta_{Y/Z}"] & Y \times_Z Y
+\end{tikzcd}
+\end{center}
+However, closed immersions / affine morphisms / quasi-compact morphisms are preserved under base change and composition and thus $\Delta_{X/Z}$ has the corresponding property.
+\end{proof}
+
+\begin{lemma}
+The base change of (quasi/affine)-separated morphisms are (quasi/affine)-separated. 
+\end{lemma}
+
+\begin{proof}
+Let $f : X \to Y$ be (quasi/affine)-separated morphism over $S$ and $g : Z \to S$ a base change morphism. Then I claim the following diagram is cartesian,
+\begin{center}
+\begin{tikzcd}
+X_Z \arrow[r, "\Delta_{X_Z/Y_Z}"] \arrow[d] & X_Z \times_{Y_Z} X_Z \arrow[d]
+\\
+X \arrow[r, "\Delta_{X/Y}"] & X \times_Y X
+\end{tikzcd}
+\end{center}
+Therefore, $\Delta_{X_Z/Y_Z}$ is the base change of $\Delta_{X/Y}$ and the immersion properties of $\Delta_{X/Y}$ are preserved under base change.
 \end{proof}
 
 \begin{lemma}
@@ -1693,7 +1727,7 @@ Choose some representative $(U, f_U)$ for $f : X \rat Y$. Note that $\stalk{X}{\
 \Spec{\stalk{X}{\eta}} \arrow[ru, dashed, "\ell"] \arrow[r] & \Spec{k} 
 \end{tikzcd}
 \end{center}
-and a lift $\Spec{\stalk{X}{\eta}} \to Y$ by the valuative criterion for properness applied to $Y \to \Spec{k}$ since $\stalk{X}{\eta}$ is a DVR. Choose an affine open $\Spec{R} \subset Y$ containing the image of $\Spec{\stalk{X}{\eta}} \to Y$ (i.e. choose a neighborhood of the image of $\eta$ which automatically contains $f(\xi)$ since the map factors $\Spec{\stalk{X}{\eta}} \to \Spec{\stalk{Y}{f(\eta)}} \to \Spec{R} \to Y$) and let $\eta \in V = \Spec{A} \subset X$ be an affine open neighbrohood of $\xi$ mapping onto $\Spec{R}$. By Lemma \ref{open_domain}, since $\stalk{X}{\eta}$ is a domain, we may shrink $V$ so that $A$ is a domain. Since $X$ is irreducible $U \cap V$ is a dense open. Note that if $\eta \in U$ then $\eta \in \Dom{f}$ and thus $Z \cap \Dom{f}$ is a nonempty open of the irreducible space $Z$ and therefore a dense open so we are done. Otherwise, let $\p \in \Spec{A}$ correspond to $\eta \in Z$ then $A_\p = \stalk{X}{\eta}$ is a  DVR. Take some principal affine open $D(f) \subset U \cap V$ for $f \in A$ so $f \in \p$ since $\p \notin D(f) \subset U \cap V$. Since $A_\p$ is a DVR we may choose a uniformizer $\varpi \in \p$ so the map $A \to \p$ via $1 \mapsto \varpi$ is as isomorphism when localized at $\p$. Since $A$ is Noetherian both are f.g. $A$-modules so there must be some $s \in A \setminus \p$ such that $A_s \to \p_s$ is an isomorphism. Replacing $A$ by $A_s$ we may assume $\p = (\varpi) \subset A$ is principal. Since $f \in \p$ we can write $f = t \varpi^k$ for some $a \in A \setminus \p$ (see Lemma \ref{principal_ideal_powers}). Then consider $\tilde{V} = \Spec{A_t}$. Since $t \notin \p$ then $\eta \in \tilde{V}$ and since $f = t \varpi^k$ we have $D(f) \subset D(t) = \tilde{V}$.
+and a lift $\Spec{\stalk{X}{\eta}} \to Y$ by the valuative criterion for properness applied to $Y \to \Spec{k}$ since $\stalk{X}{\eta}$ is a DVR. Choose an affine open $\Spec{R} \subset Y$ containing the image of $\Spec{\stalk{X}{\eta}} \to Y$ (i.e. choose a neighborhood of the image of $\eta$ which automatically contains $f(\xi)$ since the map factors $\Spec{\stalk{X}{\eta}} \to \Spec{\stalk{Y}{f(\eta)}} \to \Spec{R} \to Y$) and let $\eta \in V = \Spec{A} \subset X$ be an affine open neighbrohood of $\xi$ mapping into $\Spec{R}$. By Lemma \ref{open_domain}, since $\stalk{X}{\eta}$ is a domain, we may shrink $V$ so that $A$ is a domain. Since $X$ is irreducible $U \cap V$ is a dense open. Note that if $\eta \in U$ then $\eta \in \Dom{f}$ and thus $Z \cap \Dom{f}$ is a nonempty open of the irreducible space $Z$ and therefore a dense open so we are done. Otherwise, let $\p \in \Spec{A}$ correspond to $\eta \in Z$ then $A_\p = \stalk{X}{\eta}$ is a  DVR. Take some principal affine open $D(g) \subset U \cap V$ for $g \in A$ so $g \in \p$ since $\p \notin D(g) \subset U \cap V$. Since $A_\p$ is a DVR we may choose a uniformizer $\varpi \in \p$ so the map $A \to \p$ via $1 \mapsto \varpi$ is as isomorphism when localized at $\p$. Since $A$ is Noetherian both are f.g. $A$-modules so there must be some $s \in A \setminus \p$ such that $A_s \to \p_s$ is an isomorphism. Replacing $A$ by $A_s$ we may assume $\p = (\varpi) \subset A$ is principal. Since $g \in \p$ we can write $g = t \varpi^k$ for some $a \in A \setminus \p$ (see Lemma \ref{principal_ideal_powers}). Then consider $\tilde{V} = \Spec{A_t}$. Since $t \notin \p$ then $\eta \in \tilde{V}$ and since $g = t \varpi^k$ we have $D(g) \subset D(t) = \tilde{V}$.
 Now we get the following diagram, 
 \begin{center}
 \begin{tikzcd}[row sep = large]
@@ -1701,16 +1735,16 @@ Now we get the following diagram,
 \\
 \Spec{A_\p} \arrow[rru, bend left, "\ell"] \arrow[r] &  \Spec{A_t} \arrow[ru, dashed, "f_V"]
 \\
-\Spec{\Frac{A}} \arrow[r] \arrow[u] & \Spec{A_f} \arrow[u] \arrow[ruu, bend right, "f_U"'] 
+\Spec{\Frac{A}} \arrow[r] \arrow[u] & \Spec{A_g} \arrow[u] \arrow[ruu, bend right, "f_U"'] 
 \end{tikzcd}
 \end{center}
-I claim the square is a pushout in the category of affine schemes because maps $R \to A_\p$ and $R \to A_f$ which agree under the inclusion to $\Frac{A}$ gives a map $R \to A_\p \cap A_f \subset \Frac{A}$. However, consider,
-\[ x \in A_\p \cap A_t \implies x = \frac{u \varpi^r}{s} = \frac{a}{f^n} \]
+I claim the square is a pushout in the category of affine schemes because maps $R \to A_\p$ and $R \to A_g$ which agree under the inclusion to $\Frac{A}$ gives a map $R \to A_\p \cap A_g \subset \Frac{A}$. However,
+\[ x \in A_\p \cap A_g \implies x = \frac{u \varpi^r}{s} = \frac{a}{g^n} \]
 for $u, s, t \in A \setminus \p$ and $a \in A$. Thus we get,
 \[ u t^n \varpi^{r + nk} = s a \]
 so $a \in \p^{r + nk} \setminus \p^{r + nk + 1}$ ($s \notin \p$ which is prime) and thus $a = u' \varpi^{r + nk}$ for $u' \in A \setminus \p$. Therefore,
 \[ x = \frac{u' \varpi^{r + nk}}{t^n \varpi^{nk}} = \frac{u' \varpi^{r}}{t^n} \in A_t \]
-Thus, $A_\p \cap A_f \subset A_f$ so we get a map $R \to A_t$. Therefore we get a map $f_{\tilde{V}} : \tilde{V} \to Y$ such that $(f|_{\tilde{V}})|_{D(f)} = (f_U)|_{D(f)}$ which implies that $\eta \in \tilde{V} \subset \Dom{f}$ so $Z \cap \Dom{f}$ is a dense open of $Z$. 
+Thus, $A_\p \cap A_g \subset A_t$ so we get a map $R \to A_t$. Therefore we get a map $f_{\tilde{V}} : \tilde{V} \to Y$ such that $(f|_{\tilde{V}})|_{D(f)} = (f_U)|_{D(f)}$ which implies that $\eta \in \tilde{V} \subset \Dom{f}$ so $Z \cap \Dom{f}$ is a dense open of $Z$. 
 \end{proof}
 
 \begin{prop}
@@ -4943,5 +4977,238 @@ gives an exact sequence of low degree terms,
 \end{center}
 \end{example}
 
+\subsection{Conormal Sheaves}
+
+\begin{defn}
+Let $\iota : Z \to X$ be an embedding and let $\I = \ker{(\iota^\# : \struct{X} \to \iota_* \struct{Z})}$. Then the conormal sheaf of $\iota$ is the $\struct{Z}$-module $\C_{Z/X} = \iota^* \I = \iota^* (\I/I^2)$.
+\end{defn}
+
+\begin{prop}
+Let $f : Z \to X$ be an immersion over $S$. Then there is a right-exact sequence,
+\begin{center}
+\begin{tikzcd}
+\C_{Z/X} \arrow[r] & f^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is exact on the left when $Z \to S$ is formally smooth.
+\end{prop}
+
+\begin{proof}
+There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & \Omega_{Z/X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, $f : Z \to X$ is formally unramified so $\Omega_{Z/X} = 0$ proving that $f^* \Omega_{X/S} \to \Omega_{Z/S}$ is surjective. The rest is given by Tag 04FC and Tag 06B7. 
+\end{proof}
+
+\begin{prop}
+Suppose that $\iota : Z \to X$ is an immersion and $f : X \to Y$ is such that $f \circ \iota : Z \to Y$ is an immersion. Then there is a right-exact sequence,
+\begin{center}
+\begin{tikzcd}
+\C_{Z/Y} \arrow[r] & \C_{Z/X} \arrow[r] & \iota^* \Omega_{X/Y} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+If $f : X \to Y$ is formally smooth this is short exact.
+\end{prop}
+
+\begin{proof}
+Tag 04FC and Tag 06B7.
+\end{proof}
+
+\begin{prop}
+Let $\iota_1 : Z \to Y$ and $\iota_2 : Y \to X$ be immersions over $S$ where $Z \to S$ is formally smooth. Then there is a right exact sequence,
+\begin{center}
+\begin{tikzcd}
+\iota_1^* \C_{Y/X} \arrow[r] & \C_{Z/X} \arrow[r] & \C_{Z/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is short exact when $g : Y \to S$ is formally smooth.
+\end{prop}
+
+\begin{proof}
+Using the conormal sequences we get a diagram,
+\begin{center}
+\begin{tikzcd}
+& & & 0 \arrow[d]
+\\
+& & & \C_{Z/Y} \arrow[d]
+\\
+& \iota_1^* \C_{Y/X} \arrow[d, dashed] \arrow[r] & \iota^* \Omega_{X/S} \arrow[r] \arrow[d, equals] & \iota_1^* \Omega_{Y/S} \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \C_{Z/X} \arrow[r] & \iota^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] \arrow[d] & 0
+\\
+& & & 0 &
+\end{tikzcd}
+\end{center}
+Therefore, by the snake lemma we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \C_{Z/Y} \arrow[r] & \coker{(\iota_1^* \C_{Y/X} \to \C_{Z/X})} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is an isomorphism and therefore there is a right exact sequence,
+\begin{center}
+\begin{tikzcd}
+\iota_1^* \C_{Y/X} \arrow[r] & \C_{Z/X} \arrow[r] & \C_{Z/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Finally, if $Y \to S$ is smooth then the top row is left exact ($\iota_1^*$ is an exact functor since $\iota_1$ is an immersion). Therefore, the dashed arrow $\iota_1 \C_{Y/X} \to \C_{Z/X}$ is injective (because $\iota_1 \C_{Y/X} \to \iota^* \Omega_{X/S}$ which equals $\iota_1^* \C_{Y/X} \to \C_{Z/X} \to \iota^* \Omega_{X/S}$ is injective) thus making following sequence exact,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \iota_1^* \C_{Y/X} \arrow[r] & \C_{Z/X} \arrow[r] & \C_{Z/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{rmk}
+The most general version of the above is when $\iota_1 : Z \to Y$ and $\iota_2 : Y \to X$ are formally unramified morphisms over $S$ then there is a right exact sequence,
+\begin{center}
+\begin{tikzcd}
+\iota_1^* \C_{Y/X} \arrow[r] & \C_{Z/X} \arrow[r] & \C_{Z/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is short exact when $\iota_1 : Z \to Y$ is a $H_1$-regular immersion (automatic when $Z$ and $Y$ are smooth or even regular). This is Tag 06AE and Tag 06BA 
+\end{rmk}
+
+
+\begin{lemma}
+Consider a commutative diagram of schemes,
+\begin{center}
+\begin{tikzcd}
+Z' \arrow[r, "\iota'"] \arrow[d, "g"] & X' \arrow[d, "f"]
+\\
+Z \arrow[r, "\iota"] & X
+\end{tikzcd}
+\end{center}
+where $\iota$ and $\iota'$ are (closed) embeddings. Then there is a canonical map $g^* \C_{Z/X} \to \C_{Z'/X'}$. Furthermore, suppose the diagram is cartesian i.e. $Z' = f^{-1}(Z) = Z \times_X X'$ then
+\begin{enumerate}
+\item $g^* \C_{Z/X} \onto \C_{Z'/X'}$ is surjective
+\item if furthermore $f$ is flat then $g^* \C_{Z/X} \iso \C_{Z'/X'}$ is an isomorphism.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\iota \circ g = f \circ \iota'$ we see that $(\iota')^* (f^* \I \to \struct{X'})$ equals $g^* (\iota^* \I \to \struct{Z})$ but $\iota^* \I \to \struct{Z}$ is the zero map  so $f^* \I \to \struct{X'}$ has image contained in $\I'$ because it becomes zero after tensoring by $\iota'_* \struct{Z'} = \struct{X'} / \I'$. Therefore, we get a map $f^* \I \to \I'$ which gives a map $f^* (\I / \I^2) \to \I' / \I'^2$. Applying $(\iota')^*$ we get,
+\[ (\iota')^* f^* (\I/\I^2) \to (\iota')^* (\I' /  \I'^2) \]
+but $(\iota')^* (\I' /  \I'^2) = \C_{Z'/X'}$ and $(\iota')^* f^* (\I/\I^2) = g^* \iota^* (\I / \I^2) = g^* \C_{Z/X}$ so we have a map,
+\[ \varphi : g^* \C_{Z/X} \to \C_{Z'/X'} \]
+Now suppose the diagram is cartesian. Then $f^* \I \onto \I'$ is surjective because if $X' \to X$ is locally $\Spec{B} \to \Spec{A}$ then this map is $I \otimes_A B \to I'$ where $I' = \ker{(B \to B \otimes A / I = B / IB)} = IB$ is surjective. Therefore, taking the quotient,
+\[ f^* (\I/\I^2) \onto \I' /  \I'^2 \]
+is surjective and pulling back via the right-exact functor $(\iota')^*$ shows that $g^* \C_{Z/X} \onto \C_{Z'/X'}$ remains a surjection.
+\bigskip\\
+Finally, suppose that $f$ is flat. Then $f^*$ is an exact functor so $f^* \I \embed \struct{X}$ is injective and thus $f^* \I \iso \I'$ is an isomorphism onto its image $\I'$. Therefore, quotienting and pulling back, $g^* \C_{Z/X} \iso \C_{Z'/X'}$ is an isomorphism.
+\end{proof}
+
+\begin{cor}
+Let $f : X \to S$ be a flat family. For any closed point $s \in S$ the fiber $X_s \embed X$ is a closed immersion with conormal sheaf $C_{X_s/X} = \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X_s}$.
+\end{cor}
+
+\begin{proof}
+Consider the cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X_s \arrow[r] \arrow[d, "g"] & X \arrow[d, "f"]
+\\
+\Spec{\kappa(s)} \arrow[r] & S
+\end{tikzcd}
+\end{center}
+where $f$ is flat by assumption. Then by the lemma, $\C_{X_s/X} = g^* \C_{s/S}$. However, $\C_{s/S} = \m_s / \m_s^2 = T_s^\vee S$ as a $\kappa(s)$-module. Therefore, 
+\[ \C_{X_s / X} = g^* (T_s^\vee S) = \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X_s} \]
+because for any $\kappa(s)$-module $M$ on $\Spec{\kappa(s)}$ we know that $f^{-1} M = \underline{M}$ is the constant sheaf as a $\underline{\kappa(s)}$-module. 
+\end{proof}
+
+\begin{lemma}
+Let $\iota : Z \embed X$ be a closed embedding of schemes over $S$. Then there is an exact sequence of $\struct{Z}$-modules,
+\begin{center}
+\begin{tikzcd}
+\C_{Z/X} \arrow[r] & \iota^* \Omega_{C/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is exact on the left if $Z \to S$ is smooth.
+\end{lemma}
+
+\begin{proof}
+This follows from the exact sequence for rings $R \to A \to B$ where $B = A / I$,
+\begin{center}
+\begin{tikzcd}
+I/I^2 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\newcommand{\X}{\mathcal{X}}
+
+\begin{cor}
+Suppose that $f : \X \to S$ is a flat family of schemes and $s \in S$ a closed point such that the fiber $X = \X_s \to \Spec{\kappa(s)}$ is smooth then there is an exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \Omega_{\X/S}|_{X} \arrow[r] & \Omega_{X / \kappa(s)} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, dualizing there is an exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \T_{X/s} \arrow[r] & \T_{\X/S}|_{X} \arrow[r] & \underline{T_{X/\kappa(s)}} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{cor}
+
+\begin{proof}
+Since $X \to \Spec{\kappa(s)}$ is smooth the conormal sequence is exact on the left and the conormal sheaf is $\C_{X/\X} = \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X}$. Then apply the functor $\shHom{\struct{X}}{-}{\struct{X}}$ which gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \T_{X/s} \arrow[r] & \T_{X/s}|_{X} \arrow[r] & \underline{T_{X/s}} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \shExt{1}{\struct{X}}{\T_{X/s}}{\struct{X}} 
+\end{tikzcd}
+\end{center}
+But since $X \to \Spec{\kappa(s)}$ is smooth, $\T_{X/s}$ is finite locally free so $\shExt{1}{\struct{X}}{\T_{X/s}}{\struct{X}} = 0$ giving the desired sequence. Note that we have used,
+\[ \shHom{\struct{X}}{\underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X}}{\struct{X}} = \shHom{\underline{\kappa(s)}}{\underline{T_s^\vee S}}{\struct{X}} = \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X} \]
+\end{proof}
+
+\begin{prop}
+Suppose that $f : X \to S$ is a flat family of schemes and $s \in S$ a closed point with smooth fiber $X = \X_s \to \Spec{\kappa(s)}$. Then there is a canonical map $T_s S \to H^1(X, \T_{X / s})$ giving an infinitesimal deformation of the fiber $X$ along a tangent direction $v \in T_s S$.
+\end{prop}
+
+\begin{proof}
+Using the above exact sequence, applying the cohomology exact sequence there is a connecting map, $\delta : H^0(X, \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X}) \to H^1(X, \T_{X/s})$. Furthermore,
+\[ H^0(X, \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X}) = T_s S \otimes_{\kappa(s)} H^0(X, \struct{X}) \]
+Taking $1 \in H^0(X, \struct{X})$ gives an embedding,
+\[ T_s S \embed T_s S \otimes H^0(X, \struct{X}) \xrightarrow{\delta} H^1(X, \T_{X /s}) \]
+\end{proof}
+
+\section{Six Functors}
+
+\newcommand{\dtensor}{\otimes^{\mathbb{L}}}
+\newcommand{\RHom}[3]{\mathrm{R}\shHom{#1}{#2}{#3}}
+
+Given a morphism of schemes $f : X \to Y$ there are six functors on the derived categories of \etale sheaves with constructible cohomology,
+\begin{enumerate}
+\item $R f_* : D^c(X) \to D^c(Y)$
+\item $L f_! : D^c(X) \to D^c(Y)$
+\item $L f^* : D^c(Y) \to D^c(X)$
+\item $R f^! : D^c(X) \to D^c(Y)$
+\item $- \dtensor - : D^c(X) \times D^c(X) \to D^c(X)$
+\item $\RHom{X}{-}{-} : D^c(X)^\op \times D^c(X) \to D^c(X)$
+\end{enumerate}
+such that there are adjunctions: $f^* \dashv f_*$ and $R f_! \dashv R f^!$ and,
+\[ \RHom{X}{A \dtensor B}{C} = \RHom{X}{A \dtensor}{\RHom{X}{B}{C}} \]
+This is the setting for Verdier duality,
+\[ R f_* \RHom{X}{\F}{ R f^! \G} = \RHom{Y}{Rf_! \F}{\G} \]
+I want to understand these functors in some settings. By factorsing,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, hook, "j"] \arrow[rd, "f"] & \tilde{X} \arrow[d, "\tilde{f}"] 
+\\
+& Y
+\end{tikzcd}
+\end{center}
+we get $f_! = \tilde{f}_* \circ j_!$ and $R f_! = R \tilde{f}_* \circ j_!$. Now furthermore in the following situations:
+\begin{enumerate}
+\item $f : U \to X$ is an open embedding then $f_!$ is extension by zero and $R f^!$ comes from a functor $f^! = f^*$
+\item $f : X \to Y$ is proper then $f_! = f_*$ and $R f^!$
+\item $f : Z \embed X$ is a closed embedding then $f^! $
+\item $f : X \to Y$ is smooth of relative dimension $d$. Then $R f^!(\F[0]) = f^* \F(d) [2 d]$
+\end{enumerate}
 \end{document}
 

@@ -1,0 +1,89 @@
+\documentclass[11pt]{article}
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\newtheorem*{defnn}{Definition}
+\newtheorem*{conj}{Conjecture}
+
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\geometry{margin=0.7in}
+\pagestyle{fancy}
+\fancyhead[LH]{\textbf{Benjamin V. Church}}
+\fancyhead[RH]{\textbf{Video Script: NYU Courant Institute}}
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{0.2in}
+
+
+
+\usepackage[backend=bibtex, citestyle=apa, style=phys]{biblatex}
+\addbibresource{bibliography.bib}
+
+\newcommand{\dt}{\frac{\mathrm{d}}{\mathrm{d} t}}
+\renewcommand{\F}{\mathbb{F}}
+\newcommand{\Fbar}{\overline{\F}}
+
+\begin{document}
+Hello,
+\bigskip\\
+My name is Ben Church and I am applying for the mathematics Ph.D. program at NYU Courant. For a long time I’ve known that I wanted to be an academic and to devote myself to doing mathematics. I want to be an academic not just to do research, teaching is also very important to me. In fact, Courant helped instill my admiration for excellent teaching since I was deeply inspired by attending New York math circle hosted by Courant. More recently, delving into the research problem I am about to describe, I began to read about Prof. Bogomolov's techniques and results. Having been inspired in these two critical junctures, I hope to attend Courant institute for my graduate studies.
+\bigskip\\
+Now I would like to describe a piece of math I find particularly fascinating. It concerns a particular sequence: given a variety $X$ with integer coefficients, for simplicity we assume it is smooth and proper  over $\Spec{\Z}$ minus finitely many primes. Now for a prime power $q = p^k$, consider the sequence $a_n = \# X(\mathbb{F}_{q^n})$ counting solutions over successively larger finite fields. We would be interested in knowing the asymptotics of this series. To do this we might consider the generating function,
+\[ f(t) := \sum_{n = 1}^\infty a_{n} t^{n-1} \]
+Since we expect $a_n$ to grow exponentially, we would like there to exist some constants $c_i$ and $r_i$ controlling the growth, 
+\[ a_n \sim \sum_{i = 1}^g c_i r_i^{n} \] 
+This would imply that,
+\[ f(t) \sim \sum_{i = 1}^g c_i (r_i + r_i^2 t + r_i^3 t^2 + \cdots ) = \sum_{i = 1}^g \frac{c_i r_i}{1 - r_i t}  \]
+However, notice that,
+\[ \frac{c_i r_i}{1 - c_i r_i} = \dt \log{(1 - r_i t)^{c_i}} \]
+Therefore, we would want to show that,
+\[ f(t) := \sum_{n = 1}^\infty a_n t^{n-1} \sim \dt \sum_{i = 1}^g \log{(1 - r_i t)^{c_i}} = \dt \log{ \left( \prod_{i = 1}^g  (1 - r_i t)^{c_i} \right)} \]
+This requirement is much simplier if we introduce a new function $\zeta_X(t)$ such that,
+\[ f(t) = \dt \log{\zeta_X(t)} \]
+Explicitly,
+\[ \zeta_X(t) := \exp{ \left( \sum_{n = 1}^\infty \frac{a_n}{n} t^n \right) } \]
+Then our hypothesis about asymototics becomes,
+\[ \zeta_X(t) \sim \prod_{i = 1}^g (1 - r_i  t)^{c_i} \]
+so we are looking for a rational function asymtotic to $\zeta_X(t)$. The amazing fact is that $\zeta_X(t)$ exactly equals a rational function! Weil conjectured that $\zeta_X$ has the percise form,
+\[ \zeta_X(t) = \prod_{i = 0}^{2 d} P_i(t)^{(-1)^{i+1}} = \frac{P_1(t) \cdots P_{2d - 1}(t)}{P_0(t) \cdots P_{2d}(t)} \]
+where $P_i(t)$ is an \textit{integer} polynomial of degree $b_i$ factoring as $(1 - \alpha_{i1} t) \cdots (1 - \alpha_{i b_i} t)$ with $P_0(t) = 1 - t$ and $P_{2d}(t) = 1 - q^d t$. In analogy with the Riemann zeta function, Weil conjectured two additional properties,
+\begin{enumerate}
+\item The functional equation: there should exist an integer $\chi$ such that,
+\[ \zeta_X(q^{-d} t^{-1}) = \pm q^{\tfrac{\chi d}{2}} t^\chi \, \zeta_X(t) \]
+\item The Riemann hypothesis: $|\alpha_{ij}| = q^{i/2}$
+\end{enumerate}
+Therefore we get not an asymtotic but an exact formula,
+\[ a_n = \sum_{i = 1}^{2d} (-1)^i \sum_{j = 1}^{b_i} \alpha_{ij}^n \]
+and the Riemann hypothesis precisely controlls this growth. For example, if $X$ is an elliptic curve then,
+\[ \zeta_X(t) = \frac{1 - a_p t + p t^2}{(1 - t)(1 - p t)} \]
+and $1 - a_p t + p t^2 = (1 - \alpha t)(1 - \beta t)$ such that $|\alpha_i| = \sqrt{p}$. Then,
+\[ \# X(\F_{p^n}) = p^n + 1 - \alpha^n - \beta^n \]
+so we find,
+\[ a_p = p + 1 - \# X(\F_{p^n}) \]
+and for $q = p^n$,
+\[ |\# X(\F_{q}) - (q + 1)| = |\alpha^n + \beta^n| \le |\alpha|^n + |\beta|^n = 2 \sqrt{q} \]
+giving Hasse's celebrated theorem. Finally, the complex varitey $X_{\mathbb{C}}$ is smooth and proper giving the complex points $Y = X(\mathbb{C})$ the structure of a compact complex manifold. Amazingly, $d$ is the dimension $Y$, $\chi$ is the Euler characteristic of $Y$ and $b_i$ are the Betti number of $Y$. Thus $\zeta_X$, defined arithmetically, ``knows'' about the geometry of $X(\mathbb{C})$.
+\bigskip\\
+Even more amazing than these conjectures are the methods that Grothendieck and Deligne used to prove them. What was needed was a cohomology theory like singular cohomology but for varities over $\Fbar_q$. Given such a theory, because $X(\F_{q^n})$ are the fixed point of $n^{\mathrm{th}}$-Frobenius $F^n : X_{\Fbar_{q}} \to X_{\Fbar_{q}}$, a Lefschetz trace formula would tell us that,
+\[ \# X(\F_{q^n}) = \sum_{i = 0}^{2d} (-1)^i \tr{F^n | H^i(X_{\Fbar})} \]
+Therefore, plugging in,
+\begin{align*}
+\zeta_X(t) & = \exp{ \left( \sum_{n = 1}^\infty \frac{\# X(\F_{q^n})}{n} t^n \right) } = \exp{ \left( \sum_{n = 1}^\infty \sum_{i = 0}^{2d} (-1)^i \tr{F^n | H^i(X_{\Fbar_q})} \frac{t^n}{n} \right)} 
+\\
+& = \prod_{i = 0}^{2d} \exp{ \left( \sum_{n = 1}^\infty \frac{t^n}{n} \tr{F^n | H^i(X_{\Fbar_q})} \right)^{(-1)^i}}
+\end{align*}
+However,
+\[ \sum_{n = 1}^\infty \frac{t^n}{n} \tr{F^n | H^i(X_{\Fbar_q})} = - \log{\det{(1 - F t | H^i(X_{\Fbar_q}))}} \]
+Therefore,
+\[ \zeta_X(t) = \prod_{i = 0}^{2d} \det{(1 - F t | H^i(X_{\Fbar_q}))}^{(-1)^{i+1}} \]
+proving the formula where,
+\[ P_i(t) = \det{(1 - F t | H^i(X_{\Fbar_q}))} \]
+is the characteristic polynomial. Then the functional equation would follow from Poincare duality. Invented by Grothendieck, $\ell$-adic \etale cohomology $H^i_{\et}(X, \Q_\ell)$ provides such a theory proving rationality and the functional equation. Deligne then proved the Riemann hypothesis inductively by building up varities sucessively in Lefschetz pencils. 
+\bigskip\\
+Finally, we want to know why $\zeta_X(t)$ can compute invariants of $X(\mathbb{C})$. This follows from deep theorems about \etale cohomology: smooth and proper base change and Artin comparison. If we have a proper morphism $f : X \to S$ base change alows up to conclude that $(R^i f_* \Q_\ell)_{\bar{s}} \iso H^i_{\et}(X_{\bar{s}}, \Q_{\ell})$ for any geometric point $\bar{s}$ of $S$. If $f : X \to S$ is additionally smooth (and $\ell$ is invertible on $S$) then $f_* \Q_{\ell}$ is lcc meaning that, for connected $S$, the stalks of $f_* \Q_{\ell}$ are constant. We apply this to $X \to U \subset \Spec{\Z}$ and conclude that $H^i_{\et}(X_{\Fbar_q}, \Q_\ell) \cong H^i_{\et}(X_{\overline{\Q}}, \Q_{\ell})$. Furthermore, smooth base change and the Artin comparison theorem tell us that,
+\[ H^i_{\et}(X_{\overline{\Q}}, \Q_{\ell}) \cong  H^i_{\et}(X_{\mathbb{C}}, \Q_{\ell}) \cong H_{\text{sing}}^i(X(\mathbb{C}), \Q_\ell) \]
+proving that $b_i$ and $\chi$ give the correct Betti numbers and Euler characteristic.
+\end{document}
