@@ -1,9 +1,19 @@
 \documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
 \usepackage{import}
 \import{"../Algebraic Geometry/"}{AlgGeoCommands}
 
 \newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
 \newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+
 
 \begin{document}
 
@@ -261,7 +271,7 @@ When $\C$ has a right-exact cmonoid structure $- \otimes_\C -$ and $\C$ has enou
 \end{defn}
 
 \begin{rmk}
-Here it will be necessary to assume that $\C$ has enough flat objects ($- \otimes_\C F$ is exact) which happens say when projectives are flat. 
+Here it will be necessary to assume that $\C$ has enough flat objects ($F \otimes_\C -$ is exact) which happens say when projectives are flat. 
 \end{rmk}
 
 \begin{lemma}
@@ -378,7 +388,7 @@ Choose a flat resolution $F_\bullet \to A$. By the above lemma $\Tor{\C}{i}{A}{B
 \end{proof}
 
 \begin{remark}
-These arguments apply to the satellites of any symmetric bifunctor $F : \C \times \C \to \D$ between abelian categories such that $\C$ has enough objects $A$ for which $F(A, -)$ is exact, in particular, if $F(P, -)$ is exact for projectives (as is the tensor product). 
+These arguments apply to the satellites of any symmetric bifunctor $F : \C \times \C \to \D$ between abelian categories such that $F(A, -)$ is right exact and $\C$ has enough objects $A$ for which $F(A, -)$ is exact, in particular, if $F(P, -)$ is exact for projectives (as is the tensor product). 
 \end{remark}
 
 \newcommand{\Tot}{\mathrm{Tot}}
@@ -2016,7 +2026,7 @@ Tag 00TN.
 Consider ring maps $R \to A \to B$ with $A \to B$ formally smooth then the first exact sequence,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 0
+0 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & \Omega_{B/A} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
 is a split short exact sequence of $B$-modules.
@@ -2353,7 +2363,7 @@ Since $\xi \in U$ for each nonempty open we have a diagram,
 \F_\xi \arrow[r] & \G_\xi 
 \end{tikzcd}
 \end{center}
-therefore it suffices to show the map $\F(U) \to \F_\xi$ is injective since then injectivity of $\F_\xi \to \G_\xi$ will imply injectivity of $\F(U) \to \G(U)$ for each $U$. Choose an affine open cover $U_i = \Spec{A_i}$ trivializing $\F$. For each $s \in \F(U)$ then $\F|_{U_i \cap U} \cong \struct{X}^{\oplus n}|_{U_i \cap U}$ but $X$ is integral so the restriction $\F(U_i \cap U) \to \F_\xi$ is simply $A_i^n \to \Frac{A}^n$ which is injective since $A_i$ is a domain. Thus if $s|_{U_i \cap U} \in \F(U \cap U_i)$ maps to zero in $\F_\xi$ then $s|_{U_i \cap U} = 0$ so $s = 0$ since $U_i$ form a cover.
+therefore it suffices to show the map $\F(U) \to \F_\xi$ is injective since then injectivity of $\F_\xi \to \G_\xi$ will imply injectivity of $\F(U) \to \G(U)$ for each $U$. Choose an affine open cover $U_i = \Spec{A_i}$ trivializing $\F$. $\F|_{U_i \cap U} \cong \struct{X}^{\oplus n}|_{U_i \cap U}$ but $X$ is integral so the restriction $\F(U_i \cap U) \to \F_\xi$ is simply $A_i^n \to \Frac{A}^n$ which is injective since $A_i$ is a domain. Thus if $s \in \F(U)$ maps to zero in $\F_\xi$ then $s|_{U_i \cap U} = 0$ so $s = 0$ since $U_i$ form a cover.
 \bigskip\\
 The second follows from the first since we need only to show that $\F_\xi \to \G_\xi$ is injective. However, $\F_\xi$ is a rank-one free module over the field $K(X) = \stalk{X}{\xi}$. Thus every nonzero map $\F_\xi \to \G_\xi$ is injective.
 \end{proof}
@@ -2488,9 +2498,11 @@ Alternatively, there is a spectral sequence proof. There is a spectral sequence 
 However, since $I^\bullet$ is injective, $\mathbb{R} F^{p + q}(I^\bullet) = H^{p + q}(F(I^\bullet))$. Then,
 \[ E^{p, q}_2 = R F^p(H^q(I^\bullet)) = 
 \begin{cases}
-0 & q < c
+0 & q < c \text{ or } p < 0
 \\
-R F^q(H^c(I^\bullet)) & q \ge 0
+R F^p(H^c(I^\bullet)) & p \ge 0 \text{ and } q = c
+\\
+R F^p(H^q(I^\bullet)) & p + q > c
 \end{cases} \]
 Therefore, for $p + q < c$ all $E^{p,q}_2 = 0$ so $E^{p,q}_\infty = H^{p+q}(F(I^\bullet)) = 0$ for $p + q < c$. Furthermore, for $p + q = c$ the only nonzero term is $q = c$ and $p = 0$. However, for $r \ge 2$ all differentials starting at $(0, c)$ end outside the positive quadrant so are zero and all differentials ending at $(0, c)$ must start with $q < c$ and thus must be zero. Therefore, $E^{0,c}_{\infty} = F(H^c(I^\bullet))$ and $E^{p, q}_{\infty} = 0$ for $p + q = c$ and $q \neq c$. Thus, $H^c(F(I^\bullet)) = E^{0,c}_2 = F(H^c(I^\bullet))$. 
 \end{rmk}
@@ -3521,8 +3533,6 @@ These properties are preserved under base change and the diagonal $\Delta_{Y/S} 
 The following hold in any category with fiber products.
 \end{rmk}
 
-\newcommand{\cP}{\mathcal{P}}
-
 \begin{prop}
 Let $\cP$ be a property of morphisms which is preserved under composition and base change. Then the product of two morphisms with property $\cP$ has property $\cP$.
 \end{prop}
@@ -3799,7 +3809,7 @@ X_T \arrow[rr, "f_T"] \arrow[rd, "p_T"'] & & Y_T \arrow[ld, "q_T"]
 & T
 \end{tikzcd}
 \end{center}
-satisfying the hypotheses. Therefore, it suffices to show that $q : Y \to S$ is closed. Take a closed $C \subset Y$ then, because $f$ is surjective, $q(C) = q(f^{-1}(C))$ is closed.
+satisfying the hypotheses. Therefore, it suffices to show that $q : Y \to S$ is closed. Take a closed $C \subset Y$ then, because $f$ is surjective, $q(C) = p(f^{-1}(C))$ is closed.
 \end{proof}
 
 \begin{cor}
@@ -4026,7 +4036,7 @@ gives an exact sequence on stalks,
 0 \arrow[r] & \K_x \arrow[r] & \F_x \arrow[r] & \G_x \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-Since $\F_x$ and $\G_x$ are finite free $\stalk{X}{x}$-module they are projective and thus $\K_x$ is also finite projective (see next lemma). Since $\struct{X}{x}$ is local, finite projective $\struct{X}{x}$-modules are finte free. Thus $\F$ is a coherent $\struct{X}$-module with $\F_x$ a free $\struct{X}{x}$-module so $\F$ is finite locally free by the prevous lemma.
+Since $\F_x$ and $\G_x$ are finite free $\stalk{X}{x}$-module they are projective and thus $\K_x$ is also finite projective (see next lemma). Since $\stalk{X}{x}$ is local, finite projective $\stalk{X}{x}$-modules are finte free. Thus $\F$ is a coherent $\struct{X}$-module with $\F_x$ a free $\stalk{X}{x}$-module so $\F$ is finite locally free by the prevous lemma.
 \end{proof}
 
 \begin{lemma}
@@ -4654,10 +4664,10 @@ Since $F, I \in \cP$ then $K \in \cP$. Since $I$ is injective $R^i F(I) = 0$ for
 \end{center} 
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & R^i F(K) \arrow[r] & R^{i+1} F(A) & 0
+0 \arrow[r] & R^i F(K) \arrow[r] & R^{i+1} F(A) \arrow[r] & 0
 \end{tikzcd}
 \end{center} 
-However, by assumption the global sections sequence is exact so $R^1 F(A) = 0$ proving the $i = 1$ base case. Now for induction assume that $R^n F(B) = 0$ for all $B \in \cP$. Then  because $K \in \cP$ using the long exact sequence,
+However, by assumption the sequence after applying $F(-)$ is exact so $R^1 F(A) = 0$ proving the $i = 1$ base case. Now for induction assume that $R^n F(B) = 0$ for all $B \in \cP$. Then  because $K \in \cP$ using the long exact sequence,
 \[ R^{n+1} F(A) = R^n F(K) = 0 \]
 proving the statement for $n + 1$ and any $A \in \cP$. 
 \end{proof}
@@ -4828,9 +4838,9 @@ where for any $g \in G$ any preimage $e_g$ acts on $m \in M$ via $e_g m e_g^{-1}
 \end{defn}
 
 \begin{rmk}
-Notice that the formula $e_g \, m  \, e_g{-1} = g \cdot m$ is well-defined because for any other lift $e_g'$ of $g$ we must have $e_g' = e_g \, m'$ for some $m' \in M$ and,
+Notice that the formula $e_g \, m  \, e_g^{-1} = g \cdot m$ is well-defined because for any other lift $e_g'$ of $g$ we must have $e_g' = e_g \, m'$ for some $m' \in M$ and,
 \[ e_g' \, m \, e_g'^{-1} = e_g \, m' \, m \, m'^{-1} \, e_g^{-1} = e_g \, m \, e_g^{-1} \]
-because $M$ is commutative.
+because $M$ is commutative. In general, when $M$ is not commutative, the same construction works but does not give a well-defined action of $G$ on $M$ rather an outer action i.e.\ a map $G \to \mathrm{Out}\left( M \right)$.
 \end{rmk}
 
 \begin{prop}
@@ -5082,7 +5092,7 @@ Z' \arrow[r, "\iota'"] \arrow[d, "g"] & X' \arrow[d, "f"]
 Z \arrow[r, "\iota"] & X
 \end{tikzcd}
 \end{center}
-where $\iota$ and $\iota'$ are (closed) embeddings. Then there is a canonical map $g^* \C_{Z/X} \to \C_{Z'/X'}$. Furthermore, suppose the diagram is cartesian i.e. $Z' = f^{-1}(Z) = Z \times_X X'$ then
+where $\iota$ and $\iota'$ are closed embeddings. Then there is a canonical map $g^* \C_{Z/X} \to \C_{Z'/X'}$. Furthermore, suppose the diagram is cartesian i.e. $Z' = f^{-1}(Z) = Z \times_X X'$ then
 \begin{enumerate}
 \item $g^* \C_{Z/X} \onto \C_{Z'/X'}$ is surjective
 \item if furthermore $f$ is flat then $g^* \C_{Z/X} \iso \C_{Z'/X'}$ is an isomorphism.
@@ -5123,7 +5133,7 @@ because for any $\kappa(s)$-module $M$ on $\Spec{\kappa(s)}$ we know that $f^{-1
 Let $\iota : Z \embed X$ be a closed embedding of schemes over $S$. Then there is an exact sequence of $\struct{Z}$-modules,
 \begin{center}
 \begin{tikzcd}
-\C_{Z/X} \arrow[r] & \iota^* \Omega_{C/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
+\C_{Z/X} \arrow[r] & \iota^* \Omega_{X/S} \arrow[r] & \Omega_{Z/S} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
 which is exact on the left if $Z \to S$ is smooth.
@@ -5141,16 +5151,16 @@ I/I^2 \arrow[r] & \Omega_{A/R} \otimes_A B \arrow[r] & \Omega_{B/R} \arrow[r] & 
 \newcommand{\X}{\mathcal{X}}
 
 \begin{cor}
-Suppose that $f : \X \to S$ is a flat family of schemes and $s \in S$ a closed point such that the fiber $X = \X_s \to \Spec{\kappa(s)}$ is smooth then there is an exact sequence of $\struct{X}$-modules,
+Let $f : \X \to S$ be a flat family of schemes over $\Spec{k}$ and $s \in S$ a closed point such that the fiber $X = \X_s$ is smooth over $\Spec{k}$ then there is an exact sequence of $\struct{X}$-modules,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \Omega_{\X/S}|_{X} \arrow[r] & \Omega_{X / \kappa(s)} \arrow[r] & 0
+0 \arrow[r] & \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \Omega_{\X}|_{X} \arrow[r] & \Omega_{X} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
 Furthermore, dualizing there is an exact sequence of $\struct{X}$-modules,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \T_{X/s} \arrow[r] & \T_{\X/S}|_{X} \arrow[r] & \underline{T_{X/\kappa(s)}} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & 0
+0 \arrow[r] & \T_{X} \arrow[r] & \T_{\X/k}|_{X} \arrow[r] & \underline{T_{s} S} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
 \end{cor}
@@ -5159,23 +5169,89 @@ Furthermore, dualizing there is an exact sequence of $\struct{X}$-modules,
 Since $X \to \Spec{\kappa(s)}$ is smooth the conormal sequence is exact on the left and the conormal sheaf is $\C_{X/\X} = \underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X}$. Then apply the functor $\shHom{\struct{X}}{-}{\struct{X}}$ which gives,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \T_{X/s} \arrow[r] & \T_{X/s}|_{X} \arrow[r] & \underline{T_{X/s}} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \shExt{1}{\struct{X}}{\T_{X/s}}{\struct{X}} 
+0 \arrow[r] & \T_{X} \arrow[r] & \T_{\X}|_{X} \arrow[r] & \underline{T_{X}} \otimes_{\underline{\kappa(s)}} \struct{X} \arrow[r] & \shExt{1}{\struct{X}}{\T_{X}}{\struct{X}} 
 \end{tikzcd}
 \end{center}
-But since $X \to \Spec{\kappa(s)}$ is smooth, $\T_{X/s}$ is finite locally free so $\shExt{1}{\struct{X}}{\T_{X/s}}{\struct{X}} = 0$ giving the desired sequence. Note that we have used,
+But since $X \to \Spec{\kappa(s)}$ is smooth, $\T_{X}$ is finite locally free so $\shExt{1}{\struct{X}}{\T_{X}}{\struct{X}} = 0$ giving the desired sequence. Note that we have used,
 \[ \shHom{\struct{X}}{\underline{T_s^\vee S} \otimes_{\underline{\kappa(s)}} \struct{X}}{\struct{X}} = \shHom{\underline{\kappa(s)}}{\underline{T_s^\vee S}}{\struct{X}} = \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X} \]
 \end{proof}
 
 \begin{prop}
-Suppose that $f : X \to S$ is a flat family of schemes and $s \in S$ a closed point with smooth fiber $X = \X_s \to \Spec{\kappa(s)}$. Then there is a canonical map $T_s S \to H^1(X, \T_{X / s})$ giving an infinitesimal deformation of the fiber $X$ along a tangent direction $v \in T_s S$.
+Let $f : \X \to S$ be a flat family of schemes over $\Spec{k}$ and $s \in S$ a closed point such that the fiber $X = \X_s$ is smooth. There is a canonical map $T_s S \to H^1(X, \T_{X})$ giving an infinitesimal deformation of the fiber $X$ along a tangent direction $v \in T_s S$.
 \end{prop}
 
 \begin{proof}
-Using the above exact sequence, applying the cohomology exact sequence there is a connecting map, $\delta : H^0(X, \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X}) \to H^1(X, \T_{X/s})$. Furthermore,
+Using the above exact sequence, applying the cohomology exact sequence there is a connecting map, $\delta : H^0(X, \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X}) \to H^1(X, \T_{X})$. Furthermore,
 \[ H^0(X, \underline{T_s S} \otimes_{\underline{\kappa(s)}} \struct{X}) = T_s S \otimes_{\kappa(s)} H^0(X, \struct{X}) \]
 Taking $1 \in H^0(X, \struct{X})$ gives an embedding,
-\[ T_s S \embed T_s S \otimes H^0(X, \struct{X}) \xrightarrow{\delta} H^1(X, \T_{X /s}) \]
+\[ T_s S \embed T_s S \otimes H^0(X, \struct{X}) \xrightarrow{\delta} H^1(X, \T_{X}) \]
 \end{proof}
+
+\subsection{Relative Differentials}
+
+\begin{prop}
+Under base change,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[d, "f'"] \arrow[r, "g'"] & X \arrow[d, "f"]
+\\
+S' \arrow[r, "g"] & S
+\end{tikzcd}
+\end{center}
+there is a canonical isomorphism $g'^* \Omega_{X/S} \iso \Omega_{X'/S'}$ and $\d'$ is characterized by $\d' g'^* = g'^* \d$.
+\end{prop}
+
+\begin{proof}
+For any $\struct{X'}$-module $\F$ consider,
+\[ \Hom{\struct{X'}}{g'^* \Omega_{X/S}}{\F} = \Hom{\struct{X}}{\Omega_{X/S}}{g'_* \F} = \Der{S}{\struct{X}}{g'_* \F} =  \Der{S'}{\struct{X'}}{\F} = \Hom{\struct{X'}}{\Omega_{X'/S'}}{\F} \]
+The second to last equality holds because a derivation $\struct{X} \to g'_* \F$ over $f^{-1} \struct{S}$ is the same as a derivation $\struct{X'} \to \F$ over $f^{-1} \struct{S'}$ which can be checked locally (Tag 00RV). Therefore we get a canonical isomorphism $\Omega_{X'/S'} = g'^* \Omega_{X/S}$.
+\end{proof}
+
+\begin{prop}
+Let $f : X \to S$ be a morphism of schemes and $s \in S$ a point. Then,
+\[ \Omega_{X/S} |_{X_s} = \Omega_{X_s / s} \]
+\end{prop}
+
+\begin{prop}
+Let $f : X \to S$ be a smooth projective family of relative dimension $r$ between noetherian schemes. Then the plurigenera,
+\[ \varphi^i(s) = \dim_{\kappa(s)} H^i(X_s, \omega_{X_s}^{\otimes d}) \]
+and in particular the plurigenera $p_d(X_s) = \varphi^0(s)$
+are upper-semi-continuous on $S$. 
+\end{prop}
+
+\begin{proof}
+Since $f$ is smooth of relative dimension $r$, the relative differentials $\Omega_{X/S}$ is locally free of rank $r$. Then consider the relative canonical bundle \[ \omega_{X/S} = \bigwedge^{r} \Omega_{X/S} \]  Since $\omega_{X/S}$ is locally free and $f : X \to S$ is flat then $\omega_{X/S}$ is flat over $S$. Therefore, by the Semicontinuity theorem,
+\[ \varphi^0(s) = \dim_{\kappa(s)} H^0(X_s, \omega_{X/S}^{\otimes d}|_{X_s}) = \dim_{\kappa(s)} H^0(X_s, \omega_{X_s}^{\otimes d}) = p_d(X_s) \]
+is semicontinuous.
+\end{proof}
+
+\begin{rmk}
+In particular,
+\[ U = \{ s \in S \mid p_d(X_s) = 0 \} \]
+is open. 
+\end{rmk}
+
+\begin{theorem}
+Let $f : X \to \Spec{\Z}$ be a projective flat surface (i.e. relative dimension $2$). If $X_\Q$ is smooth and unirational then $X_{\mathbb{F}_p}$ is rational for all but finitely many $p$.
+\end{theorem}
+
+\begin{proof}
+First, a dominant rational map $\P^2_\Q \rat X_\Q$ is generically \etale and thus $H^0(X_\Q, \omega_{X_\Q}^{\otimes 2}) = 0$. Furthermore, 
+\[ H^1(X_\Q, \struct{X_\Q}) = H^0(X_\Q, \Omega^1_{X_\Q}) = 0 \] 
+by Hodge theory on $X_{\mathbb{C}}$. Therefore, by Castelnuovo, $X_\Q$ is rational. We can take a dense open $U \subset \Spec{\Z}$ such that $X_U \to  U$ is smooth and then the locus on which $p_2(X_s) = 0$ and $H^1(X_s, \struct{X_s}) = 0$ is open by Semicontinuity and contains the generic point so dense. Finally, dense opens of $\Spec{\Z}$ are cofinite proving the theorem because the fibers $X_{\mathbb{F}_p}$ over $p \in U$ are rational by Castelnuovo. 
+\end{proof}
+
+(IS THERE AN EASIER PROOF? DOES THE CONVERSE WORK?)
+
+\begin{theorem}
+Let $f : X \to \Spec{\Z}$ be a projective flat surface (i.e. relative dimension $2$). If there exists a prime $p \in \Spec{\Z}$ such that $X_{\mathbb{F}_p}$ is smooth and rational. Then $X_{\Q}$ is smooth and rational and $X_{\mathbb{F}_q}$ is smooth and rational for all but finitely many $q$.
+\end{theorem}
+
+\begin{proof}
+Because $f$ is flat and proper with a smooth fiber, there is a dense open $U \subset \Spec{\Z}$ such that $X_U \to U$ is smooth and proper. Furthermore, the locus on which $p_2(X_s) = 0$ and $H^1(X_s, \struct{X_s}) = 0$ is open and nonempty (containing $p$) so it contains $\Q$ and all but finitely many primes.
+\end{proof}
+
+(CAN WE USE SPREADING OUT?)
 
 \section{Six Functors}
 
@@ -5210,5 +5286,1586 @@ we get $f_! = \tilde{f}_* \circ j_!$ and $R f_! = R \tilde{f}_* \circ j_!$. Now 
 \item $f : Z \embed X$ is a closed embedding then $f^! $
 \item $f : X \to Y$ is smooth of relative dimension $d$. Then $R f^!(\F[0]) = f^* \F(d) [2 d]$
 \end{enumerate}
+
+\section{Locally Free Resolutions}
+
+\begin{prop}
+Let $X$ be a Noetheran regular scheme with an ample line bundle $\L$. Then for any coherent $\struct{X}$-module $\F$ there exists a finite locally free resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_{d} \arrow[r] & \cdots \arrow[r] & \E_1 \arrow[r] & \E_0 \arrow[r] & \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $d = \dim{X}$.
+\end{prop}
+
+\begin{proof}
+Since $\L$ is ample there is an $n$ such that $\F \otimes_{\struct{X}} \L^{\otimes n}$ is globally generated. Since $\F$ is coherent we may choose finitely many which generate giving a surjection, $(\L^\vee)^{\oplus n} \onto \F$. Let $\E_0 = (\L^\vee)^{\oplus n}$ then take $\F_1 = \ker{(\E_0 \to \F)}$ which is also coherent because $X$ is Noetherian. Therefore, repeating this process gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_{d} \arrow[r] & \cdots \arrow[r] & \E_1 \arrow[r] & \E_0 \arrow[r] & \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Localizing at $x \in X$ we get a resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\F_{d})_x \arrow[r] & \cdots \arrow[r] & (\E_1)_x \arrow[r] & (\E_0)_x \arrow[r] & \F_x \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of the $\stalk{X}{x}$-module $\F_x$ by finite free modules $(\E_k)_x$. Since $\stalk{X}{x}$ is regular and $(\F_d)_x$ is a finite $\stalk{X}{x}$-module, by (REFERENCE), we find that $(\F_d)_x$ is finite free. Furthermore, since $\F_d$ is coherent it is finite locally free and thus we conclude by setting $\E_d = \F_d$.
+\end{proof}
+
+\section{Finitely Presented Modules}
+
+\begin{prop}
+Consider an exact sequence of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] & M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $M_3$ is finitely presented and $M_2$ is finitely generated. Then $M_1$ is finitely generated.
+\end{prop}
+
+\begin{proof}
+First we prove this when $M_2$ is projective. We know there exists a finite presentation,
+\begin{center}
+\begin{tikzcd}
+R^{\oplus m} \arrow[r] & R^{\oplus n} \arrow[r] & M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+and therefore $K = \ker{(R^{\oplus n} \to M_3)}$ is finitely generated. Furthermore, since $R^{\oplus n}$ and $M_2$ are projective, by Schanuel's lemma we see that $K \oplus M_2 \cong R^{\oplus n} \oplus M_1$. However, $K$ and $M_2$ are finitely generated so $R^{\oplus n} \oplus M_1$ must also be finitely generated and $R^{\oplus n} \oplus M_1 \onto M_1$ proving that $M_1$ is finitely generated as well. Now we consider the general case. Since $M_2$ is finitely generated, there is a map $R^{\oplus n} \onto M_2$ then form a diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] \arrow[d, dashed] & R^{\oplus n} \arrow[r] \arrow[d] & M_3 \arrow[d, equals] \arrow[r] & 0
+\\
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] & M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+By the previous argument $K$ is finitely generated. Furthermore, the right two vertical maps are surjective so $K \onto M_1$ and thus $M_1$ is finitely generated. 
+\end{proof}
+
+\begin{rmk}
+See \href{https://math.stackexchange.com/questions/1201049/is-the-kernel-of-a-map-to-a-finitely-presented-module-finitely-generated}{kernel-of-map-to-finitely-presented} and \href{https://mathoverflow.net/questions/1788/does-finitely-presented-mean-always-finitely-presented-answered-yes}{always-finitely-presented} for more proofs and \href{https://stacks.math.columbia.edu/tag/0517}{Tag 0517} for a full discussion. 
+\end{rmk}
+
+\section{Incidence Correspondences}
+
+\begin{defn}
+Let $V$ be a $k$-vectorspace. The polynomial algebra over $V$ is the graded $k$-algebra,
+\[ \mathrm{Poly}(V) = \Sym{k}{V^*} \]
+Then the geometric vectorspace is the $k$-variety,
+\[ \mathbb{V}(V) = \Spec{\mathrm{Poly}(V)} \]
+If $V$ is has finite dimension $n$ then there is a noncanical isomorphism $\mathbb{V}(V) \cong \A^n_k$.
+\end{defn}
+
+\begin{rmk}
+Since taking polynomial algebras is contravariant, we see that $V \mapsto \mathbb{V}(V)$ is covariant as it should be.
+\end{rmk}
+
+\begin{defn}
+Let $V$ be a $k$-vectorspace. Then $\P(V) := \Proj{\mathrm{Poly}(V)}$. 
+\end{defn}
+
+\begin{rmk}
+We have the following properties of $\P(V)$,
+\begin{enumerate}
+\item $H^0(\P(V), \struct{\P(V)}(d)) = \mathrm{Sym}^d(V^*)$
+\item there is a canonical surjection $V^* \otimes \struct{\P(V)} \onto \struct{\P(V)}(1)$.
+\item morphisms $X \to \P(V)$ correspond to surjections $V^* \otimes \struct{X} \onto \L$ where $\L$ is a line bundle up to isomorphism,
+\begin{center}
+\begin{tikzcd}
+V^* \otimes \struct{X} \arrow[r] \arrow[d, equals] & \L \arrow[r] \arrow[d, "\sim"] & 0
+\\
+V^* \otimes \struct{X} \arrow[r] & \L' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\item if $W \subset V$ then $\P(W) \subset \P(V)$ is a closed linear embedding
+\item $\P(V)(\Spec{k})$ is given by surjections $V^* \onto k$ up to isomorphism i.e. lines $k \subset V$. If we choose a basis $x_1, \dots, x_n$ of $V^*$ then $V^* \onto k$ gives values for $x_1, \dots, x_n \in k$ up to total scaling which we write as $[x_1 : \dots : x_n]$.
+\end{enumerate} 
+\end{rmk}
+\noindent
+The first example of a incidence correspondence is the total space of the projectivized tautological bundle. We usually describe this as,
+\[ Z = \{ (x, H) \mid x \in H \subset \P^n \} \subset \P^n \times \check{\P}^n \]
+We can describe this rigorously as follows. Let $V$ be a $k$-vectorspace. Take the canonical element $\id \in V^* \otimes V \cong \Hom{k}{V}{V}$. This defines a section $s_{\id}$ of $\struct{\P(V)}(1) \boxtimes \struct{\P(V^*)}(1)$ on $\P(V) \times \P(V^*)$. Then I claim that,
+\[ Z = V(s_{\id}) \subset \P(V) \times \P(V^*) \]
+A $k$-point $x \in \P(V^*)$ is given by a hyperplane $V \onto k$ then the fiber $Z_x \subset \P(V)$ is cut out by the image of $s_\id$ under $V^* \otimes V \to V^* \otimes k = V^*$ which cuts out the hyperplane of $\P(V)$ because $s_x$ vanishes on a line $k \subset V$ if $\id \in \Hom{k}{V}{V}$ maps to zero in $\Hom{k}{k}{k}$ under $k \embed V \onto k$ meaning the line is contained in the hyperplane.
+\bigskip\\
+If we choose a basis $x_1, \dots, x_n$ for $V$ and $y_1, \dots, y_n$ is the dual basis of $V^*$ then,
+\[ s_\id = y_1 \otimes x_1 + \cdots + y_n \otimes x_n \]
+Consider a point $x \in \P(V^*)$ then the fiber $Z_x \subset \P(V) \times \Spec{\kappa(x)}$ is cut out by,
+\[ s_x = y_1 \otimes a_1 + \cdots + y_n \otimes a_n \]
+where $x = [a_1 : \dots : a_n]$ which defines the hyperplane represented by $x$. 
+
+\subsection{Incidence Correspondence for Linear Systems}
+
+Given a map $f : X \to \P(V)$ we are interested in the family of hyperplane sections. This is the following incidence correspondence,
+\[ Z_f = \{ (x, H) \mid x \in X, f(x) \in H, H \subset \P(V) \} \subset X \times \P(V^*) \]
+We can describe this scheme directly as the pullback,
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+Z_f \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d] \arrow[r] & Z  \arrow[d]
+\\
+X \arrow[r, "f"] & \P(V)
+\end{tikzcd}
+\end{center}
+By base change, we get a closed immersion $Z_f \subset X \times \P(V^*)$. Furthermore, maps $\Spec{k} \to Z_f$ correspond to via the diagram,
+\[ Z_f(k) = \{ (x,y,H) \mid x \in X(k), y \in \P(k), H \in \P^*(k) \text{ such that } f(x) = y \text{ and } y \in H \} \] 
+Since $Z_f \subset X \times \P(V^*)$ we can consider the projection $Z_f \to \P(V^*)$ whose fibers over $x \in \P(V^*)$ are given by the diagram, 
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+(Z_f)_x \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d, hook] \arrow[r] & Z_x \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d, hook] \arrow[r] & \Spec{\kappa(x)} \arrow[d, hook]
+\\
+Z_f \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d] \arrow[r] & Z  \arrow[d] \arrow[r] & \P(V^*) 
+\\
+X \arrow[r, "f"] & \P(V)
+\end{tikzcd}
+\end{center}
+Since the top two squares are cartesian, the upper rectangle is also cartesian so $(Z_f)_x$ is the fiber of $Z_f \to \P(V^*)$ over $\Spec{\kappa(x)} \to \P(V^*)$. Furthermore, the left rectange is cartesian so $(Z_f)_x$ is the pullback of $Z_x$ under $f$ and $Z_x \subset \P(V)$ is a hyperplane so $(Z_f)_x$ is a hyperplane section.
+\bigskip\\
+In particular, we get a family $Z_f \to \P(V^*)$ whose fibers are the hyperplane sections with a projection $Z_f \to X$ including these fibers. 
+
+\subsection{Incidence Correspondence in Higher Degrees}
+
+
+\subsection{Incidence Correspondence For Projective Bundles}
+
+We can play the same game with projective bundles. 
+
+\begin{defn}
+Let $X$ be a scheme and $\E$ be a locally free $\struct{X}$-module. The polynomial algebra over $\E$ is the graded $\struct{X}$-algebra,
+\[ \mathrm{Poly}(\E) = \shSym{X}{\E^\vee} \]
+Then the geometric vector bundle is,
+\[ \mathbb{V}(\E) = \rSpec{X}{\mathrm{Poly}(\E)} \]
+\end{defn}
+
+\begin{rmk}
+Since taking polynomial algebras is contravariant, we see that $\E \mapsto \mathbb{V}(\E)$ is covariant as it should be.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a scheme and $\E$ be a locally free $\struct{X}$-module. Then the projective bundle of $\E$ is,
+\[ \P(V) := \rProj{X}{\mathrm{Poly}(\E)} \]
+\end{defn}
+
+\begin{rmk}
+We have the following properties of $\pi : \P(\E) \to X$,
+\begin{enumerate}
+\item there is a canonical line bundle $\struct{\P(\E)}(1)$ and exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{\P(\E)/X}(1) \arrow[r] & \pi^* \E^\vee \arrow[r] & \struct{\P(E)}(1) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+or equivalently,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{\P(\E)}(-1) \arrow[r] & \pi^* \E \arrow[r] & \T_{\P(\E)/X}(-1) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+making $\struct{\P(\E)}(-1)$ is the tautological bundle and $\T_{\P(\E)/X}(-1)$ is the tautological quotient
+\item $\pi_* \struct{\P(V)}(d) = \mathrm{Sym}^d(\E^\vee)$
+\item let $f : T \to  X$ be an $X$-scheme, morphisms $T \to \P(\E)$ over $X$ correspond to surjections $f^* \E^\vee \onto \L$ where $\L$ is a invertible $\struct{T}$-module or equivalently $\L^\vee \subset \E$ is a line subbundle up to the equivalence,
+\begin{center}
+\begin{tikzcd}
+f^* \E^\vee \arrow[r] \arrow[d, equals] & \L \arrow[r] \arrow[d, "\sim"] & 0
+\\
+f^* \E^\vee \arrow[r] & \L' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that $T \to \P(\E)$ pulls back $\struct{\P(\E)}(1)$ to $\L$ and $\struct{\P(\E)}(-1)$ to $\L^\vee$
+\item The $k$-points are,
+\[ \P(\E)(k) = \{ (x, \ell) \mid x \in X(k) \text{ and } \ell \subset \E_x \otimes \kappa(x) \} \]
+which are $k$-points of $X$ and lines in the fiber of $\E$
+\item if $\E_1 \subset \E_2$ then $\P(\E_1) \subset \P(\E_2)$ is a closed linear embedding given by $\pi_1^* \E_2^\vee \onto \pi_1^* \E_1^\vee \onto \struct{\P(\E_1)}(1)$
+\end{enumerate} 
+\end{rmk}
+\noindent
+For a locally-free $\struct{X}$-module on $X$, there is an incidence correspondence which is the total space of the projectivized tautological bundle. We usually describe this as,
+\[ Z = \{ (x, \ell, H) \mid x \in X, \ell \subset \E_x \otimes \kappa(x), H \subset \E_x \otimes \kappa(x), \ell \subset H \} \subset \P(\E) \times_X \P(\E^\vee) \]
+We can describe this rigorously as follows. Take the canonical element,
+\[ \id \in \shHom{\struct{X}}{\E}{\E} = \E^\vee \otimes_{\struct{X}} \E \]
+This defines a section $s_{\id}$ of $\struct{\P(\E)}(1) \boxtimes \struct{\P(\E^\vee)}(1)$ on $\P(\E) \times_X \P(\E^\vee)$. Then I claim that,
+\[ Z = V(s_{\id}) \subset \P(\E) \times_X \P(\E^\vee) \]
+Then the fiber of $Z \to X$ over $x \in X$ is the incidence correspondence for $V = \E_x \otimes \kappa(x)$ and thus the points correspond to lines contained in hyperplanes in the fibers of $\E$. Furthermore, the fibers of $Z \to \P(V^*)$ over a point $(x, H) \in \P(\E)$ is a line $\ell \subset \E_x \otimes \kappa(x)$ contained in the hyperplane $H$.
+\bigskip\\
+Given an $X$-morphism $f : Y \to \P(\E)$ we can form the pullback, 
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+Z_f \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d] \arrow[r] & Z  \arrow[d]
+\\
+Y \arrow[r, "f"] & \P(\E)
+\end{tikzcd}
+\end{center}
+giving the ``family of hyperplane sections'' $Z_f \to \P(\E^\vee)$ over $X$ with a projection $Z_f \to Y$. Explicitly, the fibers of $Z_f \to \P(\E^\vee)$ over $(x, H) \in \P(\E^\vee)$ is the hyperplane section of the fiber $Y_x$ of the hyperplane $H$ through the map $Y_x \to \P(\E_x \otimes \kappa(x))$ 
+
+\subsection{General Pencil Contains How Many Tangent Points to a Fixed Curve}
+
+Question: fix a plane curve $C \subset \P^2$ of degree $e$, how many elements of a general pencil of degree $d$ curves are tangent to $C$ (or actcually we ask how many tangency points are there). 
+\bigskip\\
+Let $\L = \struct{\P^2}(d)$ and $V \subset H^0(\P^2, \struct{\P^2}(d))$ be a general pencil. Then consider the inclusion $\iota : C \embed \P^2$ and $\L = \iota^* \struct{\P^2}(d)$. Because the pencil is general, the pullback $\iota^* V \subset H^0(C, \L)$ is two dimensional. Furthermore, the base locus $\mathrm{Bl}(V)$ has $d^2$ points so if $C$ and $V$ are in general position then $\iota^* V$ is basepoint-free. Therefore, we get a map $f : C \to \P^1$ and the curves tangent to $C$ are those whose vanishing locus is nonreduced and thus correspond to ramification points of $f : C \to \P^1$. Since $\deg{f} = \deg{\L} = de$ and $g(C) = \tfrac{1}{2} (e-1)(e-2)$ so by Riemann-Hurwitz,
+\[ R = e^2 - 3 e + 2 de \]
+which gives the number of tangent points (counted in an odd way). 
+
+\section{Automorphisms of Functors}
+
+\begin{defn}
+Let $F : \C \to \D$ be a functor. Then $\End{F}$ is the monoid of natural transformations $\eta : F \implies F$ and $\Aut{F}$ is the group invertible elements i.e natural isomorphisms.
+\end{defn}
+
+\begin{lemma}
+Given a commutative diagram of functors,
+\begin{center}
+\begin{tikzcd}
+\C_1 \arrow[rr, "\alpha"] \arrow[rd, "F_1"'] & & \C_2 \arrow[ld, "F_2"]
+\\
+& \D
+\end{tikzcd}
+\end{center}
+there is a monoid map $\alpha^* : \End{F_2} \to \End{F_1}$ and thus a group map $\alpha^* : \Aut{F_2} \to \Aut{F_1}$.
+\end{lemma}
+
+\begin{proof}
+Let $\eta : F_2 \implies F_2$ be a natural transformation. Consider $\eta \circ \alpha : F_2 \circ \alpha \implies F_2 \circ \alpha$ defined by $(\eta \circ \alpha)_{X} = \eta_{\alpha(X)}$ as an endomorphism of $(F_2 \circ \alpha)(X) = F_2(\alpha(X))$. Note that $F_1 = F_2 \circ \alpha$ defining a map $\alpha^* : \End{F_2} \to \End{F_1}$. Given $\eta, \delta \in \End{F_2}$ consider,
+\[ [(\eta * \delta) \circ \alpha]_{X} = (\eta * \delta)_{\alpha(X)} = \eta_{\alpha(X)} \circ \delta_{\alpha(X)} = (\eta \circ \alpha)_{X} \circ (\delta \circ \alpha)_{X} = [(\eta \circ \alpha) * (\delta \circ \alpha)]_X \]
+Therefore, $\alpha^* : \eta \mapsto \eta \circ \alpha$ is a monoid homomorphism.
+\end{proof}
+
+\begin{lemma}
+Given a commutative diagram of functors,
+\begin{center}
+\begin{tikzcd}
+\C_1 \arrow[r, "\alpha_1"] \arrow[rd, "F_1"'] & \C_2 \arrow[d, "F_2"] \arrow[r, "\alpha_2"] & \C_3 \arrow[ld, "F_3"]
+\\
+& \D
+\end{tikzcd}
+\end{center}
+we find that $(\alpha_2 \circ \alpha_1)^* = \alpha_1^* \circ \alpha_2^*$ as maps $\End{F_3} \to \End{F_1}$. Therefore, we a get (contravariant) functors $\mathrm{End} : \mathbf{Cat}^{\op}_{\D} \to \mathrm{Mon}$ and $\mathrm{Aut} : \mathbf{Cat}^{\op}_{\D} \to \Grp$ where $\mathbf{Cat}_{\D}$ is the category of categories over $\D$ i.e. functors $F : \C \to \D$.
+\end{lemma}
+
+\begin{proof}
+It is clear that,
+\[ (\alpha_2 \circ \alpha_1)^* \eta = \eta \circ (\alpha_2 \circ \alpha_1) = (\eta \circ \alpha_2) \circ \alpha_1 = \alpha_1^* (\alpha_2^* \eta) = (\alpha_1^* \circ \alpha_2^*) \eta \]
+\end{proof}
+
+\begin{prop}
+Given the above situation,
+\begin{enumerate}
+\item if $\alpha$ is esssentially surjective then $\alpha^*$ is injective
+\item if $\alpha$ is fully faithfull then $\alpha^*$ is surjective
+\item if $\alpha$ is an equivalence then $\alpha^*$ is an isomorphism
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Suppose that $\alpha$ is essentially surjective. Given any $Y \in \C_2$ we choose a $X \in \C_1$ and an isomorphism $\varphi : \alpha(X) \iso Y$. Suppose that $\eta \circ \alpha = \delta \circ \alpha$ then consider the diagram,
+\begin{center}
+\begin{tikzcd}
+F_2(\alpha(X)) \arrow[d, "\eta_{\alpha(X)}"'] \arrow[r, "F_2(\varphi)"] & F_2(Y) \arrow[d, "\eta_{Y}"]
+\\
+F_2(\alpha(X)) \arrow[r, "F_2(\varphi)"] & F_2(Y)
+\end{tikzcd}
+\end{center} 
+Therefore,
+\begin{align*}
+\eta_Y & = F_2(\varphi) \circ \eta_{\alpha(X)} \circ F_2(\varphi)^{-1}
+\\
+\delta_Y & = F_2(\varphi) \circ \delta_{\alpha(X)} \circ F_2(\varphi)^{-1}
+\end{align*} 
+and furthermore $\eta_{\alpha(X)} = \delta_{\alpha(X)}$ and thus $\eta_Y = \delta_Y$. Therefore $\eta = \delta$.
+\bigskip\\
+Suppose that $\alpha$ is fully faithful. Given any $\delta \in \End{F_1}$. The collection $\delta_X : F_1(X) \to F_1(X)$ defines a collection $\eta_{\alpha(X)} : F_2(\alpha(X)) \to F_2(\alpha(X))$. We need to show that $\eta$ can be extended to a natural transformation. First, on the image of $\alpha$ we know,
+\[ \alpha : \Hom{\C_1}{X_1}{X_2} \iso \Hom{\C_2}{\alpha(X_1)}{\alpha(X_2)} \]
+and therefore, for any $\varphi : \alpha(X_1) \to \alpha(X_2)$ we can lift to $\varphi' : X_1 \to X_2$ and thus,
+\begin{center}
+\begin{tikzcd}
+F_2(\alpha(X_1)) \arrow[d, "\eta_{\alpha(X_1)}"'] \arrow[r, "F_2(\varphi)"] & F_2(\alpha(X_2)) \arrow[d, "\eta_{\alpha(X_2)}"]
+\\
+F_2(\alpha(X_1)) \arrow[r, "F_2(\varphi)"] & F_2(\alpha(X_2))
+\end{tikzcd}
+\end{center} 
+because this is the same diagram as,
+\begin{center}
+\begin{tikzcd}
+F_1(X_1) \arrow[d, "\delta_{X_1}"'] \arrow[r, "F_1(\varphi')"] & F_1(X_2) \arrow[d, "\delta_{X_2}"]
+\\
+F_1(X_1) \arrow[r, "F_1(\varphi')"] & F_1(X_2)
+\end{tikzcd}
+\end{center}
+which we know commutes because $\delta$ is a natural transformation. 
+\end{proof}
+
+\section{The Meaning of Etale Local}
+
+\begin{defn}
+A morphism $f : X \to Y$ \etale-locally on the target has a propety $\mathcal{P}$ if for each $x \in Y$ there exists an \etale neighborhood $U \to Y$ such that $f' : X_U \to U$ has property $\mathcal{P}$ where,
+\begin{center}
+\begin{tikzcd}
+X_U \arrow[r, "f_U"] \arrow[d] & U \arrow[d]
+\\
+X \arrow[r, "f"] & Y
+\end{tikzcd}
+\end{center}
+Note that $X_U \to X$ is also an \etale neighborhood of the fiber $f^{-1}(x)$.
+\end{defn}
+
+\begin{defn}
+A morphism $f : X \to Y$ \etale-locally on the source has a propety $\mathcal{P}$ if for each $x \in X$ there exists an \etale neighborhood $U \to X$ such that $f' : U \to X \to Y$ has property $\mathcal{P}$.
+\end{defn}
+
+\begin{defn}
+We say a propety $\mathcal{P}$ of morphisms is,
+\begin{enumerate}
+\item \etale-local on the source if for any \etale cover $\{ U_i \to X \}$ 
+\[ X \to Y \text{ has } \mathcal{P} \iff \forall i : U_i \to X \to Y \text{ has } \mathcal{P} \]
+\item \etale-local on the target if for any \etale cover $\{ V_i \to Y \}$ 
+\[ X \to Y \text{ has } \mathcal{P} \iff \forall i : X_{V_i} \to V_i \text{ has } \mathcal{P} \]
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+If $\cP$ is \etale-local on the source/target and $f : X \to Y$ has $\cP$ \etale-locally on the source/target then $f$ has $\cP$.
+\end{rmk}
+
+\begin{defn}
+A morphism $f : X \to Y$ has $\cP$ \etale-locally if for each $x \in X$ there exists,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r, "f'"] \arrow[d] & V \arrow[d]
+\\
+X \arrow[r, "f"] & Y
+\end{tikzcd}
+\end{center}
+where $U \to X$ and $V \to Y$ are \etale neighborhoods of $x$ and $f(x)$ and $f'$ has $\cP$.
+\end{defn}
+
+\begin{defn}
+A property $\cP$ of moprhisms is \etale-local if 
+\begin{enumerate}
+\item if $X \to Y$ has $\cP$ and $Y' \to Y$ is \etale then $X \times_Y Y' \to Y'$ is \etale
+\item if $X \to Y$ has $\cP$ and $X' \to X$ is \etale then $X' \to X \to Y$ has $\cP$
+\item having $\cP$ and having $\cP$ \etale-locally are equivalent
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+Let $\cP$ be \etale-local. Then
+\begin{enumerate}
+\item $\cP$ is \etale-local on the source
+\item $\cP$ is \etale-local on the target
+\item if $f : X \to Y$ has $\cP$ and $g : Y \to Y'$ is \etale then $X \to Y \to Y'$ has $\cP$ 
+\item if $f : X \to Y$ and $g : Y \to Z$ are \etale and $g \circ f$ has $\cP$, then $f$ has $\cP$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+See Tag 04R0.
+\end{proof}
+
+\begin{rmk}
+Unfortunately \etale-local is not the same as \etale-local on the source and \etale-local on the target (see Tag 04QW) it is, in general, stronger.
+\end{rmk}
+
+\subsection{Examples}
+
+\begin{prop}
+An \etale morphism $f : X \to Y$ admits a section \etale-locally on the target.
+\end{prop}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+X \times_Y X \arrow[d] \arrow[r, "\pi"] & X \arrow[d, "f"] 
+\\
+X \arrow[r, "f"] & Y 
+\end{tikzcd}
+\end{center}
+Then the diagonal $\Delta_{X/Y} : X \to X \times_Y X$ is a section of $\pi : X \times_Y X \to X$ because $\pi \circ \Delta_{X/Y} = \id_X$.
+\end{proof}
+
+\begin{prop}
+An \etale morphism $f: X \to Y$ is an isomorphism \etale-locally.
+\end{prop}
+
+\begin{proof}
+Consider the obvious diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\id"] \arrow[d,"\id"'] & X \arrow[d, "f"]
+\\
+X \arrow[r, "f"'] & Y 
+\end{tikzcd}
+\end{center}
+where the vertical maps are surjective and \etale and $\id : X \to X$ is obviously an isomorphism.
+\end{proof}
+
+\begin{prop}
+A smooth map $f : X \to Y$ is \etale-locally isomorphic to $\A^d_R \to \Spec{R}$.
+\end{prop}
+
+\begin{proof}
+By Tag 01V7, for each $x \in X$ there are affine opens $U \subset X$ and $V \subset Y$ with $x \in U$ and $f(U) \subset V$ such that $f|_U : U \to V$ is standard smooth i.e. isomorphic to,
+\[ \Spec{R[x_1, \dots, x_n]/(f_1, \dots, f_c)} \to \Spec{R} \]
+where $R[x_{c+1}, \dots, x_n] \to R[x_1, \dots, x_n]/(f_1, \dots, f_c)$ is standard \etale. Therefore, we get a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[dd, "f"'] & U \arrow[dd] \arrow[l, hook]  \arrow[dr, "\mathrm{etale}"]
+\\
+& & \A_V^d \arrow[dl, "\mathrm{projection}"]
+\\
+Y & V \arrow[l, hook] 
+\end{tikzcd}
+\end{center}
+using the factorization,
+\begin{center}
+\begin{tikzcd}
+R \arrow[r] \arrow[rd] & R[x_{c+1}, \dots, x_n] \arrow[d]
+\\
+& R[x_1, \dots, x_n]/(f_1, \dots, f_c)
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{prop}
+Let $X, Y$ be a $k$-varieties of dimension $n$ and $x \in X$ and $y \in Y$ smooth points. Then $x$ and $y$ have an isomorphic \etale neighborhood.
+\end{prop}
+
+\begin{proof}
+Because $X \to \Spec{k}$ and $Y \to \Spec{k}$ are smooth at $x$ any $y$ respectively, there are open neighborhoods $U \subset X$ and $V \subset Y$ with \etale $k$-maps $U \to \A^n_k$ and $V \to \A^n_k$. Then consider,
+\begin{center}
+\begin{tikzcd}
+U \times_{\A_k^n} V \arrow[r, "\et"] \arrow[d, "\et"'] & V \arrow[d, "\et"]
+\\
+U \arrow[r, "\et"'] & \A^n_k
+\end{tikzcd}
+\end{center}
+Therefore, $U \times_{\A_k^n} V$ is an \etale cover of both $U$ and $V$ and therefore an \etale neighborhood of both $x$ and $y$.
+\end{proof}
+
+
+\section{Cech Cohomology of $G$-covers}
+
+\begin{thm}
+Let $Y \to X$ be a $G$-cover in the $\tau$-topology where $G$ is a finite group. Then, for any sheaf $\F$ on $X_{\tau}$ we have,
+\[ \check{H}^i(Y/X, \F) = H^i(G, \F(Y)) \]
+\end{thm}
+
+\section{Singularities of Holomorphic Functions}
+
+\renewcommand{\C}{\mathbb{C}}
+\newcommand{\h}{\mathfrak{H}}
+
+
+\begin{thm}
+Let $\Omega \subset \C$ be open and $a \in \Omega$ and $f : \Omega \setminus \{ a \} \to \C$ holomorphic. The following are equivalent,
+\begin{enumerate}
+\item $f$ can be extended to $\tilde{f} : \Omega \to \C$ holomorphically
+\item $f$ can be extended to $\tilde{f} : \Omega \to \C$ continuously
+\item $\lim\limits_{z \to a} f(z)$ exists
+\item $f$ is bounded on a neighborhood of $a$
+\item $\lim\limits_{z \to a} (z - a) f(z) = 0$
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+(1) implies (2) implies (3) implies (4) implies (5) are obvious. Suppose that $\lim_{z \to a} (z - a) f(z) = 0$. Then define,
+\[ h(z) = 
+\begin{cases}
+(z - a)^2 f(z) & z \neq a
+\\
+0 & z = a
+\end{cases} \]
+Clearly $h$ is holomorphic on $\Omega \setminus \{ z \}$ and,
+\[ h'(a) = \lim\limits_{z \to z} \frac{(z - a)^2 f(z) - 0}{z - a} = \lim_{z \to a} (z - a) f(z) = 0 \]
+by assumption so $h(z) : \Omega \to \C$ is holomorphic. Therefore, there is an analytic representation about $a$,
+\[ h(z) = \sum_{n = 2}^{\infty} a_n (z - a)^n \]
+Therefore define,
+\[ g(z) = \sum_{n = 0}^{\infty} a_{n+2} (z - a)^n \]
+so for $z \neq 0$ we see that,
+\[ f(z) = \frac{h(z)}{(z - a)^2} = \sum_{n = 0}^\infty a_{n+2} (z - a)^n = g(z) \]
+and it is clear that $g(z)$ is holomorphic on $\Omega$ extending $f$ (note we may need to patch $g$ and $f$ together outside the radius of convergence but they agree on a neighborhood of $a$ so they may be glued).
+\end{proof}
+
+\begin{rmk}
+Following this theorem we say that $a$ is a removable singularity if the equivalent conditions above hold. We follow the apparently weakest condition to define the notion of poles.
+\end{rmk}
+
+\begin{defn}
+Let $f : \Omega \setminus \{ a \} \to \C$ be holomorphic. We say that $f$ has a \textit{pole} at $a$ if,
+\[ \lim_{z \to a} (z - a)^{n + 1} f(z) = 0 \]
+for some $n \in \N$ and the \textit{order} of the pole is the least such $n$.
+\end{defn}
+
+\begin{rmk}
+By the theorem, a pole of order zero is the same as a removable singularity.
+\end{rmk}
+
+\begin{prop}
+Let $f : \Omega \setminus \{ a \} \to \C$ be holomorphic with a pole at $a$ of order $n$. Then,
+\[ f(z) = \frac{u(z)}{(z - a)^n} \]
+where $u : \Omega \to \C$ is holomorphic and nonvanishing at $a$. Thus $f$ has a Laurent series expansion,
+\[ f(z) = \sum_{k = - n}^{\infty} a_k (z - a)^k \]
+on some punctured neighborhood on $a$.
+\end{prop}
+
+\begin{proof}
+We know that $\lim\limits_{z \to a} (z - a)^{n+1} f(z) = 0$ and therefore $h(z) = (z - a)^n f(z)$ has a removable singularity at $z = a$ meaning that it extends to a holomorphic function $h : \Omega \to \C$. Therefore on some neighborhood $U$ of $a$,
+\[ h(z) = \sum_{k = 0}^{\infty} a_k (z - a)^k \]
+and thus on $U \setminus \{ a \}$
+\[ f(z) = \frac{h(z)}{(z - a)^n} = \sum_{k = - n}^{\infty} a_{k - n} (z - a)^k \]
+\end{proof}
+
+\begin{rmk}
+A holomorphic function $f : \Omega \setminus \{ a \} \to \C$ such that $f$ does not have a pole at $a$ has an \textit{essential singularity} at $a$.
+\end{rmk}
+
+
+\begin{prop}
+Let $f : \Omega \setminus \{ a \} \to \C$ be holomorphic and nonvanishing so $\frac{1}{f}$ is holomorphic on $\Omega \setminus \{ a \}$. Then $f$ has a pole at $a$ iff $\lim\limits_{z \to a} \frac{1}{f(z)}$ exists.
+\end{prop}
+
+\begin{proof}
+If $\lim\limits_{z \to a} \frac{1}{f(z)}$ exists then by Riemann extension we can extend $\frac{1}{f}$ to a holomorphic function $g : \Omega \to \C$. Thus we can write $g(z) = (z - a)^k u(z)$ for some nonvanishing holomorphic function $u : \Omega \to \C$. Therefore, $f(z) = \frac{u(z)^{-1}}{(z - a)^k}$ on $\Omega \setminus \{ a \}$ where $u(z)^{-1}$ is holomorphic and thus $f$ has a pole of order $k$ at $a$. Conversely, if $f$ has a pole at $a$ of order $k$ we can write,
+\[ f(z) = \frac{u(z)}{(z - a)^k} \]
+where $u : \Omega \to \C$ is holomorphic. Then,
+\[ \lim_{z \to a} \frac{1}{f(z)} = \lim_{z \to a} \frac{(z - a)^k}{u(z)} \]
+exists because $\frac{1}{u(z)}$ is holomorphic.
+\end{proof}
+
+
+\begin{rmk}
+We can (somewhat imprecisely) say that,
+\begin{enumerate}
+\item if $\lim\limits_{z \to a} f(z)$ and $\lim\limits_{z \to a} \frac{1}{f(z)}$ both exist then $a$ is a removable singularity of $f$ and $\frac{1}{f}$ i.e. a removable singularity which is not a zero of the extension.
+\item if $\lim\limits_{z \to a} f(z)$ exists but $\lim\limits_{z \to a} \frac{1}{f(z)}$ does not exist then $f$ has a removable singularity at $a$ which is a zero of the extension and $\frac{1}{f(z)}$ has a pole (of positive order) at $a$
+\item if $\lim\limits_{z \to a} f(z)$ does not exist but $\lim\limits_{z \to a} \frac{1}{f(z)}$ exists then $f$ has a pole (of positive order) at $a$ and $\frac{1}{f(z)}$ has a removable singularity at $a$ which extends to a zero
+\item if neither $\lim\limits_{z \to a} f(z)$ nor $\lim\limits_{z \to a} \frac{1}{f(z)}$ exist then $f$ and $\frac{1}{f}$ have an essential singularity at $a$.
+\end{enumerate}
+\end{rmk}
+
+\section{Extending Entire Functions}
+
+\begin{lemma}
+Let $f : \C \to \h$ be entire then $f$ is constant.
+\end{lemma}
+
+\begin{proof}
+Consider $g = \exp{if}$. Then $|g(z)| = |e^{if(z)}| = e^{- \Im{f(z)}} < 1$ because $f(z) \in \h$ and thus $\Im{f(z)} > 0$. Therefore $g$ is bounded and thus constant so $f$ is constant.
+\end{proof}
+
+\begin{theorem}
+Let $f : \C \to \C \setminus \{ p, q \}$ for $p \neq q$ be entire. Then $f$ is constant.
+\end{theorem} 
+
+\begin{proof}
+First, there is a biholomorphism $\C \setminus \{ p, q \} \iso \C \setminus \{0, 1 \}$ so we may assume that $p = 0$ and $q = 1$. Then the $j$-function gives a covering map $j : \h \setminus S \to \C \setminus \{0, 1\}$ where $S$ is the set of cusps i.e. orbits of $i$ and $\zeta_3$. Then we get a lift,
+\begin{center}
+\begin{tikzcd}
+& \h \setminus S \arrow[d]
+\\
+\C \arrow[r, "f"'] \arrow[ru, dashed, "\tilde{f}"] & \C \setminus \{0, 1 \}
+\end{tikzcd}
+\end{center}
+because $\C$ is simply connected. Then $\tilde{f} : \C \to \h$ is constant and thus $f$ is constant.
+\end{proof}
+
+\begin{defn}
+We say a continuous map $f : X \to Y$ is proper if for any compact $K \subset Y$ then $f^{-1}(K) \subset X$ is compact.
+\end{defn}
+
+\begin{lemma}
+A continuous map $f : X \to Y$ is proper iff it extends to a continous map $\hat{f} : \hat{X} \to \hat{Y}$ sending $\hat{f}(\infty_X) = \infty_Y$.
+\end{lemma}
+
+\begin{prop}
+Let $f : \C \to \C$ be entire then the following are equivalent:
+\begin{enumerate}
+\item $f$ admits a holomorphic extension $\hat{f} : \hat{\C} \to \hat{\C}$ sending $\hat{f}(\infty) = \infty$
+\item $f$ admits a continuous extension $\hat{f} : \hat{\C} \to \hat{\C}$ sending $\hat{f}(\infty) = \infty$
+\item $f$ is proper
+\item $\lim\limits_{z \to \infty} f(z) = \infty$
+\item $\lim\limits_{z \to 0} f(z^{-1})^{-1} = 0$
+\item $f$ has a pole (of positive order) at $\infty$
+\item $f$ has polynomial growth: $|f(z)| \le L |z|^k$ whenever $|z| \ge R$ and is nonconstant
+\item $f$ is a nonconstant polynomial
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+(a) $\implies$ (b) $\implies$ (c) is $\implies$. If $f$ is proper then for any compact disk $D_r(0)$ we must have $f^{-1}(D_r(0))$ closed and bounded and thus there exists $r' > 0$ s.t.,
+\[ f^{-1}(D_r(0)) \subset D_{r'}(0) \]
+Therefore,
+\[ |f(z)| \le r \implies |z| \le r' \]
+or equivalently
+\[ |z| > r' \implies |f(z)| > r \]
+which is exactly the definition of $\lim\limits_{z \to \infty} f(z) = \infty$ (for complex infinity) so (c) $\implies$ (d). Assuming (d), let $w = \frac{1}{z}$ then for any $r > 0$ there exists $r' > 0$ such that,
+\[ \left| w \right| < \frac{1}{r'} \implies \left| \frac{1}{f(\frac{1}{w})} \right| < \frac{1}{r} \]
+and therefore $\lim\limits_{w \to 0} \frac{1}{f(\frac{1}{w})} = 0$ so (d) $\implies$ (e).
+\bigskip\\ 
+Now we show that (e) $\implies$ (a) so assume $\lim\limits_{z \to 0} \frac{1}{f(\frac{1}{z})} = 0$ and consider the charts,
+\begin{center}
+\begin{tikzcd}
+\C \arrow[d, "z \mapsto z"', hook] \arrow[r, "f"] & \C \arrow[d, "z \mapsto z", hook]
+\\
+\hat{\C} \arrow[r, dashed, "\hat{f}"] & \hat{\C}
+\\
+\C \arrow[r, dashed] \arrow[u, "z \mapsto z^{-1}", hook]  & \C \arrow[u, "z \mapsto z^{-1}"', hook] 
+\\
+\C \setminus \{ 0 \} \arrow[u, hook] \arrow[r, "\tilde{f}"] & \C \setminus \{ 0 \} \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+Where $\tilde{f}(z) = f(z^{-1})^{-1}$ such that $f : \C \to \C$ on the standard chart around $0$ agrees with $\tilde{f}(z)$ on the overlap. Then $\tilde{f}$ has a removable singularity at $0$ so it extends holomorphically to $\tilde{f} : \C \to \C$ and thus $f$ and $\tilde{f}$ glue to give a holomorphic map $\hat{f} : \hat{\C} \to \hat{\C}$. Furthermore, because $\lim\limits_{z \to 0} \frac{1}{f(\frac{1}{z})} = 0$ we know $\tilde{f}(0) = 0$ and thus $\hat{f}(\infty) = \infty$. 
+\bigskip\\
+Now consider the chart around $\infty$ of $\hat{\C}$ defined by $z \mapsto z^{-1}$. Thus, in the local coordinate, the function becomes $f(\frac{1}{z})$. Then $\lim\limits_{z \to 0} \frac{1}{f(\frac{1}{z})} = 0$ is equivalent to  $f(\frac{1}{z})$ having a pole at $z = 0$ and thus to $f$ having a pole at $\infty$ on $\hat{\C}$. Furthermore, if $f$ has a pole at $\infty$ of order $k$ then,
+\[ f(z) = z^k u(z) \]
+where $u(z)$ is holomorphic, nonvanishing, and thus bounded at $\infty$ (i.e. $u(\frac{1}{w})$ is holomorphic at $w = 0$ and thus bounded) so $|f(z)| \le L |z^k|$ for $|z| \ge R$ where $u(\frac{1}{w})$ is bounded by $L$ on the disk $|w| \le \frac{1}{R}$. Conversely, if $f$ has polynomial growth then,
+\[ \lim_{z \to \infty} \frac{f(z)}{z^{k+1}} = 0 \]
+so $f$ has a pole at $\infty$. Finally, if $f$ is a polynomial then clearly it has polynomial growth. However if $f$ has polynomial growth then applying the Cauchy integral formula,
+\[ f^{(n)}(0) = \frac{n!}{2 \pi i} \oint_{\partial D_R(0)} \frac{f(z)}{z^{n+1}} \, \d{z} \]
+we see that,
+\[ |f^{(n)}(0)| \le n! L R^{k - n} \]
+so in the limit $R \to \infty$ we see that $f^{(n)}(0) = 0$ for $n > k$ and thus, because $f$ is entire so its power series expression is global (or by analytic continuation and using the series expression at $0$ to show that $f$ is a polynomial on some neighborhood of $0$) $f$ is a polynomial. Furthermore we assume that $f$ is nonconstant. Thus we show that (e) $\iff$ (f) $\iff$ (g) $\iff$ (h).
+\end{proof}
+
+\begin{prop}
+Let $f : \C \to \C$ be entire then the following are equivalent:
+\begin{enumerate}
+\item $f$ admits a holomorphic extension $\hat{f} : \hat{\C} \to \C$
+\item $f$ admits a continuous extension $\hat{f} : \hat{\C} \to \C$
+\item $f$ is bounded
+\item $f$ is constant
+\item $\lim\limits_{z \to \infty} f(z)$ exists
+\item $f$ has a removable singularity at $\infty$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+(a) $\implies$ (b) is obvious. If $f$ admits a continuous extension $\hat{f} : \hat{\C} \to \C$ then the image of $\hat{f}$ is compact and thus closed and bounded in $\C$ so $f$ is bounded. Then (c) $\implies$ (d) is Liouville's theorem. Next (d) $\implies$ (e) is obvious. Now assume that $\lim\limits_{z \to \infty} f(z)$ exists or equivalently $\lim\limits_{z \to 0} f(\frac{1}{z})$ exists and thus $f(\frac{1}{z})$ has a removable singularity at $z = 0$ and thus $f$ has a removable singularity at $\infty$ on $\hat{\C}$ using the chart $z \mapsto z^{-1}$. Furthermore, if $f$ has a removable singularity then it extends to a well-defined function $g : \C \to \C$ with $g(z) = f(\frac{1}{z})$ and therefore gluing on the two charts gives a holomorphic extension $\hat{f} : \hat{\C} \to \C$.
+\end{proof}
+
+\begin{prop}
+Any holomorphic function $f : \hat{\C} \to \hat{\C}$ is a rational function.
+\end{prop}
+
+
+\begin{proof}
+Since $f$ is holomorphic, it set $P$ of poles is isolated and thus finite because $\hat{\C}$ is compact. Therefore,
+\[ g(z) = f(z) \prod_{a \in P} (z - a)^{\ord_a(f)} \]
+is a holomorphic function $g : \hat{\C} \to \hat{\C}$ with no poles on $\C$ thus restricting to an entire function $g : \C \to \C$ which admits a holomorphic extension to the Riemann sphere. Thus $g$ is a polynomial proving the theorem. 
+\end{proof}
+
+\begin{rmk}
+If $f$ admits a holomorphic extension $\hat{f} : \hat{\C} \to \hat{\C}$ sending $\hat{f}(\infty) \in \C$ then $f$ is constant. This is because the image of $\hat{f}$ is compact but contained in $\C$ and thus bounded so by Liouville $f$ is consant.
+\end{rmk}
+
+
+\section{Conformal Geometry}
+
+\renewcommand{\C}{\mathcal{C}}
+
+\begin{defn}
+Let $M$ be a smooth manifold. Two Riemannian metrics $g_1, g_2$ are \textit{conformally equivalent} if there exists a positive smooth function $\lambda : M \to \R$ such that $g_1 = \lambda^2 g_2$.
+\end{defn}
+
+\begin{defn}
+A smooth map $f : M \to N$ of Riemannian manifolds is \textit{conformal} if $g_M$ and $f^* g_N$ are conformally equivalent. 
+\end{defn}
+
+\begin{defn}
+A \textit{conformal manifold} is a pair $(M, [g])$ where $M$ is a smooth manifold and $[g]$ is a conformal class of Riemannian metrics on $M$. A conformal map $f : (M, [g]) \to (N, [h])$ is a smooth map $f : M \to N$ such that $f^* [h] = [g]$.
+\end{defn}
+
+\begin{defn}
+We say that an almost complex structure $I$ is \textit{compatible} with a metric $g$ if for all $v, u$,
+\[ g(I(v), I(u)) = g(v, u) \]
+that is $I \in \mathrm{O}(TM)$
+\end{defn}
+
+\begin{prop}
+Let $(X, g, I)$ be a Riemannian manifold with a compatible almost complex structue. Then $\omega(-,-) = g(I(-), -)$ is a 2-form called the fundamental form.
+\end{prop}
+
+\begin{proof}
+We need to show that $\omega$ is antisymmetric. Note,
+\[ \omega(v, u) = g(I(v), u) = g(I^2(v), I(u)) = - g(v, I(u)) = - g(I(u), v) = - \omega(u, v) \]
+\end{proof}
+
+\begin{prop}
+If $I$ is compatible with $g$ then 
+\end{prop}
+
+\begin{prop}
+Let $(X, I)$ be a (paracompact) smooth manifold with an almost complex structure. Then there exists a Riemannian metric $g$ on $X$ compatible with $I$.
+\end{prop}
+
+\begin{proof}
+First we show that there exsits a metric $g'$ on $X$. Choose charts $\{(U_i, \varphi_i)\}$ which we refine such that it is locally finite and choose a subordinate partition of unity $\chi_i$. The standard metric gives a metric $g_i$ on $U_i$. Now consider,
+\[ g = \sum \chi_i g_i \]
+then $g$ is symmetric and positive definite since $\chi_i \ge 0$ with at least one positive at each point and $g_i(v, v) > 0$ for $v \neq 0$ so $g(v, v) > 0$. 
+\bigskip\\
+Now consider,
+\[ g(v, w) = g'(v, w) + g'(I(v), I(w)) \]
+It is clear that $g$ is symmetric and positive definite because $g(v, v) = g'(v, v) + g'(I(v), I(v))$ is positive unless $v = 0$ so $g$ is a metric. Furthermore,
+\[ g(I(v), I(u)) = g'(I(v), I(u)) + g'(I^2(v), I^2(u)) = g'(v, u) + g'(I(v), I(u)) = g(v, u) \]
+\end{proof}
+
+\begin{defn}
+A \textit{pseudo-holomorphic} map $f : (X, I) \to (X', I')$ is a smooth map $f : X \to X'$ such that $\d{f} \circ I = I' \circ \d{f}$. 
+\end{defn}
+
+\begin{rmk}
+When $(X, I)$ and $(X', I')$ are integrable almost complex structues (i.e. are induced by complex structues on $X$ and $X'$) then pseudo-holomorphic maps are exactly holomorphic maps $f : X \to X'$.
+\end{rmk}
+
+\subsection{The Two Dimensional Case}
+
+
+\begin{lemma}
+Let $V$ be a oriented 2-dimensional $\R$-vectorspace. Let $J : V \to V$ be an endomorphism such that $v, I(v)$ is a positively ordered basis for each $v \neq 0$. Then $J \in \mathrm{GL}^{+}(V)$.
+\end{lemma}
+
+
+\begin{proof}
+The orientation induces a notion of positivity on $\bigwedge^2 V$. The form $q(v) = v \wedge J(v)$ is positive definite. Choosing a basis we write $J$ in a matrix form,
+\[ A = 
+\begin{pmatrix}
+a & b 
+\\
+c & d 
+\end{pmatrix} \]
+then $q(x) = x^\top B x$ where,
+\[ B = \tfrac{1}{2} (SA - A^\top S) \]
+where,
+\[ S = 
+\begin{pmatrix}
+0 & -1
+\\
+1 & 0
+\end{pmatrix} \]
+then,
+\[ B = 
+\begin{pmatrix}
+-c & \frac{a-d}{2}
+\\
+\frac{a-d}{2} & b 
+\end{pmatrix} \]
+Since $q$ is positive definite,
+\[ \det{B} = -cb - \left( \frac{a-d}{2} \right)^2 > 0 \]
+Therefore,
+\[ ad - bc > ad + \left( \frac{a-d}{2} \right)^2 = \left( \frac{a + d}{2} \right)^2 > 0 \]
+and thus $J \in \mathrm{GL}^{+}(V)$.
+\end{proof}
+
+\begin{lemma}
+Let $V$ be a 2-dimensional $\R$-vectorspace with an inner product $\inner{-}{-}$. Suppose that $K : V \to V$ is an endomorphism such that $\inner{v}{J(v)} = 0$ for all $v \in V$. Then $J^2 = - \lambda^2 \id$.
+\end{lemma}
+
+\begin{proof}
+Choose an orthonormal basis $\{ e_i \}$ then we write $I$ in a matrix form,
+\[ A = 
+\begin{pmatrix}
+a & b 
+\\
+c & d 
+\end{pmatrix} \]
+and $\inner{v}{J(v)} = x^\top A x$ where $v = x^i e_i$. Thus if the form is zero we must have $A^\top = -A$ and thus,
+\[ A = 
+\begin{pmatrix}
+0 & -\lambda 
+\\
+\lambda & 0
+\end{pmatrix} \]
+meaning that $A^2 = - \lambda^2 I$ and thus $J^2 = - \lambda^2 \id$.
+\end{proof}
+
+\begin{lemma}
+Let $V$ be a 2-dimension $\R$-vectorspace and $J : V \to V$ an endomorphism such that $J^2 = - \id$. Then $J \in \mathrm{SL}(V)$.
+\end{lemma}
+
+\begin{proof}
+We can choose a basis $v, J(v)$ for any $v \neq 0$ since if $J(v) = \lambda v$ then $\lambda^2 = -1$ which is not possible over $\R$. Thus $I(v \wedge I(v)) = I(v) \wedge I^2(v) = - I(v) \wedge v = v \wedge I(v)$ and thus $I$ preserves $\det{V}$ so $\det{I} = 1$ and thus $I \in \mathrm{SL}(V)$. 
+\end{proof}
+
+\begin{prop}
+Let $X$ be an oriented 2-manifold. Then the following data are equivalent,
+\begin{enumerate}
+\item an almost complex structure $(X, I)$ compatible with the orientation
+\item a conformal structure $(X, [g])$
+\end{enumerate}
+The graph of this correspondence is the set of compatible pairs $(I, [g])$.
+\end{prop}
+
+\begin{proof}
+Given a conformal class $[g]$ choose a representative $g$. For any vector field $\sigma$ consider the line bundle $L = \ker{g(\sigma, -)} \subset T X$ giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & L \arrow[r] & T X \arrow[r, "\iota_\sigma g"] & \underline{\R} \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Therefore, we find,
+\[ \det{T X} \cong L \]
+An orientation of $X$ induces an orientation on $\det{T X}$ and thus on $L$ so $L$ has nonvanishing global sections. Then the fixed norm bundle $U_\sigma(L) = \{ (x, v) \in L \mid g(v, v) = g(\sigma, \sigma) \}$ has a unique positive section $\sigma^\perp \in \Gamma(X, U(L)) \subset \Gamma(X, TX)$ under the induced orientation. Then $\sigma \mapsto \sigma^\perp$ is $\C^{\infty}$-linear giving an endomorphism $I : TX \to TX$. Furthermore, $g(\sigma, I(\sigma)) = 0$ so, applying the previous lemmas, $I^2 = - \lambda^2 \id$ but $g(I(\sigma), I(\sigma)) = g(\sigma, \sigma)$ and thus $\lambda^2 = 1$ so $I^2 = -\id$. Finally, since $v \wedge I(v)$ is positive, we see $I$ induces a compatible orientation on $X$. Furthermore, clearly $I$ is the unique almost complex structure compatible with $g$ and orientation since $U_\sigma(L)$ has only two sections the other of which is oppositely oriented. 
+\bigskip\\
+Conversely, given a complex structure $(X, I)$ compatible with the orientation consider the set $c(I)$ of metrics on $X$ compatible with $I$. Suppose $g$ and $g'$ are two such metrics. At a point $x \in X$ choose some $v \neq 0$. We know $v, I(v)$ forms a basis $T_x X$ so $g_x$ and $g_x'$ are determined by their values on $v, I(v)$. Choose $\lambda_x > 0$ such that $g_x'(v, v) = \lambda_x^2 g_x(v, v)$. Furthermore,
+\[ g_x'(I(v), I(v)) = g_x'(v, v) = \lambda_x^2 g(v, v) = \lambda_x^2 g_x(I(v), I(v)) \]
+and $g_x'(v, I(v)) = 0$ and $g_x(v, I(v))$ so $g_x' = \lambda_x^2 g_x$. Then because $g$ and $g'$ are smooth and nonzero tensors we see that $\lambda$ is a smooth function so $g$ and $g'$ are conformally equivalent. 
+\end{proof}
+
+\begin{prop}
+Let $(X, I, [g])$ and $(X', I', [g'])$ be 2-manifolds with compatible conformal and almost complex structures. Let $f : X \to X'$ be a smooth map. Then the following are equivalent,
+\begin{enumerate}
+\item $f$ is conformal and orientation preserving
+\item $f$ is a pseudo-holomorphic local diffeomorphism.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+If $f : X \to X'$ is conformal then choosing a representative, $g'$ for the conformal class on $X'$ we see that $f^* g'$ is a metric i.e. positive definite. In particular, $(f^* g')(v, v) = g'(\d{f}(v), \d{f}(v))$ but if $\d{f}(v) = 0$ then $v = 0$ since $(f^* g')(v, v) = 0$. Thus $f$ is a local diffeomorphism and since $f^* g' \in [g]$, we see that $I$ is compatible with with $f^* g'$. Furthermore, $\tilde{I} = \d{f}^{-1} \circ I' \circ \d{f}$ is an almost complex structure on $X$ compatible with $f^* g'$ because,
+\begin{align*}
+(f^* g')(\tilde{I}(v), \tilde{I}(u)) & = g'(\d{f}(I(v)), \d{f}(I(u))) = g'(I'(\d{f}(v)), I'(\d{f}(u))) 
+\\
+& = g'(\d{f}(v), \d{f}(u)) = (f^* g')(v, u)
+\end{align*}
+Furthermore, if $f$ is orientation preserving then $\tilde{I}$ is compatible with the orientation. To see this, note that $\d{f}(v) \wedge I' \circ \d{f}(v)$ is positive (because $I'$ is compatible with the orientation on $X$) so applying $\d{f}^{-1}$ we see that $v \wedge \tilde{I}(v)$ is positive meaning that $\tilde{I}$ is compatible with the orientation on $X$. Thus $\tilde{I} = I$ because there is a unique almost complex structure compatible with the orientation and conformal structure so $f$ is pseudo-holomorphic.
+\bigskip\\
+Conversely, suppose that $f$ is pseudo-holomorphic and a local diffeomorphism. Choose a representative $g'$ for the conformal class. Then consider,
+\[ (f^* g')(I(v), I(u)) = g'(\d{f} \circ I(v), \d{f} \circ I(u)) = g'(I' \circ \d{f}(v), I' \circ \d{f}(u)) = g'(\d{f}(v), \d{f}(u)) = (f^* g')(v, u) \]
+because $I'$ is compatible with $g'$. Thus, $f^* g'$ is compatible with $I$. Because $f$ is a local diffeomorphism $f^* g'$ is a metric on $X$ and thus $f^* g' \in [g]$ because $f^* g'$ is compatible with $I$ and thus defines the same conformal class. Therefore, $f : (X, [g]) \to (X', [g'])$ is conformal. Furthermore, $v \wedge I(v)$ positive but $\d{f}(I(v)) = I'(\d{f}(v))$ so $\d{f}(v \wedge I(v)) = \d{f}(v) \wedge I'(\d{f}(v))$ which is positive because $I'$ is compatible with the orientation on $X'$.  
+\end{proof}
+
+
+\section{Blow Ups and Canonical Bundles}
+
+Let $\pi : \tilde{X} \to X$ be the blow up at $Z \subset X$. Suppose that $X$ is a smooth variety over $k$ and $Z \subset X$ is smooth. Consider the diagram,
+
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, hook] \arrow[d] & \tilde{X} \arrow[d, "\pi"]
+\\
+Z \arrow[r, hook] & X
+\end{tikzcd}
+\end{center}
+where $E = \P(\C_{Z/X})$.
+Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi^* \Omega_X \arrow[r] & \Omega_{\tilde{X}} \arrow[r] & \Omega_{\tilde{X}/X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is exact on the left because it is a generically injective map of vector bundles. Furthermore, there are exact sequences,
+\begin{center}
+\begin{tikzcd}
+\iota^* \Omega_{\tilde{X}/X} \arrow[r] & \Omega_{E/X} \arrow[r] & \Omega_{E/\tilde{X}} \arrow[r] & 0
+\\
+\pi^* \Omega_{Z/X} \arrow[r] & \Omega_{E/X} \arrow[r] & \Omega_{E/Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now the horizontal maps are unramified so $\Omega_{E/\tilde{X}} = 0$ and $\Omega_{Z/X} = 0$ and thus $\Omega_{E/X} \iso \Omega_{E/Z}$ and there is a surjection $\iota^* \Omega_{\tilde{X}/X} \onto \Omega_{E/X}$. In fact, because the square is cartesian this is an isomorphism so,
+\[ \iota^* \Omega_{\tilde{X}/X} \iso \Omega_{E/X} \iso \Omega_{E/Z} \]
+Therefore, because $\I \cdot \Omega_{\tilde{X}/X} = 0$ we find that $\Omega_{\tilde{X}/X} \iso \iota_* \Omega_{E/Z}$ so our exact sequence becomes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi^* \Omega_{X} \arrow[r] & \Omega_{\tilde{X}} \arrow[r] & \iota_* \Omega_{E/Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Furthermore, because $E \to Z$ is isomorphic to the projective bundle $\pi : \P_Z(\C_{Z/X}) \to Z$ we have an Euler sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{E/Z} \arrow[r] & \pi^* \C_{Z/X} \otimes_{\struct{E}} \struct{E}(-1) \arrow[r] & \struct{E} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+\section{Groups acting on Schemes, Torsors, and Covers}
+
+\begin{rmk}
+Here we use Daniel Litt's convention that torsors need not be split (what the Stacks project calles a pseudo-torsor).
+\end{rmk}
+
+\begin{prop}
+Let $G$ be a group object in the category of schemes over $S$. 
+\begin{enumerate}
+\item if $G \to S$ is separated then $e : S \to G$ is a closed immersion
+\item if $G \to S$ is unramified then $e : S \to G$ is an open immersion.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Notice that $e : S \to G$ is a section of the structure map $G \to S$. Therefore we apply implication of properties to the diagram,
+\begin{center}
+\begin{tikzcd}
+S \arrow[rd, "\id"] \arrow[rr, "e"] & & X \arrow[ld, "f"]
+\\
+& S
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{rmk}
+If $G \to S$ is separated and unramified and $S$ is connected then $e : S \to G$ is an isomorphism onto a connected component of $G$. Furthermore, for each point $g \in G(S)$, the map $g : S \to G$ also gives an isomorphism to a connected componen of $G$. Therefore, consider the map,
+\[ \coprod_{g \in G(S)} g S \to G \]
+IS THIS AN ISOMORPHISM?
+\end{rmk}
+
+\begin{prop}
+Let $G$ be an abstract group. Then,
+\[ G_S = G \times S = \coprod_{g \in G} g S \]
+is separated and (locally) \etale over $S$.
+\end{prop}
+
+\begin{proof}
+Locally $G_S \to S$ is just $\id : S \to S$. Furthermore, the diagonal map is a canonical inclusion of copies of $S$ into more copies of $S$ and thus a closed immerison. (CHECK THIS!!)
+\end{proof}
+
+\begin{rmk}
+Notice some people have \etale require finite presentation and thus quasi-compact. We only require locally of finite presentation so some infinite covers are acceptable. Since $G_S$ is \etale it is, in particular, smooth and unramified.
+\end{rmk}
+
+\begin{defn}
+Let $\C$ be a category with fiber products and finite products (a terminal object suffices because of the existence of fiber products) and let $G$ be a group object in $\C$. A (relative) $G$-torsor is a morphism $f : X \to Y$ with a $G$-action $a : G \times_\C X \to X$ on $X$ such that $f : X \to Y$ is $G$-equivariant for the trivial action on $Y$ i.e
+\begin{center}
+\begin{tikzcd}
+G \times_\C X \arrow[r, "\id \times f"] \arrow[d,"a"'] & G \times_\C Y \arrow[d, "\pi_2"]
+\\
+X \arrow[r, "f"'] & Y
+\end{tikzcd}
+\end{center}
+commutes or more susictly $f \circ m = f \circ \pi_2$ as maps $G \times_\C X \to Y$. Furthermore, we require the map,
+\[ G \times_\C X \xrightarrow{(\pi_2, m)} X \times_Y X \]
+defined by the relation $f \circ m = f \circ \pi_2$ is an isomorphism.
+\end{defn}
+
+\begin{rmk}
+This is identical to the definition of a $G_Y$-torsor in the slice category $\C_{/Y}$ where we base change such that $G_Y \times_Y X = G \times_\C X$.
+\end{rmk}
+
+\begin{defn}
+Let $\C$ be a category with finite products and $G$ be a group object. A $G$-torsor $(X, a)$ is an object with an action $a : G \times_\C X \to X$ such that the map,
+\[ G \times_\C X \xrightarrow{(\pi_2, a)} X \times_\C X \] 
+is an isomorphism. 
+\end{defn}
+
+\begin{prop}
+Let $f : X \to Y$ be a $G$-torsor in the category of $S$-schemes. Let $\cP$ be a property of morphisms preserved under base change and composition with $\id_S \in \cP$. Then,
+\[ \Delta_{G/S} \in \cP \implies \Delta_{X/Y} \in \cP \]
+\end{prop}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "e \times \id"'] \arrow[r, "\id"] & X \arrow[d, "\Delta_{X/Y}"]  
+\\
+G \times_S X \arrow[r, "(\pi_2 \, a)"] & X \times_Y X
+\end{tikzcd}
+\end{center}
+Since the horizontal maps are isomorphisms, $e \times \id : X \to G \times_S X$ and $\Delta_{X/Y}$ share the same properties. Furthermore, $e : S \to G$ and $\Delta_{G/S}$ share all properties $\cP$ because of the diagram,
+\begin{center}
+\begin{tikzcd}
+S \arrow[rr, "e"] \arrow[rd, "\id"'] & & G \arrow[ld]
+\\
+& S
+\end{tikzcd}
+\end{center}
+and implication of properties. Therefore if $\Delta_{G/S} \in \cP$ then $e \times \id \in \cP$ by base change so $\Delta_{X/Y} \in \cP$.
+\end{proof}
+
+\begin{rmk}
+If base changing along $X \to S$ is not faithful on properties, mapping non $\cP$ into $\cP$, then we cannot conclude that $\Delta_{X/Y} \in \cP \implies \Delta_{G/S} \in \cP$. (GIVE EXAMPLE!!) 
+\end{rmk}
+
+\begin{defn}
+We say that $f : X \to Y$ is \textit{weakly unramified} if $\Delta_{X/Y}$ is an open immersion.
+\end{defn}
+
+\begin{rmk}
+We have unramified iff weakly unramified and locally finite type by Tag 02GE.
+\end{rmk}
+
+\begin{cor}
+Let $f : X \to Y$ be a $G$-torsor in the category of $S$-schemes.
+\begin{enumerate}
+\item If $G \to S$ is (quasi/affine)-separated then $f : X \to Y$ is (quasi/affine)-separated.
+\item If $G \to S$ is weakly unramified then $f : X \to Y$ is weakly unramified.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+Immediate from the above, the definitions, and the fact that all such classes of morphisms are preserved under composition and base change and all identity maps belong to them.
+\end{proof}
+
+\begin{rmk}
+Notice that if $G = S$ is the trivial $S$-group scheme and $f : X \to Y$ is a mono with the trivial action then,
+\begin{center}
+\begin{tikzcd}
+G \times_S X \arrow[r, "(\pi_2 \, a)"] \arrow[d, equals] & X \times_Y X \arrow[d, equals]
+\\
+X \arrow[r, "\Delta_{X/Y}"] & X \times_Y X
+\end{tikzcd}
+\end{center} 
+is an isomorphism because $f : X \to Y$ is monic. Therefore $f : X \to Y$ is a $G$-torsor. Therefore, no matter how nice $G$ is, we cannot ensure that $f : X \to Y$ is flat, smooth, \etale, etc automatically. In fact, consider $\Spec{\Q} \to \Spec{\Z}$ which is a monic but not even (locally) finite type. This case is fairly degenerate so we wish to eliminate it in the next section.
+\end{rmk}
+
+\subsection{Surjective Torsors}
+
+\begin{defn}
+We say a $G$-torsor in the category of $S$-schemes is \textit{surjective} if $f : X \to Y$ is surjective.
+\end{defn}
+
+(DREAM THEOREM!)
+
+\begin{prop}
+Let $f : X \to Y$ be a surjective $G$-torsor then,
+\begin{enumerate}
+\item If $G \to S$ is locally of finite type then $f : X \to Y$ is locally of finite type.
+\item If $G \to S$ is unramified then $f : X \to Y$ is unramified.
+\item If $G \to S$ is flat then $f : X \to Y$ is flat.
+\item If $G \to S$ is smooth then $f : X \to Y$ is smooth.
+\item If $G \to S$ is \etale then $f : X \to Y$ is \etale.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\subsection{Locally Trivial Torsors}
+
+Here let $\C$ be a category with fiber products and finite products and $\tau$ a Grothendieck topology so that $(\C, \tau)$ is a site.
+
+\begin{defn}
+A $G$-torsor $f : X \to Y$ is trivial if it is isomorphic (as $G$-objects) to $G \times_S Y$.
+\end{defn}
+
+\begin{lemma}
+A $G$-torsor is trivial if and only if it has a section.
+\end{lemma}
+
+\begin{proof}
+Clearly trivial torsors have sections given by the base change of $e : S \to G$. Suppose that $s : Y \to X$ is a section of $f : X \to Y$. Then consider, the map $a \circ (\id \times s) : G \times_S Y \to X$. First we need to check that this is a map of $G$-torsors meaning the diagram,
+\begin{center}
+\begin{tikzcd}[row sep = huge, column sep = huge]
+G \times_S G \times_S Y \arrow[r, "\id_G \times \id_G \times s"] \arrow[d, "m \times \id_Y"'] & G \times_S G \times_S X \arrow[r, "\id_G \times a"]  \arrow[d, "m \times \id_X"] & G \times_S X \arrow[d, "a"]
+\\
+G \times_S Y \arrow[r, "\id_G \times s"] & G \times_S X \arrow[r, "a"] & X
+\end{tikzcd}
+\end{center}
+commutes. The left square obviously commutes and the right square commutes because $a$ is an action. Now let $q : X \to X$ be $s \circ f$ and notice $f \circ q = f$ so that we can write the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+G \times_S X \arrow[r, "(\pi_2 \, a)"] \arrow[d, bend left, "\id_G \times f"] & X \times_Y X \arrow[d, bend left, "\pi_2"]
+\\
+G \times_S Y \arrow[u, bend left, "\id_G \times s"] \arrow[r, "a \circ (\id_G \times s)"] & X \arrow[u, bend left, "(q \, \id)"] 
+\end{tikzcd}
+\end{center}
+Let $g = (\pi_2, a)$ and consider $(r, t) = g^{-1}$ where $r : X \times_Y X \to G$ and $t : X \times_Y X \to X$ where $(r, t) \circ g = \id$ meaning,
+\[ r \circ g = \pi_1 \quad \text{and} \quad t \circ g = \pi_2 \]
+and $g \circ (r, t) = \id$ meaning,
+\[ \pi_2 \circ (r, t) = t = \pi_1 \quad \text{and} \quad a \circ (r, t) = \pi_2 \]
+Now let $v = (\id_G \times f) \circ g^{-1} \circ (q, \id)$. I claim that $v$ and $u = a \circ (\id_G \times s)$ are inverse. Notice,
+\begin{align*}
+u \circ v & = a \circ (\id_G \times q) \circ g^{-1} \circ (q, \id)
+\\
+& = a \circ [(r \circ (q, \id)), (q \circ t \circ (q, \id))]
+\\
+& = a \circ [(r \circ (q, \id)), q]
+\\
+& = a \circ [(r \circ (q, \id)), t \circ (q, \id)]
+\\
+& = a \circ g^{-1} \circ (q, \id)
+\\
+& = \pi_2 \circ (q, \id) = \id_X
+\end{align*}
+using $q \circ q = q$ and $t = \pi_1$. Likewise, notice $q \circ a = q \circ \pi_2$ and $q \circ s = s$. Thus,
+\begin{align*}
+v \circ u & = (\id_G \times f) \circ g^{-1} \circ (q, \id) \circ a \circ (\id_G \times s)
+\\
+& = (\id_G \times f) \circ g^{-1} \circ (s \circ \pi_2, a \circ (\id_G \times s))
+\\
+& = (\id_G \times f) \circ (r \circ [s \circ \pi_2, a \circ (\id_G \times s)], s \circ \pi_2)
+\\
+& = (r \circ (\pi_2, a) \circ (\id_G \times s)], \pi_2)
+\\
+& = (\pi_1 \circ (\id_G \times s, \pi_2)
+\\
+& = (\pi_1, \pi_2) = \id_{G \times_S Y}
+\end{align*}
+\end{proof}
+
+\begin{defn}
+We say that a $G$-torsor $X$ is \textit{locally trivial} or \textit{split} in the $\tau$-topology if there exists a $\tau$-cover $\{ Y_i \to Y \}$ such that $X_{Y_i} \to Y_i$ is a trivial $G_{Y_i}$-torsor.
+\end{defn}
+
+\begin{prop}
+If $\tau$ is subcanonical for $\C = \Sch_{S}$ then locally trivial $G$-torsors are surjective.
+\end{prop}
+
+\begin{proof}
+(IS THIS TRUE?)
+\end{proof}
+
+\subsection{$G$-Covers and Galois Covers}
+
+\section{Some Random Notes on Categories and Stuff}
+
+\subsection{Group Objects in a Monoidal Category?}
+
+Why don't we consider group objects in a monoidal category (only monoid objects) unless the monoidal operation is categorical product. Well, it's because the ``inverses'' diagram,
+\begin{center}
+\begin{tikzcd}[row sep = huge]
+G \arrow[r, "(\id \times i) \circ \Delta"] \arrow[d, "(i \times \id) \circ \Delta"'] \arrow[rd, "e"] & G \otimes G \arrow[d, "m"]
+\\
+G \otimes G \arrow[r, "m"'] & G
+\end{tikzcd}
+\end{center}
+only makes sense where there exists a diagonal map $G \to G \otimes G$. For example, in the category of abelian groups, there does not exists a diagonal map nor projections for $\otimes_\Z$ basically because $x \mapsto x \otimes x$ is not linear. In fact, suppose we have a monoidal category with a natural map $\Delta : A \to A \otimes A$ then for any pair of maps $f : A \to X$ and $g : A \to Y$ we get 
+\[ A \xrightarrow{\Delta} A \otimes A \xrightarrow{f \otimes g} X \otimes Y \] 
+So $\otimes$ acts sort of like a product (FORMALIZE THIS).
+
+\subsection{Monoidal Category acting on a Category}
+
+\begin{rmk}
+Notice that a monoidal category is a monoid object in the two category $\mathbf{Cat}$.
+\end{rmk}
+
+\begin{defn}
+Let $(\C, \otimes, I)$ be a monoidal category and $\D$ a category. Then an action of 
+\end{defn}
+
+\subsection{Modules for a Monoid}
+
+\section{Descending Properties for Faithfully Flat Maps}
+
+\begin{lemma}
+Let $M$ be an $R$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is finite projective
+\item $M$ is finitely presented and flat.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Tag 058R. (FIND A NICE PROOF)
+\end{proof}
+
+\begin{prop}
+Let $\varphi : A \to B$ be a faithfully flat ring map and $M$ an $A$-module. Then, viewing $M \otimes_A B$ as a $B$-module,
+\begin{enumerate}
+\item if $M \otimes_A B$ is finite then $M$ is finite
+\item if $M \otimes_A B$ is finitely presented then $M$ is finitely presented
+\item if $M \otimes_A B$ is flat then $M$ is flat
+\item if $M \otimes_A B$ is finite projective then $M$ is finite projective.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Choosing a generating set $e_i = \sum_j m_{ij} \otimes b_j$ of $M \otimes_A B$ gives a map $\psi : A^n \to M$ via the elements $m_{ij} \in M$. Clearly $\psi \otimes \id_B$ is surjective so $\coker{\psi} \otimes_A B = 0$ and thus $\coker{\psi} = 0$ by faithful flatness so $\psi$ is surjective and thus $M$ is finite. 
+\bigskip\\
+Let $M \otimes_A B$ be finitely presented. By finiteness we conclude that $M$ is finite and need to show that $K = \ker{(A^n \onto M)}$ is finite as well. However, by flatness, $\ker{(B^n \onto M \otimes_A B)} = K \otimes_A B$ which is finite by hypothesis and thus $K$ is finite by part (a) proving part (b).
+\bigskip\\
+Suppose that $M \otimes_A B$ is $B$-flat. Consider an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & N \arrow[r] & L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of $A$-modules. Applying the functor $- \otimes_A M$ gives a complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \otimes_A M \arrow[r] & N \otimes_A M \arrow[r] & L \otimes_A M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+To check if this sequence is exact, it suffices to apply $- \otimes_A B$ and check exactness because $\varphi : A \to B$ is faithfully flat. Applying $- \otimes_A B$ gives the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \otimes_A M \otimes_A B \arrow[r] & N \otimes_A M \otimes_A B \arrow[r] & L \otimes_A M \otimes_A B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is isomorphic (as a complex of $B$-modules) to the complex of $B$-modules obtained by taking the original exact sequence and applying first $- \otimes_A B$ and then applying $- \otimes_B (M \otimes_A B)$ after applying $- \otimes_A B$. This sequence remains exact because $B$ is $A$-flat and $M \otimes_A B$ is $B$-flat. Therefore $- \otimes_A M$ preserves exactness so $M$ is $A$-flat.
+\bigskip\\
+Finally, being finite projective is equivalent to being flat and finitely presented, properties we have shown descend.
+\end{proof}
+
+\begin{rmk}
+Clearly if $M \otimes_A B$ is finitely locally free over $B$ then $M$ is finite locally free over $A$ since this is equivalent to being finite projective. However, it is false that if $M \times_A B$ is finite free then $M$ must be finite free as well. For example, take an affine patch of an elliptic curve,
+\[ A = k[x,y]/(y^2 - x(x^2 + 1)) \] 
+with ideal $I = (x, y)$ which is locally principal. Now consider,
+\[ B = A \oplus I \] 
+where the algebra structure is given by $I \otimes I \to I^2 = (x) \to A$ via dividing by $x$. Therefore,
+\[ B = k[x,y,u,v]/(y^2 - x(x^2 + 1), y u - x v, u^2 - x, v^2 - (x^2 + 1), uv - y) = k[u,v]/(v^2 - (u^4  + 1)) \]
+It is clear that $B$ is a finite projective $A$-module but not free. However, I claim that $B \otimes_A B \cong B \oplus B$ as $B$-modules. This is because $\Spec{B} \to \Spec{A}$ is an \etale $\Z/2\Z$-cover. The $\Z/2\Z$-action is given by sending $v \mapsto -v$ and $u \mapsto - u$. However, $A \to B$ is faithfully flat so freeness does not descend.
+\end{rmk}
+
+\section{Local Freeness and Cohomology and Base Change}
+
+\subsection{Cohomology and Base Change}
+
+\begin{rmk}
+We begin by recalling essential facts about cohomology and base change. 
+\end{rmk}
+
+\begin{prop}
+Whenever we have a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[r, "\psi'"] \arrow[d, "f'"] & X \arrow[d, "f"]
+\\
+Z \arrow[r, "\psi"] & Y
+\end{tikzcd}
+\end{center}
+and a $\struct{X}$-module $\F$ then there are natural morphisms,
+\[ \varphi^q_Z : \psi^* (R^q f_* \F) \to (R^q f'_*) \psi'^* \F \]
+which are isomorphisms when $\psi$ is flat.
+\end{prop}
+
+\begin{proof}
+We use the fact that $\psi^*$ is left-exact and exact when $\psi$ is flat.
+\end{proof}
+
+\subsection{Ravi Exercises}
+
+\begin{prop}[16.3.G.]
+
+\end{prop}
+
+\begin{proof}
+Consider the unit $\F \to \psi'_* \psi'^* \F$. Applying $\pi_*$ gives,
+\[ \pi_* \F \to \pi_* \psi'_* \psi'^* \F \]
+However, $\pi_* \psi'_* = \psi_* \pi'_*$ and therefore we get a morphism,
+\[ \pi_* \F \to \psi_* \pi'_* \psi'^* \F \]
+Then by adjunction we get a morphism,
+\[ \psi^* \pi_* \F \to \pi'_* \psi'^* \F \]
+\end{proof}
+
+
+\subsection{Local Freeness}
+
+\begin{prop}
+Let $f : X \to Y$ be a flat and proper morphism of noetherian schemes with $H^1(X_y, \struct{X_y})$ for each $y \in Y$. Then $\pi_* \struct{X}$ is locally free.
+\end{prop}
+
+\begin{proof}
+Since $H^1(X_y, \F|_{X_y}) = 0$ it is locally constant and thus $R^1 \pi_* \struct{X} = 0$. Therefore, by Cohomology and base change for $q = 1$, \[ \psi^0_y : (\pi_* \struct{X})_y \iso H^0(X_y, \struct{X_y}) \]
+is an isomorphism and thus by cohomology and base change for $q = 0$ we see that $\pi_* \struct{X}$ is locally free.
+\end{proof}
+
+\begin{example}
+Consider the degenerate family of elliptic curves $\pi : E \to \A^1$ defined by,
+\[ E = V(y^2 z - x (x - 1)(x - \lambda)) \subset \P^2_{\A^1} = \Proj{k[\lambda][x,y,z]} \]
+I claim that $\pi : E \to \A^1$ is flat and proper. Properness is clear and flatness follows from the fact that the fibers have constant Hilbert polynomial since they are curves of degree $3$ in $\P^2_k$. 
+\end{example}
+
+\section{Some Ordinal Facts}
+
+\begin{lemma}
+Let $S$ be a well-ordered set. There is a sucessor functon $s : S \setminus \{ \max S \} \to S$ such that $x < s(x)$ and is the minimal such element meaning there does not exist any $z \in S$ such that $x < z < s(x)$ or equivalently if $x < z$ then $s(x) \le z$.
+\end{lemma}
+
+\begin{proof}
+Let $s(x) = \min \{ y \in S \mid x < y \}$ which exists by well-ordering if $x$ is not maximum because then the set is not empty. Then clearly $x < s(x)$ because $s(x)$ is a member. Furthermore, if $x < z$ then $s(x) \le z$ because it is the minimal element.
+\end{proof}
+
+\begin{rmk}
+If a set has a least element then that element is the infimum. Indeed if $m \in S$ is minimal then for any lower bound $q$ we know that $q \le m$ because $m \in S$. Thus $s(x)$ is maximal as a sucessor.
+\end{rmk}
+
+\begin{lemma}
+Let $S$ be a well-ordered set. If $x,y \in S \setminus \{ \max S \}$ are such that $x < s(y)$ and $y < s(x)$ then $x = y$.
+\end{lemma}
+
+\begin{proof}
+Suppose not. Without loss of generality, then $x < y$ so $x < y < s(x)$ giving a contradiction. We can also show this directly. If $x < s(y)$ then we cannot have $y < x$ so $x \le y$. Likewise we see that $y \le x$ so $x = y$.
+\end{proof}
+
+\begin{prop}
+Every well-ordered suborder of $\R$ is countable.
+\end{prop}
+
+\begin{proof}
+Let $S \subset \R$ be a well-orderd suborder. For each $q \in \Q$ there is  at most one $x \in S$ such that $x < q < s(x)$. Indeed, if there were two such $x,y \in S$ then $x < q < s(y)$ and $y < q < s(x)$ so $x = y$ by the lemma. Furthermore, for each $x \in S \setminus \{ \max S \}$ we know that $x < s(x)$ so $(x, s(x)) \cap \Q \neq \varnothing$. Therefore, we have defined a surjective partial function $\Q \onto S \setminus \{ \max S \}$ so $S$ is countable.
+\end{proof}
+
+\begin{prop}
+Every countable ordinal embedds in $\Q$ with bounded image.
+\end{prop}
+
+\begin{proof}
+We proceed to construct such embeddings by transfinite recursion. For $\alpha = \varnothing$ this is trivial. If $\alpha = \beta + 1$ then take any upper bound $q \in \Q$ of the range of $f_\beta : \beta \embed \Q$ (to avoid choice issues, notice that there is a canonical choice $q = \min \{ n \in \N \mid \forall \gamma < \beta : n > f_\beta(\gamma) \}$) and let $f_\alpha |_\beta = f_\beta$ and $f_\beta(\beta) = q$. This clearly gives an order embedding. Finally, for a limit ordinal $\alpha$ we suppose that $f_\beta : \beta \embed \Q$ is defined for each $\beta < \alpha$. We decompose $\alpha$ into countably many intervals $[\gamma_n, \gamma_{n+1})$ which must have order type $\beta_n < \alpha$ so we get a bounded order embedding $f_{\beta_n} : \beta_n \embed \Q$. Since $\Q$ is order-isomorphic with $\Q \cap (0, 1)$ we can map $\beta_n \embed \Q \cap (0,1)$ and string these together giving an order embedding $f : \alpha \embed \Q$. One final application of $\Q \embed (0, 1) \cap \Q$ proves the result by transfinite induction. 
+\bigskip\\
+In fact, any countable total order embedds in $\Q$ (the boundedness of the image is obvious by using an order isomorphism $\Q \iso (0,1) \cap \Q$). The proof uses the countability of $\alpha$ by employing a  bijection $\N \to \alpha$. Call the resulting sequence $x_n \in \alpha$. We produce an order embedding $\alpha \embed \Q$ by induction on $n$. Send $f(x_0) = 0$. Then assume we have constructed $f$ on $\{x_0, \dots, x_{n-1} \}$. Consider the sets,
+\[ A = \{ f(x_i) \mid i < n \text{ and } x_i < x_n \} \quad \text{and} \quad B = \{ f(x_i) \mid i < n \text{ and } x_i > x_n \} \]
+Then $A < B$ because $f$ is order-preserving. Thus, exist a rational $q \in \Q$ such that $A < q < B$ (to avoid choice issues, notice there is a canonical choice $q = \tfrac{1}{2} (\max{A} + \min{B})$ which exists because $A$ and $B$ are finite and if $B$ is empty then let $q = \max{A} + 1$ and if $A$ is empty the let $q = \min{B} - 1$). Thus, taking $f(x_n) = q$ preserves the order because if $x_i < x_n$ then $f(x_i) \in A$ so $f(x_i) < f(x_n)$ and if $x_n > x_i$ then $f(x_i) \in B$ so $f(x_n) < f(x_i)$. Therefore, by induction we define the order embedding $f : \alpha \embed \Q$.
+\bigskip\\
+For more discussion, see \href{https://tinyurl.com/3dub3d9r}{this} blogpost and the following mathoverflow answers: \chref{https://math.stackexchange.com/questions/3521066/show-that-every-countable-well-ordered-set-is-order-isomorphic-to-a-subset-of}{one} \chref{https://math.stackexchange.com/questions/37151/showing-any-countable-dense-linear-ordering-is-isomorphic-to-a-subset-of-mat}{two} \chref{https://math.stackexchange.com/questions/408300/countable-ordinals-are-embeddable-in-the-rationals-bbb-q-proofs-and-their}{three}
+\chref{https://math.stackexchange.com/questions/44559/formal-proof-for-a-subset-of-the-real-numbers-well-ordered-with-the-normal-orde}{four} \chref{https://math.stackexchange.com/questions/407833/proving-existence-of-a-surjection-2-aleph-0-to-aleph-1-without-ac}{five} 
+\chref{https://math.stackexchange.com/questions/2149190/countable-ordinals-property}{six} 
+\end{proof}
+
+\begin{rmk}
+Therefore the order type of $\Q$ or $\R$ contains exactly all the countable ordinals.
+\end{rmk}
+
+\begin{prop}
+Endowing $\omega_1$ with the order topology, every continuous or increasing function $f : \omega_1 \to \R$ is eventually constant.
+\end{prop}
+
+\begin{proof}
+DO THISS!!
+\end{proof}
+
+\begin{defn}
+We say a topological space is,
+\begin{enumerate}
+\item second countable if it admits a countable basis
+\item Lindel\"{o}f if every cover has a countable subcover.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Obviously any compact space is Lindel\"{o}f.
+\end{rmk}
+
+\begin{lemma}
+Every second countable space is Lindel\"{o}f.
+\end{lemma}
+
+\begin{proof}
+Indeed, let $\{ U_\alpha \}_{\alpha \in A}$ be a cover of $X$ and let $\mathcal{B}$ be a countable basis for the topology on $X$. For each $x \in X$ we know $x \in U_{\alpha_x}$ for some $\alpha_x \in A$. Then there must exist basis elements $x \in B_x \subset U_{\alpha_x}$. Since $\mathcal{B}$ is countable, this given a countable refinement $\{ B_x \}_{x \in X}$ and thus choosing exactly one $U_\alpha$ containing each $B_x$ gives a countable subcover (emplying the axiom of countable choice).
+\end{proof}
+
+
+\begin{prop}
+The topological space $\omega_1$ is not Lindel\"{o}f and thus not compact or second countable.
+\end{prop}
+
+\begin{proof}
+Consider the cover $\{ [0, \alpha) \mid \alpha < \omega_1 \}$. Thss cannot have a countable (let alone finite) subcover because then the union would be bounded by $\sup \alpha$ which is a countable ordinal. 
+\end{proof}
+
+\begin{prop}
+Every increasing sequence in $\omega_1$ converges.
+\end{prop}
+
+\begin{proof}
+Let $\alpha_n \in \omega_1$ be a sequence. Then,
+\[ \alpha = \sup \alpha_n = \bigcup_{n \in \N} \alpha_n \]
+is the countable union of countable ordinals and thus is a countable ordinal such that $\alpha_n \le \alpha$ for all $n$. Thus $\alpha_n$ is bounded above and therefore converges to its supremem.
+\end{proof}
+
+\begin{prop}
+$\omega_1$ is limit point compact but not compact and thus not metrizable.
+\end{prop}
+
+\begin{proof}
+We have seen that every increasing sequence in $\omega_1$ converges and thus any infinite set $E$ must have a limit point since it contains an increasing sequence via sucessor inside $E$ meaning $s(x) = \min \{ y \in E \mid x < y \}$. However, $\omega_1$ is compact but limit point compactness and compactness agree for 
+\end{proof}
+
+\begin{rmk}
+$\omega_1$ is countably compact because for $T_1$ spaces this is equivalent to being limit point compact. It turns out that $\omega_1$ is also sequentially compact because the set has a supremum and in the order topology there is always a subsequence converging to the supremum.
+\end{rmk}
+
+\begin{rmk}
+This also shows again that $\omega_1$ is not Lindel\"{o}f because compactness and countable compactness coincide for Lindel\"{o}f spaces.
+\end{rmk}
+
+\section{Some Facts about Orbits}
+
+\renewcommand{\Aut}[2]{\mathrm{Aut}_{#1}\left(#2 \right)}
+
+\begin{prop}
+Let $X$ be a $G$-set. Then $\Aut{G}{X}$ acts transitively on $\Orb{x}$ iff $\Stab{x}$ is normal in which case $\Orb{x}$ is a $G/\Stab{x}$-torsor.
+\end{prop}
+
+\begin{proof}
+First, notice that $\Stab{g \cdot x} = g \Stab{x} g^{-1}$. But for any $\phi \in \Aut{G}{X}$ we know $\Stab{\phi(x)} = \Stab{x}$ because $g \cdot \phi(x) = \phi(g \cdot x)$. Thus if $\phi : x \mapsto g \cdot x$ then $g \Stab{x} g^{-1} = \Stab{x}$ i.e. $g \in N(\Stab{x})$. Thus if $\Aut{G}{X}$ acts transitively on $\Orb{x}$ then $\Stab{x}$ is normal.
+\bigskip\\
+There is an isomorphism of $G$-sets $G / \Stab{x} \iso \Orb{x}$. Thus if $\Stab{x}$ is normal then $\Orb{x}$ is isomorphic as $G$-sets to the group $G / \Stab{x}$ so it acts on itself transitively via right multiplication commuting with the left $G$-action so $\Aut{G}{\Orb{x}} \acts \Orb{x}$ transitively. Then any such automorphism can be extended by the identitiy to the entirety of $X$.
+\end{proof}
+
+\section{Perspectives on Derived Functors}
+
+\renewcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+
+NEW DEFN: TRIANGULATED KAN EXTENSION FROM HOMOTOPY CATEGORY 
+
+\begin{rmk}
+The total derived functor can be computed as follows. Take an quasi-isomorphism to an injective complex $A \to I$ then $RF(A) = KF(I)$ termwise. This is well-defined because quasi-isomorphisms between injective complexes are already invertible in the homotopy category.
+\end{rmk}
+
+\begin{rmk}
+Consider $A \in \mathcal{A}$ as the complex $A[0]$ then an quasi-isomorphism $A \to I$ is the same as an injective resolution. Therefore, it is clear that $H^n(RF(A)) = H^n(F(I^\bullet)) = R^n F(A)$ by definition. Furthermore, for any complex, the hypercohomology is computed as, 
+\[ \mathbb{R}^n F(A) = H^n(RF(A)) \]
+by definiton.
+\end{rmk}
+
+\begin{theorem}
+If $F : \A \to B$ is left-exact then
+$R^n F = H^n \circ RF \circ \iota$ is a universal $\delta$-functor such that $R^0 F = F$.
+\end{theorem}
+
+(DO THIS)
+
+\begin{rmk}
+Because universal $\delta$-functors are unique up to unique isomorphism this shows again that our new definition coincides with the old.
+\end{rmk}
+
+\subsection{Hypercohomology Spectral Sequence}
+
+(THINK ABOUT BOUNDEDNESS OF THESE COMPLEXES!!)
+
+\begin{prop}
+For an additive functor $F : \A \to \B$ and a complex $A \in D(\A)$ there are two spectral sequences,
+\[ E^{p,q}_1 = R^q F(A^p) \implies \mathbb{R}^{p+q} F(A^\bullet) \]
+and
+\[ E^{p,q}_2 = R^p F(H^q(A^\bullet)) \implies \mathbb{R}^{p+q} F(A^\bullet) \]
+computing the hypercohomology and thus computing $H^n(RF(A))$.
+\end{prop}
+
+\begin{proof}
+Take Eilenberg-Cartan resultion et ( DO THIS!! LOOK AT ONE NOTE)
+\end{proof}
+
+\begin{corollary}
+Let $F : \A \to \B$ and $G : \B \to \C$ be additive functors. Then for any complex $A \in \mathrm{Ch}^+(\A)$ there is a spectral sequence,
+\[ E^{p,q}_2 = R^p G \circ \mathbb{R}^q F(A) \implies H^{p+q}((RG \circ RF)(A)) \]
+\end{corollary}
+
+\begin{proof}
+Consider, $H^n(RG \circ RF(A)) = \mathbb{R}^n G(RF(A))$ so we apply the second spectral sequence to compute the hypercohomology,
+\[ E^{p+q}_2 = R^p G(H^q(RF(A)) = R^p G(\mathbb{R}^qF(A)) \implies \mathbb{R} G^{p+q}(RF(A)) = H^{p+q}((RG \circ RF)(A)) \]
+\end{proof}
+
+\begin{lemma}
+Let $F : \A \to \B$ and $G : \B \to \C$ be additive functors then there is a natural transformation $R G \circ RF \to R(G \circ F)$.
+\end{lemma}
+
+\begin{proof}
+Follows immediately from the fact that $R(G \circ F)$ is a left Kan extension.
+\end{proof}
+
+\begin{lemma}
+Let $F : \A \to \B$ and $G : \B \to \C$ be additive functors such that $F$ takes injectives to $G$-acyclics or more generally there are adapted classes $\mathcal{R}_\A$ and $\mathcal{R}_\B$ for $F$ and $G$ such that $F(\mathcal{R}_\A) \subset \mathcal{R}_\B$. Then the natural transformation $R G \circ R F \iso R(G \circ F)$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+This follows by definition since if $A \to I$ is a quasi-isomorphism with $I \in K(\mathcal{R}_\A)$ then $RF(A) = KF(A) \in K(\mathcal{R}_\B)$ so 
+\[ RG(RF(A)) = RG(KF(A)) = KG(KF(A)) = K(G \circ F)(A) \]
+because $KF(A)$ is already adapted to $G$ so there is no need for a quasi-isomorphic replacement.
+\end{proof}
+
+\begin{cor}
+In the above situation, for any complex $A \in \mathrm{Ch}^+(\A)$ there is a spectral sequence,
+\[ E^{p,q}_2 = R^p G \circ \mathbb{R}^q F(A) \implies \mathbb{R}^{p+q}(G \circ F)(A) \]
+\end{cor}
+
+\begin{rmk}
+There are also spectral sequences computing $\mathbb{F}^q F(A)$ so we get a sort of double spectral sequence. (Can I make this precise?)
+\end{rmk}
+
+\begin{cor}
+In the above situation, for any object $A \in \A$ there is a spectral sequence,
+\[ E^{p,q}_2 = R^p G \circ R^q F(A) \implies R^{p+q}(G \circ F)(A) \]
+\end{cor}
+
+\begin{rmk}
+(GIVE FULL EXPLICT PROOF OF GROTHENDIECK SPECTRAL SEQUENCE AND ALSO GIVE THE EXPLICIT WAY TO GET FROM HYPERCOHOMOLOGY SEQUENCE JUST USING F SENDING ADAPTED CLASSES TO ADAPTED CLASSES!! PAGE 11 OF https://anagrams-seminar.github.io/ss/intro.pdf)
+\end{rmk}
+
+\section{Reflective Subcategory}
+
+\begin{defn}
+A full subcategory $\A \subset \B$ is called \textit{reflective} (resp. \textit{coreflective}) if the inclusion has a left (resp. right) adjoint called the reflector.
+\end{defn}
+
+\begin{example}
+On any site, $\mathrm{Sh}(\C) \subset \mathrm{PSh}(\C)$ is a reflective subcategory with sheafification.
+\end{example}
+
+\begin{example}
+$\mathbf{Ab} \subset \mathbf{Grp}$ is a reflective subcategory with abelianization $G \mapsto G^\ab$ as its reflector.
+\end{example}
+
+\begin{example}
+The category of fields is reflective inside the category of domains with $F \mapsto \Frac{F}$ as its reflector.
+\end{example}
+
+\begin{example}
+The category of monoids inside the category of groups is coreflective with $M \mapsto M^\times$ as its reflector.
+\end{example}
+
+\begin{prop}
+Suppose that $F : \A \to \B' \subset \B'$ and $G : \B \to \A' \subset \A$ form an adjoint pair $F \dashv G$ restricting to an equivalence on the full subcategories $\A' \subset \A$ and $\B' \subset \A$. Then $G \circ F : \A \to \A'$ and $G \circ F : \B \to \B'$ are respectively a reflector making $\A' \subset \A$ reflective and a coreflector making $\B' \subset \B$ coreflective. 
+\end{prop}
+
+\begin{proof}
+It suffices to prove that $G \circ F \dashv \iota_{\A'}$ and $\iota_{\B'} \dashv F \circ G$ are adjoint pairs. Since $F : \A' \to \B'$ is fully faithful and $F$ and $G$ are inverses on $\A'$ and $\B'$,
+\begin{align*}
+\Hom{\A'}{GF(X)}{Y} & = \Hom{\B'}{FGF(X)}{F(Y)} = \Hom{\B'}{F(X)}{F(Y)} = \Hom{\B}{F(X)}{F(Y)} 
+\\
+& = \Hom{\A}{X}{GF(Y)} = \Hom{\A}{X}{\iota_{\A'}Y}
+\end{align*}
+Dually, 
+\begin{align*}
+\Hom{\B'}{X}{FG(Y)} & = \Hom{\A'}{G(X)}{GFG(Y)} = \Hom{\A'}{G(X)}{G(Y)} = \Hom{\A}{G(X)}{G(Y)}
+\\
+& = \Hom{\B}{FG(X)}{Y} = \Hom{\B}{\iota_{\B'} X}{Y}
+\end{align*}
+\end{proof}
+
+\section{Torsors don't have two commuting actions}
+
+On a group there are commuting left and right actions by left and right multiplication respectively. However, a $G$-torsor only gets one action. To have a well-defined right $G$-action on a torsor commuting with the defining left $G$-action we need to choose a basepoint (or a section if this is a $G$-bundle) as the ``identity'' and thus trivialize it. Let's see why. Recall that a torsor is a $G$-set meaning a set $X$ with a left $G$-action that is free and transitive. Choose a point $x_0 \in X$. We could try defining a right $G$-action via,
+\[ (g \cdot x_0) \cdot h = gh \cdot x_0 \]
+This clearly commutes with the left action and is actually well-defined because there is a unique $g$ such that $x = g \cdot x_0$ for each $x \in X$. However, suppose we puck a different basepoint $x_1 \in X$ and define,
+\[ (g \cdot x_1) \cdot' h = gh \cdot x_1 \]
+Then if $x_0 = r \cdot x_1$ we find that,
+\[ (gr \cdot x_0) \cdot' h = ghr \cdot x_0 \]
+while $(gr \cdot x_0) \cdot h = grh \cdot x_0$ and unless $G$ is commutative (in which case the whole business of commuting actions and right vs left actions becomes trivial) we cannot have $rh = hr$ for all $r,h \in G$ and thus the action must depend on the choice of basepoint.
+\bigskip\\
+In fact, the choice of a commuting transitive free right action determines a $Z(G)$-torsor inside $X$ so it pins down a choice of basepoint up to $Z(G)$-action. Indeed, consider the set, 
+\[ S = \{ x \in X \mid \forall g \in G : g \cdot x = x \cdot g \} \] Clearly, if $X = G$ with the usual actions then $S = Z(G)$. In general, the left action of $Z(G)$ on $X$ sends $S \to S$ because if $g \in Z(G)$ then for any $h \in G$,
+\[ h \cdot (g \cdot x) = hg \cdot x = gh \cdot x = g \cdot (h \cdot x) = g \cdot (x \cdot h) = (g \cdot x) \cdot h \]
+(here is where we use commutativity of the left and right actions) so we simply need to show that $Z(G) \acts S$ is transitive. Let $x, y \in S$ then there is a unique $g \in G$ such that $y = g \cdot x$ and it suffices to show that $g \in Z(G)$. We know for any $h \in G$ that $h \cdot y = y \cdot h$ so,
+\[ hg \cdot x = h \cdot y = y \cdot h = (g \cdot x) \cdot h = (x \cdot g) \cdot h = x \cdot gh = gh \cdot x \]
+Since the action is free, $gh = hg$ and thus $g \in Z(G)$.
+\bigskip\\
+In particular, for a principal $G$-bundle $P \to X$, a globally defined commuting right fiberwise transitive $G$-action is equivalent to a choice of principal $Z(G)$-bundle $S \to X$ and an equivariant map $S \to P$ over $X$. For instance, this shows that $G$-bundles for $G$ simple cannot have globally defined commuting right $G$-action without be trivialized.
+\bigskip\\
+This lack of a right action precludes having a product structure on $G$-bundles. We would try $P_1 \otimes_G P_2 = (P_1 \times_X P_2)/G$ but this no longer has a well-defined $G$-action because we need both left and right commuting actions. This of course works when $G$ is abelian leading to a group structure on $H^1(X, G)$ when $G$ is abelian.
+
+
+\section{Notes on the action $\pi_1(Y) \acts [X, Y]_* $}
+
+The action is defined as follows. We say that $[\gamma] \cdot [f] = [g]$ if there is a homotopy (of unbased maps) from $f$ to $g$ such that $h_t(*)$ is the path $\gamma$. 
+\bigskip\\
+For the action $\pi_1(Y)$ on $\pi_n(Y) = [S^n, Y]_*$ we can describe this explicitly as ... GIVE.
+
+\section{Some Questions}
+
+\begin{enumerate}
+\item In \chref{https://stacks.math.columbia.edu/tag/036Z}{Tag036Z} Johan tells me that the stack of $G$-torsors is equivalent to the stack of $\mathcal{G}$-torsors where $\mathcal{G} = G$ viewed as a sheaf (here $G$ can be an algebraic space). However, I thought that not every $\mathcal{G}$-torsor is representable unless $G$ is affine? Is the resolution of this problem that the stack of $G$-torsors is allowed to include torsors that are algebraic spaces even when $G$ is a scheme and that every $\mathcal{G}$-torsor is represented (i.e. is as a sheaf) as an algebraic space?
+
+\item When in general are $\mathcal{G}$-torsors representable?
+
+\item How to define twistor space slickly?
+
+\item In the topological category, for a topological group $G$ and $\mathcal{G}$ is associated sheaf of continuous functions, is there a distinction between $G$-torsors and $\mathcal{G}$-torsors?
+
+\item What is the topology of $\mathcal{M}_{1,1}$ and $\overline{\mathcal{M}}_{1,1}$. Are they the same as $\P^1 \setminus \{ 0,1,\infty \}$ and $\P^1$? Also how many isomorphism classes of stable $1$-pointed $g = 1$ curves are there that are not smooth. Is there only one?
+\end{enumerate}
+
+\section{Action of the Lorentz Group on Celestial Sphere}
+
+Let $M = \mathbb{R}^{1,3}$ be Minkowski space. Then $G = \mathrm{SO}(1,3)$ acts on $M$ via isometries. Consider the light cone of the origin $L = V(t^2 - x^2 - y^2 - z^2) \subset M$. We know $G$ preserves $L$ and $\{ 0 \}$ is in its own orbit. Therefore, we can projectivize to get $C = \P(L) = (L \setminus \{ 0 \} ) / \mathbb{R}^\times$. Then $C \cong S^2$ is called the celestial sphere and there is a well-defined action $G \acts C$ because $G \acts L$ preserves scalar multiplication because $G \acts M$ linearly. 
+\bigskip\\
+Because $C$ is not constructed as a submanifold of $M$ there is not an obvious induced metric on $C$. The inclusion $L \subset M$ does give a metric on $L \setminus \{ 0 \}$ (we must remove the origin for it to be a smooth manifold). However, this metric does not descend to $C$. In general, for a principal $G$-bundle $\pi : P \to X$, a metric $g$ on $P$ descends iff $g$ is $G$-equivariant because if $g = \pi^* h$ then for any $\sigma \in G$ we must have $\sigma^* g = \sigma ^* \pi^* h = \pi^* h = g$. In our case, the scaling action clearly does not preserve the metric on $L$ (doubling the coordinates doubles tangent vectors as well) so this metric does not descend. Instead, a conformal class of metrics descends to $C$. Let's see why this is necessary. 
+\bigskip\\
+Instead of requiring that $g = \pi^* h$ we might ask for something a bit weaker. In our case there are actually sections $s : C \to L$ (cones are nicer than vector spaces in this way) then we could take the metric $s^* g$. However, this clearly depends on the section. Well just take a canonical one! You say pointing to the unit sphere at $t = 1$ as a pretty good canonical choice. However, the $G$ action on $M$ does not preserve this unit sphere in $L$ indeed it tilts the $t$-plane so our clean horizontal $t$ slice of $L$ becomes slanted giving a different section $s : C \to L$. 
+\bigskip\\
+Therefore, we define a conformal structure on $C$ as follows. $\pi : L^{> 0} \to C$ where $L^{>0} = L \cap \{ t > 0 \}$ is a $\mathbb{R}^+$-bundle and therefore multiplication is well-defined for sections of $L^{> 0}$ (and for $L^\times = L \setminus \{ 0 \}$ as a $\mathbb{R}^\times$-bundle but not addition because sections could add to zero where the singularity is). Therefore, define the principal $\mathbb{R}^+$-bundle $\mathcal{Q} \subset \mathrm{Sym}^2(TC)$ generated by $s^* g$ for any section $s : C \to L^{>0}$ notice that any two sections differ by a positive real function on $C$ because $\pi : L^{>0} \to C$ is a principal $\mathbb{R}^{+}$-bundles so $\mathcal{Q}$ is indeed a principal $\mathbb{R}^+$-bundle and thus defines a conformal structure. 
+\bigskip\\
+Finally, we examine the $G$-action. Unfortunately $G$ does not preserve $L^{>0}$ because it can reverse $t$. However, the connected subgroup $G^+ = \mathrm{SO}^+(1,3)$ does not reverse $t$ and preserves $L$ so thus preserves $L^{>0}$. Therefore $s \mapsto g \circ s$ is an action $G \acts \Gamma(C, L^{>0})$ and therefore the action of $G$ on $C$ preserves the bundle $\mathcal{Q}$ meaning that we get an action of $G^{+}$ on $C$ by conformal orientation-preserving transformations. Choosing the ``canonical'' section we see that $C$ is conformally equivalent to the round sphere and thus we get a map $G^{+} \to \mathrm{PSL}(2, \mathcal{C})$ is the M\"{o}bius group of orientation-preserving conformal transformation of $S^2$. Furthermore, this map is injective because the action of $G$ on $C$ determines its action on $L$ by scaling which determines the action on $M$ by linearity. Finally, we can show this map is an isomorphism by using the explicit form of M\"{o}bius transformations.
+
 \end{document}
 

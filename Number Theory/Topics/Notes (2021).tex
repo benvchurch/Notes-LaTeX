@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{NumberTheoryCommands}
+
+
+\begin{document}
+
+\section{Sep. 21}
+
+\subsection{Motivating Examples}
+
+Liouville function $\lambda : \N \to \{ \pm 1 \}$ which is $\lambda(n) = (-1)^{\Omega(n)}$ where $\Omega(n)$ is the number of prime factors counted with multiplicity. Clearly, $\lambda$ is completely multiplicative: $\lambda(nm) = \lambda(n) \lambda(m)$. Closely related to the M\"{o}bius function,
+\[ \mu(n) = \begin{cases}
+\lambda(n) & p^2 \ndivides n
+\\
+0 & \text{else} 
+\end{cases} \]
+Consider the partial sums,
+\[ \sum_{n \le N} \lambda(n) \]
+is there cancellation? In fact,
+\[ \sum_{n \le N} \lambda(n) = o(N) \iff \text{Prime Number Theorem} \]
+and
+\[ \sum_{n \le N} \lambda(n) = O(N^{\frac{1}{2} + \epsilon}) \iff \text{Riemann Hypothesis} \]
+Davenport,
+\[ \sum_{n \le N} \lambda(n) e^{2 \pi i n \alpha} = o(N) \] 
+for any $\alpha \in \RR$. We know that,
+\[ \text{Generalized Riemann Hypothesis} \implies \sup_{\alpha \in [0,1]} \left| \sum_{n \le N} \lambda(n) e^{2 \pi i n \alpha} \right| = O(N^{\frac{3}{4} + \epsilon}) \]
+althought we might expect an exponent of $\frac{1}{2}$ this is unknown. Moreover, Sarnak's conjecture: $\lambda$ is orthogonal to ``simple sequences'' (for example sequences with finitely many words). We can also study multiplicative Dirichlet character $\chi$ (say modulo $q$) then,
+\[ \sum_{n \le N} \lambda(n) \chi(n) = o(N) \]
+as $N \to \infty$ related to the Landau Siegel zero. For example, $\Q(\sqrt{-163})$ having class number 1 is related to $\chi_{-163}(p) = -1$ for all primes $p < 41$ and thus it equals $\lambda(p)$ for primes $p  < 41$ giving lots of correlation and increasing the sum.
+
+\subsubsection{Statistics of $\lambda(n)$}
+
+Cancellation: $\lambda(n) = 1$ and $\lambda(n) = -1$ are equally likely. However, we can consider $(\lambda(n), \lambda(n+1))$ to be any of the four possibilities. That these are equally likely (in natural density) is an open problem. We will prove it for Tao logarithmic density. We can easily generalize this question to asking if any pattern of $k$ consecutive signs appears equally likely. What is known:
+\begin{enumerate}
+\item for $k = 3$ all $8$ patterns appear infinitely often
+\item for $k = 4$ all $16$ patterns appear at least once
+\item for $k = 5$ at least $24$ patters appear at least once
+\item in general $\ge 2 k + 8$ patterns appear infinitely often.
+\end{enumerate}
+
+\subsubsection{Chowla Conjecture}
+
+Let $h_1, \dots, h_k$ be any $k$ distinct natural number then,
+\[ \sum_{n \le N} \lambda(n + h_1)  \cdots \lambda(n + h_k) = o(N) \]
+as $N \to \infty$. Given any pattern $\epsilon_i$ we can consider the sum,
+\[ \sum_{n \le N} \left( \frac{1 + \epsilon_1 \lambda(n+1)}{2} \right) \cdots \left( \frac{1 + \epsilon_k \lambda(n+k)}{2} \right) \]
+which is exactly the number of $n$ such that the pattern holds at $n$. However, expanding gives $2^{-k} n + \text{terms with products}$ and by Chowla the higher terms are subdominant proving that the natural density is $2^{-k}$. Therefore, Chowla implies this generalized conjecture on patterns. 
+\bigskip\\
+Tao proved Chowla for logarithmic density $k = 2$,
+\[ \sum_{n \le N} \frac{\lambda(n) \lambda(n + h)}{n} = o(\log{N}) \]
+Furthermore, for $k$ odd we have,
+\[ \sum_{n \le N} \frac{\lambda(n + h_1) \cdots \lambda(n + h_k)}{n} = o(\log{N}) \]
+Hellgolt and Radziwild (2021) proved that,
+\[ \sum_{n \le N} \frac{\lambda(n) \lambda(n+h)}{n} \ll \frac{\log{N}}{\sqrt{\log{log{N}}}} \]
+
+\subsubsection{Cancellation in Intervals}
+
+Matomaki and Radziwlls considered,
+\[ \sum_{x \le n \le x + h} \lambda(n) = o(h) \]
+this cannot be true in general. 
+For fixed $h$ this need not happen because we expect $+ \cdots +$ to occur with probability $2^{-h}$. Therefore we want $h \simeq x \log{x}$ for there to be no cancelllation. The Riemann Hypothesis implies that if $h \ge x^{\frac{1}{2} + \epsilon}$ then Cancellation. We also know for $h \ge x^{\frac{1}{2} + \epsilon}$ that,
+\[ \psi(x + h) - \psi(x) \sim k \]
+Unconditionally, we have,
+\[ \psi(x + h) - \psi(x) \sim k \]
+for $h \ge x^{\frac{7}{12} + \epsilon}$. Then,
+\[ \sum_{x \le n \le x + h} \lambda(n) = o(H) \]
+if $h \ge x^{\frac{7}{12} + \epsilon}$.
+\bigskip\\
+How about results for allmost all short intervals $1 \le x \le X$. Matomaki and Radziwill (2016) showed Cancellation for almost all $x$ provided $h \to \infty$. Explicitly,
+\[ \int_1^X \left| \sum_{x \le n \le x + h} \lambda(n) \right|^2 \, \d{x} = o(X h^2) \]
+The Riemann Hypothesis implies that,
+\[ \int_1^X \left| \sum_{x \le n \le x + h} \lambda(n) \right|^2 \, \d{x} \ll X h \left( \log{X} \right)^4 \]
+
+\subsubsection{Erdos Discrrepancy Problem}
+
+Consider any sequence of $\pm 1$ i.e. $f : N \to \{ \pm 1 \}$. Consider,
+\[ \sup_{d,N} \left| \sum_{n \le N} f(dn) \right| \]
+The question is: when is this supremum infinite? For example, when $f$ is completely multiplicative this reduces to,
+\[ \sup_N \left| \sum_{n = 1}^N f(n) \right| = \infty \]
+If we allow the value $0$ then the answer is no. We can take any quadratic character which then has bounded partial sums. 
+
+Tao: Erdos discrepancy $\to \infty$ and even a more general version. Let $H$ be a Hilbert space and $f : \N \to B(H)$ the unit ball. Then,
+\[ \sup_{d, N} \left|\left| \sum_{n = 1}^N f(dn) \right|\right| \to \infty \]
+
+\end{document}
+

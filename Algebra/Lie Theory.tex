@@ -1,76 +1,9 @@
-\documentclass[12pt]{extarticle}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage[a4paper, total={6in, 9in}]{geometry}
-\usepackage{tikz-cd}
- 
-\usepackage{amsthm, amssymb, amsmath, centernot}
-\usepackage{mathrsfs} 
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgebraCommands}
 
-\newcommand{\notimplies}{%
-  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
- 
-\renewcommand\qedsymbol{$\square$}
-\newcommand{\cont}{$\boxtimes$}
-\newcommand{\divides}{\mid}
-\newcommand{\ndivides}{\centernot \mid}
-\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Zplus}{\mathbb{Z}^{+}}
-\newcommand{\Primes}{\mathbb{P}}
-\newcommand{\colim}[1]{\mathrm{colim}(#1)}
-\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
-\newcommand{\cat}[1]{\mathcal{#1}}
-\newcommand{\id}{\mathrm{id}}
-\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
-\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
-\newcommand{\Top}{\mathbf{Top}}
-\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
-\newcommand{\Set}{\mathbf{Set}}
-\newcommand{\pSet}{\mathbf{Set}_\bullet}
-\newcommand{\hTop}{\mathbf{hTop}}
-\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
-\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
-\newcommand{\homspace}[2]{\left< #1, #2 \right>}
-\newcommand{\rp}{\mathbb{RP}}
-\newcommand{\coker}[1]{\mathrm{coker}\: #1}
-
-\theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{remark}{Remark}
-
-\newenvironment{definition}[1][Definition:]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-
-
-\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
-\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
-\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
-\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
-\newcommand{\gen}[1]{\langle #1 \rangle}
-\newcommand{\hook}{\hookrightarrow}
-\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
-\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
-
-\tikzset{
-    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
-}
-
-\renewcommand{\bf}[1]{\mathbf{#1}}
-\newcommand{\res}{\mathrm{res}}
-\newcommand{\F}{\mathcal{F}}
-\newcommand{\G}{\mathcal{G}}
-\renewcommand{\O}{\mathcal{O}}
-\renewcommand{\d}[1]{\mathrm{d} #1}
-\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
-\newcommand{\Aut}[1]{\mathrm{Aut}\left( #1 \right)}
-\newcommand{\End}[1]{\mathrm{End}\left( #1 \right)}
 
 
 \begin{document}
@@ -85,8 +18,112 @@ A Lie Group $X$ is a smooth manifold with a smooth group stucture.
 Let $G$ be a Lie group and $X$ a manifold. A smooth action of $G$ on $X$ is a smooth map $A : G \times X \to X$ where we write $g \cdot x = A(g, x)$ such that $g_1 \cdot (g_2 \cdot x) = (g_1 g_2) \cdot x$ and $1 \cdot x = x$. This is equivalent to a smooth map $G \to \mathrm{Diffeo}(X)$. 
 \end{definition}
 
+
+\section{Quotients and Subgroups}
+
+\subsection{Immersed and Embedded Submanifolds}
+
+\begin{rmk}
+First we recall the definition of immersed and embedded submanifolds.
+\end{rmk}
+
+\begin{defn}
+An \textit{immersed submanifold} of $M$ is an equivalence class of immersions $\iota : N \to M$. 
+\end{defn}
+
+\begin{defn}
+An \textit{embedded submanifold} of $M$ is an equivalence class of immersive topological embeddings $\iota : N \to M$ i.e. $\d{\iota}$ is injective and $\iota : N \to \iota(N)$ is a homeomorphism. 
+\end{defn}
+
+\begin{rmk}
+In the previous case, the image $\iota(N)$ (with the subspace topology) has the natural structure of a smooth manifold making $\iota : N \to \iota(N)$ a diffeomorphism.
+\end{rmk}
+
+\begin{lemma}
+A proper map $f : X \to Y$ of compactly generated hausdorff (CGH) spaces is closed.
+\end{lemma}
+
+\begin{proof}
+\chref{https://math.stackexchange.com/questions/1428518/submanifold-of-a-smooth-manifold-is-closed-iff-the-inclusion-map-is-proper}{embedded submanifold is closed iff inclusion is proper}
+\end{proof}
+
+\begin{prop}
+An embedded submanifold $\iota : N \to M$ is closed iff $\iota$ is proper.
+\end{prop}
+
+\begin{proof}
+Because $\iota$ is injective, $\iota$ closed is equivalent to $\iota(N) \subset M$ being closed. First proper maps between CGH spaces are closed. Conversely, if $\iota$ is closed then for any compact $K \subset M$ consider $\iota^{-1}(K)$. Because $\iota$ is an embedding $\iota^{-1}(K) \iso K \cap \iota(N)$ which is a closed subspace of a compact space and thus compact so $\iota$ is proper.
+\end{proof}
+
+\begin{rmk}
+We can easily produce non-closed embedded submanifold simply by deleting points (open subsets of a manifold are embedded submanifolds). However, we will see that morally this is the only thing that can go wrong.
+\end{rmk}
+
+\begin{prop}
+Embedded submanifolds are locally closed.
+\end{prop}
+
+\begin{proof}
+TO DOO!!!
+\end{proof}
+
+\begin{prop}
+Let $\iota : N \to M$ be an injective immersion such that one of the following holds,
+\begin{enumerate}
+\item $\iota$ is open
+\item $\iota$ is closed 
+\item $\iota$ is proper
+\end{enumerate} 
+then $\iota$ is a clsoed embedding thus $\iota : N \to M$ gives an embedded submanifold.
+\end{prop}
+
+\begin{proof}
+Lee Prop. 4.22
+\end{proof}
+
+\subsection{Lie Subgroups}
+
+\begin{defn}
+An \textit{immersed Lie subgroup} of $G$ is an equivalence class of immersive homomorphisms $\iota : H \to G$ of Lie groups.
+\end{defn}
+
+\begin{defn}
+An \textit{embedded Lie subgroup} of $G$ is an equivalence class of embedding homomorphisms $\iota : H \to G$ of Lie groups.
+\end{defn}
+
+\begin{rmk}
+For example, consider $\R \to S^1 \times S^1$ mapping injectively through an irrational slope. This is an immersed subgroup but not embedded because the image becomes dense and thus the manifold structure on $\R$ cannot agree with the subspace topology.
+\end{rmk}
+
+\begin{prop}
+Any embedded Lie subgroup is closed.
+\end{prop}
+
+\begin{proof}
+Assume without loss of generality that $H \subset G$ is a subgroup and $H$ is a Lie group with the supspace topology. $\overline{H} \subset G$ is a subgroup by facts about topological groups. Because $H \subset G$ is an embedded submanifold, it is locally closed meaning for each $h \in H$ there is an open $V \subset G$ such that $H \cap V$ is closed in $V$. Thus for each $x \in \overline{H}$ we have $x H \cap x V = \overline{H} \cap x V$ so each $xh \in x H$ has an open nieghborhood $\overline{H} \cap x V$ in $\overline{H}$ contained in $x H$ so $x H \subset \overline{H}$ is open. Finally, if $x \in \overline{H}$ then because $x \in x H$ and $x H \subset \overline{H}$ is open we know that $x H \cap H$ is nonempty so $x \in H$.
+\end{proof}
+
+\begin{rmk}
+More generally, this shows that locally closed subgroups of topological groups are closed.
+\end{rmk}
+
+\begin{theorem}[Cartan]
+Let $G$ be a Lie group. Any closed subgroup $H \subset G$ has a unique smooth structure making it an embedded Lie subgroup.
+\end{theorem}
+
+\begin{proof}
+DOD THIS!!!!
+\end{proof}
+
+\begin{rmk}
+The previous results imply a correspondence between closed subgroups and embedded Lie subgroups. From now on, we will simply refer to such objects as \textit{closed subgroups} or \textit{embedded subgroups} since there is no ambiguity about the smooth structure, embedding vs immersion, or closure of such a group.
+\end{rmk}
+
+
+\subsection{Quotients}
+
 \begin{definition}
-The action of a Lie group $G$ on $X$ is proper if the map, $\pi : G \times X \to X \times X$ given by $(g, x) \mapsto (g \cdot x, x)$ is a proper map. In particular, \[ \mathrm{Stab}(x) \times \{x\} = \pi^{-1}(\left\{(x,x)\right\})\]
+A continuous action of a topological group $G$ on a topological space $X$ is \textit{proper} if the map $\pi : G \times X \to X \times X$ given by $(g, x) \mapsto (g \cdot x, x)$ is a proper map. In particular, if  \[ \mathrm{Stab}(x) \times \{x\} = \pi^{-1}(\left\{(x,x)\right\})\]
 is compact. 
 \end{definition}
 
@@ -95,59 +132,135 @@ If $G$ is compact then any action of $G$ on $X$ is proper.
 \end{lemma}
 
 \begin{proof}
-Let $D \subset X \times X$ be compact and thus closed because $D$ is compact in a Hausdorff manifold. Thus, $\pi^{-1}(D) = \{ (g, x) \mid (g \cdot x, x) \in D \}$ is closed in $G \times X$ and thus closed in $G \times \pi_2(D)$ which is compact. Therefore $\pi^{-1}(D)$ is compact. 
+Let $D \subset X \times X$ be compact and thus closed because $D$ is compact in a Hausdorff manifold. Thus, $\pi^{-1}(D) = \{ (g, x) \mid (g \cdot x, x) \in D \}$ is closed in $G \times X$ and thus closed in $G \times \pi_2(D)$ which is compact. Therefore $\pi^{-1}(D)$ is compact. Notice that $\pi_2(D)$ is compact because $D$ is compact and thus $G \times \pi_2(D) \subset G \times X$ is closed because it is compact in a Hausdorff space.
 \end{proof}
 
 \begin{proposition} \label{proper_self_actions}
-The left and right actions of any Lie group on itself are proper.
+Let $G$ be a topological group and $H \subset G$ a closed subgroup. The left and right actions of $H$ on $G$ are proper.
 \end{proposition}
 
 \begin{proof}
 Let $D \subset G \times G$ be compact and consider,
-\[ \pi^{-1}(D) = \{ (g, h) \mid (g h, h) \in D \} = \{ (h' h^{-1}, h) \mid (h', h) \in D \}\]
-However, this set is diffeomorphic to $D$ and is thus compact. The same argument works for a right action.
+\[ \pi^{-1}(D) = \{ (h, g) \in H \times G \mid (hg, g) \in D \} = \{ (g' g^{-1}, g) \mid (g', g) \in D \} \cap H \times G  \]
+However, $\{ (g' g^{-1}, g) \mid (g', g) \in D \}$ is homeomorphic to $D$ via $(x,y) \mapsto (xg^{-1}, y)$ and is thus compact so its intersection with the closed subspace $H \times G$ is compact. The same argument works for a right action.
 \end{proof}
 
 \begin{proposition}
-Let $G$ be a Lie group. The adjoint action of $G$ on $G$ given by $g \cdot x = gxg^{-1}$ is proper if and only if $G$ is compact.
+Let $G$ be a topological group. The adjoint action $G \acts G$ via $g \cdot x = gxg^{-1}$ is proper if and only if $G$ is compact.
 \end{proposition}
 
 \begin{proof}
 If the action is proper then $\mathrm{Stab}(1) = G$ must be compact but if $G$ is compact then every action is proper. 
 \end{proof}
 
-\begin{proposition}
-The orbits of a proper action of a Lie group $G$ on a manifold $X$ are submanifolds of $X$.
-\end{proposition}
-
-\begin{proof}
-Take $x \in X$, consider $f : G \to X$ by $g \mapsto g \cdot x$. Furthermore the differential gives $\mathrm{d}f : T_g G \to T_{g\cdot x} X$ but $T_g G \cong T_1 G$ so we have a map $T_1 G \to T_{g \cdot x} X$. 
-\end{proof}
-
-\begin{lemma}
-Let $R \subset X \times X$ be an equivalence relation on a topological space $X$ then $X / R$ is Hausdorff if and only if $R$ is closed. 
-\end{lemma}
-
-\begin{proof}
-Consider the diagonal $\Delta \subset (X / R) \times (X / R)$ which is the set of equivalence classes $([x], [y]) \in \Delta \iff [x] = [y] \iff x \sim y \iff (x, y) \in R$. Consider the map $\pi : X \to X / R$ thus $R = \pi^{-1}(\Delta)$ so $R$ is closed if and only if $\Delta$ is closed if and only if $X/R$ is Hausdorff. 
-\end{proof}
-
 
 \begin{theorem}
-Let a Lie group $G$ act on a manifold $X$ with an action that is,
+Let $G$ be a Lie group and $X$ a smooth manifold with a smooth action $\rho : G \acts X$ which is,
 \begin{enumerate}
-\item proper, meaning that $G \times X \to X \times X$ is a proper map
-\item free, meaning that $\forall x : G_x = \left\{ \id_G \right\}$ i.e. if $g \cdot x = x$ then $g = \id$
+\item proper: $\pi : G \times X \to X \times X$ is a proper map
+\item free: $\forall x : G_x = \left\{ \id_G \right\}$ i.e. if $g \cdot x = x$ then $g = \id$
 \end{enumerate}
-then $X / G$ is a manifold. 
+then $X / G$ has a unique smooth structure such that $\pi : X \to X / G$ is a smooth submersion. In fact, this smooth surjection locally admits sections and thus $\pi : X \to X / G$ is a principal $G$-bundle with the given action $G \acts X$.
 \end{theorem}
 
-\begin{corollary}
-If $H \subset G$ is a Lie subgroup then $G / H$ is a manifold.
+\begin{proof}
+See a proof \chref{https://www.mathi.uni-heidelberg.de/~lee/StephanSS16.pdf}{here} and also look \chref{https://math.stackexchange.com/questions/1315445/quotient-manifold-theorem-provides-a-fibration}{here}.
+\end{proof}
+
+\begin{corollary} \label{quotient_principal_bundle}
+If $H \subset G$ is a closed subgroup then $G / H$ is a manifold and $\pi : G \to G/H$ is a principal $G$-bundle.
 \end{corollary}
 
 \begin{proof}
-The action of $G$ on $H$ is free because if $g \cdot h = gh = h$ then $g = \id_G$. Furthermore, the action of $G$ on $H$ is proper by Proposition \ref{proper_self_actions}.
+The action of $G$ on $H$ is free because if $g \cdot h = gh = h$ then $g = e$. Furthermore, the action of $H$ on $G$ is proper by Proposition \ref{proper_self_actions}. Furthermore, there is an obvious action of $G$ on $G/H$ which is free and transitive on the fibers. It suffices to show that $\pi : G \to G/H$ is locally trivial which is equivalent to finding local sections. \chref{https://math.stackexchange.com/questions/2859848/quotient-map-g-rightarrow-h-backslash-g-is-a-principal-fibre-bundle-how-to}{Here} is a reference showing how to do it.
+\end{proof}
+
+\begin{rmk}
+We really do need $H \subset G$ to be closed otherwise $G/H$ is not even Hausdorff!
+\end{rmk}
+
+\begin{corollary}
+For any closed subgroup $H \subset G$ there is a fibration,
+\begin{center}
+\begin{tikzcd}
+H \arrow[r, hook] & G \arrow[r, two heads] & G/H
+\end{tikzcd}
+\end{center}
+and therefore there is a long exact sequence of homotopy groups,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & \pi_n(H) \arrow[r] & \pi_n(G) \arrow[r] & \pi_n(G/H) \arrow[r] & \pi_{n-1}(H) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+\end{corollary}
+
+\begin{proof}
+It follows from the fact that fiber bundles over paracompact bases are fibrations and manifolds are paracompact.
+\end{proof}
+
+\subsection{Orbits and Stabilizers}
+
+\begin{rmk}
+In general for a smooth action $\rho : G \acts X$ we can topologize the orbits $G \cdot x$ by declaring that the $G$-equivariant bijection $G/G_x \to G \cdot x$ from the orbit-stabilizer theorem is a homeomorphism. Since $G_x = \rho_x^{-1}(\{ x \})$ (where $\rho_x : G \to X$ is $g \mapsto g \cdot x$) is a closed subgroup so $G/G_x$, and thus $G \cdot x$, is a smooth manifold via the homeomorphism $G / G_x \iso G \cdot x$.
+\end{rmk}
+
+\begin{prop}
+The map $G/G_x \iso G \cdot x \to X$ makes $G \cdot x \embed X$ an injective immersed submanifold.
+\end{prop}
+
+\begin{proof}
+Clearly $f_x : G/G_x \to X$ is injective since it is bijective onto $G \cdot x \to X$ which is injective. Since $f_x : G/G_x \to X$ is $G$-equivariant for the left $G$-action on $G / G_x$ which is transitive, $f_x$ has constant rank. By the constant rank theorem, locally we can replace $f_x$ by $\d{f_x}$ which thus must be injective because $f_x$ is proving that $f_x$ is an immersion.
+\end{proof}
+
+\begin{lemma}
+Let $G$ be a Lie group $G$ acting properly on a smooth manifold $X$. Then each orbit map $\rho_x : G \to X$ is proper.
+\end{lemma}
+
+\begin{proof}
+Indeed, the map $\phi : G \times X \to X \times X$ restricted to $G \times \{ x \}$ sends $g \mapsto (g \cdot x, x) = (\rho_x(g), x)$ and thus if $K \subset X$ is compact then $\phi^{-1}(K \times \{ x \}) = \rho_x^{-1}(K) \times \{ x \}$ is compact because the action is proper so $\rho_x^{-1}(K)$ is compact.
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be a map and $q : \tilde{X} \to X$ surjective such that $f \circ q$ is proper. then $f$ is proper.
+\end{lemma}
+
+\begin{proof}
+Let $K \subset Y$ be compact. Then $q^{-1}(f^{-1}(K))$ is compact but because $q$ is surjective $f^{-1}(K) = q(q^{-1}(f^{-1}(K)))$ and thus $f^{-1}(K)$ is compact because it is the continuous image of a compact space.
+\end{proof}
+
+\begin{proposition} \label{proper_action_orbits}
+Let $G$ be a Lie group $G$ acting properly on a smooth manifold $X$. Then the orbits of $G \acts X$ are embedded closed submanifolds of $X$ and $G/G_x \iso G \cdot x$ is a diffeomorphism.
+\end{proposition}
+
+\begin{proof}
+When the action is proper, each $\rho_x : G \to X$ is proper. Therefore, by the lemma, $G / G_x \to X$ is proper. Since it is proper and also an injective immersion it is a closed embedding. Therefore, $G / G_x \iso G \cdot x \embed X$ is a closed embedding so, in particular, $G \cdot x \embed X$ is a closed embedding.
+\end{proof}
+
+\begin{prop}
+For a smooth action $G \acts X$ and a point $x \in X$ the following are equivalent:
+\begin{enumerate}
+\item the map $G/G_x \iso G \cdot x \embed X$ is a smooth embedding
+\item $G \cdot x \subset X$ with the subspace topology is an embedded submanifold
+\item $G \cdot x \subset X$ is closed in the subspace topology
+\item $\rho_x : G \to X$ is proper.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\chref{https://math.stackexchange.com/questions/391315/are-closed-orbits-of-lie-group-action-embedded}{Here} is a partial reference.
+\end{proof}
+
+\begin{prop}
+If $G \acts X$ properly then for any point $x \in X$ the orbit $G \cdot x \subset X$ is a closed embedded submanifold and $G \to G / G_x \iso G \cdot x$ is a principal $G_x$-bundle giving a fibration,
+\begin{center}
+\begin{tikzcd}
+G_x \arrow[r, hook] & G \arrow[r, two heads] & G / G_x \cong G \cdot x
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+This is simply a combination of Corollary \ref{quotient_principal_bundle} and Proposition \ref{proper_action_orbits} and noting that fiber bundles over paracompact bases are fibrations.
 \end{proof}
 
 \section{Lie Algebras}
@@ -365,7 +478,7 @@ Let $f : V \to W$ be $A$-linear (i.e. a morphism of $A$-representations). Then $
 
 \begin{lemma}[Schur]
 Let $A$ be a unital associative $K$-algebra over an algebraically closed field $K$ and $V$ and $W$ simple $A$-modules. Then,
-\[ \catHom{A}{V}{W} = 
+\[ \Hom{A}{V}{W} = 
 \begin{cases}
 K & V \cong W
 \\
@@ -385,17 +498,17 @@ For the case $A = \C[G]$ for some group $G$ a simple $\C[G]$-module is the same 
 
 \begin{corollary}
 Let $A$ be a unital associative $K$-algebra over an algebraically closed field and $V$  a semisimple $A$-modules. Then there is a canoical isomorphism,
-s\[ \bigoplus_X \catHom{A}{X}{V} \otimes_\C X \xrightarrow{\sim} V \] 
+s\[ \bigoplus_X \Hom{A}{X}{V} \otimes_A X \xrightarrow{\sim} V \] 
 where $X$ runs over the simple $A$-modules.
 \end{corollary}
 
 \begin{proof}
 The canonical map sends $f \otimes x \mapsto f(x)$. We need to show that this map is an isomorphism. Decompose,
-\[ V = \bigoplus_{X} X^{n_X} \]
+\[ V = \bigoplus_{X} X^{\oplus n_X} \]
 Then, by Schur,
-\[ \catHom{X}{V} \cong \C^{n_X} \] 
+\[ \Hom{A}{X}{V} \cong A^{\oplus n_X} \] 
 which gives,
-\[ \bigoplus_X \catHom{A}{X}{V} \otimes_\C X = \bigoplus_X \C^{n_X} \otimes_\C X = \bigoplus_X X^{n_X}  = V \]
+\[ \bigoplus_X \Hom{A}{X}{V} \otimes_A X = \bigoplus_X A^{\oplus n_X} \otimes_A X = \bigoplus_X X^{\oplus n_X}  = V \]
 by the evauluation map. 
 \end{proof}
 
@@ -422,12 +535,12 @@ Let $M$ be a compact smooth manifold and $X$ a smooth vector field on $M$ with i
 \[ \sum_{x \in X} \mathrm{index}_x(X) = \chi(M) \]
 \end{theorem}
 
-\begin{theorem}
+\begin{prop}
 A vector bundle of rank $r$ is trivial iff it admits $r$ pointwise linearly independent sections.
-\end{theorem}
+\end{prop}
 
 \begin{proof}
-
+$r$-pointwise linear independent sections define a global frame i.e. an isomorphism of vector bundles $M \times \mathbb{R}^r \iso V$.
 \end{proof}
 
 \begin{theorem}

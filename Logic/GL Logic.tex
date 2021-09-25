@@ -96,6 +96,13 @@
 
 \DeclareMathOperator{\Con}{\mathcal{C\mkern-3mu o\mkern-1mu n\mkern-1.5mu}}
 
+\newcommand{\Gnum}[1]{\#_g\left( #1 \right)}
+\newcommand{\Gterm}[1]{\left\ulcorner #1 \right\urcorner}
+
+
+\newcommand{\Thm}[1]{\Bew_{\Gamma}(\Gterm{#1})}
+\newcommand{\G}[1]{\mathcal{G}_{#1}}
+
 \begin{document}
 \author{Benjamin Church}
 \title{\Huge Provability Logic}
@@ -103,6 +110,7 @@
 \maketitle
 \tableofcontents
 \newpage
+
 
 
 \section{Introduction}
@@ -298,13 +306,34 @@ R(a_1, \dots, a_n) & \implies \Gamma \proves A(\bf{a_1}, \dots, \bf{a}_n)
 \\
 \neg R(a_1, \dots, a_n) & \implies \Gamma \proves \neg A(\bf{a_1}, \dots, \bf{a}_n)
 \end{align*}
-In this case we say that $A$ \textit{represents} $R$ over $\Gamma$. Furthermore, we say that $A$ \textit{weakly represents} $R$ over $\Gamma$ if only the first condition holds in which case we say that $R$ is \textit{weakly representable}. 
+In this case we say that $A$ \textit{represents} $R$ over $\Gamma$.
 \end{definition}
 
 \begin{definition}
 An arithmetic function $f : \N^n \to \N$ is representable over $\Gamma$ iff there exists a formula $A(x_1, \dots, x_n, x_{n+1})$ of $L_{\text{NN}}$ with $n+1$ free variables such that for all natural numbers $a_1, \dots, a_n \in \N$ with $b = f(a_1, \dots, a_n)$ we have,
 \[ \Gamma \proves \uq{x} [A(\bf{a}_1, \dots, \bf{a}_n, x) \leftrightarrow (x = \bf{b})] \]
 \end{definition}
+
+\begin{remark}
+A function being representable is equivalent to its graph $G_f$ being representable. 
+\end{remark}
+
+\begin{definition}
+A relation $R \subset \N^n$ is \textit{weakly representable} in $\Gamma$ if there exists a formula $A(x_1, \dots, x_n)$ in $L_{\text{NN}}$ with $n$ free variables such that for all natural numbers $a_1, \dots, a_n \in \N$ we have,
+\[
+R(a_1, \dots, a_n) \iff \Gamma \proves A(\bf{a_1}, \dots, \bf{a}_n)
+\]
+In this case we say that $A$ \textit{weakly represents} $R$ over $\Gamma$.
+\end{definition}
+
+\begin{lemma}
+If $\Gamma$ is consistent then weak representability implies representability.
+\end{lemma}
+
+\begin{proof}
+It suffices to show that if $\Gamma \proves A(\bf{a_1}, \dots, \bf{a}_n)$ then $R(a_1, \dots, a_n)$. Indeed, by consistency, $\Gamma \not\proves \neg A(\bf{a_1}, \dots, \bf{a}_n)$ so therefore $R(a_1, \dots, a_n)$.
+\end{proof}
+
 
 \section{Computability Theory}
 
@@ -375,8 +404,6 @@ and thus $B$ represents $R$.
 
 \section{Number Theory Swallows Itself}
 
-\newcommand{\Gnum}[1]{\#_g\left( #1 \right)}
-\newcommand{\Gterm}[1]{\left\ulcorner #1 \right\urcorner}
 
 
 \subsection{G\"{o}del Numbering}
@@ -446,20 +473,12 @@ The provability predicate $\Bew_\Gamma(x)$ is the formula $\eq{p}\Prf_{\Gamma}(x
 The notation $\Bew$ derives from the German word \textit{Beweis} for proof. 
 \end{remark}
 
-\newcommand{\Thm}[1]{\Bew_{\Gamma}(\Gterm{#1})}
-\newcommand{\G}{\mathcal{G}}
-
-\begin{lemma}[Hilbert-Bernays]
-The provability predicate satisfies,
-\begin{enumerate}
-\item $\Gamma \proves A \implies \Gamma \proves \Thm{A}$ 
-\item $\Gamma \proves \Thm{A \to B} \to (\Thm{A} \to \Thm{B})$
-\item $\Gamma \proves \Thm{A} \to \Thm{\Thm{A}}$
-\end{enumerate}
+\begin{lemma}
+If $\Gamma \proves A$ then $\Gamma \proves \Thm{A}$.
 \end{lemma}
 
 \begin{proof}
-The last two are quite delicate and technical requiring diving into the construction of $\Prf$. However, the first is easy to show. If $\Gamma \proves A$ then there exists a proof of $A$ which has code $p$ and let $A$ have code $a$. Therefore, $\CHKPRF_{\Gamma}(a,p)$ so $\Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p})$. Now the axiom (FO1) gives, 
+If $\Gamma \proves A$ then there exists a proof of $A$ which has code $p$ and let $A$ have code $a$. Therefore, $\CHKPRF_{\Gamma}(a,p)$ so $\Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p})$. Now the axiom (FO1) gives, 
 \[ \Gamma \proves \uq{y} \neg \Prf_{\Gamma}(\bf{a}, y) \to \neg \Prf_{\Gamma}(\bf{a}, \bf{p}) \] 
 Thus, taking the contrapositive, 
 \[ \Gamma \proves \Prf_{\Gamma}(\bf{a}, \bf{p}) \to \Thm{A} \]
@@ -467,18 +486,18 @@ so by modus ponens $\Gamma \proves \Thm{A}$.
 \end{proof}
 
 \begin{remark}
-The first Hilbert-Bernays derivability condition states that $\Bew_{\Gamma}(x)$ \textit{weakly} represents theoremhood (it cannot strongly represent it however as we shall show). The second condition states that modus ponens is \textit{provably (within $\Gamma$)} a rule of inference of $\Gamma$. Finally, the third Hilbert-Bernays derivability condition is the formalization of the first property \textit{within the system $\Gamma$}, saying that $\Gamma$ can prove that if it can prove $A$ then it can prove that it can prove $A$.  
+We will see in the following sections that under the additionaly hypothesis of $\omega$-\textit{consistency} the provability predicate $\Bew_\Gamma(x)$ actually weakly represents theoremhood. However, we will also see that theoremhood is not strongly representable.
 \end{remark}
 
 \subsection{Self-Reference}
 
-\begin{lemma}[Diagonal]
+\begin{lemma}[Diagonalization]
 Let $F(x)$ be an $L_{\mathrm{NN}}$ formula with one free variable. Then there exists a `fixed-point' sentence $\psi$ such that,
 \[ \bf{Q} \proves \psi \leftrightarrow F(\Gterm{\psi}) \]
 \end{lemma}
 
 \begin{proof}
-There exists a recursive function $d : \N \to \N$ such that when $a = \Gnum{A}$ where $A(x)$ is a formula with at least one free variable then $d(a) = \Gnum{A(\bf{a})} = \Gnum{A(\Gterm{A})}$ (for now we appeal to the Church-Turning thesis). Therefore, $D$ is represented by some formula $D(x, y)$ such that for all $a \in \N$ and $b = d(a)$ we have,
+There exists a recursive function $d : \N \to \N$ such that when $a = \Gnum{A}$ where $A(x)$ is a formula with at least one free variable then $d(a) = \Gnum{A(\bf{a})} = \Gnum{A(\Gterm{A})}$ (for now we appeal to the Church-Turing thesis). Therefore, $D$ is represented by some formula $D(x, y)$ such that for all $a \in \N$ and $b = d(a)$ we have,
 \[ \bf{Q} \proves \uq{y} [ D(\bf{a}, y) \leftrightarrow (y = \bf{b}) ] \]
 Now define the formula with one free variable,
 \[ \varphi := \uq{y} [D(x, y) \to F(y) ] \]
@@ -497,8 +516,8 @@ and using $\psi := \varphi(\Gterm{\varphi})$ we have,
 \end{proof}
 
 \begin{remark}
-If we interpret $F(\Gterm{\psi})$ to represent ``the formula $\psi$ has property $F$'' then the diagonal lemma proves the existence of self-referential fixed points. $\psi \leftrightarrow F(\Gterm{\psi})$ is a sentence ``saying'' $\psi$ is true if and only if $\psi$ has property $F$. In other words, $\psi$ has an interpretation as the sentence: ``I have property $F$.'' 
-As described earlier, the diagonal sentence is more better modeled in human language a Quine sentence,
+If we interpret $F(\Gterm{\psi})$ to represent ``the formula $\psi$ has property $F$'' then the diagonal lemma proves the existence of self-referential fixed points. The sentence $\psi \leftrightarrow F(\Gterm{\psi})$ ``says'' that $\psi$ is true if and only if $\psi$ has property $F$. In other words, $\psi$ has an interpretation as the sentence: ``I have property $F$.'' 
+As described earlier, the diagonal sentence is more accurately modeled in natural language as the Quine sentence,
 \begin{center}
 ``when preceded by its quotation has property $F$''
 \\ when preceded by its quotation has property $F$.
@@ -523,7 +542,9 @@ For each formula with one free variable $A(x)$ either $\Gamma \not\proves \eq{x}
 \end{proof}
 
 \begin{lemma}
-If $\Gamma$ is $\omega$-consistent and $\Gamma \not\proves A$ then $\Gamma \not\proves \Thm{A}$. 
+If $\Gamma$ is $\omega$-consistent and $\Gamma \not\proves A$ then $\Gamma \not\proves \Thm{A}$. In particular,
+\[ \Gamma \proves A \iff \Gamma \proves \Thm{A} \] 
+meaning that $\Bew_{\Gamma}(x)$ weakly represents the theoremhood relation on formulas.
 \end{lemma}
 
 \begin{proof}
@@ -535,30 +556,47 @@ If $\Gamma$ is $\omega$-consistent then $\Gamma$ is consistent so $\Gamma \not\p
 \end{corollary}
 
 \begin{theorem}[G\"{o}del]
-Any $\omega$-consistent recursively axiomatized extension of $\bf{Q}$ is incomplete. 
+Any $\omega$-consistent recursively axiomatized extension of $\bf{Q}$ is incomplete. In particular, if $\Gamma$ is a recursively axiomatized extension of $\bf{Q}$ then there exists a sentence $\G{\Gamma}$ such that,
+\begin{enumerate}
+\item if $\Gamma$ is consistent then $\Gamma \not\proves \G{\Gamma}$
+\item if $\Gamma$ is $\omega$-consistent then $\Gamma \not\proves \neg \G{\Gamma}$.
+\end{enumerate}
 \end{theorem}
 
 \begin{proof}
-Let $\Gamma$ be an $\omega$-consistent recursively axiomatized extension of $\bf{Q}$. Since $\Gamma$ is recursively axiomatized $\Prf_{\Gamma}$ and $\Bew_{\Gamma}$ exist. 
-The fixed-point theorem proves the existence of a sentence $\mathcal{G}$ such that,
-\[ \Gamma \proves \mathcal{G} \leftrightarrow \neg \Thm{\mathcal{G}} \]
-Suppose that $\Gamma \proves \mathcal{G}$ then $\Gamma \proves \Thm{\mathcal{G}}$ by HB1 and $\Gamma \proves \neg \Thm{\mathcal{G}}$ by self-reference contradicting the consistency of $\Gamma$. Suppose that $\Gamma \proves \neg \mathcal{G}$ then, by HB1, $\Gamma \proves \Thm{\neg \mathcal{G}}$. However, by self-reference $\Gamma \proves \Thm{\mathcal{G}}$. Furthermore, using axiom (H3),
-\[ \Gamma \proves \neg \mathcal{G} \to (\mathcal{G} \to \perp) \]  
-Therefore, applying HB1 we have,
-\[ \Gamma \proves \Thm{\neg \mathcal{G} \to (\mathcal{G} \to \perp)} \]
-and then by HB2,
-\[ \Gamma \proves \Thm{\neg \mathcal{G} \to (\mathcal{G} \to \perp)} \to (\Thm{\neg \mathcal{G}} \to \Thm{\mathcal{G} \to \perp}) \]
-Applying modus ponens twice we find,
-\[ \Gamma \proves \Thm{\mathcal{G} \to \perp} \]
-so applying HB2 we find,
-\[ \Gamma \proves \Thm{\mathcal{G}} \to \Thm{\perp} \]
-so one last use of modus ponens gives $\Gamma \proves \Thm{\perp}$ contradicting $\omega$-consistency. Therefore, neither $\mathcal{G}$ nor $\neg \mathcal{G}$ is provable in the theory $\Gamma$ so $\Gamma$ is incomplete. 
+Let $\Gamma$ be a consistent recursively axiomatized extension of $\bf{Q}$. Since $\Gamma$ is recursively axiomatized $\Prf_{\Gamma}$ and $\Bew_{\Gamma}$ exist. The fixed-point theorem proves the existence of a sentence $\G{\Gamma}$ such that,
+\[ \Gamma \proves \G{\Gamma} \leftrightarrow \neg \Thm{\G{\Gamma}} \]
+Suppose that $\Gamma \proves \G{\Gamma}$ then $\Gamma \proves \Thm{\G{\Gamma}}$. However, using $\Gamma \proves \G{\Gamma}$ and the self-reference equivalence, $\Gamma \proves \neg \Thm{\G{\Gamma}}$ contradicting the consistency of $\Gamma$. 
+\bigskip\\
+Suppose that $\Gamma \proves \neg \G{\Gamma}$. By the consistency of $\Gamma$ we cannot have $\Gamma \proves \G{\Gamma}$. However, $\Gamma \proves \neg \G{\Gamma}$ and self-reference shows that $\Gamma \proves \Thm{\G{\Gamma}}$. Because $\Gamma \not\proves \G{\Gamma}$, this contradicts the $\omega$-consistency of $\Gamma$.
 \end{proof}
+
+\begin{remark}
+The sentence $\G{\Gamma}$ expresses ``I am not provable'' through Quinian self-reference. This is captured formally through $\Gamma \proves \G{\Gamma} \leftrightarrow \neg \Thm{\G{\Gamma}}$.
+\end{remark}
+
 
 \subsection{L\"{o}b's Theorem}
 
 \begin{remark}
-In this section we assume that $\Gamma$ is a recursively axiomatized extension of $\bf{Q}$. 
+In this section we assume that $\Gamma$ is a recursively axiomatized extension of $\bf{PA}$. 
+\end{remark}
+
+\begin{lemma}[Hilbert-Bernays-L\"{o}b]
+The provability predicate satisfies,
+\begin{enumerate}
+\item $\Gamma \proves A \implies \Gamma \proves \Thm{A}$ 
+\item $\Gamma \proves \Thm{A \to B} \to (\Thm{A} \to \Thm{B})$
+\item $\Gamma \proves \Thm{A} \to \Thm{\Thm{A}}$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+SKETCH THIS PROOF!!!!
+\end{proof}
+
+\begin{remark}
+The first Hilbert-Bernays derivability condition states that $\Bew_{\Gamma}(x)$ \textit{weakly} represents theoremhood (it cannot strongly represent it however as we shall show). The second condition states that modus ponens is \textit{provably (within $\Gamma$)} a rule of inference of $\Gamma$. Finally, the third Hilbert-Bernays derivability condition is the formalization of the first property \textit{within the system $\Gamma$}, saying that $\Gamma$ can prove that if it can prove $A$ then it can prove that it can prove $A$.  
 \end{remark}
 
 \begin{theorem}[L\"{o}b]
@@ -602,7 +640,7 @@ The sentence $\Con_{\Gamma}$ is given by $\neg \Thm{\perp}$ which expresses the 
 \end{definition}
 
 \begin{remark}
-We have shown that if $\Gamma \proves \Con_{\Gamma}$ then $\Gamma$ is not $\omega$-consistent. However, we are about to show the stronger result. 
+We have shown that if $\Gamma \proves \neg \Con_{\Gamma}$ then $\Gamma$ is not $\omega$-consistent. However, we are about to show a much more interesting result.
 \end{remark}
 
 \begin{theorem}[G\"{o}del]
@@ -647,38 +685,38 @@ which, expanded out is,
 Much in the way that L\"{o}b theorem can be formalized inside number theory, we can formalize the proofs of the incompleteness theorems inside the formal system itself. In fact, we can further formalize the notion that consistency implies the unprovability of the G\"{o}del sentence and thus its truth to give an alternative proof of the second incompleteness theorem and furthermore a demonstration of the provable logical equivalence of all G\"{o}del sentences.  
 
 \begin{theorem}
-Let $\mathcal{G}$ be a G\"{o}del sentence then,
-\[ \Gamma \proves \Con_{\Gamma} \leftrightarrow \mathcal{G} \]
-In particular, all G\"{o}del sentences are logically equivalent. 
+Let $\G{\Gamma}$ be a G\"{o}del sentence for $\Gamma$ then,
+\[ \Gamma \proves \Con_{\Gamma} \leftrightarrow \G{\Gamma} \]
+In particular, all G\"{o}del sentences are provably logically equivalent. 
 \end{theorem}
 
 \begin{proof}
-Since $\mathcal{G}$ is a G\"{o}del sentence,
-\[ \Gamma \proves \mathcal{G} \leftrightarrow \neg \Thm{\mathcal{G}} \]
+Since $\G{\Gamma}$ is a G\"{o}del sentence,
+\[ \Gamma \proves \G{\Gamma} \leftrightarrow \neg \Thm{\G{\Gamma}} \]
 Therefore, applying HB1 and HB2,
-\[ \Gamma \proves \Thm{\mathcal{G}} \leftrightarrow \Thm{\neg \Thm{\mathcal{G}}} \]
+\[ \Gamma \proves \Thm{\G{\Gamma}} \leftrightarrow \Thm{\neg \Thm{\G{\Gamma}}} \]
 However, by HB3,
-\[ \Gamma \proves \Thm{\G} \to \Thm{\Thm{\G}} \] 
+\[ \Gamma \proves \Thm{\G{\Gamma}} \to \Thm{\Thm{\G{\Gamma}}} \] 
 Furthermore, since $\Gamma \proves \neg A \to (A \to \perp)$  by HB1 and HB2 twice we get,
 \[ \Gamma \proves \Thm{\neg A} \to (\Thm{A} \to \Thm{\perp}) \]
-Applying this to $A := \Thm{\G}$ we find,
-\[ \Gamma \proves \Thm{\G} \to \Thm{\perp} \]
-However, $\Gamma \proves \perp \to \G$ and thus applying HB1 and HB2 we find,
-\[ \Gamma \proves \Thm{\perp} \to \Thm{\G} \]
+Applying this to $A := \Thm{\G{\Gamma}}$ we find,
+\[ \Gamma \proves \Thm{\G{\Gamma}} \to \Thm{\perp} \]
+However, $\Gamma \proves \perp \to \G{\Gamma}$ and thus applying HB1 and HB2 we find,
+\[ \Gamma \proves \Thm{\perp} \to \Thm{\G{\Gamma}} \]
 In summary,
-\[ \Gamma \proves \Thm{\G} \leftrightarrow \Thm{\perp} \]
-However, $\Gamma \proves \G \leftrightarrow \neg \Thm{\G}$ and $\Con_{\Gamma} := \neg \Thm{\perp}$ which implies that,
-\[ \Gamma \proves \G \leftrightarrow \Con_{\Gamma} \]
+\[ \Gamma \proves \Thm{\G{\Gamma}} \leftrightarrow \Thm{\perp} \]
+However, $\Gamma \proves \G{\Gamma} \leftrightarrow \neg \Thm{\G{\Gamma}}$ and $\Con_{\Gamma} := \neg \Thm{\perp}$ which implies that,
+\[ \Gamma \proves \G{\Gamma} \leftrightarrow \Con_{\Gamma} \]
 \end{proof}
 
 \begin{corollary}
-If $\Gamma$ is consistent then by G\"{o}del incompleteness I we know $\Gamma \not\proves \mathcal{G}$ and thus $\Gamma \not\proves \Con_{\Gamma}$ giving an alternative proof of incompleteness II. 
+If $\Gamma$ is consistent then by G\"{o}del incompleteness I we know $\Gamma \not\proves \G{\Gamma}$ and thus $\Gamma \not\proves \Con_{\Gamma}$ giving an alternative proof of incompleteness II. 
 \end{corollary}
 
 \newcommand{\oCon}{\omega\text{-}\Con_{\Gamma}}
 
 \begin{theorem}[Formalized G\"{o}del I]
-\[ \Gamma \proves \oCon \to (\neg \Thm{\G} \wedge \neg \Thm{\neg \G} ) \]
+\[ \Gamma \proves \oCon \to (\neg \Thm{\G{\Gamma}} \wedge \neg \Thm{\neg \G{\Gamma}} ) \]
 Where $\oCon$ is the sentence $\neg \Thm{\Thm{\perp}}$ expressing weak $\omega$-consistency. 
 \end{theorem}
 
@@ -688,31 +726,31 @@ First, by HB3,
 and therefore,
 \[ \Gamma \proves \oCon \to \Con_{\Gamma} \]
 We have already proven above that,
-\[ \Gamma \proves \Con_{\Gamma} \to \neg \Thm{\G} \]
+\[ \Gamma \proves \Con_{\Gamma} \to \neg \Thm{\G{\Gamma}} \]
 and thus by transitivity of implication,
-\[ \Gamma \proves \oCon \to \neg \Thm{\G} \]
+\[ \Gamma \proves \oCon \to \neg \Thm{\G{\Gamma}} \]
 The negation of the G\"{o}del property gives,
-\[ \Gamma \proves \neg \G \leftrightarrow \Thm{\G} \]
+\[ \Gamma \proves \neg \G{\Gamma} \leftrightarrow \Thm{\G{\Gamma}} \]
 and thus by HB1 and HB2 we have,
-\[ \Gamma \proves \Thm{\neg \G} \leftrightarrow \Thm{\Thm{\G}} \]
+\[ \Gamma \proves \Thm{\neg \G{\Gamma}} \leftrightarrow \Thm{\Thm{\G{\Gamma}}} \]
 However, by HB3,
-\[ \Gamma \proves \Thm{\neg \G} \to \Thm{\Thm{\neg \G}} \]
-Furthermore via $\Gamma \proves \neg \G \to (\G \to \perp)$ and HB1 and HB2 repeatedly we find,
-\[ \Gamma \proves \Thm{\Thm{\G}} \to (\Thm{\Thm{\neg \G}} \to \Thm{\Thm{\perp}}) \]
+\[ \Gamma \proves \Thm{\neg \G{\Gamma}} \to \Thm{\Thm{\neg \G{\Gamma}}} \]
+Furthermore via $\Gamma \proves \neg \G{\Gamma} \to (\G{\Gamma} \to \perp)$ and HB1 and HB2 repeatedly we find,
+\[ \Gamma \proves \Thm{\Thm{\G{\Gamma}}} \to (\Thm{\Thm{\neg \G{\Gamma}}} \to \Thm{\Thm{\perp}}) \]
 and thus by transitivity of implications,
-\[ \Gamma \proves \Thm{\neg \G} \to \Thm{\Thm{\perp}} \]
+\[ \Gamma \proves \Thm{\neg \G{\Gamma}} \to \Thm{\Thm{\perp}} \]
 contradicting $\omega$-consistency. That is, taking the contrapositive,
-\[ \Gamma \proves \oCon \to \neg \Thm{\neg \G} \]
+\[ \Gamma \proves \oCon \to \neg \Thm{\neg \G{\Gamma}} \]
 giving both implications which together show that,
-\[ \Gamma \proves \oCon \to (\neg \Thm{\G} \wedge \neg \Thm{\neg \G}) \]
+\[ \Gamma \proves \oCon \to (\neg \Thm{\G{\Gamma}} \wedge \neg \Thm{\neg \G{\Gamma}}) \]
 \end{proof}
 
 \begin{remark}
-Just as we needed $\omega$-consistency in the standard proof of G\"{o}del Incompleteness I, in the formalized version we require a stronger hypothesis than $\Con_{\Gamma}$, we need $\neg \Thm{\Thm{\G}}$ which expresses the idea that $\omega$-consistency requires $\Gamma$ to be unable to prove that it can prove a contradiction. In fact this hypothesis is somewhat weaker than full $\omega$-consistency so this is an abuse of notation. 
+Just as we needed $\omega$-consistency in the standard proof of G\"{o}del Incompleteness I, in the formalized version we require a stronger hypothesis than $\Con_{\Gamma}$, we need $\neg \Thm{\Thm{\G{\Gamma}}}$ which expresses the idea that $\omega$-consistency requires $\Gamma$ to be unable to prove that it can prove a contradiction. In fact this hypothesis is somewhat weaker than full $\omega$-consistency so this is an abuse of notation. 
 \end{remark}
 
 \begin{theorem}[Formalized G\"{o}del II]
-\[ \Gamma \proves \neg \Thm{\perp} \to \neg \Thm{\Con_{\Gamma}} \]
+\[ \Gamma \proves \Con_{\Gamma} \to \neg \Thm{\Con_{\Gamma}} \]
 \end{theorem}
 
 \begin{proof}

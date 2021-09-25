@@ -394,6 +394,21 @@ Z \times I \arrow[r] \arrow[ru, dashed, "\exists g"] & Y
 there exists a (not necessarily unique) map $g: Z \times I \to X$. 
 \end{definition}
 
+\begin{rmk}
+The name cofibration is justified because of the following rephrasing the cofibration universal property as dual to the fibration homotopy lifting property.
+\end{rmk}
+
+\begin{lemma}
+$\iota : X \to Y$ is a cofibration if and only if for every space $Z$, map $f : Y \to Z$, and homotopy $h : X \times I \to Z$ such that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+Z^I \arrow[d, "ev_0"'] & X \arrow[l, "\hat{h}"'] \arrow[d, "\iota"] \\
+Z & Y \arrow[l, "f"] \arrow[lu, dashed]
+\end{tikzcd}
+\end{center}  
+there exists a map completing the commutative diagram.
+\end{lemma}
+
 \begin{definition}
 A fiber bundle is a map $p : X \to Y$ such that there exists a space $F$ such that $\forall y \in Y$ there exists an open set $U$ with $y \in U \subset Y$ and $p^{-1}(U) \cong U \times F$ by a map $e$ such that the following diagram commutes,
 \begin{center}
@@ -411,33 +426,48 @@ If $f : X \to Y$ is a fiber bundle and $Y$ is paracompact then $f$ is a fibratio
 
 \begin{definition}
 For a map $f : X \to Y$, the mapping cocylinder is the space,
-\[ N_f  = \{(x, \gamma) \mid \gamma(0) = f(x) \} \subset X \times \Hom{I}{Y} \]
+\[ E_f  = \{(x, \gamma) \mid \gamma(0) = f(x) \} \subset X \times \Hom{I}{Y} \]
 which is the pullback (limit) of the diagram,
 \begin{center}
 \begin{tikzcd}[column sep = large, row sep = large]
-X \arrow[r, "f"] & Y & Y^I \arrow[l, "ev_0"']
+X \arrow[r, "f"] & Y & Y^I \arrow[l, "\ev_0"']
 \end{tikzcd}
 \end{center}  
 \end{definition}
 
 \begin{lemma}
-Any map $f : X \to Y$ factors into maps $r : X \to Z$ and $j : Z \to Y$ where $r$ is a homotopy equivalence and $j$ is a fibration.
+Any map $f : X \to Y$ factors into maps $\nu : X \to E_f$ and $\rho : E_f \to Y$ where $\nu$ is a homotopy equivalence and $\rho$ is a fibration.
 \end{lemma}
 
 \begin{proof}
-Take the maps $\nu : X \to N_f$ given by $\nu(x) = (x, e_{f(x)})$ and $\rho : N_f \to Y$ given by $\rho(x, \gamma) = \gamma(1)$. I claim that $\nu$ is a homotopy equivalence, $\rho$ is a fibration and $f = \rho \circ \nu$. 
+Take the maps $\nu : X \to E_f$ given by $\nu(x) = (x, e_{f(x)})$ and $\rho : E_f \to Y$ given by $\rho(x, \gamma) = \gamma(1)$. I claim that $\nu$ is a homotopy equivalence, $\rho$ is a fibration and $f = \rho \circ \nu$. 
 \end{proof}
 
-\begin{lemma}
-$\iota : X \to Y$ is a cofibration if and only if for every space $Z$, map $f : Y \to Z$, and homotopy $h : X \times I \to Z$ such that the following diagram commutes,
+
+\begin{rmk}
+For a map of pointed spaces $f : X \to Y$ the above construction goes through to give the ``mapping cocone'' or ``homotopy fiber'',
+\[ N_f = \{ (x, \gamma) \mid \gamma(0) = f(x) \text{ and } \gamma(1) = y_0 \} \]
+Often the notation $F_f$ is used to suggest that this is the ``fiber up to homotopy.'' Warner sometimes uses the notation $N_f$ for both the pointed and unpointed (what I am calling the mapping cocylinder $E_f$) versions. Although confusing, this notational overloading does make some sense because,
 \begin{center}
-\begin{tikzcd}[column sep = large, row sep = large]
-Z^I \arrow[d, "ev_0"'] & X \arrow[l, "\hat{h}"] \arrow[d, "\iota"] \\
-Z & Y \arrow[l, "f"] \arrow[lu, dashed]
+\begin{tikzcd}
+N_f \arrow[r] \arrow[d] & Y^I \arrow[d, "\ev_0"]
+\\
+X \arrow[r, "f"] & Y
 \end{tikzcd}
-\end{center}  
-there exists a map completing the commutative diagram.
-\end{lemma}
+\end{center}
+is a pullback diagram in $\pTop$ where here $Y^I$ is the pointed path space of paths $\gamma$ such that $\gamma(1) = y_0$ in this case. (Look at \chref{https://ncatlab.org/nlab/files/CutlerPointedTopologicalSpaces.pdf}{Pointed Spaces} for a discussion of limits in $\pTop$). Sometimes this is written as $PY$ called the ``path space'' and its pullback over $* \to Y$ is $\Omega Y$ meaning $F_{* \to Y} = N_{* \to Y} = \Omega Y$. For a more extensive discussion, see \chref{https://faculty.math.illinois.edu/~franklan/Math527_0304.pdf}{Fiber Sequences} and \chref{https://faculty.math.illinois.edu/~franklan/Math527_0306.pdf}{Cofiber Sequences} in \chref{https://faculty.math.illinois.edu/~franklan/Math527.html}{Homotopy Theory 2013}. In $\Top$ we have two ways to compute $N_f$ via double pullback depending on which of $* \to Y \leftarrow X$ we apply fibrant replacement to. These two methods fit together into the diagram,
+\begin{center}
+\begin{tikzcd}
+& N_f \arrow[d, "\simeq"] \arrow[r] & * \arrow[d]
+\\
+N_f \arrow[r, "\simeq"] \arrow[d] & N_f \arrow[d] \arrow[r] & PY \arrow[d, "\ev_0"]
+\\
+X \arrow[r, "\simeq"] \arrow[rr, bend right, "f"'] & E_f \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+where each square and thus rectangle is a strict pullback diagram. Therefore, $N_f$ is the pullback of $X \xrightarrow{f} Y \leftarrow PY$ and also the pullback of $* \to Y \leftarrow E_f$ i.e. the (strict) fiber of the fibration $E_f \to Y$.
+\end{rmk}
+
 
 
 \subsection{Fiber and Cofiber Sequences}
@@ -507,11 +537,24 @@ Let \begin{center}
 F \arrow[r, "\iota", hook] & E \arrow[r, "p"] & B
 \end{tikzcd}
 \end{center}
-be a fibration then inclusion $\phi : F \to N_p$ is a homotopy equivalence.  
+be a based fibration then inclusion $\phi : F \to N_p$ via $x \mapsto (x, e_{b_0})$ is a homotopy equivalence.  
 \end{lemma}
 
 \begin{proof} \label{fibrationgiveshomotopyfiber}
-Let $p : (E, e_0) \to (B, b_0)$ be a pointed fibration. The fiber of $p$ is the subspace $F = p^{-1}(b_0)$. Then, define the map $\phi : F \to N_p$ by $\phi(x) = (x, e_{b_0})$ where $e_{b_0}$ is the constant loop at $b_0$. This map is well-defined because $x \in F = p^{-1}(b_0)$ so $p(x) = b_0 = e_{b_0}(0)$. Now, the projection $\pi_1 : N_p \to E$ is given by $\pi_1(x, \gamma) = x$. Therefore, $\pi_1 \circ \phi(x) = \pi_1(x, e_{b_0}) = x$ so $\pi_1 \circ \phi = \id_F$. However, $\phi \circ \pi_1(x, \gamma) = \phi(x) = (x, e_{b_0})$. Define the homotopy $H : N_p \times I \to N_p$ by $H(x, \gamma, t) = (x, \gamma_t)$ where $\gamma_t(s) = \gamma(1 - (1 - r) t)$. Thus, $\gamma_0(r) = \gamma(1) = b_0$ and $\gamma_1(r) = \gamma(r)$. Therefore, $H(x, \gamma, 0) = (x, \gamma_0) = (x, e_{b_0}) = \phi \circ \pi_1(x, \gamma)$ and $H(x, \gamma, 1) = (x, \gamma_1) = (x, \gamma)$. Thus, $H$ is a homotopy between $\phi \circ \pi_1$ and $\id_{N_p}$ so $\phi$ is a homotopy equivalence. 
+The map $\phi : F \to N_p$ is well defined because $e_{b_0}(0) = b_0 = p(x)$ and $e_{b_0}(1) = b_0$. Define a homotopy $g : N_p \times I \to B$ sending $(x, \gamma, t) \mapsto \gamma(t)$. Then $g_0(x, \gamma) = \gamma(0) = p(x)$ so setting $\tilde{g}_0(x, \gamma) = x$ we can apply the homotopy lifting property to the fibration $p : E \to B$,
+\begin{center}
+\begin{tikzcd}[column sep = large, row sep = large]
+N_p \times \{ 0 \} \arrow[r, "\tilde{g}_0"] \arrow[d] & E \arrow[d, "p"]
+\\
+N_p \times I \arrow[r, "g"'] \arrow[ru, "\tilde{g}", dashed] & B
+\end{tikzcd}
+\end{center}
+gives a homotopy $\tilde{g} : N_p \times I \to E$ satisfying $p \circ \tilde{g}(x, \gamma, t) = g(x, \gamma, t) = \gamma(t)$. Thus we may define,
+\[ h : N_p \times I \to N_p \quad \text{via} \quad h(x, \gamma, t) = (\tilde{g}(x, \gamma, t), \gamma|_{[t, 1]}) \]
+This is well-defined because $p \circ \tilde{g}(x, \gamma, t) = \gamma(t) = \gamma|_{[t, 1]}(0)$ so $h(x, \gamma, t) \in N_p$. Furthermore, 
+\[ h_0(x, \gamma) = (\tilde{g}_0(x, \gamma), \gamma) = (x, \gamma) \implies h_0 = \id_{N_p} \]
+Notice that $p \circ \tilde{g}_1 = g_1$ sends $(x, \gamma) \mapsto \gamma(1) = b_0$ giving a map $\tilde{g}_1 : N_p \to F$
+Furthermore, $h_1(x, \gamma) = (\tilde{g}_1(x, \gamma), e_{b_0}) = \phi \circ \tilde{g}_1(x, \gamma)$. So we see that $h$ gives a homotopy between $\id_{N_p}$ and $\phi \circ \tilde{g}_1$. Finally, $\tilde{g}_1 \circ \phi(x) = \tilde{g}_1(x, e_{b_0})$ so consider $\tilde{g}(x, e_{b_0}, t)$ which satisfies $p \circ \tilde{g}(x, e_{b_0}, t) = g(x, e_{b_0}, t) = b_0$ so $\tilde{g}(x, e_{b_0}, t) \in F$. Therefore $\tilde{g}(-, e_{b_0}, -)$ is a homotopy $F \times I \to F$ from $\tilde{g}_0(-, e_{b_0}) = \id_F$ to $\tilde{g}_1(-, e_{b_0}) = \tilde{g}_1 \circ \phi$. Therefore, $\phi : F \to N_p$ is a homotopy equivalence.
 \end{proof}
 
 \begin{lemma} \label{mappingcoclyinderhasfibration}
@@ -519,15 +562,29 @@ Let $f : X \to Y$ be a map of pointed spaces and let $\pi_1 : N_f \to X$ be the 
 \end{lemma}
 
 \begin{proof}
-Let $f : X \to Y$ be a map of pointed spaces. Consider the map $\pi_1 : N_f \to X$ given by $\pi_1(x, \gamma) = x$. Take any space $Z$ and maps $g : Z \to N_f$ and $h : Z \times I \to X$ such that the following diagram commutes,
+
+Let $f : X \to Y$ be a map of pointed spaces. Consider the projection $\pi_1 : N_f \to X$ given by $\pi_1(x, \gamma) = x$. Take any space $Z$ and maps $g : Z \to N_f$ and $h : Z \times I \to X$ such that the following diagram commutes,
 \begin{center}
 \begin{tikzcd}[column sep = huge, row sep = huge]
-Z \arrow[d, hook, "\iota"] \arrow[r, "g"] \arrow[r, dashed] & N_f \arrow[d, "\pi_1"] \arrow[r, "\pi_2"] & Y^I \arrow[d, "ev_0"] \\
-Z \times I \arrow[u, "\pi_Z", bend left] \arrow[r, "h"] \arrow[ru, dashed, "\tilde{h}"] & X \arrow[r, "f"] & Y
+Z \arrow[d, hook, "\iota"] \arrow[r, "\tilde{g}_0"] & N_f \arrow[d, "\pi_1"] \arrow[r, "\pi_2"] & PY \arrow[d, "\ev_0"] \\
+Z \times I \arrow[r, "g"] \arrow[ru, dashed, "\tilde{g}"] & X \arrow[r, "f"] & Y
 \end{tikzcd}
 \end{center}
-There are maps $h : Z \times I \to X$ and $\pi_2 \circ g \circ \pi_Z : Z \times I \to Y^I$. Therefore, by the universal property of the pullback, there exists a unique map $\tilde{h} : Z \times I \to N_f$ which commutes with the diagram. Therefore, $\pi_1 \circ \tilde{h} = h$. Furthermore, $\tilde{h} \circ \iota : Z \to N_f$ and $\pi_1 \circ \tilde{h} \circ \iota = h \circ \iota = \pi_1 \circ g$. Also, $\pi_2 \circ \tilde{h} \circ \iota = \pi_2 \circ g \circ \pi_Z \circ \iota = \pi_2 \circ g$. However, by the universal property of the pullback, $g$ is the unique map $Z \to N_f$ satisfying this property under the projections. Therefore, $\tilde{h} \circ \iota = g$. Thus, $\tilde{h}$ is a lift of $h$ at $g$ so $\pi_1$ is a fibration. \bigskip \\
-The map $\pi_1 : N_f \to X$ is a fibration. Thus, take, $\phi : F \to N_{\pi_1}$, the natural inclusion on the fiber $F = \pi_1^{-1}(x_0)$ which is given by $\phi(x_0, \gamma) = (x_0, \gamma, e_{x_0})$ where $(x_0, \gamma) \in \pi_1^{-1}(x_0)$ so $f(x_0) = \gamma(0) = y_0$. However, $Y^I$ is the space of based loops (with $I$ based at $1$) so $\gamma(1) = y_0$. Therefore, $\gamma$ is a loop so $F \cong \Omega Y$ by $(x_0, \gamma, e_{x_0}) \mapsto \gamma$. Thus, $\phi$ can be viewed as a map $\phi : \Omega Y \to N_{\pi_1}$. However,by the lemma above, $\phi : F \to N_{\pi_1}$ is a homotopy equivalence. Therefore, $\phi : \Omega Y \to N_\pi$ is a homotopy equivalence. 
+The outside rectangle is a lifting diagram for $\ev_0 : PY \to Y$.
+I claim that $\ev_0$ is a fibration. It is the fibrant replacement of $* \to Y$ i.e. $PY = E_{* \to Y}$. Consider a diagram,
+\begin{center}
+\begin{tikzcd}[column sep = huge, row sep = huge]
+Z \arrow[d, hook, "\iota"] \arrow[r, "\tilde{h}_0"] &  PY \arrow[d, "\ev_0"] \\
+Z \times I \arrow[r, "h"] \arrow[ru, dashed, "\tilde{h}"] & Y
+\end{tikzcd}
+\end{center}
+Let $\gamma_x = \tilde{h}_0(x)$ and note that $\gamma_x(1) = y_0$ and $\gamma_x(0) = \ev_0 \circ \tilde{h}(x) = h(x, 0)$. Then $h(x,-)$ is a path starting at $\gamma_x(0)$. Thus we can define $\tilde{h} : Z \times I \to PY$ via,
+\[ \tilde{h}(x, t) = \gamma_x * (-h(x,-)|_{[0,t]}) \]
+Notice that $\tilde{h}(x, t)(1) = \gamma_x(1) = y_0$ so this is a well-defined function $\tilde{h} : Z \times I \to PY$. Finally, $\ev_0 \circ \tilde{h}(x,t) = h(x,t)$ so $\ev_0 \circ \tilde{h} = h$ so this is a lift proving that $\ev_0$ is a fibration. See Hatcher 4.64 for more details. 
+\bigskip\\
+Now we prove that $\pi_1$ is a fibration by showing that the (strict) pullback of a fibration is a fibration. Indeed, returning to the original diagram, we get maps $\pi_2 \circ \tilde{g}_0 : Z \to PY$ and $f \circ g : Z \times I \to Y$ such that the outer rectangle commutes. By the homotopy lifting property of the fibration $\ev_0 : PY \to Y$ there is a lift $\tilde{g}' : Z \times I \to PY$. However, by the universal property of the pullback we get a map $\tilde{g} : Z \times I \to N_f$ from the pair $g : Z \times I \to X$ and $\tilde{g}' : Z \times I \to PY$ making the square commute. Now $\pi_1 \circ \tilde{g} = g$ and I claim that $\tilde{g} \circ \iota = \tilde{g}_0$. Indeed, $\pi_1 \circ \tilde{g} \circ \iota = g \circ \iota = \pi_1 \circ \tilde{g}_0$ and $\pi_2 \circ \tilde{g} \circ \iota = \tilde{g}' \circ \iota = \pi_2 \circ \tilde{g}_0$ so by the universal property of the pullback $\tilde{g} \circ \iota = \tilde{g}_0$. Therefore we get a lift in the leftmost square proving that $\pi_1 : N_f \to X$ is a fibration.
+\bigskip \\
+Let $\pi = \pi_1 : N_f \to X$ be the fibration considered above and take, $\phi : F \to N_\pi$, the natural inclusion on the fiber $F = \pi^{-1}(x_0)$ which is given by $\phi(x_0, \gamma) = (x_0, \gamma, e_{x_0})$ for $(x_0, \gamma) \in \pi^{-1}(x_0)$. Since $(x_0, \gamma) \in N_f$ we have $\gamma(0) = f(x_0) = y_0$ and $\gamma(1) = y_0$. Therefore, $\gamma$ is a loop so $F \cong \Omega Y$ via $(x_0, \gamma, e_{x_0}) \mapsto \gamma$. Thus, $\phi$ can be viewed as a map $\phi : \Omega Y \to N_\pi$. However, as proven in problem (2), $\phi : F \to N_\pi$ is a homotopy equivalence when $\pi$ is a fibration. Therefore, $\phi : \Omega Y \to N_\pi$ is a homotopy equivalence. 
 \end{proof}
 
 \begin{theorem} \label{homexactpuppe}

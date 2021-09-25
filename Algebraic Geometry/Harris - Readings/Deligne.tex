@@ -222,18 +222,18 @@ Now consider,
 \\
 & + \sum_i f_i \Big(D_1(\d{(D_2(\d{g_i}))}) - D_2(\d{(D_1(\d{g_i}))}) \Big) \cdot s_i
 \\
-& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - g_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
+& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - f_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
 \\
 & - \sum_i f_i (D_1 \circ \d \circ D_2 \circ \d - D_2 \circ \d \circ D_1 \circ \d)(g_i) \cdot s_i
 \\
 & = \sum_i \Big( D_1(\d{f_i}) D_2(\d{g_i}) - D_2(\d{f_i}) D_1(\d{g_i})  \Big) \cdot s_i 
 \\
-& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - g_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
+& +  \sum_i  \Big( f_i D_2(\d{g_i}) D_1(\nabla s_i) - f_i D_1(\d{g_i}) D_2(\nabla s_i) \Big)
 \\
 & = (D_1 \otimes D_2 - D_2 \otimes D_1) \otimes \id_{\E} \circ \omega_\nabla 
 \end{align*}
 which is defined on $(\Omega^1_S)^{\otimes 2} \otimes_{\struct{S}} \E$ but descends to $\Omega^2_S \otimes_{\struct{S}} \E$ since it sends the ideal $\omega \otimes \omega \mapsto 0$. Therefore, we see that $Q$ is a Lie algebra map iff
-\[ \forall D_1, D_2 \in \Homover{\struct{S}}{\Omega^1_S}{\struct{S}} : (D_1 \otimes D_2 - D_2 \otimes D_1) \otimes \id_{\E} \circ \omega_\nabla = 0 \]
+\[ \forall D_1, D_2 \in \Homover{\struct{S}}{\Omega^1_S}{\struct{S}} : (D_1 \wedge D_2) \otimes \id_{\E} \circ \omega_\nabla = 0 \]
 in particular when $\omega_\nabla = 0$. Furthermore when $Q$ is a Lie algebra map then we must have $\omega_\nabla = 0$ since, for any fixed form, there exists sections of $\Omega^1_S$ which do not kill it. 
 \end{proof}
 
@@ -314,8 +314,8 @@ and $\nabla^\an$ is a flat connection on $\H^n_{\dR}(X^\an / S^\an)$ so there is
 0 \arrow[r] & \struct{X}^\an \arrow[r, "\d{}"] & (\Omega^1_{X / S})^\an \arrow[r, "\d{}"] & (\Omega^2_{X / S})^\an \arrow[r] & \cdots 
 \end{tikzcd}
 \end{center}
-However, by Ehresmann's lemma, locally above $s \in S$ we may write $\pi^{-1}(U) = U \times X_s$ and choose $U$ to be contractible. Then, locally, $\Omega^\bullet_{X^\an / S^\an} = \underline{\C}_X \otimes (\Omega^\bullet_{X_s})^\an$ which, using the projection formula, gives,
-\[ \H^n_{\dR}(X^\an / S^\an) = \R^n \pi_* (\underline{\C}_X \otimes (\Omega^\bullet_{X_s})^\an) = R^n \pi_*(\underline{\C}_X) \otimes \struct{S}^\an \] 
+However, by Ehresmann's lemma, locally above $s \in S$ we may write $\pi^{-1}(U) = U \times X_s$ and choose $U$ to be contractible. Then, locally, there is a quasi-isomorphism, $\Omega^\bullet_{X^\an / S^\an} \to \underline{\C}_X[0] \otimes \pi^{-1} \struct{S}^\an$ by the Poincare lemma. Therefore, by the projection formula,
+\[ \H^n_{\dR}(X^\an / S^\an) = \R^n \pi_* (\underline{\C}_X [0] \otimes \pi^{-1} \struct{S}^\an) = R^n \pi_*(\underline{\C}_X) \otimes \struct{S}^\an \] 
 In particular, there is a natural connection on this analytic sheaf,
 \begin{align*}
 \nabla^\an & : R^n \pi_*(\underline{\C}_X) \otimes_{\underline{\C}_S} \struct{S} \to (R^n \pi_*(\underline{\C}_X) \otimes_{\underline{\C}_S} \struct{S}) \otimes_{\struct{S}} \Omega^1_S = R^n \pi_*(\underline{\C}_X) \otimes_{\underline{\C}_S} \Omega^1_S
@@ -325,10 +325,6 @@ In particular, there is a natural connection on this analytic sheaf,
 Clearly this connection satisfies $\H^n_{\dR}(X^\an / S^\an)^{\nabla^\an} \cong R^n \pi_*(\underline{\C}_X)$. In fact, there is a unique connection satisfing this property which is the GAGA equivalent analytic connection to the algebraic Gauss-Manin connection.
 \end{remark}
 
-
-\section{Local Systems}
-
-\newcommand{\M}{\mathcal{M}}
 
 \begin{rmk}
 Let $X$ be a space over $k$ such that $\M_X(U)$ is always field and $\struct{X} \to \M_X$ is injective and the kernel of $\d : \M_X \to \Omega^1_X \otimes_{\struct{X}} \M_X$ consists exactly of the constant functions. For example a complex manifold over $k = \C$ or an (irreducible) smooth variety over $k$.
@@ -368,7 +364,7 @@ and thus,
 \[ \d{g_1} F^1 + \cdots + \d{g_k} F^k = 0 \]
 However, the $F^i$ form a basis and thus all $\d{g_i} = 0$ meaning that $g_i \in \struct{X}(U)$ is constant i.e. in the image of $k \embed \struct{X}(U)$ under $1 \mapsto 1$. Therefore, since,
 \[ F = g_1 F^1 + \cdots + g_k F^k \]
-we see that $\E^\nabla_\M(U)$ is spanned over $k$ by $F^1, \dots, F^k$ and thus $\dim_k \E^\nabla_\M(U) \le k \le n$. However, $\E^\nabla(U) \subset \E^\nabla(U)$ is a $k$-subspace so we conclude that $\dim_k \E^\nabla(U) \le \dim_k \E^\nabla_\M(U) \le k \le n$.
+we see that $\E^\nabla_\M(U)$ is spanned over $k$ by $F^1, \dots, F^k$ and thus $\dim_k \E^\nabla_\M(U) \le k \le n$. However, $\E^\nabla(U) \subset \E_{\M}^\nabla(U)$ is a $k$-subspace so we conclude that $\dim_k \E^\nabla(U) \le \dim_k \E^\nabla_\M(U) \le k \le n$.
 \end{proof}
 
 \begin{rmk}
@@ -428,7 +424,7 @@ Let $A$ be a finite-type $k_0$-algebra and $\pi : X_A \to \Spec{A}$ a smooth pro
 and a global section $t' = t \otimes 1$ of $\H^n_{\dR}(X_S^\an / S^\an)$. We need to show that $(\nabla \otimes 1) t' = 0$. However, if we recall that,
 \[ \H^n_{\dR}(X_S^\an / S^\an) = \R^n \pi_*^\an (\Omega^\bullet_{X_S^\an / S^\an}) = (R^n \pi_* \C) \otimes_{\underline{\C}} \struct{S^\an} = H^n(X^\an_S, \underline{\C}) \otimes_{\underline{\C}} \struct{S^\an} \]
 and that the Gauss-Manin connection kills exactly those sections purely in,
-\[ \H^n(X^\an_S, \underline{\C}_X) = R^n \pi_* (\underline{C}_X) \]
+\[ \H^n(X^\an_S, \underline{\C}_X) = R^n \pi_* (\underline{\C}_X) \]
 An embedding $\sigma : k \embed \C$ gives a point $\Spec{\C} \to \Spec{A}$ of $s$. Since $t$ is rational,
 \[ t(s) \in H^n(X^\an_s, \Q) \subset H^n_{\dR}(X^\an_s) \]
 Then locally on $S$ we have $\H^n_{\dR}(X^\an / S^\an) = R^n \pi_*(\underline{\C}_X) \otimes \struct{S}^\an$ which is locally free and $\H^n(X^\an, \underline{\C}_X)$ gives its sheaf of locally constant sections. However, $t$ takes rational vatonal values on the closed points which are dense so it must be locally constant and thus $t \in \H^n(X^\an, \underline{\C}_X)$ so $\nabla t = 0$.
@@ -436,7 +432,7 @@ Then locally on $S$ we have $\H^n_{\dR}(X^\an / S^\an) = R^n \pi_*(\underline{\C
 
 \begin{definition}
 Let $\pi : X \to S$ e a proper smooth map of smooth varieties / $\C$ with $S$ connected. Then,
-\[ \H^n_{\et}(X/S)(m) = \varprojlim_r (R^n \pi^*_{\et} \mu_r^{\otimes m} ) \otimes_Z \Q \]
+\[ \H^n_{\et}(X/S)(m) = \varprojlim_r (R^n \pi^{\et}_* \mu_r^{\otimes m} ) \otimes_Z \Q \]
 and
 \[ \H^n_{\A}(X/S)(m) = \H^n_{\dR}(X/S)(m) \times \H^n_{\et}(X/S)(m) \]
 and
@@ -455,7 +451,7 @@ Let $t \in \Gamma(\H^{2 p}_{\A}(X/S)(p))$ such that $\nabla t_{\dR} = 0$. If $(t
 \end{theorem}
 
 \begin{proof}
-We suppose that $t_s$ is an absolute Hodge cycle for some some $s \in S$. For any $s' \in S$ we need to show that $t_{s'}$ is absolutly Hodge meaning that it is rational relative to every isomorphism $\sigma : \C \to \C$. However, such an isomorphism gives a morphism $\sigma \pi : \sigma X \to \sigma S$ and a section $\sigma(t)$ of $\H^n_\A(\sigma X / \sigma S)(p)$. We know that $\sigma(t)_{\sigma s}$ is rationl and we must show that $\sigma(t)_{\sigma s'}$ is rational. It suffices to prove this for $\sigma = \id$ given that there is some $\sigma$ for which this global rationality holds.
+We suppose that $t_s$ is an absolute Hodge cycle for some some $s \in S$. For any $s' \in S$ we need to show that $t_{s'}$ is absolutly Hodge meaning that it is rational relative to every isomorphism $\sigma : \C \to \C$. However, such an isomorphism gives a morphism $\sigma \pi : \sigma X \to \sigma S$ and a section $\sigma(t)$ of $\H^n_\A(\sigma X / \sigma S)(p)$. We know that $\sigma(t)_{\sigma s}$ is rational and we must show that $\sigma(t)_{\sigma s'}$ is rational. It suffices to prove this for $\sigma = \id$ given that there is some $\sigma$ for which this global rationality holds.
 \bigskip\\
 First, consider the component $t_{\dR}$ of $t$ (relative the the construction of $\H^n_\A(\sigma X / \sigma S)(p)$ as a product. By assumption $\nabla t_{\dR} = 0$ so $t_{\dR}$ is a global section of $\H^{2p}(X^\an, \underline{\C}_X)$ which we have shown is the vanishing of the analytic Gauss-Manin connection. Since $t_{\dR}$ is rational at one point, it must be rational at every point since $\H^{2p}(X^\an, \underline{\C}_X)$ is locally constant and $X^\an$ is connected. 
 \bigskip\\

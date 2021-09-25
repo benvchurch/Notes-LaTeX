@@ -3,6 +3,9 @@
 \import{../General/}{General_Includes}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\dR}{\mathrm{dR}}
+\newcommand{\Ad}{\mathrm{Ad}}
+
 
 \begin{document}
 
@@ -12,6 +15,48 @@
 \maketitle
 \tableofcontents
 \newpage
+
+\section{Introduction}
+
+\subsection{Invitation}
+
+Consider a Hamiltonian system on $\R^n$ giving a phase space $\R^{2n}$ with coordinates, $q^1, \dots, q^n, p_1, \dots, p_n$ and a Hamiltonian $H : \R^{2n} \to \R$. In these coordinates, Hamilton's equations of motion are,
+\[ \dot{q}^i = \pderiv{H}{p_i} \quad \quad \dot{p}_i = - \pderiv{H}{q^i} \]
+Part of the power of the Hamiltonian framework is the greater freedom to reparametrize the problem beyond a simple coordinate change of phase space in the Lagrangian framework. Such reparametrizations are given by so called \textit{canonical} transformations which are reparametrizations that preserve the ``form'' of Hamilton's equations. The desire to formalize this notion leads us to symplectic geomery.
+\bigskip\\
+The first step will be to put Hamilton's equation is a coordinate independent form in which canonical transformations will be ellucidated. Notice that the 1-form,
+\[ \d{H} = \sum_{i = 1}^n \left( \pderiv{H}{q^i} \d{q_i} + \pderiv{H}{p_i} \d{p_i} \right) \]
+and the vector field,
+\[ X_H = \deriv{}{t} (q,p)(t) = \sum_{i = 1}^n \left( \dot{q}^i \pderiv{}{q^i} + \dot{p}_i \pderiv{}{p_i} \right) \]
+are related by Hamilton's equations. To relate 1-forms and vector fields we need a 2-form,
+\[ \omega = \sum_{i = 1}^n \d{q^i} \wedge \d{p_i} \]
+which we call the symplectic form. Notice that,
+\[ \omega(X_H, -) = \sum_{i = 1}^n \left( \dot{q}_i \d{p_i} - \dot{p}_i \d{q^i} \right) \]
+and therefore Hamilton's equations may be rewritten as,
+\[ \iota_{X_H} \omega = \d{H} \]
+
+
+\subsection{More General Configuration Spaces}
+
+There is no reason to restrict ourselves to Euclidean configuration space. In fact, a natural symplectic form
+\[ \omega = \sum_{i = 1}^n \d{q^i} \wedge \d{p_i} \]
+arises on the phase space $T^* Q$ of any configuration manifold $Q$. To see how this happens, we first construct the tautological $1$-form $\theta$ on $T^* Q$. Let $X = T^* Q$ and $\pi : X \to Q$ be the fiber bundle projection. Then $\d{\pi} : TX \to TQ$ is induced. A point $x \in X$ corresponds to some point $q \in Q$ and map $\varphi : T_q Q \to \R$. Then define,
+\[ \theta_x = \varphi \circ \d{\pi_x} \]
+Thus $\theta_x : T_x X \to \R$ is linear giving a section $\theta : X \to T^* X$.
+\bigskip\\
+If we choose a chart $(U, \psi)$ of $Q$ with local coordinate functions $q^1, \dots, q^n$ (where $q^i = x^i \circ \psi$ for $\psi : U \to \R^n$ and $x^i : \R^n \to \R$ are the standard coordinates) then there is an induced chart $(\tilde{U}, \tilde{\psi})$ of $X$ defined as $\tilde{U} = \pi^{-1}(U)$ with $\tilde{\psi} : \tilde{U} \to \R^n \times \R^n$ via,
+\[ \tilde{\psi}(q, p_i \d{q^i}) = (\psi(q), p_1, \dots, p_n) \]
+where $\d{q^i}$ are derivates of the coordinate functions $q^i : U \to \R$. Notice that,
+\[ \d{q^i} = \d{(x^i \circ \psi)} = \d{x_i} \circ \d{\psi} = \psi^* \d{x^i} \]
+Then let $p_i : \tilde{U} \to \R$ be the coordinate functions of the second projection $\tilde{U} \to \R^n \times \R^n \to \R^n$. Abusing notation, we write $q^i$ for the pull back of $q^i$ to $Q$, explicitly $q^i : \tilde{U} \xrightarrow{\pi} U \xrightarrow{q^i} \R$. Now we compute $\theta_x$ on the local vector fields $\pderiv{}{q^i}$ and $\pderiv{}{p_i}$. For the point $x = (q, \varphi)$ we have,
+\[ \theta_x \left( \pderiv{}{q^i} \right) = \varphi \left( \pderiv{}{q^i} \right) = p_i \]
+where $\varphi = p_i \d{q^i}$ since $\d{\pi}\left( \pderiv{}{q^i} \right) = \pderiv{}{q^i}$ using that the first $q^i$ is really $q^i \circ \pi$. Furthermore, clearly $\d{\pi} \left( \pderiv{}{p_i} \right) = 0$ since on the chart side $\tilde{U} \to U$ corresponds to $\R^n \times \R^n \to \R^n$ via the first projection. Thus,
+\[ \theta_x \left( \pderiv{}{p_i} \right) = 0 \]
+Since these vector fields form a local frame of $TX$ we find that,
+\[ \theta = \sum_{i = 1}^n p_i \d{q^i} \]
+Therefore, the symplectic 2-form $\omega = -\d{\theta}$ is given in local coordinates as,
+\[ \omega = - \d{\theta} = \sum_{i = 1}^n \d{q^i} \wedge \d{p_i} \]
+Therefore out ``natural'' symplectic form for doing Hamiltonian mechanics actually arises quite canonically on the cotangent space of any manifold or as the physicists would say: on the phase space induced by any configuration space.
 
 \section{Symplectic Geometry}
 
@@ -83,13 +128,25 @@ We see that the condition $\L_X \omega = 0$ that a vector field be symplectic is
 Thus, symplectic vector fields are fields whose flows preserve the symplectic structure.
 \end{remark}
 
+\begin{lemma}
+Let $(M, \omega)$ be symplectic. A vector field $X$ is symplectic iff $\iota_X \omega$ is closed.
+\end{lemma}
+
+\begin{proof}
+From Cartan,
+\[ \L_X \omega = \iota_X \d{\omega} + \d \iota_X \omega = \d \iota_X \omega \]
+because $\d{\omega} = 0$. Therefore,
+\[ \L_X \omega = 0 \iff \d{(\iota_X \omega)} = 0 \]
+\end{proof}
+
 \begin{definition}
-We say that a vector field $X$ on $(M, \omega)$ is Hamiltonian if the form $\iota_X \omega \in \Omega^1(M)$ is exact i.e. there exists a function $H : M \to \R$ such that,
-\[ \d{H} = \iota_X \omega \]
+We say that a vector field $X$ on $(M, \omega)$ is Hamiltonian if the form $\iota_X \omega \in \Omega^1(M)$ is exact i.e. there exists a smooth function $H : M \to \R$ such that,
+\[ \iota_X \omega = \d{H} \]
 \end{definition}
 
 \begin{remark}
-Note that since $\omega$ is non-degenerate, the map $\omega : TM \to \Omega^1(M)$ via $X \mapsto \iota_X \omega$ is an isomorphism and thus we can consider $\omega^{-1} : \Omega^1(M) \to TM$. Then the above condition is that $X = \omega^{-1}(\d{H})$. 
+Note that since $\omega$ is non-degenerate, the map $\omega : TM \to \Omega^1(M)$ via $X \mapsto \iota_X \omega$ is an isomorphism and thus we can consider $\omega^{-1} : \Omega^1(M) \to TM$. Then the above condition is that,
+\[ X = \omega^{-1}(\d{H}) \] 
 \end{remark}
 
 \begin{lemma}
@@ -97,15 +154,22 @@ Hamiltonian vector fields are symplectic.
 \end{lemma}
 
 \begin{proof}
-Let $X$ be Hamiltonian. Then consider,
+Let $X$ be Hamiltonian then $\iota_X \omega$ is exact and thus closed so $X$ is symplectic. Explicitly,
 \[ \L_X \omega = \iota_X \d \omega + \d \iota_X \omega \]
 Since $\omega$ is a symplectic form $\d{\omega} = 0$ and since $X$ is Hamiltonainm $\iota_X \omega$ is exact and thus closed so $\d \iota_X \omega = 0$. Therefore,
 \[ \L_X \omega = 0 \]
-so $X$ is symplectic.
+so $X$ is symplectic. 
 \end{proof}
 
+\newcommand{\sym}{\mathfrak{sym}}
+
+\newcommand{\ham}{\mathfrak{ham}}
+
 \begin{lemma}
-Symplectic and Hamiltonian vector fields form Lie subalgebras.
+Symplectic and Hamiltonian vector fields form Lie subalgebras. Furthermore, 
+\[ [ \sym, \sym ] \subset \ham \]
+where we explicitly see that if $X, Y$ are symplectic then $[X, Y]$ is Hamiltonian with Hamiltonian function $\iota_X \iota_Y \omega = \omega(Y, X)$ meaning that,
+\[ \iota_{[X, Y]} \omega = \d{(\iota_X \iota_Y \omega)} = \d(\omega(Y, X)) \] 
 \end{lemma}
 
 \begin{proof}
@@ -113,9 +177,9 @@ We know that,
 \[ \L_{[X,Y]} \omega = \L_X \L_Y \omega - \L_Y \L_X \omega \]
 so if $X,Y$ are symplectic then so is $[X, Y]$. Furthermore, 
 \[ \iota_{[X, Y]} \omega = \L_X \iota_Y \omega - \iota_Y \L_X \omega \]
-However, $\L_X \omega = 0$ since Hamiltonian fields are symplectic. Furthermore, by Cartan's formula,
+However, $\L_X \omega = 0$ since $X$ is symplectic. Furthermore, by Cartan's formula,
 \[ \iota_{[X, Y]} \omega = \L_X \iota_Y \omega = \iota_X (\d \iota_Y \omega) + \d( \iota_X \iota_Y \omega) \]
-However, since $\iota_Y \omega$ is exact it is closed and thus,
+However, since $Y$ is symplectic, $\iota_Y \omega$ is closed and thus,
 \[ \iota_{[X, Y]} \omega = \d (\iota_X \iota_Y \omega) = \d{(\omega(Y, X))} \]
 which is exact so $[X, Y]$ is Hamiltonian. 
 \end{proof}
@@ -123,6 +187,15 @@ which is exact so $[X, Y]$ is Hamiltonian.
 \begin{remark}
 We have $\L_X \d{\omega} = \d{(\L_X \omega)}$ because $\d$ is a natural transformation in the sense that $f^* \d = \d f^*$ for any smooth map and, in particular, for the flow of $X$. 
 \end{remark}
+
+\begin{prop}
+Let $(M, \omega)$ be a symplectic manifold. Then,
+\[ H^1_{\dR}(M) \cong \sym / \ham \]
+\end{prop}
+
+\begin{proof}
+Obvious from the correspondences between $\sym$ and closed forms and $\ham$ and exact forms.
+\end{proof}
 
 \begin{definition}
 Let $f, g : M \to \R$ be functions and let $X_f = \omega^{-1}(\d{f})$ and $X_g = \omega^{-1}(\d{g})$ be the associated Hamiltonian vector fields. Then we define the \textit{Poisson bracket} via,
@@ -144,7 +217,7 @@ $[X_f, X_g] = - X_{\{ f, g \}}$
 \end{lemma}
 
 \begin{proof}
-We have shown that if $X$ and $Y$ are Hamiltonian then,
+We have shown that if $X$ and $Y$ are symplectic then,
 \[ \iota_{[X,Y]} \omega = \d{(\omega(Y, X))} \]
 Therefore,
 \[ X_{\omega(Y, X)} = \omega^{-1}(\d{(\omega(Y, X))}) = [X, Y] \]
@@ -169,12 +242,589 @@ since the commutator of vector fields is their comutator as differential operato
 \end{proof}
 
 \begin{proposition}
-The map $f \mapsto -X_f = - \omega^{-1}(\d{f})$ is a homomorphism of Lie algebras from smooth functions to Hamiltonian vector fields.
+The map $f \mapsto -X_f = -\omega^{-1}(\d{f})$ is a homomorphism of Lie algebras $\varphi : C^{\infty}(M) \to \ham$ from smooth functions to Hamiltonian vector fields.
 \end{proposition}
 
 \begin{proof}
 Immediate from $-X_{\{f, g\}} = [X_f, X_g] = [- X_f, - X_g]$. 
 \end{proof}
+
+\newcommand{\X}{\mathfrak{X}}
+
+\begin{rmk}
+Unfortunately the physicists convention for Hamilton's equations plus the definition of the Poisson bracket (mathematicians might have defined the Poisson bracket with a minus sign to agree with the convention of Lie brackets $[X, Y] = \L_X Y$ where as $\{f, g \} = \d{f}(X_g) = \L_{X_g} f$ explaining the sign difference between the two brackets) do not permit the map $f \mapsto X_f$ to be a Lie algebra homomorphism. One might attempt to remedy this by replacing $X_f$ by $-X_f$ however this messes up the form of Hamilton's equation unless simultaneously $\omega$ is replaced by $-\omega$ which then messes up the sign of $\{ -, - \}$. Thus the only true remedy is reversing either the Poisson bracket or the Lie bracket. However, $\X(M)$ is sometimes given the opposite Lie algebra structue, remedying our conundrum, because this is the induced Lie bracket on $\X(M) = \mathrm{Lie}(\mathrm{Diff}(M))$.
+\end{rmk}
+
+\section{Hamiltonian Actions}
+
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\inner}[2]{\left< #1 , #2 \right>}
+
+(THERE IS A PROBLEM HERE WITH LEFT VS RIGHT INVT VECTOR FIELDS $\X(M)$ NEEDS OPPOSITE LIE BRACKET) 
+
+\begin{lemma}
+Let $\rho : G \times M \to M$ be a smooth action of a Lie group on a smooth manifold. Then there is a Lie algebra map $\rho : \g \to \X(M)$ given by $\rho(\xi)_m = \d{\rho}_{(e, m)}(\xi, 0)$.
+\end{lemma}
+
+\begin{proof}
+We need to show that $\rho([\xi,\eta]) = [\rho(\xi), \rho(\eta)]$. Let $X_\xi$ denote the left-invariant vector field on $G$ with $X_\xi(e) = \xi$. Then I claim that $\rho_*(X_\xi) = \rho(\xi)$. To see this, note that,
+\[ \d{\rho}_{(g,m)}(X_\xi(g)) = \d{\rho}_{(g,m)}(\d{L_g}(\xi)) = \d{(\rho(g,-) \circ \rho)}_{(e,m)}(\xi) = \d{\rho(g,-)}(\rho(\xi)_m) \]
+(DO THISS!)
+\end{proof}
+
+\begin{defn}
+A Lie group action $G \acts M$ on a symplectic manifold $(M, \omega)$ is \textit{symplectic} if $G$ acts through symplectomorphisms i.e. for each $g \in G$ the map $g : M \to M$ satisfies $g^* \omega = \omega$.
+\end{defn}
+
+\begin{rmk}
+In this case, for each $\xi \in \g$ the vector field $\rho(\xi)$ is symplectic.
+\end{rmk}
+
+\begin{rmk}
+We want a Hamiltonian action to be one that acts through Hamiltonian vector fields meaning $\rho(\xi) \in \ham$ for each $\xi \in \ham$. This means we know that $\iota_{\rho(\xi)} \omega$ is exact so $\iota_{\rho(\xi)} \omega = \d{H_\xi}$ for some choice of function $H_\xi : M \to \R$. However, we want to package the functions $H_\xi$ together so they vary in a coherent way. This is formalized as follows.
+\end{rmk}
+
+\begin{defn}
+Given a symplectic action $G \acts M$, a \text{moment map} is a smooth map $\mu : M \to \g^*$ such that,
+\begin{enumerate}
+\item $\d{\inner{\mu}{\xi}} = \iota_{\rho(\xi)} \omega$
+
+\item $\mu : M \to \g^*$ is $G$-equivariant where $G \acts \g^*$ via the coadjoint action.
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+A \textit{Hamiltonian action} $G \acts M$ is a symplectic action along with a choice of moment map $\mu : M \to \g^*$.
+\end{defn}
+
+\begin{example}
+The translation action $\R^2 \acts \R^2$ clearly acts through Hamiltonian vector fields however is not Hamiltonian. To so see this, suppose there is a moment map $\mu : \R^2 \to \R^2$ which is equivariant but $\R^2$ acts on the first copy by translation and on the section trivially so $\mu$ must be constant contradicting the first property. 
+\end{example}
+
+\begin{lemma}
+If $G$ is connected, a moment map $\mu : M \to \g^*$ is equivalent to a comoment map, a morphism of Lie algebras $\tilde{\mu} : \g \to C^\infty(M)$ such that $\d{\tilde{\mu}(\xi)} = \iota_{\rho(\xi)} \omega$.
+\end{lemma}
+
+\begin{proof}
+Consider the natural correspondence between smooth functions $\mu : M \to \g^*$ and linear maps $\tilde{\mu} : \g \to C^\infty(M)$. Indeed, we define $\tilde{\mu}(\xi) = \inner{\mu(-)}{\xi}$ and $\mu(x) = \tilde{\mu}(-)(x)$. It is clear that $\mu : M \to \g^*$ is $G$-equivariant iff $\tilde{\mu} : \g \to C^\infty(M)$ is $G$-equivariant where $G \acts C^\infty(M)$ via $(g \cdot f)(x) = f(g^{-1} \cdot x)$. Indeed,
+\[ 
+\tilde{\mu}(\Ad_g \cdot \xi) = \inner{\mu(-)}{\mathrm{Ad}_g \cdot \xi} = \inner{\Ad_{g^{-1}} \cdot \mu(-)}{\xi} = \inner{\mu(g^{-1} \cdot - )}{\xi} = g \cdot \inner{\mu(-)}{\xi} = g \cdot \tilde{\mu}(\xi) \]
+and likewise,
+\[ \mu(g \cdot x) = \tilde{\mu}(-)(g \cdot x) = (g^{-1} \cdot \tilde{\mu}(-))(x) = \tilde{\mu}(\mathrm{Ad}_{g^{-1}} -)(x) = \Ad_g^* \cdot \tilde{\mu}(-)(x) = \Ad_g^* \cdot \mu(x) \]
+Therefore, it suffices to show that $G$-equivariance of $\tilde{\mu}$ corresponds to $\tilde{\mu}$ being a map of Lie algebras. If $\tilde{\mu}$ is $G$-equivariant then differentiating $\tilde{\mu}(\Ad_g \cdot \eta) = g \cdot \tilde{\mu}(\eta)$ we see that,
+\[ \tilde{\mu}([\xi, \eta]) = -\rho(\xi) (\tilde{\mu}(\eta)) = -\omega^{-1}(\d{\tilde{\mu}(\xi)})(\tilde{\mu}(\eta)) = - X_{\tilde{\mu}(\xi)}(\tilde{\mu}(\eta)) = \{ \tilde{\mu}(\xi), \tilde{\mu}(\eta) \}  \]
+Alternatively, if $\tilde{\mu}$ is a map of Lie algebras we need to integrate to find the $G$-action. Explicitly, we have shown that the derivative of,
+\[ \tilde{\mu}(\Ad_g \cdot \xi) - g \cdot \tilde{\mu}(\xi) \]
+is zero at $g = e$ and thus at every point by noticing                                          
+\end{proof}
+
+\begin{lemma}
+Let $G \acts M$ be a Hamiltonian action with moment map $\mu : M \to \g^*$. Then the derivative $\d{\mu} : TM \to \g^*$ is given by $X \mapsto \omega(\rho(-), X)$.
+\end{lemma}
+
+\begin{proof}
+We know that $\d{\inner{\mu}{\xi}} = \iota_{\rho(\xi)} \omega$. Thus for $X \in \Gamma(M, TM)$ viewing $\xi \in \g$ as a function on $\g^*$,
+\[ \d{\mu}(X)(\xi) = X(\xi \circ \mu) = X(\inner{\mu}{\xi}) = \d{\inner{\mu}{\xi}}(X) = \omega(\rho(\xi), X) \]
+\end{proof}
+
+
+\begin{defn}
+Let $G \acts M$ be a symplectic action. Then consider the pullback of Lie algebras,
+\begin{center}
+\begin{tikzcd}
+\tilde{\g} \arrow[dr, phantom, "\usebox\pullback" , very near start, color=black] \arrow[d] \arrow[r] & C^{\infty}(M) \arrow[d, "\varphi"]
+\\
+\g \arrow[r, "\rho"'] & \sym
+\end{tikzcd}
+\end{center}
+Explicitly,
+\[ \tilde{\g} = \{(\xi, f) \in \g \oplus C^{\infty}(M) \mid \rho(\xi) = - X_f \} \]
+\end{defn}
+
+\begin{rmk}
+I claim that the map $\varphi : C^\infty(M) \to \sym$ is $G$-equivariant. Consider $\varphi(g \cdot f) = - X_{g \cdot f}$. First,
+\[ \d{(g \cdot f)} = \d{f} \circ \d{g^{-1}} \]
+However, because the action is symplectic,
+\[ \omega(\d{g}(X_f), Y) = \omega(X_f, \d{g^{-1}}(Y)) \]
+and therefore $\d{(g \cdot f)}(Y) = \d{f} \circ \d{g^{-1}}(Y) = \omega(\d{g}(X_f), Y)$ which shows that,
+\[ X_{g \cdot f} = \d{g}(X_f) \]
+Therefore, the above diagram is in the category of $G$-equivariant Lie algebras. Explicilty,
+\[ [\Ad(g) \cdot \xi_1, \Ad(g) \cdot \xi_2] = \Ad(g) \cdot [\xi_1, \xi_2] \]
+and likewise,
+\[ \{ g \cdot f_1, g \cdot f_2 \} = \omega(X_{g \cdot f_1}, X_{g \cdot f_2}) = \omega(\d{g}(X_{f_1}), \d{g}(X_{f_2})) = \omega(X_{f_1}, X_{f_2}) \circ g^{-1} \]
+meaning that $\{ g \cdot f_1, g \cdot f_2 \} = g \cdot \{ f_1, f_2 \}$.
+\end{rmk}
+
+\begin{prop}
+Let $G \acts M$ be a symplectic action such that $\rho(\xi) \in \ham$. Then there is a central extension of Lie algebras,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \R^{\pi_0(M)} \arrow[r] & \tilde{\g} \arrow[r] & \g \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+It is clear that $\tilde{\g} \to \g$ is surjective because $C^\infty(M) \onto \ham$ is surjective and $\rho : \g \to \sym$ lands inside $\ham$. Then consider,
+\[ \ker{(\tilde{\g} \to \g)} = \{ f \in C^\infty(M) \mid X_f = 0 \} \]
+However, $\omega(X_f, -) = \d{f}$ and thus $\d{f} = 0$ so $f$ is locally constant. Furthermore, for any element $(0, f) \in \ker{(\tilde{\g} \to \g)}$ we know $X_f = 0$ so $\{f, g \} = \omega(X_f, X_g) = 0$ so the extension is central.
+\end{proof}
+
+\begin{prop}
+Let $G \acts M$ be a symplectic action such that $\rho(\xi) \in \ham$. Then moment maps $\mu : M \to \g^*$ correspond to splitngs of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \R^{\pi_0(M)} \arrow[r] & \tilde{\g} \arrow[r] & \g \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+as $G$-representations.
+\end{prop}
+
+\begin{proof}
+There is a canonical map $\tilde{\mu} : M \to \tilde{\g}^*$ defined by $\inner{\tilde{\mu}(x)}{(\xi, f)} = -f(x)$ which is $G$-equivariant because,
+\begin{align*}
+\inner{\tilde{\mu}(g \cdot x)}{(\xi, f)} & = -f(g \cdot x) = \inner{\tilde{\mu}(x)}{(\Ad(g^{-1}) \cdot \xi, g^{-1} \cdot f)} 
+\end{align*}
+and thus $\tilde{\mu}(g \cdot x) = g \cdot \tilde{\mu}(x)$. Therefore,
+\[ \d{\inner{\tilde{\mu}}{(\xi, f)}} = -\d{f} = -\iota_{X_f} \omega \]
+Then suppose that $s : \g \to \tilde{\g}$ is a section. Then consider $\mu = s^* \circ \tilde{\mu}$. Then,
+\[ \d{\inner{\mu}{\xi}} = \d{\inner{s^* \circ \tilde{\mu}}{\xi}} = \d{\inner{\tilde{\mu}}{s(\xi)}} = \iota_{\rho(\xi)} \omega \]
+because $s(\xi) = (\xi, f)$ for some $f$ such that $X_f = - \rho(\xi)$. Therefore, since $s^* \circ \tilde{\mu}$ is $G$-equivariant, $s^* \circ \tilde{\mu}$ is a moment map. Conversely, given a moment map $\mu : M \to \g^*$ then $q : \xi \mapsto -\inner{\mu}{\xi}$ gives a $G$-equivariant map $\g \to C^{\infty}(M)$ such that the diagram of $G$-representations,
+\begin{center}
+\begin{tikzcd}
+\g \arrow[d, equals] \arrow[r] & C^{\infty}(M) \arrow[d, "\varphi"]
+\\
+\g \arrow[r, "\rho"] & \sym
+\end{tikzcd}
+\end{center}
+commutes, and therefore we get a $G$-section $s : \g \to \tilde{\g}$ such that $s^* \circ \tilde{\mu} = \mu$ because,
+\[ \inner{s^* \circ \tilde{\mu}}{\xi} = \inner{\tilde{\mu}}{(\xi, q(\xi)} = q(\xi) = \inner{\mu}{\xi} \]
+Finally, given a $G$-section $s : \g \to \tilde{\g}$ or equivalently a $G$-map $q : \g \to C^{\infty}(M)$ then for the moment map $\mu = s^* \circ \tilde{\mu}$ consider $q'(\xi) = - \inner{s^* \circ \tilde{\mu}}{\xi} = - \inner{\tilde{\mu}}{(\xi, q(\xi))} = q(\xi)$ and thus our proceedure produces the section $s$ so this is a bijective correspondence.
+\end{proof}
+
+\begin{rmk}
+Therefore, if $G$ is compact, then the category of $G$-representations is semi-simple and thus all exact sequences split. Thus, every symplectic action $G \acts M$ such that $\rho(\xi) \in \ham$ for all $g \in G$ then $G \acts M$ is Hamiltonian.
+\end{rmk}
+
+\begin{cor}
+If one exists, the space of moment maps is isomorphic to $\Hom{G}{\g}{\R^{\pi_0(M)}}$ which are $\pi_0(M)$ choices of $G$-invariant elements of $\g^*$ representing an additive constant shift for $\mu : M \to \g^*$ on each connected component of $M$.
+\end{cor}
+
+\begin{proof}
+This follows directly from the correspondence between moment maps and splittings of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \R^{\pi_0(M)} \arrow[r] & \tilde{\g} \arrow[r] & \g \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+as $G$-representations which form a $\Hom{G}{\g}{\R^{\pi_0(M)}}$-torsor.
+\end{proof}
+
+\begin{prop}
+If $G$ is reductive then any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$ is hamiltonian. Additionally, if $Z(G)$ is trivial then the moment map is unique.
+\end{prop}
+
+\begin{proof}
+The category of representations of a reductive group is semi-simple. Therefore, exact sequences of $G$-representations always split. 
+\end{proof}
+
+\begin{cor}
+Let $T^n = (S^1)^n$ be the torus group and $(M, \omega)$ a simply-connected symplectic manifold. Then any symplectic action $T^n \acts M$ is hamiltonian and the space of moment maps is affine space over $\g \cong \R^n$.
+\end{cor}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{example}
+In the above corollary, $M$ being simply-connected is necessary. For example consider $M = S^1 \times S^1$ with the symplectic structure $\omega = \d{x} \wedge \d{y}$ where $x$ and $y$ are the coordinates on the two factors. Let $S^1 \acts M$ via left translation on the first factor. Since $\omega$ is constant (this makes sense since the tangent bundle is trivial), this is clearly a symplectic action. However, translation is not a Hamiltonian vector field because $\omega(\pderiv{}{x}, -) = \d{y}$ which is not closed since it has a nonvanishing integral along the curve $\{ * \} \times S^1 \subset S^1 \times S^1$. Therefore, this action cannot be Hamiltonian.
+\end{example}
+
+\begin{prop}
+Let $G$ be a Lie group acting smoothly on a manifold $G \acts Q$. Then there is an induced action $G \acts T^* Q$ which is automati  cally Hamiltonian for the standard symplectic structure on $T^* Q$.
+\end{prop}
+
+\begin{proof}
+The action is defined as $g \cdot (q, p) = (g \cdot q, (\d{g^{-1}})^* p)$. Notice that $\pi : T^* Q \to Q$ is by definition $G$-equivariant. The tautological $1$-form $\theta$ has the defining property that for any $1$-form $\beta : Q \to T^* Q$ we have $\beta^* \theta = \beta$. Then consider the form $\tilde{g}^* \theta$ for $\tilde{g} : T^* Q \to T^* Q$. We have,
+\[ \beta^* \tilde{g}^* \theta  = (\tilde{g} \circ \beta)^* \theta = (\beta \circ g)^* \theta = g^* \beta^* \theta = g^* \beta \] 
+Then for $\xi \in \g$ the vector field $\rho(\xi)$ is 
+
+We define $\mu = \iota_{\rho(-)} \theta$.
+
+(FINISH THIS!!)
+\end{proof}
+
+(FROM HERE ON NOT CORRECT!!!)
+
+\begin{prop}
+Any $G$-equivariant section $\g \to \tilde{\g}$ is automatically a Lie algebra map. If $G$ is connected, Lie algebra sections and $G$-equivariant sections coincide.
+\end{prop}
+
+\begin{proof}
+DO THIS!!!
+\end{proof}
+
+\begin{cor}
+If $G$ is semi-simple then there exists a unique moment map for any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$.
+\end{cor}
+
+\begin{proof}
+Uniqueness follows from the fact that $\g$ is semi-simple and thus has a trivial center. However, a $G$-equivariant map $\g \to \R$ must be a Lie algebra map because differentiating the action of $G$ gives 
+Since $G$ is connected, it suffices to show that 
+\end{proof}
+
+\newcommand{\h}{\mathfrak{h}}
+
+\begin{defn}
+Let $G$ be a Lie group and $\g = \mathrm{Lie}(G)$. We say a $G$-action $\rho : G \to \Aut{\h}$ and a linear map $\varphi : \g \to \h$ are compatible if $\rho_*(\xi) = [\varphi(\xi), -]$ for all $\xi \in \g$.
+\end{defn}
+
+\begin{lemma}
+Given a compatible action an linear map $\varphi : \g \to \h$ the map $\varphi$ is automatically a Lie algebra map and, if $G$ is connected, a $G$-equivariant map.
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Connections on Principal Bundles}
+
+\begin{defn}
+Let $\pi : P \to X$ be a principal $G$-bundle. Then conisder the exact sequence of vector bundles on $P$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker{\d{\pi}} \arrow[r] & TP \arrow[r, "\d{\pi}"] & \pi^* TX \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+A \textit{connection} on $P$ is a $G$-invariant splitting. Explicitly, a bundle map $\delta : \pi^* TX \to TP$ such that,
+\begin{enumerate}
+\item $\d{\pi} \circ \delta = \id_{\pi^* TX}$
+\item for each $g \in G$ the diagram,
+\begin{center}
+\begin{tikzcd}
+\pi^* TX \arrow[r, "\delta"] \arrow[d, equals] & TP \arrow[d, "\d{\ell_g}"]
+\\
+\ell_g^* \pi^* TX \arrow[r, "\ell_g^* \delta"] & \ell_g^* TP
+\end{tikzcd}
+\end{center} 
+commutes where $\ell_g : P \to P$ is the left action by $g \in G$. Note that $\pi \circ \ell_g = \pi$ so there is a natural isomorphism $\pi^* = \ell_g^* \pi^*$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The equivariant condition is equivalent to $\delta$ being a morphism of descent data for the covering $\pi : P \to X$ or equivalently a morphism of $G$-equivariant bundles.
+\end{rmk}
+
+\begin{rmk}
+Such a splitting is equivalent to the choice of a $G$-equivariant complement to the vertical space $V = \ker{\d{\pi}}$. Explicitly this is a subbundle $H \subset TP$ such that $TP = H \oplus V$ and $\d{\ell_g} : TP \to \ell_g^* TP$ takes $H$ to $\ell_g^* H$. This is a $G$-invariant Ehresmann connection on $P$.
+\end{rmk}
+
+\begin{lemma}
+A connection on $\pi : P \to X$ is equivalent to the choice of a $\g$-valued $1$-form $\theta \in \Gamma(P, T^*P \otimes \g)$ such that,
+\begin{enumerate}
+\item (FINISH!!)
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+A connection is a right splitting of the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & V \arrow[r] & TP \arrow[r, "\d{\pi}"] & \pi^* TX \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is equivalent to a choice of right splitting $\theta : TP \to V$ such that $\theta|_V = \id_{V}$. However, since $P$ is a principal $G$-bundle, $V$ is the trivial bundle $P \times \g$ because $\xi \mapsto \rho(\xi)$ for the action $G \acts P$ is an isomorphism of vector bundles $P \times \g \to V$. Therefore, $\theta : TP \to V \cong P \times \g$ is equivalent to a form $\theta \in \Gamma(P, T^*P \otimes \g)$.
+(PROVE PROPERTIES!!!)
+\end{proof}
+
+(DO THIS Adjoint bundle AP!!)
+
+\newcommand{\A}{\mathcal{A}}
+
+\begin{defn}
+The curvature of a connection $\delta : \pi^* TX \to TP$ is a $\A_P$-valued $2$-form $F \in \Gamma(P, \wedge^2 T^* X \otimes \A_P)$ on $X$ defined by,
+\[ F(X, Y) = [\delta(X), \delta(Y)] - \delta([X, Y]) \]
+\end{defn}
+
+%% (EXAMPLE OF S^1 BUNDLES OVER S^2 <-> Complex line bundles on S^2) there are Z of these.
+
+%% (WHY IS SYMPLECTIC TORIC -> TORIC VARIETY?) 
+
+%% (what are other complex structures on K3 surface).
+
+\section{Quaternionic Manifolds}
+
+\renewcommand{\H}{\mathbb{H}}
+\renewcommand{\End}[2]{\mathrm{End}_{#1}\left(#2\right)}
+\renewcommand{\Aut}[2]{\mathrm{Aut}_{#1}\left(#2\right)}
+\newcommand{\GL}[1]{\mathrm{GL}\left(#1 \right)}
+
+\subsection{First Attempts}
+
+\subsection{Definition via $G$-Structues}
+
+\begin{rmk}
+We have the following setup. Let $V = \H^n$ be a $\R$-vector space and \textit{left} $\H$-module. The $\H$-module structue is equivalent to a map $\H \to \End{\R}{V}$ whose (faithful) image is a subalgebra $H \subset \End{\R}{V}$ isomorphic to $\H$. The group $\H^\times \times \GL{n, \H}$ acts on $V$ via $(q, A) \cdot v = q \cdot v \cdot A^{-1}$ (which is well-defined because right and left actions commute). Notice that $\GL{n, \H}$ acts via $\H$-linear maps while $\H^\times$ does not because $\H^\times$ is not abelian and acts on the left. Therefore, we get a map,
+\[ \H^\times \times \GL{n, \H} \to \GL{4n, \R} = \Aut{\R}{V} \]  We denote its image by $G_{\H}$. Clearly, $G_{\H}$ is the product of $H^\times$ and $\GL{n, \H}$ inside $\GL{4n, \R}$,
+\[ G_{\H} = \H^\times \cdot \GL{n, \H} \subset \GL{4n, \R} \]
+Furthermore, because $\H^\times \cap \GL{n, \H} = \R^\times$ inside $\GL{4n, \R}$, there is an isomorphism,
+\[ G_{\H} \cong (\H^\times \times \GL{n, \H})/\R^\times \]
+Notice that, as it must given the embedding into $\GL{4n, \R}$, that $G_{\H}$ acts on $V$ because,
+\[ (\lambda q, \lambda A) \cdot v = (\lambda q) \cdot v \cdot (\lambda^{-1} A^{-1}) = q \cdot v \cdot A^{-1} =  (q, A) \cdot v  \]
+for all $\lambda \in \R^\times$.
+\end{rmk}
+
+\begin{lemma}
+$\Aut{}{\H} = \mathrm{Inn}(\H) \cong \mathrm{SO}(3)$.
+\end{lemma}
+
+\begin{proof}
+For any unit imaginary quaternions $v, u, w \in S^2 \subset \Im{\H}$ we know that $vu = - v \cdot u + v \times u$. Since any $\varphi \in \Aut{}{\H}$ must preserve scalars we see that $\varphi(v) \cdot \varphi(u) = v \cdot u$. Furthermore, it preserves the scalar part of $v(uw) = - v \cdot (u \times w)$ meaning that $\Aut{}{\H}$ preserves the metric and orientation form on $\R^3$ and fixes zero giving a map $\Aut{}{\H} \to \mathrm{SO}(3)$. Furthermore, because automorphisms fix the scalar part and respect scaling, such a transformation of the imaginary sphere determines the automorphism so $\Aut{}{\H} \iso \mathrm{SO}(3)$. Furthermore, we know that all rotations of the imaginary sphere are realized through inner automorphisms.
+\end{proof}
+
+\begin{lemma}
+Since $V$ is a $G_{\H}$-representation, we get a $G_{\H}$-action on $\End{\R}{V}$. Then $H$ is invariant under $G_{\H}$ and $G_{\H}$ is exactly the stabilizer of $H$ under the inclusion $G_{\H} \subset \GL{4n, \R}$,
+\[ G_{\H} = \mathrm{Stab}(H) = \{ \varphi \in \Aut{\R}{V} \mid \varphi \cdot H = H \} \]
+Furthermore, the subgroup $\GL{n, \H} \subset \GL{4n, \R}$ is the \textit{pointwise stabilizer},
+\[ \GL{n, \H} = \mathrm{Stab}(\{ H \}) = \{ \varphi \in \Aut{\R}{V} \mid \forall h \in H : \varphi \cdot h = h \} \]
+\end{lemma}
+
+\begin{proof}
+By definition, $\varphi \cdot h = \varphi \circ h \circ \varphi^{-1}$ meaning that,
+\[ \varphi \in \mathrm{Stab}(\{ H \}) \iff \forall h  \in H : \varphi \cdot h = h \iff \forall h \in H : \varphi \circ h = h \circ \varphi \]
+and thus $\mathrm{Stab}(\{ H \})$ is the group of $H$-linear automorphisms of $V$ which is exactly $\GL{n, \H}$ acting on the right.
+\bigskip\\
+Now we consider the case that $\varphi \cdot h \in H$. Since $\Aut{\R}{V}$ acts on $\End{\R}{V}$ by algebra automorphism we know that $h \mapsto \varphi \cdot h = \varphi \circ h \circ \varphi^{-1}$ is an algebra automorphism. Since all automorphisms of $\H$ are inner, there exists some $q \in H^\times$ such that,
+\[ \varphi \circ h \circ \varphi^{-1} = q^{-1} \circ h \circ q \]
+Therefore, $\varphi' = q \circ \varphi$ is $\H$-linear so $\varphi' \in \GL{n, \H}$ and thus $\varphi \in q \circ \GL{n, \H} \subset G_{\H}$. Therefore, we conclude that $\mathrm{Stab}(H) = G_{\H}$.
+\end{proof}
+
+\begin{prop}
+Let $V$ be a $4n$ dimensional $\R$-vectorspace. Then,
+\begin{enumerate}
+\item the data of a $G_{\H}$-torsor of isomorphisms $V \to \H^n$ equivalent to a subalgebra $H \subset \End{\R}{V}$ isomorphic to $\H$
+\item the data of a $\GL{n, \H}$-torsor of isomorphisms $V \to \H^n$ is equivalent to the data of a subalgebra $H \subset \End{\R}{V}$ and an algebra isomorphism $\varphi : \H \to H$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Given a $G_{\H}$ (or $\GL{n, \H}$) torsor of isomorphism $V \to \H^n$ choose one such isomorphism $\psi : V \iso \H^n$. Then $H = \psi^{-1} \circ \H \circ \psi \subset \End{\R}{V}$ is a subalgebra isomorphic to $\H$ via
+\[ \varphi : q \mapsto \psi^{-1} \circ (q \cdot -) \circ \psi \]
+Furthermore, any other isomorphism $\psi' : V \iso \H^n$ is of the form $\psi' = g \circ \psi$. Then, 
+\[ \psi'^{-1} \circ \H \circ \psi = \psi^{-1} \circ (g^{-1} \circ \H \circ g) \circ \psi = \psi^{-1} \circ \H \circ \psi \]
+because $G_{\H}$ satabilizes $\H \subset \Aut{\R}{\H^n}$ so $H \subset \End{\R}{V}$ is well-defined. Furthermore, if we have a $\GL{n, \H}$-torsor, then $\varphi' : q \mapsto \psi^{-1} \circ (g^{-1} \circ (q \cdot -) \circ g) \circ \psi = \psi^{-1} \circ (q \cdot -) \circ \psi$ because $g$ stabilizes $\H \subset \Aut{\R}{\H^n}$ pointwise.
+\bigskip\\
+Conversely, given a subalgebra $H \subset \End{\R}{V}$ and an algebra isomorphism $\varphi : \H \iso H$ we choose an isomorphism $\psi : V \to \H^n$. Then define, $S \subset \mathrm{Iso}(V, \H^n)$ as the set of isomorphisms $\psi'$ such that $H = \psi'^{-1} \circ \H \circ \psi'$. Then $\psi' \circ \psi^{-1}$ preserves $\H \subset \Aut{\R}{\H^n}$ so $S$ is a $G_{\H}$-torsor. Furthermore, let $S' \subset \mathrm{Iso}(V, \H^n)$ be the subset such that $\psi'^{-1} \circ (q \cdot -) \circ \psi' = \varphi(q)$ for all $q \in \H$. Then clearly $\psi' \circ \psi^{-1}$ preserves $\H \subset \Aut{\R}{\H^n}$ pointwise and thus $S'$ forms a $\GL{n, \H}$-torsor. These constructions are inverse to eachother.
+\end{proof}
+
+\begin{theorem}
+Let $M$ be a smooth manifold. Then,
+\begin{enumerate}
+\item a $G_{\H}$-structure on $M$ is equivalent to an algebra subbundle $H \subset \End{}{TM}$ with $H_x \iso \H$
+\item a $\GL{n,\H}$-structure on $M$ is equivalent to an algebra subbundle $H \subset \End{}{TM}$ with a global trivialization $\varphi : \H \times M \iso H$. This is equivalent to a choice of $I, J, K \in \End{}{TM}$ satisfying the quaterion algebra relations: $I^2 = J^2 = K^2 = -\id$ and $IJK = -\id$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+DO THIS!!!
+\end{proof}
+
+\begin{rmk}
+A $G_{\H}$-structure does not in general admit globally defined almost complex structures $I, J, K \in \End{}{TM}$ satisfying $IJK = - \id$. However, such always exist locally (although such choices are not canonical given the data in contrast to the global $I,J,K$ from a $\GL{n, \H}$-structure).
+\end{rmk}
+
+\subsection{Integrability Conditions}
+
+\subsection{Special Holonomy}
+
+\section{Some Real Algebras}
+
+\subsection{Algebra Basics}
+
+\begin{rmk}
+Rings are assumed to be unital but need not be commutative. Homomorphisms of rings must preserve the unit.
+\end{rmk}
+
+\begin{defn}
+An \textit{algebra} over a commutative ring $R$ is a $R$-module $A$ equiped with an $R$-bilinear map $B : A \times A \to A$ or equivalently an $R$-linear structure map $B : A \otimes_R A \to A$. A homomorphism of $R$-algebras $f : A \to A'$ is an $R$-linear map such that $f(B(x,y)) = B'(f(x), f(y))$.
+\end{defn}
+
+\begin{rmk}
+We conventionally write $xy$ or $x \cdot y$ for $B(x,y)$.
+\end{rmk}
+
+
+\begin{defn}
+Let $A$ be an $R$-algebra. Then we say that $A$ is:
+\begin{enumerate}
+\item \textit{unital} if there exists an element $1_A \in A$ such that $1_A \cdot x = x \cdot 1_A = x$ for all $x \in A$
+\item \textit{associative} if for all $x,y,z \in A$ we have $(xy)z = x(yz)$
+\item \textit{division} if for all $a, b \in A$ with $a \neq 0$ the equations $ax = b$ and $xa = b$ have unique solutions
+\item \textit{zero-divisor free} if for all $a, b \in A$ such that $ab = 0$ either $a = 0$ or $b = 0$.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+A unital algebra has a unique unit. 
+\end{prop}
+
+\begin{proof}
+Suppose that $1_A, 1_A' \in A$ are both units. Then $1_A = 1_A \cdot 1_A' = 1_A'$ by the unit properties of $1_A$ and $1_A'$.
+\end{proof}
+
+
+\subsection{Division Algebras}
+
+\begin{prop}
+Let $R = K$ be a field. Then a finite dimensional $K$-algebra is zero-divisor free iff it is a divison algebra.
+\end{prop}
+
+\begin{proof}
+For any nonzero $a \in A$. The maps $B(a, -)$ and $B(-, a)$ are endomorphisms of finite dimensional $K$-vectorspaces and thus are injective iff bijective. Injectivity is equivalent to $ab = 0$ implies $b = 0$ and $ba = 0$ implies $b = 0$ which is equivalent to being zero-divisor free. Bijectivity is equivalent to $A$ being a division ring.
+\end{proof}
+
+\begin{prop}
+If $K$ is algebraically closed, then $K$ is the only finite dimensional unital division algebra over $K$.
+\end{prop}
+
+\begin{proof}
+Let $A$ be a finite dimensional unital division algebra over $K$.
+Since $K$ is algebraically closed, for each $a \in A$ the map $\ell_a : A \to A$ has an eigenvector, that is a nonzero $v \in A$ and $\lambda \in K$ such that $a v = \lambda v$ and thus $(a - \lambda \cdot 1_A) \cdot v = 0$. However, $v \neq 0$ so because $A$ is a finite dimensional division algebra it is zero divisor free meaning that $a = \lambda \cdot 1_A$. Since $a \in A$ is arbitrary, we see that $K \to A$ is an isomorphism.
+\end{proof}
+
+\newcommand{\C}{\mathbb{C}}
+
+\begin{rmk}
+The three hypotheses: finite dimensional, unital, division are each necessary. For example, over $K = \C$ we have $A = \C(x)$ which is a unital division algebra but not finite dimensional, $A = HMMMMMMMMMMMMMM$, and $A = \mathrm{M}_2(\C)$ which is finite dimensional and unital but not division because of nilpotent matrices.
+\end{rmk}
+
+
+\subsection{Properties of Subalgebras}
+
+\begin{prop}
+Let $A$ be an $R$-algebra. Then the center $Z(A) = \{ x \in A \mid \forall a \in A : a x = x a \}$ is a submodule. If $A$ is associative then $Z(A)$ is a subalgebra. 
+\end{prop}
+
+\begin{proof}
+Clearly, if $x, y \in Z(A)$ then $r(x + y) = r x + ry = xr + yr = (x + y)r$ so $x + y \in Z(A)$. Furthermore, for all $r \in R$ we know that $a(rx) = r \cdot (ax) = r \cdot (xa) = (r x) \cdot a$ so $r x \in Z(A)$. Thus $Z(A)$ is a submodule. Similarly, if $A$ is associative, 
+\[ a (xy) = (ax)y = (xa)y = x(ay) = x(ya) = (xy)a \]
+and thus $xy \in Z(A)$ so $Z(A)$ is a subalgebra.
+\end{proof}
+
+\begin{rmk}
+The center of a unital associative algebra is a ring, thus motivating the following result.
+\end{rmk}
+
+\begin{prop}
+Unital associative $R$-algebras are equivalent to rings $A$ with the additional data of a homomorphism of (commutative) rings $\varphi : R \to Z(A)$.
+\end{prop}
+
+\begin{proof}
+Let $A$ be a unital associative $R$-algebra. Then $(A, +, \cdot)$ defines exactly the structure of a ring. Furthermore, there is a map $\varphi : R \to Z(A)$ given by $r \mapsto r \cdot 1_A$. To see why this lands in the center, notice that for all $x \in A$ we have 
+\[ x (r \cdot 1_A) = r \cdot (x \cdot 1_A) = r \cdot x = r \cdot (1_A \cdot x) = (r \cdot 1_A) \cdot x \]
+because the product is $R$-bilinear. Conversely, given a ring $A$ and a map $\varphi : R \to Z(A)$ then $A$ becomes an $R$-module via $r \cdot x = \varphi(r)x$. Furthermore, because $\varphi(r) \in Z(A)$ the product become bilinear since $x (r \cdot y) = x \varphi(r) y = \varphi(r) xy = r \cdot (xy)$ (linearity in the first factor and distributative laws follow directly from associativity). 
+\end{proof}
+
+\begin{cor}
+Rings are exactly unital associative algebras over $\Z$.
+\end{cor}
+
+\begin{defn}
+Let $A$ be an $R$-algebra. A \textit{left (resp.\ right) ideal} is an $R$-submodule $I \subset A$ such that $A \cdot I \subset I$ (resp.\ $I \cdot A \subset I$). A \textit{two-sided ideal} or simply an \textit{ideal} is both a left and a right ideal.
+\end{defn}
+
+\begin{rmk}
+Any left/right/two-sided ideal $I \subset A$ is a subalgebra of $A$.
+\end{rmk}
+
+\begin{rmk}
+If $A$ is a ring, the algebra structure makes a right ideal into a right $A$-module, a left ideal into a left $A$-module, and an ideal into an $A$-bimodule.
+\end{rmk}
+
+\begin{defn}
+Let $A$ be a unital associative $R$-algebra. Then we say that $A$ is:
+\begin{enumerate}
+\item \textit{central} if $Z(A) = R \cdot 1_A$
+\item \textit{simple} if $A$ has no nontrivial ideals.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+Let $A$ be a simple ring (or unital associative $R$-algebra). Then $K = Z(A)$ is a field and $A$ naturally has the structure of a central unital associative $K$-algebra.
+\end{prop}
+
+\begin{proof}
+First, note that a simple commutative ring is a field (because then $(0)$ is maximal). I claim that if $A$ is a simple ring then $Z(A)$ is simple. Suppose that $I \subset Z(A)$ is an ideal. Then $x A$ is a two-sided ideal because $x \in Z(A)$. If $x \neq 0$ then $x A = A$ so $x a = 1$ for some $a \in A$. Forthermore, $ab = ab (xa) = ax ba = ba$ for all $b \in A$ so $a \in Z(A)$. Thus $1_A = xa \in I$ so $I = Z(A)$. Therefore, $Z(A)$ is a field and the identity map $K \to Z(A)$ makes $A$ a unital associative $K$-algebra such that $Z(A) = K$ so $A$ is central. 
+\end{proof}
+
+
+\subsection{Central Simple Algebras}
+
+\begin{defn}
+Let $K$ be a field. A \textit{Brauer algebra} over $K$ is a finite dimensional unital associative central simple algebra over $K$.
+\end{defn}
+
+\begin{prop}
+Every Brauer algebra is isomorphic to a matrix algebra over a divison algebra over $K$.
+\end{prop}
+
+\begin{proof}
+DO!!
+\end{proof}
+
+(DOOO THIS SECTION!!!)
+
+
+\subsection{Normed Algebras}
+
+\begin{defn}
+Let $V$ be a $K$-vectorspace. A \textit{quadratic form} on $K$ is a map $q : V \to K$ so that,
+\begin{enumerate}
+\item $q(\lambda \cdot v) = \lambda^2 q(v)$ for each $\lambda \in K$ and $v \in V$
+\item $B(v, w) = q(v + w) - q(v) - q(w)$ is a bilinear form $B : V \times V \to K$.
+\end{enumerate}
+\end{defn}
+
+NONDENGENERATE
+
+\begin{defn}
+A \textit{composition algebra} over $K$ is a finite dimensional $K$-algebra equiped with a nondegenerate quadratic form $N : A \to K$ such that $N(xy) = N(x) N(y)$ for all $x,y \in A$.
+\end{defn}
+
+\begin{theorem}
+
+\end{theorem}
+
+
+\begin{rmk}
+We want to define an algebra structure on $\R^n$. In analogy with the quaternions, we use a vectorspace splitting $\R^n = \R \cdot 1 \oplus \R^{n-1}$. We write elements as $x = a + \vec{v}$ with $a \in \R$ and define multiplication as follows,
+\[ x y = (a + \vec{v}) (b + \vec{u}) = ab - \vec{v} \cdot \vec{u} + a \vec{u} + b \vec{v} + \vec{v} \times \vec{u} \]
+where $\vec{v} \times \vec{u}$ is a bilinear ``cross product'' $V \times V \to V$. Clearly, this is a bilinear mulitiplication map. Furthermore, we have an involution $x \mapsto x^*$ via $a + \vec{v} \mapsto a - \vec{v}$. Then we want $(xy)^* = y^* x^*$ which is equivalent to $\vec{v} \times \vec{u} = - \vec{u} \times \vec{v}$. We want to define a norm $N(x) = x x^*$. Notice that $x x^* = a^2 + \vec{v} \cdot \vec{v}$ is nongegenerate. To have multiplicativity of $N$ we must have,
+\[ (xy) (xy)^* = (xy) (y^* x^*) = x (y y^*) y \]
+Writing this out,
+\begin{align*}
+(xy) (y^* x^*) & = (ab - \vec{v} \cdot \vec{u} + a \vec{u} + b \vec{v} + \vec{v} \times \vec{u}) (ab - \vec{v} \cdot \vec{u} - a \vec{u} - b \vec{v} - \vec{v} \times \vec{u})
+\\
+& = (ab - \vec{v} \cdot \vec{u})^2 + (a^2 ||\vec{u}||^2 + b^2 ||\vec{v}||^2 + ||\vec{v} \times \vec{u}||^2 + 2 ab \, \vec{v} \cdot \vec{u} + 2 a \, \vec{u} \cdot (\vec{v} \times \vec{u}) + 2 b \, \vec{v} \cdot (\vec{v} \times \vec{u}))
+\\
+& = (a^2 + ||\vec{v}||^2)(b^2 + ||\vec{u}^2||) + ||\vec{v} \times \vec{u}||^2 + (\vec{v} \cdot \vec{u})^2 - ||\vec{v}||^2 ||\vec{u}||^2 + 2 (a \vec{u} + b \vec{v}) \cdot (\vec{v} \times \vec{u})
+\\
+x (y y^*) x^* & = (a^2 + ||\vec{v}||^2)(b + ||\vec{u}||^2)
+\end{align*}
+Therefore, for these to agree we must have,
+\[ ||\vec{v} \times \vec{u}||^2 + (\vec{v} \cdot \vec{u})^2 - ||\vec{v}||^2 ||\vec{u}||^2 + 2 (a \vec{u} + b \vec{v}) \cdot (\vec{v} \times \vec{u}) = 0 \]
+Taking $a = b = 0$ we see that,
+\[ || \vec{v} \times \vec{u} ||^2 = ||\vec{v}||^2 ||\vec{u}||^2 - (\vec{v} \cdot \vec{u})^2 \]
+Taking $a = 0$ we see that $\vec{u} \cdot (\vec{v} \times \vec{u}) = 0$ and likewise for $b = 0$ we see that $\vec{v} \cdot (\vec{v} \times \vec{u}) = 0$. This justifies the following definition.
+\end{rmk}
+
+\begin{defn}
+A \textit{cross product} on an inner product space is a bilinear map $\times : V \times V \to V$ such that,
+\begin{enumerate}
+\item $\vec{v} \cdot (\vec{v} \times \vec{u}) = 0$ and $(\vec{v} \times \vec{u}) \cdot \vec{u} = 0$
+\item $|| \vec{v} \times \vec{u} ||^2 = || \vec{v} ||^2 || \vec{u} ||^2 - (\vec{v} \cdot \vec{u})^2$.
+\end{enumerate}
+\end{defn}
 
 
 \end{document}

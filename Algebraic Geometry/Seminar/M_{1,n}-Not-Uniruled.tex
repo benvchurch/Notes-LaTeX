@@ -1,0 +1,262 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\tors}{\mathrm{tors}}
+\renewcommand{\C}{\mathbb{C}}
+\usepackage{mathdots}
+
+\begin{document}
+
+\section{Introduction}
+
+\newcommand{\barM}{\overline{\M}}
+\newcommand{\ff}{\mathbb{F}}
+\newcommand{\barF}{\overline{\mathbb{F}}}
+\newcommand{\Frob}{\mathrm{Frob}}
+
+\begin{defn}
+Let $X$ be a variety over $k$. We say that $X$ is,
+\begin{enumerate}
+\item \textit{rational} if there is a birational equivalence $\P^n_k \birat X$
+\item \textit{unirational} if there is a dominant rational map $\P^n_k \rat X$
+\item \textit{uniruled} if there is a dominant rational map $Y \times \P^1_k \rat X$ where $Y$ is a $k$-variety
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Over an infinite field, without loss of generality we can take $n = \dim{X}$ and $\dim{Y} = n - 1$.
+\end{rmk}
+
+\begin{rmk}
+Clearly rational implies unirational implies uniruled. The reverse implications are false or open in many situations.
+\end{rmk}
+
+\begin{prop}
+Let $k$ have characteristic zero. If $X$ is uniruled then $\kappa(X) = -\infty$
+\end{prop}
+
+\begin{proof}
+Consider a dominant rational map $\varphi : Y \times \P^1_k \rat X$ with $\dim{Y} = \dim{X} - 1$. By resolution of singularities we may replace $X$ and $Y$ by smooth compactifications smooth. Then $\varphi$ is indeterminate in codimension $\ge 2$ so we get a map,
+\[ \varphi^* : H^0(X, \Omega_X) \to H^0(Y \times \P^1_k, \Omega_{Y \times \P^1_k}) \]
+Because $k$ is perfect, $\varphi$ is generically \etale so the pullback is injective. Therefore,
+\[ H^0(X, \omega_X^{\otimes m}) \embed H^0(Y \times \P^1_k, \omega_{Y \times \P^1_k}^{\otimes m}) \]
+but by Kunneth,
+\[ H^0(Y \times \P^1_k, \omega_{Y \times \P^1_k}^{\otimes m}) = H^0(Y, \omega_Y^{\otimes m}) \otimes_k H^0(\P^1_k, \omega_{\P^1}^{\otimes m}) = 0 \]
+so the pluricanonical invariants of $X$ vanish i.e. $\kappa(X) = -\infty$.
+\end{proof}
+
+\begin{rmk}
+However in positive characteristic the above fails (e.g. Fermat surfaces, Zariski surfaces, etc). If you are interested about this you should contact me because I am thinking about some new examples of general type uniruled things. 
+\end{rmk}
+
+\noindent
+We are interested in when the moduli spaces $\barM_{g,n}$ of genus $g$ curves with $n$ fixed ordered points have these birational properties. Because we are interested in birational properties it suffices to replace the stacky moduli spaces with their associated coarse moduli space and work only with (singular) varieties. For example the following are known.
+
+\begin{thm}[Harris-Mumford]
+Over $\C$, for $g > 23$ the moduli space $\barM_{g}$ is general type.
+\end{thm}
+
+\begin{thm}[Bini-Fontanari]
+If $\mathrm{char}(k) = 0$ then $\barM_{1,n}$ is unirational if $n \le 10$ and not uniruled if $n > 10$.
+\end{thm}
+
+\noindent
+Similarly, in positive characteristic $\barM_{1,n}$ is known to be unirational for $n \ge 10$ but nothing else was known. Here we will prove a similar result in positive characteristic.
+
+\begin{thm}
+Over $\barF_p$, the moduli spce $\barM_{1,n}$ is not uniruled for $n \ge p - 2$ and $p > 11$.
+\end{thm}
+
+\noindent To prove this we need a birational invariant which works for not necessarily smooth or proper varieties so we can work with opens in the coarse moduli space. 
+
+\section{A Birational Invariant}
+
+Let $X$ be a variety over dimension $n$ over $\ff_q$ then there is an action of $\Frob_q$ on $H^i_c(X_{\barF_p}, \Q_\ell)$. 
+
+\begin{thm}[Deligne]
+The eigenvalues $\alpha$ of $\Frob_q \acts H^i_c(X_{\barF_p}, \Q_\ell)$ satisfy,
+\begin{enumerate}
+\item $\alpha$ is an algebraic integer
+\item $\alpha \divides q^{\min{\left(i, n\right)}}$ 
+\item if $i > n$ then $q^{i-n} \divides \alpha$
+\end{enumerate}
+\end{thm}
+
+\begin{rmk}
+Notice that if $\alpha$ has weight $w$ then for any embedding $|\alpha| = q^{w/2}$ so $\alpha \bar{\alpha} = q^w$ thus all weight $w < n$ eigenvalues satisfy $\alpha \divides q^{n-1}$.
+\end{rmk}
+
+\newcommand{\tdF}{\mathrm{tdF}}
+
+\begin{defn}
+The top dimensional Frobenius cohomology $H_{\tdF}^i(X)$ is the quotient of $H^i_c(X_{\barF_p}, \Q_\ell)$ by the maximal $\Frob_q$-stable subspace on which the eigenvalues satisfy $\alpha \divides q^{n-1}$.
+(ASK ABOUT WEIGHTS!!)
+\end{defn}
+
+\begin{rmk}
+We immediately see that $H^i_{\tdF}(X) = 0$ for $i < n$.
+\end{rmk}
+
+\begin{prop}
+The cohomology groups $H^i_{\tdF}$ are birational invariants i.e. if $X \birat Y$ then,
+\[ H^i_{\tdF}(X) \iso H^i_{\tdF}(Y) \]
+\end{prop}
+
+\begin{proof}
+Because $X$ and $Y$ contain isomorphic open subsets, it suffices to consider the case of an open immersion $U \embed X$ with complement $Z$. Consider the excision sequence,
+\begin{center}
+\begin{tikzcd}
+H^{i-1}_c(Z_{\barF_p}, \Q_\ell) \arrow[r] & H^i_c(U_{\barF_p}, \Q_\ell) \arrow[r] & H^i_c(X_{\barF_p}, \Q_\ell) \arrow[r] & H^{i+1}_c(Z_{\barF_p}, \Q_\ell)
+\end{tikzcd}
+\end{center}
+However, $Z$ has dimension $\le n - 1$ so every eigenvalue of $\Frob_q \acts H^i_c(X_{\barF_p}, \Q_\ell)$ satisfies $\alpha | q^{n-1}$ so the excision map $H^i_c(U_{\barF_p}, \Q_\ell) \to H^i_c(X_{\barF_p}, \Q_\ell)$ becomes an isomorphism after quotienting by the maximal $\Frob_q$-stable subspace with all eigenvaleus dividing $q^{n-1}$ giving an isomorphism,
+\[ H^i_{\tdF}(U) \iso H^i_{\tdF}(X) \]
+\end{proof}
+
+\begin{prop}
+Let $X, Y$ be varieties of dimension $n$ and $f : Y \rat X$ be a dominant rational map. Then $H^i_{\tdF}(X)$ is a summand of $H^i_{\tdF}(Y)$.
+\end{prop}
+
+\begin{proof}
+Since the above is a birational invariant we may shrink until $f : X \to Y$ is a finite morphism (first shrink until $f$ is a morphism then it is generically finite so shrink until finite). The adjunction and trace maps,
+\[ \underline{\Q_\ell} \to f_* f^* \underline{\Q_\ell} \xrightarrow{\mathrm{tr}} \underline{\Q_\ell} \]
+compose to multiplication by $\deg{f}$. Therefore $\underline{\Q_\ell}$ is a direct summand of $f_* f^* \underline{\Q_\ell} = f_! \underline{\Q_\ell}$. Therefore, $H^i_c(X_{\barF_p}, \Q_\ell)$ is a direct summand of $H^i_c(X_{\barF_p}, f_! \Q_\ell) = H^i_c(Y_{\barF_p}, \Q_\ell)$.
+(ASK ABOUT DERIVED !!)
+\end{proof}
+
+\begin{cor}
+Let $X$ be unirational over $\barF_q$ then $H^i_{\tdF}(X) = 0$ for $i < 2n$.
+\end{cor}
+
+\begin{proof}
+The dominant rational map $\P^n_{\barF_q} \onto X_{\barF_q}$ makes $H^i_{\tdF}(X) \subset H^i_{\tdF}(\P^n)$ but $\Frob_q$ acts on $H^{2k}_c(\P^n_{\barF_q}, \Q_\ell)$ as $q^k$ so $H^i_{\tdF}(\P^n) = 0$ for $i < 2n$.  
+\end{proof}
+
+\begin{cor}
+Let $X$ be uniruled over $\barF_q$ then $H^n_{\tdF}(X) = 0$. 
+\end{cor}
+
+\begin{proof}
+We have a dominant rational map $Y \times \P^1 \rat X$. By Kunneth,
+\[ H_c^n(Y \times \P^1, \Q_\ell) = \bigoplus_{i = 0}^n H_c^i(Y_{\barF_q}, \Q_\ell) \otimes H_c^{n-i}(\P^1_{\barF_q}, \Q_\ell) = H^n_c(Y_{\barF_q}, \Q_\ell) \oplus H^{n-2}_{c}(Y_{\barF_q}, \Q_\ell(-1)) \]
+Since $\dim{Y} = n-1$ the eigenvalues of $\Frob_q$ on $H^k_c(Y_{\barF_q}, \Q_\ell)$ divide $q^{\min{\left(k, n-1\right)}}$ so on the first term each eigenvalue divides $q^{d-1}$ and on the second term each eigenvalue divides $q \cdot q^{n-2} = q^{n-1}$ since $\Frob_q \acts \Q_\ell(-1)$ by multiplication by $q$. Therefore,
+\[ H^n_{\tdF}(Y \times \P^1) = 0 \]
+and therefore $H^n_{\tdF}(X) = 0$. 
+\end{proof}
+
+\section{Modular Forms and the Cohomology of $\M_m$}
+
+\begin{thm}
+Let $k$ be a positive integer $k \le n + 1$. If there exists $f \in \S_k(\Gamma(1))$ such that $T_p f = \lambda f$ and $p \ndivides \lambda$ then,
+\[ H^{2n - k + 1}_{\tdF}(\barM_{1,n} \otimes \ff_p) \neq 0 \]
+
+(ASK ABOUT EIGENFORM!!)
+\end{thm}
+
+\subsection{Some Modular Forms Theory}
+
+\newcommand{\h}{\mathfrak{h}}
+\renewcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\sh}{\mathrm{sh}}
+
+Let $\Gamma \subset \SL{2}{\Z}$ be a congurence subgroup. Then let $X = \h / \Gamma$ is the moduli space of elliptic curves with level structure whose compactification $\overline{X}$ is a smooth curve. This comes with a universal elliptic curve,
+\begin{center}
+\begin{tikzcd}
+E \arrow[d, "f", bend left]
+\\
+X \arrow[u, "e", bend left] 
+\end{tikzcd}
+\end{center} 
+Let $\omega = f_* \Omega^1_{E/X} = e^* \Omega^1_{E/X}$ be the Hodge bundle. Then modular forms are,
+\[ \M_k(\Gamma) = H^0(\overline{\h/\Gamma}, \omega^{\otimes k}) \]
+Furthermore, there is a map $\varphi : \Omega^1_{\overline{X}} \to \omega^{\otimes 2}$ which is an isomorphism on $X$ and vanishes on the boundary. Then cusp forms are,
+\[ \S_k(\Gamma) = H^0(\overline{\h / \Gamma}, \Omega^1_{\overline{X}} \otimes \omega^{\otimes k-2}) \]
+We define,
+\[ \tilde{H}^i(X, \F) = \Im{H_c^i(X, \F) \to H^i(X, \F)} \]
+Then using Hodge theory, Shimura constructed an isomorphism,
+\[ \sh : \S_k(\Gamma) \oplus \overline{\S_k(\Gamma)} \iso \tilde{H}^1(\h/\Gamma, \Sym^{k-2} (R^1 f_* \Z)) \otimes_\Z \C \]
+
+\subsection{Moduli Spaces with Level Structure}
+
+\newcommand{\W}[2]{{}^{#1}_{#2} W_\ell}
+
+The data of an elliptic curve with full level structue $m$ (or $\Gamma(m)$-structure) is an elliptic curve $E$ along with an isomorphism $(\Z / m \Z)^2 \iso E[m]$. Moduli of such objects is encoded by $\h / \Gamma(m)$ and, in fact, there is a $\Z$-scheme $M_m$ which is a fine moduli space (when $m > 2$) for elliptic curves with full level structure $m$. Denote the universal family $f_m : E_m \to M_m$. This family comes with a $\GL{2}{\Z/m}$-action given by changing the basis of the level structure. Let,
+\[ \W{k}{m} = \tilde{H}^1(M_m \otimes \overline{\Q}, \Sym^k (R^1 f_{m*} \underline{\Q_\ell})) \]
+which inherits a $\Gal{\overline{\Q}/\Q}$-action. Then by GAGA and Artin comparison,
+\[ \W{k}{m} \otimes_{\Q_\ell} \C \cong \tilde{H}^1(\h / \Gamma(m), \Sym^k(R^1 f_{*} \underline{\Z})) \otimes_\Z \C \cong \S_{k+2}(\Gamma(m)) \oplus \overline{\S_{k+2}(\Gamma(m))} \]
+Therefore, we get an action of $\GL{2}{\Z/m}$ and the Hecke operator $T_p$ on $\W{k}{m}$.
+We globalize this by considering the pushforward under $a : M_m \to \Spec{\Z}$,
+\[ \F = R^1 \tilde{a} (\Sym^k(R^1 f_{m*} \underline{\Q_\ell}))) \]
+which is a lisse $\Q_\ell$-sheaf over $\Spec{\Z[1/m\ell]}$. Since $M_m \to \Spec{\Z}$ is $\GL{2}{\Z/m}$ equivariant, $\F$ has a $\GL{2}{\Z/m}$-action. Deligne showed that $T_p$ acts globally on $\F$ in a compatible way.
+\bigskip\\
+Because $\F$ is lisse on a dense open containing $(p)$, its geometric stalks,
+\begin{align*}
+\F_{\overline{\Q}} & = \tilde{H}^1(M_m \otimes \overline{\Q}, \Sym^k (R^1 f_{m*} \underline{\Q_\ell})) = \W{k}{m}
+\\
+\F_{\barF_p} & = \tilde{H}^1(M_m \otimes \barF_p, \Sym^k (R^1 f_{m*} \underline{\Q_\ell}))
+\end{align*} 
+are isomorphic as $\Q_{\ell}$-vectorspaces with $T_p$ and $\GL{2}{\Z/m}$-actions. We are going to show that the assumptions of the main theorem imply that every eigenvalue of $T_p$ on this space is divisible by $p$ and thus this must hold for any eigenform. 
+
+\subsection{Proof of the Main Theorem}
+
+We prove the contrapositive of the main theorem. So assume that $H^{2n - k + 1}_{\tdF}(\barM_{1,n} \otimes \barF_p) = 0$. Therefore, every eigenvalue of $\Frob_p \acts H^{2n - k + 1}(\barM_{1,n} \otimes \barF_p, \Q_\ell)$ divides $q^{n-1}$. 
+\bigskip\\
+Choose $m \ge 3$ prime to $p$ and let $f_m : E_{m, \ff_p} \to M_{m, \ff_p}$ be the universal elliptic curve with full level structue $m$ over $\ff_p$. Then consider $f^{n-1}_m : E^{n-1}_{m, \ff_p} \to M_{m, \ff_p}$. The quotient $E^{n-1}_{m, \ff_p} / \GL{2}{\Z/m}$ loses its level structure and becomes birational to $\barM_{1,n, \ff_p}$. From now on, I will drop the $\ff_p$, all scheme are base changed over $\ff_p$.
+\bigskip\\
+Since they are birationally equivalent,
+\[ H^{2n - k + 1}_{\tdF}(E^{n-1}_{m} / \GL{2}{\Z/m}) = H^{2n - k + 1}_{\tdF}(\barM_{1,n}) = 0 \]
+Therefore, all eigenvalues of 
+\[ \Frob_p \acts H^{2n - k + 1}_c(E^{n-1}_m / \GL{2}{\Z/m}, \Q_\ell) = H^{2n - k + 1}_c(E^{n-1}_m, \Q_\ell)^{\GL{2}{\Z/m} } \] divide $p^{n-1}$.
+\bigskip\\
+Because $E^{n-1}_m$ is smooth, by Poincare duality, eigenvalues of
+\[ \Frob_p \acts H^{k-1}(E^{n-1}_m, \Q_\ell)^{\GL{2}{\Z/m}} = V \]
+are divisible by $p$.
+\bigskip\\
+Now, Leray spectral sequence for $f_n : E^{n-1}_m \to M_m$ degenerates so $V$ contains a summand,
+\[ H^1(M_{m, \barF_p}, R^{k-2} (f^{n-1}_m)_* \underline{\Q_\ell})^{\GL{2}{\Z/m}} \]
+which, by Kunneth, contains a summand,
+\[ H^1\left(M_{m, \barF_p}, (R^1 f_{m*} \underline{\Q_\ell})^{\otimes k-2} \otimes (R^0 f_{m*} \underline{\Q_\ell} )^{(n-1) - (k-2)} \right)^{\GL{2}{\Z/m}} = H^1 \left(M_{m, \barF_p}, (R^1 f_{m*} \underline{\Q_\ell})^{\otimes k - 2} \right)^{\GL{2}{\Z/m}} \] 
+(here use $n \ge k + 1$)
+containing as a $\Frob_p$-stable subspace the cohomology,
+\[ \F_{\barF_p} = \tilde{H}^1 \left(M_{m, \barF_p}, (R^1 f_{m*} \underline{\Q_\ell})^{\otimes k - 2} \right)^{\GL{2}{\Z/m}} \]
+Therefore all eigenvalues of $\Frob_p \acts \F_{\barF_p}^{\GL{2}{\Z}}$ are divisible by $p$. 
+\bigskip\\
+Finally, Delinge shows that $T_p \acts \F_{\barF_p}^{\GL{2}{\Z}}$ as $F + V$ where $F = \Frob_p$ and $V$ is the Verschiebung (dual to Frobenius).  Therefore, the eigenvalues of $T_p \acts \F_{\barF_p}^{\GL{2}{\Z/m}}$ are divisible by $p$ but $\F_{\barF_p}^{\GL{2}{\Z/m}} \cong \F_{\overline{\Q}}^{\GL{2}{\Z/m}}$ with their $T_p$-actions. Therefore, $T_p$ acting on,
+\[ \F_{\overline{\Q}}^{\GL{2}{\Z/m}} \otimes_{\Q_\ell} \C = \W{k-2}{m}^{\GL{2}{\Z/m}} \otimes_{\Q_\ell} \C \cong \W{k-2}{1} \otimes_{\Q_\ell} \C \cong \S_k(\Gamma(1)) \oplus \overline{\S_k(\Gamma(1))} \]
+must have all eigenvalues divisible by $p$. In particular this is true for any eigenform. 
+
+\section{Conclusion}
+
+\begin{prop}
+If $k \le n + 1$ and $\varphi \in \S_k(\Gamma(1))$ is a $p$-ordinary eigenform then $\barM_{1,n, \ff_p}$ is not uniruled.
+\end{prop}
+
+\begin{proof}
+First consider $n = k - 1$ then,
+\[ H_{\tdF}^{k-1}(\barM_{1,k-1,\ff_p}) \neq 0 \]
+so $\barM_{1,k-1,\ff_p}$ cannot be uniruled and thus, because $\barM_{1,n,\ff_p} \to \barM_{1,k-1,\ff_p}$ via forgetting points is dominant, $\barM_{1,n,\ff_p}$ also cannot be uniruled.
+\end{proof}
+
+\begin{prop}
+Let $p > 11$ be a prime. Then $\S_{p-1}(\Gamma(1))$ contains a $p$-ordinary eigenform.
+\end{prop}
+
+\begin{proof}
+This will eventually follow from the existence of $\Delta \in \S_{12}(\Gamma(1))$ (Serre, \textit{Formes modulaires et fonctions zeta $p$-adiques}).
+\end{proof}
+
+\begin{theorem}
+Let $p$ be a prime and $n$ an integer. If either
+\begin{enumerate}
+\item $p > 11$ and $n \ge p - 2$
+\item $p = 11$ and $n \ge 11$ 
+\end{enumerate}
+then $\barM_{1,n, \ff_p}$ is not uniruled.
+\end{theorem}
+
+\begin{proof}
+First, if $p > 11$ there is a $p$-ordinary eigenform in $\S_{p-1}(\Gamma(1))$ and $n + 1 \ge p - 1$ so we conclude. If $p = 11$ then $\Delta \in \S_{12}(\Gamma(1))$ is $p$-ordinary so if $n + 1 \ge 12$ we conclude.
+\end{proof}
+
+\end{document}

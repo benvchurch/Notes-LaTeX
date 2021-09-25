@@ -1,0 +1,432 @@
+\documentclass[12pt]{extarticle}
+\usepackage{import}
+\import{./}{TopologyCommands}
+
+\newcommand{\Bun}{\mathrm{Bun}}
+
+\begin{document}
+
+\section{Homotopy (co)Limits}
+
+\begin{prop}
+All products and coproducts exist in $\hTop$ and $\phTop$ and are preserved by the projections $\Top \to \hTop$ and $\pTop \to \phTop$.
+\end{prop}
+
+\begin{proof}
+Bascially, this is because the universal property does not involve checking any equalities so there is no trouble with things only being equal up to homotpy. The universal properties are trivial to check.
+\end{proof}
+
+\begin{rmk}
+The trouble arises with fibered product and coproduct i.e. pullback and pushout diagrams. It turns out that $\hTop$ and $\phTop$ do not admit all pullbacks nor pushouts. Here we discuss some counter examples.
+\bigskip\\
+The map $f : S^1 \to S^1$ via $z \mapsto z^2$ has a ``kernel'' explicitly the pullback
+\begin{center}
+\begin{tikzcd}
+S^0 \arrow[d] \arrow[r] & S^1 \arrow[d, "f"]
+\\
+* \arrow[r] & S^1
+\end{tikzcd}
+\end{center}
+(this is because $f : S^1 \to S^1$ is a fibration so the strict pullback agrees with the homotopy pullback) but does not have a ``cokernel''. Indeed, suppose there were a pushout diagram,
+\begin{center}
+\begin{tikzcd}
+S^1 \arrow[r, "f"] \arrow[d] & S^1 \arrow[d]
+\\
+* \arrow[r] & P
+\end{tikzcd}
+\end{center}
+Then since $P$ is a colimit, $[P, X] = \lim [J, X]$ where $J$ is the above diagram so 
+\[ [P, X] = \ker{(\pi_1(X) \xrightarrow{2 \times} \pi_1(X))} = \pi_1(X)[2] = \Hom{\Z/2}{\pi_1(X)} \]
+\end{rmk}
+
+\begin{rmk}
+Furthermore, another problem with standard limits and colmits is that they do not respect homotopy. For example, $S^2$ is the pushout of $* \leftarrow S^1 \to D^2$ but the pushout of $* \leftarrow S^1 \to *$ is a single point. Although $D^2 \simeq *$ the resulting $S^2$ and $*$ are not homotopy equivalent. We want $\Sigma X$ to be the pushout,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & * \arrow[d]
+\\
+* \arrow[r] & \Sigma X
+\end{tikzcd}
+\end{center}
+which also motivates introducing homotopy limits and colimits. The first construction seems ``correct'' while the second does not. This will be made rigorous by noting that $S^1 \to D^2$ is a cofibration while $S^1 \to *$ is not and homotopy colimts will be computed via cofibrant replacement.
+\end{rmk}
+
+FINISH EXAMPLES AND DISCUSS EXPLICIT HOMOTOPY PUSHOUT/PULLBACKS \chref{https://mathoverflow.net/questions/239383/the-homotopy-category-is-not-complete-nor-cocomplete}{Ex1}
+
+\chref{https://mathoverflow.net/questions/10364/categorical-homotopy-colimits}{Ex2}
+
+\chref{https://mathoverflow.net/questions/10364/categorical-homotopy-colimits}{Ex3}
+
+HOW RELATED TO CLASSIFYING MAP OF TAUTOLOGICAL BUNDLE COMPLEXIFIED, NO KERNEL IN THIS CASE
+
+\chref{https://mathoverflow.net/questions/10364/categorical-homotopy-colimits}{HoColim}
+
+\chref{https://www.math.uni-bielefeld.de/~tcutler/pdf/Week\%208\%20-\%20Homotopy\%20Pushouts\%20I.pdf}{More Homotopy Pushouts}
+
+GIVE THE EXAMPLE OF HOMOTOPY FIBER AS HOMOTOPY PULLBACK AND ITS COMPUTED BY REPLACING $f : X \to Y$ BY THE FIBRATION $E_f \to Y$ THEN TAKING THE STRICT PULLBACK TO A POINT. NOTE IT CAN ALSO BE COMPUTED BY REPLACING $* \to Y$ BY THE FIBRATION $P Y \to Y$ AND TAKING THE STRICT PULLBACK OVER $f  : X \to Y$.
+
+
+\section{Sheet 3}
+
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+
+\renewcommand{\S}{\mathbb{S}}
+
+\subsection*{1}
+
+Let $\C$ and $\D$ be two $1$-categories. Notice that,
+\[ N(\C) = \mathrm{Fun}(-, \C) : \Delta^\op \to \mathrm{Set} \]
+Viewing $\Delta$ as a subcategory of $\mathrm{Cat}$ since posets are naturally categories. Therefore,
+\begin{align*}
+\mathrm{Fun}(N \C, N \D)_n & = \mathrm{Nat}(\mathrm{Fun}(-, \C) \times \Delta^n, \mathrm{Fun}(-, \D)) = \mathrm{Nat}(\mathrm{Fun}(-, \C \times [n]), \mathrm{Fun}(-, \D)) 
+\\
+& = \mathrm{Fun}(C \times [n], \D) = \mathrm{Fun}([n], \mathrm{Fun}(\C, \D)) = (N \mathrm{Fun}(\C, \D))_n
+\end{align*}
+I will construct a map of simplicial sets,
+\[ \Phi : \mathrm{Fun}(N \C, N \D) \to N \mathrm{Fun}(\C, \D)  \]
+as follows. Given $q \in \mathrm{Fun}(N \C, N \D)_n$ which is a map of simplicial sets $q : N \C \times \Delta^n \to N \D$. Then we form a simplex $\Phi(q) \in (N \mathrm{Fun}(\C, \D))_n$ as follows. For each $X \in \C$ we get a degenerate $n$-simplex $s_X$ and thus $q(s_X \times s_n)$ is an $n$-simplex of $N \D$ where $s_n \in \Delta^n([n])$ is the unique nondegenerate $n$ simplex. Thus, $q(s_X \times s_n)$ is a sequence of composable morphisms in $\D$ and the maping from $X$ to this sequence gives a sequence of composable natural transformations thus an $n$-simplex of $N \mathrm{Fun}(\C, \D)$.
+
+\subsection*{2}
+
+Let $F : \mathrm{hSpace}_*^{\op} \to \mathrm{Set}$ be a functor such that for any collection $\{ X_\alpha \}_{\alpha \in A}$ of pointed spaces, the natural map
+\[ F \left( \bigvee_{\alpha \in A} X_\alpha \right) \to \prod_{\alpha \in A} F(X_\alpha) \]
+is an isomorphism. I claim that $F(S^n)$ is a group object for $n \ge 1$ and abelian if $n \ge 2$. 
+\bigskip\\
+Notice that $F$ is product preserving (the product in $\mathrm{hSpace}_*^{\op}$ is the coproduct of pointed spaces that is the wedge) so it preserves group objects. Furthermore, $S^n$ is a homotopy cogroup for $n \ge 1$ with comultiplication map $S^n \to S^n \vee S^n$ via quotienting the equator. This is unital and associative up to homotopy and has inverses using the reflection map $S^n \to S^n$.
+
+\subsection*{3}
+
+Let $E$ and $F$ be two spectra and $E^*$ and $F^*$ be their corresponding cohomology theories. Consider a sequence of natural transformations,
+\[ \alpha^* : E^*(-) \to F^*(-) \]
+such that the diagram,
+\begin{center}
+\begin{tikzcd}
+E^n(-) \arrow[r, "\alpha^*"] \arrow[d] & F^n(-) \arrow[d]
+\\
+E^{n+1}(\Sigma -) \arrow[r, "\alpha^{n+1}"] & F^{*+1}(\Sigma -)
+\end{tikzcd}
+\end{center}
+Which equals the diagram,
+\begin{center}
+\begin{tikzcd}
+\left[ -, E_n \right] \arrow[r, "\alpha^*"] \arrow[d] & \left[-, F_n \right] \arrow[d]
+\\
+\left[-, \Omega E_{n+1} \right] \arrow[r, "\alpha^{n+1}"] & \left[-, \Omega F_{n+1} \right]
+\end{tikzcd}
+\end{center}
+By Yoneda, this produces maps in the homotopy category $\alpha_* : E_* \to F_*$ such that the diagrams,
+\begin{center}
+\begin{tikzcd}
+E_n \arrow[r, "\alpha_n"] \arrow[d] & F_n \arrow[d]
+\\
+\Omega E_{n+1} \arrow[r, "\alpha_n"] & \Omega F_{n+1}
+\end{tikzcd}
+\end{center}
+commute in the homotopy category. Therefore, there must exist homotopies making the diagrams fromed from lifts of $\alpha_* : E_* \to F_*$ to the $\infty$-Category of spaces coherent. Therefore $\alpha^*$ comes from a map of spectra although there is not a unique such morphism as the homotopy data is lost.
+
+
+\section{Sheet 4}
+
+\subsection*{1}
+
+Let $D_*$ be a chain complex of $\Z$-modules. Consider the functors,
+\[ H^n(-; D_*) : \mathrm{hSpaces}_*^\op \to \mathrm{Ab} \quad \text{via} \quad X \mapsto H_{-n}(\mathrm{Hom}_*(\tilde{C}_*(X), D_*)) \]
+where $\tilde{C}_*(X)$ is the chain complex of reduced singular chains. (WHAT)
+
+\subsection*{2}
+
+\newcommand{\Cov}[1]{\mathrm{Cov}^0_n\left(#1\right)}
+
+Define a functor $\Cov{-} : (\mathrm{hSpace}_*^{\ge 0})^\op \to \mathrm{Set}$ taking a pointed CW complex $X$ to its isomorphism classes of pairs $(p : \tilde{X} \to X, \sigma)$ where $p$ is a covering map of degree $n$ and $\sigma$ is a bijection of the fiber of $p$ over the basepoint with $[n]$. We want to check that $\Cov{-}$ satisfies the hypotheses of Brown's representability theorem. First, it is clear that for any collection of pointed connected spaces $\{ X_\alpha \}_{\alpha \in A}$ the map,
+\[ \Cov{\bigvee_{\alpha \in A} X_\alpha} \iso \prod_{\alpha \in A} \Cov{X_\alpha} \]
+is an isomorphism because we can glue the covers on each $X_\alpha$ uniquely at the basepoint using the identification maps $\sigma$. Now suppose that,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & Y \arrow[d]
+\\
+X' \arrow[r] & Y'
+\end{tikzcd}
+\end{center}
+is a homotopy pushout of connected pointed spaces. We need to show that,
+\[ \Cov{Y'} \onto \Cov{X'} \times_{\Cov{X}} \Cov{Y} \]
+is surjective. We can take the double mapping cylinder as a model for $Y'$ up to homotopy. Then $Y'$ is covered by opens homotopy equivalent to $Y$ and $X'$ whose intersection is homotopy equivalent to $X$. Then given $u \in \Cov{Y}$ and $v \in \Cov{X'}$ such that they agree when pulled back to $\Cov{X}$ then there exists a glued cover $w \in \Cov{Y'}$ and identification of the fiber over the base point with $[n]$ equal to that of $u$ and $v$ which agree up to the gluing isomorphism on $X$. Thus we see there exists a space $B \Sigma_n$ representing $\Cov{-}$. 
+\bigskip\\
+Furthermore,
+\[ \pi_m(B \Sigma_n) = [S^m, B \Sigma_n] = \Cov{S^m} \]
+However, for $m > 1$ the sphere $S^m$ is simply connected so the only cover is trivial. For $m = 1$ we know that degree $n$ covers of $S^1$ correspond to $\pi_1(S^1)$-sets of size $n$ where $\pi_1(S^1)$ acts on the fiber. Since we fix the fiber $\sigma$ this corresponds not to $\pi_1(S^1)$-sets up to isomorphism fixing the underlying set which is the fiber. Since $\pi_1(S^1) \cong \Z$ such isomorphism classes correspond to a permutation of $[n]$ i.e. an element of $\Sigma_n$. Explicitly, these $\pi_1(S^1)$-sets have a partition into orbits and the transitive $\pi_1(S^1)$-sets (the orbits) correspond to the connected components of the cover and to the cycle decomposition of $g \in \Sigma_n$ since the orbits get cycled within as you go around the $S^1$. We can see that isomorphism classes of $n$-degree covers then correspond to these cycle partitions and thus to $[X, B\Sigma_n]_{\text{unpt}} = [X, B \Sigma_n]/\pi_1(\Sigma_n)$ which are the orbits under the $\Sigma_n$-action corresponding exactly to these partitions since the action of $\pi_1(X)$ on $[S^1, X]$ is by conjugation in $\pi_1(X)$. Concatenating two such loops corresponds to a group law on covers by pulling back along comultiplication $S^1 \to S^1 \vee S^1$ which is a cover whose action on the fiber is the composition of actions since the covers are glued in sequence around the $S^1$ so the group law corresponds to multiplication in $\Sigma_n$ and therefore,
+\[ \pi_m(B \Sigma_n) = 
+\begin{cases}
+\Sigma_n & m = 1
+\\
+0 & \text{else}
+\end{cases} \]
+so $B \Sigma_n = K(\Sigma_n, 1)$.
+\bigskip\\
+Alternatively, we can use the formalism of classifying spaces for $G$-covers. There is a correspondence between $n$-degree covers and $\Sigma_n$-bundles via taking the associated bundle and frame bundle constructions. Using a very similar argument, isomorphism classes of $G$-bundles form a representable functor represented by the classifying space $BG$ with a universal bundle $EG \to BG$. Then unpointed maps $[X, BG]_{\text{unpt}}$ corespond to $\Bun_G(X)$. Furthermore, pointed maps $[X, BG]$ correspond to isomorphism classes of $G$-bundles with a fixed isomorphism of the based fiber with $G$. Therefore $\Cov{-}$ is represented in the pointed homotopy category by $B \Sigma_n$ because isomorphism classes of $n$-degree covers with a fixed based fiber correspond via the frame bundle construction to isomorphism classes of $\Sigma_n$-bundles with a fixed base fiber. 
+
+\subsection*{3}
+
+Let $X$ be a pointed space. Then,
+\[ \pi_k(\Sigma^\infty X) = \pi_k^{s}(X) \]
+where $\pi_k^{s}(X) = \colim_n \pi_{n+k}(\Sigma^n X)$ are the stable homotopy groups. Now I claim that these groups stabilize for $k \ge n+1$. To see this we apply the Freudenthal suspension theorem which says that if $X$ is $n$-connected then the unit map $X \to \Omega \Sigma X$ induces an isomorphism 
+\[ \pi_k(X) \iso \pi_{k+1}(\Sigma X) \]
+I claim that if $X$ is $n$-connected then $\Sigma X$ is $(n+1)$-connected. 
+Indeed, for all $k \le 2n$ there is an isomorphism,
+\[ \pi_k(X) \onto \pi_{k+1}(\Sigma X) \]
+so in particular for $k \le n$ we have $\pi_{k+1}(\Sigma X) = 0$ and $\Sigma X$ is connected so $\Sigma X$ is $(n+1)$-connected.
+\bigskip\\
+Thus, notice that $\Sigma X$ is connected so we see by induction that $\Sigma^{n+1} X$ is $n$-connected. Furthermore, since $\Sigma^{n+1} X$ is $n$-connected, we see that
+\[ \pi_{n+k}(\Sigma^{n} X) \iso \pi_{n+k+1}(\Sigma^{n+1} X) \]
+is an isomorphism when $n + k \le 2(n-1)$ or equivalently when $n \ge k + 2$ so the suspended homotopy groups stabilize. Therefore $\pi_k^{s}(X) = \pi_{n+k}(\Sigma^n X)$ for $n \ge k + 2$. In particular,
+\[ \pi_0(\Sigma^\infty X) = \pi_0^s(X) = \pi_2(\Sigma^2 X) \]
+Because $\Sigma^2 X$ is $1$-connected, Hurewicz's theorem gives an isomorphism,
+\[ \pi_2(\Sigma^2 X) \iso H_2(\Sigma^2 X, \Z) \]
+Finally, using the shift isomorphism,
+\[ \pi_0(\Sigma^\infty X) \cong \pi_2(\Sigma^2 X) \cong H_2(\Sigma^2 X, \Z) = \tilde{H}_0(X, \Z) \]
+
+\section{Sheet 5}
+
+\subsection*{1}
+
+We showed that if $X$ is $n$-connected then $\Sigma X$ is $(n+1)$-connected. Because $\Sigma^r X$ is $(n+r)$-connected, then there is an isomorphism,
+\[ \pi_{k + r}(\Sigma^r X) \iso \pi_{k + r + 1}(\Sigma^{r+1} X) \]
+whenever $k + r \le 2(n + r)$ or equivalently when $r \ge k - 2n$. Thus for $r \ge k - 2n$ the suspended homotopy groups stabilze and therefore, $\pi_k^s(X) = \pi_{k + r}(\Sigma^r X)$ for $r \ge k - 2n$. In particular, if $k \le n$ then we can set $r = 0$ and thus,
+\[ \pi_k(\Sigma^\infty X) = \pi^s_k(X) = \pi_{k}(X) = 0 \]
+because $X$ is $n$-connected.
+\bigskip\\
+CONNECTED SPECTRA!!
+
+\subsection*{2}
+Let $A,B$ be abelian groups. By Hurewicz's theorem, there is a canonical isomorphism,
+\[ A \iso H_n(K(A, n), \Z) \]
+and $H_k(K(A,n), \Z) = 0$ for $k \le n$ since $K(A,n)$ is $(n-1)$-connected by definition. Now consider, by Kunneth, (NO!!! USE LES OF SMASH PRODUCT)
+\[ H_k(K(A, n) \wedge K(B, m), \Z) \cong \bigoplus_{p + q = k} H_p(K(A,n), \Z) \otimes_\Z H_q(K(B, m), \Z) \]
+But for $p \le n$ or $q \le m$ we know this is zero so we find that 
+
+\subsection*{2}
+
+Let $G$ be a discrete group and let $\mathbf{B}G$ be $G$ considered as a one-pointed ($1$-categorical) groupoid. We consider the homotopy type of the simplicial set $N \mathbf{B} G$.
+\bigskip\\
+Let $\mathcal{C}$ be a groupoid such that $X = N \mathcal{C}$ is a Kan complex.
+Notice that any $n$-simplex in $X$ is determined uniquely by its $1$-faces because $n$-simplicies are simply sequences of $n$-composable morphisms. Therefore, morphisms $\Delta^n \to X$ fitting into a diagram,
+\begin{center}
+\begin{tikzcd}
+\partial \Delta^n \arrow[r] \arrow[d] & \Delta^0 \arrow[d]
+\\
+\Delta^n \arrow[r] & X
+\end{tikzcd}
+\end{center}
+where $\Delta^0 \to X$ is the base point must be trivial for $n > 1$ because $\partial \Delta^n$ contains the $1$-faces which factor through the degeneracy map so $\Delta^n \to X$ factors through $\Delta^0 \to X$ by uniqueness. In the case $n = 1$, maps $\Delta^1 \to X$ are given by automorphisms of the basepoint $* \xrightarrow{f} *$. Then
+homotopies are maps $\Delta^n \times \Delta^1 \to X$ fitting into a diagram,
+\begin{center}
+\begin{tikzcd}
+\partial \Delta^1 \times \Delta^1 \arrow[d] \arrow[r] & \Delta^0 \arrow[d]
+\\
+\Delta^n \times \Delta^1 \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+and thus are diagrams in $\mathcal{C}$,
+\begin{center}
+\begin{tikzcd}
+* \arrow[dr] \arrow[d, "\id"] \arrow[r, "f"] & * \arrow[d, "\id"]
+\\
+* \arrow[r, "g"] & *
+\end{tikzcd}
+\end{center}
+such that compositions are correct. The condition that $\partial \Delta^1 \times \Delta^1 \to X$ factor through $\Delta^0 \to X$ tells us exactly that the vertical edges are degenerate thus such a homotopy implies that $f = g$. Finally, $\pi_0(X)$ is the connected components of $X$ in the usual sense. Therefore, for $\mathcal{C} = \mathbf{B} G$ we see that,
+\[ \pi_k(X) = \begin{cases}
+G & k = 1
+\\
+0 & k \neq 1
+\end{cases} \]
+In particular, the geometric realization of $X$ is homotopy equivalent to $K(G,1) \cong BG$ because $G$ is discrete.
+\bigskip\\
+In fact, for any category $\mathcal{C}$ its nerve $X = N \mathcal{C}$ is $2$-coskeletal (meaning $X \iso \mathrm{cosk}_2(X)$ is an isomorphism) because for $n > 2$ the $n$-simplicies correspond exactly to their boundary i.e. any $\partial \Delta^n \to X$ can be uniquely filled to $\Delta^n \to X$ since as long as double compositions are defined all compositions are determined (notice that $X$ is not $1$-coskeletal because although $2$-simplices are determined by their boundary not every boundary can be filled, indeed only bonudaries corresponding to a valid composition come from $2$-simplicies). I claim that being $n$-coskeletal implies that $\pi_k(X) = 0$ for $k \ge n$. Indeed, for $k > n$ any based $\Delta^k \to X$ factors through the basepoint because there is a \textit{unique} filling. For the case $k = n$ there may be nontrivial maps but they are equivalent up to homotopy. Indeed for $k \ge n$ (the following argument works to show $\pi_k(X) = 0$ for all $k \ge n$) a homotopy is equivalently a filling of $\partial \Delta^{n+1} \to X$ 
+determined by $f,g : \Delta^n \to X$ and degenerate on all other faces. Such a filling always exists for $n \ge k$ so any two maps $f,g : \Delta^n \to X$ are homotopy equivalent and thus $\pi_k(X) = 0$ for $k \ge n$. 
+
+\section{Covers and $G$-Bundles}
+
+We have the following defining natural isomorphism,
+\[ [-, BG] = \Bun_G(-) \quad \text{and} \quad [-, BG]_* = \Bun^*_G(-) \]
+where $\Bun^*_G(-)$ is the functor taking a pointed space $(X, x_0)$ to isomorphism classes of pairs,
+\[ (\pi : P \to X, \sigma : \pi^{-1}(x_0) \iso G) \]
+of principal $G$-bundles with an explicit $G$-equivariant trivialization of the fiber over the basepoint where isomorphisms of bundles must commute with the isomorphisms $\sigma : \pi^{-1}(x_0) \iso G$. In particular, if we let $\pi_0(G) \acts \Bun^*_G$ via right multiplication on $G$ by $[g^{-1}]$ giving a left action on $\sigma$, then I claim that $\Bun_G = \Bun_G^* / G$. This is well-defined because for any $g \in G_0$, we can find an automorphism $P \to P$ taking $\sigma \mapsto \sigma \cdot g^{-1}$
+
+Since $\sigma$ is equivariant, it is determined by the image of any point and clearly the $G$-action is transitive on the images of this point so $G \acts \Bun_G^*$ transitively. I claim that $G \acts \Bun_G^*$ is exactly the induced action of $\pi_0(G) = \pi_1(BG)$ on 
+(WHAIT!!! WHAT???)
+%covers <-> pi_1-sets up to isomorphism
+
+%G-covers <-> conjugacy classes of maps pi_1 -> G
+
+%G-covers trivialized over basepoint <-> maps pi_1 -> G 
+
+%notice that we only need to fix one point in each pi_1-orbit = connected component because then the pi_1-action tells us what to do with the rest  this tells us for connected covers trivialized ones are the same as based covers
+
+
+
+
+\section{Stability}
+
+
+\begin{defn}
+We say an $\infty$-Category is pointed if there is an object that is terminal and initial called the point $*$. Recall that an initial object is an object such that the mapping space from it to any space is contractible and dually for a terminal object.
+\end{defn}
+
+\begin{defn}
+Let $\C$ be a pointed $\infty$-Category and $X \in \mathrm{Ob}(\C)$. Then we define,
+\[ \Sigma X = \colim \left( 
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & * 
+\\
+*
+\end{tikzcd} \right) \quad \text{and} \quad \Omega X = \lim \left( 
+\begin{tikzcd}
+& * \arrow[d]
+\\
+* \arrow[r] & X
+\end{tikzcd} \right)
+ \]
+\end{defn}
+
+\begin{defn}
+We say an $\infty$-Category is \textit{stable} if homotopy pushouts and homotopy pullbacks agree. Explicitly a coherent diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & Y \arrow[d]
+\\
+Z \arrow[r] & W
+\end{tikzcd}
+\end{center}
+is a pushout if and only if it is a pullback.
+\end{defn}
+
+\begin{rmk}
+In a stable pointed $\infty$-Category $\Sigma(-)$ and $\Omega(-)$ are homotopy inverse functors.
+\end{rmk}
+
+\begin{rmk}
+In a stable $\infty$-Category, we call a pullback/pushout square an \textit{exact square} since these notions coincide.
+\end{rmk}
+
+\begin{defn}
+We say a sequence $E' \to E \to E''$ along with the data of a nullhomotopy of $E' \to E \to E''$ is \textit{exact} if the coherent square,
+\begin{center}
+\begin{tikzcd}
+E' \arrow[r] \arrow[d] & E \arrow[d] \ar[Rightarrow]{ld}
+\\
+* \arrow[r] & E''
+\end{tikzcd}
+\end{center}
+is exact.
+\end{defn}
+
+\begin{rmk}
+We think of the next propositions as showing that exact sequences along with $\Sigma$ and $\Omega$ capture the structure of a triangulated Category in the $\infty$-Categorical landscape. In fact, the homotopy Category of a stable pointed $\infty$-Category is naturally triangulated (CHECK).
+\end{rmk}
+
+\begin{prop}
+There is an exact sequence $E \to E \to *$.
+\end{prop}
+
+\begin{proof}
+Consider the coherent square,
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, "\id"] \arrow[d] & E \ar[Rightarrow]{ld} \arrow[d]
+\\
+* \arrow[r] & *
+\end{tikzcd}
+\end{center}
+choosing a homotopy (since the mapping space $\mathrm{Map}(E, *)$ is contractible). I claim this is a pushout diagram. Indeed, given any map $E \to Z$ and a nullhomotopy it factors through the above coherent square.
+\end{proof}
+
+\begin{prop}
+If $E' \to E \to E''$ is an exact sequence then there are also exact sequences $E \to E'' \to \Sigma E'$ and $\Omega E'' \to E' \to E$.
+\end{prop}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+E' \arrow[r] \arrow[d] & E \arrow[d] \arrow[r] & * \arrow[d]
+\\
+* \arrow[r] & E'' \arrow[r, dashed] & \Sigma E'
+\end{tikzcd}
+\end{center}
+Because the first square is a pushout there is a map $E'' \to \Sigma E'$ and the large rectangle is a pushout by definition. Thus, the second square is also a exact meaning that $E \to E'' \to \Sigma E'$ is an exact sequence. The other exact sequence is exactly dual.
+\end{proof}
+
+\begin{prop}
+Given an exact sequence $E' \to E \to E''$ there is a long exact sequence,
+\begin{center}
+\begin{tikzcd}
+\pi_{n+1}(E'') \to \pi_n(E') \arrow[r] &  \pi_n(E) \arrow[r] & \pi_n(E'') \arrow[r] & \pi_{n-1}(E')
+\end{tikzcd}
+\end{center} 
+\end{prop}
+
+\begin{proof}
+Since $\pi_n(E) = [\Sigma^n \S, E] = [\S, \Omega^n E]$ factors through the homotopy category of spectra on which it is the shifts of $\Hom{}{\S}{-}$. However, the homotopy category of a stable $\infty$-Category is triangulated and $\Hom{}{\S}{-}$ is cohomological (depending on which shift we use) proving the result. Explicitly, as in the proof for triangulated categories, it comes down to showing that $\pi_n(E') \to \pi_n(E) \to \pi_n(E'')$ is exact since we can extend to the long exact sequence via rotating the exact sequence. Then, because $\Omega^\infty$ is a right adjoint it preserves pushouts so $(-)_n = \Omega^{\infty} \Sigma^n(-)$ applied to the sequence is a fibration. Thus we get fibrations $E_{n}' \to E_{n} \to E_{n}''$ and we win after applying the long exact sequence of homotopy groups for a fibration after noting that $\pi_n(E) = \pi_{n+k}(E_{k})$.
+\end{proof}
+
+\section{Homology and Cohomology}
+
+\begin{defn}
+Given a spectrum $E$ we define its homotopy groups as,
+\[ \pi_n(E) := [\Sigma^n \S, E] := \pi_0 \mathrm{Map}_{\mathrm{Sp}}(\Sigma^n \S, E) \]
+\end{defn}
+
+\begin{rmk}
+We have the following computation:
+\[ \pi_n(E) = [\Sigma^n \S, E] = [\Sigma^{n+k} \S, \Sigma^k E] = [\Sigma^\infty S^{n+k}, \Sigma^k E] = [S^{n+k}, \Omega^\infty \Sigma^k E] = [S^{n+k}, E_k] = \pi_{n+k}(E_k) \]
+which justifies why we call this stable homotopy, the homotopy groups in the sequence generated by maps $\Sigma X_k \to X_{k+1}$,
+\[ \pi_{n+k}(X_k) \to \pi_{n+k}(\Omega \Sigma X_{k}) \to \pi_{n+k}(\Omega X_{k+1}) = \pi_{n+k+1}(X_{k+1}) \]
+are all stabilized from the equivalence $E_{k} \iso \Omega E_{k+1}$ giving an isomorphism
+\[ \pi_{n+k}(E_k) \iso \pi_{n+k}(\Omega E_{k+1}) = \pi_{n+k+1}(E_{k+1}) \]
+\end{rmk}
+
+\begin{defn}
+Given a spectrum $E$ the homology theory corresponding to $E$ are the functors $H_n(-,E) : \mathrm{hSpace}_* \to \mathrm{Ab}$ defined by $H_n(X,E) = \pi_n(E \otimes \Sigma^\infty X)$.
+\end{defn}
+
+\begin{rmk}
+Notice there is a natural isomorphism $H_n(-,E) \iso H_{n+1}(\Sigma -, E)$ given by $\Sigma^\infty \Sigma X \iso \Sigma \Sigma^\infty X$ and applying $E \otimes -$ then noting that $E \otimes \Sigma \Sigma^\infty X \iso \Sigma (E \otimes \Sigma^\infty X)$ and
+\[ \pi_n(\Sigma F) = [\Sigma^n \S, \Sigma F] = [\Sigma^{n-1} \S, F] = \pi_{n-1}(F) \]
+\end{rmk}
+
+\begin{rmk}
+We know two important spectra so far: the sphere spectrum $\S$ and the Eilenberg-Macane spectrum $HA$. These correspond to the following homology and cohomology theories,
+\begin{align*}
+H_n(X, \S) & := \pi_n(\S \otimes \Sigma^\infty X) = \pi_n(\Sigma^\infty X) = \pi_n^s(X)
+\\
+H^n(X, \S) & := [\Sigma^\infty X, \Sigma^n \S] = [X, \Omega^\infty \Sigma^n \S] = [X, \S_n] 
+\end{align*}
+these are stable homotopy and ``stable cohomotopy''. For the Eilenberg-Macane spectrum $HA$,
+\begin{align*}
+H_n(X, HA) & := \pi_n(HA \otimes \Sigma^\infty X) = H_n^{\text{sing}}(X, A)
+\\
+H^n(X, HA) & := [\Sigma^\infty X, \Sigma^n HA] = [X, \Omega^\infty \Sigma^n HA] = [X, K(A,n)] = H^n_{\text{sing}}(X, A)
+\end{align*}
+\end{rmk}
+gives ordinary singular homology and cohomology.
+
+\section{Clutching Functions}
+
+Given a ``nice'' group space, we expect the classifying space $BG$ to satisfy the following properties:
+\begin{enumerate}
+\item $BG$ is a delooping of $G$ meaning there is a natural equivalence $G \simeq \Omega BG$
+\item $BG$ represents principal $G$-bundles meaning there is a natural isomorphism $[-, BG] = \Bun_G(-)$.
+\end{enumerate}
+Compatiblity between these two notions leads immediately to the concept of clutching functions. For any space $X$ we can consider principal $G$-bundles on $\Sigma X$ and get,
+\[ \Bun_G(\Sigma X) = [\Sigma X, BG] = [X, \Omega BG] = [X, G] \]
+Therefore, such bundles should be classified by homotopy classes of maps to $G$. We can see how these maps enter explicitly. Because $\Sigma X$ is covered by two contractible subsets whose intersection is homotopy equivalent to $X$ the data of a principal $G$-bundle on $\Sigma X$ is exactly the data of an isomorphism of trivial $G$-bundles over $X$ (since on the contractible opens every $G$-bundle is trivial). Futhermore, an isomorphism $G \times X \iso G \times X$ is exactly a morphism $X \to G$ called the clutching function. By pulling back to $X \times I$ it is clear that homotopic clutching functions correspond to isomorphic glued $G$-bundles.
+\bigskip\\
+In fact the above argument proves that a classifying space is a delooping of $G$. To show that a delooping $B$ of $G$ is a classifying space we need a contractible and thus universal $G$-bundle over $B$. This can be achieved up to homotopy by taking the path space fibration $PB \to B$ whose fiber is naturally isomorphic to $\Omega B \simeq G$. Furthermore, we know that $PB$ is contractible because it is the fibrant replacement of $* \to B$. I don't know if we can make this work as an actual fiber bundle rather than a fibration with homotopy equivalences between the fibers and $G$.
+\bigskip\\
+Here is another consequence of the two properties. Since $G \simeq \Omega BG$ we have $\pi_{n+1}(BG) = \pi_n(\Omega BG) = \pi_n(G)$. In particular, $\pi_1(BG) = \pi_0(G)$. This tells us that,
+\[ \pi_1(BG) = [S^1, BG]_* = \Bun_G^*(S^1) = \pi_0(G) \]
+Indeed, pointed bundles on $S^1 = \Sigma S^0$ up to isomorphism are homotopy classes (of based maps) of clutching functions $S^0 \to G$ which correspond to the connected components $\pi_0(G)$. Explicitly, two $G$-bundles on $S^1$ explicitly constructed as $G \times I$ glued by $g_1$ and $g_2$ respectively are equivalent iff there is a path $\gamma : S^1 \to G$ (thought of as around the base $S^1$) between $g_1$ and $g_2$ in which case we form the map $G \times I \to G \times I$ by $(g, t) \mapsto (\gamma(t) \cdot g, t)$ which becomes a bundle map after gluing because $(g, 0) \sim (g_1 g, 1)$ map to $(g_1 g, 0)$ and $(g_2 g_1 g, 1)$ which are equivalent by $g_2$ gluing (we could perhaps more simply normalize $\gamma$ as a path from $e$ to $g_2 g_1^{-1}$ by taking $\gamma \cdot g_1^{-1}$ then the map takes the equivalent points $(g, 0) \mapsto (g, 0)$ and $(g_1 g, 1) \mapsto (g_2 g, 1)$ retaining the equivalence). A similar construction works for untangling why,
+\[ \pi_{n+1}(BG) = [S^{n+1}, BG]_* = \Bun^*_G(S^{n+1}) = \pi_n(G) \]
+
+\end{document}

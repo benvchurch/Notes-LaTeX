@@ -1,0 +1,1851 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\K}{\mathbb{K}}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand\eqae{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny a.e.}}}{=}}}
+\renewcommand{\F}{\mathcal{F}}
+\renewcommand{\K}{\mathcal{K}}
+
+\begin{document}
+
+\tableofcontents
+
+\section{TODO}
+
+\begin{enumerate}
+\item Measure theory notes
+\item measure theory practice
+\item Fredholm operators
+\item Theorem on why you cant multiply distributions
+\item compactness in weak topology (Banach-Agalou) and do fall 2011
+\item Sobolev spaces
+\item Schwartz spaces
+\item Fourier analysis review main theorems
+\end{enumerate}
+
+\section{Important Notes to Self}
+
+\subsection{Common Mistakes}
+
+\begin{enumerate}
+\item Reflexive seperable Banach spaces need not admit a Schauder basis!! However, separable Hilbert spaces always admit an othogonal Schauder basis and thus are all isomorphic to $\ell^2$.
+\end{enumerate}
+
+\section{Measure Theory Definitions and Theorems}
+
+\begin{defn}
+A measure space  $(X, \F, \mu)$ is called $\sigma$-finite if there exists a countable cover $\{ A_i \}$ of $X$ by measurable sets $A_i \in \F$ with $\mu(A_i) < \infty$.
+\end{defn}
+
+
+
+\subsection{Integration}
+
+\begin{rmk}
+Fix a measure space $(\Omega, \F, \mu)$. A function on $X \in \F$ means a map $f : X \to \hat{\R}$ where $\hat{\R} = [-\infty, \infty]$ is the extended real numbers. We say that $f$ is measurable if it is measurable with respect to the Borel $\sigma$-algebra on $\hat{\R}$.
+\end{rmk}
+
+\begin{rmk}
+For functions $f : \R \to \R$ the term ``measurable'' is a priori ambigious because we have not specified the measure space on the domain (although our conventions do prescribe the Borel $\sigma$-algebra on the codomain). We take the standard convention that measurable means with respect to the Borel $\sigma$-algebra i.e. $f : (\R, \mathcal{B}) \to (\R, \mathcal{B})$ is measurable. Then we say that $f$ is Lebesgue measurable if $f : (\R, \mathcal{\L}) \to (\R, \mathcal{B})$ is measureable where $\mathcal{\L}$ is the $\sigma$-algebra of Lebesgue measurable sets. Notice that measurable implies Lebesgue measurable. However, neither implies that  the function $f : (\R, \mathcal{\L}) \to (\R, \mathcal{\L})$ is measurable, a condition which has the distasteful property of not holding for all continuous \chref{https://math.stackexchange.com/questions/479441/example-of-a-continuous-function-that-is-not-lebesgue-measurable}{functions} (of course continiuous functions are (Borel) measurable and Lebesgue measurable). 
+\end{rmk}
+
+\begin{defn}
+A measurable function $s : X \to \hat{\R}$ is \textit{simple} if it takes on finitely many values. Clearly, any simple function can be writen as,
+\[ s = \sum_{i = 1}^n c_i \chi_{A_i} \]
+for $c_i \in \R$. For a nonnegative simple function (i.e. $c_i \ge 0$) we define,
+\[ \int_X s \, \d{\mu} = I(s) = \sum_{i = 1}^n c_i \mu(A_i) \]
+\end{defn}
+
+\begin{rmk}
+This is well-defined even when $\mu(A_i) = \infty$ because $c_i \ge 0$. Clearly $I(s)$ is independent of the sum representation of $s$.
+\end{rmk}
+
+\begin{defn}
+For a nonnegative function $f \ge 0$ we define,
+\[ \int_X f \, \d{\mu} = \sup \{ I(s) \mid 0 \le s \le f \text{ where } s \text{ is simple} \} \]
+\end{defn}
+
+\begin{defn}
+We say that a measurable function $f$ is \textit{integrable} if,
+\[ \int_X |f| \, \d{\mu} < \infty \]
+Notice that the integral of $f$ may be \textit{definable} even if $f$ is not integrable where the integral is definable if when writing $f = f^+ - f^-$ for nonegative $f^+ = \max\{(f,0)\}$ and $f^- = \max\{(-f,0)\}$ with one of $f^+$ or $f^-$ integrable in which case,
+\[ \int_X f \, \d{\mu} = \int_X f^+ \, \d{\mu} - \int_X f^- \, \d{\mu} \]
+which of course may be infinite so we still do not say that $f$ is integrable unless both integrals are finite in which case,
+\[ \int_X |f| \, \d{\mu} = \int_X f^+ \, \d{\mu} + \int_X f^{-} \, \d{\mu} < \infty \]
+is finite so indeed $f$ is integrable in the previous sense.
+\end{defn}
+
+\begin{prop}
+The following are basic properties of the Lebesgue integral,
+\begin{enumerate}
+\item if $f \eqae g$ then,
+\[ \int_X f \, \d{\mu} = \int_X g \, \d{\mu} \]
+\item if $f \le g$ a.e. then,
+\[ \int_X f \, \d{\mu} \le \int_X g \, \d{\mu} \]
+\item if $f \ge 0$ a.e. then,
+\[ f \eqae 0 \iff \int_X f \, \d{\mu} = 0 \]
+\end{enumerate} 
+\end{prop}
+
+\begin{thm}
+If $f : X \to \R$ is a nonegative measurable function then,
+\[ \int_X f \, \d{\mu} = \int_0^{\infty} f^*(t) \, \d{t} \]
+where $f^*(t) = \mu(\{ x \in X \mid f(x) > t \})$ is monotonic and thus Riemann integrable.
+\end{thm}
+
+\begin{thm}
+If $f : \R \to \R$ is Riemann integrable then for the Lebesgue measure $\mu$,
+\[ \int_\R f \, \d{\mu} = \int_{\R} f \, \d{x} \]
+\end{thm}
+
+\begin{thm}
+Let $C_c(\R)$ be the space of compactly supported continuous functions on $\R$ with the following norm,
+\[ || f || = \int_{\R} |f(x)| \, \d{x} \]
+which may be computed by the Riemann integral since $f$ is continuous. This always exists because $f$ is supported on a compact (and thus bounded set) and it must thus be bounded. Then $C_c(\R)$ is not complete but its completion is isomorphic to $L^1(\R)$. 
+Then, $\int : C_c(\R) \to \R$ is a bounded operator and is defined on the dense subspace $C_c(\R) \subset L^1(\R)$ so it has a unique extension $\int : L^1(\R) \to \R$ which is exactly the Lebesgue integral on the space of Lebesgue integrable function (modulo $\eqae$).
+\end{thm}
+
+\begin{thm}[Fubini]
+Let $(X_1, \Sigma_1, \mu_1)$ and $(X_2, \Sigma_2, \mu_2)$ be $\sigma$-finite measure spaces and $f : X_1 \times X_2 \to \hat{\R}$ measurable. Then,
+\[ \int\limits_{X_1 \times X_2} |f| \, \d{\mu} = \int_{X_1} \left( \int_{X_2} |f(x,y)| \, \d{\mu_2(y)} \right) \, \d{\mu_1(x)} = \int_{X_2} \left( \int_{X_1} |f(x,y)| \, \d{\mu_1(x)} \right) \, \d{\mu_2(y)} \]
+and if this value is finite then $f$ is by definition integrable and furthermore,
+\[ \int\limits_{X_1 \times X_2} f \, \d{\mu} = \int_{X_1} \left( \int_{X_2} f(x,y) \, \d{\mu_2(y)} \right) \, \d{\mu_1(x)} = \int_{X_2} \left( \int_{X_1} f(x,y) \, \d{\mu_1(x)} \right) \, \d{\mu_2(y)} \]
+\end{thm}
+
+\subsection{Convergence in Measure (WIP)}
+
+\begin{defn}
+Let $(X, \F, \mu)$ be a measure space and $f_n$ a sequence of measurable functions and $f$ a measurable function. We say that,
+\begin{enumerate}
+\item $f_n \to f$ \textit{globally in measure} if for every $\epsilon > 0$,
+\[ \lim_{n \to \infty} \mu(\{ x \in X \mid |f_n(x) - f(x)| \ge \epsilon \}) = 0 \]
+\item $f_n \to f$ \textit{locally in measure} if for every finite measure $A \subset X$ and $\epsilon > 0$,
+\[ \lim_{n \to \infty} \mu(\{ x \in A \mid |f_n(x) - f(x) | \ge \epsilon \}) \]
+\end{enumerate}
+\end{defn}
+
+\begin{thm}[Borel-Cantelli]
+Let $A_n \subset X$ be a sequence of measurable sets such that,
+\[ \sum_{n = 1}^\infty \mu(A_n) < \infty \]
+Then,
+\[ \mu \left( \limsup_{n \to \infty} A_n \right) = \mu \left( \bigcap_{n = 1}^\infty \bigcup_{k = n}^\infty A_n \right) = 0 \]
+\end{thm}
+
+\begin{prop}
+Let $(X, \F, \mu)$ be a measure space and $f_n$ a sequence of measurable functions and $f$ a measurable function. Suppose either,
+\begin{enumerate}
+\item $f_n \to f$ globally in measure or
+\item $(X, \F, \mu)$ is $\sigma$-finite and $f_n \to f$ locally in measure
+\end{enumerate}
+then $f_n$ has a subsequence converging pointwise a.e. to $f$.
+\end{prop}
+
+\begin{proof}
+For each $n > 0$ there exists some $j_{n}$ such that for any $k \ge j_{n}$,
+\[ \mu(\{ x \in X \mid |f_{k}(x) - f(x)| \ge \tfrac{1}{n} \}) < \tfrac{1}{2^n} \]
+Let,
+\[ E_n = \{ x \in X \mid |f_{j_{n}}(x) - f(x)| \ge \tfrac{1}{n} \} \]
+I claim that the subsequence $f_{j_n}$ converges to $f$ on $U = X \setminus \limsup\limits_{n \to \infty} E_n$ and that $\mu \left( \limsup\limits_{n \to \infty} E_n \right) = 0$.
+\bigskip\\
+Indeed, for $x \in U$ there is some $m$ such that for $n > m$ we have $x \notin E_n$. Thus for any $\epsilon > 0$ choose $N > m$ such that $\frac{1}{N} < \epsilon$ then for $n > N$ we have $\frac{1}{n} < \epsilon$ so,
+\[ |f_{j_n}(x) - f(x)| < \tfrac{1}{n} < \epsilon \]
+because $x \notin E_n$. Furthermore, by construction,
+\[ \sum_{n = 1}^\infty \mu(E_n) < \sum_{n = 1}^\infty \frac{1}{2^n} = 1 \]
+Therefore by Borel-Cantelli,
+\[ \mu \left( \limsup_{n \to \infty} E_n \right) = 0 \]
+as required. 
+\end{proof}
+
+\begin{prop}
+If $f_n \to f$ pointwise locally almost everywhere then $f_n \to f$ locally in measure.
+\end{prop}
+
+\begin{proof}
+For any $A \in \F$ with $\mu(A) < \infty$ we know that,
+\[ \mu( \{ x \in A \mid \lim_{n \to \infty} f_n(x) \neq f(x) \} ) = \mu \left( \bigcup_{k = 1}^\infty \{ x \in A \mid \forall N : \exists n > N : | f_n(x) - f(x) | \ge \tfrac{1}{k} \} \right) = 0 \]
+Therefore, for each $\epsilon > 0$ we have,
+\[ \mu( \{ x \in A \mid \forall N : \exists n > N : |f_n(x) - f(x)| \ge \epsilon \}) = 0 \]
+Furthermore,
+\begin{align*}
+\{ x \in A \mid \forall N : \exists n > N : |f_n(x) - f(x)| \ge \epsilon \} & = \bigcap_{N = 1}^\infty \bigcup_{n = N + 1}^\infty \{ x \in A \mid |f_n(x) - f(x)| \ge \epsilon \}
+\\
+& = \limsup_{n \to \infty} \{ x \in A \mid |f_n(x) - f(x)| \ge \epsilon \}
+\end{align*}
+Now because $(A, \F|_A, \mu|_A)$ is a finite measure space $\mu$ is continuous with respect to descending limits of sets and thus,
+\[ \limsup_{n \to \infty} \mu(\{ x \in A \mid |f_n(x) - f(x)| \ge \epsilon \}) \ge \mu( \limsup_{n \to \infty} \{ x \in A \mid |f_n(x) - f(x)| \ge \epsilon \}) = 0 \]
+which implies (since the sequences are nonegative) that,
+\[ \lim_{n \to \infty} \mu(\{ x \in A \mid |f_n(x) - f(x)| \ge \epsilon \}) = 0 \]
+\end{proof}
+
+\begin{rmk}
+Even given $f_n \to f$ pointwise a.e. globally we cannot in general conclude that $f_n \to f$ globally in measure unless the measure space is finite. Indeed, consider, $f_n = \chi_{[n, \infty)}$ then $f_n \to 0$ pointwise everywhere. However, $f_n$ does not converge to $0$ in measure. 
+\end{rmk}
+
+
+\begin{prop}
+Let $(X, \F, \mu)$ be a measure space functions $f_n, f \in L^p(X)$ such that $f_n \to f$ in the $L^p$-norm. Then $f_n \to f$ globally in measure.
+\end{prop}
+
+\begin{proof}
+First consider $1 \le p < \infty$. Since we have $f_n \to f$ in $L^p(X)$ we know that $|| f_n - f ||_p \to 0$ in $L^p(X)$. Let $g_n = |f_n - f|^p$. Then we know, for any $\epsilon > 0$ and $\eta > 0$ there is some $N$ such that for $n > N$,
+\[ \int_X g_n \, \d{\mu} < \epsilon \eta^p \]
+Then, 
+\[ \mu(\{ x \in X \mid g_n(x) \ge M \}) \le \frac{1}{M} \int_X g_n \, \d{\mu} \]
+taking $M = \eta^p$ we see that,
+\[ \mu(\{ x \in X \mid |f_n(x) - f(x)| \ge \eta \}) = \mu(\{ x \in X \mid g_n(x) \ge \eta^p \}) \le \epsilon \]
+and therefore,
+\[ \lim_{n \to \infty} \mu(\{ x \in X \mid |f_n(x) - f(x)| \ge \eta \}) = 0 \]
+proving that $f_n \to f$ in measure. Finally, if $p = \infty$ then convergence in $L^\infty(X)$ implies unifom and thus pointwise convergence and therefore convergence in measure.
+\end{proof}
+
+\begin{rmk}
+A good counter example for the converse is the sequence $f_n = n \chi_{[0, \frac{1}{n}]}$ which converges to $0$ almost everywhere and globally in measure but not in $L^p$-norm for any $p \ge 1$.
+\end{rmk}
+
+\begin{cor}
+If $f_n \to f$ converges in $L^p(X)$ then there is a subsequence converging pointwise a.e. to $f$.
+\end{cor}
+
+\begin{cor}
+If $f_n \in L^p(X) \cap L^{p'}(X)$ and $f_n \to f$ in the $L^p$-norm and $f_n \to f'$ in the $L^{p'}$-norm. Then $f \eqae f'$ so we see that $f_n \to f$ also in the $L^{p'}$-norm and $f_n \to f'$ also in the $L^p$-norm.
+\end{cor}
+
+\begin{proof}
+Since $f_n \to f$ in $L^p$ and $f_n \to f'$ in $L^{p'}$ we know that there are subsequences $\{ f_{n_j} \}$ and $\{ f_{m_j} \}$ such that poinwise a.e. $f_{n_j} \to f$ and $f_{m_j} \to f'$. However, $f_{m_j} \to f$ in $L^p$ because it is a subsequence of a $L^p$ convergent sequence. Then let $g_j = |f_{m_j} - f|^p$ and by Fatou's lemma,
+\[ \int_{X} 
+\liminf_{j \to \infty} g_j \, \d{\mu} \le \liminf_{j \to \infty} \int_X g_j \, \d{\mu} = 0 \]
+because $f_{m_j} \to f$ in $L^p$. However,
+\[ \liminf_{j \to \infty} g_j = \liminf_{j \to \infty} |f_{m_j} - f|^p \eqae |f' - f|^p \]
+Therefore,
+\[ \int_X | f' - f |^p \, \d{\mu} = 0 \]
+which implies that $f \eqae f'$.
+\end{proof}
+
+\subsection{Lebesgue-Radon-Nikodym}
+
+\begin{defn}
+Let $(\Omega, \Sigma)$ be a measurable space and $\mu, \nu$ be $\Sigma$-measures. We say that,
+\begin{enumerate}
+\item $\nu$ is \textit{absolutely continuous} with respect to $\mu$ ($\nu \ll \mu$) if $\mu(A) = 0 \implies \nu(A) = 0$ for all $A \in \Sigma$
+\item $\mu$ and $\nu$ are \textit{mutually singular} ($\mu \perp \nu$) if there is a decomposition $X = A \cup B$ such that $A \cap B = \empty$ and for any measurable $E \subset A$ we have $\nu(E) = 0$ and for any measurable $E \subset B$ we have $\mu(E) = 0$.
+\end{enumerate}
+\end{defn}
+
+\begin{theorem}[Lebesgue]
+Let $\mu$ and $\nu$ be $\sigma$-finite measures. Then there is a unique decomposition $\nu = \nu_c + \nu_s$ where $\nu_c, \nu_s$ are $\sigma$-finite measures such that $\nu_c \ll \mu$ and $\nu_s \perp \mu$.
+\end{theorem}
+
+\begin{thm}[Radon-Nikodym]
+Suppose that $\mu, \nu$ are $\sigma$-finite measures with $\nu \ll \mu$. Then there exists a nonegative measurable function $f : X \to [0, \infty)$ such that for any $A \in \Sigma$,
+\[ \nu(A) = \int_A f \, \d{\mu} \]
+\end{thm}
+
+\begin{rmk}
+The above function is uniquely determined $\mu$-a.e. and therefore we write suggestively,
+\[ f = \deriv{\nu}{\mu} \]
+to suggest that $f$ is the derivative.
+\end{rmk}
+
+\begin{cor}
+If $\nu \ll \mu$ and $g$ is a $\nu$-integrable function then,
+\[ \int_A g \, \d{\nu} = \int_A g \cdot \left( \deriv{\nu}{\mu} \right) \, \d{\mu} \]
+\end{cor}
+
+\begin{proof}
+By splitting $g$, it suffices to consider the case that $g \ge 0$. Then applying Fubini,
+\begin{align*}
+\int_A g \, \d{\nu} & = \int_0^{\infty} \nu(\{ x \in A \mid g(x) > t \}) \, \d{t} = \int_0^{\infty} \left( \int\limits_{g^{-1}((-\infty, t))} \deriv{\nu}{\mu} \, \d{\mu} \right) \d{t} 
+\\
+& = \int_0^{\infty} \int_X \chi_{g^{-1}((-\infty, t))} \cdot \left( \deriv{\nu}{\mu} \right) \, \d{\mu} \, \d{t} = \int_X \left( \int_0^\infty \chi_{g^{-1}((-\infty, t))} \, \d{t} \right) \deriv{\nu}{\mu} \, \d{\mu}
+\\
+& = \int_X g  \cdot \left( \deriv{\nu}{\mu} \right) \, \d{\mu} 
+\end{align*}
+because,
+\[ \chi_{g^{-1}((-\infty, t))}(x) = \chi_{[0, g(x))}(t) \]
+and $\mu_{\L}([0, g(x))) = g(x)$. 
+\end{proof}
+
+\subsection{Lebesgue Differentiation}
+
+\begin{rmk}
+Here let $X = \R^n$ with the Lebesgue measure or more generally a Riemannian manifold with a $\sigma$-finite Borel measure.
+\end{rmk}
+
+\begin{thm}
+Let $f : X \to \hat{\R}$ be a locally integrable function. Then, the limit,
+\[ \lim_{\epsilon \to 0} \frac{1}{\mu(B_\epsilon(x))} \int_{B_\epsilon(x)} f \, \d{\mu} \eqae f(x) \]
+exists and almost everywhere equals $f(x)$. In fact,
+\[ \lim_{\epsilon \to 0} \left( \frac{1}{\mu(B_\epsilon(x))} \int_{B_\epsilon(x)} | f(y) - f(x) | \, \d{\mu(y)} \right) = 0 \]
+almost everywhere.
+\end{thm}
+
+\begin{cor}
+Let $A \subset X$ be measurable. Then,
+\[ \lim_{\epsilon \to 0} \frac{\mu(A \cap B_\epsilon(x))}{\mu(B_\epsilon(x))} = 1 \]
+for almost all $x \in A$.
+\end{cor}
+
+\begin{proof}
+Apply Lebesgue differentiation to the function $\chi_A$ which is locally integrable. Then, for almost every $x \in A$,
+\[ \lim_{\epsilon \to 0} \frac{1}{\mu(B_\epsilon(x))} \int_{B_\epsilon(x)} \chi_A \, \d{\mu} = \lim_{\epsilon \to 0} \frac{\mu(A \cap B_\epsilon(x))}{\mu(B_\epsilon(x))} \eqae \chi_A(x) = 1 \]
+\end{proof}
+
+\subsection{Egorov's and Lusin's Theorems (WIP)}
+
+\begin{thm}[Egorov]
+Let $(X, \F, \mu)$ be a finite measure space and $M$ a separable metric space $f_n : X \to M$ a sequence of measurable functions (for the Borel $\sigma$-algebra on $M$) such that $f_n \to f$ pointwise a.e. then for any $\epsilon > 0$ there exists a measurable subset $E \subset X$ such that $\mu(E) < \epsilon$ and $f_n \to f$ uniformly on $X \setminus E$.
+\end{thm}
+
+\begin{rmk}
+Finiteness of the measure space is essential. For example, consider $X = \R$ with the Lebesgue measure and $M = \R$. Then let $f_n = \chi_{[n, n+1]}$. Pointwise $f_n \to 0$ but this convergence is not uniform on the complement of any finite measure open set (notice that every finite measure set is contained in a finite measure open set by regularity). 
+\end{rmk}
+
+\subsection{•}
+
+\section{Convergence Theorems for Lebesgue Integrals}
+
+
+\subsection{A Few Remarks on Measurable Limits}
+
+
+
+\begin{lemma}
+Let $X \in \F$ be measurable, and $\{ f_n \}$ a sequence of measurable functions on $X$. Then define,
+\begin{enumerate}
+\item $(\liminf f_n)(x) = \liminf\limits_{n \to \infty} f_n(x)$
+\item $(\limsup f_n)(x) = \limsup\limits_{n \to \infty} f_n(x)$
+\item $(\inf f_n)(x) = \inf\limits_{n \ge 1} f_n(x)$
+\item $(\sup f_n)(x) = \sup\limits_{n \ge 1} f_n(x)$
+\end{enumerate}
+which always exist as functions $X \to \hat{\R}$. Then $\liminf f_n, \limsup f_n, \inf f_n, \sup f_n$ are all measurable.
+\end{lemma}
+
+\begin{proof}
+Rudin RCA Theorem 1.14.
+\end{proof}
+
+\begin{cor}
+If $f_n \to f$ pointwise and $f_n$ is a sequence of measurable functions then $f$ is measurable.
+\end{cor}
+
+\begin{lemma}
+Assume that $(\Omega, \F, \mu)$ is a complete measure space. Then if $f \eqae g$ and $f$ is measurable then $g$ is measurable.
+\end{lemma}
+
+\begin{proof}
+Let $N = \{ x \in X \mid f(x) \neq g(x) \}$ and we know $\mu(N) = 0$. It suffices to show that $g^{-1}(Y) \in \F$ for all $Y \in \mathcal{B}$. However,
+\[ g^{-1}(Y) = [ g^{-1}(Y) \cap N ] \cup [g^{-1}(Y) \cap N^C] = [ g^{-1}(Y) \cap N ] \cup [f^{-1}(Y) \cap N^C ] \]
+where the last equality holds because,
+\begin{align*}
+x \in g^{-1}(-\infty, c) \cap N^C & \iff x \in N \text{ and } g(x) \in (Y) \iff x \in N^C \text{ and } f(x) \in (Y)
+\\
+& \iff x \in f^{-1}(Y) \cap N^C 
+\end{align*}
+since $f(x) = g(x)$ for $x \in N^C$. Now because $\mu(N) = 0$ and $g^{-1}(Y) \cap N \subset N$ we have $g^{-1}(Y) \cap N \in \F$ because the measure space is complete. Therefore $g^{-1}(Y) \in \F$ so $g$ is measurable.
+\end{proof}
+
+\begin{cor}
+Let $f_n$ be a sequence of measureable functions on $X$ and $f$ a function such that $f_n \to f$ pointwise a.e. If $(\Omega, \F, \mu)$ is complete then $f$ is measurable.
+\end{cor}
+
+\begin{proof}
+We know that $\liminf f_n$ exists and that $\liminf f_n = f$ almost everywhere since wherever $f_n(x) \to f(x)$ converges we have $(\liminf f_n)(x) = \lim\limits_{n \to \infty} f_n(x) = f(x)$. We know that $\liminf f_n$ is measurable so we find that $f$ is measurable as well because $(\Omega, \F, \mu)$ is complete.
+\end{proof}
+
+\subsection{The Main Lemma}
+
+\begin{lemma}[Fatou]
+Let $X \in \F$ be measurable, and $\{ f_n \}$ a sequence of measurable functions which are nonegative almost everywhere. Define $f : X \to \hat{\R}$ via,
+\[ f(x) = \liminf_{n \to \infty} f_n(x) \]
+Then $f$ is measurable and,
+\[ \int_X f \, \d{\mu} \le \liminf_{n \to \infty} \int_X f_n \, \d{\mu} \]
+\end{lemma}
+
+\begin{proof}
+The proof from first principles is annoying.
+\end{proof}
+
+\begin{cor}[Reverse Fatou]
+Now suppose that $\{ f_n \}$ is a sequence of measurable functions on $X$ such that $|f_n| \le g$ almost everywhere for an integrable function $g$ on $X$. Then,
+\[ \limsup_{n \to \infty} \int_X f_n \, \d{\mu} \le \int_X \limsup_{n \to \infty} f_n \d{\mu} \]
+\end{cor}
+
+\begin{proof}
+Consider $f'_n = g - f_n$. Then $f'_n$ is measurable and a.e. nonegative. Applying Fatou's lemma we see that,
+\[ f' = \liminf f'_n = g - \limsup f_n \]
+is measurable and,
+\[ \int_X (g - \limsup f_n) \, \d{\mu} \le \liminf_{n \to \infty} \int_X (g - f_n) \, \d{\mu}  \]
+However, $g$ is integrable so we can pull it out of the integrals,
+\begin{align*}
+\int_X (g - \limsup f_n) \, \d{\mu} & = \int_X g \, \d{\mu} - \int_X \limsup f_n \, \d{\mu} 
+\\
+\liminf_{n \to \infty} \int_X (g - f_n) \, \d{\mu} & = \int_X g \, \d{\mu} - \limsup_{n \to \infty} \int_X f_n \, \d{\mu}
+\end{align*}
+Therefore,
+\[ \limsup_{n \to \infty} \int_X f_n \, \d{\mu} \le \int_X \limsup_{n \to \infty} f_n \d{\mu} \]
+\end{proof}
+
+\subsection{The Main Theorems}
+
+\begin{thm}[Monotone Convergence]
+Let $\{ f_n \}$ be a pointwise a.e. non-decreasing sequence of a.e. non-negative measurable functions on $X$, explicitly this means
+\[ 0 \le f_n(x) \le f_{n+1}(x)  \]
+for all $n$ almost everywhere. Then let $f = \liminf\limits_{n \to \infty} f_n$. Then $f$ is measurable and,
+\[ \lim_{n \to \infty} \int_X f_n \, \d{\mu} = \int_X f \, \d{\mu} \]
+\end{thm}
+
+\begin{proof}
+Notice that $f_n$ is nondecreasing a.e. and thus $\int f_n$ is nondecreasing. Then applying Fatou's lemma, we see that $f$ is measurable and,
+\[ \int_X f \, \d{\mu} \le \liminf_{n \to \infty} \int_X f_n \, \d{\mu} = \lim_{n \to \infty} \int_X f_n \, \d{\mu} \]
+Furthermore, $f_n \le f$ a.e. so we find that,
+\[ \int_X f_n \, \mathrm{d}\mu \le \int_X f \, \mathrm{d} \mu \]
+proving the equality.
+\end{proof}
+
+\begin{rmk}
+Notice that there is no confusion about if the hypothis means that,
+\[ \mu(\{ x \in X \mid \forall n : 0 \le f_n(x) \le f_{n+1}(x) \}^C) = 0 \quad \text{or} \quad \forall n : \mu(\{ x \in X \mid 0 \le f_n(x) \le f_{n+1}(x) \}^C) = 0 \]
+because these are equivalent since the first set is the countable union of the second sequence of sets the measure is countably additive.
+\end{rmk}
+
+\begin{thm}[Dominated Convergence]
+Let $\{ f_n \}$ be a sequence of measurable functions on $X$ dominated almost everywhere by an integrable function $g$ meaning that $|f_n| \le g$ almost everywhere. Suppose that $f_n \to f$ pointwise almost everywhere where $f$ is measurable. Then $f_n$ and $f$ are integrable and,
+\[ \lim_{n \to \infty} \int_X f_n \, \d{\mu} = \int_X f \, \d{\mu} \]
+\end{thm}
+
+\begin{proof}
+First, because $f_n$ is measurable and $|f_n| \le g$ a.e. where $g$ is integrable we see that $f_n$ is integrable. Furthermore, almost everywhere we have,
+\[ |f - f_n| \le |f| + |f_n| \le 2 g \]
+Therefore, we may apply reverse Fatou to the sequence $\{ |f - f_n| \}$ bounded by the integrable function $2 g$ to find that,
+\[ \limsup_{n \to \infty} \int_X |f - f_n| \, \d{\mu} \le \int_X \limsup |f - f_n| \, \d{\mu}  \]
+but $\limsup |f - f_n| \eqae 0$ because $f \to f_n$ a.e. and thus,
+\[ \limsup_{n \to \infty} \int_X |f - f_n| \, \d{\mu} \le 0 \]
+but $|f - f_n| \ge 0$ so the limit exists because the liminf is bounded below by zero as well so,
+\[ \lim_{n \to \infty}  \int_X |f - f_n| \, \d{\mu} = 0 \]
+and therefore,
+\[ \left| \int_X f_n \, \d{\mu} - \int_X f \, \d{\mu} \right| \le \int_X |f_n - f| \, \d{\mu} \to 0 \]
+meaning that,
+\[ \lim_{n \to \infty} \int_X f_n \, \d{\mu} = \int_X f \, \d{\mu} \]
+\end{proof}
+
+\begin{rmk}
+If the measure space is complete or $f_n \to f$ everywhere then $f$ is automatically measurable.
+\end{rmk}
+
+\subsection{Scheff\'{e}'s Lemma}
+
+\begin{lemma}[Scheff\'{e}]
+Let $\{ f_n \}$ be a sequence of integrable functions such that $f_n \to f$ a.e. with $f$ integrable. Then,
+\[ \lim_{n \to \infty} \int_X |f_n - f| \, \d{\mu} = 0 \iff \lim_{n \to \infty} \int |f_n| \, \d{\mu} = \int |f| \, \d{\mu} \]
+\end{lemma}
+
+\begin{proof}
+One direction is obvious. If, 
+\[ \lim_{n \to \infty} \int_X |f_n - f| \, \d{\mu} = 0 \]
+then because $||f_n| - |f|| \le |f_n - f|$ we know that,
+\[ \left| \int_X |f_n| \, \d{\mu} - \int_X |f| \, \d{\mu} \right| \le \int_X ||f_n| - |f|| \, \d{\mu} \le \int_X |f_n - f| \, \d{\mu} \to 0 \]
+and therefore,
+\[ \lim_{n \to \infty} \int |f_n| \, \d{\mu} = \int |f| \, \d{\mu} \]
+Conversely, let $g_n = |f_n| - |f_n - f|$ then,
+\[ |g_n| \le ||f_n| - |f_n - f|| \le |f_n - (f_n - f)| = |f| \]
+so because $f$ is integrable we can apply the dominated convergence theorem to conclude that,
+\[ \lim_{n \to \infty} \int g_n \, \mathrm{d}\mu = \int |f| \, \mathrm{d} \mu \]  
+because $g_n \to |f|$ almost everywhere. However, 
+\[ \lim_{n \to \infty} \int g_n \, \d{\mu} = \lim_{n \to \infty} \left( \int |f_n| \, \d{\mu} - \int |f - f_n| \, \d{\mu} \right) \]
+and we assume that,
+\[   \lim_{n \to \infty} \int |f_n| \, \d{\mu} = \int |f| \, \d{\mu} \]
+so combining the two equations we find that,
+\[ \lim_{n \to \infty} \int_X |f_n - f| \, \d{\mu} = 0 \]
+\end{proof}
+
+\begin{cor}
+Under the hypothses of the lemma, if
+\[ \lim_{n \to \infty} \int |f_n| \, \d{\mu} = \int |f| \, \d{\mu} \]
+then
+\[ \lim_{n \to \infty} \int f_n \, \d{\mu} = \int f \, \d{\mu} \]
+\end{cor}
+
+\begin{proof}
+By the lemma, our assumption implies that,
+\[ \lim_{n \to \infty} \int_X |f_n - f| \, \d{\mu} = 0 \]
+and then we conclude from
+\[ \left| \int_X f_n \, \d{\mu} - \int_X f \, \d{\mu} \right| \le \int_X |f_n - f| \, \d{\mu} \to 0 \]
+meaning that,
+\[ \lim_{n \to \infty} \int_X f_n \, \d{\mu} = \int_X f \, \d{\mu} \]
+\end{proof}
+
+\begin{rmk}
+However, the converse of this corollary does \textit{not} hold in general (it does say when $f_n$ are nonnegative and it becomes trivial). For example, let
+\[ f_n = \frac{1}{2 \sqrt{\pi}} \left( e^{-(x - n)^2} - e^{-(x + n)^2}  \right) \]
+Then $f_n \to 0$ everywhere pointwise. And likewise,
+\[ \int_X f_n \, \d{\mu} = 0 \]
+for each $n$ so we indeed have,
+\[ \lim_{n \to \infty} \int_X f_n \, \d{\mu} = \int_X f \, \d{\mu} = 0 \]
+trivially where $f = 0$. However,
+\[ \int_X |f_n| \, \d{\mu} \to 1 \quad \text{where as} \quad \int_X |f| \, \d{\mu} = 0 \]
+\end{rmk}
+
+\section{Functional Analysis Theorems}
+
+\subsection{Banach-Steinhaus}
+
+\begin{theorem}[Banach-Steinhaus]
+Let $X$ be a Banach space and $Y$ a normed space. Then for any subset $\mathcal{M} \subset \L(X, Y)$ we have,
+\[ \mathcal{M} \text{ is pointwise bounded} \iff \mathcal{M} \text{ is uniformly bounded} \]
+\end{theorem}
+
+\begin{cor}
+Let $X, Y$ be normed spaces with $X$ Banach and $T_n \in \L(X, Y)$ a sequence such that $\lim\limits_{n \to \infty} T_n x$ exists for all $x \in X$. Then there exists $T \in \L(X, Y)$ defined by $T x = \lim\limits_{n \to \infty} T_n x$.
+\end{cor}
+
+\begin{proof}
+It is clear that $T$ is linear and thus suffices to prove that $T$ is bounded. Consider,
+\[ \mathcal{M} = \{ T_n \mid n \in \N \} \]
+For any $x \in X$ the sequence $T_n x$ is bounded because it has a limit. Thus $\mathcal{M}$ is pointwise bounded and therefore uniformly bounded by Banach-Steinhaus. In particular, there exists some $C > 0$ such that $|| T_n || \le C$ for all $n$. Therefore,
+\[ || T || = \sup_{|| x || = 1} || T x || = \sup_{|| x || =  } \lim_{n \to \infty} || T_n x || \le \lim_{n \to \infty} || T_n || \le C \]
+so $T$ is bounded.
+\end{proof}
+
+\subsection{Hahn-Banach}
+
+\begin{thm}[Hahn-Banach]
+Let $X$ be a normed space and $U \subset X$ a linear subspace. Let $\ell : U \to \R$ be a bounded linear functional. Then there exists a linear functional $\tilde{\ell} : X \to K$ extending $\ell$ that satisfies $|| \tilde{\ell} ||_{X^*} = || \ell ||_{U^*}$.
+\end{thm}
+
+\begin{proof}
+First, we show that given $z \in X \setminus U$ it is possible to extend $\ell$ to $U' = U + \vspan{z}$. Indeed,
+\[ \ell'(u + \alpha z) = \ell(u) + \alpha a \]
+is well-defined since $z \notin U$ implies the decomposition is unique and is clearly linear. Thus we need to show that $a$ can be choosen to fix the norm. Because $U \subset U'$ we only need to show that $\ell'$ is bounded above by $|| \ell ||_{U}$ (bounded below then follows immediately by linearity) since the norm of any extension is automatically larger as it is a supremum over a superset. We need to choose $a$ such that,
+\[ \ell'(u + \alpha z) = \ell(u) + \alpha a \le ||\ell||_{U} \cdot || u + \alpha z || \]
+If $\alpha = 0$ this says nothing. If $\alpha > 0$ then we require,
+\[ \ell(u) + a \le || \ell ||_{U} \cdot || u + z || \]
+for all $u \in U$ by pulling out $\alpha$ and rescaling $u$. Similarly, for $\alpha < 0$ we require for all $u \in U$ that,
+\[ \ell(u) - a \le || \ell ||_{U} \cdot || u - z || \]
+However, 
+\[ \ell(u_1) + \ell(u_2) = \ell(u_1 + u_2) \le || \ell ||_{U} \cdot || u_1 + u_2 || \le || \ell ||_{U} \cdot (||u_1 + z|| + || u_2 - z ||) \]
+and therefore,
+\[ \ell(u_2) - || \ell ||_U \cdot ||u_2 - z || \le || \ell ||_U \cdot || u_1 + z || - \ell(u_1) \]
+for all $u_1, u_2 \in U$ and therefore the supremum of the left is less than the infimum of the right so there exists an $a$ fitting between i.e. satisfiying,
+\[ a \le || \ell ||_U \cdot || u + z || - \ell(u) \quad \text{and} \quad  a \ge \ell(u) - || \ell ||_U \cdot || u - z || \]
+Therefore, such an extension $\ell'$ exists. 
+\bigskip\\
+Now we complete the proof via Zorn's lemma applied to pairs $(U', \ell')$ where $U' \subset X$ is a linear subspace and $\ell' : U' \to \R$ is an extension such that $|| \ell' ||_{U'} = || \ell ||_U$. This is a poset under inclusion $U_1 \subset U_2$ with the restriction that $\ell_2 |_{U_1} = \ell_1$. Therefore, chains give compatible bounded linear functionals on their union and thus give an upper bound. By Zorn's lemma there is a maximal element but by the above construction a maximal pair $(U', \ell')$ cannot have any $z \in X \setminus U'$ or it could be extended to $U' + \vspan{z}$ so $U' = X$ proving the theorem. 
+\end{proof}
+
+\begin{cor}
+Let $X$ be a normed space and $x \in X$ nonzero. Then there exists $\ell \in X^*$ such that $\ell(x) = || x ||$ and $|| \ell || = 1$.
+\end{cor}
+
+\begin{proof}
+Let $U = \vspan{x}$ then define $\ell : U \to \R$ via $\lambda x \mapsto \lambda || x ||$. This is clearly linear and furthermore,
+\[ || \ell || = \sup_{|| \lambda x || = 1 } || \ell(\lambda x) || = \sup_{|| \lambda x || = 1 } || \lambda x ||  =  1 \]
+By Hahn-Banach there is an extension $\ell' : X \to \R$ such that $|| \ell' || = || \ell || = 1$ and $\ell'(x) = || x ||$.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a normed space. Then $X^*$ separates points.
+\end{cor}
+
+\begin{proof}
+If $x_1, x_2 \in X$ are not equal then there exists $\ell \in X^*$ such that $|| \ell(x_1 - x_2) || = || x_1 - x_2 || \neq 0$ but $\ell(x_1 - x_2) = \ell(x_1) - \ell(x_2)$ so $\ell(x_1) \neq \ell(x_2)$.
+\end{proof}
+
+\begin{cor}
+For each $x \in X$,
+\[ || x ||_X = \sup_{||\ell || = 1}  | \ell(x)|  \]
+\end{cor}
+
+\begin{proof}
+By definition,
+\[ || \ell || \ge \frac{| \ell(x) |}{|| x ||} \]
+Therefore, 
+\[ || x || \ge \sup_{|| \ell || = 1} | \ell(x) | \]
+However, by above there exists $\ell \in X^*$ such that $|| \ell || = 1$ and $\ell(x) = || x ||$ and therefore,
+\[ || x || \le \sup_{|| \ell || = 1} | \ell(x) | \]
+proving the claim.
+\end{proof}
+
+\begin{cor}
+Let $U \subset X$ be a closed linear subspace, $x \in X$ with $x \neq U$. Then there exists $\ell \in X^*$ with $\ell |_U = 0$ and $\ell(x) = || x ||_X$.
+\end{cor}
+
+\begin{proof}
+Consider $X/U$ which inherts a normed structure via,
+\[ || [x] ||_{X/U} = \inf_{u \in U} || x + u ||_X \]
+Then, there exits a bounded linear functional $\ell : X / U \to K$ such that $\ell([x]) = || [x] ||_{X/U}$. Take $\tilde{\ell} = \ell \circ \pi$ where $\pi : X \to X/U$ is the projection which is bounded by $1$. Thus, $\tilde{\ell} \in X^*$ and $\ell|_U = 0$. Furthermore, 
+\[ \tilde{\ell}(x) = \ell([x]) = || [x] ||_{X / U} \neq 0 \]
+because $x \notin U$ so $[x] \neq 0$ so we can scale $\tilde{\ell}$ to give the required result.
+\end{proof}
+
+\subsection{Open Mapping Theorem}
+
+\begin{lemma}
+Let $X$ be a normed space. A linear subspace $U \subset X$ is open iff $U = X$.
+\end{lemma}
+
+\begin{proof}
+If $U$ is open then $0 \in U$ there must exist some open ball $B_\epsilon(0) \subset U$ and thus for any $x \in X$ we have $x = \lambda x'$ for $x' \in B_\epsilon(0) \subset U$ so $U = X$ because it is closed under scaling.
+\end{proof}
+
+\begin{cor}
+If $T : X \to Y$ is a linear map of topological vector spaces and $Y$ is normed. Then if $T$ has open image then $T$ is surjective.
+\end{cor}
+
+\begin{proof}
+By linearity, the image $T(X) \subset Y$ is a linear subspace. Furthermore, $T(X)$ is open by assumption so by the lemma $T(X) = Y$.
+\end{proof}
+
+\begin{thm}[Open Mapping]
+Let $X, Y$ be Banach spaces. For $T \in \L(X, Y)$ then,
+\[ T \text{ is surjective} \iff T \text{ is open} \]
+\end{thm}
+
+\begin{rmk}
+By above, the direction $T$ is open $\implies T$ is surjective is trivial.
+\end{rmk}
+
+\begin{thm}[Bounded Inverse]
+Let $X, Y$ be Banach spaces and $T \in \L(X, Y)$. If $T$ is bijective then $T^{-1} \in \L(X, Y)$.
+\end{thm}
+
+\begin{proof}
+It is obvious that $T^{-1}$ is linear so it suffices to check that $T^{-1}$ is bounded. Because $T$ is bijective we have,
+\[ || T^{-1} || = \sup_{y \neq 0} \frac{|| T^{-1} y ||}{|| y ||} = \sup_{x \neq 0} \frac{|| x ||}{|| T x ||} = \left[ \inf_{x \neq 0} \frac{|| Tx ||}{|| x ||} \right]^{-1} \]
+Therefore, it suffices to show that $T$ is positively bounded below in addition to being bounded above. By the Open Mapping theorem, $T$ is open and thus a homeomorphism. Let,
+\[ S(X) = \{ x \in X \mid || x || = 1 \} \]
+is closed so $T(S(X))$ is also closed and $0 \notin T(S(X))$ because $T$ is injective. Thus $d(0, T(S(X))) > 0$ because $T(S(X))$ is a closed subset of a metric space.
+Therefore, 
+\[ \inf_{||x|| = 1} || T x || > 0 \] 
+and thus $T$ is bounded below proving the theorem.
+\end{proof}
+
+\begin{lemma}
+A linear operator $T : X \to Y$ between normed spaces is continuous iff it is bounded.
+\end{lemma}
+
+\begin{proof}
+If $T$ is bounded then,
+\[ || Tx - Ty || = || T(x - y) || \le || T || \cdot || x - y || \]
+so indeed $T$ is even Lipschitz. If $T$ is continuous then consider,
+\[ S(Y) = \{ y \in Y \mid || y || = 1 \} \]
+is closed so $A = T^{-1}(S(Y))$ is closed. Furthermore, $0 \notin A$ because $T(0) = 0 \notin S(Y)$. Therefore, because $A$ is closed in a metric space and $0 \notin A$ so $d(0, A) > 0$ and therefore,
+\[ || T || = \sup_{x \in A} \frac{1}{|| x ||} = \left[ \inf_{x \in A} || x || \right]^{-1} \]
+exists because $\inf\limits_{x \in A} || x ||$ is positive. Alternatively, $T^{-1}(B_1(0))$ is open so there is a ball $B_\delta(0) \subset T^{-1}(B_1(0))$ and thus,
+\[ || T x || = \frac{|| x ||}{\delta} || T(x \delta / || x ||) || \le \frac{|| x ||}{\delta} \]
+so $T$ is bounded.
+\end{proof}
+
+\begin{rmk}
+We can thus give a slick proof of the bounded operator theorem. Since $T$ is surjective it is open and thus $T^{-1}$ is continuous and thus bounded.
+\end{rmk}
+
+\begin{ex}
+If $X, Y$ are not both complete then the above may fail. For example, let $X = C([0, 1])$ and $Y = C^1([0, 1])$ with supremum norms and take,
+\[ (T f)(t) = \int_0^t f(s) \d{s} \]
+which is linear and bounded because,
+\[ || T f ||_{\infty} = \sup_{t \in [0, 1]} \left| \int_0^t f(s) \d{s} \right| \le || f ||_{\infty}  \]
+because $f$ is bounded. Thus $|| T || \le 1$ and is injective by the fundamental theorem of calculus. Therefore it is bijective onto its image. However $T$ is not bounded below because we can take a sequence of spikier functions with vanishing area but the same supremum norm. However, if we give $Y$ the ``corrrect'' $C^1$ norm $|| f ||_{C^1} = || f ||_\infty + || f' ||_\infty$ then the operator is invertible because,
+\[ || T f ||_{C^1} = \sup_{t \in [0, 1]} \left| \int_0^t f(s) \d{s} \right|  + \sup_{t \in [0,1]} |(T f)'(t)| \le 2 || f ||_{\infty} \]
+and also,
+\[ || T f ||_{C^1} \ge || (T f)' ||_{\infty} = || f ||_{\infty} \]
+so we see that $|| f ||_\infty \le || T f ||_{C^1} \le 2 ||  f ||_{\infty}$ so $T$ is also bounded below and thus has closed image which is thus a Banach space (the image is the subspace of $C^1([0,1])$ vanishing at $0$).
+\end{ex}
+
+\section{Closed Image Theorem}
+
+\begin{lemma}
+Let $T : X \to Y$ be a continuous map of Banach spaces. Then $T$ is injective and $\im{T}$ is closed if and only if $T$ is bounded below.
+\end{lemma}
+
+\begin{proof}
+Suppose there is $C > 0$ such that,
+\[ || x ||_X \le C || T x ||_Y \]
+for all $x \in X$. In particular, if $T x = 0$ then $x = 0$ so $T$ is injective. Furthermore, if $x_n \in X$ is a sequence such that $T x_n$ is Cauchy (any Cauchy sequence in $\im{T}$ is of this form) then,
+\[ || x_n - x_m || \le C || T (x_n - x_m) || \le C || T x_n - T x_m || < C \epsilon \]
+for $n, m > N$. Thus, $\{ x_n \}$ is Cauchy and therefore since $X$ is Banach the sequence is convergent,
+\[ \lim_{n \to \infty} x_n = x \]
+Furthermore, $T$ is continuous so,
+\[ \lim_{n \to \infty} T x_n = T (\lim_{n \to \infty} x_n) = T x \]
+and thus $x_n$ is convergent and $x \in \im{T}$ so $\im{T}$ is closed.
+\bigskip\\
+Conversely, since $T$ is injective $T : X \to \im{T}$ is bijective and $\im{T} \subset Y$ is closed so $\im{T}$ is Banach. Therefore, by the bounded inverse theorem $T : X \to \im{T}$ is invertible by a bounded operator $T^{-1} \in \L(\im{T}, X)$. Thus,
+\[ || x ||_{X} = || T^{-1}(T x) ||_{X} \le || T^{-1} || \cdot || T x ||_{Y} \]
+so $|| T^{-1} ||$ gives the required constant.
+\end{proof}
+
+\begin{thm}[Closed Graph]
+Let $T : X \to Y$ be a linear operator between Banach spaces. Then $T$ is continuous if and only if its graph is closed.
+\end{thm}
+
+\subsection{Closed Range Theorem}
+
+\begin{defn}
+Let $V \subset X$ be a subset then define $V^\perp \subset X^*$ via,
+\[ V^\perp = \{ \ell \in X^* \mid \forall v \in V : \ell(v) = 0 \} = \bigcap_{v \in V} \ker{\ev_v} \]
+Clearly this is a weak-$*$ closed subspace and thus norm closed. Let $W \subset X^*$ be a subset then define $W^\perp \subset X$ via,
+\[ W^\perp = \{ x \in X \mid \forall \ell \in W : \ell(x) = 0 \} = \bigcap_{\ell \in W} \ker{\ell} \]
+which is clearly a weakly closed subspace and thus norm closed.
+\end{defn}
+
+\begin{lemma}
+If $V \subset X$ is a subspace then $V^{\perp \perp} = \overline{V}$.
+\end{lemma}
+
+\begin{proof}
+If $v \in V$ then for any $\ell \in V^\perp$ by definition $\ell(v) = 0$ so $v \in V^{\perp \perp}$ so $V \subset V^{\perp \perp}$ and thus $\overline{V} \subset V^{\perp \perp}$. Let $x \notin \overline{V}$. Since $\overline{V}$ is a subspace, by Hahn-Banach there is some $\ell \in X$ such that $\ell|_{\overline{V}} = 0$ but $\ell(x) = 1$ so $\ell \in V^\perp$ and thus $x \notin V^{\perp\perp}$. Thus $V^{\perp\perp} = V$.
+\end{proof}
+
+\begin{rmk}
+Recall that weakly closed and closed subspaces coincide so this is also the weak closure of $V$.
+\end{rmk}
+
+\begin{lemma}
+If $W \subset X^*$ is a subspace then $W^{\perp \perp}$ is the weak-$*$ closure of $W$.
+\end{lemma}
+
+\begin{proof}
+If $\ell \in W$ then for any $x \in W^\perp$ by definition $\ell(x) = 0$ so $\ell \in W^{\perp\perp}$ so $W \subset W^{\perp\perp}$ and thus if $Y$ is the weak-$*$ closure of $W$ then $Y \subset W^{\perp \perp}$. Now suppose that $\ell \in W^{\perp\perp}$ then $\ell|_{W^\perp} = 0$ and we need to show that $\ell \in Y$. Now $\ell$ descends to $\ell \in (X / W^\perp)^*$ For any finite dimensional subspace $V \subset X/W^\perp$ we can find $\ell_V \in W$ such that $\ell|_V = \ell_V$. This is becaues if $\eta(v) = 0$ for all $\eta \in W$ then $v \in W^\perp$ so $[v] = 0$. Thus $W \to X^* \to (X/W^\perp)^* \to V^*$ is surjective because its dual $v \mapsto (\eta \mapsto \eta(v))$ is injective and $V$ is finite dimensional (see \href{https://math.stackexchange.com/questions/3743687/weak-closed-subspaces-and-preduals-a-la-von-neumann-algebras}{this} answer). Therefore there is such a $\ell_V$. Now we see that $\ell_V \to \ell$ pointwise i.e. in the weak-$*$ topology as $V$ ranges over the finite dimensional subspaces of $(X / W^\perp)$. Therefore $\ell \in Y$ since $Y$ is weak-$*$ closed and $\ell_V \in W \subset Y$.
+\end{proof}
+
+\begin{rmk}
+This also shows that $Y \cong (X / W^\perp)^*$.
+\end{rmk}
+
+\begin{prop}
+Let $T : X \to Y$ be a continuous linear operator. Then,
+\begin{enumerate}
+\item $\ker{T} = (\im{T^*})^\perp$
+\item $\ker{T^*} = (\im{T})^\perp$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+If $T x = 0$ then if $\ell = T^* \eta$ we have $\ell(x) = \eta(T x) = 0$ so $\ker{T} \subset (\im{T^*})^\perp$. If $x \in (\im{T^*})^\perp$ then for any $\ell \in Y^*$ we see that $\ell(T x) = (T^* \ell)(x) = 0$ so $T x = 0$ by Hahn-Banach. 
+\bigskip\\
+If $T^* \ell = 0$ then if $y = T x$ we see that $\ell(y) = (T^* \ell)(x) = 0$ so $\ell \in (\im{T})^\perp$. If $\ell \in (\im{T})^\perp$ then for all $x \in X$ we have $(T^* \ell)(x) = \ell(T(x)) = 0$ so $T^* \ell = 0$ and thus $\ell \in \ker{T^*}$.
+\end{proof}
+
+\begin{cor}
+We see that,
+\[ \overline{\im{T}} = (\ker{T^*})^\perp \]
+and that the weak-$*$ closure of $\im{T^*}$ is $(\ker{T})^\perp$. 
+\end{cor}
+
+\begin{cor}
+Let $T : X \to Y$ be a continuous linear operator. Then,
+\begin{enumerate}
+\item $\im{T}$ is dense iff $T^*$ is injective
+\item $\im{T^*}$ is weak-$*$ dense iff $T$ is injective.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+We see that,
+\[ \im{T} \text{ is dense} \iff \overline{\im{T}} = Y \iff (\ker{T^*})^\perp = Y \iff \ker{T^*} = (0) \iff T^* \text{ is injective} \]
+using that $\ker{T^*}$ is weak-$*$ closed and
+\[ \im{T^*} \text{ is weak-* dense} \iff \overline{\im{T*}} = X^* \iff (\ker{T})^\perp = X^* \iff \ker{T} = (0) \iff T \text{ is injective} \]
+using that $\ker{T}$ is closed.
+\end{proof}
+
+\begin{thm}[Closed Range]
+Let $T : X \to Y$ be a continuous map of Banach spaces and $T^* : Y^* \to X^*$ its dual. Then the following are equivalent,
+\begin{enumerate}
+\item $\im{T}$ is closed
+\item $\im{T^*}$ is closed
+\item $\im{T} = (\ker{T^*})^\perp = \{ y \in Y \mid \forall \ell \in \ker{T^*} : \inner{\ell}{y} = 0 \}$
+\item $\im{T^*} = (\ker{T})^\perp = \{ \psi \in Y^* \mid \forall x \in \ker{T} : \inner{\psi}{x} = 0 \}$
+\end{enumerate}
+\end{thm}
+
+\begin{rmk}
+This result can be extended to densely defined operators as long as they have closed graph. Notice that everywhere defined continuous operators between Banach spaces automatically have closed graph.
+\end{rmk}
+
+\section{Examples of Banach Spaces}
+
+\begin{ex}
+Let $K$ be a compact metric space and $C(K)$ the space of continuous functions equipped with the sup-norm $|| \bullet ||_\infty$. This is well-defined because continuous functions on a compact space are bounded and if $|| f ||_{\infty} = 0$ then $f = 0$ because then $|f(x)| = 0$ so $f(x) = 0$ for all $x$. Finally, convergence in the sup-norm is what is usually called uniform convergence which preserves continuity so $C(K)$ is complete.
+\end{ex}
+
+\begin{ex}
+However, $C^k([0,1])$ for $k \ge 1$ is not a Banach space because the uniform limit of differentiable functions is not differentiable.
+\end{ex}
+
+\begin{prop}
+Let $X, Y$ be normed spaced and $\L(X, Y)$ the space of bounded linear operators endowed with the operator norm. Then $\L(X, Y)$ is a normed space and is Banach if $Y$ is Banach.
+\end{prop}
+
+\begin{proof}
+It is clear that $\L(X, Y)$ is a vector space. We need to check that $|| \bullet ||$ is indeed a norm on $\L(X, Y)$. It is obviously homogeneous and nonegative so we need to check positivity and the triangle inequality. First, suppose that $|| T || = 0$ then by definition $|| Tx || = 0$ for all $x \in X$ so $T x = 0$ meaning $T = 0$. If $T, S \in \L(X, Y)$ then,
+\[ || X + Y || = \sup_{|| x || = 1} || (X + Y) x || \le \sup_{|| x || = 1 } (|| T x || + || S x ||) \le || T || + || S || \]
+Now suppose that $Y$ is Banach. Given a Cauchy sequence $T_n \in \L(X, Y)$ we know that,
+\[ || T_n x - T_m x || \le || T_n - T_m || \cdot || x || \]
+and thus for each fixed $x \in X$ the sequence $T_n x$ is Cauchy and thus converges to a limit in $Y$ because $Y$ is complete. It is clear that
+\[ T x = \lim_{n \to \infty} T_n x \]
+defines a linear operator. We need to show that it is bounded. Notice that $|| T_n ||$ is bounded by $C$ because $T_n$ is Cauchy and therefore,
+\begin{align*}
+|| T || & = \sup_{|| x || = 1} || T x || = \sup_{|| x || = 1} \lim_{n \to \infty} || T_n x||
+\\
+& = \sup_{|| x || = 1} \limsup_{n \to \infty} || T_n x|| \le \sup_{|| x || = 1} \limsup_{n \to \infty} || T_n || \cdot || x || = \limsup_{n \to \infty} || T_n || \le C
+\end{align*}
+is bounded. Thus it suffices to show that $T_n \to T$ in operator norm. 
+Recall that,
+\[ || (T_n - T_m) x|| \le || T_n - T_m || \cdot || x || \]
+for any $x$ and $T_n$ is Cauchy so for any $\epsilon > 0$ we can choose $N$ large enough such that $|| T_n - T_m || < \epsilon$ for any $n, m > N$.
+By the continuity of the norm on $Y$ we find that,
+\[ || (T - T_n) x || = \lim_{m \to \infty} || (T_m - T_n) x || < \epsilon || x || \]
+for $n > N$ and thus,
+\[ || T - T_n || = \sup_{|| x || = 1} || (T - T_n) x || < \epsilon \]
+for all $n > N$ so $|| T - T_n || \to 0$.
+\end{proof}
+
+\begin{rmk}
+A nice write up can be found \chref{https://math.stackexchange.com/questions/1026961/proof-of-dual-normed-vector-space-is-complete}{here}.
+\end{rmk}
+
+\begin{example}
+We will prove that for any locally compact Hausdorff space, $C_0(X)$ equiped with the uniform norm is a Banach space. However, here we consider $C_c(X)$ the space of compactly supported functions. Although $(C_c(X), || \bullet ||_\infty)$ is clearly a normed space, it is \textit{not} complete.
+\bigskip\\
+Here we provide an example. Let $X = \R$ and and consider a smooth bump function $\chi(x)$ which satisfies $\chi(x) = 1$ if $|x| < 1$ and $\chi(x) = 0$ if $|x| \ge 2$. Therefore, $\chi$ is compactly supported and continuous. Then, consider,
+\[ f_n(x) = \frac{\chi(x/n)}{1 + x^2} \]
+which is clearly continuous and compactly supported since $\supp{}{f_n} \subset \overline{B_{2n}(0)}$. Furthermore,
+\[ || f_n - f_m ||_{\infty} \le \frac{2}{1 + \min{(n, m)}^2} \]
+because for $x < \min{(n,m)}$ we have $f_n(x) - f_m(x) = 0$ and for $x \ge \min{(n,m)}$ each function is bounded by $(1 + \min{(n, m)}^2)^{-1}$. Therefore, $f_n$ is a Cauchy sequence in the uniform norm and therefore converges in $C_0(X)$. Clearly $f_n \to f$ where $f(x) = \frac{1}{1 + x^2}$ which is not compactly supported and since $C_c(X) \subset C_0(X)$ (and normed spaces being Haudorff have unique limits) we see that $C_c(X)$ cannot be complete.
+\bigskip\\
+However, we can give $C_c(X)$ a better topology such that it is complete. Indeed,
+\[ C_c(X) = \lim_{\substack{K \supset X \\ \text{compact}}} C(X, K) \]
+where $C(X, K)$ is the space of continuous functions supported on $K$. This is Banach because obviously $C(X,K) \cong C(K)$ which when given the uniform norm is Banach. Therefore, we equip $C_c(X)$ with the locally convex direct limit topology. Then the sup norm $|| \bullet ||_\infty$ is continuous on $C_c(X)$ because it is on each $C(X, K)$ but the topology is finer than the norm topology e.g. there are sequences which coverge in the uniform norm which are not Cauchy in $C_c(X)$ for example the sequence $f_n$ defined above. 
+\end{example}
+
+
+\section{Locally Convex Analysis}
+
+\begin{defn}
+A subset $X$ of a $\R$-vector space $V$ is called \textit{convex} if for all $x, y \in X$ and $\lambda \in [0,1]$ the point $\lambda x + (1 - \lambda) y \in X$.
+\end{defn}
+
+\begin{defn}
+A topological vector space is called \textit{locally convex} if the origin has a neighborhood basis of covex sets.
+\end{defn}
+
+\begin{rmk}
+Because translation is a homeomorphism, every point of a locally convex topological vector space (LCTVS) has a convex neighborhood basis.
+\end{rmk}
+
+\begin{defn}
+A \textit{semi-norm} on a $\R$-vector space $V$ is a function $p : V \to \R$ such that,
+\begin{enumerate}
+\item $p(x) \ge 0$ for all $x \in X$
+\item $p(\lambda x) = |\lambda | p(x)$ for all $\lambda \in \R$ and $x \in X$
+\item $p(x + y) \le p(x) + p(y)$ for all $x,y \in V$.
+\end{enumerate}
+Notice that a semi-norm satisfying $p(x) = 0 \implies x = 0$ is a norm.
+\end{defn}
+
+\begin{defn}
+Given a family of semi-norms $\mathcal{P}$ on a vector space $V$, the \textit{initial topology} $\mathcal{T}_{\mathcal{P}}$ on $X$ is the coarsest topology for which each $p \in \mathcal{P}$ is continuous. 
+\end{defn}
+
+\begin{prop}
+The initial topology makes $V$ a locally convex topological vector space.
+\end{prop}
+
+\begin{proof}
+A function $f : X \to V$ is continuous if and only if $p \circ f : X \to \R$ is continuous for each $p \in \mathcal{P}$. First, for $f : \R \times V \to V$ via $(\lambda, v) \mapsto  \lambda v$ we have $p \circ f(\lambda, v) = |\lambda| p(v)$ so $p \circ f$ is the same as $m \circ (| \bullet | \times p)$ which is continuous because $p$ is continuous and the other functions we know are continuous on $\R$. Now for $f : V \times V \to V$ we know that $p \circ f(x, y) = p(x + y) \le p(x) + p(y)$.
+
+Furthermore, the open sets $\{U_{\epsilon, p} = p^{-1}(B_\epsilon(0))\}_{\epsilon > 0, p \in \mathcal{P}}$ form a neighborhood basis of the origin and if $x,y \in U_{\epsilon, p}$ then $p(x) < \epsilon$ and $p(y) < \epsilon$ so for any $\lambda \in [0,1]$ we have, 
+\[ p(\lambda x + (1 - \lambda) y) \le \lambda p(x) + (1 - \lambda) p(y) < \lambda \epsilon + (1 - \lambda) \epsilon = \epsilon \]
+so $\lambda x + (1 - \lambda) y \in U_{\epsilon, p}$ and thus $U_{\epsilon, p}$ is convex.
+\end{proof}
+
+\section{Stone-Weierstrass Theorem}
+
+\begin{defn}
+Let $X$ be a locally compact Hausdorff space. Then $C_0(X, \R)$ is the space of continuous functions that vanish at infinity meaning that for each $f \in C_0(X, \R)$ any any $\epsilon > 0$ there exists a compact set $K \subset X$ such that $|f|_{X \setminus K}| < \epsilon$. 
+\end{defn}
+
+\begin{rmk}
+If $X$ is compact then $C_0(X, \R) = C(X, \R)$.
+\end{rmk}
+
+\begin{prop}
+When $C_0(X, \R)$ is equipped with the supremum norm it is a Banach space.
+\end{prop}
+
+\begin{proof}
+Because the greater than $1$ support of $f$ is contained in a compact set $K$ we know that $f$ is bounded because $f|_K$ is bounded since it is continuous on a compact space. Thus $|| f ||_\infty$ exists. Furthermore, it is trivial to show this is a normed space. Now suppose that $\{ f_n \}$ is Cauchy sequence. Then $| f_n(x) - f_m(x) | < || f_n - f_m ||$ so $\{ f_n(x) \}$ is Cauchy for each $x \in X$. Therefore, we can define a function,
+\[ f(x) = \lim_{n \to \infty} f_n(x) \]
+which exists because $\R$ is complete. I claim that $f_n \to f$ in the sup norm. Indeed, for any $\epsilon > 0$ we have $|| f_n - f_m || < \epsilon$ for $n,m > N$ with some $N$ so,
+\[ |f_n(x) - f_m(x) | < \epsilon \] 
+Taking the limit as $m \to \infty$ we find,
+\[ |f_n(x) - f(x) | < \epsilon \]
+and since this is a uniform bound for all $x \in X$ then $|| f_n - f || < \epsilon$ so $f_n \to f$. Now we need to show that $f \in C_0(X, \R)$. For continuity, it suffices to show that $x_0 \in f^{-1}(B_\epsilon(f(x_0)))$ has an open neighborhood for all $\epsilon > 0$ and $x_0 \in X$. Notice that we can choose $n$ large enough such that, $|| f_n - f || < \tfrac{\epsilon}{3}$ and by continuity of $f_n$ there is an open $x_0 \in U \subset f_n^{-1}(B_{\frac{\epsilon}{3}}(f_n(x_0)))$. We need to show that $f(U) \subset B_\epsilon(f(x_0))$. for $x \in U$,
+\[ | f(x) - f(x_0) | \le |f(x) - f_n(x)| + |f_n(x) - f_n(x_0)| + |f_n(x_0) - f(x_0)| < \tfrac{\epsilon}{3} + \tfrac{\epsilon}{3} + \tfrac{\epsilon}{3} = \epsilon \]
+and therefore $U \subset f^{-1}(B_\epsilon(f(x_0)))$ and $x_0 \in U$ so we find that $f$ is continuous. Finally, we need to show that $f$ vanishes at infinity. For any $\epsilon > 0$ we can find some $f_n$ such that $||f - f_n || < \tfrac{\epsilon}{2}$ and because $f_n \in C_0(X, \R)$ also a compact $K \subset X$ such that $|| f_n|_{X\setminus K} ||_{\infty} < \tfrac{\epsilon}{2}$. Then,
+\[ || f |_{X \setminus K} || \le || f - f_n || + || f_n |_{X \setminus K} || < \tfrac{\epsilon}{2} + \tfrac{\epsilon}{2} = \epsilon \]
+so $f$ vanishes at infinity.
+\end{proof}
+
+\begin{rmk}
+This proof is showing that uniform limits of continuous functions are continuous.
+\end{rmk}
+
+
+\begin{thm}[Stone-Weierstrass]
+Let $X$ be a locally compact Hausforff and $A \subset C_0(X, \R)$ be a subalgebra such that,
+\begin{enumerate}
+\item $A$ vanishes nowhere meaning for each $x \in X$ there is $f \in A$ with $f(x) \neq 0$
+
+\item $A$ separates points meaning for each $x, y \in X$ with $x \neq y$ there is $f \in A$ with $f(x) \neq f(y)$
+\end{enumerate}
+then $A$ is dense in $C_0(X, \R)$.
+\end{thm}
+
+\begin{cor}
+Polynomials with rational coefficients are dense in $C([a,b], \R)$ and thus $C([a,b], \R)$ is separable.
+\end{cor}
+
+\section{Duals and Weak-$*$ Topology}
+
+\subsection{Definitions}
+
+\begin{rmk}
+Here let $K$ be a complete normed field.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a topological $K$-vector space. Then the \textit{algebraic dual space} $X^\#$ is the space of linear functionals and the \textit{continuous dual space} $X'$ is the space of continuous (equivalently bounded if $X$ is normed) linear functionals.   
+\end{defn}
+
+\begin{rmk}
+Notice that if $X$ is a normed space then $X^{*} = \L(X, K)$ inherits the operator norm and is a Banach space with respect to this norm because $\K$ is complete.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a normed space. Consider the canonical map $\varphi : X \to X^{**}$ via sending $x \mapsto (\ell \mapsto \ell(x))$. First, notice that $\varphi(x)$ is a bounded operator because,
+\[ | \varphi(x)(\ell) | = | \ell(x) | \le || \ell || \cdot || x || \]
+and thus, 
+\[ || \varphi(x) ||_{X^{**}} \le || x || \]
+Therefore, $\varphi$ is a bounded operator $\varphi \in \L(X, X^{**})$ and a short map $|| \varphi || \le 1$. We say that $X$ is \textit{reflexive} if $\varphi$ is an isomorphism.
+\end{defn}
+
+\begin{prop}
+Let $X$ be a normed space. Then $\varphi$ is an isometry and is thus injective.
+\end{prop}
+
+\begin{proof}
+For each $x \in X$, by Hahn-Banach, there exists a linear functional $\ell_x : X \to K$ such that $\ell_x(x) = || x ||$ and $|| \ell_x || = 1$. Therefore,
+\[ || \varphi(x) || \ge | \varphi(x)(\ell_x) | = || x || \]
+but we already showed that $|| \varphi(x) || \le || x ||$ so indeed $|| \varphi(x) || = || x ||$. Injectivity follows from being an isometry because if $\varphi(x) = 0$ then $|| x || = || \varphi(x) || = 0$ so $x = 0$. We alternatively know that $X^*$ separates points again by the Hahn-Banach theorem so if $x \neq y$ then there is a linear functional $\ell$ such that $\ell(x) \neq \ell(y)$ and thus $\varphi(x)(\ell) \neq \varphi(y)(\ell)$ so $\varphi(x) \neq \varphi(y)$.
+\end{proof}
+
+\begin{thm}
+Let $X$ be a normed space. If $X^*$ is separable then $X$ is separable.
+\end{thm}
+
+\begin{cor}
+If $X$ is a reflexive Banach space then $X$ is separable if and only if $X^*$ is separable.
+\end{cor}
+
+
+\subsection{Reflexive Spaces}
+
+\begin{example}
+If $X$ is finite dimensional then $X$ is reflexive.
+\end{example}
+
+\begin{example}
+On a measure space $(\Omega, \F, \mu)$ for $1 < p < \infty$ we have $L^p(\Omega)^* \cong L^q(\Omega)$ where $p^{-1} + q^{-1} = 1$. Therefore $L^p(\Omega)$ is reflexive. However, for $p = 1, \infty$ this does not hold.
+\end{example}
+
+\begin{example}
+Indeed, here we consider the $p = \infty$ case. Consider $X = C([-1,1], \R)$ with the sup-norm. By Hahn-Banach, for any $\ell \in X^*$ there is some $\varphi \in X^{**}$ such that $||\varphi || = 1$ and $\varphi(\ell) = || \ell ||$. If we assume that $X$ is reflexive then $\varphi$ is in the image and thus $\varphi(\ell) = \ell(x)$ for some $x \in X$. However, consider,
+\[ \ell(g) = \int_{-1}^0 g(t) \d{t} - \int_0^1 g(t) \d{t} \]
+Then $|| \ell || \le 2$ so there exists some $f \in X$ with $|| f || = 1$ and $\ell(f) = 2$. However, $| \ell(f) | < 2$ for all $f$ with $|| f || = 1$ giving a contradiction.
+\end{example}
+
+\begin{thm}[Riesz]
+Let $H$ be a Hilbert space. Then, $\inner{-}{-}$ defines an isomorphism $H \to \overline{H}^*$ via $x \mapsto \inner{x}{-}$ where $\overline{H}^*$ is the conjugate dual space or equivalently the space of continuous anti-linear functionals.
+\end{thm}
+
+\begin{cor}
+Any Hilbert space is reflexive.
+\end{cor}
+
+\begin{proof}
+Since $\overline{H}^*$ is a Hilbert space there are canonical isomorphisms by Riesz $\varphi_1 : H \to \overline{H}^*$ and $\varphi_2 : \overline{H}^* \to H^{**}$. It suffices to show that $\varphi_2 \circ \varphi_1 = \varphi$ where $\varphi : H \to H^{**}$ is the canonical map considered above. Indeed, for any $x \in H$ and $\ell \in H^*$ consider,
+\[ (\varphi_2 \circ \varphi_1)(x)(\ell) = \varphi_2(\inner{x}{-})(\ell) = \inner{\inner{x}{-}}{\ell}_{H^*} \]
+However, by Riesz we know that $\ell = \inner{y}{-}$ for some $y \in H$ and that $\varphi_1$ is an isometry (although anti-linear so it reverses the inner product) so,
+\[ (\varphi_2 \circ \varphi_1)(x)(\ell) = \inner{y}{x} = \ell(x) \]
+\end{proof}
+
+\begin{prop}
+If $X$ is a normed space and $V \subset X$ is a closed linear subspace. If $X$ is reflexive then so is $V$.
+\end{prop}
+
+\begin{proof}
+We need to prove that if $\psi \in Y^{**}$ then there exists $y \in Y$ such that $\varphi_Y(y) = \psi$. Under the canonical map $Y^{**} \to X^{**}$ we see that any $\psi \in Y^{**}$ maps to the image of $\varphi_X : X \to X^{**}$ so there is some $x \in X$ such that the image $\psi'$ of $\psi$ under $Y^{**} \to X^{**}$ satisfies,
+\[ \forall \ell \in X^* : \psi'(\ell) = \psi(\ell|_Y) = \ell(x) \]
+Therefore it suffices to show that $x \in Y$ since by Hahn-Banach we can extend any linear functional on $Y$ to $X$ such that its restriction is unchanged. Suppose not, there there exists some $m \in X^*$ such that $m|_Y = 0$ and $m(x) \neq 0$ by Hahn-Banach. Now, clearly,
+\[ \psi'(m) = \psi(m|_Y) = 0 \]
+However, $\psi'(m) = m(z) \neq 0$ giving a contradiction so $z \in Y$ and thus $Y$ is reflexive.
+\end{proof}
+
+
+\subsection{Weak Convergence}
+
+\begin{defn}
+Let $X$ be a topological $K$-vector space. We say a sequence $x_n \in X$ \textit{converges weakly} to $x \in X$ or $x_n \to x$ weakly if the sequence converges in the weak topology $\sigma(X, X^*)$ on $X$. Explicilty, $x_n \to x$ weakly if for every $\ell \in X^*$ we have,
+\[ \lim_{n \to \infty} \ell(x_n) = \ell(x) \]
+\end{defn}
+
+\begin{rmk}
+From here on let $X$ be a normed space.
+\end{rmk}
+
+\begin{prop}
+Bounded linear operators $T : X \to Y$ are weakly continuous.
+\end{prop}
+
+\begin{proof}
+If $T : X \to Y$ is bounded then it is continuous in the norm topology. Thus for any continuous linear functional $\ell \in Y^*$ we know that $T^* \ell = \ell \circ T \in X^*$ is a continuous linear functional and thus continuous in the weak topology on $X$. Therefore, $T : X \to Y$ is continuous in the weak topologies.
+\end{proof}
+
+\begin{prop}
+If $x_n \in X$ is a weakly convergent sequence then $\{ x_n \}$ is bounded.
+\end{prop}
+
+\begin{proof}
+Consider the operators $\ev_{x_n} \in X^{**}$. Because $x_n$ converges weakly, for each $\ell \in X^*$ we know that,
+\[ \lim_{n \to \infty} \ell(x_n) = \lim_{n \to \infty} \ev_{x_n}(\ell) \]
+exists and thus $\{ \ev_{x_n}(\ell) \}$ is bounded. Since $X^*$ is a Banach space, we can apply Banach-Steinhaus to the sequence of pointwise bounded operators $\{ \ev_{x_n} \} \subset \L(X^*, K)$ to conclude that $\{ \ev_{x_n} \}$ is uniformly bounded. Therefore,
+\[ || x_n || = \sup_{|| \ell || = 1} | \ell(x_n) | = \sup_{| \ell | = 1} | \ev_{x_n}(\ell) | = || \ev_{x_n} || \]
+is uniformly bounded.
+\end{proof}
+
+\begin{prop}[Lower semi-continuity of weak limits]
+Let $x_n \to x$ weakly. Then,
+\[ || x || \le \liminf_{n \to \infty} || x_n || \]
+\end{prop}
+
+\begin{proof}
+By Hahn-Banach, there exists some $\ell \in X^*$ with $| \ell(x) | = || x ||$ and $|| \ell || = 1$. Therefore,
+\[ || x || = | \ell(x) | = \lim_{n \to \infty} | \ell(x_n) | = \liminf_{n \to \infty} | \ell(x_n) | \le \liminf_{n \to \infty} || x_n || \cdot || \ell || = \liminf_{n \to \infty} || x_n || \]
+\end{proof}
+
+\begin{lemma}
+Suppose that $C \subset X$ is convex and (norm) closed then $C$ is weakly closed.
+\end{lemma}
+
+\begin{proof}
+Let $C$ be a closed and convex. Then for any $x_0 \notin C$ by convex Hahn-Banach there is some $\ell \in X^*$ and $\alpha \in \R$ such that $f(x_0) < \alpha < f(x)$ for all $x \in X$. Then $f^{-1}((-\infty, \alpha))$ is a weakly open neighborhood of $x$ in $C^C$ so $C$ is weakly closed.
+\end{proof}
+
+\begin{prop}
+If $\varphi : X \to \R$ is convex and lower semi-continuous in the norm topology then $\varphi$ is lower semi-continuous in the weak topology on $X$.
+\end{prop}
+
+\begin{proof}
+It suffices to show that $C_\alpha = \varphi((-\infty, \alpha])$ is weakly closed. Since $\varphi$ is lower semi-cotinuous in the norm topology $C_\alpha$ is norm closed. Furthermore, because $\varphi$ is convex if $a, b \in C_\alpha$ then for any $\lambda \in [0,1]$,
+\[ f(\lambda a + (1 - \lambda b)) \le \lambda f(a) + (1 - \lambda) f(b) \le \lambda \alpha + (1 - \lambda) \alpha = \alpha \]
+Therefore, $C_\alpha$ is convex so it is weakly closed by above. Therefore $\varphi$ is weakly lower semi-continuous.
+\end{proof}
+
+\begin{rmk}
+Since $|| \bullet || : X \to \R$ is convex and norm continuous we get another proof of the weak lower semi-continuity.
+\end{rmk}
+
+\begin{prop}
+If $X$ and $Y$ are Banach spaces and $T : X \to Y$ is linear then $T$ is bounded if and only if $T$ is weakly continuous.
+\end{prop}
+
+\begin{proof}
+One direction is immediate. Suppose that $T : X \to Y$ is weakly continuous. To show that $T$ is continuous it suffices to show that its graph is closed. Let $x_n \to x$ and $T x_n \to y$ in norm. Then $x_n \to x$ weakly so $T x_n \to T x$ weakly and thus $T x = y$ because $T x_n \to y$ weakly and weak limits are unique.
+\end{proof}
+
+
+\subsection{The Weak-$*$ Topology}
+
+\begin{rmk}
+When $X$ is a normed space we know that $X^*$ is also normed (in fact it is Banach) so we get a canonical topology on $X^*$ compatible with the vector space structure. However, in general it is not clear how to topologize $X^*$. One option is the weak-$*$ topology which we now define although this will usually not agree with the norm topology when one is available.
+\end{rmk}
+
+\begin{defn}
+The weak-$*$ topology on $X^*$ is the coarsest topology on which the maps $\ell \mapsto \ell(x)$ for $x \in X$ are continuous. 
+\end{defn}
+
+\begin{prop}
+Using weak-$*$ topology, the canonical map $\varphi : X \to X^{**}$ is continuous.
+\end{prop}
+
+\begin{proof}
+First we must check that $\varphi$ is actually well-defined. Then $\varphi(x) : \ell \mapsto \ell(x)$ is continuous by hypothesis and thus $\varphi(x) \in X^{**}$. Furthermore, we topologize $X^{**}$ with the weak-$*$ topology induced by the weak-$*$ topology on $X$. Therefore, for any $\ell \in X^*$ we know that $e_\ell : \psi \mapsto \psi(\ell)$ is continuous. In particular, $\varphi$ is continuous iff $e_\ell \circ \varphi$ is continuous for all $\ell \in X^*$. However, $e_\ell \circ \varphi : x \mapsto \ell(x)$ is continuous by the definition of the weak-$*$ topology on $X^*$.
+\end{proof}
+
+\begin{rmk}
+Sometimes the weak-$*$ topology is called the ``topology of pointwise convergence'' because a net $f_\bullet$ in $X^*$ converges to $f$ iff $f_\bullet(x)$ coverges to $f(x)$ for each $x \in X$.
+\end{rmk}
+
+\begin{prop}
+If $X$ is a Banach space and $\ell_n \in X^*$ is a weak-$*$ convergent sequence then $\{ \ell_n \}$ is bounded.
+\end{prop}
+
+\begin{proof}
+For each $x \in X$, notice that, 
+\[ \lim_{n \to \infty} \ell_n(x) \]
+exists and thus $\{ \ell_n \} \subset \L(X, K)$ is a pointwise bounded sequence of operators. Because $X$ is Banach we can apply Banach-Steinhaus to conclude that $\{ \ell_n \}$ is uniformly bounded.
+\end{proof}
+
+\begin{thm}[Banach-Alaoglu]
+Let $X$ be a topological vector space and $U \subset X$ a neighborhood of the origin. Then,
+\[ U^\circ = \{ \ell \in X^* \mid \sup_{x \in U} | \ell(x) | \le 1 \} \]
+is compact in the weak-$*$ topology.
+\end{thm}
+
+\begin{cor}
+Let $X$ be a normed space and $B = \{ x \in X \mid || x || \le 1 \}$. Then,
+\[ B^\circ = \{ \ell \in X^* \mid \sup_{x \in U} | \ell(x) | \le 1 \} = \{ \ell \in X^* \mid || \ell || \le 1 \} = B^* \]
+is compact in the weak-$*$ topology. 
+\end{cor}
+
+\begin{prop}
+Let $X$ be a Banach space. Then $B = \{ x \in X \mid || x || \le 1 \}$ is compact in the weak topology on $X$ if and only if $X$ is reflexive.
+\end{prop}
+
+\begin{proof}
+If $X$ is reflexive then $X \to X^{**}$ is an isomorphism. Furthermore, the weak-$*$ topology on $X^{**}$ is equal to the weak topology on $X$ under this isomorphism because the weak-$*$ topology is the weakest topology for which $\psi = \ev_x \mapsto \ev_x(\ell) = \ell(x)$ is continuous which is exactly the weak topology on $X$. Furthermore, $X \to X^{**}$ is isometric so the unit balls agree. Therefore, by Banach-Alaoglu, $B$ is compact. Conversely, suppose that $B$ is compact. (HOW TO SHOW THIS!!!)
+\end{proof}
+
+\begin{prop}
+If $X$ is a separable normed space then $B^*$ in the weak topology is metrizable.
+\end{prop}
+
+\begin{proof}
+We apply Spring 2010 part 2 Q2. Let $\{ x_i \} \subset X$ be a dense countable set then $f_i = \ev_{x_i}$ are continuous on $X^*$ in the weak-$*$ topology. Furthermore, for $\ell_1, \ell_2 \in X^*$ if $\ell_1(x_i) = \ell_2(x_i)$ for all $x_i$ then $\ell_1 = \ell_2$ because $\C$ is Hausdorff and $\{ x_i \}$ is dense. Therefore $f_j$ separate points. Furthermore, by Banach-Alaoglu, $B^*$ is compact so we apply the problem to conclude that $B^*$ is metrizable in the weak topology.
+\end{proof}
+
+\begin{lemma}
+Let $X$ be an infinite dimensional normed space. In the weak topology, $\overline{S} = B$.
+\end{lemma}
+
+\begin{proof}
+Let $|| x_0 || \le 1$. Now any weakly open neighborhood contains an open of the form,
+\[ U = \bigcap_{i = 1}^n (f_i^{-1}(B_\epsilon(0)) + x_0) \]
+for some $f_i \in X^*$. Then consider the map $f : V \to K^n$ via $x \mapsto (f_1(x), \dots, f_n(x))$. Because $V$ is not finite dimensional, $f$ cannot be injective. Choose some $y_0 \neq 0$ with $f(y_0) = 0$. Then $f_i(t y_0) = 0$ for all $t$ and therefore $x_0 + t y_0 \in U$. Let $g(t) = || x_0 + t y_0 ||$. Notice that $g(0) = || x_0 || \le 1$ and $g(t) \to \infty$ as $t \to \infty$ because,
+\[ g(t) \ge | |t| || y_0|| - || x_0 || | \]
+and $|| y_0 || > 0$. Therefore, there exists some $t \in \R$ such that $g(t) = 1$. Therefore, $x_0 + t y_0 \in U \cap S$ so we see that $x_0$ is a weak limit point of $S$. Therefore, $B \subset \overline{S}$. However, $B$ is weakly closed because it is convex and norm closed. Therefore, $B = \overline{S}$.
+\end{proof}
+
+\section{Measure Theory}
+
+\begin{prop}[Chebyshev]
+Let $(\Omega, \F, \mu)$ be a measure space and $f$ a measurable function and $\epsilon > 0$. Then,
+\[ \mu(\{x \in X \mid | f(x) | \ge \epsilon \}) \le \frac{1}{\epsilon} \int_X |f| \, \d{\mu} \]
+\end{prop}
+
+\begin{rmk}
+The following establishes the continuity of the Lebesgue integral. 
+\end{rmk}
+
+\begin{prop}
+Let $(\Omega, \F, \mu)$ be a measure space and $f : X \to \hat{\R}$ an integrable function with $X \in \F$. Then for any $\epsilon > 0$ there exists $\delta > 0$ such that for all $E \in \F$ with $\mu(E) < \delta$,
+\[ \left| \int_E f \, \d{\mu} \right| < \epsilon \]
+\end{prop}
+
+\begin{proof}
+Because,
+\[ \left| \int_E f \, \d{\mu} \right| \le \int_E |f| \, \d{\mu} \]
+it suffices to assume that $f \ge 0$. Now by definition,
+\[ \int_X f \, \d{\mu} = \int_0^\infty f^*(t) \, \d{t} = \lim_{s \to \infty} \int_0^{s} f^*(t) \, \d{t} \]
+where $f^*(t) = \mu(\{ x \in X \mid f(x) > t \})$ exists. Because the integral is an increasing function bounded by its limit, there exists some $s_0$ such that,
+\[ \int_{s_0}^\infty f^*(t) \, \d{t} < \frac{\epsilon}{2} \]
+Now set $\delta = \frac{\epsilon}{2 s_0}$ and suppose that $\mu(E) < \delta$. Then consider,
+\[ \left| \int_E f \, \d{\mu} \right| = \int_0^\infty f^*_E(t) \, \d{t} \]
+where,
+\[ f^*_E(t) = \mu(\{ x \in E \mid f(t) > x \}) = \mu(\{ x \in X \mid f(t) > x \} \cap E) \le \mu(E) < \delta \]
+so $f_E^*(t) \le f^*(t)$ and $f_E^*(t) < \delta$. Therefore,
+\[ \left| \int_E f \, \d{\mu} \right| = \int_0^{s_0} f_E^*(t) \, \d{t} + \int_{s_0}^\infty f_E^*(t) \, \d{t} < \int_0^{s_0} \delta \, \d{t} + \int_{s_0}^\infty f^*(t) \, \d{t} < s_0 \delta + \tfrac{\epsilon}{2} = \epsilon \]
+\end{proof}
+
+
+\section{Spectral Theory}
+
+\renewcommand{\C}{\mathbb{C}}
+
+\begin{defn}
+Let $X$ be a complex Banach space and $T : X \to X$ a bounded operator. Define the \textit{spectrum},
+\[ \sigma(T) := \{ \lambda \in \C \mid (T - \lambda I) \text{ not invertible} \} \]
+and the \textit{resolvent}
+\[ \rho(T) := \{ \lambda \in \C \mid (T - \lambda I) \text{ invertible} \} = \C \setminus \sigma(T) \]
+By the bounded inverse theorem $T - \lambda I$ is invertible iff it is bijective. Therefore, we can decompose,
+\[ \sigma(T) = \sigma_p(T) \cup \sigma_c(T) \cup \sigma_r(T) \]
+where,
+\begin{align*}
+\sigma_p(T) & := \{ \lambda \in \C \mid (T - \lambda I) \text{ not injective} \}
+\\
+\sigma_p(T) & := \{ \lambda \in \C \mid (T - \lambda I) \text{ injective but not surjective and } \overline{\Im{T}} = X \}
+\\
+\sigma_r(T) & := \{ \lambda \in \C \mid (T - \lambda I) \text{ injective but not surjective and } \overline{\Im{T}} \neq X \}
+\end{align*}
+\end{defn}
+
+\subsection{Some Lemmas}
+
+\begin{lemma}
+If $S : X \to Y$ and $T : Y \to Z$ are bounded operators then $T \circ S$ is bounded and,
+\[ || T \circ S || \le || T || \cdot || S || \]
+\end{lemma}
+
+\begin{proof}
+Since $|| T y || \le || T || \cdot || y ||$ for any $y \in Y$,
+\[ || T \circ S || = \sup_{|| x || = 1} || T(S(x)) || \le \sup_{|| x || = 1} ||T|| \cdot || S x || = || T || \cdot || S || \]
+\end{proof}
+
+\begin{lemma}
+Let $X, Y, Z$ be normed spaces and $T : Y \to Z$ a bounded operator. Then composition $T \circ - : \L(X, Y) \to \L(X, Z)$ is a bounded operator and thus continuous.
+\end{lemma}
+
+\begin{proof}
+We have shown that for any $S \in \L(X, Y)$ that $T \circ S$ is bounded and, 
+\[ || T \circ S || \le || T || \cdot || S || \]
+and therefore $|| T \circ - ||_{\L(X, Y) \to \L(X, Z)} \le || T ||_{\L(Y, Z)}$ so $T \circ -$ is a bounded operator. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Banach space. Suppose that $S \in \L(X, X)$ has $|| S || < 1$. Then $(I - S)$ is invertible and in fact,
+\[ (I - S)^{-1} = \sum_{n = 0}^{\infty} S^n \]
+\end{lemma}
+
+\begin{proof}
+First, we need to show that, 
+\[ Q = \lim_{n \to \infty} Q_n \text{ where } Q = \sum_{i = 0}^n S^i \] 
+exists. We know that $|| S^n || \le || S ||^n = r^n$ and thus since $r = || S || < 1$ this is a Cauchy sequence because,
+\[ || Q_{n + k} - Q_n || = || S^n Q_k || \le || S^n || \cdot || Q_k || \le || Q_k || \cdot r^n \]
+Furthermore, by the triangle inequality, $|| Q_k || \le 1 + r + \cdots + r^k = \frac{1 - r^{k+1}}{1 - r}$ and thus,
+\[ || Q_{n + k} - Q_n || \le r^n \cdot \frac{1 - r^{k+1}}{1 - r} < \frac{r^n}{1 - r} \to 0 \]
+Therefore, the limit exists because $X$ is a Banach space so $\L(X, X)$ is also Banach. Thus $Q$ is well-defined. Now we apply the continuity of composition to see that,
+\[ (I - S) \circ Q = \lim_{n \to \infty} \sum_{i = 0}^n (S^i - S^{i + 1}) = \lim_{n \to \infty} (I - S^{n+1}) = I \]
+because $|| (I - S^{n+1}) - I || = || S^{n+1} || \le r^{n+1} \to 0$. Clearly the operators commute so $q \circ (I - S) = I$ as well. 
+\end{proof}
+
+\subsection{Basic Properties}
+
+\begin{rmk}
+We write $\L(X) := \L(X, X)$.
+\end{rmk}
+
+\begin{thm}
+Let $X$ be a Banach space and $T \in \L(X)$ a bounded operator. Then,
+\begin{enumerate}
+\item $\sigma(T) \subset \C$ is closed
+\item for any $\lambda \in \rho(T)$ we have $B_\delta(\lambda) \subset \rho(T)$ where $\delta = || (T - \lambda I)^{-1} ||^{-1} \le d(\lambda, \sigma(T))$
+\item the map $\rho(T) \to \L(X)$ via $\lambda \mapsto (T - \lambda I)^{-1}$ is analytic.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Clearly (b) implies (a) since $\sigma(T) = \rho(T)^C$. Choose $\lambda_0 \in \rho(T)$ and set $C = || (T - \lambda_0 I)^{-1} ||$ which exists by the definition of $\rho(T)$. Let $\delta = C^{-1}$ and consider $\lambda \in \C$ such that $|\lambda - \lambda_0 | < \delta$. Then compute,
+\[ (T - \lambda I) = (T - \lambda_0 I) - (\lambda - \lambda_0) I = (I - \lambda_0 I) \circ [ I - (\lambda - \lambda_0) \cdot (T - \lambda_0 I)^{-1} ] \]
+Now let $S = (\lambda - \lambda_0) \cdot (T - \lambda_0 I)^{-1}$ and notice that,
+\[ || S || = | \lambda - \lambda_0 | \cdot || (T - \lambda_0 I)^{-1} || < \delta \cdot C = 1 \]
+Therefore, $I - S$ is invertible so $(T - \lambda I) = (I - \lambda_0 I) \circ (I - S)$ is the composition of invertible bounded operators and thus is invertible itself (as a bounded operator meaning its inverse is also in $\L(X)$). Therefore, $\lambda \in \rho(T)$ showing that $B_\delta(\lambda_0) \subset \rho(T)$ so $\rho(T)$ is open proving (b). Furthermore, we know the explict inverse of $I - S$ is,
+\[ (I - S)^{-1} = \sum_{n = 0}^\infty S^n \]
+Therefore, by the continuity of the composition,
+\[ (T - \lambda I)^{-1} = (I - S)^{-1} \circ (T - \lambda_0 I)^{-1} = \sum_{n = 0}^\infty S^k \circ (T - \lambda_0 I)^{-1} = \sum_{n = 0}^\infty (T - \lambda_0 I)^{-(n+1)} \cdot (\lambda - \lambda_0)^n \]
+whenever $| \lambda - \lambda_0 | < \delta$. Therefore, the map $\lambda \mapsto (T - \lambda I)^{-1}$ is locally computed by an operator-valued power series in $(\lambda - \lambda_0)$ and thus is analytic. Finally, if $\lambda \in \sigma(T)$ then $\lambda \notin \rho(T)$ so $| \lambda - \lambda_0 | \ge \delta$ and thus,
+\[ d(\lambda_0, \sigma(T)) = \inf_{\lambda \in \sigma(T)} | \lambda - \lambda_0 | \ge \delta = C^{-1} = || (T - \lambda_0 I)^{-1} ||^{-1} \]
+\end{proof}
+
+\subsection{Spectral Radius}
+
+\begin{defn}
+For an operator $T : X \to X$ define the \textit{spectral radius}
+\[ r(T) = \sup_{\lambda \in \sigma(T)} |\lambda| \]
+\end{defn}
+
+
+\begin{prop}
+When $|\lambda| > || T ||$ the following series converges,
+\[ (T - \lambda I)^{-1} = - \frac{1}{\lambda} \sum_{n = 0}^\infty \left( \frac{T}{\lambda} \right)^n \]
+\end{prop}
+
+\begin{proof}
+Let $S = \frac{T}{\lambda}$. Since $|| T || < |\lambda|$ then $|| S || < 1$ so by the previous lemma the sum exists and,
+\[ \sum_{n = 0}^\infty \left( \frac{T}{\lambda} \right)^n = (I - S)^{-1} =  - \lambda (T - \lambda I)^{-1} \]
+\end{proof}
+
+\begin{cor}
+For any $|\lambda| > || T ||$ we see that $\lambda \in \rho(T)$ and thus $r(T) \le || T ||$.
+\end{cor}
+
+\begin{prop}
+We have the following formula,
+\[ r(T) = \lim_{n \to \infty} || T^n ||^{\frac{1}{n}} \]
+\end{prop}
+
+\begin{proof}
+DO THIS!!!!
+\end{proof}
+
+\begin{rmk}
+Notice that $|| T^n || \le || T ||^n$ and therefore we again see that $r(T) \le || T ||$.
+\end{rmk}
+
+\begin{rmk}
+We always know that $1 = || \id || \le || T || \cdot || T^{-1} ||$. However, the following tells us exactly when this inequality is strict.
+\end{rmk}
+
+\begin{prop}
+An invertible operator with $|| T^{-1} || = || T ||^{-1}$ has $\sigma(T) \subset S^1 \cdot || T ||$.
+\end{prop}
+
+\begin{proof}
+Assume that $|| T^{-1} ||^{-1} = || T ||$. We know that $r(T) \le || T ||$ so it suffices to show that if $\lambda \in \sigma(T)$ then $|\lambda| \ge || T ||$. Indeed, since by assumption $0 \in \rho(T)$ we see that $B_\delta(0) \subset \rho(T)$ where $\delta = || T^{-1} ||^{-1} = || T ||$ and thus if $\lambda \in \sigma(T)$ then $\lambda \notin B_\delta(0)$ so $| \lambda | > || T ||$ proving the result.
+\end{proof}
+
+\begin{rmk}
+In general, if $T$ is invertible then $\sigma(T)$ is contained in the annulus,
+\[ \sigma(T) \subset \{ \lambda \in \C \mid || T^{-1} ||^{-1} \le |\lambda| \le || T || \} \]
+\end{rmk}
+
+\subsection{Some More Properties of the Spectrum}
+
+\begin{prop}
+Let $T : X \to X$ be a bounded operator on a Banach space. Then,
+\begin{enumerate}
+\item $\sigma(T) \subset \C$ is compact
+\item if $X \neq \{ 0 \}$ then $\sigma(T)$ is nonempty
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We know that $\sigma(T) \subset \C$ is closed and also
+\[ \sup_{\lambda \in \sigma(T)} |\lambda| = r(T) \le || T || \]
+so $\sigma(T)$ is bounded and thus compact. Now suppose that $\sigma(T)$ is empty. For any $\ell \in \L(X)^*$ we see that the function $g : \C \to \C$ given by $\lambda \mapsto \ell((T - \lambda I)^{-1})$ is entire because $\lambda \mapsto (T - \lambda I)^{-1}$ is analytic everywhere and $\ell$ is continuous and linear so,
+\[ g(\lambda) = \ell( (T - \lambda I)^{-1} ) = \ell \left( \sum_{n = 0}^\infty (T - \lambda_0 I)^{-(n+1)} \cdot (\lambda - \lambda_0)^n \right) = \sum_{n = 0}^\infty \ell((T - \lambda_0 I)^{-(n+1)}) \cdot (\lambda - \lambda_0)^n \]
+for $| \lambda - \lambda_0 | < \delta$ and thus $g$ is holomorphic about $\lambda_0$ for each $\lambda_0 \in \rho(T) = \C$. Since $g$ is continuous on $\overline{B_{2 || T ||}(0)}$ it is bounded. Furthermore, for $|\lambda| > || T ||$ we know that the following series is convergent,
+\[ (T - \lambda I)^{-1} = - \frac{1}{\lambda} \sum_{n = 0}^\infty \left( \frac{T}{\lambda} \right)^n \] 
+and therefore,
+\[ g(\lambda) = - \frac{1}{\lambda} \sum_{n = 0}^\infty \frac{\ell(T^n)}{\lambda^n} \]
+is convergent but $|\ell(T^n)| \le || \ell || \cdot || T^n || \le || \ell || \cdot || T ||^n$ and therefore for $|\lambda| > 2 || T ||$, 
+\[ |g(\lambda)| \le - \frac{1}{|\lambda|} \sum_{n = 0}^\infty || \ell || \left( \frac{|| T ||}{|\lambda|} \right)^n = \frac{|| \ell ||}{|\lambda| - || T ||} < \frac{|| \ell ||}{|| T ||} \]
+is bounded. Therefore $g$ is entire and bounded and thus must be constant. Furthermore, the above calculation shows that $g(\lambda) \to 0$ as $| \lambda| \to \infty$ so $g = 0$ and thus $(T - \lambda I)^{-1} = 0$ which is impossible unless $X = \{ 0 \}$ in which case the $I = 0$ is invertible. Thus if $X \neq \{ 0 \}$ then $\sigma(T)$ is nonempty.
+\end{proof}
+
+
+\section{Compact Operators on Normed Spaces}
+
+\subsection{Definition and Basic Properties}
+
+\begin{rmk}
+First we recall the following generalization of Heine-Borel to any complete metric space.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a complete metric space. Then $S \subset X$ is compact if and only if $S$ is closed and totally bounded meaning that for any $\epsilon > 0$ there exists a finite open cover of $S$ by balls of radius $\epsilon$.
+\end{prop}
+
+\begin{defn}
+A linear operator $T : X \to Y$ between normed spaces is compact if for any bounded $B \subset X$ then $\overline{T(B)} \subset Y$ is compact. 
+\end{defn}
+
+\begin{example}
+If $Y$ is finite dimensional then every closed and bounded subset is compact. Therefore, bounded linear operators with finite dimensional codimans are compact.
+\end{example}
+
+\begin{prop}
+Compact operators are bounded and thus continuous.
+\end{prop}
+
+\begin{proof}
+Consider the bounded subset $B = \{ x \in X \mid || x || \le 1 \}$. Then, $\overline{T(B)}$ is compact and in particular $T(B) \subset \overline{T(B)}$ is bounded. Therefore,
+\[ \sup_{||x|| \le 1} || T x || = \sup_{y \in T(B)} || y || < \infty \]
+\end{proof}
+
+
+\begin{prop}
+Let $T_n : X \to Y$ be a sequence of compact linear operators with $Y$ Banach. Suppose that $T_n \to T$ in the norm topology on $\L(X, Y)$. Then $T$ is compact.
+\end{prop}
+
+\begin{proof}
+It suffices to show that for any bounded $B \subset X$ that $T(B)$ is totally bounded. Let $B$ be bounded from zero by $M$. For each $\epsilon > 0$ we can find an $n$ such that $|| T -  T_n || < \frac{\epsilon}{2M}$ and a finite cover $\{ B_{\frac{\epsilon}{2}}(y_i) \}_{i \in I}$ of $T_n(B)$.  For $x \in B$ we know that,
+\[ || (T - T_n) x || \le || T - T_n || \cdot || x || < \frac{\epsilon}{2} \]
+But $T_n x \in T_n(B)$ so there is some $y_i$ such that $T_n x \in B_{\frac{\epsilon}{2}}(y_i)$ thus $T x \in B_\epsilon(y_i)$ because,
+\[ || y - T x || \le || y - T_n x || + || T x - T_n x || < \epsilon \]
+Therefore, $\{ B_\epsilon(y_i) \}$ provides a finite cover of $T(B)$ by $\epsilon$-balls so $T(B)$ is precompact.  
+\end{proof}
+
+\begin{rmk}
+We did not assume that $X$ is Banach in the above proposition. However, if $Y$ is 
+\end{rmk}
+
+\begin{cor}
+Let $Y$ be a Banach space. The space of compact operators $\K(X, Y) \subset \L(X, Y)$ is closed in the norm topoolgy on $\L(X, Y)$.
+\end{cor}
+
+\begin{proof}
+Since $\L(X, Y)$ is a normed space it is sequential. We have shown that, when $Y$ is Banach, limits of compact operators are compact and thus $\K(X, Y) \subset \L(X, Y)$ is sequentially closed and thus closed.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a normed space and $Y$ a Banach space and $T_n \in \L(X, Y)$ a sequence of finite rank operators converging to $T \in \L(X, Y)$. Then $T$ is compact.
+\end{cor}
+
+\begin{proof}
+Finite rank bounded operators are compact and therefore $T_n \to T$ implies that $T$ is compact.
+\end{proof}
+
+\begin{prop}
+Let $T : X \to Y$ be compact. If $x_n \to x$ weakly then $T x_n \to T x$ in norm.
+\end{prop}
+
+\begin{proof}
+By replacing $x_n$ by $x_n - x$ we can assume that $x_n \to 0$ weakly. Because bounded operators are continuous in the weak topology so $T x_n \to 0$ weakly. Assume that $T x_n$ does not converge in norm. Then there is some $\epsilon > 0$ such that $|| T x_n || \ge \epsilon$ infinitely often. Passing to a subsequence, we may assume that $|| T x_n || \ge \epsilon$ for all $n$ and $x_n \to 0$ weakly. 
+\bigskip\\
+Furthermore, since $X$ is Banach, weakly convergent sequences are bounded so for some bounded set $B$ we have $\{ x_n \} \subset B$ and thus $\{ T x_n \} \subset \overline{T(B)}$ with $\overline{T(B)}$ compact. Because $Y$ is a metric space, $\overline{T(B)}$ is sequentially compact and thus $\{ T x_n \}$ has a convergent subsequence. Therefore, $T x_{n_j} \to y$ in norm and,
+\[ || y || = \lim_{j \to \infty} || T x_{n_j} || \ge \epsilon \]
+so $y \neq 0$. However, then $T x_{n_j} \to y$ weakly contradicting the fact that $T x_{n_j} \to 0$ weakly because weak limits are unique and any subsequence of a convergent subsequence is also convergent to the same limit.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a separable Hilbert space and $T : X \to Y$ a compact operator. Choose any orthonormal basis $\{ e_i \}$ of $X$. Then $T e_i \to 0$ in norm.
+\end{cor}
+
+\begin{proof}
+By above, it suffices to show that $e_i \to 0$ weakly. For any $x \in X$,
+\[ || x || = \sum_{i = 1}^\infty | \inner{e_i}{x} |^2 < \infty \implies \lim_{i \to \infty} \inner{e_i}{x} = 0 \]
+proving that $e_i \to 0$ weakly.
+\end{proof}
+
+\subsection{Examples and Ascoli's Theorem}
+
+\begin{thm}[Ascoli]
+Let $X$ be a compact Hausdorff space. Then a subset $B \subset C(X)$ is precompact if and only if it is (pointwise) equicontinuous and pointwise bounded meaning that,
+\begin{enumerate}
+\item for all $\epsilon > 0$ there is a neighrborhood $U_x$ of each $x \in X$ such that $| f(x) - f(y) | < \epsilon$ for all $f \in B$ and $y \in U_x$
+\item $\sup\limits_{f \in B} |f(x)| < \infty$ for each $x \in X$.
+\end{enumerate}
+\end{thm}
+
+
+\begin{prop}
+Let $X, Y$ be metric spaces with $Y$ compact and $X$ equiped with a Borel measure. Let $K : X \times Y \to \R$ be a function with $K(-,y)$ integrable for each $y \in Y$ and such that $\forall \epsilon > 0$ there exists $g \in L^1(X)$ with $|| g ||_1 < \epsilon$ and $\delta > 0$ such that $|K(-,y_1) - K(-.y_2)| < |g|$ almost everywhere whenever $|y_1 - y_2| < \delta$. Then the linear operator $T : C_0(X) \to C(Y)$ defined by,
+\[ (T f)(y) = \int_X K(x, y) f(x) \, \d{\mu_X} \]
+is compact.
+\end{prop}
+
+\begin{proof}
+First we need to show that $T f$ is well-defined. For each $y \in Y$ the function $K(x, y) f(x)$ is integrable because,
+\[ |(T f)(y)| = \left| \int_X K(x, y) f(x) \, \d{\mu_X} \right| \le \int_X | K(x, y) f(x) | \, \d{\mu_X} \le \left( \int_X |K(x, y)| \, \d{\mu_X} \right) || f ||_{\infty} \]
+and $K(-,y)$ is integrable. Furthermore, this shows that,
+\[ || T f ||_\infty \le \sup_{y \in Y} \left( \int_X |K(x, y)| \, \d{\mu_X} \right) \cdot || f ||_{\infty} \]
+However, I claim that the integral is continuous. Indeed, for any $\epsilon > 0$ there exists $\delta > 0$ and $g \in L^1(X)$ so that whenever $|y_1 - y_2| < \delta$ we have,
+\[ \left| \int_X |K(x, y_1)| \, \d{\mu_X} - \int_X |K(x, y_2)| \, \d{\mu_X} \right| \le \int_X |K(x, y_1) - K(x, y_2)| \, \d{\mu_X} \le \int_X |g| \, \d{\mu_X} < \epsilon \]
+Thus the integral is absolutely continuous and $Y$ is compact so the supremum exists,
+\[ || T || \le \sup \int_X |K(x, y)| \, \d{\mu_X} \]
+Furthermore, if $|y_1 - y_2| < \delta$ then,
+\[ | (T f)(y_1) - (T f)(y_2) | \le \int_X | K(x,y_1) - K(x,y_2) | \cdot |f(x) | \, \d{\mu_X} \le \left( \int_X |g| \, \d{\mu_X} \right) || f ||_\infty \le || f ||_{\infty} \epsilon \]
+so we see that $T f$ is uniformly continuous. Let $B \subset C_0(X)$ be bounded so suppose it is bounded in norm by a constant $M$. We have seen that for any $\epsilon > 0$ there exists a $\delta > 0$ such that $| (T f)(y_1) - (T f)(y_2) | < \frac{\epsilon}{M} \cdot || f ||_{\infty}$ whenever $|y_1 - y_2| < \delta$. Therefore, for all $f \in B$,
+\[ | (T f)(y_1) - (T f)(y_2) | < \tfrac{\epsilon}{M} || f ||_\infty \le \epsilon \]
+because $|| f ||_{\infty} \le M$. Thus $T(B)$ is equicontinuous and uniformly bounded because $T$ is bounded and $B$ is bounded so thus pointwise bounded. Indeed,
+\[ |(T f)(y)| \le \left( \int_X |K(x, y)| \, \d{\mu_X} \right) || f ||_{\infty} \le \left( \int_X |K(x, y)| \, \d{\mu_X} \right) M \]
+is a bound over all $f \in B$. Therefore by Ascoli's theorem, $T(B)$ is precompact so $T$ is a compact operator. 
+\end{proof}
+
+\begin{rmk}
+If $X$ is compact and $\mu_X$ is a finite Borel measure then the conditions on $K$ follow immediately from $K$ being continuous. Integrability follows from,
+\[ \int_X |K(-,y)| \, \d{\mu_X} \le \int_X || K(-,y) ||_\infty \, \d{\mu_X} = \mu(X) \cdot || K(-,y) ||_\infty < \infty \]
+Furthermore, because $X$ is compact, $X \times Y$ is compact so $K$ is automatically uniformly continuous. Therefore, for each $\epsilon > 0$ there exists $\delta > 0$ such that $|y_1 - y_2| < \delta$ implies that
+\[ |K(x, y_1) - K(x, y_1)| < \frac{\epsilon}{2\mu(X)} \] (here I'm actually using something a bit weaker than uniform continuity on $X \times Y$ I'm using that $K(x,-)$ is uniformly continuous on $Y$ \textit{uniformly} in $x \in X$ meaning the $\delta$ can be choosen independently of $x \in X$).
+Furthermore, the constant function $\frac{\epsilon}{\mu(X)}$ is integrable and $\int_X \frac{\epsilon}{\mu(X)} \, \d{\mu_X} < \epsilon$ by definition since $\mu(X)$ is finite.
+\end{rmk}
+
+\subsection{Spectrum of Compact Operators}
+
+\begin{prop}
+Let $T : X \to X$ be a compact operator on a normed space. If $\dim{X} = \infty$ then $0 \in \sigma(T)$.
+\end{prop}
+
+\begin{proof}
+Otherwise, $T$ would have a bounded inverse $T^{-1} : X \to X$ but then $T T^{-1} = I$ would be compact. Furthermore, on a normed space, $I$ is compact iff the unit ball is precompact iff $\dim{X} < \infty$ giving a contradiction.
+\end{proof}
+
+\begin{prop}
+Let $T : X \to X$ be a compact operator on a normed space. For any $\lambda \neq 0$,
+\[ \dim{\ker{(T - \lambda I)}} < \infty \]
+\end{prop}
+
+\begin{proof}
+This kernel is the $\lambda$-eigenspace, $V_\lambda = \ker{(T - \lambda I)}$. Notice that $T|_{V_\lambda} = \lambda I_{V_\lambda}$ by definition and therefore $I_{V_{\lambda}} = \lambda^{-1} T|_{V_\lambda}$ is compact. However, on a normed space, the identity is compact iff the unit ball is precompact iff $\dim{V_\lambda} < \infty$.
+\end{proof}
+
+\begin{lemma}
+Let $T : X \to X$ be a compact operator on a Banach space and $\lambda \neq 0$. If $(T - \lambda I)$ is surjective then $\ker{(T - \lambda I)} = \{ 0 \}$.
+\end{lemma}
+
+\begin{proof}
+Let $T_\lambda = (T - \lambda I)$. Define $V_{\lambda}^{(i)} = \ker{T_\lambda^{i+1}}$. Since $\lambda \neq 0$, by the previous lemma $V_\lambda^{(1)} = V_\lambda = \ker{T_\lambda}$ is finite dimensional. Then clearly $V_{\lambda}^{(i)} \subset V_{\lambda}^{(i+1)}$. Furthermore, $T_{\lambda} : V_{\lambda}^{(i+1)} \to V_{\lambda}^{(i)}$ is surjective (because $T_\lambda$ is surjective) and
+\[ \ker{T_\lambda|_{V_\lambda^{(i+1)}}} = \ker{T_\lambda} = V_\lambda^{(1)} \]
+because $\ker{T_\lambda} \subset V_\lambda^{(i+1)}$. Thus by rank-nullty,
+\[ \dim{V_\lambda^{(i+1)}} = \dim{V_\lambda^{(i)}} + \dim{V_\lambda^{(1)}} \]
+Therefore, $\dim{V_\lambda^{(i)}} = i \cdot \dim{V_\lambda}$. Assume that $\dim{V_\lambda} \neq 0$ then this is an increasing sequence of closed finite-dimensional subspaces. 
+\bigskip\\
+Choose $x_i \in V_{\lambda}^{(i)}$ such that $|| x_i || = 2$ and $|| x_i - u || \ge 1$ for all $u \in V_\lambda^{(i-1)}$ by taking complements. Then consider,
+\[ || T x_{i+1} - T x_i || = || T_\lambda x_{i + 1} + \lambda x_{i + 1} - T_\lambda x_i - \lambda x_i || \]
+However, $T_\lambda x_{i+1} \in V_\lambda^{(i)}$ and $x_i, T_\lambda x_i \in V_\lambda^{(i)}$ so therefore,
+\[ || T x_{i+1} - T x_i || = |\lambda| \cdot || x_{i+1} - \lambda^{-1} (T_\lambda x_i + \lambda x_i - T_\lambda x_{i+1}) || \ge |\lambda| \]
+Since $|\lambda| > 0$, no subsequence of $\{ T x_i \}$ can converge but $\{ x_i \}$ is bounded contradicting the compactness of $T$. Therefore, $V_\lambda = \{ 0 \}$.
+\end{proof}
+
+\begin{lemma}
+Let $T : X \to X$ be a compact operator on a Banach space and $\lambda \neq 0$. Then $\im{(T - \lambda I)}$ is closed. 
+\end{lemma}
+
+\begin{proof}
+Since $V_\lambda = \ker{(T - \lambda I)}$ is finite dimensional it has a closed complement $X = V_\lambda \oplus E_\lambda$. Thus it suffices to show the theorem for $T|_{E_\lambda}$ since $\im{(T - \lambda I)} = \im{(T - \lambda I)|_{E_\lambda}}$ because it is zero on $V_\lambda$. Thus we may assume that $V_\lambda = \{ 0 \}$.
+\bigskip\\
+Let $T_\lambda = T - \lambda I$. Suppose that $\im{T_\lambda}$ is not closed. Then $T_\lambda$ is not bounded below so there exists a sequence $x_i$ with $|| x_i || = 1$ and $T_\lambda x_i \to 0$. Therefore, by compactness, there exists a convergent subsequence of $\{ T x_i \}$ say $\{ T x_j \}$ then $T x_j \to y$. Therefore,
+\[ (T - \lambda I) y = \lim_{j \to \infty} (T - \lambda I) x_j = 0 \]
+because a subsequence of a convergent sequence converges to the same limit. Therefore,
+\[ \lim_{j \to \infty} T x_j = \lambda \lim_{j \to \infty} x_j \]
+and since $T x_j \to y$ we see that $x_j \to \lambda^{-1} y$.
+Thus, $|| y || = | \lambda | \cdot \lim_{j \to \infty} || x_j || = |\lambda| > 0$ and,
+\[ T y = T \left( \lim_{j \to \infty} T x_j \right) = T \lim_{j \to \infty} \lambda x_j = \lambda \lim_{j \to \infty} T x_j = \lambda y \]
+Since $V_\lambda = \{ 0 \}$ we see that $y = 0$ contradicting $|| y || > 0$. Therefore, $\im{T_\lambda}$ is closed.
+\end{proof}
+
+\begin{thm}
+Let $T : X \to X$ be a compact operator on an infinite dimensional Banach space. Then the following hold,
+\begin{enumerate}
+\item $0 \in \sigma(T)$
+\item the eigenspaces $V_{\lambda}$ for $\lambda \neq 0$ are finite dimensional and $\im{(T - \lambda I)}$ is closed
+\item $\sigma(T) \setminus \{ 0 \}$ consists only of eigenvalues 
+\item $\sigma(T) \setminus \{ 0 \}$ is countable so it consists of a sequence of eigenvalues $\{ \lambda_i \}$
+\item for any $r > 0$ there are finitely many $\lambda \in \sigma(T)$ with $| \lambda | \ge r$ so $\lim\limits_{i \to \infty} \lambda_i = 0$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We have already shown (a) and (b). To show (c) we need to prove that if $\lambda \neq 0$ and $V_\lambda = \{ 0 \}$ then $T_\lambda = (T - \lambda I)$ is invertible meaing that $\lambda \notin \sigma(T)$. Indeed, we know that $\im{T_\lambda}$ is closed so $\im{T_\lambda} = (\ker{T^*_\lambda})^\perp$. However, $T^*$ is compact so $T^*_\lambda = T^* - \lambda I$ and we may apply our previous results. In particular, $\im{T^*_\lambda}$ is closed so $\im{T^*_\lambda} = (\ker{T_\lambda})^\perp = X^*$ because $V_\lambda = \ker{T_\lambda} = \{ 0 \}$. By a lemma above, $\ker{T^*_\lambda} = \{ 0 \}$ because $T^*_\lambda$ is surjective. Therefore, $\im{T_\lambda} = X$ and $T_\lambda$ is injective so by the bounded inverse theorem $T_\lambda$ is invertible.
+\bigskip\\
+Notice that (e) implies (d) because,
+\[ \sigma(T) \setminus \{ 0 \} = \bigcup_{n = 1}^\infty \{ \lambda \in \sigma(T) \mid |\lambda| \ge \tfrac{1}{n} \} \] 
+is a countable increasing union of finite sets and thus is countable. Then we can enumerate $\sigma(T) \setminus \{ 0 \}$ via a sequence $\{ \lambda_i \}$ and it follows that $\lambda_i \to 0$ because all but finitely many have $|\lambda_i| < \epsilon$ for any $\epsilon > 0$. Therefore it suffices to prove the main statement of (e).
+\bigskip\\
+Suppose there is an infinite sequence $\lambda_i \in \sigma(T) \setminus \{ 0 \}$ with $|\lambda_i| \ge r$. Then we know $V_i = V_{\lambda_i} \neq \{ 0 \}$ by (c). Let $E_n = \vspan{ V_1, \dots, V_n }$ is closed since it is finite dimensional. Since eigenspaces are disjoint these eigenspaces are nonempty $E_n \subsetneq E_{n+1}$ so there exists a sequence $x_n \in E_n$ with $|| x_n || = 2$ and $|| x_n - u || \ge 1$ for all $u \in E_{n-1}$. Furthermore,f $n > m$ then,
+\[ || T x_n - T x_m || = || \lambda_n x_n - \lambda_m x_m || \ge |\lambda_n| \ge r \]
+because $\lambda_n^{-1} \lambda_m x_m \in E_m \subset E_{n - 1}$. Therefore, no subsequence of $\{ T x_n \}$ can possibly be Cauchy contradicting the compactness of $T$. Thus, there can only be finitely many such eigenvalues.
+\end{proof}
+
+\begin{cor}[Fredholm Alternative]
+Let $T : X \to X$ be a compact operator on a Banach space and $\lambda \neq 0$. Then either $T u - \lambda u = v$ has a unique solution for each $v \in X$ or there are finitely many linearly independent solutions to $T u - \lambda u = 0$ and then $T u - \lambda u = v$ has a solution if and only if,
+\[ v \in (\ker{T^*})^\perp = \{ v \in X \mid \forall \ell \in X^* : \ell \circ T = 0 \implies \ell(v) = 0 \} \]
+in which case the space of all such solutions is $u + u_0$ where $T u_0 - \lambda u_0 = 0$ which is a finite dimensional affine space.
+\end{cor}
+
+\begin{proof}
+Since $\lambda \not 0$ we see that either $\lambda$ is an eigenvalue or $(T - \lambda I)$ is invertible. In the latter case $T u - \lambda u = v$ has a unique solution for all $v$. In the former case the space $V_\lambda = \ker{(T - \lambda I)}$ of solutions to $T u - \lambda u = 0$ is finite dimensional. Furthermore, $\im{(T - \lambda I)}$ is closed so we know that,
+\[ \im{(T - \lambda I)} = (\ker{T^*})^\perp = \{ v \in X \mid \forall \ell \in X^* : \ell \circ T = 0 \implies \ell(v) = 0 \} \]
+by the closed range theorem and therefore $T u - \lambda u = v$ has a solution if and only if $v \in (\ker{T^*})^\perp$. Finally, if $u, u' \in X$ are such that $T_\lambda u = T_\lambda u' = v$ then $T_\lambda (u' - u) = 0$ so $u' - u \in \ker{T_\lambda} = V_\lambda$ and thus $u' = u + u_0$ where $u_0 \in V_\lambda$ and thus is a solutino to $T u - \lambda u = 0$. Therefore, $T_\lambda^{-1}(v) = u_p + V_\lambda$ for any particular solution $u_p$ with $T_\lambda u_p = v$. 
+\end{proof}
+
+\subsection{The Approximation Property}
+
+\begin{defn}
+Let $X, Y$ be normed spaces. We say that $\L(X, Y)$ has the approximation property if the finite rank operators are dense in the space of compact operators $\K(X, Y)$ with the norm topology. Because $\L(X, Y)$ is a metric space it is sequential and thus this is equivalent to the property that for any compact operator $T \in \K(X, Y)$ there exists a sequence of finite rank operators $T_n \in \L(X, Y)$ such that $T_n \to T$ in norm.
+\end{defn}
+
+\begin{defn}
+We say that $X$ has the approximation property if $\L(X)$ does.
+\end{defn}
+
+\begin{rmk}
+There are Banach spaces that do not have the approximation property but they are difficult to write down.
+\end{rmk}
+
+\begin{prop}
+If $Y$ is a Hilbert space then $\L(X, Y)$ has the approximation property.
+\end{prop}
+
+\begin{proof}
+Let $T : X \to Y$ be compact. Then for any $\epsilon > 0$ there exists a finite cover of $T(B)$ by $\epsilon$-balls $\{ B_\epsilon(y_i) \}$. Let $K = \vspan{y_1, \dots, y_n}$ be the span which is finite and thus closed. Therefore, there is an othogonal projection operator $P_\epsilon : Y \to K$. Consider $T_\epsilon = P_\epsilon \circ T$ which has image inside $K \subset Y$ and thus finite rank. Now, for any $x \in B$ there is some $y_i$ with $|| T x - y_i || < \epsilon$ and thus,
+\[ || T x - T_\epsilon x || \le || T x - y_i || + || T_\epsilon x - y_i || < \epsilon + \epsilon \]
+because $T_\epsilon x = P_\epsilon T x$ and $y_i \in K$ so $|| P_\epsilon T x - y_i || \le || T x - y_i || < \epsilon$. Therefore, 
+\[ || T - T_\epsilon || = \sup_{|| x || \le 1} || T x - T_\epsilon x || \le 2 \epsilon \]
+meaning that $T_\epsilon \to T$ as $\epsilon \to 0$. If we want an actual sequence, let $T_n = T_{\frac{1}{n}}$ and then,
+\[ || T - T_n || \le \tfrac{2}{n} \]
+and therefore $T_n \to T$ in norm.
+\end{proof}
+
+\begin{rmk}
+Notice where the proof fails for $Y$ any Banach space. In a general Banach space, it is true that $K$ is complemented (because it is finite dimensional) so there still exists a continuous projection $P_\epsilon : Y \to K$. And still, because $y_i \in K$,
+\[ || P_\epsilon T x - y_i || = || P_\epsilon T x - P_\epsilon || = || P_\epsilon (T x - y_i) || \le || P_\epsilon || \cdot || T x - y_i || < \epsilon || P_\epsilon || \]
+because $P_\epsilon$ is bounded. However, we cannot conclude that this goes to zero as $\epsilon \to 0$ because the bound $|| P_\epsilon ||$ may not be well-controlled as $\epsilon \to 0$ unlike the Hilbert space case where we can ensure that $|| P_\epsilon || = 1$ uniformly by taking orthogonal projections. Therefore, we can replace Hilbert space by any Banach space which has the property that finite dimensional subspaces have norm-1 projection operators.
+\end{rmk}
+
+\begin{prop}
+Suppose that $Y$ has a net of operators $P_\alpha \in \L(Y, Y)$ such that $P_\alpha \to I$ strongly and $\{ P_\alpha \} \subset \L(Y, Y)$ is pointwise bounded.
+\end{prop}
+
+\section{Spectral Theory of Self-Adjoint Operators (WORK IN PROGRESSS!!!)}
+
+\begin{prop}
+Let $T : H \to H$ be self-adjoint and bounded. Then $\sigma(T) \subset \R$.
+\end{prop}
+
+\begin{proof}
+Let $\lambda$ not be real and consider the imaginary part,
+\begin{align*}
+\imag{\inner{(T - \lambda I)x}{x}} & = \tfrac{1}{2} \left( \inner{(T - \lambda I)x}{x} - \overline{\inner{(T - \lambda I)x}{x}} \right)
+\\
+& = \tfrac{1}{2} \left( \inner{(T - \lambda I)x}{x} - \inner{x}{(T - \lambda I) x} \right)
+\\
+& = \tfrac{1}{2} \left( \inner{T x}{x} - \bar{\lambda} \inner{x}{x} - \inner{x}{T x} + \lambda \inner{x}{x} \right) = \imag{\lambda} || x ||^2 
+\end{align*}
+because $\inner{T x}{x} = \inner{x}{Tx}$ since $T = T^*$. Therefore,
+\[ \imag{\lambda} || x ||^2 = \imag{\inner{(T - \lambda I)x}{x}} \le | \inner{(T - \lambda I)x}{x} \le || (T - \lambda I) x || \cdot || x || \]
+Therefore,
+\[ || x || \le \imag{\lambda}^{-1} || (T - \lambda I) x || \]
+proving that $T - \lambda I$ is injective and has closed image. Furthermore, $H = \ker{T^*} \oplus \overline{\im{(T - \lambda I)}}$ but $\ker{T^*} = \ker{T} = 0$ because $T = T^*$ and thus $T - \lambda I$ has dense image and thus is surjective because we say that its image is closed. Thus by the bounded inverse theorem $T - \lambda I$ is invertible so $\lambda \in \rho(T)$ proving the claim.
+\end{proof}
+
+\begin{cor}
+Let $T : H \to H$ be a compact self-adjoint operator then there is a countable list of eigenvalues $\lambda_i \in \R$ such that $\lambda_i \to 0$ and $\sigma(T) = \{ \lambda_i \} \cup \{ 0 \}$. 
+\end{cor}
+
+\begin{thm}
+Let $H$ be a separable Hilbert space and $T : H \to H$ a compact self-adjoint operator. Then there exists an orthonormal basis of $H$ consisting of eigenvectors of $T$. Explicitly there is an isomorphism,
+\[ H \cong V_0 \oplus \overline{\bigoplus_{\lambda \in \sigma(T) \setminus \{ 0 \}} V_\lambda} \]
+where $V_0$ admits an othonormal basis (by separability) and each $V_\lambda$ admits an orthonormal basis because $\dim{V_\lambda} < \infty$.
+\end{thm}
+
+
+
+\section{Some Facts about $L^p$ Space}
+
+\begin{prop}[Minkowski]
+$L^p(\Omega)$ is a Banach space. In particular,
+\[ || f + g ||_p \le || f ||_p + || g ||_p \]
+\end{prop}
+
+\begin{prop}
+If $(\Omega, \F, \mu)$ is a finite measure space. Then $L^p(\Omega) \subset L^1(\Omega)$ for all $p \ge 1$ and the inclusion is bounded.
+\end{prop}
+
+\begin{proof}
+Let $f \in L^p(\Omega)$ we need to show that $|| f ||_1 < \infty$. Apply H\"{o}lder's inequality to $g = \frac{1}{\mu(\Omega)}$ then,
+\[ || fg ||_1 \le || f ||_p \cdot || g ||_q = || f ||_p \]
+However, $|| f g ||_1 = \frac{1}{\mu(\Omega)} || f ||_1$ and thus $|| f ||_1 \le || f ||_p \cdot \mu(\Omega)$ so the inclusion is bounded by $\mu(\Omega)$.
+\end{proof}
+
+\begin{cor}
+If $(\Omega, \F, \mu)$ is a finite measure space. Then $L^p(\Omega) \subset L^q(\Omega)$ for all $p \ge q$ and the inclusion is bounded.
+\end{cor}
+
+\begin{proof}
+For $f \in L^p(\Omega)$ then $g = |f|^{\frac{p}{s}} \in L^s(\Omega)$ for any $s \in [1, p]$ and thus by above,
+\[ || g ||_1 = || f ||_{\frac{p}{s}}^{\frac{p}{s}} \le || g ||_s \cdot \mu(\Omega) = || f ||_{\frac{p}{s}}^p \cdot \mu(\Omega) \]
+Therefore, 
+\[ || f ||_{\frac{p}{s}} \le || f ||_p \cdot \mu(\Omega)^{\frac{q}{s}} \]
+Because $q \in [1, p]$ we see that we can set $q = \frac{p}{s}$ for some $s \in [1, p]$ and therefore,
+\[ || f ||_q \le || f ||_p \cdot \mu(\Omega)^{\frac{q^2}{p}} \]
+showing that $f \in L^1(\Omega)$ and that the inclusion is bounded by $\mu(\Omega)^{\frac{q^2}{p}}$.
+\end{proof}
+
+\begin{prop}[Extended H\"{o}lder]
+If $\frac{1}{a} + \frac{1}{b} = \frac{1}{c}$ and $f \in L^a(\Omega)$ and $g \in L^b(\Omega)$ then,
+\[ || fg ||_c \le || f ||_a \cdot || h ||_b \]
+\end{prop}
+
+\begin{proof}
+Consider $\tilde{f} = |f|^c$ and $\tilde{g} = |g|^c$ in the usual H\"{o}lder inequality with $\frac{c}{a} + \frac{c}{b} = 1$. Then,
+\[ || \tilde{f} \tilde{g} ||_1 \le || \tilde{f} ||_{\frac{a}{c}} \cdot || \tilde{g} ||_{\frac{b}{c}} \]
+Therefore,
+\[ || fg ||_c^c \le || f ||_a^{c} \cdot || g ||_b^{c} \]
+and thus,
+\[ || fg ||_c \le || f ||_a \cdot || g ||_b \]
+\end{proof}
+
+\begin{rmk}
+We can get  a better bound for $L^p(\Omega) \subset L^q(\Omega)$ as follows. Let $\frac{1}{q} = \frac{1}{p} + \frac{1}{r}$. Then consider, extended H\"{o}lder applied to $f$ and $g = 1$,
+\[ || f ||_q = || fg ||_q \le || f ||_p \cdot || g ||_r = || f ||_p \cdot \mu(\Omega)^{\frac{1}{r}} \]
+Therefore,
+\[ || f ||_q  \le || f ||_p \cdot \mu(\Omega)^{\frac{1}{r}} \]
+so the inclusion is bounded by $\mu(\Omega)^{\frac{1}{q} - \frac{1}{p}}$. In particular, take $p = \infty$ then,
+\[ || f ||_q \le || f ||_\infty \cdot \mu(\Omega)^{\frac{1}{q}} \]
+\end{rmk}
+
+\section{Fourier Series}
+
+\begin{prop}
+Let $\phi \in C(S^1)$ have a continuous extension $f \in C(\overline{\Omega_\delta})$ such that $f|_{\Omega_\delta}$ is holomorphic and $f|_{S^1} = \phi$ where,
+\[ \Omega_\delta = \{ z \in \C \mid 1 - \delta < | z | < 1 \} \]
+Then the Fourier coefficients,
+\[ (\F \phi)_n = \int_0^1 e^{- 2 \pi i n \theta} \phi(\theta) \, \d{\theta} \]
+decay exponentially for $n < 0$ meaning $| (\F \phi)_n | \le C r^{|n|}$ for some $0 < r < 1$.
+\end{prop}
+
+\begin{proof}
+Consider the loop $\gamma_{s, n}$ defined by $\gamma_{s, n}(t) = s e^{2 \pi i n t}$. Then, the integals,
+\[ a_{n, s} = \frac{1}{2 \pi i} \oint_{\gamma_s} z^{-(n+1)} f(z) \, \d{z} = \int_0^{1} s^{-n} e^{-2 \pi i n \theta} f(\gamma_s(\theta)) \, \d{\theta}  \]
+for $s \in (1 - \delta, 1)$ do not depend on $s$. Furthermore, because $f$ is continuous on $\overline{\Omega_\delta}$ I claim that, 
+\[ (\F \phi)_n = \lim_{s \to 1} a_{n,s} \]
+Indeed, consider,
+\[ |(\F \phi)_n - a_{n, s}| \le \int_0^1 | s^{-n} f(\gamma_s(\theta)) - \phi(\theta) | \, \d{t} \le \int_0^1 \left[ |1 - s^{-n}| \cdot |f(\gamma_s(\theta)| + |f(\gamma_s(\theta)) - \phi(\theta) | \right] \, \d{t} \]
+However, because $\overline{\Omega_\delta}$ is compact we know that $f$ is  uniformly continuous so for each $\epsilon > 0$ there is a $\delta' > 0$ such that when $| z - z'| < \delta'$ that $|f(z) - f(z')| < \frac{\epsilon}{2}$. In particular, 
+\[ | f(\gamma_s(\theta)) - \phi(\theta)| = | f(s e^{2 \pi i t}) - f(e^{2 \pi i t}) | < \tfrac{\epsilon}{2} \]
+when $| s e^{2 \pi i t} - e^{2 \pi i t} | = (1 - s) < \delta'$. Therefore, choose $\delta''$ such that $(1 - \delta'')^{-n} - 1 < \frac{\epsilon}{2 M}$ where $M = \sup\limits_{z \in \overline{\Omega_\delta}} | f(z) |$ which exists because $f$ is continuous on a compact set. Thus if $|1 - s| < \min{(\delta', \delta'')}$,
+\[ |(\F \phi)_n - a_{n, s}| \le \int_0^1 \left[ | 1 - s^{-n}| |f(\gamma_s(\theta)| + |f(\gamma_s(\theta)) - \phi(\theta) | \right] \, \d{t} < \tfrac{\epsilon}{2 M} \cdot M + \tfrac{\epsilon}{2} = \epsilon \]
+meaning that,
+\[ \lim_{s \to 1} a_{n,s} = (\F \phi)_n \]
+Then, by the integral theorem, $a_{n,s}$ is actually constant in $s$. Therefore, 
+\[ (\F \phi)_n = a_{n, \delta'} = s^{-n} \int_0^1 e^{-2\pi i n \theta} f(\gamma_{\delta'}(\theta)) \, \d{\theta} \le s^{-n} M \]
+Therefore, for $n < 0$ we have,
+\[ | (\F \phi)_n | \le M s^{|n|} \]
+\end{proof}
+
+\begin{rmk}
+If we replace holomorphic by anti-holomorphic or swap the annulus to the outside of $S^1$ then we get exponential decay of the Fourier coefficients for $n > 0$. Thus, we get the following corollary.
+\end{rmk}
+
+\begin{cor}
+Let $\phi \in C(S^1)$ have a holomorphic extension on some anulus \textit{containing} $S^1$,
+\[ \Omega_\delta = \{ z \in \C \mid 1 - \delta < | z | < 1 + \delta \} \]
+Then the Fourier coefficients,
+\[ (\F \phi)_n = \int_0^1 e^{- 2 \pi i n \theta} \phi(\theta) \, \d{\theta} \]
+decay exponentially meaning $| (\F \phi)_n | \le C r^{|n|}$ for some $0 < r < 1$.
+\end{cor}
+
+\begin{prop}
+Let $\phi \in C^k(S^1)$. Then, there exists a constant $C$ such that for all $n$,
+\[ |(\F \phi)_n| \le C (1 + |n|)^{-k} \]
+\end{prop}
+
+\begin{proof}
+The case of $n = 0$ is trivial so let $n \neq 0$. Applying integration by parts,
+\[ (\F \phi)_n = \int_0^1 e^{-2 \pi i n t} \phi(t) \, \d{t} = (2 \pi i n)^{-k} \int_0^1 e^{- 2 \pi i t} \phi^{(k)}(t) \, \d{t} \]
+Therefore,
+\[ |(\F \phi)_n| \le \frac{1}{|n|^{k}} \cdot \left| \frac{1}{2 \pi} \int_0^1 e^{-2 \pi i t} \phi^{(k)}(d) \, \d{t} \right| \le \frac{1}{|n|^{k}} \left( \frac{1}{2 \pi} \int_0^1 |\phi^{(k)}(t)| \, \d{t} \right) \le  \frac{1}{(1 + |n|)^k} \left( \frac{2^k}{2 \pi} || \phi^{(k)} ||_1 \right) \]
+\end{proof}
+
+\begin{example}
+Lacunary series give a good test case. For example,
+\[ f(z) = \sum_{n = 1}^\infty n^{-2} \, z^{n^2} \]
+Because,
+\[ |f(z)| \le \sum_{n = 1}^\infty n^{-2} |z|^{n^2} \]
+converges when $|z| \le 1$ we see that $f$ is holomorphic on the open disk $D = \{ z \in \C \mid |z| < 1 \}$ and continuous on the circle $S^1 = \{ z \in \C \mid |z| = 1 \}$. Continuity on the circle follows from the $M$-test which shows that,
+\[ f(e^{2 \pi it}) = \sum_{n = 1}^\infty n^{-2} e^{i n^2 t} \]
+converges uniformly and absolutely since the series of supremums,
+\[ \sum_{n = 1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} \]
+converges. Therefore, $f(t)$ is a uniform limit of continuous functions and thus is itself continuous. However, we can see that $f$ cannot extend holomorphically to any annulus containing $S^1$ for the following reason. Let $\phi(t) = f(e^{2 \pi i t})$ which is continuous. Then it is immediate from the definition and Fourier inversion that,
+\[ a_n = (\F \phi)_n = 
+\begin{cases}
+n^{-1} & n > 0 \text{ and is a square}
+\\
+0 & \text{else}
+\end{cases} \] 
+Therefore, although $a_n \in \ell^1$ we see that $a_n$ does not decay exponentially in fact does not decay faster than $n^{-1}$ meaning that $\phi$ cannot be $C^k(S^1)$ for $k > 1$. In fact, it is clear that $\psi \notin C^1(S^1)$ therefore there cannot be a holomorphic extension containing $S^1$ else $\phi$ would be smooth. However, of course we see that the $n < 0$ coefficients are all zero and thus do (trivially) decay exponentially.
+\end{example}
+
+\begin{prop}
+A function $\phi : S^1 \to \C$ is real analytic if and only if there exists some annulus $\Omega_\delta = \{ z \in \C \mid 1 - \delta < |z| 1 + \delta \}$ and a holomorphic function $f$ on $\Omega_\delta$ such that $f|_{S^1} = \phi$.
+\end{prop}
+
+\begin{proof}
+If there is such a holomorphic extension $f$ then obviously $\phi$ is real analytic. Conversely, if $\phi$ is real analytic then for each point $z \in S^1$ there exists an open $U_z \subset \C$ and a holomorphic $f_{U_z}$ extension of $\phi$ on $U_z$. Explicitly, we can use the disk $B_{r_z}(z)$ where $r_z$ is the radius of convergence (in $\C$ not along the arc) of the Taylor series at $z$. Therefore, it suffices to check that if $U_z \cap U_{z'} \neq \varnothing$ then $f_{U_z} |_{U_z \cap U_{z'}} = f_{U_{z'}} |_{U_z \cap U_{z'}}$. This holds because both are holomorphic and their difference vanishes on $S^1 \cap U_z \cap U_{z'}$ which has limit points so their difference is identically zero on the connected set $U_z \cap U_{z'}$ (by shrinking the cover we can ensure that the overlaps are connected). Since $S^1$ is compact, there is a finite subcover by sets $U_z$ so there is a holomorphic function glued on,
+\[ U = \bigcup_{i = 1}^n U_i \]
+and then $S^1$ can be uniformly thickened while still inside $U$ giving the required annulus. 
+\end{proof}
+
+\begin{rmk}
+A holomorphic function has no maximal definition set in general. We would like to 
+\end{rmk}
+
+\section{Operator Topologies}
+
+\begin{prop}
+Let $X$ and $Y$ be normed spaces and $T_n \in \L(X, Y)$ a sequence of bounded operators with $|| T_n || \le M$ and $T \in \L(X, Y)$ a bounded operator. Suppose that there is a dense set $D \subset X$ such that $\forall x \in D : T_n x \to T x$ converges then $T_n \to T$ converges in the strong topology.
+\end{prop}
+
+\begin{proof}
+We need to show that for any $x \in X : T_n x \to T x$ converges. Choose a sequence $x_k \in D$ such that $x_k \to x$. Then consider,
+\[ || T_n x - T_n x_k || \le || T_n || \cdot || x - x_k || \le M || x - x_k || \]
+Therefore, 
+\[ || T_n x - T x || \le || T_n x - T_n x_k || + || T_n x_k - T x_k || + || T x_k - T x || \le M || x - x_k || + || T_n x_k - T x_k || + || T || \cdot || x_k - x || \]
+However, we know that, for each $k$,
+\[ \lim_{n \to \infty} || T_n x_k - T x_k || = 0 \]
+by assumption and thus,
+\[ \limsup_{n \to \infty} || T_n x - T x || \le (M + || T ||) || x - x_k || \]
+Since $x_k \to x$ taking $k \to \infty$ we see that,
+\[ \limsup_{n \to \infty} || T_n x - T x || = 0 \]
+and therefore $T_n x \to T x$ for each $x \in X$.
+\end{proof}
+
+\begin{rmk}
+Notice that in the proof we do not get a uniform bound on $|| T_n - T ||$ tending to zero and therefore $T_n$ may not converge to $T$ in the norm topology only in the strong operator (pointwise convergence) topology.
+\end{rmk}
+
+\begin{rmk}
+The crux of the proof is,
+\[ \lim_{n \to \infty} T_n x = \lim_{n \to \infty} \lim_{k \to \infty} T_n x_k = \lim_{k \to \infty} \lim_{n \to \infty} T_n x_k = \lim_{k \to \infty} T x_k = T x \]
+and justifying the swapping of the limits. This is justified because,
+\[ \lim_{k \to \infty} T_n x_k = T_n x \]
+uniformly in $n$ because $|| T_n x - T_n x_k || \le M || x - x_k ||$. See the following proposition.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a metric space and $a_{n,m} \in X$ a double sequence. Suppose that,
+\[ \lim_{m \to \infty} a_{n,m} = a_n \]
+converges uniformly in $n$ and that for all $m$,
+\[ \lim_{n \to \infty} a_{n,m} = a_m \]
+exists and that,
+\[ \lim_{m \to \infty} a_m = a \]
+exists. Then,
+\[ a = \lim_{m \to \infty} a_m = \lim_{m \to \infty} \lim_{n \to \infty} a_{n,m} = \lim_{n \to \infty} \lim_{n \to \infty} a_{n,m} = \lim_{n \to \infty} a_n \]
+\end{prop}
+
+\begin{proof}
+For any $\epsilon > 0$ there is some $M$ such that for any $m > M$ and all $n$,
+\[ d(a_{n}, a_{n,m})  < \epsilon \]
+Now,
+\[ d(a_n, a) \le d(a_n, a_{n,m}) + d(a_{n,m}, a_m) + d(a_m, a) < \epsilon + d(a_{n,m}, a_m) + d(a_m, a) \]
+Then, 
+\[ \limsup_{n \to \infty} d(a_n, a) < \limsup_{n \to \infty} d(a_{n,m}, a_m) + \epsilon + d(a_m, a) = \epsilon + d(a_m, a) \]
+However, $a_m \to a$ and therefore,
+\[ \limsup_{n \to \infty} d(a_n, a) \le \epsilon + \limsup_{m \to \infty} d(a_m, a) = \epsilon \]
+Since $\epsilon$ is arbitrary we see that,
+\[ \limsup_{n \to \infty} d(a_n, a) = 0 \]
+and therefore,
+\[ \lim_{n \to \infty} a_n = a = \lim_{m \to \infty} a_m \]
+proving the proposition.
+\end{proof}
+
+\section{Proving Sets Are Meager}
+
+\begin{defn}
+A subset $B \subset V$ of a $K$-vector space is absorbent if for all $v \in V$ there exists a $r > 0$ such that if $|t| > r$ then $v \in t B$.
+\end{defn}
+
+\begin{lemma}
+Let $X$ be an infinite dimensional normed space and $V \subset X$ a linear subspace and $B_V \subset V$ an absorbent subset. If $B_V$ is precompact then $V$ is meager in $X$.
+\end{lemma}
+
+\begin{proof}
+We see that,
+\[ V = \bigcup_{n = 1}^\infty n B_V \]
+because for each $v \in V$ there is some $r$ such that for $|t| > r$ we have $v \in t B_V$ and thus for $n > r$ we have $v \in n B_V$.
+Therefore it suffices to prove that $n B_V$ is nowhere dense for each $n$. Because multiplication by $n$ is a homeomorphism it suffices to show that $B_V$ is nowhere dense. Indeed, $\overline{B_V}$ is compact. So if $x \in \overline{B_V}^\circ$ then there is a ball $B_\epsilon(x) \subset \overline{B_V}^\circ$ and thus $\overline{B_\epsilon(x)} \subset \overline{B_V}$ so $\overline{B_\epsilon(x)}$ is a closed subset of a compact set and thus compact. However, since $X$ is infinite dimensional, by Riesz lemma, the closed unit ball, which is homeomorphic to $\overline{B_\epsilon(x)}$, is not compact. Thus, $\overline{B_V}^\circ = \empty$ and therefore $B_V$ is nowhere dense proving that $V$ is of first category.
+\end{proof}
+
+
+\end{document}

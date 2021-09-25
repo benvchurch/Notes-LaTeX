@@ -20,14 +20,7 @@ Let $X$ be a topological group then $\pi_1(X)$ is an abelian group.
 The functor $\pi_1 : \pTop \to \Grp$ preserves products and thus preserves group objects. Thus $\pi_1(X)$ is a group object in $\Grp$ which is an abelian group. 
 \end{proof}
 
-
-\begin{proposition} \label{discrete_in_center}
-Let $G$ be a connected topological group and $K \subset G$ a discrete normal subgroup. Then $K \subset Z(G)$. 
-\end{proposition}
-
-\begin{proof}
-Consider the continuous map $G \times K \to K$ given by $(g, k) \mapsto g k g^{-1}$ which is well-defined by normality $K \triangleleft G$. For each fixed $k \in K$ consider the map $G \to K$ via $g \mapsto g k g^{-1}$. Since $G$ is connected its image is also connected in $K$ and thus is a point since $K$ is discrete. However, $1 \mapsto k$ meaning that $g k g^{-1} = k$ for all $g \in G$ and each fixed $k \in K$. Thus $K \subset Z(G)$. 
-\end{proof}
+\subsection{Quotient Groups}
 
 \begin{proposition}
 Let $H \triangleleft G$ be topological groups then the quotient $\pi : G \to G / H$ is an open homeomorphism.
@@ -38,6 +31,33 @@ A set $U \subset G / H$ is open iff $\pi^{-1}(U)$ is open. Furthermore, for any 
 \[ \pi^{-1}(\pi(U)) = H \cdot U = \bigcup_{h \in H} h \cdot U \]
 which is a union of open sets and thus open since $h \cdot$ is a homeomorphism and thus $h \cdot U$ is open.
 \end{proof}
+
+\begin{lemma}
+Let $R \subset X \times X$ be an equivalence relation on a topological space $X$ then $X / R$ is Hausdorff if and only if $R$ is closed. 
+\end{lemma}
+
+\begin{proof}
+Consider the diagonal $\Delta \subset (X / R) \times (X / R)$ which is the set of equivalence classes $([x], [y]) \in \Delta \iff [x] = [y] \iff x \sim y \iff (x, y) \in R$. Consider the map $\pi : X \times X \to (X / R) \times (X / R)$ thus $R = \pi^{-1}(\Delta)$ so $R$ is closed if and only if $\Delta$ is closed if and only if $X/R$ is Hausdorff. 
+\end{proof}
+
+\begin{prop}
+Let $G$ be a topological group and $H \subset G$ a subgroup. Then $G / H$ is Hausdorff iff $H \subset G$ is closed.
+\end{prop}
+
+\begin{proof}
+The relation $R = \{ (g, g') \in G \times G \mid g' = h g \text{ for } h \in H \}$ is homeomorphic to $H \times G$ via $(g, g') \mapsto (g' g^{-1}, g)$ and thus is closed in $G \times G$ iff $H \subset G$ is closed.
+\end{proof}
+
+\begin{rmk}
+Notice that a topological group is $T_1$ iff $\{ e \}$ iff it is Hausdorff because $\Delta = f^{-1}(e)$ for $f : G \times G \to G$ via $(x,y) \mapsto xy^{-1}$ is closed iff $\{ e \}$ is closed. This agrees with the proposition in the case of $H = \{ e \}$.
+\end{rmk}
+
+\begin{rmk}
+If $H \subset G$ is not closed then $G/H$ is not even $T_1$. To see this, suppose that $\{ eH \} \subset G/H$ is closed then $\pi^{-1}(\{ e H \}) = H$ is also closed.
+\end{rmk}
+
+\subsection{Subgroups}
+
 
 \begin{proposition}
 Let $H \subset G$ be topological groups. If $H$ is open then $H$ is closed. If $H$ is closed of finite index then $H$ is open.
@@ -289,6 +309,24 @@ e^{\frac{2 \pi i}{n}} & 0 \\
 Let $\Gamma = \left< M \right> \subset \SU{2}$. Since $M$ has order $n$, $\Gamma \cong C_n$. By an identical argument to above, $\pi_1(\SU{2}/\Gamma, [x_0]) \cong \Gamma \cong C_n$ and $\SU{2}/\Gamma$ is compact and connected. It remains to show that $\SU{2}/\Gamma$ is a 3-manifold. (WIP)
 \end{proof}
 
+\section{Discrete Subgroups}
+
+\begin{proposition} \label{discrete_in_center}
+Let $G$ be a connected topological group and $K \subset G$ a discrete normal subgroup. Then $K \subset Z(G)$. 
+\end{proposition}
+
+\begin{proof}
+Consider the continuous map $G \times K \to K$ given by $(g, k) \mapsto g k g^{-1}$ which is well-defined by normality $K \triangleleft G$. For each fixed $k \in K$ consider the map $G \to K$ via $g \mapsto g k g^{-1}$. Since $G$ is connected its image is also connected in $K$ and thus is a point since $K$ is discrete. However, $1 \mapsto k$ meaning that $g k g^{-1} = k$ for all $g \in G$ and each fixed $k \in K$. Thus $K \subset Z(G)$. 
+\end{proof}
+
+\begin{prop}
+If $G$ is a Hausdorff group and $\Gamma \subset G$ is a discrete subgroup then $\Gamma$ is closed.
+\end{prop}
+
+\begin{proof}
+See \chref{https://math.stackexchange.com/questions/29515/why-is-every-discrete-subgroup-of-a-hausdorff-group-closed}{this}.
+\end{proof}
+
 \section{Lie Groups}
 
 \newcommand{\g}{\mathfrak{g}}
@@ -315,7 +353,19 @@ Let $f : G \to H$ be a morphism of connected lie groups such that the lie algebr
 \end{proposition}
 
 \begin{proof}
-Since $f_* : \g \to \h$ is an isomorphism we know that $\d{f} : T_g G \to T_{f(g)} H$ is an isomorphism and thus $f$ is a local diffeomorphism (by the inverse function theorem). Thus, by the lemma, $\Gamma = \ker{f} = f^{-1}(0)$ is discrete and also normal (since it is a kernel) so by \ref{discrete_in_center} we have $\Gamma \subset Z(G)$. Furthermore, local diffeomorphisms are open maps and, by above, $f$ is surjective so by \ref{quotient_condition} the induced map $\tilde{f} : G / \Gamma \xrightarrow{\sim} H$ is a homeomorphism. It suffices to show that $\tilde{f}$ is, in fact, a diffeomorphism (DO THIS).
+Since $f_* : \g \to \h$ is an isomorphism we know that $\d{f} : T_g G \to T_{f(g)} H$ is an isomorphism and thus $f$ is a local diffeomorphism (by the inverse function theorem). Thus, by the lemma, $\Gamma = \ker{f} = f^{-1}(e)$ is discrete and also normal (since it is a kernel) so by Proposition \ref{discrete_in_center} we have $\Gamma \subset Z(G)$. Furthermore, local diffeomorphisms are open maps and, by above, $f$ is surjective so by \ref{quotient_condition} the induced map $\tilde{f} : G / \Gamma \xrightarrow{\sim} H$ is a homeomorphism. Furthermore, $\pi : G \to G / \Gamma$ is surjective submersion by the quotient manifold theorem so by the universal property $\tilde{f} : G / \Gamma \to H$ is smooth. However, by the inverse function theorem, $\tilde{f}$ is a local diffeomorphism since $\pi : G \to G / \Gamma$ induces an isomorphism on tangent spaces and thus $\tilde{f}_* : \g \to \h$ is an isomorphism. However, a bijective local diffeomorphism is a diffeomorphism we conclude that $\tilde{f} : G / \Gamma \iso H$ is an isomorphism.
 \end{proof}
+
+\begin{prop}
+Let $f : G \to H$ be a morphism of Lie groups. Then $\ker{f} \subset G$ is a closed subgroup and there is an isomorphism $G/\ker{f} \iso \im{f}$ such that $\im{f} \to H$ is an injective immersion.
+\end{prop}
+
+\begin{proof}
+Because $f : G \to H$ is continuous $\ker{f} = f^{-1}(e)$ is a closed normal subgroup and thus an embedded Lie subgroup. Therefore, $G / \ker{f}$ is a Lie group so we topologize $\im{f}$ by declaring the group isomorphism $G / \ker{f} \iso \im{f}$ to be a Lie group isomorphism. Now $G / \ker{f} \to H$ is constant rank because it is equivariant for the left $G$-action which is transitive on the left and injective so by the constant rank theorem it is an immersion so $\im{f} \embed H$ is an immersed Lie subgroup. 
+\end{proof}
+
+\begin{rmk}
+Notice that if $f : G \to H$ is surjective then $\tilde{f} : G / \ker{f} \to H$ is a bijective immersion and thus a diffeomorphism so it is an isomorphism of Lie groups. (See \chref{https://math.stackexchange.com/questions/714579/bijective-immersion-is-a-diffeomorphism}{bijective immersions} or the Global Rank Theorem in Lee p. 83).
+\end{rmk}
 
 \end{document}

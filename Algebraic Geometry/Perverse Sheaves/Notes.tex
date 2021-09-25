@@ -1,0 +1,175 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Sep. 21}
+
+Interested in studying perverse sheaves in the Euclidean and \etale topologies for studying Poincare duality for singular varieties. We studied:
+\begin{enumerate}
+\item tiangulated categories
+\item t-structures
+\item gluing t-structues $\D_Z \to \D \to \D_U$ with nice functors between these triangulated categories
+\item perverse sheaves over $\C$
+\end{enumerate}
+\noindent
+We are now going to develop the theory of perverse sheaves in the \etale setting for \etale sheaves and \etale cohomology. The main goal for the first two weeks is to define the derived categories for $\overline{\Q}_\ell$-sheaves and six functor formalism. Then we study the theory of weights due to Deligne (Weil II) for varieties over $\FF_q$.
+
+\subsection{Etale Sheaves}
+
+Assume all schemes are Noetherian. Then $X_{\et}$ is the small \etale site with objects: schemes \etale over $X$ and covers and jointly surjective families of \etale maps. 
+
+\subsubsection{Constructibility}
+
+Let $\Lambda$ be a finite ``coefficient'' ring. We say that an \etale sheaf of sets $\F$ on $X_{\et}$ is locally constant constructible (lcc) if it is represented by an object of $\mathrm{FEt}(X)$ i.e. there is a finite \etale map $X' \to X$ such that,
+\[ \F(U) = \Hom{X}{U}{X'} \]
+We say that a sheaf $\F$ is $\Lambda$-modules is \textit{constructible} if each $\F_{x}$ is a finite $\Lambda$-module and there exists a stratification,
+\[ X = \bigcup X_i \]
+such that $X_i \subset X$ is locally closed s.t. $\F|_{X_I}$ is lcc. Furthermore, $\F \in D^b(X, \Lambda)$ is constructible if each $H^i(\F)$ is constructible. This gives the triangulated subcategory $D_c^i(X, \Lambda)$.
+\bigskip\\
+Now given a map of Noetherian schemes $f : X \to Y$ we get a six functor formalism. We have $f_* : \mathrm{Ab}(X) \to \mathrm{Ab}(Y)$ and $R f_* : D^+(x, \Lambda) \to D^+(Y, \Lambda)$ and $f^* : \mathrm{Ab}(Y) \to \mathrm{Ab}(X)$ which is exact. Then there is an adjointness,
+\[ \Hom{X}{f^* \F}{\G} = \Hom{Y}{\F}{f_* \G} \]
+When $\iota : Z \embed X$ is a closed immersion and $j : U \embed X$ is the complementary  open immersion we can define the ``exceptional'' functors. We define,
+\[ j_! : \mathrm{Ab}(Y) \to \mathrm{Ab}(X) \]
+which is exact because it preserves stalks. Then $\iota_*$ is also exact because it preserves stalks (and extends by zero on $U$). Furthermore, 
+\[ \iota^! : \mathrm{Ab}(X) \to \mathrm{Ab}(Z) \]
+is defined by,
+\[ \iota^! \F = \iota^* \ker{(\F \to j_* j^* \F)} \]
+which is the subsheaf of sections supported on $Z$. 
+\bigskip\\
+However, $R f_!$ is not the naive derived functor of $f_!$ unfortunately. Assume that $f : X \to Y$ is separated of finite type. Then by Nagata, there is a compactification,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "f"] \arrow[r, hook] & \overline{X} \arrow[d, "\bar{f}"]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+Then we define $R f_! = D^+(X, \Lambda) \to D^+(Y, \Lambda)$ by $R f_! = (R \bar{f}_*) \circ j_!$. 
+
+\begin{rmk}
+It does not work to define $R f_! = R(f_!)$ where $f_! = \bar{f}_* \circ j_!$. For example for a curve $X$ over a field $k$ and $f : X \to \Spec{k}$. Then,
+\[ \Gamma_c(X, \Lambda) = \bigoplus_{x \in X} \Gamma_x(X, \F) \]
+where $\Gamma_x$ is local cohomology. But this derived functor can be too large.
+\end{rmk}
+
+Then we can also define $R f^! : D^+(Y, \Lambda) \to D^+(X, \Lambda)$ to be the right adjoint of $R f_!$. For example if $f = \iota$ is a closed immersion then $R f^! = R(\iota^!)$ is actually a derived functor. If $f$ is a smooth map of relative dimension $d$ (and $n \Lambda = 0$ for $n \in \struct{Y}^\times)$ then $R f^! = f^*(\alpha) [2d]$ 
+
+\newcommand{\RHom}[3]{\mathrm{RHom}_{#1}\left( #2, #3 \right)}
+\newcommand{\dtimes}{\otimes^{\mathbb{L}}}
+
+\begin{theorem}
+Let $f : X \to Y$ be finite tpye over a field $k$. Then the six functors presserve $D_c^+(X, \Lambda)$ and we have biduality when $n \Lambda = 0$ for $n \in k^\times$ and $\Lambda$ is an injective $\Lambda$-module. Let $f : X \to \Spec{k}$ and set $K_X = R f^! \Lambda$ and $DL := \RHom{}{L}{K_X} \in D^b(X, \Lambda)$. Then $L \iso DDL$ in $D_c^b(X, \Lambda)$.
+\end{theorem}
+\noindent
+How to define $D_c^b(X, \overline{\Q}_\ell)$? Let $k$ be a finite field or a separably closed field $\ell \in k^\times$. Let $X$ be seperated of finite type over $k$. Fact 1 for $E / \Q_\ell$ finite extension then $\struct{E}$ have triangulated cat $D^b_c(X, \struct{E})$ and standard nontrivial t-structure. For $r \ge 1$ let $\struct{r} = \struct{E} / \lambda^r$ where $\lambda$ is a uniformizer. Then $\struct{r}$ is constructible.
+\bigskip\\
+Let $D^b_{ctf}(X, \struct{r}) \subset D^b_c(X, \struct{r})$ be defined by objects isomorphic to bounded complexes of flat $\struct{r}$-module that give $D_c^b(X, \struct{E})$ is defined as $K = (K_r)_r$ where $K_r \in D^b_{ctf}(X, \struct{r})$ and $K_{r+1} \dtimes \struct{r} \cong K_r$. Moreover,
+\[ \Hom{D^b_c(X, \struct{E})}{K}{L} = \varprojlim_V \Hom{D^b_c(X, \struct{r})}{K_r}{L_r} \]
+Furthermore, $D^b_c(X, \struct{E})$ is a triangulated category. Furthermore, there is a standard t-structure on $D^b_c(X, \struct{E})$. The problem is that $\tau_{\le n}$ and $\tau_{\ge n}$ dont preserve $D^b_{cft}(X, \struct{r})$ but Deligne defined them in such a way to preserve everything you want.
+
+\begin{rmk}
+There are some serious problems with trying to first define an abelian category of $\Z_\ell$-sheaves and then take derived categories. For example, if $X = \Spec{k}$ then sheaves of $\Z / \ell^n$-modules is the same as $\Z/\ell^n[\Gal{\bar{k}/k}]$-modules but the limit of these categories gives the category of continuous $\Gal{\bar{k}/k}$-representations over $\Z_\ell$ which is not an abelian category. Look at Bhatt-Scholtze and condensed mathematics.
+\end{rmk}
+
+\subsection{Theory of Weights}
+
+Let $X_0$ be a separated scheme of finite type over $\FF_q$ and let $X = X_0 \otimes \overline{\FF_q}$. Then $F : X \to X$ is the geometric Frobenius i.e. $F = \id \otimes \Spec{F}$ where $F : \FF_q \to \FF_q$ is the inverse of $x \mapsto x^p$. Let $|X_0|$ denote the closed points and $x \in | X_0 |$ we have $\# \kappa(x) = N(x) = q^{d(x)}$. For $X_0$ geometrically connected over $\FF_q$ we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \pi_1^\et(X, \bar{x}) \arrow[r] & \pi_1^\et(X_0, \bar{x}) \arrow[r] & \Gal{\overline{\FF_q}/\FF_q} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+and $\Gal{\overline{\FF_q}/\FF_q} = \hat{\Z}$ generated by geometric Frobenius. Therefore, we have an exact squence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \pi_1^\et(X, \bar{x}) \arrow[r] & \pi_1^\et(X_0, \bar{x}) \arrow[r] & \Gal{\overline{\FF_q}/\FF_q} \arrow[r] & 1
+\\
+1 \arrow[r] & \pi_1^\et(X, \bar{x}) \arrow[r] \arrow[u, equals] & W(X_0, \bar{x}) \arrow[u, hook] \arrow[r] & \Z \arrow[u, hook] \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+
+\begin{defn}
+A Weil sheaf on $X_0$ is a $\overline{\Q}_\ell$-sheaf $\F$ on $X$ with an isomorphism $\varphi : F^* \F \to \F$. 
+\end{defn}
+
+\begin{rmk}
+Let $g : X \to X_0$ be the canonical map. Then $g \circ F = g$ so there is a natural isomorphism $\eta : F^* \circ g^* \to g^*$ and thus for any $\overline{\Q}_\ell$-sheaf $\F_0$ on $X_0$ we have an natural isomorphism $\eta : F^* g^* \F_0 \iso g^* \F_0$ and thus $\F := g^* \F_0$ and $\eta : F^* \F \to \F$ gives a Weil sheaf.
+\end{rmk}
+
+\begin{exercise}
+For $X_0 = \Spec{\FF_q}$ we have,
+\[ \{ \text{Weil Sheaves} \} \iff \{ \text{continuous reps of } W(X_0) \cong \Z \text{ on finite dimensional } \overline{\Q}_\ell \text{ vector spaces} \} \]
+furthermore, the subcategory of $\overline{\Q}_\ell$-sheaves correspond to those representations that extend to $\hat{Z}$.
+\end{exercise}
+
+\begin{exercise}
+In the rank $1$ case let $X_0$ be a normal geometrically connected / $\FF_q$ then,
+\[ \Im{\pi_1(X, \bar{x}) \to W(X_0, \bar{x})^\et} \]
+is a finite group times a pro-$p$ group. 
+\end{exercise}
+
+\subsection{Weights}
+
+Fix an isomorphism $\iota : \overline{\Q}_\ell \iso \C$. 
+
+\begin{defn}
+Let $\F_0$ be a Weil sheaf on $X_0$ and $\beta \in \RR$ then,
+\begin{enumerate}
+\item $\F_0$ is (pointwise) $\iota$-pure of weight $\beta$ if $\forall x \in |X_0|$ and $\alpha$ is an eigenvalue of $F_x \acts (\F_0)_{\bar{x}}$ then $|\iota \alpha| = q^{\frac{\beta d(x)}{2}}$. 
+\item $\F_0$ is $\iota$-mixed if there is a filtration,
+\[ 0 = \F_0^{(0)} \subset \cdots \subset \F_0^{(r)} = \F_0 \]
+by Weil subsheaves s.t. $\F_0^{(i+1)} / \F_0^{(i)}$ is $\iota$-pure of some weight
+\item $\F_0$ is pure of weight $\beta$ / mixed if it is $\iota$-pure of weight $\beta$ / $\iota$-mixed for any $\iota$.
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+The sheaf $\F_0 = \Q(1)$ is pure of weight $-2$ since $F \zeta_{\ell^n} = \zeta_{\ell^n}^{q^{-1}}$. If $X_0$ is normal geometrically connected then any rank $1$ smooth Weil sheaf on $X_0$ is $\iota$-pure.
+\end{example}
+
+\begin{thm}[Deligne]
+For $f_0 : X_0 \to Y_0$ and $\F_0$ on $X$ a $\iota$-mixed of largest weight $\beta$ then,
+\[ R^k (f_0)_* \F_0 \]
+is $\iota$-mixed with weights $\le \beta + k$. 
+\end{thm}
+
+\begin{example}
+For $f_0 : X_0 \to \Spec{\FF_q}$ smooth and proper of dimension $d$ and $\F_0$ a smooth sheaf on $X_0$ that is $\iota$-pure of weight $\beta$ then by Poincare duality,
+\[ F \acts H^k(X_{\et}, \F) \cong H^{2d - k}(X_{\et}, \F^\vee(d))^\vee \]
+By Deligne's theorem, the left hand side has weights $\le \beta + k$. Furthermore, the sheaf $\F^\vee(d)$ is $\iota$-pure of weight $-\beta - 2d$ and thus by Deligne's theorem the cohomology group has weights $\le - \beta - k$ and thus dualizing the weights are $\ge \beta + k$. Therefore, the weights are all $\beta + k$ because both sides are isomorphic..
+\end{example}
+
+\begin{theorem}[semi-continuity]
+Let $j_0 : U_0 \to X_0$ be a dense open immersion with $S_0 = X_0 \setminus U_0$ with the reduced scheme structure. Let $\F_0$ be a smooth Weil sheaf on $X_0$. Assume that there is $\beta \in \RR$ such that $\forall x \in |U_0|$ and any eigenvalue $\alpha$ of $f_x \acts \F_{\bar{x}}$ then $|\iota \alpha| \le q^{\frac{\beta d(x)}{2}}$ then $\forall s \in |S_0|$ and any eigenvalue $\alpha$ of $F_s \acts \F_{\bar{s}}$ then $|\iota \alpha| \le q^{\frac{\beta d(s)}{2}}$.  
+\end{theorem}
+
+\begin{proof}
+We can always take a chain of curves connecting $x$ and $s$ so we reduce to the case $\dim{X_0} = 1$ with $X_0$ geometrically irreducible and affine. Recall,
+\[ L(X_0, \F_0, t) = \prod_{x \in |X_0|} \det{(1 - F_x t^{d(x)} | \F_{\bar{x}})}^{-1} = \frac{\det{(1 - F t | H^1_c(X, \F))}}{\det{(1 - F t | H^0_c)} \det{1 - Ft | H^2_c)}} \]
+Then, $H^0_c(X, \F) = 0$ because $X$ is affine and $\F_0$ is smooth so there are no global sections with compact support. Furthermore,
+\[ H^2_c(X, \F) \cong H^0(X, \F^\vee(1))^\vee \] by Poincare duality. Fix $x \in |U_0|$ and because $\F_0$ is lisse then it corresponds to some representation $V$ of $W(X_0, \bar{x})$ on $\F_{\bar{x}}$. Then, $H^0(X, \F) = V^{\pi_1(X)}$ and likewise,
+\[ H^2_c(X, \F) = H^0(X, \F^\vee)^\vee(-1) = V_{\pi_1(X)}(-1) \]
+because the dual of invariants are coinvariants. Take $\alpha$ an eigenvalue of $F$ acting on $V_{\pi_1(X)}$ then $\alpha^{d(x)}$ is an eigenvalue of $F^{d(x)} = F_x$ acting on $V_{\pi_1(X)}$ which is a quotient of $\F_{\bar{x}}$ and thus $q | \iota \alpha| \le q^{\frac{\beta d(x)}{2} + 1}$ and thus $q \alpha$ is an eigenvalue of $F \acts H^2_c$ iff $(q \alpha)^{-1}$ is a zero of $\det{(1 - F t | H^2_c)}$. Therefore, the possible poles of $\iota L(X_0, \F_0, t)$ is $\iota(q \alpha)^{-1}$ for $\alpha$ as above. Therefore $\iota L(X_0, \F_0, f)$ has no poles for $|t| < q^{-\frac{\beta}{2} - 1}$. However, 
+\[ L(X_0, \F_0, t) = L(U_0, \F_0 |_{U_0}, t) \cdot \prod_{s \in S_0} \det{(1 - F_s t | \F_{\bar{s}})}^{-1} \]
+I claim that $\iota L(U_0, \F_0 |_{U_0}, t)$ converges and has no zeros for $|t| < q^{-\frac{\beta}{2} - 1}$. Then,
+\[ \iota \left( \frac{L'(U_0)}{L(U_0)} \right) = \iota\left( \sum_{n = 1}^\infty \left( \sum_{\substack{x \in |U_0| \\ d(x) \divides n}} d(x) \iota \Tr{F_x^{\frac{n}{d(x)}}} \right) t^{n-1} \right) \]
+Then, 
+\[ | \iota \Tr{F_x^{\frac{n}{d(x)}}} | \le r \left( q^{\frac{\beta d(x)}{2}} \right)^{\frac{n}{d(x)}} = r q^{\frac{\beta n}{2}} \]
+Therefore,
+\[ \sum_{\substack{x \in |U_0| \\ d(x) \divides n}} d(x) = \# U_0(\FF_{q^n}) \le C q^n \]
+and therefore the logarithmic derivative is dominated by,
+\[ \sum_{n = 1}^\infty r C q^{n \left( \frac{\beta}{2} + 1 \right)} t^{n-1} \]
+which converges absolutely for $|t| < q^{- \frac{\beta}{2} - 1}$ and thus $|\iota \alpha| \le q^{\beta + 1}$. 
+\bigskip\\
+Now we apply the same argument to $\G_0 = \F_0^{\otimes k}$ so $\alpha^k$ is an eigenvalue of $F_s \acts \G_{\bar{s}}$ and thus $| \iota \alpha^k | \le q^{\frac{k \beta}{2} + 1}$ which implies that,
+\[ | \iota \alpha | \le q^{\frac{\beta}{2} + \frac{1}{k}} \]
+and thus taking $k \to \infty$ this goes to $q^{\frac{\beta}{2}}$ so $| \iota \alpha| \le q^{\frac{\beta}{2}}$. 
+\end{proof}
+
+
+
+\end{document}
+
+
