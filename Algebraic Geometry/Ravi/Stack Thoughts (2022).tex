@@ -1,0 +1,566 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\newcommand{\PSh}{\mathrm{PSh}}
+
+\section{Thoughts April 4}
+
+If we take $\G = \mathbf{AffSch}$ with open immersions as the admissible morphisms (what we called ``open immersions'' in class and just means ``is an element of a covering family'' as Daniel pointed out) we see that $\Sh_{\G}$ contains all schemes however the notion of ``open immersion'' we defined for a morphism of sheaves only applies in the case that it is representable and thus the only schemes in $\Sh_{\G}$ which are locally covered by affines in the induced topology are those with an affine cover whose inclusions are \textit{affine morphisms} i.e. the schemes whose diagonal is affine. 
+\bigskip\\
+To fix this, we clearly need to expand our definition of what it means for a morphism $f : F \to G$ to be an open immersion outside the representable setting. I will consider some ways to define properties of non-representable morphisms 
+
+\subsection{Generalities}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms in a site $\G$ (a category with a Grothendieck (pre)-topology). Then we say that,
+\begin{enumerate}
+\item $\cP$ is \textit{preserved under shrinking the source} if for any $f : X \to Y$ having $\cP$ and $g : X' \to X$ admissible then $f \circ g : X' \to Y$ has $\cP$
+\item $\cP$ is \textit{preserved under shrinking the target} if for any $f : X \to Y$ having $\cP$ and $g : Y' \to Y$ admissible then $f' : X \times_Y Y' \to Y'$ has $\cP$
+\item $\cP$ is \textit{preserved under base change} if for any $f : X \to Y$ having $\cP$ and any $g : Y' \to Y$ then $f' : X \times_Y Y' \to Y'$ has $\cP$
+\item $\cP$ is \textit{local on the source} if for every covering family $\{ X_\alpha \to X\}$,
+\[ f : X \to Y \text{ has } \cP \iff \text{ each } X_\alpha \to X \to Y \text{ has } \cP \]
+\item $\cP$ is \textit{local on the target} if for every covering family $\{ Y_\alpha \to Y \}$,
+\[ f : X \to Y \text{ has } \cP \iff \text{ each } f_\alpha : X \times_Y Y_\alpha \to Y_\alpha \text{ has } \cP \]
+\item $\cP$ is \textit{local on the source-and-target} if $\cP$ is local on the source and local on the target and if $f : X \to Y$ has $\cP$ and $g : Y \to Z$ is an admissible morphism  then $g \circ f$ has $\cP$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The reason I make the somewhat artificial seeming condition in ``local on the source-and-target'' is discussed in \href{https://stacks.math.columbia.edu/tag/04QW}{Tag 04QW}  
+\end{rmk}
+
+\begin{prop}
+The property of being an admissible morphism is preserved under base change and shrinking the source.
+\end{prop}
+
+\begin{proof}
+This is exactly part of the definition of a site.
+\end{proof}
+
+\begin{defn}
+A site is \textit{locally complete} if being an admissible morphism is local on the source-and-target.
+\end{defn}
+
+\begin{rmk}
+It is automatic that admissible morphisms satisfy the ``only if'' portion of local on the source and local on the target. Indeed, the definition of a pre-topology includes that if $f : X \to Y$ and $g : Y' \to Y$ is admissible then $f' : X \times_Y Y' \to Y'$ is admissible. Likewise admissible morphisms preserved under composition giving the ``only if'' part of local on the source and the extra post-composition property. 
+\bigskip\\
+The thing that can go wrong is that there are ``not enough'' admissible morphisms in the sense that a morphism can be locally admissible but not admissible. This is what I wanted the name to capture but I just made it up so I hope it doesn't already mean something. 
+\bigskip\\
+My guess is that we can complete a site so that it becomes locally complete and this does not change the category of sheaves we obtain so there is no harm in assuming that our sites are locally complete.
+\end{rmk}
+
+\subsection{Properties of morphisms of pre-sheaves}
+
+\begin{defn}
+A morphism $f : F \to G$ of pre-sheaves is representable if for every pullback diagram,
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[d] \arrow[r] \pullback & X \arrow[d]
+\\
+F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable then $F \times_G X$ is representable. 
+\end{defn}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms of $\G$ which is preserved under base change and $f : F \to G$ a representable morphism. Then we say that $f$ has $A\cP$ if for every pullback diagram,
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[d] \arrow[r] \pullback & X \arrow[d]
+\\
+F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable the morphism $F \times_G X \to X$ has $\cP$ (in the sense of morphisms in $\G$).
+\end{defn}
+
+\begin{rmk}
+If we start with a property of morphism of $\G$ which is not local on the target then the property we recover on $\G \embed \PSh_\G$ via the above definition is ``universally $\cP$'' rather than $\cP$. 
+\end{rmk}
+
+\begin{defn}
+We say a morphism $f : X \to Y$ in $\G$ has the property \textit{universally} $\cP$ if for every $Y' \to Y$ the base change $f' : X \times_Y Y' \to Y'$ exists and has $\cP$.
+\end{defn}
+
+\begin{rmk}
+The issue with the above method for extending property of morphisms in $\G$ to $\PSh_\G$ is that there is no way for it to make sense outside the representable context. We can do a bit better if we require some locality of our property. 
+\end{rmk}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms which is preserved under base change and shrinking the source. Then we say that a morphism $f : F \to G$ has $B\cP$ if for every diagram,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable and $U \to F \times_G X$ an representable admissible morphism from a representable object $U$ then $U \to X$ has $\cP$ (in the $\G$ sense).
+\end{defn}
+
+\begin{prop}
+If $f : F \to G$ is representable then $f$ has $A \cP$ if and only if $f$ has $B \cP$.
+\end{prop}
+
+\begin{proof}
+Suppose $f : F \to G$ has $B\cP$. Then for any representable $X$
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[r, equals] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+we have $F \times_G X$ representable and $\id : F \times_G X \to F \times_G X$ is admissible and thus $F \times_G X \to X$ has $\cP$ in the $\G$-sense proving that $f$ has $A\cP$. 
+\bigskip\\
+Conversely, suppose that $f$ has $A\cP$. Given any diagram,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+we know that $F \times_G X \to X$ is a morphism in $\G$ with property $\cP$ so since $U \to F \times_G X$ is admissible it is an admissible morphism in $\G$ and thus $U \to X$ has $\cP$ in the $\G$ sense because it is preserved under shrinking the source. Thus $f$ has $B \cP$.
+\end{proof}
+
+\begin{rmk}
+In light of this proposition we overload our terminology by calling $A \cP$ and $B \cP$ just $\cP$.
+\end{rmk}
+
+\begin{cor}
+If $\G$ admits all fiber products then all morphisms in $\G$ are representable. Therefore, $\cP$ and $A \cP$ and $B \cP$ all agree on $\G$.
+\end{cor}
+
+\begin{prop}
+If $f : X \to Y$ is a morphism in $\G$ such that $h^f : h^X \to h^Y$ has $B \cP$ then $f$ has $\cP$ (in the $\G$ sense).
+\end{prop}
+
+\begin{proof}
+First if $f : X \to Y$ is a morphism in $\G$ then if $h^f : h^X \to h^Y$ has $\cP$ then by definition,
+\begin{center}
+\begin{tikzcd}
+h^X \arrow[r, equals] & h^X \arrow[d, equals] \pullback \arrow[r]  & h^Y \arrow[d, equals]
+\\
+& h^X \arrow[r, "f"] & h^Y 
+\end{tikzcd}
+\end{center}
+since $\id : X \to X$ is admissible and representable we have $h^X \to h^Y$ has $\cP$ in the $\G$ sense which means exactly that $f : X \to Y$ has $\cP$. 
+\end{proof}
+
+\begin{rmk}
+If $\G$ does not have fiber products then we might not have $\cP$ on $\G$ agree with $\cP$ on $\PSh_\G$ restricted to $\G$ but it will at least be a subclass of $\cP$ on $\G$.
+\end{rmk}
+
+\begin{defn}
+We say that a morphism $f : F \to G$ is \textit{admissible} if it is $B$-admissible.
+\end{defn}
+
+\begin{rmk}
+This makes sense because admissible morphisms are preserved under base change and shrinking the source by definition of a site.
+\end{rmk}
+
+\subsection{Open Embeddings}
+
+We saw that it was deficient to define an open embedding of schemes as a representable open embedding of sheaves on $\mathbf{AffSch}$ with the topology of open embeddings of affine schemes because this requires representability. Luckily, we now have a notion of an admissible morphism without needing representability. 
+
+\begin{defn}
+A sheaf $F \in \Sh_\G$ is \textit{locally representable} if there exist admissible morphisms $F_\alpha \to F$ from representable sheaves $F_\alpha$ such that for every representable $X$ with a morphism $X \to F$ there are diagrams,
+\begin{center}
+\begin{tikzcd}
+U_{\alpha \beta} \arrow[r] & F_\alpha \times_F X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F_\alpha \arrow[r] & F
+\end{tikzcd}
+\end{center}
+with $U_{\alpha \beta} \to F_\alpha \times_F X$ a representable admissible morphism such that $\{ U_{\alpha \beta} \to X \}$ is a covering family (note admissibility of $F_\alpha \to F$ implies that $U_{\alpha \beta} \to X$ is automatically admissible).
+\end{defn}
+
+
+\begin{lemma}
+Let $\G = \mathrm{AffSch}$ with the topology of open embeddings of affine schemes. Let $f : T \to X$ be a representable admissible morphism of schemes. Then $f$ is an open embedding.
+\end{lemma}
+
+\begin{proof}
+For any affine open $U \to X$ we have $f_U : T_U \to U$ is admissible (meaning and open embedding) by definition. Since being an open embedding of schemes is local on the target we see that $f$ is an open embedding.
+\end{proof}
+
+(SOME ISSUES HERE) MAYBE REQUIRE THAT THE ADMISSIBLE MORPHISMS ARE MONIC
+
+\begin{prop}
+Let $\G = \mathrm{AffSch}$ with the topology of open embeddings of affine schemes. Then the full subcategory of $\Sh_{\G}$ of locally-representable sheaves is equivalent to the category of schemes taking admissible morphisms to (Zariski) local isomorphisms of schemes (I THINK). 
+\end{prop}
+
+\begin{proof}
+Consider the functor $\mathrm{Sch} \to \Sh_{\G}$ sending $X \mapsto h^X$ to its functor of points.This is fully faithful so we need to show it is essentially surjective onto locally representable sheaves.  From now on, I will abuse notation by conflating a scheme by its functor of points. Recall that a representable object is an affine scheme and a representable morphism is an affine morphism.  First, I claim that $X$ is locally representable. Indeed, let $V \subset X$ be an affine open. Then I claim that $V \to X$ is admissible. Indeed, for any affine scheme $T$ and $T \to X$ consider,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & V \times_X T \arrow[r] \arrow[d] \pullback & T \arrow[d]
+\\
+& V \arrow[r] & X
+\end{tikzcd}
+\end{center}
+with $U \to V \times_X T$ a representable admissible morphism. Since $V \to X$ is an open immersion of schemes so is $T \times_X V \to T$. Since $U \to V \times_X T$ is a representable admissible morphism it is an open embedding and hence an affine open. Thus $U \to V \times_X T \to T$ is an open embedding. Thus we see that $V \to X$ is admissible. Now I claim that the $\{ V_\alpha \to X \}$ form a covering family. To do this it suffices to show that every affine open $U \to V \times_X T$ fits into the above diagram meaning it is a representable admissible morphism. Since $V \times_X T \to T$ is an open immersion $T \times_X V$ is quasi-affine and hence separated. Therefore for each affine open $U \subset V \times_X T$ the morphism $U \to V \times_X T$ is affine and hence a representable admissible morphism. Furthermore $U \to V \times_X T \to T$ is an open embedding and hence $U \to T$ is an admissible morphism in $\G$. Therefore, taking $U_{\alpha \beta}$ to be an affine cover of $V_\alpha \times_X T$ we get a covering family $\{ U_{\alpha \beta} \to T \}$. Thus $X$ is locally representable. 
+\bigskip\\
+Finally, we need to show that every locally representable sheaf is representable by a scheme. Consider a cover by admissible morphisms $U_\alpha \to F$ with $U_\alpha$ affine schemes. Consider $U_{\alpha\beta} = U_\alpha \times_X U_\beta$ which is equipped with admissible morphisms $U_{\alpha\beta} \to U_\alpha$ and $U_{\alpha\beta} \to U_\beta$ which are hence open embeddings of (quasi-affine) schemes. Furthermore, there is a clear isomorphism $\varphi_{\alpha \beta} : U_{\alpha \beta} \iso U_{\beta \alpha}$ satisfying the cocycle condition. Because $F$ is a sheaf for any cover $\{ T_{\alpha \gamma} \to T \}$ with $\{ T_{\alpha \gamma} \to U_\alpha \times_F T \}_\gamma$ a cover we have,
+\begin{align*}
+F(T) &= \mathrm{eq}{\left( \prod_{\alpha \gamma} F(T_{\alpha \gamma}) \to \prod_{\alpha \gamma \alpha' \gamma'} F(T_{\alpha \gamma} \times_T T_{\alpha' \gamma'}) \right)} 
+\\
+& = \{ g_{\alpha \gamma} : T_{\alpha \gamma} \to U_\alpha \mid g_{\beta \gamma'} |_{T_{\alpha \gamma} \times_T T_{\beta \gamma'}} = \varphi_{\alpha \beta} \circ g_{\alpha \gamma}  |_{T_{\alpha \gamma} \times_T T_{\beta \gamma'}} \} 
+\end{align*}
+which is the functor of points of the scheme $X$ produced by the above gluing data.
+\end{proof}
+
+\section{Comparing Topologies April 11}
+
+\begin{defn}
+Let $\C$ be a category. A \textit{family of morphisms with fixed target} is a set of morphisms $\mathcal{U} = \{ U_i \to U \}_{i \in I}$ indexed by $i$ each with target $U$. We call this a \textit{map data}.
+\end{defn}
+
+\begin{defn}
+A morphism of map data $\{ U_i \to U \}_{i \in I} \to \{ V_j \to V \}_{j \in J}$ is the following data,
+\begin{enumerate}
+\item a morphism $f : U \to V$
+\item a map of sets $\alpha : I \to J$
+\item morphisms $f_i : U_i \to V_{\alpha(i)}$ for $i \in I$ such that,
+\begin{center}
+\begin{tikzcd}
+U_i \arrow[d] \arrow[r, "f_i"] & V_{\alpha(i)} \arrow[d]
+\\
+U \arrow[r, "f"] & V
+\end{tikzcd}
+\end{center}
+commutes.
+\end{enumerate}
+If $U = V$ and $f = \id$ we say that the morphism is a \textit{refinement} of families.
+\end{defn}
+
+\begin{defn}
+Let $\F \in \PSh_{\C}$ then $\F$ satisfies the \textit{sheaf condition} for a map data $\{ U_i \to U \}_{i \in I}$ if all $U_i \times_U U_j$ exist and,
+\begin{center}
+\begin{tikzcd}
+\F(U) \arrow[r] & \prod\limits_{i \in I} \F(U_i) \arrow[r, shift left] \arrow[r, shift right] & \prod\limits_{(i,j) \in I^2} \F(U_i \times_U U_j) 
+\end{tikzcd}
+\end{center}
+is an equalizer diagram.
+\end{defn}
+
+\begin{lemma}
+Suppose that $\{ U_i \to X \}_{i \in I} \to \{ V_j \to X \}_{j \in J}$ is a refinement. Suppose that,
+\begin{enumerate}
+\item $\F$ satisfies the sheaf condition for $\{ U_i \to X \}$
+\item the fiber products $U_i \times_X V_j$ and $V_j \times_X V_{j'}$ exist
+\item for each $j \in J$ the map,
+\[ \F(V_j) \to \prod_{i \in I} \F(U_i \times_X V_j) \]
+is injective.
+\end{enumerate}
+Then $\F$ satisfies the sheaf condition for $\{ V_j \to X \}$.
+\end{lemma}
+
+\begin{proof}
+Consider the commutative diagrams,
+\begin{center}
+\begin{tikzcd}
+& V_{\alpha(i)} \times_X V_{j}  \arrow[dd, "\pi_1", near start] \arrow[rd, "\pi_2"]
+\\
+U_i \times_X V_{j} \arrow[ru, "f_i \times \id"] \arrow[dd, "p_1"] \arrow[rr, crossing over, "p_2", near start] & & V_{j} \arrow[dd]
+\\
+& V_{\alpha(i)} \arrow[rd]
+\\
+U_i \arrow[ru, "f_i"'] \arrow[rr] & & X
+\end{tikzcd}
+\end{center}
+Now consider,
+\begin{center}
+\begin{tikzcd}
+\F(X) \arrow[d,equals] \arrow[r] & \prod\limits_{j \in J} \F(V_j) \arrow[d] \arrow[r, shift left] \arrow[r, shift right] & \prod\limits_{(j,j') \in J^2} \F(V_j \times_X V_{j'}) \arrow[d]
+\\
+\F(X) \arrow[r] & \prod\limits_{i \in I} \F(U_i) \arrow[r, shift left] \arrow[r, shift right] & \prod\limits_{(i,i') \in I^2} \F(U_i \times_X U_{i'}) 
+\end{tikzcd}
+\end{center}
+with maps defined by for each $i \in I$,
+\[ \prod\limits_{j \in J} \F(V_j) \to \F(V_{\alpha(i)}) \xrightarrow{f_i^*} \F(U_i) \]
+and for each $(i,i') \in I^2$,
+\[ \prod\limits_{(j,j') \in J} \F(V_j \times_X V_{j'}) \to \F(V_{\alpha(i)} \times_X V_{\alpha(i')}) \xrightarrow{(f_i \times f_{i'})^*} \F(U_i \times_X U_{i'}) \]
+By the sheaf condition for $\{ U_i \to X \}$ the first bottom map is injective and hence by commutativity the first top map is also injective. Now we need to show gluing. Let $s_j \in \F(V_j)$ agree on double intersections. Then its image $s_i = f_i^* s_{\alpha(i)}$ also agree on double intersections by commutativity. By the sheaf condition, the $s_i$ glue to $s \in \F(X)$ such that $s|_{U_i} = s_i$. We need to show that $s|_{V_j} = s_j$. By the injectivity assumption, it suffices to show that for all $i \in I$ and $j \in J$,
+\[ p_2^* (s|_{V_j}) = p_2^* s_j \]
+However, by commutativity,
+\[ p_2^* s_j = (f_i \times \id)^* \pi_2^* s_j \]
+By assumption $\pi_2^* s_j = \pi_1^* s_{\alpha(i)}$ so we have, 
+\[ p_2^* s_j = (f_i \times \id)^* \pi_2^* s_j = (f_i \times \id)^* \pi_1^* s_{\alpha(i)} = p_1^* f_i^* s_{\alpha(i)} = p_1^* s_i = p_1^* (s|_{U_i}) = p_2^* (s|_{V_j}) \]
+so we win.
+\end{proof}
+
+\begin{prop}
+Let $\F$ be a sheaf on the site $(\C, \tau)$. Let $\tau'$ be a (pre)-topology on $\C$ such that for every $\mathcal{V} \in \tau'$ there exists a refinement $\mathcal{U} \to \mathcal{V}$ with $\mathcal{U} \in \tau$. Then $\F$ is a sheaf on $(\C, \tau')$.
+\end{prop}
+
+\begin{proof}
+We apply the previous lemma to $\mathcal{U} \to \mathcal{V}$ noting that $\F$ satisfies the sheaf condition for all $\mathcal{U} \in \tau$ that all required fiber products exist by the site axiom and for each $j \in J$ the family $\{ U_i \times_X V_j \to V_j \}_{i \in I} \in \tau$ by the base change axiom for $V_j \to X$ so $\F$ satisfies the sheaf condtion for this covering family and hence the required maps are injective.
+\end{proof}
+
+\begin{cor}
+If $\tau, \tau'$ are two (pre)-topologies on $\C$ such that every $\tau$ cover admits a $\tau'$ refinement and every $\tau'$ cover admits a $\tau$ refinement then,
+\[ \Sh(\C, \tau) = \Sh(\C, \tau') \]
+as subcategories of $\PSh_{\C}$. 
+\end{cor}
+
+\begin{cor}
+Suppose that every cover in $\tau'$ can be refined by a singleton cover which admits a section locally in the $\tau$ topology. Then,
+\[ \Sh(\C, \tau) \subset \Sh(\C, \tau') \]
+\end{cor}
+
+\begin{proof}
+Let $F$ be a sheaf for $\tau$ we need to show that for any $\{ V_j \to X \}_{j \in J} \in \tau'$ that $F$ satisfies the sheaf condition for this family. We can find a refinement $\{ V \to X \} \to \{ V_j \to X \}_{j \in J}$ of the discussed form. By the lemmas it suffices to prove that $F$ is a sheaf for $\{ V \to X \}$. The map $V \to X$ admits a section $\tau$-locally meaning there is a $\tau$-cover $\{ U_{i} \to X \}_i$ such that,
+\begin{center}
+\begin{tikzcd}
+U_{i} \times_X V \arrow[d] \arrow[r] & V \arrow[d]
+\\
+U_{i} \arrow[r] \arrow[u, bend left, dashed] \arrow[ru, dashed] & X 
+\end{tikzcd}
+\end{center}
+so we get a refinement $\{ U_{i} \to X \} \to \{ V \to X \}$ and $F$ satisifes the sheaf condition for $\{ U_{i} \to X \}$ so we win. 
+\end{proof}
+
+\subsection{The Smooth Topology}
+
+\begin{defn}
+The smooth topology on $\Sch$ has as cover covers the jointly surjective families of smooth maps.
+\end{defn}
+
+\begin{lemma}
+A smooth map \etale-locally admits sections. Explicitly if $\pi : X \to Y$ is smooth then for each $y \in \im{\pi}$ there is an \etale neighborhood $(U, y') \to (Y, y)$ and a diagram,
+\begin{center}
+\begin{tikzcd}
+& X \arrow[d, "\pi"]
+\\
+U \arrow[ru] \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+Choose $x \in X$ with $\pi(x) = y$. Because every smooth map is locally standard smooth, about any $y \in Y$  we can find affine opens $U \subset X$ and $V \subset Y$ with $x \in U$ and $y \in V$ such that,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "\pi"'] & U \arrow[l] \arrow[d] \arrow[r, "\et"] & \A^n_V \arrow[ld]
+\\
+Y & V \arrow[l] 
+\end{tikzcd}
+\end{center}
+such that $U \to \A^n_V$ is standard \etale. The projection $\A^n_V \to V$ admits a section $s : V \to \A^n_V$. Consider, 
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "\pi"'] & U'  \arrow[l, hook'] \arrow[r] \arrow[d, "\et"] \pullback & U \arrow[ll, bend right] \arrow[d, "\et"]
+\\
+Y & V \arrow[l, hook'] \arrow[r, "s"] & \A^n_V
+\end{tikzcd}
+\end{center}
+proving the claim because $U' \to V \to Y$ is \etale and $(x, y) \in U'$ maps to $y$. 
+\end{proof}
+
+\begin{rmk}
+There is a wide difference between $C^0$ (topological) and $C^1$ manifolds. For example, not every $C^0$ manifold admits a $C^1$ smoothing but $C^1$ manifolds always admit $C^k$ and $C^\infty$ and even $C^\omega$ smoothings! Furthermore, because we do not have acess to derivatives our definitions will have to be different in the topological case. In analogy with the constant rank theorem and structure of smooth morphisms we make the following definition. 
+\end{rmk}
+
+\begin{defn}
+A continuous map $f : M \to N$ of topological manifoldnd s is a \textit{topological submersion} if for each $x \in M$ there are neighborhoods $U \subset M$ and $V \subset N$ with $x \in U$ and $y \in V$ such that $f(U) \subset V$ and a homoemorphism $u : U \to V \times Z$ such that,
+\begin{center}
+\begin{tikzcd}
+M \arrow[d, "f"'] & U \arrow[l, hook'] \arrow[d] \arrow[r, "u"] & V \times Z \arrow[ld, "\pi_1"] 
+\\
+N & V \arrow[l, hook']
+\end{tikzcd}
+\end{center}
+commutes.
+\end{defn}
+
+\begin{defn}
+The smooth (\etale) topology on $\mathbf{Man}_{\mathrm{Top}}$ has as covers the jointly surjective topological submersions (local homeomorphisms). 
+\end{defn}
+
+\begin{defn}
+The smooth (\etale) topology on $\mathbf{Man}$ ($C^k$, $C^\infty$, $C^\omega$ or complex) has as covers the jointly surjective submersions (local diffeomorphisms/biholomorphisms). 
+\end{defn}
+
+\begin{theorem}[Constant Rank]
+Let $F : M \to N$ be a morphism of manifolds ($C^k$ or $C^\infty$ or $C^\omega$ or complex) and let $F$ have constant rank in some neighborhood of $x \in M$. Then there exist open neighborhoods $U \subset M$ and $V \subset N$ with $x \in M$ and $F(x) \in N$ with $F(U) \subset V$ and diffeomorphisms $u : U \to T_p M$ and $v : V \to T_p N$ such that,
+\begin{center}
+\begin{tikzcd}
+M \arrow[d, "F"'] & U \arrow[l, hook'] \arrow[d] \arrow[r, "u"] & T_p M \arrow[d, "\d{F}"] 
+\\
+N & V \arrow[l, hook'] \arrow[r, "v"] & T_p N
+\end{tikzcd}
+\end{center}
+commutes meaning $\d{F} = v \circ F \circ u^{-1}$. 
+\end{theorem}
+
+\begin{proof}
+I give some references,
+\begin{enumerate}
+\item For $C^\infty$ manifolds see Lee Theorem 4.12
+\item For $C^1$ manifolds (I am sure this works for $C^k$) see (baby) Rudin Theorem 9.32
+\item For $C^\omega$ manifolds see Lewis, Holomorphic and real analytic calculus Theorem 1.2.11
+\item For complex manifolds see Holomorphic Functions of Several Variables
+An Introduction to the Fundamental Theory
+By Ludger Kaup, Burchard Kaup, Gottfried Barthel Theorem 8.7.
+\end{enumerate}  
+\end{proof}
+
+\begin{lemma}
+A submersion euclidean-locally admits sections. Explicitly this means if $\pi : X \to Y$ is a submersion and $y \in \im{\pi}$ there is an open $U \subset Y$ with $y \in U$ and a section $s : U \to X$ of $\pi$. 
+\end{lemma}
+
+\begin{proof}
+This follows immediately from the constant rank theorem or, in the topological case, from the definition of a topological submersion.
+\end{proof}
+
+\begin{theorem}
+The following categories are equal as subcategories of the corresponding presheaf categories,
+\begin{enumerate}
+\item $\Sh(\mathrm{Sch}, \text{\etale}) = \Sh(\mathrm{Sch}, \mathrm{smooth})$
+\item $\Sh(\mathrm{Man}, \text{euclidean}) = \Sh(\mathrm{Man}, \text{\etale}) = \Sh(\mathrm{Man}, \mathrm{smooth})$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By the main lemma, it suffices to show that these topologies can refine each other. Going left to right the topologies include more covers so refinement is obvious. For the other direction, we saw that any smooth map has \etale / euclidean local sections and taking these over all points in the image of an element $T_i \to X$ of a smooth cover gives an \etale refinement. Explicitly given a smooth cover $\{ T_i \to X \}$ for each $x \in X$ find some $T_{i(x)} \to X$ with $x$ in the image. Then there exists an \etale neighborhood $U_x \to X$ of $x$ and a section $s_x : U_x \to T_{i(x)}$. Then $\{ U_x \to X \}_{x \in X}$ along with the maps $s_x : U_x \to T_{i(x)}$ forms a refinement of $\{T_i \to X \}$. 
+\bigskip\\
+Furthermore, \etale maps in the euclidean topology are local diffeomorphisms (without properness these might not be covering maps just as non-proper submersions need not be fiber bundles but we will not need either fact to make the refinement we only need local sections) and hence there are euclidean-local sections about each point of the image. Explicitly, if $\pi : M \to N$ is a local diffeomorphism, then for any $x \in X$ and $y = f(x)$ there are opens $U \subset M$ and $V \subset N$ with $x \in U$ and $y \in V$ such $f(U) \subset V$ and $f : U \to V$ is a diffeomorphism (so in particular $f(U) = V$ is open) thus $f^{-1} : V \to U$ gives such a local section. Together, these sections form a refinement as previously. 
+\end{proof}
+
+\subsection{The Flat Topology}
+
+\begin{rmk}
+I will not here define the flat topology for schemes since it requires care with the finiteness assumptions (see, for example, the hilarious \chref{https://stacks.math.columbia.edu/tag/0BBK}{fact} that there cannot be any cofinal \textit{set} of covers (it must be a proper class) for the fpqc topology). This is okay because for schemes we will only discuss counterexamples here. We only need one fact, that finitely presented flat maps are admissible for any flat topologly.
+\end{rmk}
+
+\section{Residual Gerbes}
+
+\newcommand{\cZ}{\mathcal{Z}}
+
+\begin{defn}
+Let $\X$ be an algebraic stack and $x \in |\X|$. A \textit{residual gerbe} $\cZ_x$ at $x$ is a strictly\footnote{Meaning every isomorphism with one object in $\cZ_x$ is in $\cZ_x$.} full subcategory $\cZ_x \subset \X$ such that $\cZ_x$ is a reduced, locally Noetherian algebraic stack and that $|\cZ_x| \to |\X|$ is the inclusion map $x \to |\X|$ (in particular $|\cZ_x|$ consists of one point). 
+\end{defn}
+
+\begin{rmk}
+We want to ask when such a thing exists, is unique, and is a gerbe for the inertia at $x$.
+\end{rmk}
+
+\begin{theorem}
+If $\X$ is an algebraic stack such that $\I_{\X} \to \X$ is quasi-compact then the redicual gerbe of $\X$ at each $x \in |\X|$ exists (and is unique).
+\end{theorem}
+
+\begin{proof}
+\chref{https://stacks.math.columbia.edu/tag/06RD}{Tag 06RD}. 
+\end{proof}
+
+\begin{lemma}
+
+\end{lemma}
+
+\begin{prop}
+A residual gerbe is a gerbe over a reduced, locally Noetherian algebraic space $Z$ with $|Z|$ a singleton. 
+\end{prop}
+
+\newcommand{\Qbar}{\overline{\Q}}
+
+\begin{rmk}
+Woe, there are indeed Noetherian reduced algebraic spaces with one point that are not schemes! For example, let,
+\[ X = \Spec{\Qbar}/\, \Gal{\Qbar/\Q} \]
+Notice by sheafification in the \etale topology that a map $\Spec{k} \to X$ lifts to $\Spec{k'} \to \Spec{\bar{Q}}$ for $k' / k$ \etale and hence a finite extension. This means if $k / \Q$ is algebraic then $k = \Qbar$ or $k = \Qbar \cap \RR$. Although $X$ is noetherian and reduced it is not quasi-separated since $\Gal{\Qbar/\Q}$ is not quasi-compact (with the discrete topology). 
+\end{rmk}
+
+\begin{rmk}
+In good situations we want this to be a gerbe over a field. 
+\end{rmk}
+
+\begin{proof}
+There is a surjective, flat locally finitely presented morphism $\Spec{k} \to \cZ_x$ where $k$ is a field. 
+\end{proof}
+
+\section{Gerbes}
+
+\newcommand{\Y}{\mathscr{Y}}
+
+\begin{defn}
+A morphism $f : \X \to \Y$ of algebraic stacks over $\C$ is a \textit{relative gerbe} (we say $\X$ is a gerbe over $\Y$) if,
+\begin{enumerate}
+\item for each $y \in \Y$ lying over $U$ there is a covering $U_i \to U$ such that $f(x_i) \cong y|_{U_i}$ for some $x_i \in \X$ over $U_i$
+\item for $x,x' \in \X$ over $U$ and $b : f(x) \to f(x')$ in $\Y_U$ there is a covering $U_i \to U$ and morphisms $a_i : x|_{U_i} \to x'|_{U_i}$ with $f(a_i) = b|_{U_i}$. 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Informally this is saying that the fiber categories locally are nonempty and connected. 
+\end{rmk}
+
+\begin{defn}
+An algebraic stack $\X$ is a \textit{gerbe} if there exists an algebraic space $X$ and a morphism $f : \X \to X$ such that $\X$ is a gerbe over $X$.
+\end{defn}
+
+\begin{rmk}
+From $\X$ we can recover $X$ as follows.
+\end{rmk}
+
+\begin{lemma}
+Let $\X$ be a gerbe. Then the sheafification of the presheaf,
+\[ U \mapsto \mathrm{Ob}(\X_U)/\cong \]
+is an algebraic space $X$ and $\X \to X$ is a relative gerbe.
+\end{lemma}
+
+\begin{proof}
+\chref{https://stacks.math.columbia.edu/tag/06QD}{Tag 06QD}.
+\end{proof}
+
+
+\begin{prop}
+Let $\pi : \X \to \Y$ be a morphism of algebraic stacks. The following are equivalent,
+\begin{enumerate}
+\item $\X$ is a gerbe over $\Y$
+\item there exists an algebraic space $U$, a group algebraic space $G \to U$ flat and locally of finite presentation, and a surjective, flat, and locally finitely presented morphism $U \to \Y$ such that $\X \times_{\Y} U \cong [U / G]$ over $U$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\chref{https://stacks.math.columbia.edu/tag/06QH}{Tag 06QH}. 
+\end{proof}
+
+\begin{prop}
+Let $\X$ be an algebraic stack. Then the followign are equivalent,
+\begin{enumerate}
+\item $\X$ is a gerbe
+\item $\I_{\X} \to \X$ is flat and locally of finite presentation.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\chref{https://stacks.math.columbia.edu/tag/06QJ}{Tag 06QJ}.
+\end{proof}
+
+\section{TODO}
+
+\begin{enumerate}
+\item KIDDIE
+\item BUY RETURN FLIGHT
+\item POL READING
+\item BRIAN MEETING
+\item GERBE NOTES
+\item NOTES MPOL STACK
+\item FOR RAVI: NOTES ON RAYNAUD
+\item BOTT PERIODICITY
+\item MOSER TRICK
+\item READ SYMPLECTIC NOTES
+\item SYMPLECTIC HOMEWORK
+\item GRADING
+\item DO I NEED TO GRADE MIDTERMS?
+\item INVARIANTS OF SUPERSINGULAR SURFACES.
+\item WRITE UP SECTIONS OF CURVES NOTES AND ASK RAVI ABOUT HIS PI1 SECTION ARGUMENT!
+\end{enumerate}
+
+\end{document}

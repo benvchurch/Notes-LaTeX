@@ -1,0 +1,531 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Sep. 30}
+
+\subsection{Introduction}
+
+\begin{thm}[Deligne-Illusie]
+Let $X / k$ be a smooth proper scheme with $k$ a field of characteristic zero and $\Omega^\bullet_{X/k}$ is deRham complex. Then, the Hodge-to-deRham spectral sequence,
+\[ E_1^{p,q} = H^{q}(X, \Omega^p_{X/k}) \implies H_{\dR}^{p+q}(X) \]
+degenerates at the $E_1$-page.
+\end{thm}
+
+\begin{cor}
+Then,
+\[ \dim{H^n_{\dR}(X)} = \sum_{p + q = n} \dim{H^q(X, \Omega^p_{X/k})} \]
+\end{cor}
+
+\begin{rmk}
+For $k = \CC$, we can prove the above equality using analytic techniques (i.e. Hodge theory). 
+\end{rmk}
+
+\begin{rmk}
+D-I give an purely algebraic proof. The idea is use degeneration in positive characteristic to get degeneration in characteristic zero. 
+\end{rmk}
+
+\subsection{deRham Complex}
+
+Let $f : X \to Y$ be a morphism of schemes. 
+
+\begin{defn}
+Then $\Omega^1_{X/Y}$ is the sheaf of relative differentials on $X/Y$. Then,
+\[ \Omega^1_{X/Y} = \Delta^* \C_{X \times_Y X/X} \]
+is the conormal bundle for the diagonal $\Delta_{X/Y} : X \to X \times_Y X$. Then,
+\[ \Omega^i_{X/Y} = \bigwedge^i \Omega^1_{X/Y} \]
+and let $\Omega^0_{X/Y} = \struct{X}$. Furthermore, there exists a unique family of maps $\d^i : \Omega^i_{X/Y} \to \Omega^{i+1}_{X/Y}$ such that,
+\begin{enumerate}
+\item $\d^i$ is a $Y$-antiderivation of the total complex,
+\[ \Omega_{X/Y} = \bigoplus_{i = 0}^\infty \Omega^i_{X/Y} \]
+meaning that $\d$ is $f^{-1} \struct{Y}$-linear and on local sections it satisfies the graded Leibniz law,
+\[ \d{(a \wedge b)} = \d{a} \wedge b + (-1)^i a \wedge \d{b} \]
+\item $\d^2 = 0$
+\item $\d{a} = \d_{X/Y}{a}$ for $\deg{a} = 0$.
+\end{enumerate}
+Then $(\Omega^\bullet_{X/Y}, \d)$ is the deRham complex of $X/Y$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r, "\d"] & \Omega^1_{X/Y} \arrow[r] & \Omega^2_{X/Y} \arrow[r] & \Omega^3_{X/Y} \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{rmk}
+Working over $k = \CC$, there is also an analytic deRham complex $(\Omega^\bullet_{X/Y})^\an$. Then GAGA tells you that you get the same cohomology in the algebraic and analytic cases. Furthermore, the analytic deRham complex is a (not acyclic!!) resolution of the constant sheaf $\CC$.
+\end{rmk}
+
+\begin{defn}
+$H^n_{\dR}(X) = \mathbb{H}^n(X, \Omega^\bullet_{X/Y})$
+\end{defn}
+
+\begin{rmk}
+$\mathbb{H}^n(X, \Omega_{X/Y}^\bullet) = R^n \Gamma(\Omega_{X/Y}^\bullet)$.
+\end{rmk}
+
+\begin{rmk}
+There exists a hypercohomology spectral sequence,
+\[ E_1^{p,q} = R^q \Gamma(X, C^p) \implies \mathbb{H}^{p+q}(C^\bullet) \]
+Applying this to the deRham complex gives the Hodge-to-deRham spectral sequence,
+\[ H^q(X, \Omega^p_{X/Y}) \implies H^{p+q}_{\dR}(X) \]
+\end{rmk}
+
+\subsection{Frobenius and Cartier Isomorphisms}
+
+\newcommand{\Fr}{\mathrm{Fr}}
+
+\begin{defn}
+Let $X$ be a scheme of characteristic $p$ (meaning $p \struct{X} = 0$). Then there is a natural map $\Fr : X \to X$ via $\id$ on topological spaces and $\struct{X} \to \struct{X}$ via $x \mapsto x^p$. This is natural, in the sense that for any map $f : X \to Y$ there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Fr_X"] \arrow[d, "f"] & X \arrow[d, "f"]
+\\
+Y \arrow[r, "\Fr_Y"] & Y
+\end{tikzcd}
+\end{center}
+Therefore, we can define via pullbacks,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "f"'] \arrow[r, "F_{X/Y}", dashed] & X^{(p)} \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+& Y \arrow[r, "\Fr_Y"] & Y
+\end{tikzcd}
+\end{center}
+giving the relative Frobenius $F_{X/Y} : X \to X^{(p)}$. 
+\end{defn}
+
+\begin{prop}
+If $Y$ has characteristic $p$ and $f : X \to Y$ is smooth of relative dimension $n$ then $F_{X/Y} : X \to X^{(p)}$ is finite and flat of degree $n$. Therefore, $F_* \struct{X}$ is locally free of rank $n$ as a $\struct{X^{(p)}}$-module.
+\end{prop}
+
+\begin{proof}
+When $f$ is \etale we can do this with general nonsense (HOW). In general, this is a local question so we reduce to a standard smooth which factors as the composition of an \etale map and a projection from affine space which can be done directly.
+\end{proof}
+
+\begin{prop}
+Let $\d = \d_{X/Y}$. Let $s$ be a local section of $\struct{X}$. Then,
+\[ \d{(s^p)} = p s^{p-1} \d{s} = 0 \]
+since $\d{(s^p)} = F_{X/Y}^*(\d{s}) = F^*_{X/Y}(1 \otimes \d{s})$. Thus,
+\begin{enumerate}
+\item $\Fr^* \Omega^i_{X/Y} \to \Omega_{X/Y}$ is zero
+\item $F^*_{X/Y} \Omega^i_{X^{(p)}/Y} \to \Omega^1_{X/Y}$ is zero
+\item $\d$ on the complex $(F_{X/Y})_* \Omega^\bullet_{X/Y}$ is $\struct{X^p}$-linear.
+\end{enumerate}
+\end{prop}
+
+\renewcommand{\H}{\mathcal{H}}
+
+\begin{theorem}[Cartier]
+There exists a unique morphism of graded $\struct{X^{(p)}}$-algebras,
+\[ \gamma : \bigoplus_{i} \Omega^i_{X^{(p)}/Y} \to \bigoplus_i \H^i((F_{X/Y})_* \Omega^\bullet_{X/Y}) \]
+such that
+\begin{enumerate}
+\item for $i = 0$, we have $\gamma$ is the map $\struct{X^{(p)}} \to (F_{X/Y})_* \struct{X}$
+\item for $i = 1$, we have $\gamma(1 \otimes \d{s}) = s^{p-1} \d{s}$ in $\H^i(F_{X/Y*} \Omega^\bullet_{X/Y})$
+\end{enumerate}
+Furthermore, if $f$ is smooth then $\gamma$ is an isomorphism and we call $c = \gamma^{-1}$.
+\end{theorem}
+
+\begin{rmk}
+If $Y = \Spec{k}$ and $X$ is smooth then $\gamma$ is called the absolute Cartier isomorphism. 
+\end{rmk}
+
+\begin{rmk}
+The theorem tells us that $\gamma$ is determined by how it acts in degree $0$ and degree $1$ because it is a morphism of graded algebras and the deRham complex is generated in degrees $0$ and $1$. Explicitly,
+\[ \gamma(\tau \wedge \sigma) = \gamma(\tau) \wedge \gamma(\sigma) \]
+\end{rmk}
+
+\subsection{Relationship to the HDSS}
+
+Now let $Y = \Spec{k}$ with $k$ a perfect field.
+D-I realized that the Cartier isomorphism is related to degeneration of the HDSS,
+\[ E_1^{p,q} = H^q(X, \Omega_{X/k}^p) \implies H^{p+q}_{\dR}(X/k) \]
+Consider the complex,
+\[ C = \bigoplus_i \Omega^i_{X^{(p)}/Y} [-i] \]
+Then $\H^i(C)$ is the graded parts of the domain of the Cartier isomorphism. Furthermore, the codomain is $\H^i(F_* \Omega^\bullet_{X/k})$. Then we might ask if there is a map of complexes,
+\[ \phi : C \to F_* \Omega^\bullet_{X/k} \]
+which induces the Cartier map. 
+
+\begin{prop}
+If there is such a quasi-isomorphism $\phi$, then the HHSS degenerates at $E_1$.
+\end{prop}
+
+\begin{proof}
+This follows from the chain of isomorphisms,
+\[ \mathbb{H}^n(X, \Omega^\bullet_X) \cong \mathbb{H}^n(X^{(p)}, F_* \Omega^\bullet) \cong \bigoplus_{i} H^{n-i}(X^{(p)}, \Omega^i_{X^{(p)}}) \cong \bigoplus_{i} H^{n-i}(X, \Omega^i_X) \]
+The first isomorphism comes from the fact that $F$ is finite and thus affine. The second isomorphism is the inverse of the map induced by $\phi$ on cohomology. Finally,
+\[ H^{j}(X^{p}, \Omega^i_{X^{(p)}}) = H^{j}(X, \Omega^i_X) \]
+becuase $F : X \to X^{(p)}$ is an isomorphism over a perfect field. 
+Therefore the dimensions match whcih implies that the spectral sequence must have degenerated since the dimensions of the terms matches those of the filtered pieces already.
+\end{proof}
+
+\section{Oct. 14}
+
+\subsection{Degeneration in Characteristic $p$}
+
+First we state the main theorem for today.
+
+\begin{thm}
+Let $S \to \Z / p \Z$ be a scheme of characteristic $p$ and a flat lift to $\Z / p^2 \Z$,
+\begin{center}
+\begin{tikzcd}
+S \arrow[r, hook] \arrow[d] &  \wt{S} \arrow[d]
+\\
+\Spec{\Z/p\Z} \arrow[r, hook] & \Spec{\Z/p^2\Z}
+\end{tikzcd}
+\end{center}
+If $X/S$ is smooth and proper and $X^{(p)}$ admits a smooth lift over $\tilde{S}$ then,
+\[ \tau_{< p} (F_{X/S})_* \Omega^\bullet_{X/S} \]
+is decomposable in $D(X^{(p)})$ meaning it is isomorphic to a complex whose differentials are all zero (i.e. it is isomorphic to its cohomology).
+\end{thm}
+
+\begin{rmk}
+The de Rham complex is not an element of the derived category of $\struct{X}$-modules because the transition maps are not $\struct{X}$-linear. However, the useful fact about $(F_{X/S})_* \Omega_{X/S}^\bullet$ is that the transition maps are $\struct{X^{(p)}}$-linear because for any $f \in \struct{X^{(p)}}(U)$ and $\omega \in \Omega_{X/S}(F_{X/S}^{-1}(U))$ we have,
+\[ \d{(f \cdot \omega)} = \d{(F_{X/S}^\#(f) \omega)} = \d{(F_{X/S}^\#(f))} \wedge \omega + F_{X/S}^\#(f) \d{\omega} = f \cdot \d{\omega} \]
+because $\d{(F_{X/S}^\#(f))} = 0$ since this is $\d$ relative to $S$ and $F_{X/S}$ acts via $x \mapsto x^p$ ``relative to $S$''.
+\end{rmk}
+
+\begin{cor}
+If $k$ is a perfect field and $X/k$ is smooth, proper, and $\dim{X} < p$ and $X$ lifts over $W_2(k)$ then the Hodge-to-de Rham spectral sequence degenerates at $E_1$. 
+\end{cor}
+
+\begin{proof}
+We apply this to the case $S = \Spec{k}$ and $\wt{S} = \Spec{W_2(k)}$. By above, we have that $(F_{X/S})_* \Omega^\bullet_{X/S}$ is decomposable and the hyperderived spectral sequence of any decomposable complex degenerates at $E_1$ just because the differentials of the spectral sequence are formed from the transition maps on the complex which are zero up to quasi-isomorphism. Therefore,
+\[ \dim \mathbb{H}^n(X, \Omega_{X/k}^\bullet) = \dim \mathbb{H}^n(X^{(p)}, (F_{X/k})_* \Omega_{X/k}^\bullet) = \sum_{p + q = n} h^q(X^{(p)}, (F_{X/k})_* \Omega^p_{X/k}) = \sum_{p + q = n} h^q(X, \Omega^p_{X/k}) \]
+because the Frobenius is affine and therefore the dimensions add up for the Hodge-to-de Rham spectral sequence already at the $E_1$ page proving that the differentials must already be zero.
+\end{proof}
+
+\subsection{Recall the Cartier Isomorphism}
+
+Let $X/S$ be a scheme with $S$ characteristic $p$. Then there is a graded isomorphism,
+\[ C^{-1} : \bigoplus_{i} \Omega^i_{X^{(p)}/S} \iso \bigoplus_i \mathcal{H}^i((F_{X/S})_* \Omega^\bullet_{X/S}) \]
+such that,
+\begin{enumerate}
+\item in $i = 0$ the map $\struct{X^{(p)}} \to (F_{X/S})_* \struct{X}$ is $F_{X/S}^{\#}$
+\item in $i = 1$,
+\[ C^{-1}(1 \otimes \d{s}) = s^{p-1} \d{s} \in \mathcal{H}^1((F_{X/S})_* \Omega^\bullet_{X/S}) \]
+think of this as like ``$\frac{F^*(\d{s})}{p}$''.  
+\end{enumerate}
+\noindent
+To prove the theorem, we will exhibit a quasi-isomorphism
+\[ \varphi : \bigoplus_{i < p} \Omega^i_{X^{(p)}/S}[-i] \to (F_{X/S})_* \Omega^\bullet_{X/S} \]
+that induces $C^{-1}$ on cohomology for $i < p$ (and thus is a quasi-isomorphism). We want to reduce to constructing $\varphi^1$ where $\varphi^i$ are the components of the map from the direct sum. For $\varphi^0$ we just define,
+\[ \varphi^0 : \struct{X^{(p)}} \xrightarrow{C^{-1}} \mathcal{H}^0((F_{X/S})_* \Omega^\bullet_{X/S}) \embed (F_{X/S})_* \Omega^\bullet_{X/S} \]
+Now assume we have constructed,
+\[ \varphi^1 : \Omega^1_{X^{(p)}/S} [-1] \to (F_{X/S})_* \Omega^\bullet_{X/S} \]
+inducing $C^{-1}$ on $\mathcal{H}^1$.
+Then there exists,
+\[ \left( \Omega^1_{X^{(p)}/S} \right)^{\otimes i} \to \Omega^i_{X^{(p)}/S} \]
+by sending,
+\[ w_1 \otimes \cdots \otimes w_i \mapsto w_1 \wedge \cdots \wedge w_i \]
+If $i < p$ (or in characteristic zero) then there exists a section to this map,
+\[ a(w_1 \wedge \cdots \wedge w_i)  = \frac{1}{i!} \sum_{\sigma \in S_i} \mathrm{sign}(i) w_{\sigma(1)} \otimes \cdots \otimes w_{\sigma(i)} \]
+Therefore we get,
+\begin{center}
+\begin{tikzcd}
+(\Omega^1_{X^{(p)}/S})^{\otimes i} \arrow[r, "\varphi_1^{\otimes i}"] & \left( (F_{X/S})_* \Omega_{X/S} \right)^{\otimes i} \arrow[d]
+\\
+\Omega^i_{X^{(p)}/S} \arrow[u] \arrow[r, dashed, "\varphi^i"] & (F_{X/S})_* \Omega^\bullet_{X/S}
+\end{tikzcd}
+\end{center}
+Because this construction agrees with the product structure and the Cartier isomorphism is determined (using the product structure) by its values in degree $1$ this means that $\varphi^i$ must induce $C^{-1}$ in degree $i$.
+
+\subsection{Construction of $\varphi^1$}
+
+First we consider the case when $F_{X/S}$ admits a global lift. Given,
+\begin{center}
+\begin{tikzcd}
+
+S \arrow[d] \arrow[r] & \tilde{S} \arrow[d]
+\\
+\Spec{\Z/p} \arrow[r, hook] & \Spec{\Z/p^2\Z}
+\end{tikzcd}
+\end{center}
+and $X/S$ is smooth and proper. We want there to be a digram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "F_{X/S}"'] \pullback \arrow[r] & \wt{X} \arrow[d, "\wt{F_{X/S}}"] 
+\\
+X^{(p)} \arrow[r] & \wt{X}^{(p)}
+\end{tikzcd}
+\end{center}
+where $\wt{X} \to \wt{S}$ is smooth. We assumed the existence of the smooth lift $\wt{X} \to \tilde{S}$ in the hypothesis of the thorem but we did not assume the existence of a lift of $F_{X/S}$. Because of flatness, $p : \struct{S} \iso p \struct{\wt{S}}$. 
+
+\begin{rmk}
+From the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z/p\Z \arrow[r, "p"] & \Z/p^2\Z \arrow[r] & \Z/p \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we see that $\Z/p\Z \iso p \Z/p^2\Z$ meaning that this is an extension  by the module $\Z/p\Z$. Then by the flatness of $\wt{S} \to \Spec{\Z/p^2\Z}$ the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{S} \arrow[r, "p"] & \struct{\wt{S}} \arrow[r] & \struct{S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so the extension is by the ideal $p \struct{\wt{S}}$ which is isomorphic to $\struct{S}$. The exact same argument for $X \embed \wt{X}$ which is also a flat lift over $\Spec{\Z/p\Z} \to \Spec{\Z/p^2\Z}$ shows that $\wt{X}$ is an extension of $X$ by $\struct{X} \iso p \struct{\wt{X}}$. Therefore, by local freeness, we get an isomorphism,
+\[ p : \Omega^1_{X/S} \iso p \Omega^1_{\tilde{X}/\tilde{S}} \]
+\end{rmk}
+
+\noindent 
+Furthermore,
+\[ \wt{F}_{X/S}^* : \Omega^1_{\wt{X^{(p)}}/S} \to (\wt{F}_{X/S})_* \Omega^1_{\wt{X}/\wt{S}} \text{ has image landing inside } p (\tilde{F}_{X/S})_* \Omega^1_{\wt{X}/\wt{S}} \]
+because pulling back differentials by Frobenius introduces a factor of $p$. Therefore, we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\Omega^1_{\wt{X^{(p)}}/S} \arrow[d, two heads] \arrow[r, "\wt{F}_{X/S}"] & p \wt{F_{X/S}} \Omega^1_{\wt{X}/\wt{S}} 
+\\
+\Omega^1_{X^{(p)}/S} \arrow[r, dashed, "\varphi"] & (F_{X/S})_* \Omega^1_{X/S} \arrow[u, "p \cdot (-)"]
+\end{tikzcd}
+\end{center}
+which exists because the right upward map is an isomorphism. I claim that
+\[ \im{\varphi^1} \subset Z^1((F_{X/S})_* \Omega^\bullet_{X/S}) \]
+and $\varphi^1$ induces $C^{-1}$ in degree $1$. A local section of $\struct{\wt{X^{(p)}}}$,
+\[ \wt{F_{X/S}}(\d{a}) = p a^{p-1} \d{a} + p \d{b} \]
+with some error term $p \d{b}$ which does in the quotient. (CHECK THIS!!)
+
+\subsection{What about if it doesn't lift?}
+
+From smoothness, we know that lifts exist locally. Therefore we want to compare lifts. Given some lifts, $G_i : \wt{X}_i \to \wt{X^{(p)}}$. One can canonically associate,
+\[ h(G_1, G_2) : \Omega^1_{X^{(p)}/S} \to (F_{X/S})_* \struct{X} \]
+then,
+\[ \varphi^1_{G_1} - \varphi^2_{G_2} = \d{h(G_1, G_2)} \] 
+and,
+\[ h(G_1, H_2) + h(G_2, G_3) = h(G_1, G_3) \]
+
+\begin{proof}
+If $\wt{X}_1 \cong \wt{X}_2$ (this may only be true affine locally) then,
+\[ G_2 - G_1 : \struct{\wt{X}_1} \to p (\wt{F_{X/S}})_* \struct{X} \]
+and is a derivation which does not depend on the choice of derivation. Locally, there is always such an isomorphism and so because of the uniqueness of the above construction (it doesn't depend on the choice of isomorphism) this means that it glues to give a well-defined global map. It is easy to check the required properties.
+\end{proof}
+
+\subsection{Proof of the Theorem}
+
+Resolve $(F_{X/S})_* \Omega^\bullet_{X/S}$ by a Cech double complex $C^{\bullet, \bullet}(U_i)$. There is a quasi-isomorphism,
+\[ (F_{X/S})_* \Omega_{X/S}^\bullet \to \mathrm{Tot}\left( C^{\bullet, \bullet}(U_i) \right) \]
+Then
+
+
+\section{Passage to Characteristic Zero}
+
+\begin{rmk}
+Today again all schemes are noetherian.
+\end{rmk}
+
+\begin{prop}[Nullstellensatz]
+If $K$ is a finite type $k$-algebra and $K$ is a field then $K/k$ is finite.
+\end{prop}
+
+\begin{proof}
+Suppose not. Then there is an injection $k[t] \embed K$ because $K$ cannot be algebraic. Then $\Spec{K} \to \A^1_k$ so by Chevalley the image is constructible. But the image the generic point which is not constructible giving a contradiction. 
+\end{proof}
+
+\begin{cor}
+Every nonempty constructible subset of a finite type $k$-scheme has a closed point.
+\end{cor}
+
+\begin{proof}
+Let $C \subset X$ be a clocally closed and affine let $C = \Spec{A}$. Then $A / \m$ is a field finite type over $k$ so it is finite. Then consider $\overline{\{ \m \}} \subset X$ is closed. However, the generic point of $\overline{ \{ \m \} }$ has transcendence degree zero.  
+\end{proof}
+
+\begin{defn}
+$X$ is \textit{Jacobson} if every nonempty constructible subset has a closed (in $X$) point.
+\end{defn}
+
+\begin{rmk}
+This is equivalent to every closed set is the closure of its closed points.
+\end{rmk}
+
+\begin{example}
+Some (non) examples of Jacobson schemes,
+\begin{enumerate}
+\item finte type $k$-schemes are Jacobson
+\item $\Spec{\Z}$ is Jacobson
+\item if $R$ is a local ring of $\dim{R} \ge 1$ then not Jacobson
+\item $X = \Spec{R} \setminus \{ \m_R \}$ is Jacobson.
+\end{enumerate}
+\end{example}
+
+\begin{prop}
+Let $S$ be Jacobson and $f : X \to S$ is finite type. 
+\begin{enumerate}
+\item If $x \in X$ is a closed point then $f(x)$ is closed.
+\item $X$ is Jacobson.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For (a) let $x \in X$ be a closed point then Chevalley's theorem implies that $\{ f(x) \}$ is constructible so $\{ f(x) \}$ is closed because $S$ is Jacobson. For (b) let $C \subset X$ be constructible. Then Chevalley's theorem implies that $f(C) \subset S$ is constructible so there is a closed point $s \in f(C)$. Then $X_s \to \kappa(s)$ is finite type so $X_s$ is Jacobson. Then $X_s \cap C \subset X_s$ is nonempty constructible so it has a closed point $x \in C \cap X_s$ and $X_s$ is closed (because $s \in S$ is closed) so $x$ is a closed point.
+\end{proof}
+
+\begin{cor}
+Finite type $\Z$-schemes are Jacobson and have finite residue fields at closed points.
+\end{cor}
+
+\begin{proof}
+The first part is immediate. Then if $x \in X$ is a closed point then it lies over some $p \in \Spec{\Z}$ nonzero (because $x$ is closed) so $x \in X_p$ and $X_p$ is finite type over $\kappa(p) = \FF_p$. Then it follows from the Nullstellensatz.
+\end{proof}
+
+\begin{prop}
+If $X \to \Spec{\Z}$ is finite tpye and $X$ is reduced then there is a dense open such that $U \to \Spec{\Z}$ is smooth.
+\end{prop}
+
+\begin{proof}
+This follows from two facts:
+\begin{enumerate}
+\item if $k$ is a perfect field and $X$ is a finite type reduced $k$-scheme then it is generically smooth.
+\item if $f : X \to S$ is finite type then the smooth locus is open. 
+\end{enumerate}
+We can assume that $X$ is integral then $K(x) / k$ is finitely generated. Since $k$ is perfect there is a separating transcendence basis $t_1, \dots, t_n \in K(X)$ such that $K(X) / k(t_1, \dots, t_n)$ is finite separable. Then $K(X) = k(t_1, \dots, t_n)[T]/(G(T))$ by the primitive element theorem. By localizing on $X$ we get an open affine $U \subset X$ with $U \embed \A^{n+1}_k$ defined by $G$. Then $U \setminus V(G)$ is smooth and $V(G)$ does not contain the generic point so this is a dense open.
+\bigskip\\
+To see the second part, locally embedd $X \embed \A^N_S$ by $f_1, \dots, f_m$ then smoothness is characterized by the nonvanihsing og some minors of the jacobian of $f_1, \dots, f_m$ which is a closed condition. 
+\end{proof}
+
+\begin{thm}
+If $\pi : X \to S$ is proper, $\F$ is coherent over $X$ then $R^i \pi_* \F$ is also coherent.
+\end{thm}
+
+\begin{proof}
+The proof is long but,
+\begin{enumerate}
+\item first deal with the projective case by showing $H^i(\P^n_A, \struct{}(m))$ is finite over $A$ for all $i, m, n$.
+\item if $\F$ is coherent on $\P^n_A$ then there exists a surjection $\struct{}(-N)^M \onto \F$ then we use descending induction to show that $H^i(\P^n_A, \F)$ is finite for all $i$.
+\item $X$ is projective then use $\iota : X \embed \P^n_A$ and exactness of affine pushforward to reduce to the case of projective space.
+\item In general, Chow's lemma gives $f : \tilde{X} \to X$ over $S$ such that $\tilde{X}$ is projective over $S$ and $f$ is projective and surjective. Use Leray spectral sequence argument [EGA III, 3.1-2].
+\end{enumerate}
+\end{proof}
+
+\begin{rmk}
+The same coherence statement also holds if $\F$ is a bounded complex of coherent sheaves. This follows from the spectral sequence,
+\[ E_1^{i,j} = R^j f_* K^i \implies R^{i+j} f_* K^\bullet \]
+which is just the first spectral sequence for hypercohomology.
+\end{rmk}
+
+\begin{thm}[flat base change]
+Consider a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[r, "g'"] \arrow[d, "f'"'] & X \arrow[d, "f"]
+\\
+S' \arrow[r, "g"] & S
+\end{tikzcd}
+\end{center}
+where $g$ is flat and $f$ is finite type and separated.
+Let $\F$ be quasi-coherent on $X$ then the natural base change map,
+\[ g^* R f_* \F \to R f'_* g'^* \F \]
+is an isomorphism. By adjunction this is the same as a map,
+\[ R f_* \F \to R g_* Rf'_* g'^* \F = R f_* R g'_* g'^* \F \]
+which we have by applying $R f_*$ to $\F \to R g'_* g'^* \F$.
+\end{thm}
+
+\begin{theorem}[Cohomology and Base Change]
+Let $f : X \to S$ be proper and $\F$ is coherent on $X$ and flat over $S$. Suppose that $R^i f_* \F$ is finite locally free for all $i$. Then given any diagram,
+\[ g^* R^i f_* \F \to R^i f'_* g'^* \F \]
+is an isomorphism for all $n$ for all maps $g$.
+\end{theorem}
+
+\begin{rmk}
+The same holds if $\F$ is replaced with a bounded complex of coherent sheaves with flat cohomology sheaves over $S$ such that $R^i f_* K^\bullet$ is finite locally free for all $n$.
+\end{rmk}
+
+\begin{thm}
+If $f : X \to S$ is finite type, the function,
+\[ x \mapsto \dim_x X_{f(x)} \]
+is upper semi-continuous. If $f $ is closed then the function,
+\[ s \mapsto \dim X_s \]
+is also semi-continuous. 
+\end{thm}
+
+\begin{proof}
+The second follows from the first because,
+\[ f(\{ x \in X \mid \dim_x X_{f(x)} \ge n \}) \]
+is closed. 
+\end{proof}
+
+\subsection{Completing the Proof}
+
+\begin{rmk}
+Previously, we proved the following.
+\end{rmk}
+
+\begin{thm}
+Let $k$ be perfect of characteristic $p > 0$ and $X$ is smooth and proper over $k$ and $\dim{X} < p$ and $X$ admits a lift to $W_2(k)$ then,
+\[ E^{p,q}_1 = H^q(X, \Omega^p_X) \implies H_{\dR}^{p+q}(X) \]
+degenerates at $E_1$.
+\end{thm}
+
+\begin{rmk}
+We now use this to deduce the main theorem.
+\end{rmk}
+
+\begin{thm}
+Let $K$ be a field of char zero and $X$ is smooth and proper over $K$. Then,
+\[ E_1^{p,q} = H^q(X, \Omega^p_X) \implies H^{p+q}_{\dR}(X) \]
+degenerates at $E_1$.
+\end{thm}
+
+\renewcommand{\X}{\mathfrak{X}}
+
+\begin{proof}
+Spread out $X$ to some smooth and proper $\X \to \Spec{A}$ for $A \subset K$ finite type over $\Z$. This is because $K = \varinjlim A$ for finite type $\Z$-subalgebras of $K$ then we spread out to schemes over each $A$ and smooth and proper spreads out. Thus we get a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X \pullback \arrow[r] \arrow[d] & \X \arrow[d]
+\\
+\Spec{K} \arrow[r] & \Spec{A}
+\end{tikzcd}
+\end{center}
+Now by base change we can assume that $K = \bar{K}$ and $X$ is connected of dimension $d$. By upper-semi continuity we can assume that all fibers of $\X \to S = \Spec{A}$ are of dimension $d$ by shrinking $A$. Furthermore, we can shirnk $A$ such that $\Spec{A} \to \Spec{\Z}$ is smooth. This is because $A_\Q$ is reduced and thus $\Spec{A_\Q} \to \Spec{\Q}$ is smooth on a dense open and therefore the smooth locus of $\Spec{A} \to \Spec{\Z}$ contains the generic point and thus is a nonempty open so we can shrink to that open.
+\bigskip\\
+Now $R^n f_* \Omega^i_{\X / S}$ and $R^n f_* \Omega^\bullet_{\X/S}$ are coherent. Therefore, by shrinking $S$ we can assume that all of them are finite locally free (this works because there are finitely many since it vanishes when $i > d$ and $n > d$) because they are generically free. Let $h^{i,j} = \dim H^j(X, \Omega^i_{X/K})$ and $h^n = \dim_K H^n_{\dR}(X)$. It suffices to show that,
+\[ h^n = \sum_{i + j = n} h^{i,j} \]
+Because all pushforwards in sight are finite locally free and therefore these pushforwards commute with arbitrary base change. In particular if $s \in S$ is any point then,
+\[ h^{i,j} = \dim_{\kappa(s)} H^j(\X_s, \Omega^i_{\X_s / \kappa(s)}) \quad \text{ and } \quad h^n = \dim_{\kappa(s)} H^n_{\dR}(\X_s) \]
+We want to find an $s$ such that $\X_s \to \Spec{\kappa(s)}$ satisfies our previous conditions for degeneration of Hodge-to-deRham. Thus we want,
+\begin{enumerate}
+\item $\dim{\X_s} < \mathrm{char}(\kappa(s))$
+\item $\X_s$ lifts to $W_2(\kappa(s))$
+\end{enumerate}
+If we can do this then,
+\[ E^{i,j}_1 = H^j(\X_s, \Omega^i_{\X_s/\kappa(s)}) \implies H^{i+j}_{\dR}(\X_s) \]
+degenerates at $E_1$ and therefore,
+\[ h^n = \dim_{\kappa(s)} H^n_{\dR}(\X_s) = \sum_{i+j = n} \dim_{\kappa(s)} H^j(\X_s, \Omega^i_{\X_s / \kappa(s)}) = \sum_{i + j = n} h^{i,j} \]
+which is what we wanted to show.
+\bigskip\\
+Set,
+\[ N = \prod_{\substack{p \le d \\ p \text{ prime}}} p \]
+Replace $A$ by $A[1/N]$ so no residue field of $A$ can have characteristic $\le d$. Then $A$ is finite over $\Z$ so it has a closed point $s \in \Spec{A}$ and thus $\mathrm{char}(\kappa(s)) > d$ and $d = \dim{\X_s}$. Choose this point $s \in \Spec{A}$.
+\bigskip\\
+Now, we have a diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{\kappa(s)} \arrow[d, "\text{nilpotent thickening}"'] \arrow[r] & S \arrow[d, "\text{smooth}"]
+\\
+\Spec{W_2(\kappa(s))} \arrow[d] \arrow[ru, dashed] \arrow[r] & \Spec{\Z}
+\\
+\Spec{\Z_p} \arrow[ru] 
+\end{tikzcd}
+\end{center}
+there exists a lift because $S \to \Spec{\Z}$ is smooth. Therefore, by pulling back along this lift gives a lift of $\X_s$,
+\begin{center}
+\begin{tikzcd}
+\wt{\X_s} \arrow[d] \arrow[r] & \X_s \arrow[d]
+\\
+\Spec{W_2(\kappa(s))} \arrow[r] & S
+\end{tikzcd}
+\end{center}
+therefore $\X_s$ lifts over $W_2(\kappa(s))$ so we are done.
+\end{proof}
+
+\end{document}

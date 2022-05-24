@@ -1,0 +1,222 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{NumberTheoryCommands}
+
+\renewcommand{\Ad}{\mathrm{Ad}}
+\newcommand{\LG}{{}^L G}
+\newcommand{\Lie}{\mathrm{Lie}}
+\newcommand{\ok}{\mathcal{O}_{K_e}}
+
+\begin{document}
+
+\section{Review}
+
+We still here assume that $\hat{G}$ is split and reductive over $\Z[p^{-1}]$ and is endowed with an action $W_F \acts \hat{G}$ that factors through a finite quotient. 
+\bigskip\\
+Recall, for a $\Z[p^{-1}]$-algebra $R$ we denote,
+\[ Z^1(W_F, \hat{G}(R)) := \{ \text{continuous cocycles } \varphi : W_F \to \hat{G}(R) \} \]
+where $W_F$ is endowed with its natural topology and $\hat{G}(R)$ is endowed with the discrete topology. Note that all cocycles satisfy $\varphi(1) = 1$. We will use the same notation,
+\[ Z^1(H, \hat{G}(R)) := \{ \text{continuous cocycles } \varphi : H \to \hat{G}(R) \} \]
+for any closed subgroup $H \subset W^0_F$ where $W^0_F$ is endowed not with the subset topology but rather with the ``discretized`` topology defined last time. 
+\bigskip\\
+We introduced $L$-morphisms as an alternative way of encoding the data of such cocycles. Recall that,
+\[ {}^L G := \hat{G} \rtimes W \]
+where $W$ is \textit{any} finite quotient of $W_F$ through which the action $W_F \acts \hat{G}$ factors (we may want to change exactly which group we choose for $W$ as time goes on). Then to a $1$-cocycle $\varphi : W_F^0 \to \hat{G}(R)$ we have the corresponding $L$-morphism,
+\[ {}^L \varphi = \varphi \rtimes \id : W_F \to \hat{G}(R) \rtimes W = {}^L G(R) \]
+Recall that such $L$-morphisms are 
+
+\subsection{What Happened Last Time}
+
+Last time we proved properties about the representing object $Z^1(H, \hat{G})$ under some assumptions,
+\begin{enumerate}
+\item the cocycles are tame meaning $\varphi|_{P_F} = \id$
+\item $\varphi$ stabilzes a Borel-pair.  
+\end{enumerate}
+
+
+\section{Ideas and Problems}
+
+In today's talk we reduce to the tame case. The general principle is straightforward. Suppose that $R$ is a $\Z[p^{-1}]$-algebra and $\varphi : W_F^0 \to \hat{G}(R)$ is a cocycle. Denote $\phi = \varphi|_{P_F}$ (my appologies for this notation, we are following Dat et al). We consider a new action $W_F^0 \acts \hat{G}(R)$ called the conjugation action.
+
+\begin{defn}
+The conjugation action $W_F^0 \acts \hat{G}(R)$ is defined by considering $\hat{G} \subset {}^L G$ as a normal subgroup and using the $L$-morphism ${}^L \varphi : W_F^0 \to {}^L G(R)$ we obtain an action $\Ad_{\varphi}$ by conjugation of the element ${}^L \varphi(w)$ on $\hat{G}$. Explicitly this gives the action,
+\[ \Ad_{\varphi}(w) \cdot g = \varphi(w) \, {}^w g \, \varphi(w)^{-1} \]
+\end{defn}
+Notice that $\Ad_{\varphi}$ stabilizes,
+\[ C_{\hat{G}(R)}({}^L \phi(P_F)) = \{ g \in \hat{G}(R) \mid \forall p : (g,1) {}^L \phi(p) (g,1)^{-1} = {}^L \phi(p) \} = \{ g \in \hat{G}(R) \mid \forall p : g \phi(p) {}^p g^{-1} = \phi(p) \}  \]
+because if $g$ satisfies $g \phi(p) {}^p g^{-1} = \phi(p)$ then,
+\begin{align*}
+(\Ad_{\varphi}(w) g) \phi(p) {}^p (\Ad_{\varphi}(w) g)^{-1} & = \varphi(w) \, {}^w g \, \varphi(w)^{-1} \phi(p) \, {}^p \varphi(w) \, {}^{pw} g^{-1} \, {}^p \varphi(w)^{-1} 
+\\
+& = \varphi(w) {}^w g \, {}^{w}\varphi(w^{-1} p w) \, {}^{pw} g^{-1} \, {}^p \varphi(w)^{-1}
+\\
+& = \varphi(w) {}^w (g \varphi(w^{-1} p w) \, {}^{w^{-1} pw} g^{-1}) \, {}^p \varphi(w)^{-1}
+\\
+& = \varphi(w) {}^w \varphi(w^{-1} p w) \, {}^p \varphi(w)^{-1} = \phi(p)
+\end{align*}
+On the centralizer, $\Ad_{\varphi}$ factors to give an action,
+\[ W_F^0 / P_F \acts C_{\hat{G}(R)}({}^L \phi(P_F)) \]
+because, by definition $\varphi|_{P_F} = \phi$ and the image of ${}^L \phi$ fixes this space pointwise.
+
+We get a bijection,
+\[ Z^1_{\Ad \, \varphi}(W_F^0/P_F, C_{\hat{G}(R)}({}^L \phi(P_F))) \iso \{ \varphi' \in Z^1(W_F^0, \hat{G}(R)) \mid \varphi'|_{P_F} = \phi \} \]
+sending $\eta \mapsto \eta \cdot \varphi$
+where the $\Ad \, \varphi$ on the LHS is to remind us which group action $W^0_F \acts C_{\hat{G}(R)}({}^L \phi(P_F))$ these are cocycles for. Since the cocycles on the LHS are by construction tame, we would like to view this as an instance of our previous study so we can apply the results of last time to the RHS. However, there are some problems with this approach,
+\begin{enumerate}
+\item $C_{\hat{G}}(\phi)$ might have nonconnected fibers
+\item $C_{\hat{G}}(\phi)^\circ$ might not be split
+\item $\Ad_{\varphi}$ might not factor through a finite quotient nor preserve a Borel-pair.
+\end{enumerate}
+
+In today's talk, we will focus on remedying the first two possible problems. 
+
+\section{How We Fix the Problems}
+
+\subsection{Setup}
+
+Step 1: we want to find good conjugation representatives for cocycles $P_F \to C_{\hat{G}}(\phi)$. In order to work with finitely presented objects, fix a filtration:
+\[ P_F \triangleright P_G^1 \triangleright P_F^2 \triangleright P_F^3 \triangleright \cdots \]
+such that,
+\[ \bigcap_i P_F^i = \{ 1 \} \]
+Then fix $e$ such that $P^e_F \acts \hat{G}$ trivially. We are going to restrict to cocylces trivial on $P^e_F$ in order to get nice representing objects.
+
+\subsection{Necessary Input}
+
+\begin{thm}
+There exists a number field $K_e$ and a finite set,
+\[ \Phi_e \subset Z^1(P_F / P_F^e, \hat{G}(\cO_{K_e}[p^{-1}])) \]
+such that
+\begin{enumerate}
+\item for any $\cO_{K_e}[p^{-1}]$-algebra $R$, any cocycle $\phi : P_F / P_F^e \to \hat{G}(R)$ is \etale-locally $\hat{G}$-conjugate to some $\phi_0 \in \Phi_e$ which is unique (in the sense that for every $x \in \Spec{R}$ there is a unquie $\phi_0$ such that $\phi$ and $\phi_0$ are conjugate on an \etale neighborhood of $x$)
+
+\item For any $\phi \in \Phi_e$, the reductive group scheme $C_{\hat{G}}(\phi)^\circ$ is split over $\cO_{K_e}[p^{-1}]$ and the component group $\pi_0(\phi) = \pi_0(C_{\hat{F}}(\phi))$ is constant.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Let $R$ be an $\ok[p^{-1}]$-algebra. Then,
+\[ Z^1(P_F/P_F^e, \hat{G}(R))_{\Qbar} \cong \Hom{P_F/P_F^e}{\LG(R)}_{\Qbar} \]
+has finitely many $\G(R)$-orbits. Therefore, the stack,
+\[ X = \left[ \frac{Z^1(P_F/P_F^e, \hat{G}(R))_{\Qbar}}{\hat{G}} \right] = \bigsqcup_{\phi_0 \in \Phi} \left[ \frac{\hat{G} \cdot \phi_0}{\hat{G}} \right] = \bigsqcup_{\phi_0 \in \Phi} \left[ \frac{*}{C_{\hat{G}}(\phi)} \right]  \]
+has finitely many components where the stabilizer of $\phi$ is given by the group scheme $C_{\hat{G}}(\phi)$ because this is exactly the centralizer of ${}^L \phi(P_F)$ intersected with $\hat{G}$. In the appendix, it is proven that $C_{\hat{G}}(\phi)$ is a smooth $R$-group and therefore after an \etale extension the map $R \to X$ factors through $X \to \hat{G} \cdot \phi_0$. 
+\bigskip\\
+Now we need to show that $\Phi_e$ is defined over some $\ok[p^{-1}]$. This is difficult and is discussed in the appendix. It uses strong approximation theorem applied to $\hat{G}$.
+\end{proof}
+
+\begin{lemma}[A.1]
+Let $H$ be a smooth $R$-group and $\Gamma$ be a finite group of order invertible in $R$. Then $\Hom{\Gamma}{H}$ is smooth over $R$ and all orbit morphism and transporters for $H \acts \Hom{\Gamma}{H}$ are smooth over $R$.
+\end{lemma}
+
+\begin{proof}
+$\Hom{\Gamma}{H}$ is finite presentation so we check the formal lifting criterion for smoothness. Let $R'$ be an $R$-algebra with $I \subset R'$ a square-zero ideal. It suffices to show that,
+\[ \Hom{\Gamma}{H(R')} \to \Hom{\Gamma}{H(R'/I)} \]
+is surjective. Choose $\phi_0 : \Gamma \to H(R'/I)$ by smoothness of $H$ there is a lift $h : \Gamma \to H(R')$. We need to check if this can be altered into a group map. Consider,
+\[ (\gamma, \gamma') \mapsto h(\gamma) h(\gamma') h(\gamma \gamma')^{-1} \in \ker{(H(R') \to H(R'/I))} = \Lie(H) \ot_R R'/I \]
+which is easily seen to be a $2$-cocycle for the adjoint action $\Gamma \acts \Lie(H) \ot_R (R'/I)$ so defines a class $c \in H^2(\Gamma, \Lie(H) \ot_R (R'/I))$. Because $|\Gamma|$ is invertible on $R$ the restriction-corestriction sequence shows that $H^2(\Gamma, \Lie(H) \ot_R (R' / I)) = 0$ and hence there is a $1$-cochain $k \in C^1(\Gamma, \Lie(H) \ot_R (R' / I))$ such that,
+\[ h(\gamma) h(\gamma') h(\gamma \gamma')^{-1} = k(\gamma) k(\gamma') k(\gamma \gamma') \]
+and therefore $\gamma \mapsto \phi(\gamma) = k(\gamma)^{-1} h(\gamma)$ defines a group homomorphism $\phi : \Gamma \to H(R')$ that lifts $\phi_0$ since $k(\gamma) \in \ker{(H(R') \to H(R'/I))}$. Therefore $\Hom{\Gamma}{H}$ is smooth. Similar arguments showing that $1$-cocycles are coboundaries we conclude that orbits, transporters, and centralizers are smooth.
+\end{proof}
+
+\section{The Main Reduction}
+
+Now for one of our representatives $\phi \in \Phi_e$ and any $\ok[p^{-1}]$-algebra $R$ we denote by $Z^1(W^0_F, \hat{G}(R))_\phi$ the set of $1$-coycles $\varphi : W^0_F \to \hat{G}(R)$ that extend $\phi$ meaning $\phi |_{P_F} = \phi$. Then the functor,
+\[ R \mapsto Z^1(W^0_F, \hat{G}(R))_\phi \]
+is representable by an affine scheme of finite type over $\ok[p^{-1}]$ constructed as a closed subscheme of $\hat{G} \times \hat{G}$ in a similar fashion as we did last time by parametrizing $\varphi$ via the images of $F$ and $s$ since its behavior on $P_F$ is fixed by construction. 
+
+\begin{defn}
+An element $\phi \in \Phi_e$ is called \textit{admissible} if the scheme $Z^1(W_F^0, \hat{G})_\phi$ is nonempty.
+\end{defn}
+
+It will now be convenient to choose our $L$-group $\LG$ in the form,
+\[ \LG = \hat{G} \rtimes W_e \]
+where $W_e$ is a finite quotient of $W_F$ such that $P_F / P_F^e \embed W_e$ maps injectively. For example if we choose our sequence $P_F^e = P_{F_e}$ for Galois extensions $F_e / F$ then we can take $W_e = \Gal{F_e/F}$. Then the $L$-morphism ${}^L \varphi$ associated to $\varphi \in Z^1(W_F^0, \hat{G}(R))_\phi$ factors through the subgroup.
+\[ C_{\LG(R)}(\phi) := \{ (g,w) \in \LG(R) \mid \forall p \in P_F : (g,w) {}^L \phi(w^{-1} p w) (g, w)^{-1} = {}^L \phi(p) \} \]
+This follows purely from the definition of the semi-direct product (has nothing to do with $P_F$). 
+\bigskip\\
+Now we can decompose the functor $C_{\LG(\phi)} : R \mapsto C_{\LG(R)}(\phi)$ on $\ok[p^{-1}]$-algebras $R$ as a disjoint union,
+\[ \bigsqcup_{w \in W_e} T_{\hat{G}}(\phi, {}^w \phi) \]
+of transporters because for fixed $w$, the condition,
+\[ (g,w) {}^L \phi(w^{-1} p w) (g,w)^{-1} = {}^L \phi(p) \]
+is equivalent to,
+\[ g {}^w \phi(w^{-1} p w) {}^p g^{-1} = \phi(p) \]
+so I think ${}^w \phi$ means the cocycle $({}^w \phi)(p) = {}^w \phi(w^{-1} p w)$ and the action on cocycles is through $\phi \mapsto g \cdot \phi$ where $(g \cdot \phi)(p) = g^{-1} \phi(p) {}^p g$ is the $\hat{G}$ component of $(g,1) {}^L \phi(p) (g,1)^{-1}$.
+\bigskip\\
+From Lemma A.1 this is represented by a smooth group scheme and sits in an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & G_{\hat{G}}(\phi) \arrow[r] & C_{\LG}(\phi) \arrow[r] & W_e
+\end{tikzcd}
+\end{center}
+because by definition $G_{\hat{G}}(\phi)$ is the set of $g \in \hat{G}(R)$ such that $(g,1) \in G_{\LG}(\phi)(R)$. From the uniqueness part of Theorem 3.1 we see that $T_{\hat{G}}(\phi, {}^w \phi)$ is either empty or an \etale $C_{\hat{G}}(\phi)$-torsor. Therefore $C_{\LG}(\phi)$ is an extension of the constant subgroup,
+\[ W_{e, \phi} = \{ w \in W_e \mid T_{\hat{G}}(\phi, {}^w \phi) \neq \empty \} \]
+for $W_e$ by the group $C_{\hat{G}}(\phi)$. Now since $C_{\LG}(\phi)^\circ = C_{\hat{G}}(\phi)^\circ$ is a split reductive group scheme over $\ok[p^{-1}]$ they cite a book of Brian's to say that,
+\[ \tilde{\pi}_0(\phi) := \pi_0(C_{\LG}(\phi)) \]
+is a separated \etale group scheme over $\ok[p^{-1}]$. Since it is an extension of $W_{e, \phi}$ by $\pi_0(\phi)$ we see that $\tilde{\pi}_0(\phi)$ is actually finite \etale.
+\bigskip\\
+Therefore, after possibly enlarging $K_e$ to the fraction field of a sufficient \etale extension of $\ok[p^{-1}]$ we assume that $\tilde{\pi}_0(\phi)$ is constant over $\ok[p^{-1}]$. 
+\bigskip\\
+Now assume that $\phi$ is admissible meaning that $Z^1(W^0_F, \hat{G})_\phi \neq \empty$. Choose some $\varphi \in Z^1(W^0_F, \hat{G})_\phi(R)$ then I claim that for each $w \in W_e$ we have,
+\[ {}^L \varphi(w) = (\varphi(w), w) \in T_{\hat{G}}(\phi, {}^w \varphi) \]
+Indeed,
+\[ {}^L \varphi(w) {}^L \phi(w^{-1} p w) {}^L \varphi(w)^{-1} = {}^L \phi(p) \]
+because ${}^L \varphi$ is a group homomorphism and ${}^L \varphi|_{P_F} = {}^L \phi$. In particular, all the transporters $T_{\hat{G}}(\phi, {}^w \phi) \neq \empty$ are nonempty so $W_{e, \phi} = W_e$ and the sequence is exact on the right,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \pi_0(\phi) \arrow[r] & \tilde{\pi}_0(\phi) \arrow[r] & W_e \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+Therefore, the affine scheme $Z^1(W^0_F, \hat{G})_\phi$ decomposes as a disjoint union,
+\[ Z^1(W^0_F, \hat{G})_\phi = \bigsqcup_{\alpha \in \Sigma(\phi)} Z^1(W^0_F, \hat{G})_{\phi, \alpha} \]
+where,
+\begin{enumerate}
+\item $\Sigma(\phi)$ is the set of sections $\alpha : W_F^0 \to \tilde{\pi}_0(\phi)$ extending $P_F \to \tilde{\pi}_0(\phi)$ given by,
+\[ P_F \xrightarrow{{}^L \phi} C_{\LG}(\phi) \onto \pi_0(C_{\LG}(\phi)) = \tilde{\pi}_0(\phi) \]
+meaning $\alpha \in \Sigma(\phi)$ make the diagram,
+\begin{center}
+\begin{tikzcd}
+P_F \arrow[r] \arrow[rd, "{}^L \phi"'] & W_F \arrow[d, "\alpha"] 
+\\
+& \tilde{\pi}_0(\phi)
+\end{tikzcd}
+\end{center}
+commute
+\item $Z^1(W^0_F, \hat{G})_{\phi, \alpha}(R) = Z^1(W^0_F, \hat{G}(R))_{\phi, \alpha}$ is the subset of cocycles $\varphi$ extending $\phi$ such that $[{}^L \varphi] = \alpha$ under the projection $C_{\LG}(\phi) \onto \tilde{\pi}_0(\phi)$. 
+\end{enumerate}
+This decomposition is simply because $\tilde{\pi}_0(\phi)$ is constant and the maps ${}^L \varphi$ therefore project to some constant section $\alpha$. 
+
+\begin{defn}
+We say that $\alpha \in \Sigma(\phi)$ is \textit{admissible} if the scheme $Z^1(W_F^0, \hat{G})_{\phi, \alpha}$ is nonempty.
+\end{defn}
+
+Now for the coup de grace, two elements $\varphi, \varphi' \in Z^1(W_F^0, \hat{G}(R))_{\phi, \alpha}$ differ by a tame cocyle valued in the connected component $C_{\hat{G}}(\phi)^\circ$ where $\varphi'(w) = \eta(w) \varphi(w)$ for,
+\[ \eta \in Z^1_{\Ad \, \varphi}(W_F^0/P_F, C_{\hat{G}}(\phi)^\circ(R)) \]
+
+\begin{proof}
+It suffices to prove that,
+\[ w \mapsto \eta(w) = \varphi'(w) \varphi(w)^{-1} \]
+defines an element of,
+\[ Z^1_{\Ad \, \varphi}(W_F^0/P_F, C_{\hat{G}}(\phi)^\circ(R)) \]
+First, $\varphi' |_{P_F} = \varphi|_{P_F} = \phi$ so $\eta(P_F) = 1$ so it factors through $W_F^0 / P_F$ (this suffices if $\eta$ is a cocycle because then $\eta(wp) = \eta(w) {}^w \eta(p) = \eta(w)$). Now let's show $\eta$ is a cocycle,
+\begin{align*}
+\eta(w_1 w_2) & = \varphi'(w_1 w_2) \varphi(w_1 w_2)^{-1} = \varphi'(w_1) {}^{w_1} \varphi'(w_2) {}^{w_1} \varphi(w_2)^{-1} \varphi(w_1)^{-1} = \varphi'(w_1) {}^{w_1}\eta(w_2) \varphi(w_1)^{-1}
+\\
+& = \varphi'(w_1) \varphi(w_1)^{-1} \varphi(w_1) {}^{w_2} \eta(w_2) \varphi(w_1)^{-1} = \eta(w_1) \Ad_{\varphi}(w) \cdot \eta(w_2) 
+\end{align*}
+Finally, we need to show that $\eta$ is valued in $C_{\hat{G}}(\phi)^\circ$. Indeed, we check that,
+\begin{align*}
+\eta(w) \phi(p) \, {}^p \eta(w)^{-1} & = \varphi'(w) \varphi(w)^{-1} \phi(p) \, {}^p \varphi(w)  \,{}^p \varphi'(w)^{-1} = \varphi'(w) \, {}^w \varphi(w^{-1} p) \, {}^p \varphi(w) \, {}^p \varphi'(w)^{-1}
+\\
+& = \varphi'(w) \, {}^w \varphi(w^{-1} p w) \, {}^p \varphi'(w)^{-1}
+\\
+& = \varphi'(w) \, {}^w \varphi'(w^{-1} p w) \, {}^p \varphi'(w)^{-1} = \varphi'(p) = \phi(p)
+\end{align*}
+so it is valued in $C_{\hat{G}}(\phi)^\circ$. Finally, since $\varphi'$ and $\varphi$ reduce to the same $\alpha : W_F^0 \to \tilde{\pi}_0(\phi)$ and hence $\eta = \varphi' \varphi^{-1}$ reduces to $1 \in \tilde{\pi}_0(\phi)$ and hence by definition $\eta$ is valued in $C_{\LG}(\phi)^\circ = C_{\hat{G}}(\phi)^\circ$. 
+\end{proof}
+
+This gives an isomorphism of $R$-schemes,
+\[ Z^1_{\Ad \, \varphi}(W_F^0 / P_F, G_{\hat{G}}(\phi)^\circ)_R \iso Z^1(W^0_F, \hat{G})_{\phi, \alpha, R} \]
+Notice, this isomorphism depends explicitly on the choice $\varphi$ and hence is only defined over $R$. 
+\bigskip\\
+Now we have truely delt with the first two problems because the LHS cocycles are tame (factor through $W_F^0 / P_F$) and $C_{\hat{G}}(\phi)^\circ$ is connected by construction. Finally, $C_{\hat{G}}(\phi)^\circ$ is split after passing to $\ok[p^{-1}]$ by Lemma 3.1. 
+
+\end{document}

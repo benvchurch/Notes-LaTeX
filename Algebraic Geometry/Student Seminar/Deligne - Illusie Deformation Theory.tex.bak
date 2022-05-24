@@ -1,0 +1,390 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Lifting and Extensions}
+
+\subsection{Smoothness}
+
+\begin{defn}
+We say that a map $T \to T'$ is an order $n$ infinitesimal thickening if it is a closed immersion whose defining ideal $\I$ satisfies $\I^{n+1} = 0$.
+\end{defn}
+
+\begin{rmk}
+Notice that a zeroth order infinitesimal thickening is an isomorphism. Furthermore, in the affine case, this corresponds to $A = A' / I$ for an ideal $I \subset A'$ with $I^{n+1} = 0$.
+\end{rmk}
+
+\begin{defn}
+Let $f : X \to Y$ be a morphisms of schemes. If for any diagram,
+\begin{center}
+\begin{tikzcd}
+T \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+T' \arrow[r] \arrow[ru, dashed] & Y
+\end{tikzcd}
+\end{center}
+with $T \to T'$ a first-order infinitesimal thickening of \textit{affine schemes} we say that $f$ is
+\begin{enumerate}
+\item \textit{formally smooth} if there exists at least one dashed arrow
+\item \textit{formally unramified} if there exists at most one dashed arrow
+\item \textit{formally \etale} if there exists exactly one dashed arrow.
+\end{enumerate}
+Furthermore, we say that $f$ is smooth (resp. unramified, resp. \etale) if $f$ is formally smooth (resp. unramified, resp. \etale) and locally of finite presentation.
+\end{defn}
+
+\begin{rmk}
+Notice that any order-$n$ infinitesimal thickening $T \to T'$ may be factored as,
+\begin{center}
+\begin{tikzcd}
+T = T_0 \arrow[r] & T_1 \arrow[r] & \cdots \arrow[r] & T_{n-1} \arrow[r] & T_n = T'
+\end{tikzcd}
+\end{center}
+where $T_i$ is the closed subscheme of $T'$ cut out by $I^{i+1}$. Therefore, $T_i \to T_{i+1}$ is a closed immersion cut out by $I^{i+1}/I^{i+2}$ which has zero square and thus is a first-order infinitesimal thickening. Therefore, by repeatedly applying the lifting criteria, we may replace ``first-order'' in the definition by $n^{\text{th}}$-order.
+\end{rmk}
+
+\begin{rmk}
+The definition given above appears in the Stacks project. The definition in our text refers to diagram of (possibly not affine) infinitesimal thickenings,
+\begin{center}
+\begin{tikzcd}
+T \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+T' \arrow[r] \arrow[ru, dashed] & Y
+\end{tikzcd}
+\end{center}
+and asks only about liftings $T' \to X$ \textit{Zariski-locally} on $T'$. Therefore, it is clear that Stacks project formal smoothness implies [I] formal smoothness. In fact, both definitions for all three properties agree. Indeed, if $f$ is formally \etale then the uniqueness of the lift on affines implies gluing so there exists a unique \textit{global} map $T' \to X$ for any infinitessimal thickening $T_0 \to T$. This contrasts the smooth case for which we will construct a global obstruction to the existence of a global lift $T' \to X$.
+\end{rmk}
+
+\subsection{Extensions}
+
+\begin{defn}
+Let $f : X \to Y$ be a morphism of schemes and $\I$ a quasi-coherent $\struct{X}$-module. A $Y$-\textit{extension of} $X$ by $\I$ is a $Y$-morphism $\iota : X \to X'$ which is a first-order infinitessimal thickening by an ideal isomorphic to $\I$ via the data of an $\struct{X'}$-module map $\varphi : \iota_* \I \to \struct{X'}$.
+\end{defn}
+
+\begin{rmk}
+If $\J \subset \struct{X'}$ is the sheaf of ideals corresponding to the thickening $\iota : X \to X'$ then $\J^2 = 0$ so $\J$ is naturally a $\struct{X} = \struct{X'}/\J$-module.
+\end{rmk}
+
+\begin{rmk}
+The situation to have in mind is a $R$-algebra $A$ and an $A$-module $I$. Then a first-order extension of $A$ by $I$ is a map of $R$-algebras $A' \onto A$ such that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & A' \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact such that the image of $I \to A'$ is an ideal with $I^2 = 0$ in $A'$.
+\end{rmk}
+
+\begin{rmk}
+We now need a notion of when two extensions are equivalent or more generally the concept of a morphism between them.
+\end{rmk}
+
+\begin{defn}
+A morphism between two $Y$-extensions of $X$ by $\I$, namely $\iota_1 : X \to X'_1$ and $\iota_2 : X \to X'_2$ is an $X$-morphism $g : X'_1 \to X'_2$ meaning that
+\begin{center}
+\begin{tikzcd}
+X'_1 \arrow[rr, "g"]  & & X'_2 
+\\
+& X \arrow[lu, "\iota_1"] \arrow[ru, "\iota_2"']
+\end{tikzcd}
+\end{center}
+commutes and such that,
+\begin{center}
+\begin{tikzcd}
+\iota_1^{-1} \struct{X_1'} \arrow[rr, "g^\#"]  & & \iota_2^{-1} \struct{X_2'}
+\\
+& \I \arrow[lu, "\varphi_1"] \arrow[ru, "\varphi_2"']
+\end{tikzcd}
+\end{center}
+commutes as a diagram of abelian sheaves.
+\end{defn}
+
+\begin{rmk}
+In the affine case, this corresponds exactly to an $R$-algebra map $g : A'_1 \to A'_2$ giving a morphism of exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[d, equals] \arrow[r] & A'_1 \arrow[r] \arrow[d, "g"] & A \arrow[r] \arrow[d, equals] & 0
+\\
+0 \arrow[r] & I \arrow[r] & A'_2 \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Notice, by the 5-lemma, $g$ is an isomorphism so a morphism of lifts is always an isomorphism.
+\end{rmk}
+
+\begin{defn}
+We say that an extension $\iota : X \to X'$ is \textit{split} if there exists a section $s : X' \to X$ such that $s \circ \iota = \id_X$. In this case, the exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \iota^{-1} \struct{X'} \arrow[r] & \struct{X} \arrow[l, bend right, "s^\#"'] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is split meaning that,
+\[ \iota^{-1} \struct{X'} \cong \struct{X} \oplus \I \]
+with the unique $\struct{X}$-algebra structure such that $\I^2 = 0$. Therefore, there is a unique split extension up to isomorphism.
+\end{defn}
+
+\begin{rmk}
+The map $\iota^{-1} \struct{X'} \to \struct{X}$ is surjective because $\iota$ is a closed immersion and a homeomorphism so $\iota^{-1}$ and $\iota_*$ are inverse functors.
+\end{rmk}
+
+\begin{rmk}
+The split extension in the affine case is given by $B = A \oplus I$ with the unique $A$-algebra structure such that $I^2 = 0$.
+\end{rmk}
+
+\begin{defn}
+We denote the set of isomorphism classes of $Y$-extensions of $X$ by $I$ as,
+\[ \Ext{}{Y}{X}{\I} \]
+This is a group under ``Bayer sum'' with the split extension as the identity as we shall soon see.
+\end{defn}
+
+\begin{example}
+Let $X \to X_1 \to X \times_Y X$ be the first infinitesimal neighborhood of the diagonal i.e. if $\Delta_{X/Y} : X \to X \times_Y X$ is cut out by $\I$ then $X_1$ is cut out by $\I^2$. Then $\Delta_1 : X \to X_1$ is a first-order infinitesimal thickening with ideal $\I/\I^2 \cong \Omega^1_{X/Y}$. Then the two projections $p_1, p_2 : X_1 \to X$ split the extension giving two splittings of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{X/Y} \arrow[r] & \cP_{X/Y} \arrow[r] & \struct{X} \arrow[l, bend right, "j_1"'] \arrow[l, bend left, "j_2"] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cP_{X/Y} = \iota^{-1} \struct{X_1}$ is the sheaf of first principal parts. The two splittings correspond to two $\struct{X}$-module structures on $\cP$ and $\d_{X/Y} = j_2 - j_1$ is the universal derivation $\d_{X/Y} : \struct{X} \to \Omega_{X/Y}$.
+\end{example}
+
+\begin{rmk}
+For any extension $(\iota : X \to X', \varphi : \I \to \iota^{-1} \struct{X'})$ the map $\iota : X \to X'$ is a closed immersion. Therefore, there is an exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+\I \arrow[r, "\varphi"] & \iota^* \Omega_{X'/Y} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+coming from the second fundamental sequence and the isomorphism $\varphi : \I \to \iota^{-1} \struct{X'}$ identifying $\I$ with the defining ideal such that $\I^2 = 0$. If $f : X \to Y$ is smooth then the sequence is also left-exact.
+\end{rmk}
+
+
+\begin{prop}
+If $f : X \to Y$ is smooth then the map,
+\[ \Ext{}{Y}{X}{\I} \to \Ext{1}{\struct{X}}{\Omega_{X/Y}}{\I} \]
+defined by sending an extension $(\iota : X \to X', \varphi : \I \to \iota^{-1} \struct{X'})$ to the extension class of the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r, "\varphi"] & \iota^* \Omega_{X'/Y} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is a bijection sending the split extension to the trivial extension.
+\end{prop}
+
+\subsection{Lifting}
+
+\begin{prop}
+Let $f : X \to Y$ be smooth and $\iota : T \to T'$ a first order thickening with ideal $\I$. Then given a diagram,
+\begin{center}
+\begin{tikzcd}
+T \arrow[d, "\iota"'] \arrow[r, "g"] & X \arrow[d, "f"]
+\\
+T' \arrow[r] \arrow[ru, "g'", dashed] & Y
+\end{tikzcd}
+\end{center}
+there exists an obstruction class,
+\[ c(g_0) \in \Ext{1}{\struct{T}}{g^* \Omega_{X/Y}}{\I} \]
+to the existence of a $Y$-morphism $g : T \to X$ extending $g$. Furthermore, if $c(g) = 0$ then the set of extensions $g'$ of $g$ is a $\Hom{\struct{T}}{g^* \Omega_{X/Y}}{\I}$-torsor.
+\end{prop}
+
+\begin{proof}
+Consider the sheaf of sets $\F$ on $T$ of local lifts,
+\[ U \mapsto \{ g' \in \Hom{Y}{U'}{X} \mid g \circ \iota = g_0 \} \]
+Since $\iota$ is a homeomorphism, opens of $T$ and $T'$ agree but they have different scheme structures. Let $\G = \shHom{\struct{T}}{g^* \Omega_{X/Y}}{\I}$. Given $s \in \G(U)$ and $g' \in \F(U)$ we can form $g' + s \in \F(U)$ as follows. Since $\iota$ is a homeomorphism, maps $g'$ are determined by sheaf maps $g^{-1} \struct{X} \to \iota^{-1} \struct{T'}$. Thus consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \iota^{-1} \struct{T'} \arrow[r] & \struct{T} \arrow[r] & 0
+\\
+& & & g^{-1} \struct{X} \arrow[u] \arrow[lu, dashed]
+\end{tikzcd}
+\end{center}
+For two dashed maps $g_1, g_2$ the difference $D = g_2 - g_1 : g^{-1}\struct{X} \to \I$ is a $g^{-1} f^{-1} \struct{Y}$-derivation because $\I^2 = 0$ and likewise to any $g$ we may add an $\I$-valued derivation and retain an algebra morphism. Therefore $\F$ is a pseudo-torsor (possibly non-split) over,
+\begin{align*}
+\shDero{g^{-1} f^{-1} \struct{Y}}{g^{-1} \struct{X}}{\I} & = \shHom{g^{-1} \struct{X}}{\Omega_{g^{-1} \struct{X}/g^{-1} f^{-1} \struct{Y}}}{\I} 
+\\
+& = \shHom{g^{-1} \struct{X}}{g^{-1} \Omega_{X/Y}}{\I} = \shHom{\struct{T}}{g^* \Omega_{X/Y}}{\I} = \G
+\end{align*}
+(See Tag 08RR if this makes you uncomfortable).
+Since $f$ is smooth, lifts exist Zariski locally so $\F$ is a $\G$-torsor and thus it corresponds to a class,
+\[ c(g) \in H^1(T, \G) = H^1(T, \shHom{\struct{T}}{g^* \Omega_{X/Y}}{\I}) = \Ext{1}{\struct{T}}{g^* \Omega_{X/Y}}{\I} \]
+which is zero iff $\F$ is trivial iff $\F$ has a global section. Furthermore, if $\F$ is trivial then $\Gamma(T, \F)$ is an affine space over $\Gamma(X, \G) = \Hom{\struct{T}}{g^* \Omega_{X/Y}}{\I}$.
+\end{proof}
+
+
+\begin{defn}
+Let $\iota : Y \to Y'$ be a first-order infinitesimal thickening and $f : X \to Y'$ a $Y$-scheme. A \textit{lift} of $X$ over $Y$ is a $Y$-scheme $f' : X' \to Y'$ and an isomorphism $\varphi : X' \times_{Y'} Y \iso X$. A morphism between lifts $f'_1 : X'_1 \to Y'$ and $f'_2 : X'_2 \to Y$ is a $Y'$-morphism $g : X'_1 \to X'_2$ such that,
+\begin{center}
+\begin{tikzcd}
+X'_1 \times_{Y'} Y \arrow[rr, "g \times \id"] & & X'_2 \times_{Y'} Y 
+\\
+& X \arrow[lu, "\varphi_1"] \arrow[ru, "\varphi_2"'] 
+\end{tikzcd}
+\end{center}
+commutes.
+\end{defn}
+
+\begin{prop}
+Assume that $f : X \to Y$ is smooth and $\iota : Y \to Y_1$ has ideal $\I$. Then,
+\begin{enumerate}
+\item there exists an obstruction,
+\[ \omega(f) \in \Ext{2}{\struct{X}}{\Omega_{X/Y}}{f^*\I} \]
+to the existence of a smooth lift of $X$ over $Y'$
+\item If $\omega(f) = 0$ then the set of isomorphism classes of smooth lifts is an affine space over,
+\[ \Ext{1}{\struct{X}}{\Omega_{X/Y}}{f^* \I} \]
+\item If $f' : X' \to Y'$ is a smooth lift of $X$ then the group of automorphisms of $f'$ is naturally, 
+\[ \Hom{\struct{X}}{\Omega_{X/Y}}{f^* \I} \]
+\end{enumerate}
+\end{prop}
+
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Zar}{\mathrm{Zar}}
+
+\begin{rmk}
+Since $f : X \to Y$ is smooth, then $\Omega_{X/Y}$ is locally free and therefore,
+\[ \Ext{i}{\struct{X}}{\Omega_{X/Y}}{f^* \I} = H^i(X, \T_{X/Y} \otimes_{\struct{X}} f^* \I) \]
+\end{rmk}
+
+\begin{proof}
+First, we consider shrinking $X$ until it is affine and it maps to affines so we have $Y_0 = \Spec{B}$ and $X = \Spec{A}$ and $Y = \Spec{B'}$ where $B = B'/I$ and $I^2 = 0$. We need to show that there exists a unique lift over $A$ and that the group of automorphisms of this lift is $\Hom{A}{\Omega_{A/B}}{I \otimes_{B} A}$. 
+\bigskip\\
+Suppose that $A'$ is a smooth lift meaning $A' \otimes_{B'} B = A$. Applying $- \otimes_{B'} A'$ to the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & B' \arrow[r] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we get an exact sequence because $A'$ is flat over $B'$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \otimes_{B'} A' \arrow[r] & A' \arrow[r] & A' \otimes_{B'} B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then using that $A' \otimes_{B'} B = A$ and that $I$ is naturally a $B$-module because $I^2 = 0$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \otimes_B A \arrow[r] & A' \arrow[r] & A \arrow[r] & 0
+\\
+0 \arrow[r] & I \arrow[u] \arrow[r] & B' \arrow[u, "f'"] \arrow[r] & B \arrow[u, "f"] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+identifying $I' = \ker{(A' \to A)} = I \otimes_B A$ which is great because it is fixed by the given data. The only unknown is the $A'$ that fill in the diagram. 
+\bigskip\\
+First we consider automorphisms of $A'$ preserving the diagram. If $\varphi : A' \to A'$ is a ring automorphism then $\varphi - \id : A' \to I'$ is a $B'$-module map because $\varphi - \id$ projects to zero in $A$. Because $I^2 = 0$ it is easy to check that $\tilde{D} = \varphi - \id$ is a derivation. Moreover, any $B'$-derivation kills $I'$ because $I' = IA'$ and $D(\iota a) = \iota D(a) \in I^2 A = 0$ so it factors through a $B$-derivation $D : A \to I$ (since $A'/I' = A$). Conversely, given a $B$-derivation $D : A \to I'$ we produce a $B'$-map $\tilde{D} : A' \to A \xrightarrow{D} I' \to A'$ and a direct calculation shows that $\varphi = \id + \tilde{D}$ is a $B$-algebra automorphism over the identity on $A$ (because $D$ lands in $I' = \ker{(A' \to A)}$). Therefore,
+\[ \mathrm{Aut}_B(A'/A) = \Der{B}{A}{I'} = \Hom{A}{\Omega_{A/B}}{I \otimes_B A} \]
+Next we show the uniqueness of lifts. Suppose that $A'_1$ and $A'_2$ are two smooth lifts of $A$. Then,
+\begin{center}
+\begin{tikzcd}[column sep={4em,between origins},row sep=1em]
+& 0 \arrow[rr] & & I \otimes_B A \arrow[rr] \arrow[from = dd] & & A'_2 \arrow[rr] \arrow[from = dd] & & A \arrow[rr] \arrow[from = dd] & & 0
+\\
+0 \arrow[rr] & & I \otimes_B A \arrow[rr, crossing over] \arrow[ru, equals] & & A'_1 \arrow[ru, dashed] \arrow[ru, dashed] \arrow[rr, crossing over] & & A \arrow[ru, equals] \arrow[rr, crossing over] & & 0
+\\
+& 0 \arrow[rr] & & I \arrow[rr] & & B' \arrow[rr] & & B \arrow[rr] & & 0
+\\
+0 \arrow[rr] & & I \arrow[rr] \arrow[uu, crossing over] \arrow[ur, equals] & & B' \arrow[uu, crossing over] \arrow[ur, equals] \arrow[rr] & & B \arrow[uu, crossing over] \arrow[rr] \arrow[ur, equals] & & 0
+\end{tikzcd}
+\end{center}
+giving a commutative square,
+\begin{center}
+\begin{tikzcd}
+A & A_2' \arrow[l]
+\\
+A_1' \arrow[ru, dashed] \arrow[u] & B' \arrow[u] \arrow[l]
+\end{tikzcd}
+\end{center}
+where the lift $A'_1 \to A_2'$ exists because $B' \to A_2'$ is smooth and $A'_1 \to A$ is an infinitesimal extension by $I'$. Applying the 5-lemma to the top of the preceding diagram we see that $A'_1 \to A_2'$ is an isomorphism proving uniqueness of the lift.
+\bigskip\\
+Finally, we need to consider existence. It turns out it will be easiest to consider what seems like a more complication problem: lifting closed subschemes inside an ambient space with a given fixed lift. In our case, the ambient space will be affine space over $B$ (since $A$ is a finitely presented $B$-algebra) which is easy to lift so we only need to show that we can lift smooth subschemes of affine space. Hartshorne's deformation theory chapter 2 considers this problem in detail and proves existence in much more generality. I will sketch Hartshorne's argument [H, Thm. 9.2] which applies in the local complete intersection case. 
+\bigskip\\
+Let $P \onto A$ be the ambient embedding (in our case $P = B[x_1, \dots, x_n]$) and $P'$ a fixed lift of $P$ over $B'$ (in our case $P' = B'[x_1, \dots, x_n]$). Then we need to find $A'$ that fit into a diagram,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d] &
+\\
+0 \arrow[r] & I \otimes_B J \arrow[r] \arrow[d] & J' \arrow[r] \arrow[d] & J \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & I \otimes_B P \arrow[r] \arrow[d] & P' \arrow[r] \arrow[d] & P \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & I \otimes_B A \arrow[r] \arrow[d] & A' \arrow[r] \arrow[d] & A \arrow[r] \arrow[d] & 0
+\\
+& 0 & 0 & 0
+\end{tikzcd}
+\end{center}
+where the bottom two rows are exact because $A'$ and $P'$ are flat over $B'$ and the leftmost column is exact because $A$ is flat over $B$ and the other two columns are exact by definition so the top row is also exact by the 9-lemma (c.f. [H, Thm. 6.2]). Let $J = (f_1, \dots, f_r)$ and we define $J'$ (and thus $A'$) by lifting $\tilde{f}_i \in P'$ to give an ideal $J' = (f'_1, \dots, f'_r)$. Because $A$ is a local complete intersection in $P$ the Kozul complex $K_\bullet(P; f_1, \dots, f_r)$ is exact and forms a free resolution of $A$. Since $P'$ is flat over $B'$, tensoring the complex of free $P'$-modules $K_\bullet(P'; f_1', \dots, f_r')$ over the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & B' \arrow[r] & B \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we get an exact sequences of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \otimes_B K_\bullet(P; f_1, \dots, f_r) \arrow[r] & K_\bullet(P'; f_1', \dots, f_r') \arrow[r] & K_\bullet(P; f_1, \dots, f_n) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+again using that $I$ is a $B$-module. Furthermore, $K_\bullet(P; f_1, \dots, f_r) \otimes_{B} I$ remains exact because $P$ is flat over $B$. Therefore, taking the long exact sequence on cohomology shows that $K_\bullet(P'; f_1', \dots, f_r')$ is exact in positive degrees and that their quotients form an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \otimes_B A \arrow[r] & A' \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so $A'$ fits into the above diagram and moreover is flat over $B'$ (use [H Prop. 2.2]) and therefore smooth because its fibers over $B'$ are equal to the fibers of $A$ over $B$ (the ideal $I$ is nilpotent so $B = B'/I$ has the same points and residue fields) which are smooth. Therefore, we have produced a lift of $A$ inside the lifted ambient space $P'$ giving our desired lift of $A$. 
+\bigskip\\
+Now we do the general case. As before, we would like to consider a ``sheaf of lifts'' over open of $X$ but this does not make sense because lifts have automorphisms. Indeed, we actually have a stack of lifts $\X$ over $X_{\Zar}$. Explicitly, the objects of $\X$ are smooth lifts $U'$ of an open $U \subset X$ over $Y$ and morphisms are morphisms of $Y$-schemes $\varphi : U' \to V'$ such that $U' \times_{Y'} Y \to V' \times_{Y'} Y$ is identified with the open inclusion $U \embed V$. This is a fibered category over $X_{\Zar}$. An affine local argument shows that every map in $\X$ is an open immersion and that maps over $\id : U \to U$ are isomorphisms so $\X$ is fibered in groupoids. Morphisms glue because an open cover of $U$ will pull back a lift $U'$ of $U$ to an open cover of $U'$. Furthermore, descent is effective because descent data for a cover $\{ U_i \to U \}$ is exactly gluing data on opens for lifts $U_i'$ over each $U_i$ that thus glue to a lift $U'$ over $U$. Let $\G = \shHom{\struct{X}}{\Omega_{X/Y}}{f^* \I}$. A global version of the automorphisms argument shows that $\G$ acts on the objects of $\X$ precisely giving an action $B \G \times \X \to \X$. What we showed is that on affine opens $U \subset X$, the stack $\X|_U \cong B \G$ because it is connected with automorphism group $\G$ and on affines $\G$-torsors are all trivial (since $\G$ is quasi-coherent).
+\bigskip\\
+Therefore $\X$ is a $\G$-gerbe which corresponds to a class $[\X] \in H^2(X, \G)$ which is zero if and only if $\X$ is the trivial gerbe if and only if $\X$ ``admits a global section'' meaning $\X(X)$ is nonempty i.e. there is a global lift. Furthermore, if $\X$ is trivial then $\X \cong B \G$ so the groupoid $\X(X)$ is exactly the category of $\G$-torsors with isomorphisms meaning that $H^1(X, B)$ classifies global lifts\footnote{Lifts form an affine space over $H^1(X \G)$ meaning it only classifies lifts up to choosing a base point or equivalently up to choosing an isomorphism $\X \cong B \G$ which is why the identification is not canonical unlike the case for torsors where $0$ corresponds to the trivial torsor (there is no corresponding trivial lift).} and the automorphism group of any global lift is $H^0(X, \G)$ as noted earlier.
+\bigskip\\
+This can be described more prosaically if $Y$ is separated as follows. Given an open affine cover $\{ U_i \}$ of $X$ and lifts $U_i'$ of each $U_i$ then pulling back to the double intersections $U'_{ij} = U_{i}'|_{U_{ij}}$ (which are affine by separatedness) are lifts over $U_{ij}$. We showed that any two lifts over an affine scheme are isomorphic so we can fix isomorphism $\varphi_{ij} : U'_{ij} \to U'_{ji}$. Then on triple overlaps $U_{ijk}$ (which are affine by separatedness) there is a cocycle automorphism,
+\[ u_{ijk} = \varphi_{ik}^{-1} \circ \varphi_{jk} \circ \varphi_{ij} \]
+of $U'_i|_{U_{ijk}}$. Then, as previously,
+\[ c_{ijk} = u_{ijk} - \id \in \G(U_{ijk}) \]
+and $(c_{ijk})$ defines a $2$-cocyle for $\G$ and therefore defines an obstruction class $[c] \in H^2(X, \G)$ to the lifts $\{ U_i' \}$ gluing to a global lift $X'$. Of course, this must be checked to be a 2-cocycle independent of our choices up to the addition of a 2-coboundary and that the isomorphisms $\varphi_{ij}$ can be modified, possibly on a refinement of the cover $\{ U_i \}$, such that the cocycle vanishes and gluing goes through if and only if $(c_{ijk})$ is a coboundary but we will leave the discussion here.
+\end{proof}
+
+\begin{rmk}
+When affine locally flat lifts of subschemes exist inside a lifted ambient space there is an obstruction to global lifting given by an $H^1$-class of a twisted normal bundle. It seems strange that obstructions to lifting subschemes live in $H^1$ where as obstructions to lifting schemes without an ambient space live in $H^2$ until we remember that automorphisms played a central part in the above argument. Notice that subschemes have no automorphisms (as subschemes) and therefore the lifts of subschemes actually form a sheaf (rather than a stack) which is a torsor (rather than a gerbe) over some twisted normal bundle and thus the obstruction to a global lift (corresponding to a global section of the torsor which trivializes it) is an $H^1$-class corresponding to the torsor.
+\end{rmk}
+
+
+\begin{example}
+If $X$ is affine then,
+\[ H^i(X, \T_{X/Y} \otimes_{\struct{X}} f^* \I) = 0 \]
+for all $i > 0$ and thus smooth lifts always exist and are unique as we demonstrated in the proof.
+\end{example}
+
+\begin{example}
+If $f : X \to Y$ is \etale then $\Omega_{X/Y} = 0$. Thus for any first-order thickening $\iota : Y \to Y'$ there is a unique smooth lift $X'$ of $X$ over $Y$ and $X'$ has no nontrivial automorphisms.
+\end{example}
+
+\begin{example}
+If $f : X \to Y$ is a family of smooth curves over a zero dimensional base (e.g. an Artin local ring) then, 
+\[ H^2(X, \T_{X/Y} \otimes_{\struct{X}} f^* \I) = 0 \]
+by dimensionality so curves always admit liftings. In the case $Y = \Spec{\Z/p\Z} \to \Spec{\Z/p^2\Z}$,
+\[ H^1(X, \T_{X/Y} \otimes_{\struct{X}} f^* \J) = H^1(X, \T_{X/Y}) = H^0(X, \omega_{X/Y}^{\otimes 2}) \cong 
+\begin{cases}
+0 & g = 0
+\\
+1 & g = 1
+\\
+\FF_p^{3(g-1)} & g \ge 1 
+\end{cases} \]
+so as the genus grows the curves admit many lifts.
+\end{example}
+
+\begin{example}
+When the extension $\iota : Y \to Y'$ splits then the obstruction class always vanishes $\omega(f) = 0$ because we can form a lift by pulling back along the section $s : Y' \to Y$. This happens for example with $D = k[t]/(t^2)$ and the split extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & k \arrow[r, "t"] & D \arrow[r] & k \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{example}
+
+\end{document}

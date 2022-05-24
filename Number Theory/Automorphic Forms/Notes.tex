@@ -1,0 +1,217 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{NumberTheoryCommands}
+
+
+\begin{document}
+
+\section{Introduction to the Langlands Program}
+
+\subsection{Introduction}
+
+\subsection{Galois Representations}
+
+\begin{defn}
+For a field $K$ we define the absolute Galois group $G_K = \Gal{\overline{K} / K}$. Let $E$ be a topological field and $n \in \Zplus$ a positive integer. Then an $E$-valued $n$-dimensional Galois representation is a continuous homomorphism,
+\[ \rho : G_K \to \GL{n}{E} \]
+\end{defn}
+
+\subsubsection{Complex Representations}
+
+\begin{lemma} \label{lem:no_subgroups_of_nbd}
+There exists a neighborhood $V$ of $I$ in $\GL{n}{\C}$ that contains no nontrivial subgroup.
+\end{lemma}
+\begin{proof}
+Recall that $M_n(\C)$ is a metric space under the absolute value $|A| = \max |A_{ij}|$.
+\\
+Let $U_r = \{A \in M_n(\C) : |A - I| < r \text{ and } \tr{A} = 0 \}$ and take $V_r = \exp(U_r)$ an open neighborhood of $I \in \GL{n}{\C}$ since $\det{\exp{A}} = \exp{\tr{A}} = 1$. Suppose that $H \subset V_r$ is a subgroup. For $B \in H$ we have $B = \exp{A}$ and thus $B^k = (\exp{A})^k = \exp{(kA)}$ so $kA \in U_r$. However, $|k A| = |k| \cdot |A|$ which, by the archimedean property, can be taken arbitrarily large if $|A| > 0$. Since all $A \in U_r$ have $|A| < r$ this contradicts the fact that $k A \in U_r$ unless $|A| = 0 \implies A = 0 \implies B = I$. Thus, $H = \{ I \}$.  
+\end{proof}
+
+\begin{remark}
+The above proof depends crucially on the archimedean property. 
+\end{remark}
+
+\begin{proposition} \label{prop:complex_galois_rep_finite}
+Any continuous homomorphism $\rho: G_{K} \to \GL{n}{\C}$ factors through $\Gal{F/K}$ for some finite Galois extension $F / K$. Hence its image is finite.
+\end{proposition}
+\begin{proof}
+By Lemma \ref{lem:no_subgroups_of_nbd}, let $V$ be an neighborhood of $I$ in $\GL{n}{\C}$ which contains no non-trivial subgroups. Then $U = \rho^{-1}(V)$ is an open neighborhood of $\id \in G_K$ and thus contains a normal subgroup of the form $\Gal{\bar{K} / F}$ for some galois extension $F / K$.
+Since $\rho$ is a homomorphism, the image of $\Gal{\bar{K} / F}$ is subgroup contained in $V$. But $V$ does not have any nontrivial subgroup so $\Gal{\bar{K} / F } \subset \ker{\rho}$ is actually in the kernel of $\rho$. Thus, $\rho$ factors through the quotient,
+\[ \Gal{\bar{K} / K} / \Gal{\bar{K} / F} \cong \Gal{F / K} \]
+which is finite. Hence $\rho$ has finite image.
+\end{proof}
+
+
+\subsubsection{$\ell$-adic Galois Representations}
+
+\begin{rmk}
+The archimedean nature of $\C$ leading to Lemma \ref{lem:no_subgroups_of_nbd} made the theory of complex Galois representations fairly uninteresting. However, if we consider a non-archimedean field such as $\Q_{\ell}$, this restriction is lifted. 
+\end{rmk}
+
+\begin{proposition}
+Every neighborhood of $1 \in \Q_{\ell}^\times$ contains a nontrivial subgroup.
+\end{proposition}
+\begin{proof}
+Let $U$ be an open neighborhood of $1 \in \Q_{\ell}^\times$, then there exists $n \in \Z^+$ such that \[V(n) = 1 + \ell^n \Z_{\ell} \subset U\] 
+However, $V(n)$ is a nontrivial subgroup of $\Q_{\ell}^\times$ because 
+\[(1 + \ell^n z)^{-1} - 1 = \frac{ \ell^n z }{1 + \ell^n z} = \ell^n \frac{z}{1 + \ell^n z} \in \ell^n \Z_{\ell} \]
+since $1 + \ell^n z \in \Z_{\ell}^\times$. 
+\end{proof}
+
+\begin{definition}
+Let $L/K$ be finite Galois extension of number fields, $\p \in \ints{K}$ be an unramified prime, and $\fP$ a prime of $\ints{L}$ lying above $\p$. Then, there is an isomorphism $D(\fP) \iso \Gal{\kappa(\fP)/\kappa(\p)}$. Let $\Frob_\p \in D(\fP) \subset \Gal{L/K}$ denote the preimage of $\Frob \in \Gal{\kappa(\fP)/\kappa(\p)}$. In particular,
+\[ \Frob_{\fP}(x) \equiv x^{\#\kappa(\p)}  \: \: \mathrm{mod} \:  \fP \] 
+for $x \in \ints{L}$. Since for any two $\fP, \fP'$ over $\p$ there is $\sigma \in \Gal{L/K}$ such that $\sigma(\fP) = \fP'$ then $D(\fP') = \sigma D(\fP) \sigma^{-1}$ so $\Frob_{\fP'} = \sigma \Frob_{\fP} \sigma^{-1}$ giving a well-defined conjugacy class $\Frob_\p$.
+\end{definition}
+
+\begin{lemma}
+Let $F = \Q(\zeta_N)$. Let $p$ be a prime in $\Z$ such that $p \ndivides N$. Let $\mathfrak{p}$ be a prime in $F$ lying above $p$. Then $\kappa(\p) = \ints{F} / \mathfrak{p} = \FF_p[\zeta_N]$. 
+Let $x \in \ints{F}$, then we can describe the action of $\Frobp$ by 
+\[ \Frobp\left( \sum_{i = 0}^{N-1} a_i \zeta_N^i \right) \equiv \left( \sum_{i = 0}^{N-1} a_i \zeta_N^i \right)^p \equiv \sum_{i = 0}^{N-1} a_i \zeta_N^{ip} \: \: \mathrm{mod} \: \mathfrak{p} \]
+That is to say, the action of $\Frobp$ takes $\zeta_N$ to $\zeta_N^p$.
+\end{lemma}
+
+\begin{definition}
+The $\ell$-adic cyclotomic character $\chi_{\ell} : G_\Q \to \Q_{\ell}^\times$ of $G_\Q$ is defined by, 
+\[ \sigma \mapsto (m_1, m_2, m_3, \dots ) \text{ where } \sigma(\zeta_{\ell^n}) = \zeta_{\ell^n}^{m_n} \]
+is a $1$-dimensional Galois representation since $m_n$ is defined up to multiples of $\ell^n$.
+\end{definition}
+
+\begin{remark}
+Notice that when $p \neq \ell$ we have,
+\[\chi_{\ell}(\Frobp) = p\]
+In particular, the image of $\chi_{\ell}$ is infinite. Therefore, $\ell$-adic Galois representations allow for richer structure than those over $\C$. 
+\end{remark}
+
+\subsubsection{Uniqueness of Galois Representations}
+
+\begin{thm}[Chebotarev]
+Let $L/K$ be a finite Galois extension of number fields and $X \subset G = \Gal{L/K}$ is a conjugation-stable subset. Then,
+\[ \delta(\{ \p \subset \ints{K} \mid \p \text{ unramified and } \Frob_\p \subset X \} = \frac{\# X}{\# G} \]
+where $\delta(S)$ is the natural density. In particular, $\p \mapsto \Frob_\p$ is surjective onto $\Gal{L/K}$.
+\end{thm}
+
+\begin{rmk}
+This of course gives us more. It says that any cofinite set of primes $\p \subset \struct{K}$ produce enough $\Frob_\p$ to cover the Galois group.
+\end{rmk}
+
+\begin{rmk}
+Given a tower $E/L/K$ of finite Galois extensions we see that under $\Gal{E/K} \onto \Gal{L/K}$ that $\Frob_{\p, E/K} \mapsto \Frob_{\p, L/K}$ for any unramified prime $\p \subset \ints{K}$. Choosing primes $\p_E$ over $\p_L$ over $\p$ this follows from the commutative diagram,
+\begin{center}
+\begin{tikzcd}
+D(\p_E) \arrow[d, two heads] \arrow[r, "\sim"] & \Gal{\kappa(\p_E)/\kappa(\p)} \arrow[d, two heads]
+\\
+D(\p_L) \arrow[r, "\sim"] & \Gal{\kappa(\p_L)/\kappa(\p)}
+\end{tikzcd}
+\end{center}
+Thus, for an infinite Galois extension $E / K$ with $\p$ unramified there is a well-defined conjugacy class,
+\[ \Frob_\p \subset \Gal{E/K} = \varprojlim_{E/L/K} \Gal{L/K} \]
+defined by $\varprojlim\limits_{E/L/K} \Frob_{\p, L/K}$ where $L$ runs over finite Galois intermediate extensions.
+\end{rmk}
+
+\begin{prop}
+Let $E/K$ be any Galois extension unramified outside of a finite set $S$. The map $\p \mapsto \Frob_\p$ from unramified primes $\p \subset \ints{K}$ to conjugacy classes in $\Gal{E/K}$ has dense (union of its) image.
+\end{prop}
+
+\begin{proof}
+By the universal property, a set $S \subset \Gal{E/K}$ is dense if and only if its image under each $\Gal{E/K} \to \Gal{L/K}$ is dense (i.e. equals all of $\Gal{L/K}$) where $L/K$ is finite Galois and $E \supset L$. Since the set of primes $\p \subset \ints{K}$ unramified in $E$ is cofinite, the conjugacy classes $\Frob_\p \mapsto \Frob_{\p, L/K}$ cover $\Gal{L/K}$ proving that the union of $\Frob_\p$ is dense in $\Gal{E/K}$. 
+\end{proof}
+
+\begin{thm}[Brauer-Nesbitt]
+Let $G$ be a group and $E$ a field. Given a pair of semi-simple representations $\rho_1, \rho_2 : G \to \GL{n}{E}$ such that $\forall g \in G$ the characteristic polynomials of $\rho_1(g)$ and $\rho_2(g)$ are equal then $\rho_1 \cong \rho_2$.
+\end{thm}
+
+\begin{rmk}
+In characteristic zero, it suffices that $\chi_{\rho_1} = \chi_{\rho_2}$ meaning that $\tr{\rho_1(g)} = \tr{\rho_2(g)}$ for all $g \in G$ thus we only need to look at the leading (not the monic term) coefficient of the characteristic polynomial.  To see this, notice that if $\lambda_i$ are the (counted with algebraic multiplicity) eigenvalues of $\rho(g)$ then $\lambda_i^n$ are the eigenvalues of $\rho(g^n) = \rho(g)^n$ so 
+\[ \tr{\rho(g^n)} = \lambda_1^n + \cdots + \lambda_1^n \]
+which (as long as $n!$ is invertible) determine the elementry symmetric polynomials in $\lambda_1, \dots, \lambda_n$ (i.e. the coefficients of the minimal polynomial) via Newton sums. 
+\end{rmk}
+
+\begin{thm}
+Let $E/K$ is a (possibly infinite) Galois extension unramified outside of a finite set $S$. Then a (continuous) semi-simple Galois representation $\rho : \Gal{E/K} \to \GL{n}{F}$ is determined uniquely by the characteristic polynomials,
+\[ \mathrm{char}(\rho(\Frob_\p))(t) = \det{[t I - \rho(\Frob_\p)]} \]
+for each $\p \notin S$.
+\end{thm}
+
+\begin{proof}
+The map $\mathrm{char}(\rho) : \Gal{E/K} \to F[x]$ taking $g \mapsto \mathrm{char}(\rho(g))$ is continuous and therefore determined by its values on $\Frob_\p$ (notice that $\mathrm{char}(\rho(\Frob_\p))$ is well-defined because $\mathrm{char}$ is invariant under conjugation) since these are mutually dense. Therefore, by Brauer-Nesbitt, there is at most one semi-simple representation up to isomorphism with the proscribed characteristic polynomials.
+\end{proof}
+
+\begin{rmk}
+The situation for local fields $K$ is even simpler. Any unramified Galois representation 
+\[ \rho : \Gal{E/K} \to \GL{n}{F} \]
+(meaning equivalently $\rho(I_{E/K}) = \{ I \}$ or $\rho$ factors through some unramified $L/K$) is determined by $\mathrm{char}(\rho(\Frob_\p))$ because $\Gal{K^{\text{ur}}/K} = \hat{\Z} \cdot \Frob_\p$ and thus the image of $\Frob_\p$ determines any continuous map $\Gal{E/K} \to \Gal{L/K} \to \GL{n}{F}$  
+\end{rmk}
+
+\subsection{The Dimension One Case}
+
+\begin{defn}
+Given a Dirichlet character $\chi : (\Z / N \Z)^\times \to \C^\times$ there is an associated complex $1$-dimensional Galois representation,
+\[ \rho_\chi : \Gal{\Qbar/\Q} \onto \Gal{\Q(\zeta_N)/\Q} = (\Z / N \Z)^\times \xrightarrow{\chi} \GL{1}{\C} \]
+\end{defn}
+
+\begin{prop}
+For any complex $1$-dimensional Galois representation $\rho : \Gal{\Qbar/\Q} \to \GL{1}{\C}$ there is a Dirichlet character $\chi : (\Z / N \Z)^\times \to \C^\times$ such that $\rho \cong \rho_\chi$.
+\end{prop}
+
+\begin{proof}
+By Proposition \ref{prop:complex_galois_rep_finite} $\rho$ has finite image and thus $\ker{\rho}$ is an open subgroup which corresponds to some finite extension $K/\Q$ such that passing to the quotient, $\bar{\rho} : \Gal{K/\Q} \embed \C^\times$. Since $\C^\times$ is abelian, $K / \Q$ is abelian and thus by the Kronecker-Weber theorem there is some $N$ such that $K \subset \Q(\zeta_N)$. Since $\Gal{\Qbar/\Q(\zeta_N)} \subset \ker{\rho}$ we see that $\rho$ defines a character,
+\[ \chi : (\Z / N \Z)^\times = \Gal{\Q(\zeta_N)/\Q} \to \C^\times \]
+such that the diagram
+\begin{center}
+\begin{tikzcd}
+\Gal{\overline{\Q} / \Q} \arrow[rrr, bend left, "\rho"] \arrow[r, two heads] \arrow[dr, two heads] & \Gal{K / \Q} \arrow[rr, hook]  & & \GL{1}{\C}
+\\
+& \Gal{ \Q(\zeta_N) / \Q } \arrow[u, two heads] \arrow[rru, "\chi"]
+\end{tikzcd}
+\end{center}
+commutes proving that $\rho = \rho_\chi$.
+\end{proof}
+
+\subsubsection{The Artin L-Function}
+
+\begin{defn}
+Let $\rho : \Gal{L/K} \to \Aut{V}$ be a representation on a finite dimension $F$-vectorspace $V$ with $L/K$ finite Galois. Then define,
+\[ L(\rho, s) = \prod_{\p \subset \ints{K}} \frac{1}{\det{[I - N(\p)^{-s} \rho(\Frob_\p)| V_{\p, \rho}]}} \]
+where $V_{\p, \rho} = V_{\rho(I_\p)}$ such that $\rho : \Gal{L/K} \to \Aut{V_{\p, \rho}}$ factors through an extension unramified at $\p$ so that $\Frob_\p$ is well-defined.
+\end{defn}
+
+\begin{rmk}
+Notice that the local factors, 
+\[ \det{[I - N(\p)^{-s} \rho(\Frob_\p)| V_{\p, \rho}]}^{-1} \]
+are a slight modification of the characteristic polynomial evaluated at $t = N(\p)^{-1}$ and thus determine the representation $\rho$.
+\end{rmk}
+
+\begin{thm}
+Let $L/K$ be a Galois extension of degree $n$. Then,
+\[ \zeta_L(s) = \prod_{\rho \text{ irrep } \Gal{L/K}} L(\rho, s)^{\deg{\rho}} \]
+\end{thm}
+
+\begin{proof}
+Let $e$ be the ramification index of $\p$. Then notice that $G_\p = G / I_\p$ acts on $V_{\p, \rho}$ and has order $n / e$. For the local factor at $\p$, notice that,
+\[ - \log{\det{[I - N(\p)^{-s} \rho(\Frob_\p)]}} = \sum_{m = 1}^\infty \frac{\tr{\rho(\Frob_\p)^m}}{m} N(\p)^{-sm} \]
+Furthermore, by the character orthogonality relations,
+\[ \sum_{\rho \text{ irrep}} \deg{(\rho)} \, \tr{\rho(\sigma)} = \sum_{\rho \text{ irrep}} \overline{\tr{\rho(\id)}} \, \tr{\rho(\sigma)} = 
+\begin{cases}
+n/e & \sigma = \id
+\\
+0 & \sigma \neq \id
+\end{cases} \]
+Therefore,
+\[ - \sum_{\rho \text{ irrep}} \deg{(\rho)} \, \log{\det{[I - N(\p)^{-s} \rho(\Frob_\p)]}} = \frac{n}{e} \sum_{m = 1}^\infty \frac{N(\p)^{-sfm}}{fm} = - g \log{(1 - N(\p)^{-sf})} \]
+where $f$ is the order of $\Frob_\p$ and $n = efg$. However, there is an Euler product,
+\[ \zeta_L(s) = \sum_{I \subset \ints{L}} \frac{1}{N(I)^{-s}} = \prod_{\fP \subset \ints{L}} \frac{1}{1 - N(\fP)^{-s}} = \prod_{\p \subset \ints{K}} \frac{1}{(1 - N(\p)^{-sf})^{g}} \]
+because there are $g$ primes above $\p$ and each has $N(\P) = N(\p)^f$. Therefore, we see that,
+\[ \log{\zeta_L(s)} = - \sum_{\p \subset \ints{K}} \log{(1 - N(\p)^{-sf})^g} = - \sum_{\rho \text{ irrep}} \deg{\rho} \, \log{\det{[I - N(\p)^{-s} \rho(\Frob_\p)]}} \]
+and thus,
+\[ \zeta_L(s) = \prod_{\rho \text{ irrep}} L(\rho, s)^{\deg{\rho}} \]
+\end{proof}
+
+\subsection{The Abelian Case}
+
+Hello
+
+\section{Introduction to Automorphic Forms}
+
+\end{document}
+

@@ -1,0 +1,833 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\K}{\mathbb{K}}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand\eqae{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny a.e.}}}{=}}}
+\renewcommand{\F}{\mathcal{F}}
+\renewcommand{\K}{\mathcal{K}}
+
+\begin{document}
+
+\tableofcontents
+
+
+
+\section{Galois Theory}
+
+\begin{prop}
+Let $E$ be the splitting field of a $f \in K[x]$. Then,
+\[ | \Aut{E/K} | \le [E : K ] \]
+with equality if and only if $f$ is separable.
+\end{prop}
+
+\begin{proof}
+Dummit and Foote p.561.
+\end{proof}
+
+\begin{lemma}[Independence of Characters]
+Let $\sigma_1, \dots, \sigma_n : G \to E^\times$ be distinct linear characters. Then in $E[G]$ the elements $\sigma_1, \dots, \sigma_n$ are linearly independent.
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on $n$. For the case $n = 1$ this is obvious because a character $G \to E^\times$ is nonzero as a map $G \to E$. 
+\bigskip\\
+Now suppose that,
+\[ a_1 \sigma_1 + \cdots + a_n \sigma_n = 0 \]
+Now, this must hold for both $x \in G$ and $g x \in G$ so,
+\[ a_1 \sigma_1(x) + \cdots + a_n \sigma_n(x) = 0 \]
+and likewise,
+\[ a_1 \sigma_1(gx) + \cdots + a_n \sigma_n(gx) = 0 \]
+but $\sigma_i(gx) = \sigma_i(g) \sigma_i(x)$. Multiplying the first equation by $\sigma_n(g)$ and subtracting we find,
+\[ a_1 [\sigma_n(g) - \sigma_1(g)] \sigma_n(x) + \cdots + a_{n-1} [\sigma_n(g) - \sigma_{n-1}(g)] \sigma_n(x) = 0 \]
+Therefore by the independence of $\sigma_1, \dots, \sigma_{n-1}$ by assumption, we see that,
+\[ a_1 [\sigma_n(g) - \sigma_1(g)] = 0 \]
+Therefore either $a_1 = 0$ or $\sigma_1 = \sigma_n$ for all $g$. Since we assumed the characters are distinct this shows that $a_1 = 0$ reducing to the $n-1$ case so $a_i = 0$ for all $i$ by the induction hypothesis. Thus $\sigma_1, \dots, \sigma_n$ are independent.
+\end{proof}
+
+\begin{cor}
+Distinct field embeddings $\sigma_1, \dots, \sigma_n : K \embed L$ are independent.
+\end{cor}
+
+\begin{proof}
+Indeed, these are independent as characters $K^\times \to L^\times$ inside the $L$-vectorspace of maps $K^\times \to L$. Therefore, they must be independent as maps $K \to L$.
+\end{proof}
+
+\begin{cor}
+Let $x_1, \dots, x_n \in E$ be a basis for $E / K$ and $n = [E : K]$. Let $G \subset \Aut{E/K}$ then the vectors $v_\sigma \in E^n$ defined by $(v_\sigma)_i = \sigma(x_i)$ are independent over $E$.
+\end{cor}
+
+\begin{proof}
+Suppose that,
+\[ \sum_{\sigma \in G} \alpha_\sigma v_\sigma = 0 \]
+for $\alpha_\sigma \in E$. Then for each $i = 1,\dots,n$ we have,
+\[ \sum_{\sigma \in G} \alpha_\sigma \sigma(x_i) = \sum_{\sigma \in G} \alpha_\sigma (v_\sigma)_i = 0 \]
+Furthermore, we can write any $x \in E$ as,
+\[ x = \beta_1 x_1 + \cdots + \beta_n x_n \]
+for $\beta_i \in K$. Since $\sigma$ is a $K$-algebra map, multiplying the $i^{\text{th}}$ equation by $\beta_i$ and adding them gives,
+\[ \sum_{i = 1}^n \beta_i \sum_{\sigma \in G} \alpha_\sigma \sigma(x_i) = \sum_{\sigma \in G} \alpha_\sigma \sum_{i = 1}^n \beta_i \sigma(x_i) = \sum_{\sigma \in G} \alpha_\sigma \sigma(\beta_1 x_1 + \cdots + \beta_n x_n) = \sum_{\sigma \in G} \alpha_\sigma \sigma(x) \]
+and thus,
+\[ \sum_{\sigma \in G} \alpha_\sigma \sigma(x) = 0 \]
+Since $x \in E$ is arbitrary, we see that,
+\[ \sum_{\sigma \in G} \alpha_\sigma \sigma = 0 \]
+showing that $\alpha_\sigma = 0$ for all $\sigma \in G$ by the independence of the characters thus proving that the $v_\sigma \in E^n$ are independent. 
+\end{proof}
+
+\begin{cor}
+If $G \subset \Aut{E/K}$ then $|G| \le [E : K]$.
+\end{cor}
+
+\begin{prop}
+Let $E/K$ be a field extension and $G \subset \Aut{E/K}$. Then,
+\[ |G| = [E : K] \iff K = E^G \]
+\end{prop}
+
+\begin{proof}
+Suppose that $|G| = [E : K]$. Take $F = E^G$ giving a tower $K \subset F \subset E$. We know that $[E : K] = [E : F][F : K] = |G|$. However, $G \subset \Aut{E/F}$ because each automorphism fixes $F$ by definition. Thus $|G| \le [E : F]$ meaning that,
+\[ |G| \le [E : F] \le [E : K] = |G| \]
+proving that $[E : F] = [E : K]$ so $F = K$.
+\bigskip\\
+Now suppose that $K = E^G$. See Dummit and Foote p.571.
+\end{proof}
+
+\begin{rmk}
+The proof shows that in general,
+\[ [E : K] = |G| \cdot [E^G : K] \]
+\end{rmk}
+
+\begin{defn}
+We say that $E / K$ is \textit{Galois} if $K = E^{\Aut{E/K}}$ and write $\Gal{E/K} := \Aut{E/K}$.
+\end{defn}
+
+\begin{cor}
+We see that $E / K$ is Galois if and only if $|\Aut{E/K}| = [E : K]$.
+\end{cor}
+
+\subsection{The Galois Correspondence}
+
+\begin{prop}
+Let $E/K$ be a finite extension and $G \subset \Aut{E/K}$. Let $F = E^G$ then $E/F$ is Galois and $G = \Aut{E/F}$.
+\end{prop}
+
+\begin{proof}
+By definition, $G \subset \Aut{E/F}$. Since $F = E^G$ we have $|G| = [E : F]$ and therefore,
+\[ |G| \le |\Aut{E/F}| \le [E : F] = |G| \]
+proving that $|G| = |\Aut{E/F}| = [E : F]$ and thus $G = \Aut{E/F}$ and that $E/F$ is Galois (note we actually automatically get that $E/F$ is Galois because $F = E^G = E^{\Aut{E/F}}$ using that $G = \Aut{E/F}$).
+\end{proof}
+
+\begin{prop}[Galois Connection]
+Let $E/K$ be a finite extension and $G = \Aut{E/K}$.
+\[ \{ \text{subgroups } H \subset G \} \substack{ \xrightarrow{\quad H \mapsto E^H \quad}  \\ \xleftarrow[F \mapsto \Aut{E/F}]{} } \{ \text{intermediate extensions } K \subset F \subset E \} \]
+satisfy the following properties,
+\begin{enumerate}
+\item $H \mapsto E^H \mapsto \Aut{E/E^H} = H$ meaning that 
+\end{enumerate}
+\end{prop}
+
+
+\subsubsection{Field Norm and Trace}
+
+\renewcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Nm}{\mathrm{N}}
+
+\begin{defn}
+Let $L/K$ be a finite extension of fields. Then we define the relative trace, 
+\[ \Tr_{L/K} : L \embed \mathrm{End}_K(L) \xrightarrow{\mathrm{tr}} K \]
+and relative norm,
+\[ \Nm_{L/K} : L \embed \mathrm{End}_K(L) \xrightarrow{\det} K \]
+and the relative characteristic polynomial,
+\[ \ch_{L/K} : L \embed \mathrm{End}_k(L) \xrightarrow{\text{char poly}} K[x] \]
+\end{defn}
+
+\begin{rmk}
+By Cayley-Hamilton, if $p = \ch_{L/K}(\alpha)$ then $p(\alpha) = 0$. Therefore $m_\alpha \divides \ch_{L/K}$ where $m_\alpha$ is the minimal polynomial of $\alpha$ over $K$.
+\end{rmk}
+
+\begin{lemma}
+Suppose that $L/K$ is separable. Then for any $\alpha \in L$,
+\[ \ch_{L/K}(\alpha) = \prod_{\sigma : L \embed \overline{K}} (x - \sigma(\alpha)) = m_\alpha^{\frac{[L : K]}{\deg{\alpha}}} \]
+where the sum is taken over $K$-linear embeddings of $L$ into $\overline{K}$.
+\end{lemma}
+
+\begin{proof}
+Consider $L / K(\alpha) / K$. Then choosing a $K(\alpha)$-basis of $L$ decompses $L$ into isomorphic $\alpha$-invariant $K$-subspaces of which there are $e = [L : K(\alpha)] = \frac{[L : K]}{\deg{\alpha}}$. Therefore, $\ch_{L/K}(\alpha) = \ch_{K(\alpha)/K}(\alpha)^e$. Furthermore, $\m_\alpha \divides \ch_{K(\alpha)/K}(\alpha)$ and they both have degree $\deg{\alpha}$ and are monic so $\m_\alpha = \ch_{K(\alpha)/K}$. 
+\bigskip\\
+Now let $E / L / K$ be the Galois closure. Then $\Hom{K}{L}{K^\sep} = \Hom{K}{L}{E}$ are given by cosets of $H = \Gal{E/L} \subset \Gal{E/K}$. Thus,
+\[ \prod_{\sigma \in \Hom{K}{L}{E}} (x - \sigma(\alpha)) = \prod_{\sigma H \in G/H}  (x - \sigma(\alpha)) \]
+which makes sense because any $\tau \in \sigma H$ is $\tau = \sigma \gamma$ for $\gamma \in H = \Gal{E/L}$ fixes $L$ by definition so $\tau(\alpha) = \sigma(\gamma(\alpha)) = \sigma(\alpha)$. Now let $H' = \Gal{E/K(\alpha)} \supset H$. Then,
+\[ \prod_{\sigma H \in G/H}  (x - \sigma(\alpha)) = \prod_{\sigma \in G/H'} \prod_{\tau \in \sigma H'/H} (x - \tau(\alpha)) = \prod_{\sigma \in G/H} (x - \sigma(\alpha))^{[L : K(\alpha)]} \]
+where $|H'/H| = [L : K(\alpha)]$ because $\tau \in \sigma H'$ is $\tau = \sigma \gamma$ for $\gamma \in H' = \Gal{E/K(\alpha)}$ fixes $\alpha$ by definition so $\tau(\alpha) = \sigma(\gamma(\alpha)) = \sigma(\alpha)$. Therefore, 
+\[ \prod_{\sigma \in \Hom{K}{L}{E}} (x - \sigma(\alpha)) = \left( \prod_{G/H'} (x - \sigma(\alpha)) \right)^{[L : K(\alpha)]} \]
+Now I claim that,
+\[ f(x) = \prod_{\sigma \in G/H'} (x - \sigma(\alpha)) \]
+is the minimal polynomial of $\alpha$. Consider $\tau \in G$ then,
+\[ \tau(f(x)) = \prod_{\sigma \in G/H'}(x - \tau(\sigma(\alpha))) = \prod_{\sigma' \in G/H'}(x - \sigma'(\alpha)) = f(x) \]
+so $f \in K[x]$ and clearly $f(\alpha) = 0$ (because $(x - \alpha)$ for $\sigma = \id$ is a factor) so $\m_\alpha \divides f$ in $K[x]$. However, $m_\alpha(\sigma(\alpha)) = \sigma(m_\alpha(\alpha)) = 0$ since $m_\alpha \in K[x]$ so each $\sigma(\alpha)$ is a root of $m_\alpha$. Furthermore, the $\sigma(\alpha)$ appearing in $f$ are \textit{distinct} because if $\sigma(\alpha) = \sigma'(\alpha)$ then $\sigma^{-1} \sigma'(\alpha) = \alpha$ so $\sigma^{-1} \sigma' \in \Gal{E/K(\alpha)}$ and thus $\sigma H' = \sigma' H'$. Therefore, $f \divides m_\alpha$ in $E[x]$ because each linear factor divides $m_\alpha$ since each $\sigma(\alpha)$ is a root of $m_\alpha$. Therefore $f = m_\alpha$ and we conclude.
+\end{proof}
+
+
+\begin{cor}
+Let $m_\alpha = x^n + a_{1} x^{n-1} + \cdots + a_n$. Then,
+\[ \Tr_{L/K}(\alpha) = \sum_{\sigma : L \embed \overline{K}} \sigma(\alpha) = (-1)^{[L:K]} a_1^{\frac{[L : K]}{\deg{\alpha}}} \quad \text{ and } \quad \Nm_{L/K}(\alpha) = \prod_{\sigma : L \embed \overline{K}} \sigma(\alpha) = a_n^{\frac{[L:K]}{\deg{\alpha}}}\]
+\end{cor}
+
+
+\begin{lemma}
+Let $L/K$ be a finite extension of fields. Let $V$ be a finite dimensional $L$-vectorspace and $\varphi : L \to V$ an $L$-linear map. Then,
+\[ \Tr_K(\varphi) = \Tr_{L/K}(\Tr_L(\varphi)) \]
+and likewise,
+\[ \mathrm{det}_K(\varphi) = \Nm_{L/K}(\mathrm{det}_L(\varphi)) \]
+\end{lemma}
+
+\begin{proof}
+Choosing bases this becomes a direct computation (see \href{https://stacks.math.columbia.edu/tag/0BII}{Tag 0BIE}).
+\end{proof}
+
+\begin{cor}
+Given a tower of finite field extensions $F / L / K$,
+\[ \Tr_{F/K} = \Tr_{L/K} \circ \Tr_{F/L} \quad \text{and} \quad \Nm_{F/K} = \Nm_{L/K} \circ \Nm_{F/L} \] 
+\end{cor}
+
+\subsection{The Discriminant}
+
+\begin{lemma}
+Given a bilinear form $B : V \times V \to K$ if we choose any basis $e_1, \dots, e_n \in V$ then,
+\[ \Delta(B) = \det{B(e_i, e_j)} \in K / (K^\times)^2 \]
+is independent of the choice of basis.
+\end{lemma}
+
+\begin{proof}
+Let $M_{ij} = B(e_i, e_j)$ and $M'_{ij} = B(e'_i, e'_j)$.
+There is a change of basis matrix,
+\[ e_j' = \sum_{k} C_{kj} e_k \]
+and therefore,
+\[ M'_{ij} = \sum_{k,\ell} C_{k i} B(e_k, e_\ell) C_{\ell j} =  (C^\top M C)_{ij} \]
+Thus,
+\[ \Delta'(B) = \det{M'} = \det{(C^\top M C)} = (\det{C})^2 \det{M} = (\det{C})^2 \Delta(B) \]
+so in $K / (K^\times)^2$ we have $\Delta'(B) = \Delta(B)$.
+\end{proof}
+
+\begin{lemma}
+The quadratic form $B$ is degenerate iff $\Delta(B) = 0$.
+\end{lemma}
+
+\begin{proof}
+If $B$ is degenerate then there exists $v \in V$ such that $B(v, -) = 0$ and then extending to a basis of $V$ we see immediately that $\Delta(B) = 0$. Conversely, if $\Delta(B) = 0$ then for some basis $e_1, \dots, e_n \in V$ the columns $B(e_i, e_j)$ are dependent meaning that there exist $v_1, \dots, v_n$ such that,
+\[ \sum_{j} B(e_i, e_j) v_j = 0 \]
+for all $i$ and thus setting $v = v_1 e_1 + \cdots + v_n e_n$ we see that $B(e_i, v) = 0$ for all $e_i$ and thus since the $e_i$ span $V$ we find that $B(-, v) = 0$ so $B$ is degenerate.
+\end{proof}
+
+\begin{lemma}
+Let $L/K$ be a finite separable extension and $e_1, \dots, e_n \in L$ a $K$-basis of $L$. Then,
+\[ \det{(\Tr_{L/K}(e_i e_j))} = \det{(\sigma_i(e_j))}^2 \]
+running over $\sigma_j \in \Hom{K}{L}{K^\sep}$ of which there are $[L : K]$ because $L/K$ is separable.
+\end{lemma}
+
+\begin{proof}
+Let $M_{ij} = \sigma_i(e_j)$ then,
+\[ A_{ij} = \Tr_{L/K}(e_i e_j) = \sum_{k} \sigma_k(e_i) \sigma_k(e_j) = \sum_k M_{ki} M_{kj} = (M^\top M)_{ij} \]
+Therefore,
+\[ \det{A} = \det{(M^\top M)} = (\det{M})^2 \]
+proving the proposition.
+\end{proof}
+
+\begin{lemma}
+Let $L/K$ be a finite extension of fields. Then the following are equivalent,
+\begin{enumerate}
+\item $L/K$ is separable
+\item $\Tr_{L/K}(xy)$ is not identically zero
+\item the bilinear form $B_{L/K}(x,y) = \Tr_{L/K}{(xy)}$ is nondegenerate
+\item $\Delta_{L/K} = \Delta(B_{L/K}) \neq 0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+If $\Tr_{L/K}(\gamma) \neq 0$ then for any $\alpha \in L$ we have $B_{L/K}(\alpha, \gamma/\alpha) = \Tr_{L/K}(\gamma) \neq 0$ so $B_{L/K}$ is nondegenerate. Clearly (c) $\implies$ (b) so we see that (b) $\iff$ (c). Furthermore, (c) $\iff$ (d) by a previous lemma.
+\bigskip\\
+Now suppose that $L/K$ is inseparable. Then there exists an intermediate extension $L/F/K$ such that $F/K$ is separable and $L/F$ is purely inseparable. Then there exists some $\alpha \in L$ such that $\alpha^p \in F$ but $\alpha \notin F$. Then we have a tower $L / F(\alpha)/F/K$ which implies that,
+\[ \Tr_{L/K} = \Tr_{F/K} \circ \Tr_{F(\alpha)/F} \circ \Tr_{L/F(\alpha)} \]
+Therefore, it suffices to show that $\Tr_{F(\alpha)/F} = 0$. Indeed, $[F(\alpha) : F] = p$ so $\Tr_{F(\alpha)/F}(1) = p = 0$ in $F$. Furthermore, the minimal polynomial of $\alpha^i$ for $0 < i < p$ is $x^p - \alpha^{ip}$ and thus $\Tr_{F(\alpha)/F}(\alpha^i) = 0$ showing that $\Tr_{F(\alpha)/F} = 0$ by linearity.
+\bigskip\\
+Finally, suppose that $L/K$ is separable. Then by the previous result, it suffices to show that $\det{(\sigma_i(e_j))} \neq 0$. Suppose that there exist $v_1, \dots, v_n \in K$ such that,
+\[ \sum_i v_i \sigma_i(e_j) = 0 \]
+for all $j$ and therefore because $\{ e_j \}$ span $L$ we have,
+\[ \sum_i v_i \sigma_i = 0 \]
+so by independence of characters $v_i = 0$. Thus the square matrix $\sigma_i(e_j)$ has independent rows and thus $\det{(\sigma_i(e_j))} \neq 0$.
+\end{proof}
+
+
+\section{Galois Groups of Cubics}
+
+
+\section{Structure Theorem of Modules Over a PID}
+
+\begin{rmk}
+In this section let $R$ be a PID.
+\end{rmk}
+
+\begin{prop}
+Any submodule $M \subset R^n$ is free of rank at most $n$.
+\end{prop}
+
+\begin{proof}
+We proove this by induction on $n$. The case $n = 1$ is the definition of a PID since any submodule of $R$ is an ideal. Now consider a submodule $M \subset R^n$ and its image $N \subset R^{n-1}$ under the projection and kernel $K \subset R$ giving,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & R \arrow[r] & R^{n} \arrow[r] & R^{n-1} \arrow[r] & 0
+\\
+0 \arrow[r] & K \arrow[u, hook] \arrow[r] & M \arrow[u, hook] \arrow[r] & N \arrow[u, hook] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+by the case $n = 1$ we see that $N$ is free of rank at most $1$ and $N$ is free of rank at most $n - 1$ by the induction hypothesis. Since $N$ is projective, the sequence splits giving $M \cong K \oplus N$ which is thus free of rank at most $n$ proving the claim.
+\end{proof}
+
+\begin{rmk}
+The rank inequality is a general fact about modules over a domain $A$. If $M \subset N$ then $\mathrm{rank}(M) \le \mathrm{rank}(N)$ because if $K = \Frac{A}$ then,
+\[ M \otimes_A K \embed M \otimes_A N \]
+since $K$ is flat over $A$. Therefore, 
+\[ \rank_{A}(M) = \dim_{K} M \le \dim_K N = \rank_{A}(N) \]
+Here, rank means ``rank at the generic point'' which agrees with the notion of rank for free modules.
+\end{rmk}
+
+\begin{lemma}
+Let $A$ be a domain. Let $M$ be a finite $A$-module. Then $M$ is torsion-free if and only if $M$ is contained in a finite free module.
+\end{lemma}
+
+\begin{proof}
+If $M$ is a submodule of $R^{n}$ then clearly $M$ is torsion-free. Assume that $M$ is torsion-free. Let $K = \Frac{A}$. Because $M$ is torsion-free, the map $M \embed M \otimes_A K$ is injective and $M \otimes_A K$ is a finite-dimensional $K$-vectorspace. Choose generators $x_1, \dots, x_n$ of $M$. By clearing denominators, choose a basis $e_1, \dots, e_r \in M \otimes_A K$ such that each $x_i$ is in the $A$-span of $e_1, \dots, e_r$. Then,
+\[ M \subset A e_1 \oplus \cdots \oplus A e_r \subset M \otimes_A K \]
+and the module $A e_1 \oplus \cdots \oplus A e_r \cong A^n$ is an internal direct sum (i.e. is free) by the $K$-independence (and thus $R$-independence) of $e_1, \dots, e_r$.  
+\end{proof}
+
+\begin{prop}
+A finite $R$-module is torsion-free if and only if it is free.
+\end{prop}
+
+\begin{proof}
+Clearly free modules are torsion-free so assume that $M$ is finite and torsion-free. By the previous lemma, there is an embedding $M \embed R^n$ and thus by the previous result $M$ is free as the submodule of a free module.
+\end{proof}
+
+\subsection{Interlude on Torsion-Freeness}
+
+\begin{lemma}
+Let $A$ be a domain. Any flat $A$-module is torsion free.
+\end{lemma}
+
+\begin{proof}
+Let $M$ be a flat $A$-module. Since $A$ is a domain for any nonzero $x \in A$ the map $A \xrightarrow{x} A$ is injective. Since $M$ is flat we see that $M \xrightarrow{x} M$ is injective so $M$ has no $x$-torsion and thus $M$ is torsion-free.
+\end{proof}
+
+\begin{lemma}
+If $A$ is a valuation ring then $M$ is flat if and only if $M$ is torsion-free.
+\end{lemma}
+
+\begin{proof}
+See \href{https://stacks.math.columbia.edu/tag/0539}{Tag 0539}.
+\end{proof}
+
+\begin{prop}
+Let $A$ be a Dedekind domain. 
+\begin{enumerate}
+\item An $A$-module is flat if and only if it is torsion-free
+\item A finite torsion-free $A$-module is finite locally free.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We know that flat implies torsion-free. Suppose that $M$ is torsion-free. Then for each maximal ideal $\m \subset A$ we know that $M_\m$ is a torsion-free $A_\m$-module but $A_\m$ is a DVR and hence a valuation ring so $M_\m$ is flat. Thus $M$ is flat because exactness can be checked on maximal ideals.
+\bigskip\\
+The second follows from the fact that finite flat modules are finitely locally free (see \href{https://stacks.math.columbia.edu/tag/00NX}{Tag 00NX}).
+\end{proof}
+
+\subsection{The Structure Theorem}
+
+\begin{rmk}
+Again let $R$ be a PID and let $M$ be a finite $R$-module. Then consider the torsion submodule $T(M) \subset M$. We get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T(M) \arrow[r] & M \arrow[r] & M / T(M) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $M/T(M)$ is finite and torsion-free and thus free by our previous work. Thus $M/T(M) \cong R^n$ is projective so the sequence splits showing that,
+\[ M \cong R^n \oplus T(M) \]
+where $n = \rank_A(M)$ (immediate from tensoring the above sequence by $K$). Therefore, it suffices to classify the structure of torsion modules.
+\end{rmk}
+
+\begin{defn}
+For each prime element $p \in R$ consider the $p$-torsion subgroup,
+\[ M_p = \{ m \in T(M) \mid \exists n : p^n m = 0 \} \]
+\end{defn}
+
+\begin{prop}
+For any finite $R$-module $M$,
+\[ T(M) = \bigoplus_{p} M_p \]
+where only finitely many $M_p$ are nonzero.
+\end{prop}
+
+\begin{proof}
+First suppose that $r \in M_p \cap M_q$ for distinct prime elements $p$ and $q$. Then because nonzero prime ideals are maximal (since being a prime element implies irreducible) and thus $(p) + (q) = R$ since $q \notin (p)$ this is a strictly larger ideal. Therefore, if $p^n m = 0$ and $q^n m = 0$ (take $n$ to be sufficiently large for both) then $R = (p^n, q^n) \subset \Ann{A}{m}$ (if $1 \in (p, q)$ then $1 \in (p,q)^{2n} \subset (p^n, q^n)$) so $1 \in \Ann{A}{m}$ and thus $m = 0$.
+\bigskip\\
+Now, since $\Ann{A}{m} \subset R$ is an ideal we have $\Ann{A}{m} = (r)$. Because $m \in T(M)$ the annihilator is nontrivial so $r \neq 0$ and if $r \in R^\times$ then $1 \in \Ann{A}{m}$ meaning that $m = 0$ which is in $M_p$ for each $p$. Otherwise $\Ann{A}{m} = (r)$ is a nontrivial ideal. We apply the fact that $R$ is a UFD to write,
+\[ r = p_1^{e_1} \cdots p_r^{e_r} \]
+in terms of prime elements $p_i$. If $r = 1$ then we are done because $r = p_1^{e_1}$ and thus $p_1^{e_1} m = 0$ so $m \in M_{p_1}$. Otherwise, $(p_1, \dots, p_r) = R$ and thus taking sufficiently large $n$,
+\[ R = (p_2^{e_2} \cdots p_r^{e_r}, \cdots, p_1, \dots, p_r)^n \subset (p_1^{e_1} \cdots p_{r-1}^{e_{r-1}}) \]
+and thus we can write,
+\[ 1 = \alpha_1 p_2^{e_2} \cdots p_r^{e_r} + \cdots + \alpha_r p_1^{e_1} \cdots p_{r-1}^{e_{r-1}} \]
+meaning that,
+\[ m = \alpha_1 p_2^{e_2} \cdots p_r^{e_r} m + \cdots + \alpha_r p_1^{e_1} \cdots p_{r-1}^{e_{r-1}} m  \]
+where the $i^{\mathrm{th}}$-term is clearly killed by $p_i^{e_i}$ and thus is in $M_{p_i}$ proving that the $M_{p_i}$ span $T(M)$. 
+\bigskip\\
+Finally, the finiteness statement follows immediately from the fact that $M$ is finitely generated and that $M_p \cap M_q = (0)$ if $p \neq q$ are distinct primes.
+\end{proof}
+
+\begin{lemma}
+Let $A$ be an Artin local ring with principal maximal ideal $\m = (\varpi)$. Then for any finite $A$-module $M$ there is a decomposition,
+\[ M \cong \bigoplus_{i = 1}^n R / (\varpi^{a_i}) \]
+where the numbers $a_1 \le a_2 \le \cdots \le a_n$ are uniquely determined by $M$.
+\end{lemma}
+
+\begin{proof}
+Notice that every ideal is of the form $(\varpi^k)$ for some $k$. Indeed, for any proper nonzero ideal $\a \subset A$ because $\m$ is the unique maximal ideal, $\a \subset \m$ but because $\m^N = (0)$ for sufficiently large $N$ there is a maximal power $k$ such that $\a \subset \m^k$. Choose $y \in \a \setminus \m^{k+1}$. Thus $y = u \varpi^k$ but $y \notin \m^{k+1}$ so we must have $u \notin \m$ and thus $u$ is a unit. Thus $\m^k = (\varpi^k) = (y) \subset \a \subset \m^k$ so $\a = (\varpi^r)$.
+\bigskip\\
+Let $\kappa = A / \m$ be the residue field then we proceed by induction on,
+\[ n = \dim_{\kappa} (M \otimes_A \kappa) = \dim_{\kappa} M/ \varpi M \]
+Since $A$ is local, by Nakayama's lemma, $M$ can be generated by $n$ elements. Thus if $n = 1$ then $M = A/(\varpi^{a_1})$ because the kernel of $A \onto M$ is some ideal and thus of the form $(\varpi^{a_1})$. 
+\bigskip\\
+Now consider $\Ann{A}{M} = (\varpi^k)$ then $M$ is an $A' = A / (\varpi^k)$-module and there is some element $m \in M$ such that $m$ is not killed by any smaller power of $\varpi$ (else then $(\varpi^{k-1}) \subset \Ann{A}{M}$) and thus $\Ann{A'}{m} = (0)$ because it does not contain any $(\varpi^{i})$ for $i < k$. Therefore $A' \embed M$ sending $1 \mapsto m$ is injective so we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r, "1 \mapsto m"] & M \arrow[r] & K \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+of $A'$-modules. However $A'$ is an injective module over itself (use Baer's criterion DO THIS!!) and thus the sequence of $A'$-modules is split. Therefore we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \kappa \arrow[r] & M \otimes_A \kappa \arrow[r] & K \otimes_A \kappa \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and thus $\dim_\kappa (K \otimes_{A'} \kappa) = \dim_\kappa (K \otimes_A \kappa) = n - 1$ so by induction it is of the required form. Therefore, by the splitting,
+\[ M \cong A' \oplus K \cong A' \oplus \bigoplus_{i = 1}^{n-1} A' / (\varpi^{a_i}) = A / (\varpi^k) \oplus \bigoplus_{i = 1}^{n-1} A / (\varpi^{a_i}) \]
+with $a_1 \le \cdots \le a_{n-1} \le a_n$ where we set $a_n = k$.
+\bigskip\\
+For uniqueness, we use the fact that the clearly intrinsic decreasing sequence,
+\[ b_i = \dim_{\kappa} \varpi^i M / \varpi^{i+1} M = \# \{ j \mid a_j \ge i \} \]
+uniquely characterizes the sequence $a_1 \le \cdots \le a_n$ (including the number $n = b_0$).
+\end{proof}
+
+\begin{prop}
+Let $M$ be a finie $R$-module and $p \in R$ a prime element. Then,
+\[ M_p \cong \bigoplus_{i = 1}^n R / (p^{a_i}) \]
+where the numbers $a_1 \le a_2 \le \cdots \le a_n$ are uniquely determined by $M$. 
+\end{prop}
+
+
+\begin{proof}
+Because $M$ is finitely generated $M_p \subset M$ is finitely generated ($R$ is Noetherian) so there is some maximum power $n$ such that $p^k$ kills the generators and thus all of $M$. Therefore, $M_p$ is a $A = R/(p^k)$-module. Then, $A$ is an Artin local ring with maximal ideal $(p)$ and $M_p$ is a finite $A$-module. Therefore, the theorem follows directly from the previous lemma since $A / (p^{a_i}) = R / (p^{a_i})$ for $a_i \le k$.
+\end{proof}
+
+\begin{theorem}[Structure Theorem]
+Let $R$ be a PID and $M$ be a finite $R$-module. Then,
+\[ M \cong R^r \oplus \bigoplus_{p} \bigoplus_{i = 1}^{n_p} R / (p^{a_{p,i}}) \]
+where the numbers $r, n_p, a_{p,i}$ are unque and may be computed as follows,
+\[ r = \dim_K (M \otimes_R K) \quad n_p = \dim_{R/(p)} M_p/p M_p \quad b_{p,i} = \dim_{R/(p)} p^i M_p / p^{i+1} M_p \]
+where $K = \Frac{R}$ and $M_p$ is the $p$-torsion submodule and the $b_{p,i}$ determine the $a_{p,i}$ as above.
+\end{theorem}
+
+
+\subsection{Smith Normal Form}
+
+\begin{prop}[Smith Normal Form]
+
+\end{prop}
+
+
+
+
+\section{Nakayama's Lemma}
+
+\begin{prop}
+Let $R$ be a (possibly noncommutative) ring and $M$ a finitely generated left $R$-module and $I \subset R$ a left-ideal. Then if $I \cdot M = M$ then there exists some $r \in R$ such that $1 - r \in R$ and $r M = 0$.
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+
+\section{Groups of Lie Type}
+
+\section{Products of Ideals}
+
+\begin{lemma}
+Let $I, J \subset R$ be ideals. Then,
+\[ V(IJ) = V(I \cap J) = V(I) \cup V(J) \]
+\end{lemma}
+
+\begin{proof}
+If $I \subset \p$ then $\p \supset I \cap J \subset IJ$ so it is clear that,
+\[ V(I) \cup V(J) \subset V(I \cap J) \subset V(IJ) \]
+Thus suppose that $\p \supset IJ$ but $\p \notin V(I) \cup V(J)$. Then there is $x \in I$ and $y \in J$ such that $x, y \notin \p$ so that $\p \not\supset I$ and $\p \not \supset J$. Then $x y \in IJ \subset \p$ so $x y \in \p$ contradicting the primality of $\p$ and proving the claim.
+\end{proof}
+
+\begin{prop}
+Let $R$ be a comutative ring and $I, J \subset R$ are ideals.
+If any of the following are true,
+\begin{enumerate}
+\item $I + J = R$
+\item $\nilrad{R / IJ} = (0)$
+\end{enumerate}
+then $I \cap J = IJ$.
+\end{prop}
+
+\begin{proof}
+If $I + J = R$ then for any $r \in I \cap J$ consider $1 = x + y$ with $x \in I$ and $y \in J$ and $r = r x + ry \in IJ$ so $I \cap J \subset IJ \subset I \cap J$ proving equality. 
+\bigskip\\
+Now suppose that $\nilrad{R / IJ} = (0)$. Consider the ideal $(I \cap J)/IJ \subset R / IJ$. I claim that it is contained in the nilradical. Indeed, for any prime $\p$ of $R / IJ$, that is a prime of $R$ above $IJ$ because $V(IJ) = V(I \cap J)$ and thus $(I \cap J)/IJ \subset \nilrad{R / IJ}$ so $I \cap J = IJ$.
+\end{proof}
+
+\section{Induced Representations}
+
+\subsection{Restriction}
+
+\begin{rmk}
+There is a functor $\Rep_R : \mathbf{Grp}^\op \to \mathbf{Cat}$ sending $G \mapsto \mathrm{Rep}_R(G)$ taking $\phi : G \to H$ to the functor $\Res{}{\phi}{-} : \Rep_R(H) \to \Rep_R(G)$ via $\rho_W \mapsto \rho_W \circ \phi$ and $(T : W \to W') \mapsto (T : W \to W')$ which still commutes with $\rho_W \circ \phi$ by definition.
+\bigskip\\
+This restriction functor is just restriction of modules from the ring map $R[G] \to R[H]$.
+\bigskip\\
+Therefore we get a map $\Aut{G}^\op \to \Aut{\Rep_R(G)}$ and thus a natural right action (which we turn into a left action via $\Aut{G} \to \Aut{G}^\op$ sending $g \mapsto g^{-1}$) on $G$-representations. 
+\end{rmk}
+
+\begin{prop}
+If $\phi : G \to H$ is surjective then $\Rep_R(H) \to \Rep_R(G)$ preserves irreducibles.
+\end{prop}
+
+\begin{proof}
+If $W$ is an irreducible $H$-rep then if $V \subset \Res{}{\phi}{W}$ is a $G$-invariant subspace then $\rho_W(\phi(g)) \cdot V = V$ and thus $\rho_W(h) \cdot V = V$ so $V$ is $H$-invariant because $\phi$ is surjective.
+\end{proof}
+
+\subsubsection{The Case of a Normal Subgroup}
+
+\begin{rmk}
+For the special case of a normal subgroup $H \subset G$ we denote the conjugation action $c : G \to \Aut{H}$ and then applying the above construction we find the following.
+\end{rmk}
+
+\begin{defn}
+Let $H \subset G$ be a normal subgroup and $W$ an $H$-representation. Then for $g \in G / H$ we define $g * W$ to be the $H$-representation given by $\rho_W \circ c_g^{-1}$ 
+\end{defn}
+
+\begin{rmk}
+Notice that if $g' = g h$ then $\rho_W \circ c_{g'}^{-1} = \rho_W \circ c_h^{-1} \circ c_g^{-1}$ but $\rho_W \circ c_h^{-1} \cong \rho_W$ so we get $g * W \cong g' * W$ as required. This is a manifestation of the fact that $\Rep_R : \mathbf{Grp}^\op \to \mathbf{Cat}$ is really a $2$-functor sending the natural transformation (isomorphism) $\eta : \phi \to \phi'$ (which just says that $\phi' = c_h \circ \phi$ for some $h = \eta_* \in H$) to the natural isomorphism $\Res{}{\eta}{V} : \Res{}{\phi}{V} \to \Res{}{\phi'}{V}$ given by $v \mapsto h \cdot v$ because then,
+\[ h \cdot (g \cdot_{\phi} v) = h \cdot (\phi(g) \cdot v) = (h \phi(g) h^{-1}) \cdot (h \cdot v) = g \cdot_{\phi'} (h \cdot v) \]
+\end{rmk}
+
+\begin{prop}
+If $H \subset G$ is normal and $V$ is a $G$-representation then $g * \Res{G}{H}{V} \cong \Res{G}{H}{V}$.
+\end{prop}
+
+\begin{proof}
+Consider the map $\eta : V \to V$ by sending $\eta: v \mapsto g \cdot v$. I claim this is an isomorphism $\eta : g * \Res{G}{H}{V} \to \Res{G}{H}{V}$. Indeed it is clearly bijective and linear. Now,
+\[ (g * \rho)(h) \cdot v = g^{-1} h g \cdot v \mapsto g \cdot (g^{-1} h g) \cdot v = hg \cdot v = h \cdot (g \cdot v) = \rho(h) \cdot v \]
+so $\eta \circ (g * \rho)(h) = \rho(h) \circ \eta$. 
+\end{proof}
+
+\begin{prop}
+Let $H \subset G$ be normal and $V$ a $G$-representation. Then $G / H$ acts on the $H$-subrepresentations $W \subset \Res{G}{H}{V}$ via $W \mapsto g \cdot W$ where $g \cdot W \cong g * W$ as $H$-representations.
+\end{prop}
+
+\begin{proof}
+We need to show that $g \cdot W$ is a well-defined subrepresentation. First, for $v \in W$,
+\[ h \cdot (g \cdot v) = hg \cdot v = g(g^{-1} h g) \cdot v = g \cdot ((g^{-1} h g) \cdot v) \]
+proving that $g \cdot W$ is indeed $H$-invariant since $g^{-1} h g \in H$ so $g^{-1} h g \cdot v \in W$ and also that $g * W \cong g \cdot W$ via $v \mapsto g \cdot v$ by the same argument above. Furthermore, if $g' = gh$ then $g' \cdot W = g \cdot (h \cdot W) = g \cdot W$ because $W$ is $H$-invariant. 
+\end{proof}
+
+\begin{rmk}
+It is clear that the $G$-invariant subspaces of $V$ are exactly the fixed points under the $G/H$-action.
+\end{rmk}
+
+\subsection{Induction and Coinduction}
+
+\begin{prop}
+Let $H \subset G$ then $R[G]$ is a free $R[H]$-module.
+\end{prop}
+
+\begin{proof}
+Consider, 
+\[ R[G] \cong \bigoplus_{g \in H  G} g R[H] \]
+as \textit{right} $R[H]$-modules (we can make them left modules by $R[H]^\op \cong R[H]$) via sending $g \cdot h \mapsto gh$. This is clearly surjective because $gh$ covers each coset. Furthermore, this is injective because if,
+\[ \sum_{g \in G/H} g \left( \sum_{h \in H} \alpha_{g,h} h \right) = \sum_{g \in G / H} \sum_{h \in H} \alpha_{g,h} gh = 0 \]
+but there is an bijection $G / H \times H \to G$ via $(g,h) \mapsto gh$ then $\alpha_{g,h} = 0$. Finally, this map is $R[H]$-linear because $g \cdot h h' \mapsto gh h' = (gh) \cdot h'$.
+\end{proof}
+
+\begin{prop}
+If $H \subset G$ is normal then for any $H$-representation $W$,
+\[ \Res{G}{H}{\Ind{G}{H}{W}} \cong \bigoplus_{g \in G / H} g * W \]
+\end{prop}
+
+\begin{prop}
+If $H \subset G$ is normal then for any $G$-representation $V$,
+\[ \Ind{G}{H}{\Res{G}{H}{V}} \cong R[G/H] \otimes_R V \]
+as $R[G]$-modules.
+\end{prop}
+
+\begin{proof}
+Consider the map, $\Ind{G}{H}{\Res{G}{H}{V}} \cong R[G] \otimes_{R[H]} V \to R[G/H] \otimes_R V$ defined by,
+\[ g \otimes v \mapsto [g] \otimes g \cdot v \]
+This is well-defined because,
+\[ gh \otimes v \mapsto [gh] \otimes gh \cdot v \quad \text{ and } \quad g \otimes (h \cdot v) \mapsto [g] \otimes g h \cdot v = [gh] \otimes gh \cdot v \]
+This is clearly surjective and both sides are free $R$-modules of equal rank so it is an isomorphism.
+\end{proof}
+
+(DEFINITION OF INDUCTION AND COINDUCTION)
+(WHEN ARE THEY EQUAL)
+(EXPLICIT DESCRIPTIONS)
+(CHARACTER FORMULAE)
+(FORMULA FOR IND(RES))
+(NON-NORMAL CASE?)
+
+\section{Noetherian Normalization}
+
+\begin{theorem}
+Let $A$ be a finitely generated $K$-algebra domain. Then there are algebraically independent $x_1, \dots, x_d \in A$ where $d = \dim{A}$ such that,
+\[ K[x_1, \dots, x_d] \subset A \]
+is a finite extension of domains.
+\end{theorem}
+
+\begin{proof}
+We proceed by induction on the number of generators of $A$ as a $K$-algebra. If $n = 0$ then $A = K$ and we are done. Now we apply an induction hypothesis and assume that $A$ is generated by $n$ elements $y_1, \dots, y_n$ over $K$. If these are algebraically independent then we are done. Otherwise there is some relation $f \in K[x_1, \dots, x_n]$ such that,
+\[ f(y_1, \dots, y_n) = 0 \]
+in $A$. Let $z_i = y_i - y_n^{r^i}$ for $i < n$. Then obviously,
+\[ f(z_1 + y_n^r, \dots, z_{n-1} + y_n^{r^{n-1}}, y_n) = 0 \]
+The monomials in this expansion are of the form,
+\[ \alpha \left( \prod_{i = 1}^{n-1} (z_i + y_n^{r^i})^{a_i} \right) y_n^{a_n} = \alpha y^{a_n + a_1 r + \cdots a_{n-1} r^{n-1}}_n + \cdots \]
+However the exponent of $y_n$ encodes a unique base $r$ number if we choose $r$ larger than every exponent in $f$. Therefore, there is only one term of $f$ that can contribute to this largest $y_n$ exponent term (each monomial has a different $y_n$ exponent). Dividing by $\alpha$ we get a monic polynomial $f' \in K[z_1, \dots, z_{n-1}][x]$ such that $f'(y_n) = 0$ and thus $y_n$ is integral over $K[z_1, \dots, z_{n-1}]$. By using the induction hypothesis, there exist algebraically independent $x_1, \dots, x_d \in K[z_1, \dots, z_{n-1}]$ (the dimensions are the same because the extension is integral) such that,
+\[ K[x_1, \dots, x_d] \subset K[z_1, \dots, z_{n-1}] \subset A \]
+is a sequence of integral extensions proving the claim for $A$ and thus for all $A$ by induction on the number of generators. 
+\end{proof}
+
+\section{Going Up and Going Down}
+
+\begin{lemma}
+Let $A \subset B$ be an integral extension of domains. Then $A$ is a field iff $B$ is a field.
+\end{lemma}
+
+
+\begin{proof}
+Let $A$ be a field. Let $b \in B$ be nonzero then $b$ is integral over $A$ so,
+\[ b^n + a_{n-1} b^{n-1} + \cdots + a_0 = 0 \]
+By diving though by $b$ we may assume that $a_0 \neq 0$ and thus $a_0 \in A$ is invertible so,
+\[ b^{-1} = (-a_0)^{-1} (b^{n-1} + a_{n-1} b^{n-2} + \cdots + a_1) \in B \]
+proving that $B$ is a field. If $B$ is a field then for any nonzero $a \in A$ we have $a^{-1} \in B$ is integral over $A$ so,
+\[ a^{-n} + c_{n-1} a^{-n+1} + \cdots + c_0 = 0 \]
+and therefore,
+\[ a^{-1} = -(c_{n-1} + \cdots + a_0 a^{n-1}) \in A \]
+so $A$ is a field.
+\end{proof}
+
+\begin{rmk}
+Notice that if $B$ is a domain then any subring $A \subset B$ is automatically a domain. 
+\end{rmk}
+
+\begin{lemma}
+Let $f : A \to B$ be an integral map of rings and $\p \subset B$ a prime. Then $f^{-1}(\p)$ is maximal if and only if $\p$ is maximal.
+\end{lemma}
+
+\begin{proof}
+Indeed, consider $A / f^{-1}(\p) \subset B / \p$ which is an integral extension of domains. Thus $\p$ is maximal iff $B / \p$ is a field iff $A / f^{-1}(\p)$ is a field iff $f^{-1}(\p)$ is maximal.
+\end{proof}
+
+\begin{prop}[Lying Over]
+Let $f : A \embed B$ be an integral extension of rings. Then the continuous map $f^* : \Spec{B} \to \Spec{A}$ is surjective.
+\end{prop}
+
+\begin{proof}
+Let $\p \subset A$ be a prime and $B_\p = S^{-1} B$ for $S = A \setminus \p$. Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+A \arrow[d] \arrow[r, hook] & B \arrow[d]
+\\
+A_\p \arrow[r, hook] & B_\p
+\end{tikzcd}
+\end{center}
+where the bottom extension is integral and injective because localization is exact. Since $A_\p$ is a nonzero ring so is $B_\p$ because $A_\p \embed B_\p$. Therefore, there exists a maximal ideal $\m \subset B_\p$. Then $\m$ pulls back to a maximal ideal in $A_\p$ which must be $\p A_\p$ since $A_\p$ is local and thus under $A \to A_\p \to S^{-1} B$ we see that $\m \mapsto \p$. By commutativity the pullback of $\m$ in $B$ maps to $\p$.
+\end{proof}
+
+\begin{cor}[Going Up]
+If $f : A \to B$ is an integral map of rings then $f$ satisfies going up and $f^*(V(I)) = V(f^{-1}(I))$.
+\end{cor}
+
+\begin{proof}
+Let $I \subset B$ be an ideal. Consider $\p \supset f^{-1}(I)$ and the map $A / f^{-1}(I) \embed B / \p$ which is an integral extension of rings. Thus $\Spec{B/I} \to \Spec{A / f^{-1}(I)}$ is surjective. If $\q \in V(I)$ then $f^{-1}(\q) \supset f^{-1}(I)$ so $f^*(V(I)) \subset V(f^{-1}(I))$ and the surjectivity proves that $f^*(V(I)) = V(f^{-1}(I))$. In particular, if $I = \q$ is prime then we recover going up. Namely if $\p = f^{-1}(\q)$ and $\p' \supset \p$ then there exists $\q' \supset \q$ such that $\q' \mapsto \p'$. 
+\end{proof}
+
+\begin{rmk}
+Therefore the image is closed because if $Z \subset \Spec{B}$ is closed then $Z = V(I) = \Spec{B/I}$ and $\Spec{B/I} \to \Spec{A}$ factors as $\Spec{B/I} \to \Spec{A/f^{-1}(I)} \to \Spec{A}$ and $f^*(V(I)) = V(f^{-1}(I))$ meaning $\Spec{B/I} \to \Spec{A / f^{-1}(I)}$ is surjective so the image is closed.
+\end{rmk}
+
+\begin{prop}[Incomparablility]
+If $A \to B$ is an integral map and $\p \subset \p'$ are primes of $B$ above $\q \subset A$ then $\p = \p'$.
+\end{prop}
+
+\begin{proof}
+Since $A / \q \embed B / \p$ is an integral extension of domains then $(A/\q)_\q \embed (B / \p)_\q$ is an integral extension of domains with $(A / \q)_\q$ a field so $(B / \p)_\q$ is a field. Therefore $\p' = \p$ since there is a unique prime prime ideal in a field and $\Spec{(B/\p)_\q} \to \Spec{B}$ is injective.
+\end{proof}
+
+\begin{cor}
+If $f : A \embed B$ is an integral extension of rings then $\dim{A} = \dim{B}$.
+\end{cor}
+
+\begin{proof}
+Lying over + going up imply $\dim{A} \le \dim{B}$ and incomparability implies $\dim{B} \le \dim{A}$. 
+\end{proof}
+
+\begin{prop}[Going Down] 
+If $f : A \embed B$ is an integral extension of domains and $A$ is integrally closed (a normal domain). Let $L / K$ be the extension of fraction fields. Then,
+\begin{enumerate}
+\item if $L / K$ is normal and $B$ is the integral closure of $A$ in $L$ then the fibers of $\Spec{B} \to \Spec{A}$ are acted on transitively by $G = \Gal{L/K}$
+\item $f$ satisfies going down.
+\end{enumerate}
+\end{prop}
+
+(DO THIS PROPERLY!!!!!)
+
+\begin{proof}
+Let $K'/K$ be Galois and $B$ integrally closed. For each prime $\q \subset B$ I claim that the fibers of $\Spec{B'} \to \Spec{B}$ are finite (THIS HOLDS IF NOETHERIAN).
+\bigskip\\
+Let $\p_1, \dots, \p_n$ be the primes above $\p_1$ ordered such that $\p_1 \not\supset \p_j$ for $j > 1$ i.e. $\p_1$ is minimal (there are no relations by part (a) so there is actually no requirement on the order). Then by prime avoidance, there is some,
+\[ x \in \p_1 \setminus \bigcup_{i = 2}^n \p_n \]
+otherwise $\p_1$ would lie above some $\p_j$ for $j > 1$.
+Now consider,
+\[ y = \prod_{\sigma \in G} \sigma(x) \]
+Then $y \in (K')^G = K$. Therefore,
+\[ y \in \p_1 \cap K = \p_1 \cap B' \cap K = \p_1 \cap B = \q \]
+because $B' \cap K = B$ since $B$ is integrally closed in $K$. Therefore, $y \in \p_i$ for each $i$ meaning that for each $i$ there is some $\sigma(x) \in \p_i$ and thus $x \in \sigma^{-1}(\p_i)$. However, $\sigma^{-1}(\p_i) = \p_j$ for some $j$ since it is a prime lying above $\q$. However, $x \in \p_j$ and thus $\p_j = \p_1$. Therefore $\p_i = \sigma(\p_1)$ so the Galois group acts transitively.
+\bigskip\\
+Now consider part 6. We may assume that $L / K$ is finite since we can always write $L$ as a union of finite extensions. Suppose we have prime ideals $\P$ and $\P'$ of $B$ both above $\p$. Assume that $\sigma_i(\P) \neq \P'$ for all $i$ running over the finite group $\Aut{L/K}$. By 2, $\P' \not\subset \sigma_i(\P)$ so there exists $x \in \P'$ such that $x \notin \sigma_i(\P)$. Take,
+\[ y = \prod_{i = 1}^n \sigma_i(x) \]
+and thus $\sigma(y) = y$ which implies that $y^{p^n} \in K$ for $\mathrm{char} \: K = p$. Since $x$ is integral over $A$ we know that $y^{p^n}$ is integral over $A$. But $A$ is integrally closed so $y^{p^n} \in A \cap \P' = \P$ then $y \in \p \subset \P$ which is a prime ideal so $\sigma_i(x) \in \P$ for some $i$ and thus $x \in \sigma_i^{-1}(\P)$ a contradiction. 
+\bigskip\\
+For part 5. we have integral domains $A \subset B$. Let $K = \Frac{A}$ and $L = \Frac{B}$ and let $L_1$ be the normal closure of $K$. Take $B_1$ to be the integral closure of $A$ inside $L_1$. Suppose we have a prime $\p \subset \p'$ in $A$ and $\P'$ above $\p'$. Furthermore, we can find $\P_1 \subset \P_1'$ in $B_1$ above $\p \subset \p'$ by surjectivity of the spec map and the going up property and also $\P_1''$ in $B_1$ above $\P'$ in $B$. Now $\P_1''$ and $\P_1'$ both lie above the same prime of $A$ so there is an automorphism $\sigma \in \Aut{L_1 / K}$ such that $\P_1'' = \sigma(\P_1')$. Thus,
+\[ \sigma(\P_1) \subset \sigma(\P_1') = \P_1'' \]
+Define $\P = \sigma(\P_1) \cap B \subset \sigma(\P_1') = \P_1''$. Thus, $\P \subset \P_1'' \cap B = \P'$. Finally,
+\[ \P \cap A = \sigma(\P_1) \cap B \cap A = \sigma(\P_1) \cap A = \sigma(\P_! \cap A) = \sigma(\p) = \p \]
+which satisfies the going down property.    
+
+\end{proof}
+
+\begin{example}
+Let $C = \Spec{R}$ with $R = k[x,y]/(y^2 - x^2(x + 1))$ be the nodal cubic curve and $\wt{C} = \Spec{k[t]}$ its normalization where $\wt{C} \to C$ is given by $x \mapsto t^2-1$ and $y \mapsto t(t^2-1)$. This is dominant so $R \subset k[t]$. Then consider the map $\A^2 = \wt{C} \times \A^1 \to C \times \A^1$ given by,
+\[ A = R[z] = k[x,y,z]/(y^2 - x^2(x + 1)) \embed k[t,z] = B \]
+This is an integral extension of domains because $R \embed k[t]$ is finite (also $t^2 = x + 1$) and therefore satisfies lying over, incomparability, and going up. However, I claim it does not satisfy going down (and indeed $A$ is not normal). Visualize this map as the plane mapping down to the plane with the lines $t = 1$ and $t = -1$ glued together. Consider the diagonal line $L$ cut out by $\q = (t - z) \subset B$. Then its image $\bar{L}$ in $A$ is a line cut out by the ideal $\p' = (x - z^2 + 1, y - z(z^2 - 1))$ wrapping around and intersecting the singular line twice. Therefore the preimage of $\bar{L}$ is $L \cup (-1,1) \cup (1,-1)$. The point $\p = (x,y,z-1)$ is on the image of this line so $\p' \subset \p$ and is mapped to by the point $\mathfrak{P} = (t+1, z-1)$ (this is $(-1,1)$ in the plane). However, I claim that there is no prime $\mathfrak{P}' \subset \mathfrak{P}$ with $\mathfrak{P}' \mapsto \p'$. Indeed, the only height $1$ prime (there is a unique height zero prime $(0)$ and height $2$ primes are maximal and thus map to height $2$ primes) mapping to $\p'$ is $\q$ because the map is generically injective over $\bar{L}$ (injective exacly away from the points $(x,y,z-1)$ and $(x,y,z+1)$). 
+\bigskip\\
+More geometrically, this means that $f : \Spec{B} \to \Spec{A}$ is not open (going down implies ``stability under generalization'' which for finite type maps is equivalent to $f$ being open). Indeed, let $U = L^C$ be the complement of the line. Then $f(U) = \bar{L}^C \cup \{(0,0,1), (0,0,-1)\}$ is not open.
+\end{example}
+
+\section{Flatness}
+
+\begin{defn}
+A module $M$ over a ring $A$ is \textit{faithfully flat} if any sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+N_1 \arrow[r, "f"] & N_2 \arrow[r, "g"] & N_3 
+\end{tikzcd}
+\end{center}
+is exact if and only if the sequence,
+\begin{center}
+\begin{tikzcd}
+N_1 \ot_A M \arrow[r, "f \ot \id_M"] & N_s \ot_A M \arrow[r, "g \ot \id_M"] & M_3 \ot_A M
+\end{tikzcd}
+\end{center}
+is also exact. 
+\end{defn}
+
+\begin{rmk}
+The ``only if'' direction immediately implies that $M$ is flat over $A$ so faithful flatness says additionally that tensoring cannot ``make a sequence exact''. 
+\end{rmk}
+
+\begin{lemma}
+Let $M$ be a flat $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ is faithfully flat
+\item for any $A$-module $N$ if $M \ot_A N = 0$ then $N = 0$
+\item $\m M \neq M$ for every maximal ideal $\m \subset A$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We first show the equivalent of (a) and (b). Assuming (a) if $M \ot_A N = 0$ then the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+becomes exact after tensoring and therefore it was already exact so $N = 0$ proving (b). Conversely, suppose that,
+\begin{center}
+\begin{tikzcd}
+N_1 \ot_A M \arrow[r, "f \ot \id_M"] & N_s \ot_A M \arrow[r, "g \ot \id_M"] & M_3 \ot_A M
+\end{tikzcd}
+\end{center}
+is exact. Then $(g \circ f) \ot_A M = 0$ so $\im{(g \circ f)} \ot_A M = \im{((g \circ f) \ot \id_M)} = 0$ by flatness so by assumption $\im{(g \circ f)} = 0$ and thus $g \circ f = 0$. Furthermore, by flatness
+\[ (\ker{g} / \im{f}) \ot_A M = \ker{(g \ot_A \id_M)} / \im{(f \ot_A \id_M)} = 0 \] 
+and thus $\ker{g} = \im{f}$ so the original sequence is exact proving (a). 
+\bigskip\\
+Now we show that (b) and (c) are equivalent. Assuming (b) let $\m \subset A$ be a maximal ideal. Since $A / \m_A \neq 0$ we have $M \ot_A A / \m_A \neq 0$ by (b) so $\m M \neq M$ proving (c). Conversely, suppose that $M \ot_A N = 0$ with $N \neq 0$. Then there is some nonzero $x \in N$ and we have $M \ot_A Ax \embed M \ot_A N = 0$ so $M \ot_A Ax = 0$. Let $I = \Ann{A}{x}$ then $A / I \iso A x$ so $M \ot_A A/I = 0$. Since $x \neq 0$ the ideal $I \subset A$ does not contain $1$ so we can choose a maximal ideal $\m \supset I$. Then $A/I \onto A / \m$ so $M \ot_A A/I \onto M \ot A / \m$ but $M \ot_A A/I = 0$ so $M \ot_A A / \m = 0$ showing that $\m M = M$.
+\end{proof}
+
+\begin{prop}
+Let $\varphi : A \to B$ be flat local map of local rings and $M$ a nonzero finite $B$-module. Then $M$ is flat over $A$ if and only if $M$ is faithfully flat over $A$. 
+\end{prop}
+
+\begin{proof}
+Faithfully flat modules are flat so it suffices to show that if $M$ is $A$-flat it is faithfully flat over $A$. Because $\m_A \subset A$ is the unique maximal ideal it suffices to show that $\m_A M \neq M$. Suppose that $\m_A M = M$ then $M \ot_A A / \m_A = 0$. Then there is a surjection, $B / \m_A B \onto B / \m_B$. Therefore, there is a surjection, $M \ot_B B / \m_A B \onto M \ot_B B / \m_B$. However, 
+\[ M \ot_B B / \m_A B = M \ot_B (B \ot_A A / \m_A) = M \ot_A A / \m_A = 0 \]
+and hence $M \ot_B B / \m_B = 0$ meaning $\m_B M = M$. Since $M$ is a finite $B$-module by Nakayama $M = 0$ giving a contradiction. This conclusion holds without $A$-flatness of $M$ but then if $M$ is $A$-flat the property $\m_A M \neq M$ implies that $M$ is faithfully flat over $A$.
+\end{proof}
+
+\begin{cor}
+Let $\varphi : A \to B$ be a flat local map of local rings. Then $\varphi$ is faithfully flat.
+\end{cor}
+
+\begin{proof}
+This is immediate from the previous proposition but we can also prove it directly as follows.
+We want to show that for any $A$-module $N$ we have $B \otimes_A N = 0$ implies that $N = 0$. First we reduce to the case that $N$ is finitely generated.
+If $N$ is not finitely generated then for every $N' \subset N$ finitely generated consider $B \otimes_A N' \subset B \otimes_A N$ (because $B$ is flat it is still injective) but $B \otimes_A N = 0$ so $B \otimes_A N' = 0$. Therefore, if we can prove the claim for finitely generated $N'$ then we would conclude that $N' = 0$ proving that $N = 0$ because for each $x \in N$ the submodule $A x \subset N$ is zero. 
+\bigskip\\
+Thus we may assume that $N$ is finitely generated. Consider the injection of fields $A / \m_A \embed B / \m_B$. Since $A/ \m_A$-module $N \otimes_A A / \m_A$ is a flat $A / \m_A$-module since $A / \m_A$ is a field there is an injection,
+\[ N \otimes_A A / \m_A \embed (N \otimes_A A / \m_A) \ot_{A / \m_A} B / \m_B = N \ot_A B / \m_B = (N \otimes_A B) \ot_B B / \m_B \]
+Since $N \otimes_A B = 0$ we see that $N \otimes_A A / \m_A = 0$. Therefore $N = \m_A N$ and $N$ is finitely generated so by Nakayama we see that $N = 0$ proving the claim.
+\end{proof}
+
+Indeed, $\varphi$ is faithfully flat. If $M$ is an $A$-module such that $M \otimes_A B = 0$ then for every finitely generated submodule $M' \subset M$ we have $M' \otimes_A B \subset M \otimes_A B = 0$ (injective by flatness). Consider the injection of fields $\kappa_A \embed \kappa_B$. Since $M ' \otimes_A \kappa_A$ is a flat $\kappa_A$-module ($\kappa_A$ is a field) we get an injection,
+\[ M' \otimes_A \kappa_A \embed M' \otimes_A \kappa_B = (M' \otimes_A B) \otimes_B \kappa_B = 0 \]
+and therefore $M' \otimes_A \kappa_A = 0$ and thus $M' = 0$ by Nakayama. Therefore $M = 0$ so $\varphi$ is fathfully flat. 
+
+\begin{prop}
+Let $\varphi : A \to B$ be flat. Then the following are equivalent,
+\begin{enumerate}
+\item $\varphi$ is faithfully flat
+\item $\varphi^* : \Spec{B} \to \Spec{A}$ is surjective
+\item $\mSpec{A} \subset \im{\varphi}$ meaning every maximal ideal is in the image.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Suppose that $\varphi$ is faithfully flat. For any $\p \in \Spec{A}$ we know that $A_\p / \p A_\p \neq 0$ so $B \ot_A A_\p / \p A_\p \neq 0$ by faithful flatness and therefore $\Spec{B \ot_A A_\p / \p A_\p}$ is nonempty proving that the fiber over $\p$ is nonempty so $\Spec{B} \to \Spec{A}$ is surjective. Thus (a) implies (b). It is clear that (b) implies (c). Now suppose that $\mSpec{A} \subset \im{\varphi}$. Since $B$ is a flat $A$-module to show that $B$ is faithfully flat it suffices to show that $\m B \neq B$ for all maximal ideals $\m \subset A$. For each maximal $\m \subset A$ there is some $\p \subset B$ so that $\varphi^{-1}(\p) = \m$ and thus $B / \m B \onto B / \p$ is nonzero so $\m B \neq B$ (the fiber $\Spec{B \ot_A A / \m}$ is nonempty so $B / \m B = B \ot_A A / \m \neq 0$). 
+\end{proof}
+
+\begin{prop}[Going Down]
+Any flat ring map $\varphi : A \to B$ satisfies going down.
+\end{prop}
+
+\begin{proof}
+Going down is equivalent to surjectivity of $\Spec{B_\p} \to \Spec{A_{\varphi^{-1}(\p)}}$ for each prime $\p \subset B$ which follows because $A_{\varphi^{-1}(\p)} \to B_\p$ is a flat local map and hence faithfully flat. 
+\end{proof}
+
+\end{document}

@@ -109,21 +109,40 @@ and thus $\tilde{X} \to X$ is a projective bundle over $Z$ and an isomorphism ov
 \end{rmk}
 
 \begin{prop}
-If $x \in X$ is a regular point then $C_x X = T_x X$. 
+In general $C_x X \embed T_x X$ and this is an isomorphism if $x \in X$ is a regular point.
 \end{prop}
 
 \begin{proof}
-When $\stalk{X}{x}$ is regular then $\gr{\m_x}{\stalk{X}{x}} \cong \kappa(x)[x_1, \dots, x_r]$ where $x_1, \dots, x_r \in \m_x$ are a basis of $\m_x / \m_x^2$ as a $\kappa(x)$-vectorspace. Therefore, $\gr{\m_x}{\stalk{X}{x}} = \Sym{\kappa(x)}{\m_x / \m_x^2}$ as graded rings and thus $C_x X = T_x X$ as well as the projective versons.
+There is a surjective canonical map,
+\[ \Sym{\kappa(x)}{\m_x/\m_x^2} \to \gr{\m_x}{\stalk{X}{x}} \]
+giving a closed embedding,
+\[ C_x X \embed T_x X \]
+When $\stalk{X}{x}$ is regular then $\gr{\m_x}{\stalk{X}{x}} \cong \kappa(x)[x_1, \dots, x_r]$ where $x_1, \dots, x_r \in \m_x$ are a basis of $\m_x / \m_x^2$ as a $\kappa(x)$-vectorspace. Therefore,  $\Sym{\kappa(x)}{\m_x / \m_x^2} \iso \gr{\m_x}{\stalk{X}{x}}$ as graded rings and thus $C_x X \to T_x X$ is an isomorphism.
 \end{proof}
 
+\begin{rmk}
+Because the map is a graded map, the same holds projectivized $\P(C_x X) \embed \P(T_x X)$.
+\end{rmk}
+
+(THIS IS WRONG BC COHEN ISOMORPHISM IS NOT CANONICAL)
+(MAKES SENSE BECAUSE ITS SUPPOSED TO BE LIKE NORMAL COORDINATES WHICH FOR MANIFOLDS REQUIRES A METRIC SAD)
+
 \begin{prop}
-Let $X$ be finite type over $k$ and $x \in X$ be a closed point. There is a canonical map,
+Let $X$ be finite type over $k$ and $x \in X$ be a closed point. There are canonical maps,
 \[ \widehat{T_x X} \leftarrow \Spec{\widehat{\stalk{X}{x}}} \to \Spec{\stalk{X}{x}} \to X \]
-which is an isomorphism exactly when $x \in X$ is regular.
+such that $\widehat{T_x X} \leftarrow \Spec{\widehat{\stalk{X}{x}}}$ is an isomorphism exactly when $x \in X$ is regular.
 \end{prop}
 
 \begin{proof}
-By the Cohen structure theorem $\widehat{\stalk{X}{x}} = k[[x_1, \dots, x_r]] / I$ where $x_1, \dots, x_r \in \m_x$ are a basis of $\m_x / \m_x^2$ and $I = (0)$ exactly when $x \in X$ is regular proving that the canonical map $T_x X \to \Spec{\widehat{\stalk{X}{x}}}$ is 
+The canonical map,
+\[ A = \Sym{\kappa(x)}{\m_x/\m_x^2} \to \gr{\m_x}{\stalk{X}{x}} \]
+is an isomorphism exactly when $x \in X$ is a regular point. By the Cohen structure theorem $\widehat{\stalk{X}{x}} = \kappa(x)[[x_1, \dots, x_r]] / I$ where $x_1, \dots, x_r \in \m_x$ are a basis of $\m_x / \m_x^2$. Furthermore, $I = (0)$ exactly when $x \in X$ is regular. Therefore, consider the map,
+\[ \widehat{A} \to \widehat{\stalk{X}{x}} \]
+defined on finite levels by,
+\[ A / \m^n = \bigoplus_{k \le n} \nSym{k}{\m_x / \m_x^2} \to \bigoplus_{k \le n} \m \]
+Taking spectra,
+\[ T_x X \leftarrow \Spec{\widehat{\stalk{X}{x}}} \]
+and we see this is an isomorphism when $\stalk{X}{x}$ is regular.
 \end{proof}
 
 \section{Formal Schemes}
@@ -185,10 +204,1194 @@ which has two minimal primes (branches).
 
 \section{Multiplicity of a Point}
 
+\subsection{Hilbert-Samuel Polynomial}
 
 \begin{defn}
-Let $X$ be a curve and $x \in X$ a point. Then the multiplicity $m(x)$ is defined as:
-\[ m(x) = \lim_{n \to \infty} \dim_{\kappa(x)} \left( \m_x^n / \m_x^{n+1} \right) \]
+Let $(A, \m, \kappa)$ be a noetherian local ring and $M$ a finite $A$-module. Then define the Hilbert function,
+\[ \chi_M(n) = \length{A}{M/\m^n M} \]
 \end{defn}
+
+\begin{rmk}
+We abreviate $\length{A}{M} = \ell_A(M)$. We recall the following facts from dimension theory.
+\end{rmk}
+
+\begin{prop}
+There is a numerical polynomial $P_M \in \Q[x]$ of degree $d = \dim{M}$ such that,
+\[ P_M(n) = \chi_M(n) \]
+for all $n \gg 0$.
+\end{prop}
+
+\begin{proof}
+[Mat, Theorem 13.4]
+\end{proof}
+
+\begin{prop} \label{exactness_samuel_poly}
+Given an exact sequence of finite $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & N \arrow[r] & M \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then,
+\[ d(M) = \max \{ d(N), d(K) \} \]
+and $P_{M} - P_{N} - P_{K}$ is a polynomial of degree strictly less than $d(N)$. 
+\end{prop}
+
+\begin{proof}
+Consider the exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\m^n M + N)/\m^n M \arrow[r] & M /\m^n M \arrow[r] & K / \m^n K \arrow[r] & 0
+\\
+0 \arrow[r] & (\m^n M \cap N) / \m^n N \arrow[r] & N / \m^n N \arrow[r] & (\m^n M + N) / \m^n M \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Therefore,
+\[ \chi_M(n) = \chi_K(n) + \ell((\m^n M + N) / \m^n M) = \chi_K(n) + \chi_N(n) - \ell((\m^n M \cap N)/\m^n N) \]
+Furthermore, by Artin-Rees,
+\[ \m^n M \cap N = \m^{n-c}(\m^c M \cap N) \subset \m^{n-c} N \]
+for fixed $c$ and $n \ge c$. Therefore,
+\[ \ell((\m^n M \cap N)/\m^n N) \le \ell(\m^{n-c} N / \m^n N) = \chi_N(n) - \chi_N(n-c) \]
+which is a polynomial $\varphi$ of degree strictly less than $d(N)$. Furthermore, for $n \gg 0$ we have,
+\[ P_M(n) = P_N(n) + P_K(n) - \varphi(n) \]
+and since $\varphi$ has degree strictly smaller $d(N)$ we see that,
+\[ \d(M) = \max \{ d(N), d(K) \} \]
+\end{proof}
+
+\begin{defn}
+Let $a_d x^d$ be the leading term of $P_M$ then the multiplicity of $M$ is $e(M) = d! \, a_d$. Notice that,
+\[ e(M) = d! \lim_{n \to \infty} \frac{\chi_M(n)}{n^d} \]
+We call $e(A)$ the multiplicity of the ring $A$. Furthermore, since,
+\[ \chi_M(n+1) - \chi_M(n) = \dim_\kappa{(\m^n M / \m^{n+1} M)} \]
+therefore if $d > 0$
+\[ e(M) = (d-1)! \lim_{n \to \infty} \frac{\dim_\kappa{(\m^n M / \m^{n+1} M)}}{n^{d-1}} \]
+\end{defn}
+
+\begin{rmk}
+If $d = 1$ then we find the following formula,
+\[ e(M) =  \lim_{n \to \infty} \dim_\kappa{(\m^n M / \m^{n+1} M)} \]
+and in particular,
+\[ e(A) = \lim_{n \to \infty} \dim_\kappa{(\m^n / \m^{n+1})} \]
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a locally noetherian scheme and $x \in X$ a point. Then the multiplicity $m(x) = m(\stalk{X}{x})$ is defined as the multiplicity of the local ring $\stalk{X}{x}$,
+\[ m(x) = d! \lim_{n \to \infty} \frac{\ell_{\stalk{X}{x}}(\stalk{X}{x} / \m_x^n)}{n^{d}} \]
+where $d = \dim{\stalk{X}{x}} = \codim{\overline{ \{ x \} }, X}$. 
+\end{defn}
+
+
+\subsection{Schemes of Dimension One}
+
+\begin{prop}
+Let $X$ be a connected noetherian $T_0$ space with $\dim{X} = 1$. Then $X$ is equidimensional and for each $x \in X$ setting $Z_x = \overline{ \{ x \} }$ exactly one of the two equivalenes holds,
+\begin{enumerate}
+\item $\codim{Z_x, X} = 0 \iff \dim{Z_x} = 1 \iff Z_x$ is maximal $\iff x $ is not closed
+\item $\codim{Z_x, X} = 1 \iff \dim{Z_x} = 0 \iff Z_x$ is not maximal $\iff x$ is closed
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Let $Z_1, \dots, Z_n \subset X$ be the irreducible components of $X$. I claim that each irreducible component $Z_i$ intersects some other irreducible component $Z_j$ unless $n = 1$. Otherwise,
+\[ Z_i \cap \bigcup_{j \neq i} Z_j = \empty \]
+but both sets are closed (critically using that the union is finite) and,
+\[ Z_i \cup \bigcup_{j \neq i} Z_j = X \]
+which by the connectedness of $X$ implies that one set is empty so $n = 1$. The case $n = 1$ is clear so suppose that $n > 1$. If $Z_i = \{ x \}$ for a closed point $x \in X$ then there is some $Z_j \neq Z_i$ with $Z_i \cap Z_j \neq \emptyset$ and thus $x \in Z_j$ so $Z_i \subset Z_j$ so $Z_i = Z_j$ giving a contradiction. Then $\dim{Z_i} = 0$ or $\dim{Z_i} = 1$. However, if $\dim{Z_i} = 0$ then $Z_i = \{ x \}$ since $X$ is $T_0$ for a closed point $x \in X$ (since $Z_i$ is closed). We showed this cannot happen so $\dim{Z_i} = 1$ proving that $X$ is equidimensional. 
+\bigskip\\
+Clearly, exacly one of $\codim{Z_x, X} = 0$ or $\codim{Z_x, X} = 1$ holds so we need to show the equivalences. We know $\codim{Z_x, X} = 0$ if and only if $Z_x$ is an irreducible component (i.e. maximal). We showed that every irreducible component has dimension $1$ so $\dim{Z_x} = 1$ iff $Z_x$ is maximal and $\dim{Z_x} = 0$ iff $Z_x$ is not maximal. If $\codim{Z_x,X} = 1$ then because,
+\[ \dim{X} \ge \codim{Z_x,X} + \dim{Z_x} \]
+we see $\dim{Z_x} = 0$. Conversely, if $\dim{Z_x} = 0$ we have seen that $Z_x$ is not maximal and thus $\codim{Z_x, X} \neq 0$ by the above equivalences so $\codim{Z_x, X} = 1$. If $x$ is closed then $Z_x = \{ x \}$ and we showed that $Z_x$ is not maximal. Conversely, if $Z_x$ is not maximal then $\dim{Z_x} = 0$ so $x$ is closed. Finally, if $Z_x$ is maximal then $\dim{Z_x} = 1$ so $x$ is not closed and conversely if $x$ is not closed then $\dim{Z_x} \neq 0$ by the previous equivalence so $\dim{Z_x} = 1$ so $Z_x$ is maximal. 
+\end{proof}
+
+\begin{cor}
+Let $X$ be a connected noetherian scheme with $\dim{X} = 1$. Then for each closed point $x \in X$ we have $\dim{\stalk{X}{x}} = \codim{Z_x,X} = 1$
+so the multiplicitly is,
+\[ m(x) = \lim_{n \to \infty} \dim_{\kappa(x)}(\m_x^n / \m_x^{n+1}) \]
+and for each non-closed point $\xi \in X$ or equivalently the generic point of an irreducible component, $\dim{\stalk{X}{\xi}} = \codim{Z_x,X} = 0$
+and $\stalk{X}{\xi}$ is noetherian so $\stalk{X}{\xi}$ is Artin local meaning $\m_{\xi}^n = 0$ for some $n$ so the multiplicity satisfies,
+\[ m(\xi) = \ell_{\stalk{X}{\xi}}(\stalk{X}{\xi}) \]
+\end{cor}
+
+\subsection{Normalization}
+
+(DO THIS FOR NOT INTEGRAL SCHEMES!!)
+
+\begin{prop}
+Let $X$ be a noetherian integral scheme with $\dim{X} = 1$ such that the normalization $\nu : \wt{X} \to X$ is a finite morphism. Then for each $x \in X$,
+\[ m(x) = \deg_x{\nu} = \dim_{\kappa(x)} \wt{X}_x \]
+\end{prop}
+
+\begin{proof}
+The generic point is clear since $m(\xi) = 1$ because $A$ is reduced and $\nu$ is birational. Let $x \in X$ be a closed point and $A = \stalk{X}{x}$ then $\dim{A} = 1$. Let $K = \Frac{A}$ then $\wt{A} \subset K$ is the normalization. Consider the exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \wt{A} \arrow[r] & Q \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Tensoring by $K$ we see that $Q \ot_A K = 0$. If $Q = 0$ we are immediately see that $P_A = P_{\wt{A}}$ as $A$-modules since $A = \wt{A}$. Otherwise, since $A \to \wt{A}$ is finite, $Q$ is a finite $A$-module and thus $\Supp{A}{Q}$ is closed and does not contain the generic point so $\dim{\Supp{A}{Q}} = 0$. Indeed $B = A / \Ann{A}{Q}$ is an Artinian ring and $Q$ is a finite $B$-module and hence Artinian so $\ell_B(Q)$ is finite. Therefore, by Prop. \ref{exactness_samuel_poly}, $P_A$ and $P_{\wt{A}}$ have the same leading coefficient proving that,
+\[ m(x) = \lim_{n \to \infty} \frac{\ell_A(A/\m^n)}{n} = \lim_{n \to \infty} \frac{\ell_A(\wt{A} / \m^n \wt{A})}{n} \]
+Let $\m_1, \dots, \m_r$ be the maximal ideals of $\wt{A}$ over $\m$ and $B_i = \wt{A}_{\m_i}$ then (\href{https://stacks.math.columbia.edu/tag/02M0}{Tag 02M0}),
+\[ \ell_A(\wt{A} / \m^n \wt{A}) = \sum_{i = 1}^r \ell_{B_i}(B_i / \m^n B_i) \cdot [\kappa(\m_i) : \kappa(\m)]   \]
+However, $B_i$ is a normal noetherian domain with $\dim{B_i} = 1$ and therefore a DVR. Let $\varpi_i \in \m_i$ be a uniformizer and $\m B_i = (\varpi_i^{e_i})$ for some integer $e_i$ (if $\varpi = 0$ set $e_i = 1$) since $B_i$ is a PID. Therefore, $\m^n = \m_i^{n e_i}$. In any DVR $R$ with a uniformizer $\varpi \in R$ we have,
+\[ \ell_R(R/(\varpi^n)) = n \]
+This is from the filtration,
+\[ (\varpi^n) \subset (\varpi^{n-1}) \subset \cdots \subset (\varpi) \subset R \]
+and from the quotients we find,
+\[ \ell_R(R/(\varpi^n)) = \sum_{k = 1}^n \ell_R((\varpi^k)/(\varpi^{k+1})) = n \]
+because $(\varpi^k)/(\varpi^{k+1})$ is a one-dimensional $\kappa$-module. Therefore, 
+\[ \ell_{B_i}(B_i / \m^n) = n e_i \]
+so we find,
+\begin{align*}
+m(x) & = \lim_{n \to \infty} \frac{\ell_A(\wt{A} / \m^n)}{n} = \sum_{i = 1}^r \lim_{n \to \infty} \frac{n e_i [\kappa(\m_i) : \kappa(\m)]}{n} = \sum_{i = 1}^r e_i [\kappa(\m_i) : \kappa(\m)] 
+\\
+& = \sum_{i = 1}^r \length{B_i}{B_i / \m} [\kappa(\m_i) : \kappa(\m)] = \rank_x{(f_* \struct{\wt{X}})} = \dim_{\kappa(x)} \wt{X}_x = \deg_x{\nu}  
+\end{align*}
+\end{proof}
+
+\begin{prop}
+Let $\wt{X} \to X$ be the normalization map as above. Then for nonzero $f \in \stalk{X}{x}$,
+\[ \ord_x{(f)} = \ell_{\stalk{X}{x}}(\stalk{X}{x} / (f)) = \sum_{x' \in \nu^{-1}(x)} \ord_{x'} {(f)} [\kappa(x_i) : \kappa(x)] \]
+\end{prop}
+
+\begin{proof}
+Let $A = \stalk{X}{x}$ and $\wt{A}$ the normalization. Then $A \to \wt{A}$ is finite. Consider the submodules,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, hook] & \wt{A}
+\\
+f A \arrow[u, hook] \arrow[r, hook] & f \wt{A} \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+where the maps are injective because $A$ is a domain and $f \neq 0$. Furthermore,
+is an isomorphism of $A$-modules because $(f) \cong A$ is a flat $A$-module (easy to check directly). Therefore, from the diagram,
+\[ \ell_A(\wt{A}/ f \wt{A}) = \ell_A(\wt{A} / f A) - \ell_A(f \wt{A} / f A) = \ell_A(\wt{A} / f A) - \ell_A(\wt{A} / A) = \ell_A(A / f A) \]
+Finally, let $\m_1, \dots, \m_r$ be the maximal ideals of $\wt{A}$ over $\m$ and $B_i = \wt{A}_{\m_i}$ then by \href{https://stacks.math.columbia.edu/tag/02M0}{Tag 02M0},
+\[ \ell_A(\wt{A} / f \wt{A}) = \sum_{\m_i} \ell_{B_i}(B_i / f B_i) [\kappa(\m_i) : \kappa(\m)] = \sum_{x' \in \nu^{-1}(x)} \ord_{x'}(f) [\kappa(x') : \kappa(x)] \]
+\end{proof}
+
+\begin{prop}
+GENUS FORMULA
+\end{prop}
+
+\begin{proof}
+Consider $\nu : \wt{X} \to X$. Since the normalization is dominant there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & f_* \struct{\wt{X}} \arrow[r] & \sC \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Note that $f : S \to C$ induces an isomorphism $H^0(C, \struct{C}) \xrightarrow{\sim} H^0(S, \struct{S})$ since it is a map of fields with the same (finite) dimension over $k$. Then the long exact sequence of cohomology gives,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(C, \struct{C}) \arrow[r, "\sim"] & H^0(S, \struct{S}) \arrow[r] & H^0(X, \Csh) \arrow[r] & H^1(C, \struct{C}) \arrow[r, "\sim"] & H^1(S, \struct{S}) \arrow[r] & H^1(S, \Csh) \arrow[r, equals] & 0 
+\end{tikzcd}
+\end{center}
+I claim that $H^1(S, \Csh) = 0$. Since $f$ is birational, $\Csh$ is supported in codimension one. Thus, the map $H^1(C, \struct{C}) \onto H^1(S, \struct{S})$ is surjective but $g_a(C) = g_a(S)$ so these vectorspaces have the same dimension so $H^1(C, \struct{C}) \xrightarrow{\sim} H^1(S, \struct{S})$ is an isomorphism. Thus, from the exact sequence we have $H^0(X, \Csh) = 0$. However, $\Supp{\struct{C}}{\Csh}$ is a closed ($\Csh$ is coherent) dimension zero subset i.e. finitely many discrete closed points. However, a sheaf supported on a discrete set of points is zero iff it has no global sections. Therefore, $\Csh = 0$ so $\struct{C} \xrightarrow{\sim} f_* \struct{S}$. In particular $\struct{C}(V) \xrightarrow{\sim} \struct{S}(U)$ is an isomorphism which implies that the map of affine schemes $f|_U : U \to V$ is an isomorphism. Since the affine opens $V$ cover $C$ we see that $f : S \to C$ is an isomorphism. In particular, $C$ is smooth.
+\end{proof}
+
+\section{Ramification}
+
+\begin{definition}
+Given a map of schemes $f : X \to Y$ over $S$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega_{Y/S} \arrow[r] & \Omega_{X/S} \arrow[r] & \Omega_{X / Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+We say that $f$ is ramified at $x \in X$ if $(\Omega_{X / Y})_x \neq 0$ which is equivalent to the map $f_x : (\Omega_{Y / S})_{f(x)} \to (\Omega_{X / S})_x$ not being surjective. Furthermore define,
+\begin{enumerate}
+\item The support of $\Omega_{X / Y}$ is called the \textit{ramification locus}
+\item $f(\mathrm{Supp}_{\struct{X}}(\Omega_{X/Y}))$ is the \textit{branch locus}
+\item if $\Omega_{X/Y} = 0$ then $f$ is \textit{formally unramified}
+\item $f$ is \textit{unramified} if $f$ is formally unramified and locally of finite type
+\item $f$ is \textit{G-unramified} if $f$ is formally unramified and locally of finite presentation 
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}
+Let $f : X \to Y$ be locally of finite type. Then the following are equivalent,
+\begin{enumerate}
+\item the morphism $f : X \to Y$ is unramified at $x \in X$ 
+\item the stalk map $f^\#_x : \stalk{Y}{f(x)} \to \stalk{X}{x}$
+induces a finite seperable extension $\kappa(f(x)) / \kappa(x)$ and $f^\#_x(\m_{f(x)})\stalk{X}{x} = \m_x$
+\end{enumerate} 
+\end{lemma}
+
+\begin{proof}
+(DO THIS PROOF)
+\end{proof}
+
+(DEFINE RAMIFICATION INDEX)
+
+\begin{remark}
+A ring map $\phi : A \to B$ corresponds to morphism of affine schemes,
+\[ \hat{\phi} : \Spec{B} \to \Spec{A} \]
+which is ramified at $\q \subset B$ iff $(\Omega_{B / A})_{\q} \neq 0$ or equivalently if $\q \in \Supp{B}{\Omega_{B / A}}$. 
+\bigskip\\
+In particular if $\phi$ is finite then $\Omega_{B / A}$ is a finitely generated $B$-module so,
+\[ \Supp{B}{\Omega_{B / A}} = V(\Ann{B}{\Omega_{B/A}}) \]
+and thus $\q$ is ramified iff $\q \supset \Ann{B}{\Omega_{B/A}}$. This motivates the following definition. 
+\end{remark}
+
+\begin{definition}
+Let $\phi : A \to B$ be finite. Then define the different $\delta_{B/A} = \Ann{B}{\Omega_{B/A}}$. 
+\end{definition}
+
+\begin{remark}
+The important fact about the different is that it classifies ramification in the sense that $\phi$ is ramified at $\q$ (or we say $\q$ ramifies) iff $\delta_{B/A} \subset \q$. 
+\end{remark}
+
+\begin{corollary}
+Let $\phi : A \to B$ be a finite map with $B$ a Dedekind domain. Then only finitely many points ramify.
+\end{corollary}
+
+
+\subsection{Ramification For Curves}
+
+\begin{definition}
+We say a scheme $X$ is \textit{normal} if each point $x \in X$ that $\stalk{X}{x}$ is normal i.e. an integrally closed local domain. 
+\end{definition}
+
+\begin{lemma}
+Any normal local ring of dimension one is a DVR.
+\end{lemma}
+
+\begin{definition}
+If $X$ is a normal curve then each $\stalk{X}{x}$ is a DVR so we may choose a uniformizer $\pi_x$. For a morphism of normal cuves $f : X \to Y$. Since $\m_x = (\pi_x)$ clearly the ramification index is the power $e$ such that $f^\#_{x}(\pi_{f(x)}) = u \pi_x^e$ for some $u \in \stalk{X}{x}^\times$. 
+\end{definition}
+
+\begin{proof}
+
+\end{proof}
+
+\subsection{Ramification for Dedekind Domains}
+
+\begin{proof}
+Since $B$ is Dedekind domain there is a finite unique factorization of $\delta_{B / A}$ into prime ideals. These are the only primes lying about $\delta_{B/A}$ and thus exactly the set of primes which ramify of which there are finitely many.  
+\end{proof}
+
+\begin{proposition}
+Let $\phi : A \to B$ be a finite inclusion of Dedekind domains with finite residue fields. Then $\q$ ramifies iff the prime $\p = \phi^{-1}(\q)$ extends to the ideal $\p B$ with factorization,
+\[ \phi(\p) B  = \prod_{i = 1}^{n} \q_i^{e_i} \]
+with $\q_i$ distinct, $\q_0 = \q$, and $e_i > 1$. 
+\end{proposition}
+
+\begin{proof}
+At a point $\p \subset A$ the residue field $\kappa(\p) = A / \p$ is a finite field which is perfect so $\kappa(\q) / \kappa(\hat{\phi}(\q))$ is automatically finite seperable. Thus $\q \subset B$ is unramified iff,
+\[ \phi(\phi^{-1}(\q) A_\p) B_{\q} = \q B_{\q} \]
+Since $B_\q$ is also Dedekind, by unique factorization of ideals this is equivalent to $e_0 = 1$ since localizing the above factorization gives,
+\[ \phi(\p) B_\q = (\phi(\p) B)_\q = \prod_{i = 1}^{n} \q_i^{e_i} B_\q = \q_0^{e_0} B_\q = \q^{e_0} B_\q \]
+\end{proof}
+
+\begin{proposition}
+DIFFERENT IN TERMS OF TRACE
+\end{proposition}
+
+\begin{lemma}
+If $B = A[t]/(f(t))$ then,
+\begin{align*}
+\Omega_{B / A} & = (B \cdot \d{t}) /(f'(t) \cdot \d{t})
+\\
+\delta_{B / A} & = (f'(t)) \subset B
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+$\Omega_{B / A}$ is generated by $\d{x}$ for $x \in B$. For any $g(t) \in A[t]/(f(t))$ then by the Leibniz relation, $\d{g(t)} = g'(t) \d{t}$. Thus, $\Omega_{B / A}$ is generated over $B$ by $\d{t}$. Furthermore, $f(t) = 0$ so $f'(t) \d{t} = 0$. This is the only relation. Furthermore,
+\[ \delta_{B / A} = \Ann{B}{\Omega_{B/A}} = (f'(t)) \]
+by the following lemma.
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a ring and $B$ an $A$-algebra with structure map $\phi : A \to B$ then $\Ann{A}{B} = \ker{\phi}$. 
+\end{lemma}
+
+\begin{proof}
+An element $a \in \Ann{A}{B}$ iff $\phi(a)b = 0$ for all $b \in B$. In particular,
+\[ a \in \Ann{A}{B} \iff \phi(a) \cdot 1_B = 0 \iff \phi(a) = 0 \iff a \in \ker{\phi} \]
+\end{proof}
+\newcommand{\ints}[1]{\mathcal{O}_{#1}}
+
+\begin{corollary}
+If $K / \Q$ is a number field with $\ints{K} = \Z[\alpha]$ and let $\alpha$ have minimal polynomial $f \in \Z[X]$. Then a prime $\p \subset \ints{K}$ ramifies iff $f'(\alpha) \in \p$. 
+\end{corollary}
+
+\begin{proof}
+We have $\ints{K} = \Z[\alpha]/(f(\alpha))$ so $\delta_{\ints{K}/\Z} = (f'(\alpha)) \subset \Z[\alpha]/(f(\alpha))$. Then we know that $\p$ ramifies iff $\p \supset \delta_{\ints{K}/\Z}$. 
+\end{proof}
+
+\subsection{The Discriminant of an Extension}
+
+\newcommand{\Norm}{\mathcal{N}}
+
+\begin{definition}
+Let $\phi : A \to B$ be a finite map of Dedekind domains with finite residue fields. Then we define the ideal norm as the homomorphism $\Norm_{B/A} : \I_{B} \to \I_{A}$ of the ideal groups which on the prime ideals which generate $\I_B$ acts via,
+\[ \Norm_{B / A}(\q) = \p^{[B / \q : A / \p]} \]
+where $\p = \phi^{-1}(\q)$. 
+\end{definition}
+
+
+\begin{definition}
+Then we define the relative discriminant $\Delta_{B/A} = \Norm_{B/A}(\delta_{B/A}) \subset A$.
+\end{definition}
+
+\begin{proposition}
+Primes $\p \subset A$ ramify iff $\p \supset \Delta_{B / A}$. 
+\end{proposition}
+
+\begin{proof}
+We write,
+\[ \p B = \prod_{i = 1}^n \q_i^{e_i} \]
+$\p$ ramifies exactly when some $e_i > 1$ in which case we know $\q_i \supset \delta_{B/A}$ and thus,
+\[ \p \supset \p^{[B / \q : A / \p]} \supset \Norm_{B / A}(\delta_{B/A}) = \Delta_{B/A} \]
+Conversely, suppose that $\p$ does not ramify then we must have $e_i = 1$ for all $i$. Then $\q_i \not\supset \delta_{B/A}$ so by unique factorization, no primes dividing $\delta_{B/A}$ lie above $\p$ which implies that, $\Delta_{B/A} = \Norm_{B/A}(\delta_{B/A})$ does not contain $\p$ in its factorization. Thus, by the uniqueness of factorization,
+\[ \p \not\supset \Delta_{B/A} \]
+\end{proof}
+
+
+
+\section{Maps between Curves}
+
+
+\subsection{Maps of a Proper Curve are Finite}
+
+\begin{theorem}
+Let $C$ be a proper curve over $k$ and $X$ is separated of finite type over $k$. Then any nonconstant map $f : C \to X$ over $k$ is finite.
+\end{theorem}
+
+\begin{proof}
+Since $C \to \Spec{k}$ is proper and $X \to \Spec{k}$ is separated then by Tag 01W6 the map $f : C \to X$ is proper. The fibres of closed points $x \in X$ are proper closed subschemes $C_x \embed C$ (since if $C_x = C$ then $f : C \to X$ would be the constant map at $x \in X$) and thus finite since proper closed subsets of a curve are finite. Now I claim that if the fibres $f^{-1}(x)$ are finite at closed points $x \in X$ then all fibres are finite. Assuming this, $f : C \to X$ is proper with finite fibres and thus is finite by Tag 02OG.
+\bigskip\\
+To show the claim consider,
+\[ E = \{ x \in X \mid \dim{C_x} = 0 \} \]   
+Since $C$ is Noetherian, $\dim{C_x} = 0$ iff $C_x$ is finite (suffices to check for affine schemes since quasi-comact and dimension zero Noetherian rings are exactly Artinian rings which have finite spectrum). Then $E$ is locally constructible by Tag 05F9 and contains all the closed points of $X$. Since $X$ is finite type over $k$ then $X$ is Jacobinson which implies that $E$ is dense in every closed set. Then for any point $\xi \in X$ then $Z = \overline{\{ \xi \}}$ is closed and irreducible with generic point $\xi$ and thus $E \cap Z$ is dense in $Z$. Then by Tag 005K we have $\xi \in E$ so $E = X$ proving that all fibres are finite.
+\end{proof}
+
+\begin{remark}
+The only facts about $C$ that I used were that $C \to \Spec{k}$ is proper and that $C$ is irreducible of dimension one. The second two properties are needed for the following to hold.
+\end{remark}
+
+\begin{lemma}
+If $X$ is an irreducible Noetherian scheme of dimension one then every nontrivial closed subset of $X$ is finite.
+\end{lemma}
+
+\begin{proof}
+Since $X$ is quasi-compact it suffices to show this property for affine schemes $X = \Spec{A}$ with $\dim{A} = 1$ and prime nilradical. Any nontrivial closed subset is of the form $V(I)$ for some proper radical ideal $I \subset X$ with $I \supsetneq \nilrad{A}$. Then $\height{I} = 1$ since any prime above $I$ must properly contain $\nilrad{A}$ and thus have height at least one but $\dim{A} = 1$. Then,
+\[ \height{I} + \dim{A / I} \le \dim{A} \]
+so $\dim{A / I} = 0$. Since $A$ is Noetherian so is $A / I$ but $\dim{A / I} = 0$ and thus $A / I$ is Artianian. Therefore $\Spec{A / I}$ is finite proving the proposition. 
+\end{proof}
+
+\begin{remark}
+Since $C \to \Spec{k}$ is proper it is finite type over $k$ and thus $C$ is Noetherian.
+\end{remark}
+
+\begin{rmk}
+The condition that $C$ be proper is necessary.
+Consider the map $\Gm^k \coprod \A^1_k \to \A^1_k$ via $k[x] \to k[x,x^{-1}]$ and the identity. This is clearly surjective and finitely generated since on rings it is,
+\[ k[x] \to k[x, x^{-1}] \times k[x] \]
+Furthermore, this map is quasi-finite since the fibers have at most two points. To see this, consider, $y = (x - a) \in \Spec{k[x]}$ then $\kappa(y) = k[x]/(x - a)$ and the fibre is,
+\begin{align*}
+X_y & = \Spec{(k[x x^{-1}] \times k[x]) \otimes_{k[x]} k[x]/(x  - a)} 
+\\
+& = \Spec{k[x, x^{-1}]/(x - a) \times k[x] / (x - a)} 
+\\
+& = \Spec{k[x, x^{-1}/(x - a)} \coprod \Spec{k[x]/(x - a)} 
+\\
+& = 
+\begin{cases}
+\Spec{k} & a = 0
+\\
+\Spec{k} \coprod \Spec{k} & a \neq 0
+\end{cases}
+\end{align*}
+However, this map is not closed since $\Gm^k \subset \Gm^k \coprod \A^1_k$ is closed but its image is $\A^1_k \setminus \{ 0 \}$ which is not closed. Thus the map cannot be finite. In particular,
+\[ k[x, x^{-1}] = \bigoplus_{n \ge 0} x^{-n} k[x] \]
+so $k[x, x^{-1}]$ is not a finitely-generated $k[x]$-module.  
+\end{rmk}
+
+\subsection{Maps of Normal Curves Are Flat}
+
+\begin{lemma} \label{generic_injection}
+Let $X$ be an integral scheme with generic point $\xi \in X$ and $\F \to \G$ a map of $\struct{X}$-modules,
+\begin{enumerate}
+\item if $\F$ is locally free then $\F \to \G$ is injective iff $\F_\xi \to \G_\xi$ is injective
+\item if $\F$ is invertible then $\F \to \G$ is injective iff $\F_\xi \to \G_\xi$ is nonzero.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\xi \in U$ for each nonempty open we have a diagram,
+\begin{center}
+\begin{tikzcd}
+\F(U) \arrow[d] \arrow[r] & \G(U) \arrow[d]
+\\
+\F_\xi \arrow[r] & \G_\xi 
+\end{tikzcd}
+\end{center}
+therefore it suffices to show the map $\F(U) \to \F_\xi$ is injective since then injectivity of $\F_\xi \to \G_\xi$ will imply injectivity of $\F(U) \to \G(U)$ for each $U$. Choose an affine open cover $U_i = \Spec{A_i}$ trivializing $\F$. $\F|_{U_i \cap U} \cong \struct{X}^{\oplus n}|_{U_i \cap U}$ but $X$ is integral so the restriction $\F(U_i \cap U) \to \F_\xi$ is simply $A_i^n \to \Frac{A}^n$ which is injective since $A_i$ is a domain. Thus if $s \in \F(U)$ maps to zero in $\F_\xi$ then $s|_{U_i \cap U} = 0$ so $s = 0$ since $U_i$ form a cover.
+\bigskip\\
+The second follows from the first since we need only to show that $\F_\xi \to \G_\xi$ is injective. However, $\F_\xi$ is a rank-one free module over the field $K(X) = \stalk{X}{\xi}$. Thus every nonzero map $\F_\xi \to \G_\xi$ is injective.
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ be a conconstant map of curves. Then $f$ is dominant.
+\end{lemma}
+
+\begin{proof}
+Let $\xi \in X$ be the generic point and consider $f(\xi) \in Y$. Suppose that $f(\xi)$ is a closed point. Then $f(X) = f(\overline{\{ \xi \}}) \subset \overline{f(\xi)} = f(\xi)$ so $f$ is constant. Therefore, we must have $f(\xi)$ a nonclosed point. But $\dim{Y} = 1$ and irreducible so any point is either closed or the generic point of the unique irreducible component. Therefore, $f(\xi) = \eta$ the generic point so $f$ is dominant.
+\end{proof}
+
+\begin{prop}
+Let $X$ and $Y$ be curves over $k$ with $Y$ normal. Then any nonconstant map $f : X \to Y$ is flat.
+\end{prop}
+
+\begin{proof}
+We need to check that $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is flat. Since $Y$ is a normal curve $\stalk{Y}{y}$ is a Noetherian domain ($Y$ is integral finite type over $k$) integrally closed ($Y$ is normal) and dimension at most one ($\dim{Y} = 1$) therefore $\stalk{Y}{y}$ is a local Dedekind domain or a field so $\stalk{Y}{y}$ is a DVR or a field. Then by Tag 0539, $\stalk{X}{x}$ is a flat $\stalk{Y}{f(x)}$-module iff it is torsion-free. However, $\stalk{X}{x}$ is a domain so it is a torsion-free $\stalk{Y}{f(x)}$-module iff $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is injective.
+\bigskip\\
+Since $f$ is dominant $f(\xi) = \eta$ (the generic points). Then $\stalk{Y}{\eta} \to \stalk{X}{\xi}$ is a map of fields which is automatically injective so $\struct{Y} \to f_* \struct{X}$ is injective because $Y$ is integral proving that $\stalk{Y}{f(x)} \to \stalk{X}{x}$ is injective. 
+\end{proof}
+
+\begin{rmk}
+Morphisms of varieties are automatically finitely presented since curves are finite type over $k$ so morphisms between them are locally finite type but $Y$ is Noetherian so a locally finite type map is finitely presented. Furthermore, $X$ is Noetherian so morphisms from it are automatrically quasi-compact and quasi-separated.
+\end{rmk}
+
+\begin{prop}
+Nonconstant maps of curves $f : X \to Y$ with $Y$ normal are smooth iff unramified iff \etale iff $\Omega_{X/Y} = 0$.
+\end{prop}
+
+\begin{proof}
+Maps of curves are automatically finitely presented. Furthermore, nonconstant maps of curves with $Y$ normal are flat. Furthermore, we have seen that nonconstant maps of curves are quasi-finite so $\dim{X_{f(x)}} = 0$. Therefore, $f$ is smooth iff $\Omega_{X/Y} = 0$ iff unramified but \etale is smooth an unramified so we see smooth iff \etale. 
+\end{proof}
+
+\begin{lemma}
+Let $X \to Y$ be a nonconstant map of curves with $K(X) / K(Y)$ separable and $Y$ smooth. Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega_Y \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, $f$ is \etale iff $f^* \Omega_Y \to \Omega_X$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+$K(X) / K(Y)$ is an extension of fields of transcendence degree one over $k$ so it must be algebraic. Furthermore, both are finitely-generated field extensions of $k$ so the algebraic extension $K(X) / K(Y)$ is finite. Then $(\Omega_{X/Y})_\xi = \Omega_{K(X)/K(Y)}$ which is zero iff $K(X) / K(Y)$ is separable. Thus, the standard exact sequence gives $(f^* \Omega_Y) \onto (\Omega_X)_\xi$ because $(\Omega_{X/Y})_\xi = 0$.  Furthermore, $f^* \Omega_Y$ is a line bundle since $Y$ is smooth so we conclude that $f^* \Omega_Y \to \Omega_X$ is an injection since it is nonzero on the generic fiber (Lemma \ref{generic_injection}).
+\end{proof}
+
+
+\section{Finite Maps}
+
+\begin{defn}
+A morphism $f : X \to Y$ of schemes if \textit{finite} if it is affine and for every affine open $V \subset Y$ then $U = f^{-1}(V)$ is affine and the ring map associated to $U \to V$ is finite. 
+\end{defn}
+
+\begin{prop}
+Closed immersions are finite.
+\end{prop}
+
+\begin{proof}
+The map $A \to A / I$ is finite.
+\end{proof}
+
+\begin{prop}
+Finite maps are preserved under base change.
+\end{prop}
+
+\begin{prop}
+Finite maps are closed and thus universally closed.
+\end{prop}
+
+
+\begin{prop}
+The following are equivalent for a map of schemes $f : X \to Y$
+\begin{enumerate}
+\item $f$ is finite
+\item $f$ is affine and proper.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+They are affine and thus separated, finite and thus finite type, and universally closed.
+\end{proof}
+
+
+\begin{prop}
+Let $f : X \to Y$ be finite and $y \in Y$. Then the fiber is affine, zero dimensional, has finitely many points, and explicitly,
+\[ X_y = \Spec{(f_* \struct{X})_y \otimes_{\stalk{Y}{y}} \kappa(y)} \]
+Furthermore,
+\[ \rank_y{(f_* \struct{X})} = \sum_{x \in f^{-1}(y)} \length{\stalk{X}{x}}{\stalk{X}{x} / \m_y \stalk{X}{x}} \cdot [\kappa(x) : \kappa(y)] \]
+\end{prop}
+
+\begin{proof}
+Let $f : X \to Y$ be finite then locally we have affine opens $V = \Spec{B} \subset Y$ and $U = f^{-1}(V) = \Spec{A}$ and the map $B \to A$ is finite. Then $(f_* \struct{X})|_V = \wt{A}$ as a $B$-module. Choose a point $y \in Y$ corresponding to a prime $\p \in \Spec{B}$.
+Consider the fiber $X_y = X \times_{Y} \Spec{\kappa(y)}$. Because $U = f^{-1}(V)$ is affine, the fiber $X_y \subset \Spec{A}$ and thus,
+\[ X_y = \Spec{A} \times_{\Spec{B}} \Spec{\kappa(y)} = \Spec{A \otimes_B \kappa(y)} = \Spec{(A / \p A)_\p} \]
+where $\kappa(y) = (B / \p B)_\p$. So set $R = A \otimes_B \kappa(y) = (A / \p A)_\p$ then,
+\[ R = A \otimes_B (B / \p B)_\p = A \otimes_B B_\p \otimes_{B_\p} B_\p / \p B_\p  = A_\p \otimes_{B_\p} \kappa(y) = (f_* \struct{X})_y \otimes_{\stalk{Y}{y}} \kappa(y) \] 
+Since $A$ is a finite $B$-module, $R$ is a finite $\kappa(\p)$-module so $R$ is an artinian ring. Thus $X_y = \Spec{R}$ has finitely many points and $\dim{X_y} = 0$. Furthermore,
+\[ \rank_y{(f_* \struct{X})} = \dim_{\kappa(y)} \left( (f_* \struct{X})_y \otimes_{\stalk{Y}{y}} \kappa(y) \right) \]
+and by our results on artinian $k$-algebras,
+\[ \dim_{\kappa(y)}{R} = \sum_{\m_i \in \Spec{R}} \length{R_{\m_i}}{R_{\m_i}} \cdot \dim_{\kappa(y)} (R / \m_i) \]
+However, the prime (maximal) ideals $\p_x \in \Spec{R}$ correspond to points $x \in f^{-1}(y)$ furthermore,
+\[ R_{\m_x} = (A_{\p_x} / \p A_{\p_x}) = \stalk{X}{x} / \m_y \stalk{X}{x} \] since $\p A_{\p_x} = \p B_\p A_{\p_x} = \m_y A_{\p_x} = \m_y \stalk{X}{x}$. Furthermore, since $\stalk{X}{x} \onto \stalk{X}{x} / \m_y \stalk{X}{x}$ is a surjection viewing $R_{\p_x} = \stalk{X}{x} / \m_y \stalk{X}{x}$ as a $\stalk{X}{x}$-module gives,
+\[ \length{R_{\p_x}}{R_{\p_x}} = \length{\stalk{X}{x}}{\stalk{X}{x} / \m_y \stalk{X}{x}} \]
+Finally, $R / \p_x = \stalk{X}{x} / \m_x = \kappa(x)$ and thus we find,
+\[ \rank_y{(f_* \struct{X})} = \sum_{x \in f^{-1}(y)} \length{\stalk{X}{x}}{\stalk{X}{x} / \m_y \stalk{X}{x}} \cdot [\kappa(x) : \kappa(y)] \]
+\end{proof}
+
+
+\begin{lemma}
+Let $A \embed B$ be a finite inclusion of domains. Then $\Frac{B} = A^{-1} B$ and is a finite extension of $\Frac{A}$.
+\end{lemma}
+
+\begin{proof}
+Since $A \to B$ is finite the map $\Frac{A} \to A^{-1} B$ is finite. However, $A^{-1} B$ is a domain finite dimensional over the field $\Frac{A}$ and thus $A^{-1} B$ is a field. However, $A^{-1} B \subset \Frac{B}$ so $\Frac{B} = A^{-1} B$.
+\end{proof}
+
+\begin{prop}
+Let $f : X \to Y$ be a finite dominant map of integral schemes with generic points $\xi \in X$ and $\eta \in Y$. Then we have,
+\[ \deg{f} = \rank_{\eta}(f_* \struct{X}) \] 
+\end{prop}
+
+\begin{proof}
+The map $\stalk{Y}{\eta} \to (f_* \struct{X})_\eta$ is an injective finite map of domains because $f$ is dominant. Therefore, 
+\[ \rank_\eta(f_* \struct{X}) = \dim_{\kappa(\eta)} \left( (f_* \struct{X}) \otimes_{\stalk{Y}{\eta}} \kappa(\eta) \right) = \dim_{K(Y)} K(Y)^{-1} (f_* \struct{X})_\eta \]
+However, the map $(f_* \struct{X})_\eta \to \stalk{X}{\xi}$ is taking the fraction field $K(X) = \stalk{X}{\xi} = \Frac{(f_* \struct{X})_\eta}$ so by the previous lemma,
+\[ \rank_{\eta}(f_* \struct{X}) = \dim_{K(Y)} K(X) = [ K(X) : K(Y)] = \deg{f} \]
+\end{proof}
+
+\subsection{Finite Locally Free Morphisms}
+
+\begin{defn}
+A morphism $f : X \to Y$ is \textit{finite locally free} if $f$ is affine and $f_* \struct{X}$ is a finite locally free as a $\struct{Y}$-module.
+\end{defn}
+
+\begin{prop}
+A morphism $f : X \to Y$ is finite locally free iff $f$ is finite, flat, and locally of finite presentation.
+\end{prop}
+
+\begin{proof}
+It suffices to show that if $A \to B$ is finite then $B$ is locally free iff it is flat and finitely presented as an $A$-module. We know that finite locally free implies flat and locally finitely presented\footnote{it is finitely presented as an $A$-algebra because it is finitely presented as an $A$-module } (thus finitely presented). Conversely if $B$ is flat and finitely presented\footnote{There is a subtlety there, $B$ is finitely presented \textit{as an $A$-algebra} not a priori as an $A$-module. However, $B$ is a finite $A$-module so by Tag 0564 $B$ is a finitely presented $A$-module since $A \to B$ is a finitely presented ring map and $B$ is trivially a finitely presented $B$-module.} then it is projective (see Tag 00NX) and hence locally free. 
+\end{proof}
+
+\begin{prop}
+Let $f : X \to Y$ be a finite flat dominant map of integral schemes. Then for any $y \in Y$ we have,
+\[ \sum_{x \in f^{-1}(y)} \length{\stalk{X}{x}}{\stalk{X}{x} / \m_y \stalk{X}{x}} \cdot [\kappa(x) : \kappa(y)] = \deg{f} \]
+we call $e_x = \length{\stalk{X}{x}}{\stalk{X}{x} / \m_y \stalk{X}{x}}$ the ramification degree and then,
+\[ \sum_{x \in f^{-1}(y)} e_x \cdot [\kappa(x) : \kappa(y)] = \deg{f} \]
+\end{prop}
+
+\begin{proof}
+Since $f_* \struct{X}$ is finite locally free and $Y$ is connected, the sheaf $f_* \struct{X}$ has constant rank and thus $\rank_y(f_*\struct{X}) = \rank_\eta(f_* \struct{X})$. Using our previous results proves the claim.
+\end{proof}
+
+\subsection{Ramification}
+
+
+\section{Interesting Flasque Resolutions on Curves}
+
+\subsection{Godement Resolution}
+
+For any abelian sheaf $\F$ on a space $X$ we can consider it Godement resolution. Abstractly, take the continuous map $f : X_{\text{dis}} \to X$ from $X$ given the discrete topology. Then the first stage of the Godement resolution is,
+\[ \F \to f_* f^* \F \]
+Furthermore, since $f^* \F$ is an abelian sheaf on a discrete space it is flasque and $f_*$ preserves flasqueness so $f_* f^* \F$ is flasque.
+Continuing gives a cosimplicial sheaf $\mathcal{G}^p(\F) = (f_* f^*)^p \F$ on $X$ with coface maps given by the natural transformation $\id \to f_* f^*$ and codegeneracy maps given by contracting between pairs $(f_* f^*)(f_* f^*)$ via the natural transformation $f^* f_* \to \id$.
+The associated complex is then a flasque resolution of $\F$.
+
+\begin{rmk}
+The above construction also works in the category of $\struct{X}$-modules on a ringed space by pulling back to $(X_{\text{dis}}, \struct{X_{\text{dis}}})$ where $\struct{X_{\text{dis}}} = f^{-1} \struct{X}$.
+\end{rmk}
+
+\begin{lemma}
+Let $\F$ be a sheaf on a discrete space $X$. Then $\F$ is flasque and the canonical map,
+\[ \F \to \prod_{x \in X} (\iota_x)_* (\F_x) \]
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Let $U \subset X$ be open (any set since $X$ is discrete) then since points are open the set of points $x \in U$ forms an open cover. Then by the sheaf property,
+\[ \F(U) \to \prod_{x \in U} \F(x) \]
+is an isomorphims. Furthermore, clearly $\F(x) = \F_x$ since $x$ is the inital object in the poset of open neighborhoods of $x$. Furthermore, the restriction map $\F(U) \to \F(V)$ is surjective because for any section $s \in \F(V)$ we may extend to a global section by setting $f_x = s_x$ for $x \in V$ and $f_x = 0$ for $x \notin V$. clearly $f_x = s_x$ on $V$ so by the sheaf property $f|_V = s$. Then restricting $f|_U$ shows that $\F(U) \to \F(V)$ is surjective.
+\end{proof}
+\noindent
+Thus, we can alternatively describe the Godement operation as follows. We can consider,
+\[ X_{\text{dis}} = \coprod_{x \in X} x \]
+Then,
+\[ f^* X = \prod_{x \in X} \F_x \]
+and $f : X_{\text{dis}} \to X$ is the bundled collection of the inclusions $\iota_x : x \to X$ giving,
+\[ f_* f^* \F = \prod_{x \in X} (\iota_x)_* (\F_x) \]
+reproducing the result on a discrete space.
+
+\subsection{Subsheaves of Godement}
+
+Now consider the diagram,
+\begin{center}
+\begin{tikzcd}
+& \F \arrow[d, hook] \arrow[dl, dashed]
+\\
+\bigoplus\limits_{x \in X} (\iota_x)_* (\F_x) \arrow[r] & \prod\limits_{x \in X} (\iota_x)_* (\F_x) 
+\end{tikzcd}
+\end{center}
+We ask when the inclusion $\F \to \mathcal{G}^1(\F)$ factors through the canonical map,
+\[ \bigoplus\limits_{x \in X} (\iota_x)_* (\F_x) \to \prod_{x \in X} (\iota_x)_* (\F_x) \]
+and when this sheaf or its image subsheaf is flasque. 
+\bigskip\\
+First, note that direct sums commute with colimits (because they are colimts themselves) and thus denoting,
+\[ H(\F) = \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+we have the stalks,
+\begin{align*}
+H(\F)_x & = \varinjlim_{x \in U} H(\F)(U) = \bigoplus_{y \in X} \varinjlim_{x \in U} 
+\begin{cases}
+\F_y & y \in U
+\\
+0 & y \notin U
+\end{cases}
+\\
+& = \bigoplus_{y \in X}  
+\begin{cases}
+\F_y & x \in \overline{\{ y \}}
+\\
+0 & x \notin \overline{\{ y \}} 
+\end{cases}
+\\
+& = \bigoplus_{y \leadsto x} \F_y 
+\end{align*}
+Therefore, if $\F$ is supported only on closed points of $X$ we have,
+\[ H(\F)_x = \F_x \]
+However, in general there is not a sheaf map $\F \to H(\F)$.
+\bigskip\\
+Suppose that $\F$ has finitely supported sections meaning that for any $s \in \F(U)$ its support,
+\[ \supp{}{s} = \{ x \in X \mid s_x \neq 0 \} \]
+is finite. Then we get an injection,
+\[ \F \embed \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+by mapping for each $s$,
+\[ s \in \F \embed \prod_{x \in \supp{}{s}} (\iota_x)_* (\F_x) = \bigoplus_{x \in \supp{}{s}} (\iota_x)_* (\F_x) \subset \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+Furthermore, notice that if $\F$ is only supported at closed points then,
+\[ H(\F)_x = \bigoplus_{y \leadsto x} \F_y = \F_x \]
+since $\F_y = 0$ for any generalization of $x$. Therefore, in this case the map $\F \to H(\F)_x$ defined by virtue of sections having finite support is an isomorphism. Thus if $\F$ is a abelian sheaf whose sections have finite support which is supported on the closed points then,
+\[ \F = \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+
+\subsection{The Case for Curves}
+
+Let $X$ be a curve (separated integral Noetherian scheme of dimension one) with generic point $\xi \in X$. Then I claim any torsion sheaf $\F$ satisfies,
+\[ \F = \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+By the previous discussion, it suffices to show that $\F$ is supported at closed points any every section has finite support. The only nonclosed point is $\xi$ and we assumed that $\F_{\xi} = 0$. Furthermore, consider $s \in \F(U)$. We know $s_{\xi}$ so there is some open $V$ such that $\xi \in V \subset U$ on which $s|_U = 0$. Therefore $\supp{}{\xi} \subset V^C$. I claim that $V^C \subset X$ is finite. Since $X$ is quasi-compact, we can choose an affine open cover $U_i = \Spec{A_i}$ and $V^C \cap U_i = V(I_i)$ for some ideal $I_i \subset A_i$. It suffices to show that $V(I_i)$ is finite. Note that $\dim{A_i} \le 1$ and $X$ is irreducible so $\codim{V^C, X} \ge 1$ and therefore $\dim{V^C} = 0$ because,
+\[ \dim{X} \ge \codim{V^C, X} + \dim{V^C} \]
+This shows that $\dim{A_i/I_i} = 0$ and it is Noetherian so $A_i / I_i$ is Artinian and thus $V(I_i) = \Spec{A_i / I_i}$ is finite. 
+\bigskip\\
+Therefore, each section has finite support so we have demonstrated the equality,
+\[ \F = \bigoplus_{x \in X} (\iota_x)_* (\F_x) \]
+for any torsion sheaf ($\F_\xi = 0$).
+
+\subsection{Resolutions on Curves}
+
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \K_X \arrow[r] & \K_X / \struct{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Notice that $(\K_X / \struct{X})_\xi = K(X) / \stalk{X}{\xi} = 0$ so $\K_X / \struct{X}$ is torsion. Therefore, we get a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \K_X \arrow[r] & \bigoplus\limits_{x \in X} (\iota_x)_* (K(X) / \stalk{X}{x}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $X$ is integral $\K_X$ is constant (since all opens are connected it is truely constant) and thus we get a flasque resolution of $\struct{X}$. Then the long exact sequence gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(X, \struct{X}) \arrow[r] & K(X) \arrow[r] & \bigoplus\limits_{x \in X} K(X) / \stalk{X}{x} \arrow[r] & H^1(X, \struct{X}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $H^i(X, \struct{X}) = 0$ for $i > 1$. Furthermore, for any flat sheaf $\F$, we can tensor the above exact sequence to get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \F \otimes_{\struct{X}} \K_X \arrow[r] & \bigoplus\limits_{x \in X} (\iota_x)_* (\F_\xi / \F_x) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Where $(\iota_x)_*(K(X)) \otimes_{\struct{X}} \F = $ 
+
+\begin{lemma}
+Let $X$ be an irreducible scheme with generic point $\xi \in X$ and $\F$ an abelian sheaf on $X$. Then the natural map,
+\[ \F \otimes_{\struct{X}} \K_X \to (\iota_\xi)_* (\F_\xi) \]
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Locally, on affine opens 
+\end{proof}
+
+
+\section{Appendix}
+
+\subsection{Curves and Genera}
+
+\begin{lemma}
+Let $X$ be a integral scheme proper over $k$ then $K = H^0(X, \struct{X})$ is a finite field extension of $k$ and for any coherent $\struct{X}$-module $\F$, the cohomology $H^p(X, \F)$ is a finite-dimensional $H^0(X, \struct{X})$-module.
+\end{lemma}
+
+\begin{proof}
+Since $\struct{X}$ is coherent, and $X$ is proper over $k$ so $K = H^0(X, \struct{X})$ is a finite $k$-module. However, since $X$ is integral $H^0(X, \struct{X})$ is a domain but a finite $k$-algebra domain is a field and we see $K / k$ is a finite extension of fields. Furthermore, the $\struct{X}(X)$-module structure on $H^p(X, \F)$ gives it a $K$-module structure. Since $X$ is proper over $k$ then $H^p(X, \F)$ is a finite $k$-module and thus finite as a $K$-module.
+\end{proof}
+
+\begin{rmk}
+Unfortunately, when $k$ is not algebraically closed then we may not have $H^0(X, \struct{X}) = k$ even for smooth projective varieties. Therefore, some caution must be taken in defining numerical invariants of the curve such as genus. However, by \cite[\href{https://stacks.math.columbia.edu/tag/0BUG}{Tag 0BUG}]{stacks-project}, whenever $X$ is proper geometrically integral then indeed $H^0(X, \struct{X}) = k$. Furthermore, for proper $X$ if $H^0(X, \struct{X}) \neq k$ then $X$ cannot be geometrically connected by \cite[\href{https://stacks.math.columbia.edu/tag/0FD1}{Tag 0FD1}]{stacks-project}.
+\end{rmk}
+
+\begin{defn}
+Let $C$ be a smooth proper curve over $k$ with $H^0(C, \struct{C}) = K$. Then we define $g(C) := \dim_K H^0(X, \Omega_{C / k})$. If $C$ is any curve over $k$ then there is a unique smooth proper curve $S$ over $k$ which is $k$-birational to $C$. Then we define $g(C) := g(S)$. 
+\end{defn}
+
+\begin{rmk}
+By definition, the genus of a curve is clearly a birational invariant since there is a unique smooth complete curve in every birational equivalence class of curves. 
+\end{rmk}
+
+\begin{rmk}
+There is a slight subtlety in this definition in the case of a non-perfect base field. It it always true that we can find a proper \textit{regular} curve $C$ in each birational equivalence class however when $k$ is non-perfect the curve $C$ may not be smooth. However, under a finite purely separable extension $K / k$, we can ensure that $C_K$ admits a smooth proper model. Then we define $g(C) := g(C_K)$ in the case that $C_K$ is a curve. The only thing that can go wrong is when $C$ is not geometrically irreducible since then $C_K$ will not be integral. 
+\end{rmk}
+
+\begin{defn}
+The \textit{arithmetic genus} $g_a(C)$ of a proper curve $C$ over $k$ with $H^0(C, \struct{C}) = K$ is,
+\[ g_a(C) := \dim_K H^1(X, \struct{C}) \]
+By Serre duality, if $C$ is smooth then $H^0(C, \Omega_C) = H^1(C, \struct{X})^\vee$ meaning that $g_a(C) = g(C)$. 
+\end{defn}
+
+\begin{rmk}
+The arithmetic genus depends on the projective compactification and singularities meaning it will not be a birational invariant unlike the (geometric) genus. 
+\end{rmk}
+
+\begin{example}
+Let $k = \mathbb{F}_p(t)$ for an odd prime $p = 2k + 1$ and consider the curve,
+\[ C = \Spec{k[x,y]/(y^2 - x^p - t)} \]
+which is regular but not smooth at $P = (y, x^p - t)$. Consider the purely inseperable extension $K = \mathbb{F}(t^{1/p})$. Then $C_K = \Spec{K[x,y]/(y^2 - (x - t^{1/p})^p)} \cong \Spec{K[x,y]/(y^2 - x^p)}$. Taking the normalization of $C_K$ gives $\A^1_K \to C_K$ via $t \mapsto (t^p, t^2)$. This is birational since the following ring map is an isomorphism,
+\[ (K[x,y]/(y^2 - x^p))_{x} \to K[t]_{t} \]
+sending $x \mapsto t^2$ and $y \mapsto t^p$ which has an inverse $t \mapsto y/x^k$ since $x \mapsto t^2 \mapsto y^2/x^{2k} = x$ and $y \mapsto t^p \mapsto y^{p}/x^{kp} = y (y^{2k}/x^{pk}) = y$ and $t \mapsto y/x^k \mapsto t^{p - 2k} = t$. 
+\bigskip\\
+Therefore, $C_K \birat \P^1_K$ so $g(C) = g(C_K) = 0$. However, consider the projective closure,
+\[ \overline{C} = \Proj{k[X,Y,Z]/(Y^2 Z^{p-2} - X^p - t Z^p)} \]
+then $\overline{C} \embed \P^2_k$ is a Cartier divisor (since $\P^2_k$ is locally factorial) so we find that $H^0(\overline{C}, \struct{\overline{C}}) = k$ and $\dim_k H^1(\overline{C}, \struct{\overline{C}}) = \tfrac{1}{2}(p-1)(p-2) = k (2k - 1)$ since its sheaf of ideals is $\struct{\P^2_k}(-p)$. Then $p = 3$ we expect this to be an elliptic curve and we do see $g_a(\overline{C}) = 1$. However, $g(\overline{C}) = 0$ and correspondingly $C$ is not smooth due to the positive characteristic phenomenon. 
+\end{example}
+
+\begin{lemma}
+Suppose that $f : X \to Y$ is a finite birational morphism of $n$-dimensional irreducible Noetherian schemes. Then $H^n(Y, \struct{Y}) \onto H^n(X, \struct{X})$ is surjective.
+\end{lemma}
+
+\begin{proof}
+The map $f$ must restrict on some open subset $U \subset X$ to an isomorphism $f|_U : U \to V$. Thus, the sheaf map $f^\# : \struct{Y} \to f_* \struct{X}$ restricts on $V$ to an isomorphism $\struct{Y}|_V \xrightarrow{\sim} (f_* \struct{X})|_V$. We factor this map into two exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \K \arrow[r] & \struct{Y} \arrow[r] & \I \arrow[r] & 0
+\\
+0 \arrow[r] & \I \arrow[r] & f_* \struct{X} \arrow[r] & \Csh \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with $\K = \ker{(\struct{Y} \to f_* \struct{X})}$ and $\Csh = \coker{(\struct{Y} \to f_* \struct{X})}$ and $\I = \Im{\struct{Y} \to f_* \struct{X}}$. Taking cohomology and using that it vanishes in degree above $n$ we get,
+\begin{center}
+\begin{tikzcd}
+H^{n-1}(Y, \I) \arrow[r] & H^n(Y, \K) \arrow[r] & H^n(Y, \struct{Y}) \arrow[r, two heads] & H^n(Y, \I) \arrow[r] & 0
+\\
+H^{n-1}(Y, \Csh) \arrow[r] & H^n(Y, \I) \arrow[r] & H^n(X, \struct{X}) \arrow[r, two heads] &  H^n(X, \Csh) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where we have used that $f : X \to Y$ is affine to conclude that $H^p(Y, f_* \F) = H^p(Y, \F)$ for any quasi-coherent $\struct{X}$-module $\F$. Furthermore, $\Csh|_V = 0$ so $\Supp{\struct{Y}}{\Csh} \subset X \setminus V$ but $\Csh$ is coherent so the support is closed. Since $V$ is dense open, $\Csh$ is supported in positive codimension so $H^n(Y, \Csh) = 0$ (since $H^n(S, \Csh)$ vanishes due to dimension on the closed subscheme $S = \Supp{\struct{X}}{\Csh}$ on which $\Csh$ is supported). Thus we have,
+\[ H^n(Y, \struct{Y}) \onto H^n(Y, \I) \onto H^n(Y, \I) \onto H^n(X, \struct{X}) \]
+proving the proposition.
+\end{proof}
+
+\begin{cor}
+Let $S$ and $C$ be proper curves over $k$ where $S$ is smooth which are birationally equivalent and $H^0(S, \struct{S}) \cong H^0(C, \struct{C})$. Then the genera satisfy,
+\begin{enumerate}
+\item $g_a(C) \ge g_a(S)$
+\item $g(C) = g(S)$
+\item $g(C) \le g_a(C)$ with equality if and only if $C$ is smooth.
+\end{enumerate} 
+\end{cor}
+
+\begin{proof}
+Given a birational map $S \birat C$ we can extend it to a birational morphism $S \to C$ since $S$ is regular. The morphism $S \to C$ is automatically finite since it is a non-constant map of proper curves. Then the previous lemma implies that $g_a(S) \le g_a(C)$. (b). follows from the definition of $g(C)$. The third follows from the fact that $g(S) = g_a(S)$  because of Serre duality, 
+\[ H^1(S, \struct{S}) \cong H^0(S, \Omega_{S / k})^\vee \]
+using that $S$ is smooth. Then we see that $g(C) = g(S) = g_a(S) \le g_a(C)$ proving the inequality part of (c). Finally, if $C$ is smooth we see by Serre duality that $g(C) = g_a(C)$. Conversely, suppose that $g(C) = g_a(C)$ then $g_a(C) = g(C) = g(S) = g_a(S)$ and consider the map $f : S \to C$ which is finite birational map of integral schemes over $k$. In particular, $f$ is affine so for each $y \in C$ we may choose an affine open $y \in V \subset C$ whose preimage $U = f^{-1}(V)$ is also affine. On sheaves, this gives a map of domains $\struct{C}(V) \to \struct{S}(U)$ which localizes to an isomorphism on the fraction fields. However, the localization map of a domain is injective so $\struct{C}(V) \embed \struct{S}(U)$ is an injection. This shows that $\struct{C} \to f_* \struct{S}$ is an injection of sheaves which we extend to an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{C} \arrow[r] & f_* \struct{S} \arrow[r] & \Csh \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Note that $f : S \to C$ induces an isomorphism $H^0(C, \struct{C}) \xrightarrow{\sim} H^0(S, \struct{S})$ since it is a map of fields with the same (finite) dimension over $k$. Then the long exact sequence of cohomology gives,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(C, \struct{C}) \arrow[r, "\sim"] & H^0(S, \struct{S}) \arrow[r] & H^0(X, \Csh) \arrow[r] & H^1(C, \struct{C}) \arrow[r, "\sim"] & H^1(S, \struct{S}) \arrow[r] & H^1(S, \Csh) \arrow[r, equals] & 0 
+\end{tikzcd}
+\end{center}
+I claim that $H^1(S, \Csh) = 0$. Since $f$ is birational, $\Csh$ is supported in codimension one. Thus, the map $H^1(C, \struct{C}) \onto H^1(S, \struct{S})$ is surjective but $g_a(C) = g_a(S)$ so these vectorspaces have the same dimension so $H^1(C, \struct{C}) \xrightarrow{\sim} H^1(S, \struct{S})$ is an isomorphism. Thus, from the exact sequence we have $H^0(X, \Csh) = 0$. However, $\Supp{\struct{C}}{\Csh}$ is a closed ($\Csh$ is coherent) dimension zero subset i.e. finitely many discrete closed points. However, a sheaf supported on a discrete set of points is zero iff it has no global sections. Therefore, $\Csh = 0$ so $\struct{C} \xrightarrow{\sim} f_* \struct{S}$. In particular $\struct{C}(V) \xrightarrow{\sim} \struct{S}(U)$ is an isomorphism which implies that the map of affine schemes $f|_U : U \to V$ is an isomorphism. Since the affine opens $V$ cover $C$ we see that $f : S \to C$ is an isomorphism. In particular, $C$ is smooth. 
+\end{proof}
+
+
+\subsection{The Locus on Which Morphisms Agree}
+
+\begin{lemma}
+Let $(R, \m, \kappa)$ be a local ring. Then for schemes $X$ there is a natural bijection,
+\[ \Hom{\Sch}{\Spec{R}}{X} \cong \{ x \in X \text{ and local map } \stalk{X}{x} \to R \} \]
+\end{lemma}
+
+\begin{proof}
+Given $\Spec{R} \to X$ we automatically get $\m \mapsto x$ and $\stalk{X}{x} \to R_\m = R$. 
+Now, note that taking any affine open neighborhood $x \in \Spec{A} \subset X$ and then $A \to A_\p = \stalk{X}{x}$ to give $\Spec{\stalk{X}{x}} \to \Spec{A} \to X$. Clearly, this map sends $\m_x \mapsto x$ and at $\m_x$ has stalk map $\id : \stalk{X}{x} \to \stalk{X}{x}$ since it is the localization at $\p$ of $A \to A_\p$. 
+\bigskip\\
+Thus we get an inverse as follows. Given a point $x \in X$ and a local map $\phi : \stalk{X}{x} \to R$ then take,
+\[ \Spec{R} \to \Spec{\stalk{X}{x}} \to X \]
+This is inverse since $\m \mapsto \m_x$ (because $\stalk{X}{x} \to \m_x$ is local) and $\m_x \mapsto x$ and the stalk at $\m$ gives $\stalk{X}{x} \xrightarrow{\id} \stalk{X}{x} \xrightarrow{\phi} R$. 
+\bigskip\\
+Finally, I claim that any $f : \Spec{R} \to X$ factors through $\Spec{R} \to \Spec{\stalk{X}{x}} \to X$ and thus is reconstructed from $x \in X$ and $\stalk{X}{x} \to R$. Choose an affine open neighborhood $x \in \Spec{A} \subset X$ then consider $f^{-1}(\Spec{A})$ which is open in $\Spec{R}$ and contains the unique closed point $\m \in \Spec{R}$ so there is some $f \in R$ s.t. $\m \in D(f) \subset f^{-1}(\Spec{A})$ so $f \notin \m$ so $f \in R^\times$ and thus $D(f) = \Spec{R}$. Therefore, we get a map $\Spec{R} \to \Spec{A}$ and thus $\phi : A \to R$ where $\phi^{-1}(\m) = \p = x$ so $A \setminus \p$ is mapped inside $R^\times$ so this map factors through $A \to A_\p \to R$ giving the desired factorization $\Spec{R} \to \Spec{\stalk{X}{x}} \to \Spec{A} \to X$.  
+\end{proof}
+
+\begin{definition}
+The locus $Z$ on which two maps $f, g : X \to Y$ over $S$ agree is given as the pullback,
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+Z \arrow[r] \pullback \arrow[d] & Y \arrow[d, "\Delta_Y"]
+\\
+X \arrow[r, "F"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+with $F = (f, g)$. This is the equalizer of $f, g: X \to Y$. Furthermore $Z \to X$ is an immersion since it is the base change of $\Delta_{Y/S}$ which is an immersion.
+\end{definition}
+
+\begin{lemma}
+Topologically, the locus on which $S$-morphisms $f, g : X \to Y$ agree is,
+\[ Z = \{ x \in X \mid f(x) = g(x) \text{ and } f_x = g_x : \kappa(f(x)) \to \kappa(x) \} \]
+\end{lemma}
+
+\begin{proof}
+On some $S$-subscheme $G \subset X$, the maps $f|_G = g|_G$ agree iff there exists $G \to Y$ such that,
+\begin{center}
+\begin{tikzcd}
+G \arrow[d, hook] \arrow[r, dashed] & Y \arrow[d, "\Delta"]
+\\
+X \arrow[r, "F"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+commutes. In particular, for any point $x \in X$ consider $\iota : \Spec{\kappa(x)} \to X$ then $f \circ \iota = g \circ \iota$ iff $f(x) = g(x)$ and $f_x = g_x : \kappa(f(x)) \to \kappa(x)$. Consider a point $z \in Z$ and $\Spec{\kappa(z)} \to Z$, such a point is equivalent to giving a diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+\Spec{\kappa(z)} \arrow[rd, dashed] \arrow[rrd, bend left] \arrow[rdd, bend right]
+\\
+& Z \arrow[r] \pullback \arrow[d] & Y \arrow[d, "\Delta_Y"]
+\\
+& X \arrow[r, "F"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+However, $\iota : Z \to X$ is an immersion so $\iota_x : \kappa(\iota(x)) \xrightarrow{\sim} \kappa(x)$ is an isomorphism. Therefore, points $\Spec{\kappa(z)} \to Z$, are exactly points of $X$ for which a lift $\Spec{\kappa(x)} \to Y$ exists i.e. points such that $f$ and $g$ agree in the required way.
+\end{proof}
+
+\begin{lemma}
+If $f : X \to Y$ is an immersion then $f_x : \stalk{Y}{f(x)} \onto \stalk{X}{x}$ is surjective for each $x \in X$ and $f_x : \kappa(f(x)) \xrightarrow{\sim} \kappa(x)$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+For closed immersions, $f^{\#} : \struct{Y} \to f_* \struct{X}$ is surjective by definition. Thus we get a surjection $f_x : \stalk{Y}{y} \to (f_* \struct{X})_{f(x)}$. Furthermore, topologically, $f : X \to Y$ is a homomorphism onto its image so for any open $U \subset X$ there exists an open $V \subset Y$ s.t. $U = f^{-1}(V)$ showing that,
+\[ (f_* \struct{X})_{f(x)} = \varinjlim_{f(x) \in V} \struct{X}(f^{-1}(V)) = \varinjlim_{x \in U} \struct{X}(U) = \stalk{X}{x} \]
+Furthermore, for an open immersion, $f^\flat : f^{-1} \struct{Y} \to f_* \struct{X}$ is an isomorphism so $\stalk{Y}{y} \to \stalk{X}{x}$ is an isomorphism. Thus the composition, $f_x : \stalk{Y}{f(x)} \onto \stalk{X}{x}$ is surjective. Furthermore, $f_x$ is local we get $f_x : \kappa(f(x)) \onto \kappa(x)$ which is a surjection of fields and thus an isomorphism. 
+\end{proof}
+
+\begin{lemma}
+If $Y \to S$ is separated then the locus on which $f,g : X \to Y$ over $S$ agree is closed.
+\end{lemma}
+
+\begin{proof}
+Since $X \to S$ is separated, $\Delta_{Y/S} : Y \to Y \times_S Y$ is a closed immersion. So $Z \to X$ is the base change of a closed immersion and thus a closed immersion. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a reduced and $Y$ be a separated scheme over $S$ and $f ,g : X \to Y$ be morphism over $S$. If $f \circ j = g \circ j$ agree on a dense subscheme $j : G \embed X$ then $f = g$.
+\end{lemma}
+
+\begin{proof}
+Consider $F = (f, g) : X \to Y \times_S Y$. Since $\Delta : Y \to Y \times_S Y$ is a closed immersion (by separateness). Then $F^{-1}(\Delta)$ is the locus on which $f = g$ which is closed because $\Delta : Y \to Y \times_S Y$ is a closed immersion. Since $f|_G = g|_G$ we get a diagram,
+\begin{center}
+\begin{tikzcd}[row sep = large, column sep = large]
+G \arrow[rd, dashed] \arrow[rrd, bend left] \arrow[rdd, bend right, hook]
+\\
+& Z \pullback \arrow[r, "\tilde{F}"] \arrow[d, hook, "\iota"'] & Y \arrow[d, "\Delta_Y"]
+\\
+& X \arrow[r, "F"] & Y \times_S Y
+\end{tikzcd}
+\end{center}
+Since $\iota : Z \embed X$ is a closed immersion with dense image, $Z \embed X$ is surjective. By the following, $\iota : Z \to X$ is an isomorphism. Thus, $F = F \circ \iota \circ \iota^{-1} = \Delta_Y \circ \tilde{F} \circ \iota^{-1}$. By the universal property of maps $X \to Y \times_S Y$ this implies that $f = g = \tilde{F} \circ \iota^{-1}$.
+\end{proof}
+
+\newcommand{\Nil}{\mathcal{N}}
+
+\begin{lemma}
+Let $X$ be a scheme and consider an exact sequence of quasi-coherent $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \mathcal{A} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $\mathcal{A}$ is a sheaf of $\struct{X}$-algebra. 
+Suppose that $\F_x \neq 0$ for each $x \in X$. Then $\I \embed \Nil$ where $\Nil$ is the sheaf of nilpotent.
+\end{lemma}
+
+\begin{proof}
+Take an affine open $U = \Spec{R} \subset X$ such that $\mathcal{A} |_{U} = \wt{A}$. Then we have an surjection of rings $R \onto A$ giving $R/I = A$ for $I = \ker{(R \to A)}$. Now, for each $\p \in \Spec{R}$ we know $R_\p = \stalk{X}{\p} \neq 0$. However, if $\p \not\supset I$ then $(R/I)_\p = A_\p = 0$ so we must have $\p \supset I$ for all $\p \in \Spec{R}$ i.e. $I \subset \nilrad{R}$. Therefore, $\I |_U \embed \Nil|_U$ for any affine open $U \subset X$ showing that $\I$ is comprised of nilpotents. 
+\end{proof}
+
+\begin{corollary}
+If $X$ is reduced and $\iota : Z \embed X$ is a surjective closed immersion then $\iota : Z \xrightarrow{\sim} X$ is an isomorphism. 
+\end{corollary}
+
+\begin{proof}
+Since $\iota: Z \embed X$ is a homeomorphism onto its image $X$ it suffices to show that the map of sheaves $\iota^\# : \struct{X} \to \iota_* \struct{Z}$ is an isomorphism. Since $\iota : Z \to X$ is a closed immersion $\iota^\# : \struct{X} \onto \iota_* \struct{Z}$ is a surjection and $\struct{Z}$ is a quasi-coherent sheaf of $\struct{X}$-algebras giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \iota_* \struct{Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center} Furthermore, 
+\[ \Supp{\struct{X}}{\iota_* \struct{Z}} = \Im{\iota} = X \]
+since $(\iota_* \struct{Z})_x = \stalk{Z}{x}$ when $x \in \Im{\iota}$ (and zero elsewhere). by the above, $\I \embed \Nil = 0$ since $X$ is reduced to $\iota^\# : \struct{X} \to \iota_* \struct{Z}$ is an isomorphism.  
+\end{proof}
+
+\begin{lemma}
+A rational $S$-map $f : X \rat Y$ with $X$ reduced and $Y \to S$ separated is equivalent to a morphism $f : \Dom{f} \to Y$. 
+\end{lemma}
+
+\begin{proof}
+For any $(U, f_U)$ and $(V, f_V)$ representing $f$ there must be a dense (in $X$) open $W \subset U \cap V$ on which $f_U|_W = f_V|_W$ and thus $f_U |_{U \cap V} = f_V |_{U \cap V}$ since $f_U, f_V : U \cap V \to Y$ are morphisms from reduced to irreducible schemes. Now $\Dom{f}$ has an open cover $(U_i, f_i)$ for which $f_i |_{U_i \cap U_j} = f_j |_{U_i \cap U_j}$ so these morphisms glue to give $f : \Dom{f} \to Y$ ($\Hom{S}{-}{Y}$ is a sheaf on the Zariski site).  
+\end{proof}
+
+
+
+\subsection{Extending Rational Maps}
+
+\begin{lemma}
+Regular local rings of dimension $1$ exactly correspond to DVRs.
+\end{lemma}
+
+\begin{proof}
+Any DVR $R$ has a uniformizer $\varpi \in R$ then $\dim{R} = 1$ and $\m / \m^2 = (\varpi)/(\varpi^2) = \varpi \kappa$ which also has $\dim_{\kappa}(\m / \m^2) = 1$ so $R$ is regular.
+Conversely, if $R$ is a regular local ring of dimension $\dim{R} = 1$ then, by regularity, $R$ is a normal Noetherian domain so by $\dim{R} = 1$ then $R$ is Dedekind but also local and thus is a DVR. 
+\end{proof}
+
+\begin{proposition}
+Let $X$ be a Noetherian $S$-scheme and $Z \subset X$ a closed irreducible codimension $1$ generically nonsingular subset (with generic point $\eta \in Z$ such that $\stalk{X}{\eta}$ is regular). Let $f : X \rat Y$ be a rational map with $Y$ proper over $S$. Then $Z \cap \Dom{f}$ is a dense open of $Z$.
+\end{proposition}
+
+
+\begin{proof}
+Choose some representative $(U, f_U)$ for $f : X \rat Y$. Note that $\stalk{X}{\eta}$ is a regular dimension one (see Lemma \ref{codimension_loc_rings}) ring and thus a DVR. Consider the generic point $\xi \in X$ of $X$ then, by localizing, we get an inclusion of the generic point $\Spec{\stalk{X}{\xi}} \to \Spec{\stalk{X}{\eta}} \to X$ and $\stalk{X}{\xi} = K(X) = \Frac{\stalk{X}{\eta}}$. Furthermore, the inclusion of the generic point gives $\Spec{K(X)} \to U \xrightarrow{f_U} Y$ and thus we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{K(X)} \arrow[d, hook] \arrow[r] & Y \arrow[d]
+\\
+\Spec{\stalk{X}{\eta}} \arrow[ru, dashed, "\ell"] \arrow[r] & \Spec{k} 
+\end{tikzcd}
+\end{center}
+and a lift $\Spec{\stalk{X}{\eta}} \to Y$ by the valuative criterion for properness applied to $Y \to \Spec{k}$ since $\stalk{X}{\eta}$ is a DVR. Choose an affine open $\Spec{R} \subset Y$ containing the image of $\Spec{\stalk{X}{\eta}} \to Y$ (i.e. choose a neighborhood of the image of $\eta$ which automatically contains $f(\xi)$ since the map factors $\Spec{\stalk{X}{\eta}} \to \Spec{\stalk{Y}{f(\eta)}} \to \Spec{R} \to Y$) and let $\eta \in V = \Spec{A} \subset X$ be an affine open neighborhood of $\xi$ mapping into $\Spec{R}$. By Lemma \ref{open_domain}, since $\stalk{X}{\eta}$ is a domain, we may shrink $V$ so that $A$ is a domain. Since $X$ is irreducible $U \cap V$ is a dense open. Note that if $\eta \in U$ then $\eta \in \Dom{f}$ and thus $Z \cap \Dom{f}$ is a nonempty open of the irreducible space $Z$ and therefore a dense open so we are done. Otherwise, let $\p \in \Spec{A}$ correspond to $\eta \in Z$ then $A_\p = \stalk{X}{\eta}$ is a  DVR. Take some principal affine open $D(f) \subset U \cap V$ for $f \in A$ so $f \in \p$ since $\p \notin D(f) \subset U \cap V$. Since $A_\p$ is a DVR we may choose a uniformizer $\varpi \in \p$ so the map $A \to \p$ via $1 \mapsto \varpi$ is as isomorphism when localized at $\p$. Since $A$ is Noetherian both are f.g. $A$-modules so there must be some $s \in A \setminus \p$ such that $A_s \to \p_s$ is an isomorphism. Replacing $A$ by $A_s$ we may assume $\p = (\varpi) \subset A$ is principal. Since $f \in \p$ we can write $f = t \varpi^k$ for some $a \in A \setminus \p$ (see Lemma \ref{principal_ideal_powers}). Then consider $\tilde{V} = \Spec{A_t}$. Since $t \notin \p$ then $\eta \in \tilde{V}$ and since $f = t \varpi^k$ we have $D(f) \subset D(t) = \tilde{V}$.
+Now we get the following diagram, 
+\begin{center}
+\begin{tikzcd}[row sep = large]
+& & \Spec{R}
+\\
+\Spec{A_\p} \arrow[rru, bend left, "\ell"] \arrow[r] &  \Spec{A_t} \arrow[ru, dashed, "f_V"]
+\\
+\Spec{\Frac{A}} \arrow[r] \arrow[u] & \Spec{A_f} \arrow[u] \arrow[ruu, bend right, "f_U"'] 
+\end{tikzcd}
+\end{center}
+I claim the square is a pushout in the category of affine schemes because maps $R \to A_\p$ and $R \to A_f$ which agree under the inclusion to $\Frac{A}$ gives a map $R \to A_\p \cap A_f \subset \Frac{A}$. However, consider,
+\[ x \in A_\p \cap A_t \implies x = \frac{u \varpi^r}{s} = \frac{a}{f^n} \]
+for $u, s, t \in A \setminus \p$ and $a \in A$. Thus we get,
+\[ u t^n \varpi^{r + nk} = s a \]
+so $a \in \p^{r + nk} \setminus \p^{r + nk + 1}$ ($s \notin \p$ which is prime) and thus $a = u' \varpi^{r + nk}$ for $u' \in A \setminus \p$. Therefore,
+\[ x = \frac{u' \varpi^{r + nk}}{t^n \varpi^{nk}} = \frac{u' \varpi^{r}}{t^n} \in A_t \]
+Thus, $A_\p \cap A_f \subset A_t$ so we get a map $R \to A_t$. Therefore we get a map $f_{\tilde{V}} : \tilde{V} \to Y$ such that $(f|_{\tilde{V}})|_{D(f)} = (f_U)|_{D(f)}$ showing that $\eta \in \tilde{V} \subset \Dom{f}$ so $Z \cap \Dom{f}$ is a dense open of $Z$. 
+\end{proof}
+
+\begin{prop}
+Let $C \to S$ be a proper regular Noetherian scheme with $\dim{C} = 1$ and $f : C \rat Y$ a rational $S$-map with $Y \to S$ proper. Then $f$ extends uniquely to a morphism $f : C \to Y$. 
+\end{prop}
+
+\begin{proof}
+For any point $x \notin \Dom{f}$ let $Z = \overline{\{ x \}} \subset D$ for $D = C \setminus \Dom{f}$. Since $\Dom{f}$ is a dense open, by lemma \ref{codimension_opens}, we have $\codim{Z, C} \ge \codim{D, C} \ge 1$ but $\dim{C} = 1$ so $\codim{Z, C} = 1$. Furthermore, since $C$ is regular $\stalk{C}{x}$ is regular and thus, by the previous proposition, $Z \cap \Dom{f}$ is a dense open and in particular $x \in \Dom{f}$ meaning that $\Dom{f} = C$ so we get a morphism $C \to Y$. This is unique because $C$ is reduced (it is regular) and $Y$ is separated (it is proper over $S$) so morphisms $C \to Y$ are uniquely determined on a dense open which any representative for $f : C \rat Y$ is defined on.   
+\end{proof}
+
+\begin{cor}
+Rational maps between normal proper curves are morphisms.
+\end{cor}
+
+\begin{cor}
+Birational maps between normal proper curves are isomorphisms.
+\end{cor}
+
+\begin{proof}
+Let $f : C_1 \rat C_2$ and $g : C_2 \rat C_1$ be birational inverses of smooth proper curves. Then we know that these extend to morphisms $f : C_1 \to C_2$ and $g : C_2 \to C_1$. Furthermore, the maps $g \circ f : C_1 \to C_1$ must extend the identity on some dense open. However, since curves are separated and reduced there is a unique extension of this map so $g \circ f = \id_{C_1}$ and likewise $f \circ g = \id_{C_2}$. 
+\end{proof}
+
+\begin{thm}
+If $k$ is perfect then there exists a unique normal curve in each birational equivalence class of curves.
+\end{thm}
+
+\begin{proof}
+It suffices to show existence. Given a curve $X$, we consider the projective closure $X \embed \overline{X}$ which is birational and $\overline{X} \to \Spec{k}$ is proper. Then take the normalization $\overline{X}^\nu \to \overline{X}$ which remains proper over $\Spec{k}$ and is birational. Then $\overline{X}^\nu$ is regular and thus smooth over $k$ since $k$ is perfect and $\overline{X}^\nu \to X$ is birational.
+\end{proof}
+
+\subsection{Lemmas}
+
+\begin{lemma} \label{principal_ideal_powers}
+Let $A$ be a Noetherian domain and $\p = (\varpi)$ a principal prime. Then any $f \in \p$ can be written as $f = t \varpi^k$ for $f \in A \setminus \p$. 
+\end{lemma}
+
+\begin{proof}
+From Krull intersection,
+\[ \bigcap_{n \ge 0}^\infty \p^n = (0) \]
+so there is some $n$ such that $f \in \p^n \setminus \p^{n+1}$. Thus $f = t \varpi^n$ for some $f \in A$ but if $t \in \p$ then $f \in \p^{n+1}$ so the result follows.
+\end{proof}
+
+\begin{lemma} \label{codimension_opens}
+Consider a closed subset $Y \subset X$ and an open $U \subset X$ with $U \cap Z \neq \empty$. Then $\codim{Y, X} = \codim{Y \cap U, U}$. 
+\end{lemma}
+
+\begin{proof}
+Consider a chain of irreducible $Z_i \supsetneq Z_{i+1}$ with $Z_0 \subset Y$. I claim that $Z_i \mapsto Z_i \cap U$ and $Z_i \mapsto \overline{Z_i}$ are inverse functions giving a bijection between closed irreducible chains in $X$ with final terms contained in $Y$ and closed irreducible chains in $U$ with final term contained in $Y \cap  U$. Note, if $Z_i \subset Y \cap U$ then $\overline{Z_i} \subset Y$ since $Y$ is closed in $X$.
+\bigskip\\
+First, $\overline{Z_i \cap U} \subset Z_i$ and is closed in $X$. Then $\overline{Z_i \cap U} \cup U^C \supset Z_i$ so because $Z_i$ is irreducible $\overline{Z_i \cap U} = Z_i$ since by assumption $Z_i \not\subset U^C$. Conversely, if $Z_i \subset U$ is a closed irreducible subset then $\overline{Z_i}$ is closed and irreducible in $X$ and $Z_i \subset \overline{Z_i} \cap U$ but $Z_i = C \cap U$ for closed $C \subset X$ so $Z_i \subset C$ and thus $\overline{Z_i} \subset C$ so $\overline{Z_i} \cap U \subset C \cap U = Z_i$ meaning $Z_i = \overline{Z_i} \cap U$. Thus we have shown these operations are inverse to each other.
+\bigskip\\
+Finally, if $Z_i \cap U - Z_{i+1} \cap U$ then $\overline{Z_i \cap U} = \overline{Z_i \cap U}$ so $Z_i = Z_{i+1}$ so the chain does not degenerate. Likewise, if $\overline{Z_i} = \overline{Z_{i+1}}$ then $\overline{Z_i} \cap U = \overline{Z_{i+1}} \cap U$ so $Z_i = Z_{i+1}$. Therefore, we get a length-preserving bijection between the chains defining $\codim{Y,X}$ and $\codim{Y \cap U, U}$. 
+\end{proof}
+
+\begin{lemma} \label{codimension_loc_rings}
+Let $Z \subset X$ be a closed irreducible subset with generic point $\eta \in Z$. Then $\codim{Z,X} = \dim{\stalk{X}{\eta}}$. 
+\end{lemma}
+
+\begin{proof}
+Take affine open neighborhood $\eta \in U = \Spec{A} \subset X$. Then for $\p \in \Spec{A}$ corresponding to $\eta$ we get $A_\p = \stalk{X}{\eta}$. However, $\codim{Z, X} = \codim{Z \cap U, U}$ and $Z \cap U = \overline{\{ \p \}} = V(\p)$. Therefore,
+\[ \codim{Z, X} = \codim{Z \cap U, U} = \height{\p} = \dim{A_\p} = \dim{\stalk{X}{\eta}} \]
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Noetherian scheme then the nonreduced locus,
+\[ Z = \{ x \in X \mid \nilrad{\stalk{X}{x}} \neq 0 \} \]
+is closed.
+\end{lemma} 
+
+\begin{proof}
+The subsheaf $\Nil \subset \struct{X}$ is coherent since $X$ is Noetherian. Thus $Z = \Supp{\struct{X}}{\Nil}$ is closed and $\Nil_x = \nilrad{\struct{X}{x}}$. Locally, on $U = \Spec{A}$ we have $\Nil |_U  = \wt{\nilrad{A}}$ and $\nilrad{A}$ is a f.g. $A$-module since $A$ is Noetherian so,
+\[ \Supp{\struct{X}}{\Nil} \cap U = \Supp{A}{\nilrad{A}} = V(\Ann{A}{\nilrad{A}} \]
+is closed in $\Spec{A}$. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Noetherian scheme then $X$ has finitely many irreducible components.
+\end{lemma}
+
+\begin{proof}
+First let $X = \Spec{A}$ for a Noetherian ring $A$. Then the irreducible components of $A$ correspond to minimal primes $\p \in \Spec{A}$. Then $\dim{A_\p} = 0$ and $A_\p$ is Noetherian so $A_\p$ is Artinian. $A_\p$ must have some associated prime so $\Ass{A_\p}{A_\p} = \{ \p A_\p \}$.  By \cite[\href{https://stacks.math.columbia.edu/tag/05BZ}{Tag 05BZ}]{stacks-project}, then $\Ass{A}{A} \cap \Spec{\A_\p} = \Ass{\A_\p}{\A_\p} = \{ \p \}$ so every minimal prime is an associated prime. However, for $A$ Noetherian then $A$ admits a finite composition series so there are finitely many associated primes.
+\bigskip\\
+Now let $X$ be a Noetherian scheme. For any affine open $U \subset X$ we have shown that $U$ has finitely many irreducible components. However, since $X$ is quasi-compact there is a finite cover of affine opens and thus $X$ must have finitely many irreducible components. 
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Noetherian scheme and $Y$ is the complement of some dense open $U$. Then $\codim{Y, X} \ge 1$.
+\end{lemma}
+
+\begin{proof}
+It suffices to show that $Y$ does not contain any irreducible component since then any irreducible contained in $Y$ cannot be maximal. Since $X$ is Noetherian, it has finitely many irreducible components $Z_i$. Then if $Z_j \subset Y$ for some $i$ we would have $Z_i \cap U = \varnothing$ but then,
+\[ U = \bigcup_{i \neq j} Z_i \]
+which is closed so $\overline{U} \subsetneq X$ contradicting our assumption that $U$ is dense.
+\end{proof}
+
+\begin{lemma} \label{open_domain}
+Let $X$ be a Noetherian scheme and $x \in X$ such that $\stalk{X}{x}$ is a domain. Then there is an affine open neighborhood $x \in U \subset X$ with $U = \Spec{A}$ and $A$ is a domain.
+\end{lemma}
+
+\begin{proof}
+Take any affine open neighborhood $x \in U \subset X$ with $U = \Spec{A}$ and $\p \in \Spec{A}$ corresponding to $x$. Then $A_\p = \stalk{X}{x}$ is a domain. Since $X$ is Noetherian then $A$ is Noetherian so it has finitely many minimal primes $\p_i$ (corresponding to the generic points of irreducible components of $U$) with $\p_0 \subset \p$. Since $A_\p$ is a domain, it has a unique minimal prime and thus $\p_0$ is the only minimal prime contained in $\p$ (geometrically $A_\p$ being a domain corresponds to the fact that $\p$ is the generic point of a generically reduced irreducible subset which lies in only one irreducible component)
+\bigskip\\
+Now for any $i \neq 0$ take $f_i \in \p \setminus \p_0$. This is always possible else $\p \subset \p_0$ contradicting the minimality of $\p_0$. If $f \notin \q$ then $\q \not\supset \p_i$ for any $i \neq 0$ so $\q \supset \p_0$ since it must lie above some minimal prime. Thus $\nilrad{A_f} = \p_0 A_f$ is prime and $f \notin \p$ since else $\p \supset \p_1 \cap \cdots \cap \p_n$ which is impossible since $\p \not\supset \p_i$ for any $i$. Now we know that $\nilrad{A_\p} = 0$ and $A_f$ is Noetherian so $\nilrad{A_\p}$ is finitely generated. Thus, there is some $g \notin \p$ such that $\nilrad{A_{fg}} = (\nilrad{A_f})_g = 0$. Thus $A_{fg}$ is a domain since $\nilrad{A_{fg}} = (0)$ and is prime and $\p \in A_{fg}$ because $fg \notin \p$. Therefore, $x \in \Spec{A_{fg}} \subset U$ is an affine open satisfying the requirements. 
+\end{proof}
+
+\begin{rmk}
+This does not imply that $X$ is integral if $\stalk{X}{x}$ is a domain for each $x \in X$ (which is false, consider $\Spec{k \times k}$) because it only shows there is an integral cover of $X$ not that $\struct{X}(U)$ is a domain for each $U$. 
+\end{rmk}
+
+\begin{example}
+Let $X = \Spec{k[x,y]/(xy, y^2)}$. Then for the bad point $\p = (x, y)$ we have $\nilrad{\stalk{X}{\p}} = (y)$. Away from the bad point, say $\p = (x - 1, y)$ we have, $\stalk{X}{\p} = \Spec{k[x]_{(x-1)}}$ so $\nilrad{\stalk{X}{\p}} = (0)$. Furthermore, at the generic point $\p = (y)$, we have, $\stalk{X}{\p} = \Spec{k(x)}$ so $\nilrad{\stalk{X}{\p}} = (0)$. 
+\end{example}
+
+\begin{example}
+ Consider $X = \Spec{k[x,y,z]/(yz)}$ which is the union of the $x$-$y$ and $x$-$z$ planes. Consider the generic point of the $z$-axis $\p = (x, y)$ then $\stalk{X}{\p} = \Spec{k[x, z]_{(x)}}$ is a domain since the $z$-axis only lies in one irreducible component. However, at the generic point of the $x$-axis, $\p = (y, z)$ we get $\stalk{X}{\p} = \Spec{(k[x, y, z]/(yz))_{(y, z)}}$ has zero divisors $yz = 0$ so is not a domain since the $x$-axis lives in two irreducible components.
+\end{example}
+
+\subsection{Reflexive Sheaves (WIP)}
+
+\newcommand{\RPic}[1]{\mathrm{RPic}\left( #1 \right)}
+\newcommand{\R}{\mathcal{R}}
+
+\begin{defn}
+Recall the dual of a $\struct{X}$ module $\F$ is the sheaf $\F^\vee = \shHom{\struct{X}}{\F}{\struct{X}}$. We say that a coherent $\struct{X}$-module $\F$ is \textit{reflexive} if the natural map $\F \to \F^{\vee \vee}$ is an isomorphism. 
+\end{defn}
+
+\begin{lemma}
+Let $X$ be an integral locally Noetherian scheme and $\F, \G$ be coherent $\struct{X}$-modules. If $\G$ is reflexive then $\shHom{\struct{X}}{\F}{\G}$ is reflexive.
+\end{lemma}
+
+\begin{proof}
+See \cite[\href{https://stacks.math.columbia.edu/tag/0AY4}{Tag 0AY4}]{stacks-project}.
+\end{proof}
+\noindent\\
+In particular, since $\struct{X}$ is clearly reflexive, this lemma shows that for any coherent $\struct{X}$-module then $\F^\vee$ is a reflexive coherent sheaf. We say the map $\F \to \F^{\vee \vee}$ gives the reflexive hull $\F^{\vee \vee}$ of $\F$.
+
+\begin{defn}
+Let $\R$ be the full subcategory $\Coh{\struct{X}}$ of coherent reflexive $\struct{X}$-modules. $\R$ is an additive category   and in fact has all kernels and cokernels defined by taking reflexive hulls of the sheaf kernel and cokernel. Furthermore, $\R$ inherits a monoidal structure from the tensor product defined using the reflexive hull as follows,
+\[ \F \otimes_\R \G = (\F \otimes_{\struct{X}} \G)^{\vee \vee} \]
+Finally, we define $\RPic{X}$ to be group of constant rank one reflexives induced by the monoidal structure on $\R$. Explicitly, $\RPic{X}$ is the group of isomorphism classes of constant rank one reflexive coherent $\struct{X}$-modules with multiplication $(\F, \G) \mapsto (\F \otimes_{\struct{X}} \G)^{\vee \vee}$ and inverse $\F \mapsto \F^\vee$. 
+\end{defn}
+\noindent\\
+The importance of reflexive sheaves derives from their correspondence to Weil divisors. Here we let $X$ be a normal integral separated Noetherian scheme. 
+
+\begin{prop}
+If $D$ is a Weil divisor then $\struct{X}(D)$ is reflexive of constant rank one. 
+\end{prop}
+
+\begin{proof}
+(CITE OR DO).
+\end{proof}
+
+\begin{theorem} 
+Let $X$ be a normal integral separated Noetherian scheme. There is an isomorphism of groups $\Cl{X} \xrightarrow{\sim} \RPic{X}$ defined by $D \mapsto \struct{X}(D)$.
+\end{theorem}
+
+\begin{proof}
+(DO OR CITE)
+\end{proof}
+\noindent\\
+We summarize the important results as follows.
+\begin{theorem} \label{properties_of_reflexive_sheaves}
+Let $X$ be a Noetherian normal integral scheme. Then for any Weil divisors $D, E$,
+\begin{enumerate}
+\item $\struct{X}(D + E) = (\struct{X}(D) \otimes_{\struct{X}} \struct{X}(E))^{\vee \vee}$
+\item $\struct{X}(-D) = \struct{X}(D)^\vee$
+\item $\shHom{\struct{X}}{\struct{X}(D)}{\struct{X}(E)} = \struct{X}(E - D)$
+\item if $E$ is Cartier then $\struct{X}(D + E) = \struct{X}(D) \otimes_{\struct{X}} \struct{X}(E)$
+\end{enumerate}
+\begin{center}
+
+\begin{proof}
+(DO OR CITE)
+\end{proof}
+
+\end{center}
+\end{theorem}
+\noindent\\
+Finally, we have a result which controls when the dualizing sheaf can be expressed in terms of a divisor.
+\begin{prop}
+Let $X$ be a projective variety over $k$. Then,
+\begin{enumerate}
+\item if $X$ is normal then its dualizing sheaf $\omega_X$ is reflexive of rank $1$ and thus $X$ admits a canonical divisor $K_X$ s.t. $\omega_X = \struct{X}(K_X)$
+\item if $X$ is Gorenstein then $\omega_X$ is an invertible module so $K_X$ is Cartier.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+(FIND CITATION OR DO).
+\end{proof}
 
 \end{document}

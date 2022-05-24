@@ -1,0 +1,1306 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{GeometryCommands}
+
+\newcommand{\dbar}{\bar{\partial}}
+\DeclareMathOperator{\ind}{\mathrm{ind}}
+
+\begin{document}
+
+
+\tableofcontents
+
+\section{Lecture 1}
+
+\subsection{Outline}
+
+\begin{enumerate}
+\item introduction to symplectic geometry and topology
+\item moduli space of $J$-holomorphic curves and Gromov-Witten invariants
+\item Floer Theories (Morse theory)
+\begin{enumerate}
+\item Hamiltonian Floer theory (fixed points of Hamiltonian flows)
+\item Lagrangian Floer theory (intersections of Lagrangians)
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Introduction}
+
+
+\begin{defn}
+A \textit{symplectic form} is a $2$-form $\omega$ which is closed ($\d{\omega} = 0$) and nondegenerate ($\omega : T M \to T^*M$ is an isomorphism). A \textit{symplecitc manifold} is a pair $(M, \omega)$ of a smooth manifold $M$ with a symplectic form $\omega$ on $M$.
+\end{defn}
+
+Why study symplectic manifolds:
+
+\begin{enumerate}
+\item Hamiltonian mechanics gives symplectic (Hamiltonian) structurs on $T^* X$ where $X$ is a configuration space
+\item Compact (\kahler) Geometry gives rich examples of symplectic manifolds arising in complex and algebraic geometry. In this case all complex submanifolds of a \kahler manifolds are symplectic. 
+\item (Hamiltonian) Lie group actions 
+\end{enumerate}
+
+\subsection{Some General Features}
+
+\begin{enumerate}
+\item no local invariants
+\item there are only interesting global invariants (e.g. using $J$-holomorphic curves)
+\item appear in many places in mathematics
+\item middle ground between highly flexible (smooth manifolds) and highly rigid (Riemannian manifolds).
+\end{enumerate}
+
+\subsection{Starting the Theory}
+
+We organize our study into three levels:
+\begin{enumerate}
+\item symplectic vector spaces
+\item symplectic vector bundles
+\item symplectic manifolds.
+\end{enumerate}
+
+\subsubsection{Symplectic Vector Spaces}
+
+\begin{defn}
+Let $V$ be a vector space. A \textit{symplectic form} is bilinear antisymmetric form $\omega : V \times V \to \RR$ which is nondegenerate meaning for every nonzero $v \in V$ there is some $w \in V$ such that $\omega(v, w) \neq 0$. 
+\end{defn}
+
+\begin{rmk}
+Notice $\omega$ induces an injection $\tilde{\omega} : V \to V^*$ by nondegeneracy where $\tilde{\omega}(v)(w) = \omega(v,w)$. If $V$ is finite-dimensional then $\tilde{\omega}$ is an isomorphism.
+\end{rmk}
+
+\newcommand{\can}{\text{can}}
+
+\begin{example}
+Let $V = \RR^{2n}$ with basis $\{ e_1, \dots, e_n, f_1, \dots, f_n \}$. Then 
+\[ \omega_{\can} = \sum_{k = 1}^n e_k^* \wedge f_k^* \]
+In this basis, $\omega_{\can}$ corresponds to the matrix,
+\[ \begin{pmatrix}
+0 & I_n
+\\
+- I_n & 0 
+\end{pmatrix} \]    
+because,
+\[ \tilde{\omega}(e_k) = f_k^* \quad \text{ and } \quad \tilde{\omega}(f_k) = - e_k^* \]
+\end{example}
+
+\begin{defn}
+Let $W \subset V$ and $\omega$ a symplectic form on $V$. Then,
+\[ W^\omega = \{ v \in V \mid \forall w \in W : \omega(v, w) = 0 \} \]
+\end{defn}
+
+\begin{rmk}
+We call this the ``symplectic orthogonal'' or ``symplectic complement'' but it is very different from an ordinary complement or orthogonal subspace. For example, if $\dim{W} = 1$ then $W \subset W^\omega$.
+\end{rmk}
+
+\begin{prop}
+Assume $W \subset V$ and $(V, \omega)$ is symplecitc. Then,
+\begin{enumerate}
+\item $\dim{W} + \dim{W^\omega} = \dim{V}$
+\item $(W^\omega)^\omega = W$
+\item $(W_1 \cap W_2)^\omega = W_1^\omega + W_2^\omega$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Compose the isomorphism $\tilde{\omega}$ with the canonical restriction $V^* \onto W^*$ to get $\varphi : V \onto W^*$. Notice that $W^\omega = \ker{\varphi}$ and therefore,
+\[ \dim{V} = \dim{W^*} + \dim{\ker{\varphi}} = \dim{W} + \dim{W^\omega} \]
+
+\end{proof}
+
+\begin{lemma}
+Assume $\alpha$ is an antisymmetric bilinear form on $V$. Then there exists a basis $\{ u_1, \dots, u_n, v_1, \dots, v_n, w_1, \dots, w_k \}$ such that,
+\[ \alpha = \sum_{i = 1}^n u_i^* \wedge v_i^* \]
+and therefore the matrix for $\tilde{\alpha} : V \to V^*$ is,
+\[ 
+\begin{pmatrix}
+0 & I_n & 0 
+\\
+- I_n & 0 & 0
+\\
+0 & 0 & 0_k
+\end{pmatrix} \]
+\end{lemma}
+
+\begin{proof}
+Induction on the rank. 
+\end{proof}
+
+\begin{cor}
+Assume $(V, \omega)$ is symplectic. Then,
+\begin{enumerate}
+\item $\dim{V}$ is even so we write $\dim{V} = 2n$
+\item there is a linear isomorphism $\varphi : (V, \omega) \to (\R^{2n}, \omega_{\can})$ i.e. $\varphi : V \to \R^{2n}$ is a linear isomorphism such that $\omega = \varphi^* \omega_{\can}$. 
+\end{enumerate}
+\end{cor}
+
+\begin{defn}
+Assume $W \subset V$ is a linear subspace. 
+\begin{enumerate}
+\item $W$ is \textit{symplectic} if $(W, \omega|_W)$ is a symplectic space menaing $\omega|_W$ is a nondegenerate form menaing for all $w \in W$ there is $w' \in W$ with $\omega(w, w') \neq 0$ and thus $W \cap W^\omega = 0$
+\item $W$ is \textit{isotropic} if $\omega|_W = 0$ menaing $W \subset W^\omega$
+\item $W$ is \textit{coisotropic} if $W^\omega \subset W$
+\item $W$ is \textit{Lagrangian} if $W = W^\omega$ meaning $\omega$ is both isotropic and coisotropic 
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+For $(\R^{2n}, \omega_{\can})$ the following subspaces,
+\begin{enumerate}
+\item $\vspan{e_1, f_1, \dots, e_k, f_k}$ are symplectic
+\item $\vspan{e_1, \dots, e_k}$ are isotropic
+\item $\vspan{e_1, \dots, e_n, f_1, \dots, f_k}$ are coisotropic
+\item $\vspan{e_1, \dots, e_n}$ are Lagrangian. 
+\end{enumerate}
+\end{example}
+
+\begin{prop}
+Given $W \subset V$ and $(V, \omega)$ and $W$ is one of the previous types then there exists a basis of $V$ in which $W$ takes the standard form above. 
+\end{prop}
+
+\subsubsection{Symplectic Vector Bundles}
+
+\begin{defn}
+A \textit{symplectic vector bundle} is a pair $(\pi : E \to X, \omega)$ of a vector bundle $\pi : E \to X$ and a smooth form $\omega : \wedge^2 E \to \struct{X}$ which is nondegenerate on each fiber or equivalently $\tilde{\omega} : E \to E^*$ is an isomorphism. 
+\end{defn}
+
+\begin{rmk}
+Similarly we talk about symplectic or Lagrangian subbundles.
+\end{rmk}
+
+\subsubsection{Symplectic Manifolds}
+
+\begin{defn}
+A \textit{symplectic manifold} $(M, \omega)$ is a smooth manifold $M$ and a symplectic form $\omega$ on $TM$ which is closed meaning $\d{\omega} = 0$. 
+\end{defn}
+
+\begin{rmk}
+Since $\d{\omega} = 0$ the form $\omega$ represents a class $[\omega] \in H^2_{\dR}(M)$. 
+\end{rmk}
+
+\begin{prop}
+A $2$-form $\omega$ is nondegenerate if and only if $\omega^n$ is nonvanishing.
+\end{prop}
+
+\begin{cor}
+Let $\dim{M} = 2n$ and $\omega$ be a symplectic form then $\omega^n$ is a volume form on $M$ so,
+\begin{enumerate}
+\item $M$ is orientable
+\item if $M$ is closed then $H^{2n}_{\dR}(M) \cong \RR$ and $[\omega]^n$ is a generator
+\item in particular, if $M$ is closed, then $[\omega]^k \neq 0$ for all $1 \le k \le n$. 
+\end{enumerate}
+\end{cor}
+
+\begin{example}
+Let $M = \RR^{2n} = \CC^n$ with coordinates $z_j = x_j + i y_j$  then,
+\[ \omega_{\can} = \sum_{j = 1}^n \d{x_j} \wedge \d{y_j} = \frac{i}{2} \sum_{j = 1}^n \d{z_j} \wedge \d{\bar{z}_j} \] 
+is a symplectic form.
+\end{example}
+
+\begin{example}
+Let $\Sigma$ be an oriented suface. Then any volume form on $\Sigma$ is symplectic (it is closed and nondegenerate by dimension reasons).
+\end{example}
+
+\begin{example}
+$S^{2n}$ is symplectic for $n = 1$ (with the Fubini-Study form) and not symplectic for $n > 1$ because $H^2_{\dR}(S^{2n}) = 0$ for $n  > 1$. 
+\end{example}
+
+\begin{example}
+Any complex submanifold $M \subset \CC^n$ is symplectic with $\omega_{\can}|_M$. Why is $\omega_{\can}|_M$ nondegenerate? This is because $\omega_{\can}(v, iv) \neq 0$ for all $v \neq 0$ and for $v \in TM$ we have $iv \in TM$ because $M$ is a complex submanifold.
+\end{example}
+
+\begin{defn}
+A \textit{symplectomorphism} $f : (M_0, \omega_0) \to (M_1, \omega_1)$ is a diffeomorphism $f: M_0 \to M_1$ such that $f^* \omega_1 = \omega_0$. 
+\end{defn}
+
+\begin{rmk}
+This will be too rigid as a notion of equivalence (for example it does not alow for $\omega$ to be scaled by an invertible function). 
+\end{rmk}
+
+\begin{rmk}
+Next time we will see that symplectic manifolds have no local invariants meaning that locally they are all isomorphic to $(\R^{2n}, \omega_{\can})$. 
+\end{rmk}
+
+\begin{example}
+There are two main examples of symplectic manifolds:
+\begin{enumerate}
+\item complex \kahler manifolds
+\item cotangent bundles.
+\end{enumerate}
+\end{example}
+
+\newcommand{\FS}{\text{FS}}
+
+\begin{example}
+The complex projective space $\CP^n = (\CC^{n+1} \setminus \{ 0 \}) / \CC^\times$ has a natural symplectic form called the \textit{Fubini-Study form},
+\[ \omega_{\FS} = \frac{i}{2\pi} \partial \bar{\partial} \log{|z|^2} \]
+which in homogeneous coordinates expands to,
+\[ \omega_{\FS} = \frac{1}{2\pi} \left( \sum_k \frac{\d{z_k} \wedge \d{\bar{z}_k}}{|z|^2} - \sum_{k,j} \frac{\bar{z}_k \d{z_k} \wedge z_j \d{\bar{z}_j}}{|z|^4} \right) \]
+DEFINED AS FOLLOWS USE $S^{2n+1}$ AND QUOTIENT BY DEGENERATE DIR $S^1$. 
+\end{example}
+
+\begin{rmk}
+For the case $\CP^1 = S^2$ this gives the form,
+\[ \omega_{\FS} = \frac{1}{\pi} \frac{\d{x} \wedge \d{y}}{(1 + x^2 + y^2)^2} \]
+and it satisfies,
+\[ \int \omega_{\FS} = 1 \]
+and therefore $[\omega_{\FS}] \in H^2(\CP^1, \Z)$ is a generator of the top integral cohomology. 
+\end{rmk}
+
+\section{Lecture 2 Mar. 31}
+
+\subsection{Examples of Symplectic Manifolds}
+
+There are two main classes of examples of symplectic manifolds,
+\begin{enumerate}
+\item \kahler manifolds
+\item cotangent bundles of smooth manifolds.
+\end{enumerate}
+
+\begin{rmk}
+Note that not all symplectic manifolds are of the previous forms. Clearly if a manifold is compact it cannot be a cotangent bundle. Furthermore, there is the Thurston-Kodaira manifold which can be described as,
+\begin{enumerate}
+\item a complex manifold $(\C^2, \omega_0) / \Z^4$ with a particular action
+\item as a symplectic $T^2$-bundle over  $T^2$
+\item it cannot admit a \kahler structure because $b_1(M) = 3$ is odd. 
+\end{enumerate}
+\end{rmk}
+
+\subsection{The Cotangent Bundle}
+
+Let $X$ be a smooth manifold and $M = T^* X$ its cotangent bundle equipped with the projection $\pi : T^* X \to X$. There is a canonical $1$-form $\lambda_{\can}$ and $\omega_{\can} = -\d{\lambda_{\can}}$ gives a canonical symplectic structure. This form is defined by,
+\[ (\lambda_{\can})_{(x, \omega)} = \omega \circ (\d{\pi})_{(x, \omega)} = \pi^* \omega \]
+as a map $T_{(x, \omega)} M \to T_x X \to \R$. 
+\bigskip\\
+In local coodinates $q^i$ on $X$ in some chart $(U, \varphi)$ we put coodinates $q^i, p_i$ on the cotangent bundle meaning that we put a chart $(\wt{U}, \wt{\varphi})$ on $T^* X$ defined by,
+\[ \wt{\varphi}(q^i, p_i) = (\varphi^{-1}(q^i), \sum_i p_i \d{q^i}) \]
+where $\d{q^i} = \varphi^* \d{x^i}$ where $\d{x^i}$ are the standard $1$-forms on $\R^n$. Therefore, any $1$-form can uniquely be written as,
+\[ \sum_{i = 1}^n p_i \d{q^i} \]
+For some functions $p_i$. Now in these coordinates, $\pi$ is exactly the projection $\pi(x, \omega) = x$. Therefore,
+\[ \lambda_{\can} = \sum_{i = 1}^n p_i  \d{q^i} \]
+where strictly $\d{q^i} = \pi^* \d{q^i}$ where this makes up half the basis of $1$-forms on $M$ the others given by $\d{p_i}$. Therefore,
+\[ \omega_{\can} = - \d{\lambda_{\can}} = - \sum_{i = 1}^n \d{p_i} \wedge \d{q_i} \]
+so we see that it is nodegenerate and is actually canonical in these coordinates. 
+\bigskip\\
+This has many Lagrangian submanifolds,
+\begin{enumerate}
+\item the zero sections is Lagrangian
+\item each fiber is Lagrangian
+\item A section $\alpha$ of $T^* X$ is a $1$-form and its graph,
+\[ \Gamma_\alpha = \{ (x, \alpha_x) \mid x \in X \} \]
+is Lagrangian if and only if $\d{\alpha} = 0$.
+\item if $f : X \to \R$ is a smooth function then the graph $\Gamma_{\d{f}}$ is Lagrangian
+\item In general, for any smooth submanifold $Y$ of $X$ the conormal bundle of $Y$ is Lagrangian where,
+\[ N^* Y = \{ \alpha \in T^* X \mid \alpha|_{T Y} = 0 \} \]
+\end{enumerate}
+
+\begin{exercise}
+We need to show that $\Gamma_\alpha$ is Lagrangian if and only if $\d{\alpha} = 0$. 
+\end{exercise}
+
+Because $\Gamma_\alpha$ is half-dimensional, it suffices to show that $\omega_{\can}|_{\Gamma_\alpha} = 0$ iff $\d{\alpha} = 0$. Denote the section determined by $\alpha$ as $s_\alpha : X \to T^*X$. Indeed, the tautological form satisfies the tautological property ($\lambda_{\can}$ is the universal form) that $\alpha = s_\alpha^* \lambda_{\can}$ and therefore $\d{\alpha} = s_\alpha^* \d{\lambda_{\can}} = - s_{\alpha}^* \omega_{\can}$ proving the claim since $\alpha$ is an isomorphism onto its graph. 
+\bigskip\\
+Now we check that $\lambda_{\can}$ is universal. Indeed, 
+\[ (s_\alpha^* \lambda_{\can})_x = (\lambda_{\can} \circ \d{s_\alpha})_x = (\lambda_{\can})_{(x, \alpha_x)} \circ (\d{s_\alpha})_x = \alpha_x \circ (\d{\pi})_{(x, \alpha_x)} \circ (\d{s_{\alpha}})_x = \alpha_x \circ \id = \alpha_x \]
+so we win. 
+
+
+\subsection{Hamiltonian Mechanincs Motivation}
+
+Consider a particle moving in $\R^n$ with mass $1$. Let $\vec{q}(t) = (q^1(t), \dots, q^n(t))$ denote its position as a function of time. Then its momentum is,
+\[ \vec{p}(t) = \deriv{\vec{q}}{t} \]
+Then there is some potential energy $V(\vec{q})$ (which is time independent). The Kinetic energy is,
+\[ K = \tfrac{1}{2} || \vec{p} ||^2 \]
+Then the total Hamiltonian is,
+\[ H(q,p) = \tfrac{1}{2} || \vec{p} ||^2 + V(q) \]
+Then Newton's laws $F = m \vec{a}$ tells us that,
+\[ - \pderiv{V}{q^i} = \nderiv{2}{V}{q^i} = \deriv{p_i}{t} \]
+These then give,
+\begin{align*}
+\deriv{q^i}{t} &= p_i = \pderiv{H}{p_i} 
+\\
+\deriv{p_i}{t} &= - \pderiv{V}{q^i} = - \pderiv{H}{q^i} 
+\end{align*}
+Thus we recover Hamilton's equations,
+\begin{align*}
+\deriv{q^i}{t} &= \pderiv{H}{p_i}
+\\
+\deriv{p_i}{t} &= - \pderiv{H}{q^i} 
+\end{align*}
+Therefore, the flow is along the Hamiltonian vector field,
+\[ X_H = \sum \left( \pderiv{H}{p_i} \pderiv{}{q^i} - \pderiv{}{q^i} \pderiv{}{p_i} \right) \]
+Therefore, for the standard symplectic form,
+\[ \omega_{\can} = - \sum_{i = 1}^n \d{p_i} \wedge \d{q^i} \]
+then $X_H$ is the unique vector field such that,
+\[ \omega_{\can}(X_H, -) = \d{H} \]
+
+\begin{defn}
+If $(M, \omega)$ is a symplectic manifold and $H : M \to \R$ is a function then the associated Hamiltonian vector field $X_H$ is uniquely determined by,
+\[ \omega(X_H, -) = \d{H} \]
+meaning $X_H = \wt{\omega}^{-1}(\d{H})$.
+\end{defn}
+
+\subsection{Moser's Trick}
+
+For symplectic manifolds there are several notions of equivalence:
+\begin{enumerate}
+\item symplectomorphism: a diffeomorphism $\varphi : M_1 \to M_2$ such that $\varphi^* \omega_2 = \omega_1$
+\item symplectic deformation equivalence: a smooth family $\omega_t$ of symplectic forms
+\item isotopy: smooth $1$-parameter family of diffeomorphisms $\varphi_t$ such that $\varphi_0 = \id$ and $\varphi_1^* \omega_1 = \omega_0$ 
+\end{enumerate}
+
+\begin{theorem}[Moser]
+Let $M$ be a closed manifold. Assume $\omega_t$ is a smooth deformation of symplectic forms such that the deRham class $[\omega_t] \in H^2_{\dR}(M)$ is constant. Then $\omega_0$ and $\omega_1$ are isotopic. In fact we can find a family of diffeomorphisms $\varphi_t$ such that $\varphi_t^* \omega_t = \omega_0$ for all $t$. 
+\end{theorem}
+
+\begin{rmk}
+We review some facts about flows and Lie derivatives. Let $X$ be a compactly supported vector field. Then its integral curves are paths $\gamma : \R \to M$ satisfying,
+\[ \deriv{\gamma}{t} = X(\gamma(t)) \]
+and such that $\gamma(0) = x$. The existence and uniqueness theorems for ODEs prove that such an integral curve exists one some open neighbrohood of $0$ in $\R$. Since $X$ is compactly supported, this integral curve exists on all of $\R$. Then we define, $\varphi_t(x) = \gamma(t)$ which defines a family of diffeomorphisms. Furthermore, the Lie derivative is defined by,
+\[ \L_X \alpha = \deriv{}{t} \bigg|_{t=0} \varphi^*_t \alpha \]
+Then Cartan proves that,
+\[ \L_X = \iota_X \d + \d \iota_X \]
+Now suppose that $M$ is closed. Let $X_t$ be a $1$-parameter family of vector fields. Then the flow $\gamma$ satisfies,
+\[ \deriv{\gamma(t)}{t} = X_t(\gamma(t)) \]
+also defines a flow $\varphi_t$ in the same way. 
+\end{rmk}
+
+\begin{proof}[Proof of Moser's Theorem]
+We want to construct a flow such that $\varphi_t^* \omega_t = \omega_0$. Therefore, we want,
+\[ \deriv{}{t} \left( \varphi_t^* \omega_t \right) = 0 \]
+This is equivalent to,
+\[ \varphi_t^* \left( \L_{X_t} \omega_t + \deriv{}{t} \omega_t \right) = 0 \]
+However, by Cartan's formula,
+\[ \L_{X} \omega_t = \iota_{X} \d{\omega} + \d{\iota_X \omega} = \d{\iota_X \omega}  \]
+since $\omega$ is symplectic. Therefore, we need to construct a vector field such that,
+\[ \d{\iota_{X_t} \omega_t} + \deriv{}{t} \omega_t = 0 \]
+and then its flow $\varphi_t$ will satisfies the necessary properties. We will complete the proof next time.
+\end{proof}
+
+\section{Lecture 3 Moser's Trick and Almost Complex Structures}
+
+\subsection{Moser's Trick}
+
+First notice that if we have $\varphi^*_t \omega_t$ is constant then $[\omega_t] \in H^2_{\dR}(M)$ is constant. Indeed, $\varphi^*_t : H^2(M,\Z) \to H^2(M,\Z)$ is constant because it is a continuous family on a discrete space and since $\varphi_0 = \id$ we see that $\varphi_t^*$ is trivial on cohomology with $\Z$ coefficients and hence on $H^2_{\dR}(M)$ proving the claim. Therefore, the condition that $[\omega_t] \in H^2_{\dR}(M)$ is constant is necessary.  
+\bigskip\\
+Now we will complete the proof of Moser's theorem that this condition is sufficient. We showed we needed to solve,
+\[ \d{\iota_{X_t} \omega_t} + \deriv{}{t} \omega_t = 0 \]
+Since $[\omega_t] \in H^2_{\dR}(M)$ is constant we can find some 1-from $\beta_t$ such that,
+\[ \omega_t - \omega_0 = \d{\beta_t} \]
+If we can choose $\beta_t$ to be smooth then we see that,
+\[ \d{\iota_{x_i} \omega_t} + \d{\dot{\beta}_t} = 0 \]
+so if we set $\iota_{X_t} \omega_t = - \dot{\beta_t}$ we win which is always solvable because $\omega_t$ is nondegenerate. Now how can we choose $\beta_t$ to be smooth. 
+\bigskip\\
+By the Hodge decomposition theorem if $M$ is a closed orientable manifold with a choosen metric $g$ then any smooth form $\alpha$ has a unique decomposition,
+\[ \alpha = h(\alpha) + \Delta G \alpha \]
+with $h(\alpha)$ Harmonic and $G$ the Green's operator. This means there is an orthogonal decomposition,
+\[ \Omega^k = \mathcal{H}^k \oplus \im{\d{}} \oplus \im{\mathrm{d}^*} \]
+In particular, if $\alpha$ is closed then,
+\[ \alpha = h(\alpha) + \d{\mathrm{d}^* G \alpha} \]
+Therefore, since $[\omega_t - \omega_0] = 0$ its Harmonic part vanishes and therefore,
+\[ \omega_t - \omega_0 = \d{\mathrm{d}^* G (\omega_t - \omega_0)} \] 
+this alows us to take the smooth sequence of 1-forms,
+\[ \beta_t = \mathrm{d}^* G (\omega_t - \omega_0) \]
+
+\subsection{Local Models}
+
+\begin{theorem}[Relative Moser]
+Let $\rho : W \embed M$ be a compact submanifold of $M$ and $\omega_0, \omega_1$ are symplectic forms on $M$ with $\omega_0 |_W = \omega_1 |_W$ as forms on $TM |_W = \rho^* TM$. Then there exist neighborhoods $U_0$ and $U_1$ of $W$ and a diffeomorphism $\varphi : U_0 \to U_1$ with $\varphi|_W = \id$ such that $\varphi^* \omega_1 = \omega_0$. 
+\end{theorem}
+
+\begin{proof}
+Consider the path,
+\[ \omega_t = t \omega_0 + (1-t) \omega_1 \]
+which is closed. Furthermore,
+\[ \omega_t |_W = \omega_0 |_W \]
+by assimption which is nondegenerate which is an open condition so there is some tubular neighborhood $U$ of $W$ such that $\omega_t$ is a nondegenerate form and thus symplectic on $U$. We want to find $\varphi_t$ a flow of $X_t$ such that $\varphi^*_t \omega_t$ is constant. Therefore, we want to find a flow $X_t$ such that,
+\[ \d{\iota_{X_t} \omega_t} + \deriv{\omega_t}{t} = 0 \]
+plugging in our functional form meaning that,
+\[ \d{\iota_{X_t} \omega_t} = \omega_1 - \omega_0 \]
+which we need to hold on $U$. Let $\tau = \omega_1 - \omega_0$ then $\tau|_W = 0$ and $\d{\tau} = 0$ on $U$. Thus $[\tau] \in H^2_{\dR}(U)$ but since $U$ is a tubular neighbroohod it smoothly deformation retracts on $W$ and hence $H^2_{\dR}(U) = H^2_{\dR}(W)$ so we see that $[\tau] \in H^2_{\dR}(U)$ is zero. Hence $\tau$ is exact so $\tau = \d{\beta}$ for some 1-from $\beta$ on $U$ with $\beta|_W = 0$ (we can do this by the proof of the Poincare lemma). Therefore, we can choose $X_t$ such that,
+\[ \iota_{X_t} \omega_t = - \beta \]
+which admits an unique solution on $U$ by nondegeneracy and $\beta|_W = 0$ so $X_t |_W = 0$. Thus the only thing left to show is that the flow exists for all $t \in [0,1]$. We know that $X_t|_W = 0$ and $W$ is compact. Therefore, for sufficiently small tubular neighborhood $U$ such that
+\begin{enumerate}
+\item the flow $\varphi_t$ of $X_t$ exists for $t \in [0,1]$
+\item and $\varphi_t$ maps a smaller tubular neighborhood $U_0 \subset U$ into $U$ for all $t \in [0,1]$. 
+\end{enumerate} 
+\end{proof}
+
+\begin{cor}[Darboux]
+Let $(M, \omega)$ be symplectic. Then for all $p \in M$ there is a neighborhood $U$ of $p$ and local coordinates $(x_1, \dots, x_n, y_1, \dots, y_n)$ on $M$ such that,
+\[ \omega = \sum_{k=1}^n \d{x_k} \wedge \d{y_k} \]
+on $U$. 
+\end{cor}
+
+\begin{proof}
+Take $W = \{ p \}$ in the relative Moser theorerm. We choose local coordinates such that $\omega|_p = (\omega_{\text{standard}})|_p$ therefore we get such a neighborhood and such coorodinates. 
+\end{proof}
+
+\begin{thm}[Weinstein]
+Let $W$ be a closed Lagrangian submanifold of $(M, \omega)$. Then there exists a tubular neighborhood $U$ of $W$ in $M$ and a tubular neighborhood $U_0$ of the zero section in $T^* W$ and a diffeomorphism $\varphi : U_0 \to U$ such that $\omega = \varphi^* \omega_{\can}$ and $\varphi|_W = \id$.  meaning that a tubular neighborhood of any Lagrangian $W$ is modelded on $(T^* W, \omega_{\can})$. 
+\end{thm}
+
+\begin{proof}
+This follows from relative Moser after checking that there is an isomorphism of symplectic vector bundles on $W$,
+\[ (TM|_W, \omega) \cong (TX|_W, \omega_{\can}) \cong (TW \oplus T^* W, \omega_{\can}) \]
+where $X = T^* W$ and $W \subset X$ is the zero section. We can use almost complex structures to acomplish this. 
+\end{proof}
+
+\subsection{Almost Complex Structures}
+
+\begin{defn}
+A \textit{complex structure} on a real vector space $V$ is an endomorphism $J : V \to V$ such that $J^2 = -\id$.
+\end{defn}
+
+\begin{defn}
+An \textit{almost complex structure} on $M$ is an endomorphism $J : TM \to TM$ such that $J^2 = -\id$ meaning $(TM, J)$ is a complex vector bundle.
+\end{defn}
+
+\begin{defn}
+A symplectic manifold $(M, \omega)$ and an almost complex structure $J$ on $M$ are \textit{compatible} if $g : TM \times TM \to \R$ given by $g(v,w) = \omega(v, J w)$ is a metric i.e. nondegenerate (this is automatic), positive definite, and symmetric. The tripple $(\omega, J, g)$ is called a \textit{compatible triple}. 
+\end{defn}
+
+\begin{rmk}
+If $(\omega, J, g)$ is a compatible triple, then $(TM, J)$ is a complex vector bundle and $h = h - i \omega$ is a hermitian metric on this vector bundle i.e. $h_p : T_p M \times T_p M \to \C$ is $\C$-linear in the first entry, $h$ is conjugate symmetric, and $h(v,v) > 0$ for all $v \neq 0$.
+\end{rmk}
+
+\begin{thm}
+Assume that $\omega$ is a symplectic structure on $TM$ (does not need to be closed) then there exists a compatible almost complex structure $J$ on $M$ and the space of such $J$ is contractible.
+\end{thm}
+
+\begin{proof}
+Choose some Euclidean metric $g$ on $TM$ then there exists a unique $A : TM \to TM$ such that $\omega(v, w) = g(Av, w)$ such that $\omega(v,w) = g(Av, w)$ by nondegeneracy. If $A^2 = -\id$ then we are done. Otherwise, we want to fix that. The transpose $A^\top : TM \to TM$ is defined by $g(Av,w) = g(v, A^\top w)$. The polar decomposition of the symmetric and positive-definite $P = A^\top A$ implies that $P$ is diagonalizable so a unique positive $P^{\frac{1}{2}}$ exists. Define $J = P^{-\frac{1}{2}} A$. Then $J^\top = J$ from compatiblity with $\omega$ (DO I NEED TO MODIFY $g$) $J^\top J = \id$ implies that $J^2 = - \id$. Contractibility is from convexity of the $g$ and $A \mapsto (A^\top A)^{-\frac{1}{2}} A$ deformation retracts onto the $J$. 
+\end{proof}
+
+\section{Lecture 4 Almost Complex Structures, First Chern Class, and Maslov Index}
+
+\subsection{Almost Complex Structures}
+
+Recall if $(M, \omega)$ is symplectic then there exists an almost complex structure compatible with $\omega$. Same proof shows that every symplectic vector bundle has a complex structure. 
+
+\subsection{When does an Almost Complex Structure Exist}
+
+There are topological obstructions to having an almost complex structure. 
+
+\begin{example}
+For $M$ a closed $4$-manifold there is an almost complex structue if and only if there is a class $h \in H^2(M, \Z)$ such that
+\begin{enumerate}
+\item $h \equiv w_2(M) \mod 2$
+\item $h^2 = 3 \chi(M) + 2 \sigma(M)$
+\end{enumerate}
+and if such a complex structure $J$ exists then $h = c_1(TM, J)$. This is the Wu theorem.
+\end{example}
+
+\begin{example}
+$\CP^2 \# \CP^2$ does not have an almost complex structue but $\CP^2 \# \overline{\CP^2}$ is \kahler because it is the blowup of $\CP^2$ at a point. 
+\end{example}
+
+\begin{example}
+$S^6$ is not symplectic because $H^2(S^6) = 0$ but it has an almost complex structure. Considering Cayley numbers (imaginary octonians) then $S^6 \subset \R^7$ is the unit sphere in the imaginary octonians. Then we can define,
+\[ J_p(v) = v \times n_p = \imag{v \cdot n_p} \]
+where $n_p$ is the unit normal. This is an almost complex structure defined by the $7$-dimensional cross-product. 
+\end{example}
+
+\subsection{Gromov $h$-Principle}
+
+A generalization of Moser's trick shows that if $M$ is open (in this case connected noncompact and without boundary) and $M$ admits an almost complex structure $J$ then $M$ has a symplectic form representing any fixed $\alpha \in H^2_{\dR}(M)$ such that $J$ is homotoic to an almost complex structure compatible with $\omega$. 
+\bigskip\\
+For closed manifolds the situation is very different. In general there are very delicate obstructions to the existence of almost complex structures. 
+
+\begin{example}
+$X = \#^3 \CP^2$ has an almost complex structue by Wu Theorem. However, by a deep result of Taubes, it cannot have a symmplectic structure. Taubes proved that if this manifold is symplectic then its Sieberg-Witten invariants are nonzero but Moser proved that $X \# (\#^n \CP^2)$ for $n \ge 2$ has vanishing Seiberg-Witten invariants.
+\end{example}
+
+\begin{rmk}
+Taubes result + an earlier idea of Gromov implies that $\CP^2$ has a unique symplectic structure up to symplectomorphism and scaling. This proof uses $J$-holomorphic curves. 
+\end{rmk}
+
+\subsection{Almost Complex Structures and Lagrangians}
+
+If $(V, \omega)$ is a symplectic vectorspace and $J$ is a complex structure on $V$ compatible with $\omega$ such that $g(v,w) = g(v, Jw)$ is an inner product. Let $W \subset V$ be a Lagrangian subspace. Then $J W \cap W = (0)$ and in fact $J W = W^\perp$ for the metric $g$. To see this, if $g(v,w) = 0$ for all $w \in W$ this means exacly that $\omega(Iv, w) = 0$ for all $w\ in W$ so $I v \in W^\omega = W$ so we win. 
+
+\begin{cor}
+Assume $L$ is a Lagrangian submanifold of $(M, \omega)$ and $J$ is an almost complex structure compatible with $\omega$ then $T L \cap J TL = 0$ so we get,
+\[ TM |_L = TL \oplus J TL \cong TL \ot_{\RR} \CC \]
+but also via $\wt{\omega}$,
+\[ TM |_L = TL \oplus T^*L \]
+\end{cor}
+
+\newcommand{\immersed}{\looparrowright}
+
+\begin{rmk}
+Therefore, if $L \immersed \R^{2n}$ is an immersed Lagrangian then $T L \ot_{\RR} \CC$ is trivial. By Gromov's $h$-Principle this is sufficient: if $L$ is a smooth $n$-manifold with $T L \ot_{\R} \C$ is trivial then $L$ can be immersed as a Lagragian submanifold of $\RR^{2n}$.
+\end{rmk}
+
+\begin{example}
+$S^n$ has a Lagrangian immersion into $\R^{2n}$ with exactly one (transverse) double point given by coordinate $S^n \subset \R^{n+1} \to \R^{2n}$,
+\[ \rho(x_0, \dots, x_n) = \frac{1}{1 + x_0^2} (x_1, \dots, x_n, x_0 x_1, \dots, x_0 x_n) \]
+For exmaple for $n = 1$ we get,
+\[ \rho(x_0, x_1) = \frac{1}{1 + x_0^2}(x_1, x_0 x_1) \]
+For coordinate of the sphere, 
+\[ (x_0, x_1) = (\cos{t}, \sin{t}) \]
+then we get,
+\[ \rho(t) = \frac{1}{1 + \cos^2{t}} (\sin{t}, \cos{t} \sin{t}) = \frac{1}{1 + \cos^2{t}} (\sin{t}, \tfrac{1}{2} \sin{2t}) \]
+which is a (oddly normalized) Lissajous curve. 
+\end{example}
+
+\begin{rmk}
+$T S^n$ is usually nontrivial (except for $n = 0,1,3,7$) but $T S^n \to_{\RR} \CC$ is trivial.
+\end{rmk}
+
+\begin{rmk}
+Gromov proved that $S^n$ cannot be embedded as a Lagrangian in $\RR^{2n}$ (so the double point cannot be removed) using $J$-holomorphic curves.
+\end{rmk}
+
+\subsection{Integrable Almost Complex Structures}
+
+Let $M$ be a complex manifold. Then $T M$ is a complex vector bundles and has $J$ an almost complex structure. However, if $J$ is an almost complex structure on $M$ then it may not be obtained in the is way i.e. it may not be integrable. 
+\bigskip\\
+There is a very nice obstruction to integrability: the Nijenhauss tensor,
+\[ N_J(X,Y) = [JX, JY] - J[JX, Y] - J[X,JY] - [X,Y] \]
+
+\begin{theorem}[Newlander-Nirenberg]
+An almost complex structure is integrable if and only if $N_J = 0$.
+\end{theorem}
+
+\begin{proof}
+If $J$ is integrable a direct calculation in complex local coordinates shows that $N_J = 0$ because all $\pderiv{}{z_i}$ and $\pderiv{}{\bar{z}_i}$ commute. If $N_J = 0$ and $J$ is real analytic then the theorem follows from Frobenius integrability. However, the real work is in showing that $J$ is real analytic.
+\bigskip\\
+We want to use Frobenius' theorem for holomorphic vector fields. It turns out that if our $J$ is real analytic then locally we can change coordinates so that it is holomorphic (say on $\R^{2n}$ via a chart) and then we win (MAYBE). 
+\end{proof}
+
+\begin{example}
+If $\Sigma$ is a Riemann surface (2 real dimensional orientable and hence symplectic manifold). There is an almost complex structure $J$ and it is integrable because $v, J v$ form a local frame of $T \Sigma$ and $N_J(v,v) = N_J(v,Jv) = 0$ by definition. 
+\end{example}
+
+\subsection{Chern Classes}
+
+Reacal, any symplectic vector bundle has a compatible complex structure $J$ and hence it is a complex vector bundle. Therefore symplectic vector bundles always have Chern classes. 
+\bigskip\\
+We define Chern classes axiomatically. Given a complex vector bundle $E \to X$ we get $c_1(E) \in H^2(X, \Z)$ uniquely determined by,
+\begin{enumerate}
+\item isomorphism invariance $E_1 \cong E_2$ then $c_1(E_1) = c_1(E_2)$
+\item natural under pullback $c_1(f^* E) = f^* c_1(E)$
+\item additive $c_1(E_1 \oplus E_2) = c_1(E_1) + c_1(E_2)$
+\item normalization $c_1(T \CP^1) = 2 \in H^2(\CP^1, \Z)$ with $H^2(\CP^1, \Z) \cong \Z$ generated by the standard volume form (or Fubini-Study form) or is dual to the fundamental class $[\CP^1]$. 
+\end{enumerate}
+
+\begin{prop}
+For a complex line bundle $c_1(L) = \chi(L)$ and thus is Poincare dual to the zero locus of a generic section of $L$ in homology. 
+\end{prop}
+
+\begin{example}
+Let $\Sigma$ be a closed Riemann surface of genus $g$. Then,
+\[ c_1(T\Sigma) = \chi(T \Sigma) = \chi(\Sigma) = 2 - 2 g \]
+\end{example}
+
+\begin{example}
+Let $E \to \Sigma$ be a complex vector bundle over a compact Riemann surface (possibly with boundary). 
+\begin{enumerate}
+\item If $\partial \Sigma \neq \empty$ then $\Sigma \cong \bigvee S^1$ so $E$ is trivial on $\Sigma$.
+\item If $\partial = \empty$ then $\Sigma = \Sigma_1 \cup_{S^1} \Sigma_2$ and $E$ is trivial on $\Sigma_1$ and $\Sigma_2$ so it is defined by a cluching function,
+\[ \varphi : S^1 \to \GL{n,\C} \]
+Then $c_1(E)$ is the degree (winding number) of the composition,
+\[ \pi_1(S^1) \xrightarrow{\varphi} \pi_1(\GL{n,\C}) \xrightarrow{\det} \pi_1(\C^\times) = \Z \]
+\end{enumerate}
+\end{example}
+
+\subsection{Maslov Index}
+
+\newcommand{\Sp}{\mathrm{Sp}}
+\renewcommand{\U}{\mathrm{U}}
+\renewcommand{\O}{\mathrm{O}}
+
+We can define an index (integer) for,
+\begin{enumerate}
+\item loop of linear symplectomorphisms of $(\R^{2n}, \omega_0)$ 
+\item loop of Lagrangian subspaces of $(\R^{2n}, \omega_0)$
+\end{enumerate}
+
+Let $\Sp(2n) = \{ \text{linear symplectomorphisms of } (\R^{2n}, \omega_0) \}$ which is an algebraic group. Consider a loop $\nu(t)$ in $\Sp(2n)$. There is a deformation retract $\Sp(2n) \simeq \U(n)$ and then the Maslov index is,
+\[ \mu : \pi_1(\Sp(2n)) \iso \pi_1(\U(n)) \xrightarrow{\det} \pi_1(\C^\times) = \Z \]
+Likewise, let,
+\[ \Lambda(n) = \{ \text{linear Lagrangian subspaces } W \subset (\R^{2n}, \omega_0) \} \]
+Choose an orthonormal basis $\{ v_1, \dots, v_n \}$ of $W$ and extend via $\{ v_1, \dots, v_n, J v_1, \dots, J v_n \}$ of $\R^{2n}$. Then we get a homeomorphism,
+\[ \Lambda(n) \cong \U(n) / \O(n) \]
+and then the Maslov index is,
+\[ \mu : \pi_1(\Lambda(n)) \iso \pi_1(\U(n)/\O(n)) \xrightarrow{\det^2} \pi_1(\C^\times) = \Z \]
+where we use $\det^2$ such that $\det^2{A} = 1$ for $A \in \O(n)$ so the map factors through the quotient $\U(n) \onto \U(n) / \O(n)$. 
+\bigskip\\
+It turns out that both,
+\begin{align*}
+\mu : \pi_1(\Sp(2n)) & \iso \Z
+\\
+\mu :  \pi_1(\Lambda(n)) & \iso \Z 
+\end{align*}
+are isomorphisms.
+
+\section{$J$-holomorphic curves, Basic Properties}
+
+\begin{rmk}
+Some important results are obtained using $J$-holomorphic curves for example,
+\begin{enumerate}
+\item Gromov-Taubes theorem on the uniqueness of symplectic structure on $\CP^2$
+\item Gromov's result that $S^n$ is not embedded in $\C^n$ as a Lagrangian submanifold
+\item Gromov's nonsquezing theorem if $B^{2n}(R) \embed B^2(r) \times \C^{n-1}$ symplectically where $B^{2n}(R)$ is the ball of radius $R$ then $R \le r$ (no squeezing the ball)
+\item Arnold's Conjecture on the existence of periodic orbits of Hamiltonian flows. 
+\end{enumerate}
+\end{rmk}
+
+\begin{defn}
+A smooth Riemann surface $\Sigma$ is a $1$-dimensional complex manifold (may be open or closed but without boundary). Let $j$ be the complex structure on $\Sigma$. 
+\end{defn}
+
+\begin{rmk}
+All almost complex structures $j$ on $\Sigma$ are automatically integrable for dimension reasons. Therefore, it suffices for $\Sigma$ to be a $2$-dimensional smooth manifold without boundary with an almost complex structure $j$. 
+\end{rmk}
+
+\begin{defn}
+Let $(X, J)$ be an almost complex manifold. A map $f : C \to X$ from a Riemann surface $S$ is called \textit{pseudo-holomorphic} or $J$-\textit{holomorphic} if,
+\[ \d{f} \circ j = J \circ \d{f} \]
+\end{defn}
+
+\begin{rmk}
+This says that $\d{f} : TC \to TM$ is complex linear with respect to the induced complex structure on the tangent spaces. This equation is exactly the Cauchy-Riemann equations. 
+\end{rmk}
+
+\begin{rmk}
+If $(X, J)$ is a complex manifold then $J$-holomorphic maps are exactly the holomorphic maps.
+\end{rmk}
+
+\begin{defn}
+We define operators,
+\[ \partial_J f = \tfrac{1}{2} (\d{f}  - J \circ \d{f} \circ j) \]
+and
+\[ \dbar_J f = \tfrac{1}{2} (\d{f} + J \circ \d{f} \circ j) \]
+Therefore, the $J$-holomorphic condition is,
+\[ \dbar_J f = 0 \]
+\end{defn}
+
+\begin{prop}
+$\dbar_J f = 0$ is equivalent to a single first-order, nonlinear, elliptic PDE. 
+\end{prop}
+
+\begin{proof}
+Choose a local holomorphic coordinate $z = x + i y$ on $C$ so $j \partial_x = \partial_y$ and $j \partial_y = - \partial_x$. Therefore we get the two equations,
+\[ \partial_x f + J(f) \partial_y f = 0 \]
+and likewise,
+\[ \partial_y f  - J(f) \partial_x f = 0 \]
+notice that this second equation is exactly $J(f)$ applied to the first so there is only one equation. It is nonlinear because $J(f)$ depends on $f$. Finally, this is elliptic (FIGURE OUT WHAT THIS MEANS)
+\end{proof}
+
+\subsection{Local Properties of $J$-holomorphic Maps}
+
+Continue to have some properties of holomorphic maps.
+
+\begin{theorem}[Elliptic Regularity]
+Assume that $J$ is of class $C^\ell$ for $\ell \ge 1$. If $f$ is a solution of $\dbar_J f = 0$ of class $C^1$ then $f$ is of class $C^{\ell+1}$. In particular if $J$ is smooth then $f$ is smooth. 
+\end{theorem}
+
+\begin{prop}[Unique Continuation]
+Assume $f, g : \Omega \to X$ where $\Omega \subset \C$ is a domain (open and connected) are $J$-holomorphic (for a fixed $J$ on $X$) such that $f = g$ to infinite order (their infinite jets agree) at a point $p \in D$ then $f \equiv g$ on $D$. In particular, if $U \subset \Omega$ is a nonempty open with $f|_U = g|_U$ then $f = g$. 
+\end{prop}
+
+\begin{proof}
+Mc Duff and Soloman section 2.3. Two arguments: Aromsjen unique continuation for Laplacian $\Delta$. Carlemann similarity principle. 
+\end{proof}
+
+\subsection{Positivity of Intersection}
+
+Let $(X, J)$ be almost complex then $TX$ is a complex vector bundle so $X$ has a canonical orientation. If two alomost complex submanifolds of complementary dimension $P, Q \subset X$ intersect transversally then each each intersection point has local intersection multiplicity $+1$ so the intersection number of $P$ and $Q$ is positive unless $P$ and $Q$ are disjoint. 
+
+\begin{rmk}
+One can show in $4$ real dimensions two ``irreducble'' $J$-holomorphic curves either don't intersect, they intersect positively, or they have the same image. If the holomorphic curves are identical then deforming them in the smooth category until transverse may introduce a negative intersection number. However, otherwise, it turns out this cannot happen. 
+\end{rmk}
+
+\begin{thm}[Michalef-White]
+Roughly speaking describes the types of singularities of the image of a $J$-holomorphic map. Roughtly, up to a $C^1$-coordinate change on the target and a $C^0$-coordinate change on the domain (assuming $f : C \to X$ is a $J$-holomorphic curve with $C$ compact) then the singularities of the image are no worse than algebraic curves i.e. finitely many germs of polynomials. 
+\end{thm}
+
+\subsection{Energy and Area}
+
+\begin{defn}
+Let $M$ be a manifold and $\omega$ an almost-symplectic form and $J$ an almost complex structure. We say that $J$ is $\omega$-\textit{tamed} if $\omega(-,J-)$ is positive-definite.
+\end{defn}
+
+\begin{rmk}
+We can symmetrize,
+\[ g(v,w) = \tfrac{1}{2} (\omega(v, Jw) + \omega(w, Jv)) \]
+to obtain a metric. Furthermore, for this metric $J$ is orthogonal meaning,
+\[ g(v, Jw) = -g(Jv, w) \]
+since $J^2 = - \id$. 
+\end{rmk}
+
+\begin{rmk}
+If $J$ is compatible then $\omega(-,J-)$ is automatically symmetric so $g(-,-) = \omega(-,J-)$.
+and $J$ is 
+\end{rmk}
+
+\begin{defn}
+Let $(X, \omega, J)$ be a tamed-pair. The energy of $f : C \to X$ (not necessarily $J$-holomorphic) is,
+\[ E(f) = \frac{1}{2} \int_C ||\d{f}||^2 \d{\mathrm{vol}} \]
+Although $||\d{f}||^2$ depends on the metric on $C$ but $||\d{f}||^2 \d{\mathrm{vol}}$ is a conformal invariant so depends only on the complex structure $j$ not on the metric on $C$. 
+\end{defn}
+
+Assume that $f : C \to X$ is a map with $C$ a closed riemann surface. Then,
+\[ \int_C f^* \omega = \inner{[\omega]}{f_*[C]} = \omega(A) \quad \text{where} \quad A = f_* [C] \in H_2(X, \Z) \]
+
+\begin{prop}
+A straightforward calculation gives that,
+\begin{enumerate}
+\item if $J$ is $\omega$-compatible then,
+\[ E(f) = \omega(f_* [C]) + \int_C | \dbar_J f|^2 \d{\mathrm{vol}} \]
+\item if $J$ is $\omega$-compatible then $J$-holomorphic maps minimize energy in their homology class (and thus are harmonic)
+\item if $J$ is $\omega$-tamed and $f$ is $J$-holomorphic then $E(f) = \omega(f_* [C])$ is topological.
+\end{enumerate}
+\end{prop}
+
+\begin{rmk}
+This gives a priori energy bound for $J$-holomorphic curves with fixed homology class $A \in H_2(X, \Z)$ which will enter in Gromov compactness.  
+\end{rmk}
+
+\begin{rmk}
+If $\omega$ is exact then $[\omega] = 0$ so $\omega(f_* [\omega]) = 0$ and thus if $f : C \to X$ is $J$-holomorphic from a closed Riemann surface $C$ then $E(f) = 0$ and hence $\d{f} = 0$ so $f$ is constant. Thus there are no nonconstant $J$-holomorphic maps from closed Riemann surfaces if $\omega$ is exact. Note, if $X$ is closed then $[\omega] \neq 0$ but if $X = T^* Q$ then $\omega$ is exact. 
+\end{rmk}
+
+\subsection{How to Construct Invariants}
+
+\newcommand{\mf}[1]{\mathfrak{#1}}
+
+How do we extract invariants from the space of solutions to a PDE? Our rough idea (will not quite work, will require tweaking). We want to look at the space of solutions to $\dbar_J f = 0$ as the space of solutions varies.
+\bigskip\\
+From differential topology. we suppose $\pi : \mf{M} \to P$ is a smooth map from our parameter space. Denote $\mf{M}_p = \pi^{-1}(p)$ the fiber of $p \in P$. We think of this as a family of spaces $\mf{M}_p$ parametrized by $p \in P$. 
+\bigskip\\
+Assume first $\mf{M}$ and $P$ are finite-dimensional manifolds. Then from differential topology  
+
+\section{April 14}
+
+\subsection{The Moduli Space of $J$-holomorphic curves}
+
+Recall last time we looked at the finite dim situation $\pi : \mf{M} \to P$ and the generic section is regular by Sard's theorem and the implicit function theorem. 
+\bigskip\\
+Now we consider the $\infty$-dimensional case. Assume that $\pi : \mf{M} \to P$ is Fredholm map of class $C^\ell$ between (separable) Banach manifolds of class at least $C^\ell$.
+
+\begin{defn}
+$\pi$ is Fredholm if $\d{\pi}$ is Fredholm operator at all points. 
+\end{defn}
+
+\newcommand{\reg}{\mathrm{reg}}
+
+\begin{rmk}
+If $D : X \to Y$ is a Fredholm map of Banach spaces then $\ind{D} = \dim{\ker{D}} - \dim{\coker{D}}$ is finite. For a path of Fredholm operators then $\ind{D}$ is constant. 
+\end{rmk}
+
+\begin{thm}[Implicit Function Theorem]
+Let $\pi : M \to P$ is a $C^\ell$ Fredholm map of Banach manifolds between Banach manifolds. Then:
+\begin{enumerate}
+\item $M^{\reg} \subset M$ is open
+\item if $x \in M^{\reg}$ is a regular point then $x$ has a neighborhood $U$ such that $\pi^{-1}(\pi(x)) \cap U$ is a $C^\ell$ Banach manifold modeled on $\ker{\d{\pi}}$. 
+\end{enumerate}
+\end{thm}
+
+\begin{thm}[Sard Smale Theorem]
+Let $\pi : M \to P$ be a $C^\ell$ Fredholm map between separable Banach algebras such that $\ell \ge 1 + \max \{ 0, \ind{\d{\pi}} \}$. Then the set of regular values of $\pi$ is a countable intersection of open dense sets (Baire set) and thus is dense by the Baire category theorem. 
+\end{thm}
+
+\begin{cor}
+Implicit function theorem + Sard-Smale implies that the generic $\mf{M}_p$ is a manifold of $\dim = \ind{\pi}$. Note that if the base is path connected then $\ind{\pi}$ is constant. 
+\end{cor}
+
+\subsection{Orientability}
+
+If $D$ is a Fredholm operator $D : X \to Y$ then,
+\[ \det{D} = \bigwedge^{\mathrm{top}} \ker{D} \ot (\bigwedge^{\mathrm{top}} \coker{D})^\vee \]
+if $\pi : M \to P$ is a $C^1$ Fredholm map then $\det{\d{\pi}}$ is a line bundle over $M$.
+
+\begin{rmk}
+This should be something like $\bigwedge^{\mathrm{top}} \Omega_{X/Y}$ the relative orientation forms.
+\end{rmk}
+
+\begin{defn}
+A \textit{relative orientation} of a Fredholm map is a a section of $\det{\pi}$ if it exists.
+\end{defn}
+
+\begin{rmk}
+Such an orientation gives an orientation of the fibers so each $M_p$ is an oriented manifold and given a section of,
+\[ \det{TM_p} = \bigwedge^{\mathrm{top}} M_p \]
+which is modeled on the vectorspace $\bigwedge^{\mathrm{top}} \ker{\d{\pi}}$. 
+\end{rmk}
+
+\begin{cor}
+Assume that $\pi : M \to P$ is a $C^\ell$ Fredholm map between separable Banach manifolds such that $\ell > 1 + \max \{ 0, \ind{\d{\pi}} \}$ (one more dimension then in Sard-Smale to accomodate paths) and assume that $\pi$ is proper and relatively orientable and fix a choice of relative orientation. Then Sard-Smale and implicit function theorem gives,
+\begin{enumerate}
+\item for generic $p \in P$ the fiber $M_p$ is a compact, oriented manifold of dimension $\dim{M_p} = \ind{\d{\pi}}$
+\item for generic path $\gamma$ in $P$ between $p, q$ the preimage $M_\gamma$ is a compact oriented manifold with bounary $M_{\partial \gamma}$. 
+\end{enumerate}
+\end{cor}
+
+\newcommand{\cJ}{\mathcal{J}}
+
+In particular, if $\d{\pi} = 0$ then get invariant $I_p = \# \{ M_P \text{ with sign} \}$ for generic $p \in P$. This is independed of generic $p \in P$ if $P$ is path connected. We want to apply this to get invariants of the space of solution of $f : C \to X$ of $\dbar_J f = 0$. 
+\bigskip\\
+We regard this as $\pi : \mf{M} \to \cJ$ where $\cJ$ is the space of almost complex structures. Here are some steps and problems we'll have along the way,
+\begin{enumerate}
+\item Need $\cJ$ to be a separable Banach manifold (will require using $C^\ell$ structures)
+\item Need $\pi$ to be proper (will require compactifying with stable maps)
+\item Need $\mf{M}$ to be a separable Banach manifold (will require a lot of work). 
+\end{enumerate}
+
+\begin{rmk}
+Assume $(X, \omega)$ is a closed symplectic manifold. Denote by $\cJ$ the space of $\omega$-tamed almost complex structure. This is not a Banach space but $\cJ^\ell$ which is the space of $C^\ell$ almost complex structures is a Banach manifold with,
+\[ T_{J} \cJ = \{ Y \in \End{TM} \mid Y \circ J  + J \circ Y = 0 \} \]
+\end{rmk}
+
+\begin{rmk}
+To get Banach spaces we have to restrict to $C^\ell$ for finite $\ell$ (no Sard-Smale for Frechet spaces) but here elliptic regularity will alow us to get smooth solutions in the end. 
+\end{rmk}
+
+Idea: if $\Phi(f, J) = \dbar_J f$ then $\mf{M} = \Phi^{-1}(0)$ so we will try to use this to show that $\mf{M}$ is a manifold. We wish to show that $\Phi$ is transverse to $0$ meaning $\d{\Phi}$ is onto. Hope, given a tangent vector in $\cJ$ want to construct a variation in $\cJ$. 
+
+\subsection{Moduli Space of Smooth pseudo-holomorphic maps}
+
+We are not actually interested in all pseudo-holomorphic maps because we can always reparametrize the domain by diffeomorphisms. We are interested in equivalence classes of solutions up to reparametrization of the domain meaning for any $\varphi : C' \to C$ and $f : C \to X$ get a reparametrization $f \circ \varphi : C' \to X$. What we mean by a reparametrization $\varphi : C' \to C$ is a diffeomorphism such that $\d{\varphi} \circ j = j' \circ \d{\varphi}$ meaning it is a biholomorphism. Then $f \circ \varphi : C' \to X$ is also $J$-holomorphic. 
+\bigskip\\
+Define the moduli space as follows. First, 
+\[ \Aut{f} = \{ \varphi : C \to C \mid f = f \circ \varphi \} \]
+Restrict to $C$ \underline{closed} Riemann surfaces of fixed genus $g$ and fix a class $A \in H_2(X, \Z)$ such that $f_* [C] = A$. Furthermore, we consider distinct labeled points $x_1, \dots, x_n \in C$ called marked points. 
+
+\begin{defn}
+Consider the \textit{moduli space} $\mf{M}_{A, g, n}(X)_J$ of smooth $J$-holomorphic maps,
+\[ mf{M}_{A, g, n}(X)_J = \{ f : C \to X \mid \dbar_J f = 0, f_* [C] = A \} / \text{reparametrizations} \]
+where $C$ is a smooth closed genus $g$ Riemann surface with $n$ marked points $x_1, \dots, x_n$ where a reparametrization is a biholomorphism $\varphi : C' \to C$ such that $\varphi(x_i') = x_i$ for each $i$. Therefore we get maps,
+\[ \pi : \mf{M}_{A, g, n}(X) \to \cJ \quad \text{ where } \quad ([f], J) \mapsto \cJ \]
+\end{defn}
+
+\subsection{Goals/Hope}
+
+For a generic parameter $J$ the moduli space is a compact (this will not be true) oriented manifold (this is also problematic) of dimension,
+\[ \dim{\mf{M}_{A,g,n}(X)_J} = \ind{\d{\pi}} = 2 c_1(TX) A + (\dim{X} - 6)(1-g) + 2n \]
+Problems arise if $\Aut{f} \neq 1$ it is at best an orbifold and could be much worse if there are infinitely many automorphisms. 
+\bigskip\\
+To compactify, we need to allow ``stable maps'' from ``nodal domains''.
+
+\renewcommand{\K}[2]{#1}
+\renewcommand{\S}[3]{#1 #3{#2#3}}
+
+\newcommand{\test}[2]{#1 {#2}}
+
+
+\section{April 21}
+
+\subsection{The Moduli Space of Stable Curves}
+
+Nodal curves. Smooth riemann surfaces are complex $1$-dimensional manifolds (closed and connected). A nodal curve is where we allow finitely many nodes which are modeled on,
+\[ \{ zw = 0 \} \subset \C^2 \]
+Each such nodal curve has a smooth resolution $\pi : \wt{X} \to X$ which splits each node into two branches. For the model node we smooth,
+\[ \{ zw = 0 \} \implies \{ zw = \tau \} \]
+and different choices of $\tau$ give different isomorphism classes of curves but they all have the same genus. We define the genus of the nodal curve to be the genus of the smoothed curve. 
+\bigskip\\
+Fix a smooth genus $g$ surface $\Sigma$ (a $2$-real dimensional manifold) oriented and closed. Reall that any almost complex structure $j$ on $\Sigma$ is integrable (i.e. gives a complex manifold structure on $\Sigma$). There are equivalences,
+\[ \{ \text{complex structures} \} \iff \{ \text{almost complex structures} \} \iff \{ \text{conformal structures} \} \]
+
+\begin{thm}[Uniformization]
+Let $\Sigma$ be a smooth Riemann surface Then there is a unique metric on $\Sigma$ of constant scalar curvature,
+\[ R = \mathrm{sign} \, \chi(\Sigma) \]
+\end{thm}
+
+\begin{rmk}
+Therefore, if $g \ge 2$ there exists a unique hyperbolic metric. 
+\end{rmk}
+
+\begin{defn}
+Let $\M_g$ be the moduli space of smooth genus $g$ curves up to isomorphism. 
+\end{defn}
+
+\subsection{Construction of $\M_g$ using hyperbolic metrics}
+
+We fix the real manifold $\Sigma$ a genus $g$ surface. Then,
+\[ \M_g = \J(\Sigma) / \mathrm{Diff}^+(\Sigma) \]
+where $\J(\Sigma)$ is the set of (almost) complex structures and $\mathrm{Diff}^+(\Sigma)$ is the group of orientation preserving diffeomorphisms. However, this is difficult to topologize. Let,
+\[ \mathrm{Diff}^0(\Sigma) \]
+be the identity component of $\mathrm{Diff}^+(\Sigma)$. Then consider Teichmuller space,
+\[ \T_g = \J(\Sigma) / \mathrm{Diff}^0(\Sigma) \]
+and there is a leftover action of the mapping class group,
+\[ \Gamma_g = \mathrm{Diff}^+(\Sigma) / \mathrm{Diff}^0(\Sigma) \]
+Then,
+\[ \M_g = \T_g / \Gamma_g \]
+However, this is much better because $\Gamma_g = \pi_0(\mathrm{Diff}^+(\Sigma))$ is a discrete group and we can give Teichmuller space $\T_g$ the structure of a contractible manifold via the identification of $\T_g$ with an open contractible subset of $\C^{3g - 3}$. Therefore, $\M_g$ is a complex (holomorphic) orbifold of dimension $3g - 3$. Since $\T_g$ is contractible, $\M_g$ is the classifying space of $\Gamma_g$.
+\bigskip\\
+Let $\Sigma$ be genus $g$ with $n$ marked points $P$ such that,
+\[ \chi(\Sigma \sm P) = 2 g - 2 + n > 0 \]
+then there exists a hyperbolic metric on $\Sigma \sm P$ with cuspdial ends alowing the construction of $\M_{g,n}$ the moduli space of smooth genus $g$ curves with $n$ marked points (up to isomorphism). 
+
+\subsection{Compactifying the Moduli Space}
+
+\newcommand{\Mbar}{\overline{\mathcal{M}}}
+
+The moduli space is not compact because there are families where a geodesic for the hyperbolic metric has unbounded below length. This causes a pinch and thus a nodal limit. 
+\bigskip\\
+First, stability and automorphisms. Let $\Sigma = S^2$ up to isomorphism there is a unique complex structure $X = \CP^1$. However, $X$ has an infinite automorphism group given by Mobius transformations $\mathrm{PGL}_2(\CC)$. 
+Any $3$ distinct points on $\CP^1$ can be mapped to $0,1,\infty$ by a unique mobius transformation. 
+\bigskip\\
+If $\Sigma$ is genus $1$ then it is a complex torus and its complex structure gives an elliptic curve. Fix a point $x$ then we get,
+\[ (T^2, j, x) \iff \CC / \Lambda \]
+thus $\M_{1,1}$ corresponds to lattices $\Lambda \subset \CC$ up to ambiant isomorphism and thus $\dim{\M_{1,1}} = 1$. Every lattice has $\Z_2$-automorphism $z \mapsto -z$. There are two lattices, the equilatteral triangular lattice $\Lambda_3$ and the square lattice $\Lambda_4$ which have more automorphisms (CM). Finally, any genus $g \ge 2$ smooth Riemann surface has finitely many automorphisms.
+
+\begin{defn}
+A curve $C$ with marked points is called \textit{stable} if $\Aut{C}$ is finite.
+\end{defn}
+
+\begin{prop}
+If $C$ is a smooth genus $g$ curve with $n$ marked points then $C$ is stable if and only if $C$ admits a hyperbolic metric if and only if,
+\[ \chi(C) = 2g - 2 + n > 0 \]
+meaning $g \ge 2$ or $g = 1$ and $n \ge 1$ or $g = 0$ and $n \ge 3$. 
+\end{prop}
+
+\begin{defn}
+A nodal curve $C$ is stable if each irreducible component is stable for the marked points and nodes meaning,
+\[ 2g - 2 + \text{marked points} + \text{nodes} > 0 \]
+on each component. 
+\end{defn}
+
+\begin{defn}
+Let $2g - 2 + n > 0$. The Deligne-Mumford moduli space $\overline{\M}_g$ is the moduli space of stable, nodal genus $g$ curves with $n$ marked points up to isomorphism. 
+\end{defn}
+
+\begin{thm}
+$\Mbar_{g,n}$ is a complex manifold with $\dim_{\C} \Mbar_{g,n} = 3 g - 3 + n$ which is compact and connected and is a projective variety modulo a finite group action. Furthermore, $\M_{g,n} \subset \Mbar_{g,n}$ is open and the complement,
+\[ \partial \Mbar_{g,n} = \Mbar_{g,n} \sm \M_{g,n} \]
+is a normal crossing divisor (pure codimension $1$ with only transverse intersection singularities).  
+\end{thm}
+
+\begin{example}
+\begin{enumerate}
+\item $\Mbar_{0,3} = \M_{0,3} = *$ because every stable genus $0$ curve with three marked points must have all three points on one component (otherwise the component graph would have a cycle and thus positive genus). 
+
+\item $\M_{0,4} = \CP^1 \sm \{ 0, 1, \infty \}$ because we can send $4$ marked points to $0,1,\infty$ and the fourth point is free. Then, $\Mbar_{0,4} = \CP^1$ so we need to add $3$ nodal curves. These are two $\CP^1$ connected with one node parametrized by choosing $2$ out of $4$ points on each component modulo swapping components giving,
+\[ \frac{1}{2} { 4 \choose 2 } = 3 \]
+nodal curves. We can think about this topologically as the fourth point $x$ approaching $0,1,\infty$ and rescaling in the nieghborhood which pops off a bubble about the limit point with the two marked points. 
+
+\item $\Mbar_{1,1}$ has exactly one boundary point corresponding to the nodal cubic with one marked point (this has three special points). 
+\end{enumerate}
+\end{example}
+
+\subsection{Bubbling Example}
+
+Let $X = \CP^2$ and consider a family of conics (zero locus of a degree $2$ polynomial in $\CP^2$) defined by,
+\[ z_1 z_2 = \epsilon z_3^2 \quad [z_1, z_2, z_3] \in \CP^2 \]
+which is a smooth curve of genus $0$ for $\epsilon \neq 0$. However, as $\epsilon \to 0$ this converges to the union of two lines $z_1 z_2 = 0$. As holomorphic maps $f_\epsilon : \CP^1 \to \CP^2$ can parametrize as,
+\[ f_\epsilon(z) = [z^2, \epsilon, z] = [z, \tfrac{\epsilon}{z}, 1] \]
+Now pass to the limit $\epsilon \to 0$ and see what happens,
+\[ f_0(z) = [z,0,1] \]
+is a line which is degree $1$ in homology but $f_\epsilon$ for $\epsilon \neq 0$ has fundamental class a conic and thus degree $2$ in $H^2(\CP^2, \Z)$. Therefore, we really don't get good convergence about $z = 0$. Therefore, we rescale around $z = 0$ to catch the bubble. Let $z = \epsilon w$ then we get,
+\[ f_\epsilon(w) = [\epsilon^2 w^2, \epsilon, \epsilon w] = [\epsilon w^2, 1, w]  \]
+Now taking the limit $\epsilon \to 0$ we get a different line,
+\[ g(w) = [0,1,w] = [0, w^{-1}, 1] \]
+Now notice that the map,
+\[ f_\epsilon([z : t]) = [z^2, t^2 \epsilon, z t] \]
+is not well-defined in the limit $\epsilon \to 0$ at the point $z = 0$ ($[0:1] \in \CP^1$) and likewise $g$ is not well-defined for $w = \infty$ then need to be renormalized (by in the previous case divising by $t$ to make the map degree $1$ since the limit ``should'' be degree $1$ but cannot be because the degree is constant in families). 
+Then these two lines have the point $w = \infty$ and $z = 0$ and thus glue to give a map from the bubble which is well-defined everywhere.
+
+\section{April 28 Gromov Compactness}
+
+Assume that $f_n : C \to X$ are $J$-holomorphic maps with the same domain and uniformly bounded energy $E(f_n) \le E$. We argued that after passing to subsequence $f_n$ was converging to a $J$-holomorphic limit $f : C \to X$ uniform (in $C^\infty$) on compact sets not containing finitely many points where energy concentrates. In fact, one can modify the rescaling procedure to catch bubbles in the order of forming. 
+
+\subsection{Isoperimetric Inequality}
+
+\begin{thm}
+Let $\gamma : I \to \R^2$ be a simple closed curve bounding a region $\Omega$ then,
+\[ \mathrm{Area}(\Omega) \le \frac{1}{4 \pi} \mathrm{length}(\gamma)^2 \]
+with equality if and only if $\gamma$ is a circle.
+\end{thm}
+
+\begin{thm}
+Let $X$ be a $J$-holomorphic cylinder and $E(it) < \epsilon$ then.
+\end{thm}
+
+\section{Gromov Compactness Theorem}
+
+Assume $f_n : C_n \to X$ are $J_n$-holomorphic sutch that,
+\begin{enumerate}
+\item $J_n \to J$ in $C^\infty$
+\item $E(f_n, J_n) \le E$ is uniformly bounded
+\item uniformly bounded topological type (e.g. all smooth of genus at most $g$ and at most $N$ marked points)
+\end{enumerate}
+
+Then after passing to a subsequence, there are reparametrizations $\varphi_n : C_n \to C_n$ such that $f_n \circ \varphi_n \to f_\infty$ converges to $J$-holomorphic limit $f_\infty$ such that $E(f_n) \to E(f_\infty)$ and $f_n \circ \varphi_n \to f_\infty$ uniformly on compacts away from nodes in $C_\infty$ and coverges in $C^0$ so in particular,
+\[ [f_n] = [f_\infty] \in H_2(X, \Z) \]
+Moreover, if $f_n$ are stable maps then after passing to a subsequence + reparametrization there is a Gromov limit $f_\infty$ which is stable.
+
+\begin{cor}
+The projection $p : \Mbar_{A, g, n}(X) \to \J$ is a proper continuous map.
+\end{cor}
+
+\section{April 28}
+
+Given a $J$-holomorphic curve $f : \CP^1 \to \CP^n$ then $f$ is holomorphic and is a polynomial of degree $d$ so it represents $d \cdot H$ in $H_2(\CP^n) = \Z \left< H \right>$ to see this intersect with a hyperplane. Let $A = [f] \in H_2(\CP^n)$,
+\[ A \cdot H = d \]
+
+\subsection{Linearizations}
+
+Goal: extract invariants from moduli space of $J$-holomorphic maps. We want a space of solutions of $\dbar_J f = 0$ to be the locus $\M = \Phi^{-1}(0)$ of some,
+\[ \Phi(f, j, J) = \dbar_J f = \tfrac{1}{2} (\d{f} + J |_f \circ \d{f} \circ j) \]
+We hope that $\phi : B \to \F$ is Fredholm map of spearable Banach manifolds and $\phi$ is transverse to $0$. If so then inverse function theorem and Sard-Smale gives that $\M$ is a manifold so we can extract information. Some problems:
+
+\newcommand{\bb}{\mathbb}
+
+\begin{enumerate}
+\item in the compactification $\Mbar$ topology of domain changes 
+\item in general solution may have automorphisms so there are transversality issues. 
+\end{enumerate}
+
+First assume that the domain is smooth. Fix $\Sigma$ a smooth genus $g$ \textit{topological} surface with $n$ fixed points $\bb{X} = \{ x_1, \dots, x_n \}$. Assume that $2g - 2 + n > 0$ for simplicity. Recall, the space of solutions,
+\[ \M_{A,g,n}(X) = \{ f : C \to X \mid J\text{-holomorphic representing } A \in H_2(X, \Z) \text{ and } C = (\Sigma, j, \bb{X}) \} / \text{reparam.} \]
+Fix the domain $C = (\Sigma, j, \bb{X})$ as a complex marked curve. Fix the almost complex structure $J$. Calculate the formal linearization of $\Phi$ as we vary $f$ but fix $C, J$. Get,
+\[ D_f : \Gamma(f^* TX) \to \Lambda^{1,0}(f^* TX) \]
+which is given by,
+\[ D_f \xi = \tfrac{1}{2} (\nabla \xi + J \circ \nabla \xi \circ j + (\nabla_\xi J) \circ \d{f} \circ j) \]
+where $\xi$ is a variation in $f$ regarded as a section of $f^* TX$ and $\Lambda^{0,q} (f^* TX)$ are $(0,1)$-forms on $C$ with values in $f^* TX$. In general if $f : C \to X$ then $\dbar_J f$ is a $(0,1)$ form on $C$ with values in $f^* TX$. Note that a $(0,1)$-form $\eta$ is a form satisfying,
+\[ \eta \circ j = J \circ \eta = 0 \]
+How do we compute this, fix a metric on $X$ associated to $\omega$ and $J$ which defines an exponential map and a Levi-Civita connection. For a map $f : C \to X$ sufficiently close to $f : C \to X$ we can write,
+\[ g = \exp_f(\xi) \]
+for some vector field,
+\[ \xi \in \Gamma(f^* TX) \]
+meaning,
+\[ g(z) = \exp_{f(z)} \xi(z) \]
+In particular, we get a path of functions,
+\[ f_t = \exp_f(t\xi) \]
+such that,
+\[ \deriv{}{t} \bigg|_{t = 0} f_t = \xi \]
+Then we want to calculate the derivative of,
+\[ \dbar_J f_t \in \Lambda^{0,1} (f_t^* TX) \]
+but these lie in different bundles so we need to be careful. These spaces form a bundle over the space of maps and $\Phi$ gives a section. We must trivialize this using the same sort of exponential and then use parallel transport to differentiate. 
+\bigskip\\
+Note: along $\phi^{-1}(0)$ for a section, the linearization is independent of the choice of connection in the bundle / trivialization of the bundle. Therefore $D_f \xi$ is independent of the connection $\nabla$ if $f : C \to X$ is a solution to $\dbar_J f = 0$. For, $C, J$ fixed,
+\[ \Mbar = \{ f : C \to X \mid \dbar_J f = 0 \} \]
+We need separable Banach spaces, $\Phi$ Fredholm,
+\[ D_f : \Gamma(f^* TX) \to \Lambda^{0,1} (f^* TX) \]
+Then,
+\[ D_f \xi = \tfrac{1}{2}(\nabla \xi + J \nabla \xi j + (\nabla_\xi J) \d{f} \circ j) = \dbar_J \xi + a(\xi) \]
+such an operator is called a real Cauchy-Riemann operator with values in $E = f^* TX$. This is an elliptic operator and hence Fredholm if we have the right regularity e.g. Sobolev $W^{k,0}$ completion. Then,
+\[ D_f : W^{k,p} \Gamma(f^* TX) \to W^{k-1, p} \Lambda^{0,1}(f^* TX) \]
+We work with $W^{k,p}$ for $k \ge 1$ (so that pullbacks exist) and $Kp > 2$ with $W^{1,2}$ borderline since we want a compact embedding $W^{k,q} \embed C^0$. 
+
+\section{Linearizations and Transversality}
+
+Recall from last time, $\dbar_J f = 0$ for $f : C \to X$ with fixed domain $C$, and fixed almost complex structure $J$ and a linearization about $f$,
+\[ D_f : \Gamma(f^* TX) \to \Lambda^{0,1} (f^* TX) \]
+given by,
+\[ D_f \xi = \tfrac{1}{2}(\nabla \xi + J \circ \nabla \xi \circ j) + \tfrac{1}{2} (\nabla_\xi J) \circ \d{f} \circ j = \dbar \xi + a(\xi) \]
+where $a(\xi)$ has no derivatives in $\xi$. This is a first-order differential operator,
+\[ D_f : \Gamma(E) \to \Gamma(F) \]
+where,
+\[ E = f^* TX \quad \text{ and } \quad F = \Lambda^{0,1} E = E \ot \Omega^{0,1}_C  \]
+This first-order operator has the same symbol as $\dbar$ with values in $E$. So it is elliptic and therefore satifies elliptic rergulairt (and unique continuation because something about harmonic solutions this is a bit confusing). We form the completion,
+\[ D_\rho : W^{k,q} \Gamma(E) \to W^{k-1, p} \Gamma(E) \]
+is Fredholm and is a compact perturbation of $\dbar$ so they have the same index. Therefore,
+\[ \ind{D_\rho} = \ind_{\RR} D_\rho = 2 \ind_{\CC} \dbar \]
+Then we can apply Riemann-Roch to compute the index of $\dbar$ (or use the Atyiah-Singer index theorem).
+
+\begin{thm}
+If $E$ is a holomorphic vector bundle on a Riemann surface $C$ with,
+\[ \dbar_E : \Gamma(E) \to \Lambda^{0,1}(E) \]
+then the index is,
+\[ \ind_{\CC} \dbar_E = c_1(E) + (\rank_{\CC} E) \cdot \tfrac{1}{2} \chi(C) \]
+\end{thm}
+
+\begin{rmk}
+Notice that by Dolbeault cohomology,
+\[ H^q(X, \Omega^p \ot E) = H^q(\mathcal{A}^{p,\bullet} \ot E) \] 
+and therefore on a curve,
+\[ H^1(C, E) = H^1(\mathcal{A}^{0,\bullet} \ot E) = \coker{(\dbar_E : E \to \mathcal{A}^{0,1} \ot E)} = \coker{(\dbar_E : E \to \Lambda^{0,1} E)} \]
+Therefore,
+\[ \ind_{\CC} \dbar_E = \dim{\ker{\dbar_E}} - \dim{\coker{\dbar_E}} = \dim{H^0(C, E)} - \dim{H^1(C, E)} = \chi(C, E) \]
+\end{rmk}
+
+\begin{rmk}
+In our case $E = f^* TX$ so,
+\[ c_1(E) = c_1(f^* TX) = f^* c_1(TX) \]
+Therefore,
+\[ \inner{c_1(E)}{[C]} = \inner{f^* c_1(TX)}{[C]} = \inner{c_1(TX)}{f_*[C]} = c_1(TX) \cdot A \]
+for,
+\[ A = f_* [C] \in H_2(X;\Z) \]
+Therefore,
+\[ \ind{D_f} = 2 c_1(TX) \cdot A  + (\dim_{\RR} X) \cdot (1 - g) \]
+\end{rmk}
+
+We want a moduli space meaning equivalence classes up to reparametrization of solutions to $\dbar_J f = 0$. Regard solutions to this equation as $\Phi^{-1}(0)$ as before where,
+\[ \Phi(f, j, J) = \dbar_J f = \tfrac{1}{2} (\d{f} + J|_f \circ \d{f} \circ j) \]
+Naive approach is to work with,
+\[ \mathrm{Maps}(\Sigma, X) \times \cJ(\Sigma)) / \mathrm{Diff}(\Sigma) \]
+Complete $\mathrm{Maps}(\Sigma, X)$ into $W^{k,p}$ as before. This FAILS because the action of reparametirzation is continuous but not differentiable (look in the notes).
+\bigskip\\
+Solution is to understand variations in the domain up to reparametirzation. 
+
+\begin{example}
+If $2g - 2 +n > 0$ so $C$ is stable. Then parametrized by $\M_{g,n} = \J(\Sigma) / \mathrm{Diff}^+(\Sigma, x)$ or Teichmuller space.
+\end{example}
+
+\section{Gromov-Witten Invariants}
+
+Recall that $\M_{A,g,n}(X)$ is the moduli space of stable $J$-holomorphic maps $f : C \to X$ with $C$ of genus $g$ with $n$ marked points and representing $A \in H_2(X)$. Our goal for today is to extract invariants of,
+\[ \Mbar_{A,g,n}(X) \to \cJ(X) \]
+
+Last time we showed that, restricted to smooth domains $\M = \M_{A,g,n}(X)$ then $\M = \phi^{-1}(0)$ and $\psi$ is transverse to the zero section at maps $f$ which are simple so therefore $\M^{\text{simple}}$ is a manifold. Therefore, by Sard-Smale, for generic $\cJ$ the fiber $\M_J^{\text{simple}}$ is a smooth manifold of,
+\[ \dim{\Mbar_{A,g,n}(X,J)} = 2 c_1 \cdot A + (\dim_{\RR}{X} - 6)(1 - g) + 2 n \]
+For example, if $\dim_{\RR}(X) = 6$ and $c_1(X) = 0$ (e.g. if $X$ is a Calabi-Yau 3-fold) then,
+\[ \dim{\Mbar_{A,g,0}}(X, J) = 0 \]
+for all $A,g$. 
+
+\begin{rmk}
+Recall that $f : C \to X$ is \textit{simple} if it is an embedding away from finitely many points (birational onto into image). 
+\end{rmk}
+
+\newcommand{\GM}{\mathrm{GM}}
+
+\begin{defn}
+$\GM_{A,g} = \# \Mbar_{A,g,0}(X,J)$ for generic $J$ and it is independent of $J$. 
+\end{defn}
+
+\section{May 10}
+
+\newcommand{\st}{\mathrm{st}}
+
+Recall that,
+\[ \dim{\Mbar_{A,g,n}(X,J)} = 2 c_1(T X) \cdot A + (\dim_{\RR}(X) - 6)(1-g) + 2 n \]
+If $\dim = 0$ we count to get $\GM_{A,g,n}(X)$. If $\dim > 0$ we need to impose constraints. Consider,
+\[ \ev : \Mbar_{A,g,n}(X) \to X^n \]
+given by,
+\[ f \mapsto (f(x_1), \dots, f(x_n)) \]
+If we fix submanifodls $V_1, \dots, V_n \subset X$ and look at $\ev^{-1}(V_1 \times \cdots \times V_n)$ i.e. we look for solutions $f \in \Mbar_{A,g,n}(X, J)$ such that $f(x_k) \in V_k$ for each $k$. Assume that $2g - 2 + n > 0$. Then there is a forgetful map,
+\[ \st : \Mbar_{A,g,n}(X) \to \Mbar_{g,n} \]
+sending $(f : C \to X) \mapsto C$. Using this, we can fix the domain, i.e. look at the fibers of $\st$.
+\bigskip\\
+Equivalent perspective, look at the Poincare duals of everything. There is a virtual fundamental cycle $[\Mbar_{A,g,n}(X,J)]$ which lies in dimension $\dim{\Mbar_{A,g,n}(X,J)}$ in cohomology. Therefore, fixing cohomology classes $\alpha_1, \dots, \alpha_n \in H^*(X)$ (think of the Poincare duals of the $V_k$) and $\kappa \in H^*(\Mbar_{g,n})$ then,
+\[ \GM_{A,g,n}(\kappa ; \alpha_1, \dots, \alpha_n) = \int_{[ \Mbar_{A,g,n}(X, J)]} \st^* \kappa \smile \ev^* (\alpha_1 \times \cdots \times \alpha_n) \] 
+Choosing geometric representatives $V_1, \dots, V_n$ of the Poincare duals of $\alpha_1, \dots, \alpha_n$ and $K$ of the Poincare dual of $\kappa$ this is the same as looking at the intersection of $\st^{-1}(K)$ with $\ev^{-1}(V_1 \times \cdots \times V_n)$ because $\smile$ is Poincare dual to intersection form. 
+\bigskip\\
+Push forward $(\st \times \ev)_* [\Mbar_{A,g,n}(X,J)]$ is a homology class in $\Mbar_{g,n} \times X^n$ and we pair it with the cohomology class $\kappa \times \alpha$. These perspectives give the same invariants. 
+\bigskip\\
+From the pullback of cohomology forms perspective, it is clear that Gromov-Witten invariants are multilinear forms in $\kappa, \alpha_1, \dots, \alpha_n$. 
+
+\begin{rmk}
+Because it is a stack, $[\Mbar_{A,g,n}(X,J)]$ only exists with $\Q$-coefficients so $\GM_{A,g,n}(X, J) \in \Q$ are, in general, not integral. If $\dim{\Mbar_{A,g,n}(X,J)} = 0$ then,
+\[ \GM_{A,g,n}(X,J) = \sum_{f} \frac{\mathrm{sign}9f)}{\# \Aut{f}} \in \Q \]
+explaining why rational numbers appear. 
+\end{rmk}
+
+\begin{rmk}
+$\Mbar_{0,n}$ is a smooth manifold and hence has Poincare duality. However, $\M_{g,n}$ is only a smooth orbifold so there exists a finite cover which is a smooth manifold and hence has Poincare duality over $\Q$. 
+\end{rmk}
+
+\subsection{Applications}
+
+\begin{rmk}
+Showing that for some fixed parameter $J$ the space $\Mbar_{A,g,n}(X,J)$ is nonempty (meaning there exists some solution meaning a $J$-holomorphic curve) is usually very difficult. 
+\end{rmk}
+
+If $\Mbar_{A,g,n}(X,J) = \empty$ then $J$ is a regular value so $\GM_{A,g,n} = 0$. Therefore, if $\GM_{A,g,n} \neq 0$ means that there must exist a solution for all parameters $J$ (even if not regular). We could also see this by noting that $\Mbar_{A,g,n}(X,J) = \empty$ implies this is true for some open neighborhood of $J \in \mathcal{J}$ and hence for some generic $J$. 
+\bigskip\\
+In Gromov (1982) we have the following theorem.
+
+\begin{theorem}[Nonsqueezing]
+Assume we have a symplectic embedding, 
+\[ \varphi : (B^{2n}_r, \omega_0) \embed (B^2_R \times \CC^{n-1}, \omega_0) \subset (\CC \times \CC^{n-1}, \omega_\can) \]
+of a symplectic ball into an infinite symplectic cylinder. Then $r \le R$. 
+\end{theorem}
+
+\subsubsection{Outline of Proof}
+
+Get some wiggle room. Replace $r \mapsto r + \epsilon$ and $R \mapsto R - \epsilon$. We may assume that $\varepsilon : B^{2n}_{r + \epsilon} \embed R^2_{R - \epsilon} \times \CC^{n-1}$. Since the ball is compact we can compactify the target to get $Y = S^2 \times T^{2n - 2}$ with $\omega = (\omega_1 \oplus \omega_2)$ such that the area of the $S^2$ factor,
+\[ A = \int_{S^2} \omega_1 = \pi R^2 \]
+and the form $\omega_2$ depends on $\varphi$ (the ``size'' of the torus) because we need to make it ``long'' enough to contain the bounded (but not uniformly bounded) image of $\varphi$. Let $J_0$ be the standard integrable complex structure on $B^{2n}_{r+\epsilon}$ and consider its image $\varphi(J_0)$ and restrict to $\varphi(B^{2n}_{r})$ which can then be extended to an $\omega$-compatible $J$ on $Y$. Our goal is to show there exists a $J$-holomorphic sphere $f : S^2 \to Y$ representing the class $A = [S^2] \times * \in H_2(Y; \Z)$. 
+\bigskip\\
+Idea: for $Y = S^2 \times T^{2n-2}$ we can calculate a certain Gromov-Witten invariant $\GM_{A,0,2}(Y, J_1)$ where $J_1$ is the standard complex structure. There is a unique $J_1$-holomorphic curve in $Y$ representing $A$ and passing through any point $p \in Y$. Therefore,
+\[ \GM_{A,0,1}(Y; J_1; p) = 1 \]
+for each $p \in Y$ (one impliments the condition ``passes through the point $p$'' my adding a marked point and requiring that the marked point is sent to $p$). The orientation is positive because the map is complex linear but we really only need that $\GM_{A,0,1}(Y ; J_1; p) \neq 0$. Therefore, $\GM_{A,0,1}(Y; J; p) \neq 0$ so there exists a $J$-holomorphic genus $0$ curve $f : C \to X$ representing $A$ such that $f(0) = p$ where we set $p = \varphi(0)$. By the same topological argument as in the homework we see that $C = \CP^1$ (it cannot be nodal because there are to enough marked points to contract a component and the homology class $A$ is not a sum of positive classes) and that $f$ is birational onto its image. 
+\bigskip\\
+Now, because $\varphi$ sends $J_0$ to $J$ we see that $\varphi^{-1}(\im{f})$ is a $J_0$-holomorphic curve. Then the $J_0$-holomorphic curve $\varphi^{-1}(\im f)$ is a minimal surface in $\overline{B^{2n}_r} \subset B^{2n}_{r + \epsilon}$ passing through the origin and is closed and hence compact in $\overline{B^{2n}_r}$. This implies that $\mathrm{Area}(\varphi^{-1}(C_1)) \ge \pi r^2$ by minimal surface theory. However, since $\varphi$ is symplectic,
+\[ \mathrm{Area}(\varphi^{-1}(C_1)) \le \mathrm{Area}(C_1) = \omega(A) = \pi R^2 \]
+proving the claim.  
+\bigskip\\
+There is one subtly, we need to know that in the homework we computed the Gromov-Witten invariant correctly since having a unique solution does not mean GM is $\pm 1$ if we are not at a regular point (it could be a critical point where two opposite signed points collide). To compute $\coker{\dbar_J}$ of the linearized operator at $f : \CP^1 \to Y$ we use the special fact that $J_1$ on $Y$ is the product structure and $f$ is inclusion of one factor. Therefore, $\dbar_J$ linearizes to the standard $\dbar$ operator on $\CP^1$ and the holomorphic normal bundle is trivial (really I think the relevant thing is $f^* TY$ which is holomorphically $T \CP^1$ plus a trivial bundle and thus has vanishing $H^1$) so an easy exercise in sheaf cohomology (see the remark about Riemann-Roch and Dolbeault cohomology) shows that the cokernel is zero. 
+
+\section{May 12}
+
+\begin{theorem}[Gromov-Taubes]
+Assume $(X, \omega)$ is a symplectic manifold with $X$ homeomorphic to $\CP^2$. Then it is symplectomorphic to $(\CP^2, t \omega_{\FS})$ for some $t > 0$.
+\end{theorem}
+
+\begin{rmk}
+This means there does not exist exotic symplectic smooth structures on $\CP^2$. However, it is an open question if there is an exotic (nonsymplectic) smooth structure on $\CP^2$ (or also on $S^4$). 
+\end{rmk}
+
+\subsection{Outline of the Proof}
+
+Construct diffeomorphism to $\CP^2$ using moduli space of $J$-holomorphic maps of genus $0$ representing $L \in H_2(X) = \Z$ positive generator meaning,
+\[ \int_L \omega > 0 \]
+Step 1 we take $\Mbar_{A,0,n}(X; J)$ for $A = L$ and,
+\[ c_1(TX) \cdot L =3 \]
+because $H^2(X, \Z) = 0$ and by the Wu theorem $c_1^2 = 2 \chi + 3 \sigma$. Then Taubes theorem (using Seiberg-Witten invariants) implies $\Mbar_{A,0,n}(X; J) \neq \empty$. 
+\bigskip\\
+Step 2 for each pair of distinct points $p,q \in X$ there exists a unique element of $\M_{A,0,n}(X; J)$ passing through $p,q$ and $f : \CP^1 \to X$ is an embedding. The adjunction formula (I guess a topological version) shows that the image must be nonsingular since we can compute its genus from the self-intersection.
+
+\begin{prop}[Adjunction]
+Let $f : C \embed X$ with $X$ a $4$-dimensional symplectic manifold is $J$-holomorphic (a simple irreducible curve) with image $\bar{C}$. Then,
+\[ 2 g(\bar{C}) - 2 + 2 \delta = - c_1(TX) \cdot C + C \cdot C \] 
+where $\delta$ counts the singularities. 
+\end{prop}
+
+\begin{rmk}
+This says in AG lingo,
+\[ \deg{\omega_{\bar{C}}} = C \cdot (C + K_C) \]
+\end{rmk}
+
+\begin{rmk}
+In our case $C = L$ is the hyperplane (line class) and $c_1(TX) = 3 L$ so we have,
+\[ 2 g(\bar{C}) - 2 + 2 \delta = -2 \]
+and therefore $g(\bar{C}) = 0$ and $\delta = 0$ so the map must be an embedding since onto its image it is a birational map of nonsingular curves and hence an isomorphism. 
+\end{rmk}
+
+Step 3: use a pencil of such curves to construct a diffeomorphism $\varphi : X \to \CP^2$ and then use Moser's theorem to get a symplectomorphism. For Moser's theorem, we need a path. Consider,
+\[ \omega_t = t \omega + (1 - t) \varphi^* \omega_{\FS} \]
+which is closed. We need to claim this is positive. Both $\omega$ and $\varphi^* \omega_{\FS}$ are positive on each $J$-holomorphic curve and these span the tangent spaces (because two have intersection number $1$ and hence intersect transversally). 
+
+\subsection{Properties of GW Invariants}
+
+
+\subsubsection{Division Axiom}
+
+\newcommand{\GW}{\mathrm{GW}}
+
+Let $h \in H^2(X)$ then,
+\[ \GW_{A,g,n+1}(\alpha_1, \dots, \alpha_n, h) = (A \cdot h) \GW_{A,g,n}(\alpha_1, \dots, \alpha_n) \]
+as long as $A \neq 0$ or else $2 g - 2 + n > 0$. This is the fact that a $J$-holomorphic curve representing $A$ generically intersects the codimension $2$ class dual to $h$ in $A \cdot h$ points. 
+
+\subsubsection{Splitting Axiom}
+
+Consider $\delta_{g_1, g_2, k}$ a boundary stratum of $\Mbar_{g,n}$ with two components of genus $g_1, g_2$ with $g = g_1 + g_2$ and exactly one node and exactly the first $k$ marked points on the $g_1$ component. Then,
+\[ \st^{-1}(\delta) = \ev^{-1}(\Delta) \]
+where $\Delta$ is the diagonal at extra marked points. This is because a nodal $J$-holomorphic curve is the same as a pair of $J$-holomorphic curves with marked points such that the marked points land in the same place. Decompose $\Delta$ is cohomology,
+\[ \Delta = \sum h_\ell \times h^\ell \in H^*(X) \]
+where $h_\ell$ is a basis of $H^*(X)$ and $h^\ell$ is the dual basis for the intersection pairing. This gives a formula,
+\[ \GM_{A,g,n}(\delta_{g_1, g_2, k} ; \alpha_1, \dots, \alpha_n) = \sum_{A = A_1 + A_2} \sum_\ell \GW_{A_1, g_1, k+1}(\alpha_1, \dots, \alpha_k, h_\ell) \cdot \GW_{A_2, g_2, n-k+1}(h^\ell, \alpha_{k+1}, \dots, \alpha_n) \]
+This is saying that $(f(y_1), f(y_2)) \in \Delta$ for $y_1, y_2$ the added marked points. Likewise, if $\delta_0$ is the boundary strata with exactly one self-node so the curve has genus $g-1$ then,
+\[ \GM_{A,g,n}(\delta; \alpha_1, \dots, \alpha_n) = \sum_{\ell} \GW_{A,g-1,n+2}(\alpha_1, \dots, \alpha_n, h_\ell, h^\ell) \]
+
+\subsection{More Applications}
+
+Kontsevich gave the following application of the splitting axiom. Let $X = \CP^2$ and $g = 0$. Let $A = d L$ where $L$ is the line class. Notice,
+\[ \dim{\Mbar_{A,0,n}} = 2 c_1(TX) \cdot A + (\dim{X} - 6) + 2n = 6 d  - 2 + 2n \]
+The let,
+\[ N_d = \# \{ \text{degree d genus 0 curves passing through } 3 d - 1 \text{ points in general position} \} \]
+Why $n = 3d - 1$ because we want to have $\ev^{-1}(\alpha_1, \dots, \alpha_n)$ be a top-dimensional class of $\Mbar_{A,0,n}$ and $\alpha_1 \in H^4(X, \Z)$ is Poincare dual to a point and thus we want,
+\[ 4 n = \dim{\Mbar_{A,0,n}} = 6 d - 2 + 2n \]
+and thus $n = 3d - 1$. 
+\bigskip\\
+To compute these numbers we use relations in $H^*(\Mbar_{0,4})$ to get a recursive formula,
+\[ N_d = \sum_{d_1 + d_2 = d} \left( -d_1 d_2^3 N_{d_1} \cdot N_{d_2} {3 d - 4 \choose 3 d_1 - 3} + d_1^2 d_2^2  N_{d_1} \cdot N_{d_2} { 3 d - 4 \choose 3 d_1 - 2} \right) \]
+Consider the boundary strata of $\Mbar_{0,4} \cong \CP^1$ (there are three corresponding to where one points hits the other three). These three strata define equal classes in cohomology (clearly because its just $\CP^1$). Fix two points $p_1, p_2$ and two lines $\ell_1, \ell_2$ in $\CP^2$ in general position. Consider the moduli space of degree $d$ genus $0$ curves $f : C \to X$ with $n$ marked points such that,
+\[ f(x_1) = p_1 \quad f(x_2) = p_2 \quad f(x_3) \in \ell_1 \quad f(x_4) \in \ell_4 \]
+and the corss ratio of $x_1, \dots, x_4$ is fixed (meaning it lies in a fiber of the map $\Mbar_{0,n} \to \Mbar_{0,4}$) and the other $n - 4$ marked points are mapped to $n - 4$ fixed points in $\CP^2$ in general position (in particular not on $\ell_1$ or $\ell_2)$. Using the relation in homology we see that the boundary component with $x_1, x_2$ on one side is equal to the one with $x_1, x_3$ in homology so we get ``splitting into points and lines equals splitting into one point and one line on each component.''
+\bigskip\\
+Total degree $d = d_1 + d_2$. Step 1, decompose $d = 0 + d$ since the marked points map to distinct points we cannot have degree $0$. However, $d = d + 0$ is allowed because the two lines intersect at one point so the second component can be constant at that point. 
+
+\end{document}
+
+
+

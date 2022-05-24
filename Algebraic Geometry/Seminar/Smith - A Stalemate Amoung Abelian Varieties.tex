@@ -1,0 +1,129 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{A Stalemate among Abelian Varieties over $\FF_q$}
+
+\subsection{A new construction for algebraic integers}
+
+\begin{defn}
+A complex number $\alpha \in \CC$ is an algebraic integer if there exists some monic integer polynomial $p \in \Z[x]$ such that $p(\alpha) = 0$.
+\end{defn}
+
+\begin{defn}
+The minimal polynomial of $\alpha$ is the unique polynomial of the above form with minimal degree. The roots of the minimal polynomial are called the conjugates of $\alpha$.
+\end{defn}
+
+\begin{defn}
+Take an algebraic integer $\alpha$ with conjugates $\alpha_1, \dots, \alpha_n$. Then $\deg{\alpha} = n$ and $\tr{\alpha} = \alpha_1 + \cdots + \alpha_n$. Call $\alpha$ totally positive if $\alpha_1, \dots, \alpha_n > 0$.
+\end{defn}
+
+\begin{example}
+Consider $\zeta_7$ a primitive root of $x^7 - 1$. Then $\deg{\zeta_7} = 6$ and $\tr{\zeta_7} = -1$. 
+\end{example}
+
+\begin{example}
+Consider $\beta = \zeta_7 + \bar{\zeta_7}$ then $\tr{\zeta_7 + \bar{\zeta_7}} = -1$. Then we can take $\gamma = \zeta_7 + \bar{\zeta_7} + 2$ then $\gamma$ is totally positive with $\deg{\gamma} = 3$ and $\tr{\gamma} = 5$.
+\end{example}
+
+\begin{example}
+If you take $\beta_n = \zeta_n + \bar{\zeta_n} + 2$ these are totally positive. The distribution of these conjugates follows $(1 - (x/2-1)^2)^{-\frac{1}{2}}$ in the interval $[0,4]$.
+\end{example}
+
+\begin{rmk}
+Shur - Siegal - Smith conjectured for any $\epsilon > 0$ there are only finitely many TPAIs  $\alpha$ such that,
+\[ \tr{\alpha} < (2 - \epsilon) \deg{\alpha} \]
+\end{rmk}
+
+\begin{thm}[Smith]
+There are infinitely many TPIA $\alpha$ so,
+\[ \tr{\alpha} < 1.809 \deg{\alpha} \]
+\end{thm}
+
+\begin{defn}
+Let $\Sigma$ be a real interval of length greater than $4$. Call an algebraic integer $\alpha$ a $\Sigma$-algebraic integer if all its conjugates lie in $\Sigma$. Given such an $\alpha$ we define a measure on Borel sets,
+\[ \mu_\alpha(Y) = \frac{\# \{ \beta \in Y \mid m_\alpha(\beta) = 0 \}}{\deg{\alpha}} \] 
+\end{defn}
+
+\begin{defn}
+We say that a sequence of measures $\mu_i$ weak-$*$ converges $\mu_i \to \mu$,
+\[ \lim_{i \to \infty} \int f \d{\mu_i} = \int f \d{\mu} \]
+for all continuous $f : \Sigma \to \RR$.
+\end{defn}
+
+\begin{rmk}
+This is weak-$*$ convergence in the dual space of $C(\Sigma)$. (CHECK THIS)
+\end{rmk}
+
+\begin{defn}
+Given $\mu$ on $\Sigma$ consider the conditions,
+\begin{enumerate}
+\item[(A)] there is a sequence $\alpha_i$ of distinct $\Sigma$-AIs such that $\mu_{\alpha_i} \to \mu$
+\item[(B)] for every nonzero integer polynomial $Q$,
+\[ \int_{\Sigma} \log{|Q|} \d{\mu} \ge 0 \]
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+Condition (A) implies (B).
+\end{prop}
+
+\begin{proof}
+Given $Q$ and $\alpha$ with conjugates $\alpha_1, \dots, \alpha_n$. Consider,
+\[ \beta = \prod_{i \le n} Q(\alpha_i) \]
+which is invariant under every Galois automorphism and thus $\beta \in \Z$. Furthermore,
+\[ \left| \prod_{i \le n} Q(\alpha_i) \right| \ge 1 \]
+unless $Q(\alpha) = 0$. Therefore,
+\[ \int \log{|Q|} \d{\mu_\alpha} \ge 0 \]
+Then by dominated convergence,
+\[ \int \log{|Q|} \d{\mu} \ge 0 \]
+\end{proof}
+
+\begin{example}
+Let $Q$ be the minimal polynomial for some other algebraic integer $\beta$. Then,
+\[ \int \log{|z - w|} \d{\mu_\alpha} \d{\mu_\beta} \ge 0 \]
+showing that the conjugates of $\alpha$ and $\beta$ are spaced apart.
+\end{example}
+
+\begin{thm}[Smith (2021)]
+Condition (B) implies condition (A).
+\end{thm}
+
+\begin{rmk}
+Previously this required an energy condition,
+\[ I(\mu) = \int \int \log{|z - w|} \d{\mu(z)} \d{\mu(w)} \ge 0 \]
+\end{rmk}
+
+\subsection{Abelian Varieties}
+
+We require the Weil conjectures but actually only the parts that were known to Weil.
+
+\begin{theorem}[Weil]
+Given a ``nice'' curve $C / \FF_q$ of genus $g$, there are AIs,
+\[ \lambda_1, \dots, \lambda_g \]
+suh that $|\lambda| = q^{\frac{1}{2}}$ for $i \le g$ such that,
+\[ \# C(\FF_{q^n}) = q^n + 1 - (\lambda_1^n + \bar{\lambda}_1^n + \cdots + \lambda_g^n + \bar{\lambda}_g^n) \]
+\end{theorem}
+
+\begin{thm}[Weil]
+Given $A / \FF_q$ of dimension $g$, there exist,
+\[ \lambda_1, \dots, \lambda_g \]
+with $|\lambda| = q^{\frac{1}{2}}$ and,
+\[ \# A(\FF_{q^n}) = \prod_{i \le g} (\lambda_i^n - 1)(\bar{\lambda}^n_i - 1) \]
+If $A$ is the Jacobian of $C$, these $\lambda_i$ agree with the previous ones for $C$.
+\end{thm}
+
+\subsection{Honda - Tate Theory}
+
+Consider the map $A \mapsto \lambda_1 + \bar{\lambda}_1$. This gives,
+\[ \{ \text{simple } A / \FF_q \text{ up to isogeny} \} \to \{ \text{AIs } \alpha \text{ with conjugates in } [-2\sqrt{q}, 2\sqrt{q}] \text{ up to conjugacy} \} \]
+(Note: you can write any such $\lambda \in [-2\sqrt{q}, 2\sqrt{q}]$ as a sum of a Weil $q$ number and its conjugate under $z \mapsto z + \frac{q}{z}$
+Tate showed that this map is injective. Honda showed that this map is bijective.
+\bigskip\\
+Notice that,
+\[ \# A(\FF_{q^n}) = \prod_{i \le g} (\lambda_i^n - 1)(\bar{\lambda}^n_i - 1)  = \prod_{i \le n} (q + 1 - \lambda_i - \bar{\lambda}_i) \]
+Therefore, 
+
+\end{document}

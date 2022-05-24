@@ -1,0 +1,634 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{NumberTheoryCommands}
+
+\begin{document}
+
+
+\newcommand{\Zspec}{\mathcal{Z}^{\mathrm{spec}}}
+
+
+\section{Moduli of $L$-parameters}
+
+Let $F / \Q_p$ be finite and $p$ prime and $W_F$ the Weil group. Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & I_F \arrow[d, equals] \arrow[r] & W_F \arrow[d] \arrow[r] & \left< \Frob_{k_F} \right> \arrow[r] & 1
+\\
+1 \arrow[r] & I_F \arrow[r] & \Gal{\overline{F}/F} \arrow[r] & \Gal{\overline{k_F}/k_F} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+
+\begin{defn}
+Let $\ell \neq p$ be prime, define,
+\[ \Phi(\GL_n, F) \]
+to be the set of isom classes of $n$-dimensional continuous representations of $W_F$ on $\GL_n(\Qbar_\ell)$. 
+\end{defn}
+
+There is also,
+\[ \Pi(\GL_n, F) \]
+is the set of isomorphism classes of irreducible smooth representations of $\GL_n(F)$ the topological group on $\Qbar_\ell$ (smooth means that vectors have open stabilizers). Note that smooth irreducible representations are automatically admissible.
+
+\begin{theorem}[Harris-Taylor]
+There is a bijection:
+\[ LL_n : \Pi(\GL_n, F) \to \Phi(\GL_n, F) \]
+satisfying many good properties.
+\end{theorem}
+
+\begin{rmk}
+For example, when $n = 1$ the map $LL_1$ is induced by Local CFT $W_F^{\ab} \cong F^\times$.
+\end{rmk}
+
+\subsection{Goal}
+
+Generalize this to general connected reductive $G$ and to more general coefficients $\Lambda$ (than $\Qbar_\ell$) for example $\Lambda = \overline{\Z}_\ell$ or the universal deformation ring of some mod $\ell$ representation. 
+
+\subsection{For Now}
+
+Let $G / F$ be a split reductive group and let $\hat{G} / \Qbar_\ell$ be its Langlands dual group for example,
+\begin{enumerate}
+\item $\GL_n \iff \GL_n$
+\item $\SL_n \iff \PGL_n$
+\item $\SO_{2n+1} \iff \Sp_{2n}$
+\item $\SO_{2n} \iff \SO_{2n}$.
+\end{enumerate}
+
+Define $\Pi(G, F)$ as before meaning isomorphism classes of smooth irreducible $G(F)$ representations on $\Qbar_\ell$-vectorspaces. And define $\Phi(G, F)$ to be continuous homomorphisms $W_F \to \hat{G}(\Qbar_\ell)$ up to $\hat{Q}(\Qbar_\ell)$-conjugacy. 
+
+\begin{conjecture}
+There is a surjective map, 
+\[ LL_G : \Pi(G, F) \to \Phi(G, F) \]
+with finite fibers $\Pi_\phi = LL_G^{-1}(\phi)$ called $L$-packets and we expect that $\Pi_\phi$ is in bijection with irreducible $\Qbar_\ell$-representations where $S_\phi$ is a finite group associated to $\phi$. 
+\end{conjecture}
+
+\begin{rmk}
+For $\GL_n$ we can characterize $LL_n$ using $\epsilon$-factors of pairs etc. but this seems to be Hopeless for general $G$. 
+\end{rmk}
+
+\begin{rmk}
+One strategy for pinning down $LL_G$ is to upgrade it is a categorical equivalence. Fargues-Scholze have some conjectural categorical $LL_G$ which we will not discuss. Roughly it says there is an equivalence between the derived category of coherent sheaves on the moduli stack of Langlands parameters is equivalent to the derived category of $\ell$-adic sheaves on the Fart-Fontain curve. 
+\end{rmk}
+
+\begin{rmk}
+The other strategy is to make it work in families (Emerton and Helm).
+\end{rmk}
+
+\subsection{A Tale of Two Centers}
+
+\newcommand{\cZ}{\mathcal{Z}}
+
+\begin{defn}
+The Berstein center of an abelian category,
+\[ \cZ(\cA) \]
+is the endomorphisms of the identity functor.
+\end{defn}
+
+\begin{prop}
+$\cZ(\cA)$ is commutative.
+\end{prop}
+
+\begin{proof}
+Consider $\varphi, \psi \in \Z(\cA)$ then for each object $X \in \cA$ we have $(\varphi \circ \psi)_X = \varphi_X \circ \psi_X$ but $\psi_X : X \to X$ is a morphism and we know that $\varphi$ is a natural transformation so we have,
+\[ \varphi_X \circ \psi_X = \psi_X \circ \varphi_X = (\psi \circ \varphi)_X \]
+and therefore $\varphi \circ \psi = \psi \circ \varphi$. 
+\end{proof}
+
+Consider,
+\[ \cA =  \Rep_{\Zbar_\ell}(G(F)) \]
+which is an ebelian category. Then $\Z(\cA)$ is a commutative $\overline{\Z}_\ell$-algebra. There are variants with other coefficients ($\Qbar_\ell$ and $\overline{\FF}_\ell$). 
+\bigskip\\
+Helm works on $G = \GL_n$ over $\Zbar_\ell$. 
+
+\begin{rmk}
+If $\H \in C$ such that, 
+\[ End{\H} = 
+\begin{cases}
+\overline{\FF}_p 
+\\
+\Qbar_\ell
+\end{cases} \]
+Then we get a map $\Z(C) \to \End{\H}$ giving a field valued point. 
+\end{rmk}
+
+\subsection{Spectral Berstein Center}
+
+Consider $\Zspec(G, \Zbar_\ell)$ is global functions on the moduli stack of $\hat{G}$-valued $L$-parameters over $\Zbar_\ell$. This stack will be $[Z^1(W_F, \hat{G}) / \hat{G}]$ where $Z^1(W_F, \hat{G})$ represents the functor,
+\[ R \mapsto \Hom{\text{cont}}{W_F}{\hat{G}(R)} \]
+where $\hat{G}(R)$ is topologized in some way. This is the cocycles because $W_F$ acts trivially on $\hat{G}(R)$.
+
+\begin{thm}
+$Z^1(W_F, \hat{G})$ is a disjoint union of finite type affine schemes of $\Zbar_\ell$ each is flat and lci and generically smooth (over $\Qbar_\ell$ hmm?). 
+\end{thm}
+
+Global functions on the stack,
+\[ [Z^1(W_F, \hat{G}) / \hat{G} ] \]
+are just $\hat{G}$-equivariant functons on $Z^1(W_F, \hat{G})$ so we have,
+\[ \Zspec(W_F, \hat{G}) = \Gamma(Z^1(W_F, \hat{G}) // \hat{G}) \]
+
+\begin{thm}
+Closed points of $Z^1(W_F, \hat{G}) // \hat{G}$ correspond to semisimple representations of $W_F \to \hat{G}(\overline{\FF}_\ell)$. 
+\end{thm}
+
+\begin{defn}
+For a representation into a reductive group $G$ meaning a map $H \to G$ \textit{semi-simple} means that if $\phi : H \to G$ factors through a parabolic subgroup $P \subset G$ then it must factor though some Levi factor $L \subset P$. 
+\end{defn}
+
+One of the main results of Fargues-Scholtza (FS) is a map,
+\[ \psi_G : \Zspec(G, \Zbar_\ell) \to \Z(G(F), \Zbar_\ell) \]
+satisfying some good properties. Recall that if we have $\H$ an irreducible smooth $\Zbar_\ell$ represnetation to $G(F)$ with endomorphism $\Qbar_\ell$ then we get a map $\Z(G(F), \Zbar_\ell) \to \Qbar_\ell$ giving a semisimple rep $\phi : W_F \to \hat{G}(F)$. This should be,
+\begin{center}
+\begin{tikzcd}
+\Pi(G) \arrow[r, dashed] \arrow[rd, "\phi_G"] & \Phi(G) \arrow[d]
+\\
+& \Phi^{\text{ss}}(G) 
+\end{tikzcd}
+\end{center}
+This recovers Harrs-Taylor and in factlies of  $\psi_G$ is an isomorphism. This recovers ``LL in families'' of Emerton-Helm and Helm-Moss. 
+\bigskip\\
+Actually, we will define $Z^1(W_F, \hat{G})$ over $\Z[p^{-1}]$ by discretising $W_F$. The end goal is to understand both centers so that we can state FS and give recient applications.
+
+\section{Weil-Deligne Representations}
+
+Recall that $F / \Q_p$ and residue field $k_F$ of cardinality $q$ for $\ell \neq p$ for $w \in W_F$ write,
+\[ W_F \to \Z \to q^\Z \]
+denote $w \mapsto || w ||$. Obseve that $\Pi(G)$ does not depend on the $\ell$-adic topology and thus on $\ell$ but $\Phi(G)$ does seem to depend on the $\ell$-adic topology. We use Weil-Deligne representations to fix this problem.
+
+\begin{thm}
+Let $k / \Q_\ell$ be a finite extension and $(\rho, V)$ a finte representation of $W_F$ over $K$ (the field of $V$). Then there exists some open $H \subset I_F$ such that for all $x \in G$ we have $\rho(x)$ unipotent in $\GL(V)$.
+\end{thm}
+
+\begin{rmk}
+The slogan is that inertia is quasi-unipotent. 
+\end{rmk}
+
+\begin{proof}
+We need some results about the structure of $I_F$ to prove this.
+ Fix $\bar{F}$ then $F^{\unr} \subset \bar{F}$ has a unique degree $n$ extension for $(n,p) = 1$ given by the splitting field of $x^n - \varpi_F$ where $\varpi_F$ is a uniformizer. Note that $F^{\unr}$ already contains the $n^{\text{th}}$-roots of unity because $(n,p) = 1$. Therefore we get a Galois group $\Z / n \Z(1) = \mu_n$. (WHAT DOES THIS REALLY MEAN) There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & P_F \arrow[r] & I_F \arrow[r] \arrow[rd, "t_{\ell}"] & \prod_{\lambda \neq p} \Z_\lambda(1) \arrow[d] \arrow[r] & 1
+\\
+& & & \Z_\ell(1)
+\end{tikzcd}
+\end{center}
+By continuity of $\rho$ we can take an open subgroup $H \subset I_F$ such that $\rho(x) \in 1 + \ell^2 M_m(\struct{K}) \subset \GL_m(K)$. This implies that,
+\[ \log{\rho(x)} = \sum_{j = 0}^\infty \frac{(\rho(x) - 1)^j}{j} \]
+converges in the $\ell$-adic topology. Now further shrink $H$ so that $\rho|_H$ factors through $t_{\ell}$ (because the group is pro-$\ell$ since it is trivial after reduction) and then for $w \in W_F$ we get $x \in H$,
+\[ \log{\rho(wxw^{-1})} = \log{\rho(x)^{||w||}} = (\log{\rho(x)})^{||w||} \]
+If $p$ is the char poly of $\log{\rho(x)}$ then writing,
+\[ p(T) = \sum a_k T^k \]
+then we showed that $q^{n-k} a_k = a_k$ and thus $a_k = 0$ for $k \neq n$ and thus $\log{\rho}$ is nilpotent. 
+\end{proof}
+
+
+\begin{cor}
+There is a unique nilpotent $N \in \End{V}$ such that $\rho(w) N \rho(w)^{-1} = ||w|| N$ and there exists open $H \subset I_F$ such that,
+\[ \rho(x) = \exp(t_\ell(x) \cdot N) \]
+\end{cor}
+
+\begin{proof}
+This equation for a single $x \notin \ker{t_\ell}$ determines $N$. For existence, it is clear if $\rho|_{I_F}$ factos over a finite quotient since then we can take $N = 0$ (and $H$ the open inside the kernel). If not then there exists $y \notin \ker{t_\ell}$ such that $\rho(y) \neq 1$ and then we define,
+\[ N = \log{\rho(y) t_\ell(y)^{-1}} \]
+and $\Z_\ell(1) \to \GL(V)$ given by $x \mapsto \exp(xN)$ recovers $\rho$ via $H \to \Z_\ell(!) \to \GL(V)$.
+\end{proof}
+
+\begin{defn}
+Let $R$ be a $\Z[p^{-1}]$-algebra. A Weil-Deligne representation over $R$ is a pair $(\rho, N)$ where $\rho : W_F \to \GL_n(R)$ such that $\rho|_{I_F}$ has finite image and $N \in M_n(R)$ is nilpotent such that for all $x \in W_F$,
+\[ \rho(x) N \rho(x)^{-1}  = || w || N \] 
+\end{defn}
+
+\begin{rmk}
+The moduli space of these things is flat over $\Z[\frac{1}{M p}]$ where $M = \# \GL_n(k_F) n!$. 
+\end{rmk}
+
+\begin{thm}
+For $K = \Qbar_\ell$ there is an equivalence of categories,
+\[ \{ \text{n-dim WD-representation over } K \} \iso \{ \text{continuous n-dim representations of } W_F\text{ over } K \} \]
+Given by sending $(\rho, N) \mapsto \rho'$ where for $w = \varphi^a x$ for $x \in I_F$ and $\varphi$ is some lift of Frobenius then let,
+\[ \rho'(w) = \rho(\varphi^a) \exp{(t_\ell(x) \cdot N)} \]
+and is independent of the choosen lift of Frobenius. 
+\end{thm}
+
+\begin{defn}
+For $G/F$ split connected reductive, a WD rep with values in $\hat{G}$ over $R$ is a pair $(r, N)$ where,
+\[ r : W_F \to \hat{G}(R) \]
+such that $I_F$ has finite image and $N \in \hat{\g}(R)$ such that for all $w \in W_F$,
+\[ \Ad(r(w)) \cdot N = ||w|| \cdot N \]
+\end{defn}
+
+\begin{rmk}
+There is a moduli space $WD(\hat{G})$ over $\Z[p^{-1}]$. Fix $L / F$ some finite extension and consider $WD_{L/F}(\hat{G})$ parametrizing the same $(r, N)$ as before but now $r|_{I_L}$ is required to be trivial for $I_L \subset I_F$. Then $WD(\hat{G}) = \varinjlim_{L/F} WD_{L/F}$ and the $WD_{L/F}$ are of finite type over $\Z[p^{-1}]$. 
+\bigskip\\
+There is a map $WD_{L/F}(\hat{G}) \to \Rep(I_{L/F}) \times \mathrm{Nilp}(\hat{\g})$ given by $(r,N) \mapsto (r|_{I_F}, N)$ but since $r|_{I_L}$ is trivial $r$ is a representation of $I_{L/F}$.
+\end{rmk}
+
+\section{April 12}
+
+\subsection{Introduction to DHKM}
+
+Let $G$ be a quasi-split connected reductive group. We study the modui space of $L$-parameters $\varphi : W_F \to L_G(\Qbar_\ell)$ continuous with $\ell$-adic topology. These correspond to continuous $\varphi : W_F^0 \to L_G(\Qbar_\ell)$ with the discrete topology where $W_F^0$ is ``discretized'' tame inertia.
+
+\begin{defn}
+Let $\pi : W_F \to W_F / P_F$. Consider $\left< F, s \right> \subset W_F / P_F$ where $s$ is a topological generator of tame inertia. Then,
+\[ \left< F, s \right> = s^{\Z[q^{-1}]} \rtimes F^{\Z} \]
+where $q = \# k_F$ (since $s$ is a generator of tame inertia we have $q$-roots because these are tame). We define $W_F^0 = \pi^{-1}(\left< F, s \right>)$. 
+\end{defn}
+
+(WHY IS TAME INERTIA DIVISIBLE BY q, because $\Z_\ell$ is divisible by $q$ for all $q \neq \ell$)
+
+Then $\hat{G}$ is a split reductive group scheme over $\cO[p^{-1}$. 
+It is easy to show that $Z^1(W_F^0, \hat{G})$ is representable using generators and relations since $W_F^0$ is discrete. 
+
+\begin{thm}
+$Z^1(W_F^0, \hat{G})$ is flat over $\cO[p^{-1}]$, lci pure absolute dimension $\dim{\hat{G}} + 1$ and generically smooth over $Z^1(P_F, \hat{G})$ meaning the map $Z^1(W_F^0, \hat{G})_{\Qbar_\ell} \to Z^1(P_F, \hat{G})_{\Qbar_\ell}$ is smooth. Furthermore,
+\begin{enumerate}
+\item affine coordinate ring of $Z^1(W_F^0, \hat{G})$ is $\ell$-adically separated
+\item describe the geometric irred. components 
+\item describe the quotient
+\[ Z^1(W_F^0, \hat{G})_L // \hat{G}_L \]
+where $L = \bar{L}$ has characteristic not $p$ (any algebraically closed field mapping to $\cO[p^{-1}]$). 
+\end{enumerate}
+\end{thm}
+
+\begin{rmk}
+This is the functor $R \mapsto Z^1(W_F^0, \hat{G}(R))$ on $\cO[p^{-1}]$-algebras. 
+\end{rmk}
+
+\subsection{Affine Scheme}
+
+Easy to see that
+
+\begin{lemma}
+The functor $R \to Z^1(W_F^0/P_F, \hat(G)(R))$ is representable by an affine scheme of finite type over $\cO[1/p]$.
+\end{lemma}
+
+\begin{proof}
+A coycle $\varphi \in Z^1(W_F^0 / P_F, \hat{G}(R))$ is determined uniquely by $\varphi(F), \varphi(s) \in \hat{G}(R)$. Then,
+\[ (F_0, s_0) \in \hat{G}(R) \times \hat{G}(R) \text{ is a cocycle} \iff (F_0, F)(s_0, s)(F_0, F)^{-1} = (s_0, s)^q \]
+\end{proof}
+
+\section{April 28 Reduction to tame Parameters}
+
+\newcommand{\ok}{\mathcal{O}_{K_e}}
+
+Recall $\hat{G}$ is a split reductive group scheme over $\Z[p^{-1}]$ with a finite action of $W_F$ and ${}^L G = \hat{G} \rtimes W$ where $W$ is a finite quotient of $W_F$ through which the action factors. 
+\bigskip\\
+We studied moduli of tame parameters, i.e. assumed the action factors through $W_F / P_F$ where $P_F$ is wild inertia. [We also assume the action preserves a Borel pair, but this is irrelevant. We only needed that ${}^L \varphi(s)^{ss}$ preserves a Borel pair, this is always true by Setinberg ``Endomorphisms of Linear Alebraic Groups'', Theorem 7.5]. We proves some nice properties of $Z^1(W_F^0 / P_F, \hat{G})$,
+\begin{enumerate}
+\item $Z^1(W_F^0, P_F, \hat{G})$ is ffppf / $\Z[1/p]$ with lci fibers of pure dimension $\dim{\hat{G}}$
+\item $Z^1(W_F^0 / P_F, \hat{G})$ is generically smooth
+\item coordinate ring is $\ell$-adically separated for $\ell \neq p$.
+\end{enumerate}
+
+We want the same properties for $Z^1(W_F^0, \hat{G})$ in general. (Strategy, reduce to tame case). Idea: look at space of cycles with fixed behavior on $P_F$. First fix a filtration,
+\[ P_F \supset P_F^1 \supset P_F^2 \supset \cdots \]
+of $P_F$ by open normal subgroups of $P_F$ with the property that,
+\[ \bigcap_e P_F^e = \{ 1 \} \]
+Fix two data, the first is the restriction of $\varphi$ to $P_F$ denoted by $\phi$ [by continuity each $\phi$ factors through $P_F / P_F^e$ for some $e$ (the preimage of $0$ is open and hence finite index since $P_F$ is profinite). 
+
+\begin{theorem}
+Fix $e \ge 1$. There is a number field $K_e$ and a finite set $\Phi_e \subset Z^1(P_F / P_F^e, \hat{G}(\ok[1/p])$ such that,
+\begin{enumerate}
+\item if $R$ is a $\ok[1/p]$-algebra then any cocycle $\phi : P_F / P_F^e \to \hat{G}(K)$ is \etale-locally $\hat{G}$-conjugate to some $\phi_0 \in \Phi_e$ (unique once it exists)
+\item for any $\phi \in \Phi_e$, the reductive group scheme $C_{\hat{G}}(\phi)^\circ$ is split over $\ok[1/p]$ and its component group $\pi_0(\phi) = \pi_0(C_{\hat{G}}(\phi))$ is constant. 
+\end{enumerate}
+\end{theorem}
+
+WARNING: $C_{\hat{G}}(\phi)$ is the centralizer of ${}^L \phi$ not of $\phi$ and $C_{{}^L \phi}(\phi)$ is not even the centralizer of ${}^L \phi$. 
+
+\begin{defn}
+We define functorially,
+\[ C_{{}^L G}(\phi) = \{ (g, w) \in {}^L G \mid (g, w) {}^L \phi(w^{-1} p w) (g, w)^{-1} = {}^L \phi(p) \text{ for all } p \in P_F \} \]
+\end{defn}
+
+\begin{rmk}
+From now on assume that $P_F / P_F^e \to W$ is injective. Note, $C_{{}^L G}(\phi) \cap \hat{G} = C_{\hat{G}}(\phi)$. 
+\end{rmk}
+
+Let $\tilde{\pi}_0(\phi) = \pi_0(C_{{}^L G}(\phi))$ then there is a SES (maybe need $\phi$ admissible)
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \pi_0(\phi) \arrow[r] & \tilde{\pi}_0(\phi) \arrow[r] & W \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+
+Any extension ${}^L \varphi$ of ${}^L \phi$ factors through $C_{{}^L G}(\phi)$ so it gives a map $\alpha_\phi : W_F^0 \to C_{{}^L G}(\phi) \to \tilde{\pi}_0(\phi)$ extending the map $P_F \xrightarrow{{}^L \phi} C_{{}^L G}(\phi) \to \tilde{\pi}_0(\phi)$. 
+\begin{center}
+The other datum we fix is a section $\alpha$ of (*) extending $P_F \xrightarrow{{}^L \phi} C_{{}^L G}(\phi) \to \tilde{\pi}_0(\phi)$. Let $\Sigma(\phi) = \{ \text{such } \alpha \}$. 
+\end{center}
+
+Then we write down,
+\[ Z^1(W_F^0, \hat{G})_\phi = \{ \varphi \in Z^1(W_F^0, \hat{G}) \mid \varphi|_{P_F} = \phi \} \]
+and likewise,
+\[ Z^1(W_F^0, \hat{G})_{\phi, \alpha} = \{ \varphi \in Z^1(W_F^0, \hat{G})_{\phi} \mid \alpha_{\varphi} = \alpha \} \]
+
+\begin{defn}
+We say $\phi, \alpha$ are admissible if these schemes are nonempty.
+\end{defn}
+
+There is an isomorphism for fixed $\varphi$ over $R$ of $R$-schemes,
+\[ Z^1_{\Ad \varphi}(W^\circ_F / P_F, C_{\hat{G}}(\phi)^\circ)_R \iso Z^1(W_F^0, \hat{G})_{\phi, \alpha, R} \]
+This almost reduces us to the previous case with one Caveat: the action of $\Ad \varphi$ might not be finite. Also representatives $\varphi$ might not exist integrally.
+
+\begin{theorem}[Main Theorem]
+There is a finite extension $K_e' / K_e$ such that for any admissible $\phi \in \Phi_e$ and admissible $\alpha \in \Sigma(\phi)$ there is some $\varphi_\alpha \in Z^1(W_F^0, \hat{G}(\mathcal{O}_{K_e'}[1/p])$ such that ${}^L \varphi_\alpha(W_F^0)$ is finite (also it can be chosen to preserve a Borel pair of $C_{\hat{G}}(\phi)^\circ$). 
+\end{theorem}
+
+\subsection{Consequences}
+
+First we remark that to prove geometric properties of $Z^1(W_F^0/P_F^e, \hat{G})$ it suffices to consider the base chance to the extension $K_e'$. There is a map,
+\[ Z^1(W_F^0/P_F^e, \hat{G})_{\ok[1/p]} \to Z^1(P_F/P_F^e, \hat{G})_{\ok[1/p]} = \coprod_{\phi \in \Phi_e} \hat{G} \cdot \phi \cong \prod_{\phi \in \Phi_e} \hat{G} / C_{\hat{G}}(\phi) \]
+Then over a particlar $\phi$ we get the fiber,
+\begin{center}
+\begin{tikzcd}
+Z^1(W_F^0/P_F^e, \hat{G}) \arrow[r] & Z^1(W_F
+\\
+\Spec{\ok[1/p]} \arrow[r, "\phi"] & Z^1(P_F / P_F^e, \hat{G})_{\ok[1/p]}
+\end{tikzcd}
+\end{center}
+Over $\bar{Z}[1/p]$ we can choose these $\Phi_e$ such that $\Phi_e \subset \Phi_{e+1}$ for each $e$. As a consequence, 
+\[ Z^1(P_F, \hat{G})_{\bar{Z}[1/p]} = \varinjlim_e Z^1(P_F, P_F^e, \hat{G})_{\bar{Z}[1/p]} = \coprod_{\phi \in \Phi} \hat{G} \cdot \phi \]
+So ultimately, good properties of $Z^1(W_F^0, \hat{G})$ reduce to these properties over $\bar{Z}[1/p]$ and thus to the fibers. Because the obits downstairs are open and closed we just need to check over each orbit and because of equivariance we can check flatness on this section. 
+
+\begin{theorem}
+This discussion implies that,
+\begin{enumerate}
+\item $Z^1(W_F^0, \hat{G})_{\phi, \alpha}$ is fppf / $\ok[1/p]$ and lci with fibers of pure dim $C_{\hat{G}}(\phi)$
+\item $Z^1(W_F^0, \hat{G})_{\phi, \alpha}$ is generically smooth
+\item the coordinate ring is $\ell$-adically separated. 
+\end{enumerate}
+\end{theorem}
+
+\subsection{Outline of the Proof}
+
+We only will need to show there are sections fppf locally (not integral sections). We will show,
+\begin{enumerate}
+\item using admissibility, find an $\bar{\FF}_\ell$-point
+\item lift this point to get a section over $\mathcal{O}_{\overline{W(\bar{\FF}_\ell)}}$
+\item modify the lift to have finite image 
+\item spread out to get a section over a quasi-finite flat extension of $\ok[1/p]$ 
+\item modify to get sections over the remaining complete local rings $\overline{\mathcal{O}}_\lambda$. 
+\end{enumerate}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\cT}{\mathcal{T}}
+
+
+Fix a Borel pair $\B_\phi = (B_\phi, T_\phi)$ in $C_{\hat{G}}(\phi)^\circ$ let $\cT_\phi = N_{C_{{}^L G}(\phi)}(\B_\phi)$. Some facts,
+\begin{enumerate}
+\item $\T_\phi$ is smooth over $\ok[1/p]$ ($N(B)^\circ = B$ and the normalizer of a mult. type group scheme in a smooth group scheme is smooth without connected component
+\item $\T_\phi^\circ = T_\phi$ (normalizer of Borus is a reductive group scheme in the torus)
+\item $\pi_0(\T_\phi) = \pi_0(C_{{}^L G}(\phi)) = \tilde{\pi}_0(\phi)$ (Borel pairs are \etale-locally conjugate). 
+
+\item the action of $\T_\phi$ on $T_\phi$ factors through $\tilde{\pi}_0(\phi) \acts T_\phi$ and thus any $\alpha \in \Sigma(\phi)$ gives rise to an action of $W_F / P_F$ on $T_\phi$. 
+\end{enumerate}
+
+\begin{defn}
+Functorially,
+\[ \Sigma(W_F^0, T_\phi)_\phi = \{ \varphi \in Z^1(W_F^0, \hat{G}) \mid {}^L \varphi(W_F^0) \subset \T_\phi \} \] 
+This condition is equivalent to ${}^L \varphi(W_F^0)$ normalizing $\B_\phi$.
+\end{defn}
+
+This gives a disjoint union decomposition,
+\[ \Sigma(W^0_F, \T_\phi)_\phi = \coprod_{\alpha \in \Sigma(\phi)} \Sigma(W_F^0, \T_\phi)_{\phi,\alpha} \]
+Each as an $\ok[1/p]$-action from $Z^1_\alpha(W_F^0/P_F, T_\phi)$ given by multiplication $(\psi, \varphi) \mapsto \psi \varphi$ such that for every $\ok[1/p]$-algebra $R$,
+\[ \Sigma(W_F^0, \T_\phi(R))_{\phi, \alpha} \]
+is either empty or a torsor for $Z^1_\alpha(W_F^0/P_F, T_\phi(R))$ [pseudo-torsor]. The main result is again.
+
+\begin{theorem}
+IF $\phi$ and $\alpha$ are admissible, then
+\begin{enumerate}
+\item $Z^1_\alpha(W_F^0/P_F, T_\phi)$ is a diagonalizable group scheme over $\ok[1/p]$.
+\item $\Sigma(W_F^0, T_\phi)_\phi$ is an fppf torsor under $Z^1_\alpha(W_F^0/P_F, T_\phi)$.
+\end{enumerate}
+moreover, both statements remain true for $W_F^0$ replace by a suitable finite quotient. 
+\end{theorem}
+
+The main theorem follows for the statment that $\Sigma(W, T_\phi(\mathcal{O}_{K_e'}[1/p]))_{\phi, \alpha} \neq \empty$ for some finite $K_e' / K_e$. One other point: torsors for a diag. group scheme $E$ are trivialed over the normalization in some finite extension. There are two essential cases,
+\begin{enumerate}
+\item $D = \Gm$ 
+\item $D = \mu_n$ for some $n$
+\end{enumerate}
+
+For case (a) we pass to the Hilbert class field and torsors for $\Gm$ are line bundles but all ideal classes are trivialied after this cover so $H^1(\ok[1/p], \Gm) \to H^1(\mathcal{O}_{K_e'}[1/p], \Gm)$ is the zero map. For (b) there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\ok[1/p]^\times \arrow[r, "\times m"] & \ok[1/p]^\times \arrow[r] & H^1_{\text{fppf}}(\ok[1/p], \mu_m) \to H^1_{\text{fppf}}(\ok[1/p], \Gm) \arrow[r, "\times m"] & H^1_{\text{fppf}}(\ok[1/p], \Gm) 
+\end{tikzcd}
+\end{center}
+So after passing to $K_e^h$, the $\mu_m$-torsor is given by the $m$-th roots of some $f \in \ok[1/p]^\times$. So pass to the splitting field of $x^m - f$. 
+\bigskip\\
+The main point: various cohomology calculations. In putcomes for the following. Let $W_0 = W_F / P_F$ and $I_0 = I_F / P_F$ and $A$ an abelian group with finite $W_0$-action. 
+\begin{enumerate}
+\item There is a SES,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(W_0/I_0, H^1(I_0, A)) \arrow[r] & H^2(W_0, A) \arrow[r] & H^2(I_0, A)^{W_0/I_0} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+using the cohomological dimensions to get the zeros coming from the H-SSS.
+\item $H^2(I_0, A) = 0$ if $A$ contains a $p'$-div group of fin index
+\item $H^1(W_0/I_0, H^1(I_0, A)) = 0$ if $A$ is a $p'$-div group and thus $H^2(W_0, A) = 0$ if $A$ is a $p'$-div group.
+\end{enumerate}
+
+\begin{rmk}
+These follow from $I_0 \cong \hat{Z}^p$. 
+\end{rmk}
+
+\subsection{Completing the Proof}
+
+\begin{enumerate}
+\item Consider the map, 
+\[ Z^1_\alpha(W_F^0,P_F, \T_\phi) \to T_\phi \times T_\phi \]
+functorially via,
+\[ \eta \mapsto (\eta(F), \eta(s)) \]
+This realizes the LHS as a flat closed subgroup scheme of $T_\phi \times T_\phi$ which is diagonalizable so it is diagonalizable. 
+
+\item We want to show $\Sigma(W_F^0, T_\phi)_{\phi, \alpha}$ is an fppf-torsor for $Z^1_\alpha(W_F^0/P_F, T_\phi)$ we know on $R$-points it is empty or acted upon simply transitively. Thus it suffices to show it has fppf local sections. Suffices to find a faithfully flat $\ok[1/p]$-algebra $R$ such that $\Sigma(W_F^0, \T_\phi(R))_{\phi, \alpha} \neq \empty$. 
+\end{enumerate}
+
+\subsubsection{Step 1}
+
+By admissibility $Z^1(W_F^0, \hat{G})_{\phi, \alpha} \neq \empty$ but it is finite type over $\ok[1/p]$ and hence by Chevallay's theorem it has an $\overline{\FF}_\ell$-point. Therefore, get a map,
+\[ W_F^0 \xrightarrow{{}^L \bar{\varphi}} G(\overline{\FF}_\ell) \]
+factors through a finite quoitent because $W_F^0$ is finitely generated, hence lands in some ${}^L G(\FF_{\ell^n})$. Roughly speaking, modify $\varphi$ by $C_{\hat{G}}(\phi)$ to assume it fixes a Borel pair, and then use some cohomology vanishing to modify further. 
+
+\subsubsection{Step 2}
+
+We want to lift to characteristic zero. Find ${}^L \varphi : W_F^0 \to \T_\phi(\overline{W(\bar{k})})$ continuous for the ordinary topology on the left and the discrete topology on the right. By smoothness of $\T_\phi$ the map $\T_\phi(W(\bar{k})) \to \T_\phi(\bar{k})$ is surjective so we can choose lifts $\tilde{\varphi}(w) \in \T_\phi(W(\bar{k}))$ such that,
+\begin{enumerate}
+\item $\tilde{\varphi}(w)$ depens only on $\bar{\varphi}(w)$ and $\tilde{\varphi}(w) = 1$ if $\bar{\varphi}(w) = 1$ and ${}^L \tilde{\varphi}(pw) = {}^L \phi(p) {}^L \tilde{\varphi}(w)$ for all $w \in W_F$ and $p \in P_F$. Then consider the map,
+\[ c_2 : W_F \times W_F \to \ker{(\T_\phi(W(\bar{k})) \to \T_\phi(\bar{k}))} = A \]
+sending,
+\[ (w, w') \mapsto {}^L \tilde{\varphi}(w) {}^L \tilde{\varphi}(w') {}^L \tilde{\varphi}(ww')^{-1} \]
+This is a $2$-cocycle, it has finite image, factors through $(W_F / P_F) \times (W_F / P_F)$, and it is enough that this is a coboundary. Problems, $H^2(W_F, A) \neq 0$ but $A' = \ker{(\T_\phi(\bar{\mathcal{O}}) \to \T_\phi(\bar{k}))}$ is divisble, so $H^2(W_F, A') = 0$ 
+\end{enumerate}
+
+\newcommand{\Obar}{\overline{\mathcal{O}}}
+
+\subsubsection{Step 3}
+
+Modify ${}^L \varphi$ to have finite image. By continuity in step 2 (coefficients with the discrete topology) ${}^L \varphi(I_F)$ is finite since $I_F$ is compact. Problem is ${}^L \varphi(F)$ may not have finite order but this is the only obstruction to having finite order. Let $C_\phi$ be the maximal subtorus of $T_\phi^{W_F / P_F}$ so $C_\phi(\Obar)$ is finite index in $T_\phi(\Obar)^{W_F / P_F}$. Choose $m \ge 1$ such that,
+\begin{enumerate}
+\item ${}^L \bar{\varphi}(F^m) = 1$
+\item $\varphi(F^n) \in C_\phi(\Obar)$ [${}^L \varphi(I_F)$ is finite so $\varphi(F^n) \in T_\phi(\Obar)^{W_F/P_F}$ (it commutes with itself so just needs to commute with $\varphi(s)$ but there are finitely many mod $P_F$) and $C_\phi(\Obar) \subset T_\phi(\Obar)^{W_F/P_F}$ is finite index]. 
+\end{enumerate}
+
+Bow $\ker{(C_\phi(\Obar) \to C_\phi(\bar{k}))}$ is divislbe. So there exists $c$ such that $c^n = \varphi(F^n)$. Take $\varphi' : w \mapsto c^{-\gamma(w)} \varphi(w)$. 
+
+\subsubsection{Step 4}
+
+There exists a section / quasi-finite flat extension. The point $\Sigma(W, \T_\phi)_{\varphi, \alpha} \to \Spec{\ok[1/p]}$ is dominant, so spreads out to a generic section to $\mathcal{O}_K[1/N]$ where $K/K_e$ is finite $N \ge 1$. 
+
+\subsubsection{Step 5}
+
+Find a section over the missing points. Pick a prime $\lambda$ of $K$ divising $N$ but not $p$, let $K_\lambda$ be the completion at $\lambda$, and $\struct{\lambda} = \struct{K_\lambda}$. Then ${}^L \varphi : W_F \to \T_\phi(\mathcal{O}_K[1/N]) \to \T_\phi(K_\lambda)$. We want to conjugate by an element of $\T_\phi(K_\lambda)$ such that the image lies in $\T_\phi(\mathcal{O}_\lambda)$. A calculation reduces to vanishing of $\varphi$ in $H^1(W, T_\phi(K_\lambda) / T_\phi(\ints{\lambda}))$. This might not be divisible but $T_\phi(\bar{K}_\lambda) / T_\phi(\bar{\mathcal{O}}_\lambda)$ is divisible :
+\[ T_\phi(\bar{K}_\lambda) / T_\phi(\bar{\mathcal{O}}_\lambda) = \varinjlim_{[K' : K_\lambda] < \infty} T_\phi(K') / T_\phi(\ints{K'}) = \varinjlim_{[K' : K_\lambda] < \infty} \Hom{}{X_*(T_\phi)}{1/v(\pi_{K'}) \Z} = \Hom{}{X(T_\phi)}{\Q} \] 
+
+\section{May 3}
+
+\subsection{Quotients and GIT of Cocycles}
+
+\begin{enumerate}
+\item $H^1$ and basic properties
+\item passage to $L$-parameters $(L = \bar{L})$
+\item ``classical'' GIT detour
+\item $W_F^\circ / P_F$ to $W_F / I_F^e$ and inependence of choice of $W_F^\circ$.
+\end{enumerate}
+
+Goal: understand,
+\[ H^1(W_F^0P_F^e, \hat{G}) := Z^1(W_F^0/P_F^e, \hat{G}) // \hat{G} \]
+We have a 2-step decomposition,
+\[ Z^1 = \coprod_{\phi \in \Phi_e} Z^1_{\phi} = \coprod_{\phi, \alpha} Z^1_{\phi, \alpha} \]
+and we showed that,
+\[ Z^1_{\phi, \alpha} = Z^1_{\Ad \varphi}(W_F^0/P_F, C_{\hat{G}}(\phi)) \]
+Then I can write,
+\[ Z^1(W_F^0/P_F^e) = \coprod_{\phi \in \Phi_e} (\hat{G} \times Z^1(W_F^0, \hat{G})_{\phi})//C_{\hat{G}}(\phi) \]
+
+Second decomposition: $Z^1(W_F^0, \hat{G})_\phi = \coprod_{\alpha} Z^1(W_F^0, \hat{G})_{\phi, \alpha}$ 
+
+\[ H^1_{\Ad \varphi_{\alpha}}(W_F^0/P_f, C_{\hat{G}}(\phi)^\circ) \cong Z^1(W_F^0, \hat{G})_{\phi, \alpha, \cO'} // C_{\hat{G}}(\phi)^\circ \]
+Let $\sigma(\phi)^\circ$ be the set of $\pi_0(\phi)$-orbit representatives, for $\pi_0(\phi)_\alpha$ stabilzer of $\alpha$. Then,
+\[ H^1(W_F^0/ P_F^e, \hat{G})_{\cO'} = \coprod_{\phi} \coprod_{\alpha \in \Sigma(\phi)^\circ} H^1_{\Ad \varphi_\alpha}(W_F^0/P_F, C_{\hat{G}}(\phi)^\circ) // \pi_0(\phi)_{\alpha} \]
+At level of rings,
+\[ (R_{{}^L F})^{\hat{G}} \ot \cO' = \prod_{\phi} \prod_\alpha ((R_{{}^L G, \varphi_\alpha})^{C_{\hat{G}}(\phi)^\circ})^{\pi_0(\phi)_{\alpha}} \]
+Properties of $(R_{{}^L G})^{\hat{G}}$:
+\begin{enumerate}
+\item flat
+\item reduced
+\item finite presentation (hard algebra result)
+\end{enumerate}
+
+\begin{rmk}
+$A$ excellent normal implies that $B^G$ is finitely generated $A$-algebra and if $B$ is a finitely generated $A$-algebra. Then $G \acts B$ is reducible (surprising in char $\neq 0$). 
+\end{rmk}
+
+\subsection{Base Change}
+
+Base Change to $L = \bar{L}$ and $\mathrm{char}(L) = \ell \neq p$ (with $\ell = 0$ allowed). Then,
+\[ Z^1(W_F^0/P_F^e, \hat{G})_L // \hat{G}_L \to (Z^1(W_F^0/P_F^e, \hat{G}) // \hat{G})_L \]
+corresponds to,
+\begin{center}
+\begin{tikzcd}
+(R^e_{{}^L G})^{\hat{G}} \ot L \arrow[rd] \arrow[r, hook] & (R_{{}^L G}^e \ot L)^{\hat{G}} \arrow[d]
+\\
+& R_{{}^L G} \ot L 
+\end{tikzcd}
+\end{center}
+In characteristic 0 this is surjective (first go to $\Q$ and then $L$ both steps commute with taking $\hat{G}$-invariansts because fppf descent). For positive characteristic use [Alper, 2014]. 
+
+\begin{defn}
+A ring map $\rho : A \to B$ is \textit{adequate} of for all $b \in B$ there is $N$ such that $b^N \in \im{\rho}$ and \textit{universally adequate} means adequare after any base change along $A \to A'$, 
+\end{defn}
+
+\begin{example}
+$\FF_p \embed \FF_{p^n}$ is adequare but base changeing to $\FF_{p^n}$,
+\[ \FF_{p^n} \embed \prod \FF_{p^n} \]
+is not adequate. 
+\end{example}
+
+\begin{prop}
+Let $A \embed B$ be finite type $\FF_\ell$-algebras then the following are equivalent,
+\begin{enumerate}
+\item $A \embed B$ is universally adequate
+\item $\Spec{B} \to \Spec{A}$ is universal integral homeomorphisms
+\item there exists $r$ such that for all $b \in B$ we have $b^{\ell^r} \in A$
+\end{enumerate}
+\end{prop}
+
+\begin{theorem}
+A smooth group scheme $G \to S$ is reductive iff \textit{geometrically reductive} which implues that,
+\[ (R_{{}^L G}^\ell)^{\hat{G}} \ot \FF_\ell \to (R_{{}^L G}^\ell / \ell R_{{}^L G}^\ell)^{\hat{G}} \]
+is adequate. 
+\end{theorem}
+
+\subsection{$L$-parts of $H^1$}
+
+Classical GIT means keeping Zariski closed orbits. 
+
+\begin{defn}
+A closed subgroup $H \embed G$ is $G$-completely reductible if for all parabolics $P \subset G$ containing $H$ there exists a Levi subgroup $L$ for $P$ containing $H$. 
+\end{defn}
+
+\begin{example}
+$G = \GL_n$ then we recover the usual definition of completely reducible subgroup (meaning the corresponding representation is completely reducible)
+\end{example}
+
+\begin{defn}
+An $R$-parabolic/Levi subgroup of $G$ is one of the form,
+\begin{align*}
+P(\lambda) := \{ g \in G \mid \lim_{t \to 0} \lambda(t) g \lambda(t)^{-1} \text{ exists} \}
+\\
+L(\lambda) := C_G(\lambda(\Gm))
+\end{align*}
+For some $\lambda : \Gm \to G$.
+If $G$ is connected reductive, this is equivalent to the usual definitions but not otherwise.
+\end{defn}
+
+\begin{defn}
+A subgroup $H \embed G$ is \textit{strongly reductive} if: fix a maximal torus $S$ of $C_G(H)$ then $H$ is not contained in any proper parabolic of $C_G(S)$ (this is a Levi in $G$ for some parabolic and thus reductive by Borel LAG 20.8). 
+\end{defn}
+
+\begin{rmk}
+The deinition is independent of the choice of $S$.
+\end{rmk}
+
+\begin{prop}
+$H \subset G$ is $G$-completely reducible $\iff H \subset G$ is stronly reductive.
+\end{prop}
+
+If $H = \overline{\left< x_1, \dots, x_n \right>}$ topologically finitely generated then,
+\[ H \text{ strongly reductive} \iff G \cdot (x_1, \dots, x_n) \subset G^n \text{ is z-closed} \]
+\begin{rmk}
+In characteristic $0$, these are all equivalent to reductibe. 
+\end{rmk}
+
+\begin{proof}
+Assume $H$ is $G$-completely reducible. Fix a maximal torus $S$ (in $C_G(H)$) so $C_G(S)$ is Levi. Assueme that $H \subset Q$ for some parabolic of $C_G(S)$. We want to show that $Q = C_G(S)$. Fact: there exists a parabolic $P$ for $G$ such that $Q = C_G(S) \cap P$.Let $S$ be central in $C_G(S)$ so $S \subset Q \subset P$ implies that $S$ is a maximal torus of $C_P(H) \subset C_G(H)$. Then $H \subset P$ so by $G$-complete reducibility, $H \subset $ for some $L$ of $P$. Consider $T := Z(L)^\circ$ which is a torus. (reductive, solvable commutative implies a torus and $T \subset C_P(L) \subset C_P(H)$). Up to conjugacy in $C_P(H)$. Then $T \subset S$ so there exists $g \in C_P(H)$ such that $g T g^{-1} \subset S$. Thus,
+\[ C_G(S) \subset G_G(g T g^{-1}) = g C_G(T) g^{-1} = g L g^{-1} \subset P \]
+and therefore $Q = C_G(S)$ which is what we wanted to show. 
+\bigskip\\
+For the converse, suppose that $H$ is strongly reductive in $G$ and $P \subset G$ contains $H$. We want to show there exists a Levi $L$ such that $H \subset L$. To use strong reductivity: pick a maximal torus $S$ in $C_G(H)$. Let $L := C_G(S)$ (contains $H$ automatically). For some parabolic $Q$ of $G$ so $H \subset P \cap Q$ implies $P, Q$ have a commmon Levi $M$. We want to show that $H \subset M$. Let $P^{-}$ be the oppositve (!?) of $P$ with respect to $M$ (meaning $P \cap P^{-} = M$). Then,
+\[ R_u(Q) = (R_u(Q) \cap M) (R_u(Q) \cap R_u(P)) (R_u(Q) \cap R_u(P^{-})) \]
+HMMM Sean has a proof. 
+\end{proof}
+
+\subsection{•}
+
+\begin{defn}
+$\varphi \in Z^1(W_F^0/P_F^e, \hat{G}(L))$ is ${}^L G$-semisimple iff $\overline{{}^L \varphi(W_F^0)} \le {}^L G(L)$ is ${}^L G(L)$-completely reducible.
+\end{defn}
+
+\begin{theorem}
+$\hat{G}(L)$-orbit of $\varphi$ is closed iff $\varphi$ is ${}^L G$-semisimple.
+\end{theorem}
+
+\begin{proof}
+$Z^1 \subset \Hom{}{W_F^0/P_F^\ell}{{}^L G(L)}$ is a closed and open subscheme
+\end{proof}
+
+\begin{prop}
+$\varphi : W_F^0 \to \hat{G}(L)$ semisimple extends continulosuly uniquely to $W_F$
+\end{prop}
+
+\end{document}

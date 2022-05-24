@@ -1,0 +1,162 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{KP Equation} 
+
+
+This is a PDE on $u = u(x,y,t)$ 
+\[ \pderiv{}{x} \left( 4 u_t - 6 u \cdot u_ x - u_{xxx} \right) = 3 u_{yy} \]
+describes the motion of waves in shallow water. This has a surprising connection ot algebraic curves and abelian varities.
+\bigskip\\
+Let $C$ be a smooth projective algebraic curve over $\C$ of genus $g$. Let $\omega_1, \dots, \omega_g$ be a basis of holomorphic differentials. The well-defined object is the Abel map,
+\[ C \to \CC^g / \Lambda_C \]
+given by,
+\[ p \mapsto \left[ \int_{p_0}^p \omega_1, \dots, \int_{p_0}^p \omega_g \right] \]
+Then,
+\[ \mathrm{Jac}(C) = \CC^g / \Lambda_C \]
+is the Jacobian of $C$ and is an abelian variety. There is a map,
+\[ a : C^n \to \Jac{C} \] 
+given by,
+\[ (p_1, \dots, p_n) \mapsto \left( \sum \int_{p_0}^{p_i} \omega_1, \dots, \sum \int_{p_0}^{p_i} \omega_g \right) \]
+
+\begin{theorem}[Abel]
+$a(p_1, \dots, p_n) = a(q_1, \dots, q_n) \iff p_1 + \cdots p_n \sim q_1 + \cdots q_n$ as divisors.
+\end{theorem}
+
+\begin{cor}
+The dimension of the image of $a : C^{g-1} \to \Jac{C}$ is $g-1$ which is a divisor called $\Theta_C$ the Theta divisor of $C$. 
+\end{cor}
+
+\begin{rmk}
+This divisor pulls back along the holomorphic map $\CC^g \to \Jac{C}$ to an analytic (not algebraic) hypersurface,
+\[ \Theta = \{ \theta(q_1, \dots, q_g) = 0 \} \]
+where $\theta$ is the $\theta$-function of $C$. 
+\end{rmk}
+
+\begin{theorem}[Krichnever]
+There exist vectors $U,V,W \in \CC^g$ and $c \in \CC$ such that,
+\[ u(x,y,t) = 2 \partial_x^2 \log{\theta(U x + V u + W t)} + c \]
+is a solution to the KP equation.
+\end{theorem}
+
+\begin{rmk}
+The vectors $U,V,W$ can be obtained as follows. For $P \in C$ with local coordinate $z$ write $\omega_i = f_i(z) \d{z}$ then,
+\[ U = \begin{pmatrix}
+f_1(P)
+\\
+\vdots
+\\
+f_g(P)
+\end{pmatrix}
+\quad
+V = \begin{pmatrix}
+f_1'(P)
+\\
+\vdots
+\\
+f_g'(P)
+\end{pmatrix}
+\quad 
+W = 
+\begin{pmatrix}
+f_1''(P)
+\\
+\vdots
+\\
+f_g''(P)
+\end{pmatrix} \]
+The set of such $U,V,W$ is naturally an algebraic variety that we study with Tori and we call it the Dubrovin 3-fold of $C$.  
+\end{rmk}
+
+\begin{rmk}
+Such solutions to the KP equation are called \textit{quasi-periodic} since the $\theta$-function is quasi-periodic. Everything here is explicitly computable. Usually in terms of the Riemman $\theta$-functions,
+\[ \theta(z) = \sum_{n \in \Z^g} a_n \exp{(2 \pi i (n \cdot z))} \]
+\end{rmk}
+
+\begin{rmk}
+Krichev used the theory of integrable systems. In a recent work we take a point of view based on two ingredients:
+\begin{enumerate}
+\item the Sato Grassmannian: integrable systems
+\item Abel's Theorem.
+\end{enumerate}
+Note: everything works for singular curves as well. 
+\end{rmk}
+
+\section{Rational Nodal Curves}
+
+Let $C$ be a rational nodal curve. 
+
+\begin{example}
+Let $\pi : \P^1 \to C$ be a nodal curve of genus $g$ construced by gluing together $g$-pairs of points on $\P^1$. 
+\end{example}
+
+Let $P_0$ be a smooth base point on $C$. Consider $\omega_1, \dots, \omega_g$ basis of canonical differentials on $C$ (meromorphic differentials on $\P^1$ with poles only at the preimages of the singularities and having a residue condition at the pairs).
+
+\begin{example}
+On the above example for $\P^1$ glued at pairs $(\kappa_1, \kappa_2), \dots, (\kappa_{2g-1}, \kappa_{2g})$ then consider,
+\[ \omega_i = \left( \frac{1}{x - \kappa_{2i - 1}} - \frac{1}{x - \kappa_{2i}} \right) \d{x} \]
+Then we can integrate to get,
+\[ \int_{p_0}^n \omega_i = \log{(x - \kappa_{2i - 1})} - \log{(x - \kappa_{2i})} = \log{\left( \frac{x - \kappa_{2i - 1}}{x - \kappa_{2i}} \right)} \]
+so we have an Abel map,
+\[ a : \P^1 \rat \CC^g \xrightarrow{\exp} \CC^g / \ZZ^g = (\C^\times)^g \]
+sending,
+\[ x \mapsto \left( \left( \frac{x - \kappa_1}{x - \kappa_2} \right), \dots, \left( \frac{x - \kappa_{2g - 1}}{x - \kappa_{2g}} \right) \right) \]
+We have $(\C^\times)^g$ is the generalized Jacobian. We have again the theta divisor $\Theta = a(C^{g-1})$ gives an analytic hypersurface,
+\[ \Theta = \{ \theta(z_1, \dots, z_g) = 0 \} \]
+for degenerate $\theta$-functions.
+\end{example}
+
+\begin{theorem}
+This degenerate $\theta$-function is a finite linear combination of exponentials,
+\[ \theta(z) = \sum_{n \in \C} a_n \exp{(2 \pi i (n \cdot z))} \]
+where $\C \subset \ZZ^g$ is finite. We describe the set of $\C$ in terms of the tropical Riemann matrix of $C$. 
+\end{theorem}
+
+\begin{rmk}
+Again we get KP solutions,
+\[ u = 2 \partial_x^2 \log{\theta(U x + V y + W t)} \]
+called \textit{soliton solutions}. 
+\end{rmk}
+
+\subsection{More Singular Curves}
+
+We have seen,
+\begin{enumerate}
+\item if $C$ is smooth thne $\theta$ is an infinite sum of exponentials
+\item if $C$ is nodal then $\theta$ is a finite linear combination of exponentials
+\item if $C$ is even more special we can have $\theta$ be a polynomial.
+\end{enumerate}
+
+\begin{theorem}
+Let $C$ be an irreducible gorenstein curve then $C$ has a polynomial $\theta$-function if and only if $C$ is rational and has only unibrach singularities (meaning the normalization is $\P^1$ and the map is bijective so all the singularities are higher-order cusps).  
+\end{theorem}
+
+\begin{rmk}
+In this case, the $\theta$-polynomial has degree at most $\tfrac{1}{2} g(g+1)$. 
+\end{rmk}
+
+\begin{example}
+Let $C$ be the image of $\P^1 \to \P^3$ via,
+\[ [u,t] \mapsto [u^6, t^4 u^2, t^5 u, t^6] \]
+Then $C$ is rational and has one unibrach singularity $Q = [1, 0, 0]$. A basis of differentials is given by,
+\[ \omega_1 = \d{u} \quad \omega_2 = u \d{u} \quad \omega_3 = u^2 \d{u} \quad \omega_4 = u^6 \d{u} \]
+Then we can integrate these,
+\[ \int_0^u \omega_1 = u \quad \int_0^u \omega_2 = \tfrac{1}{2} u^2 \quad \int_0^u \omega_3 = \tfrac{1}{3} u^3 \quad \int_0^u \omega_4 = \tfrac{1}{6} u^7 \]
+and therefore we get an actually well-defined map,
+\[ a : C \to \CC^g \]
+(not needing to mod out by a lattice) and we get a polynomially defined $\Theta$-divisor so an actual algebraic hypersurface not just an analytic one. 
+\end{example}
+
+\end{document}
+

@@ -1,0 +1,150 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 3 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+
+
+\begin{prob}[Cf. Axler 1.C.10.]
+Suppose that $U_1$, $U_2$ are subspaces of a vector space $V$. Show that the intersection $U_1\cap U_2$ is also a subspace of $V$.
+\end{prob}
+
+\begin{soln}
+Since $U_1,U_2$ are subspaces of $V$, their intersection is a subset of $V$. To prove that a subset is a subspace, we need to prove three things: it must contain $0$, be closed under addition, and be closed under scalar multiplication.
+
+\underline{Contains $0$:} Since $U_1$ and $U_2$ are subspaces of $V$, both contain the $0$ vector in $V$. Hence their intersection $U_1\cap U_2$ also contains $0$.
+
+\underline{Closed under addition:} Let $u,v$ be elements of $U_1\cap U_2$. This means that $u,v\in U_1$ and $u,v\in U_2$. Since $U_1$ and $U_2$ are subspaces of $V$, they are closed under addition, so $u+v\in U_1$ and $u+v\in U_2$. Hence $u+v\in U_1\cap U_2$, so it is closed under addition.
+
+\underline{Closed under scalar multiplication:} Let $v$ be an element of $U_1\cap U_2$, and let $\lambda$ be a scalar in the ground field. We have $v\in U_1$ and $v\in U_2$, and since $U_1$ and $U_2$ are subspaces of $V$, they are closed under scalar multiplication, so we have $\lambda v\in U_1$ and $\lambda v\in U_2$. Hence $\lambda v\in U_1\cap U_2$, so it is closed under scalar multiplication.
+Having proved all three necessary properties, we conclude that $U_1\cap U_2$ is a subspace of $V$.
+\end{soln}
+
+\begin{prob}[Cf. Axler 1.C.12.]
+Prove that the union of two subspaces of $V$ is a subspace of $V$ if and only if one of the subspaces is contained in the other.
+\end{prob}
+
+\begin{soln}
+Let the two subspaces be $U_1$ and $U_2$. Suppose first that one is contained within the other. If $U_1\subset U_2$, then $U_1\cup U_2=U_2$, which is a subspace by assumption. Similarly, if $U_2\subset U_1$, then $U_1\cup U_2=U_1$, which again is a subspace. Hence if one is contained within the other, their union is a subspace.
+
+We now prove the reverse direction. Suppose that neither is contained within the other, so we can find $u_1\in U_1$, $u_2\in U_2$ such that $u_1\notin U_2$, $u_2\notin U_1$. This means that $u_1,u_2\in U_1\cup U_2$; we prove that $u_1+u_2\notin U_1\cap U_2$. Suppose $u_1+u_2\in U_1$. Since $U_1$ is a subspace and $u_1\in U_1$, we have $-u_1=(-1)u_1\in U_1$, so that $(u_1+u_2)-u_1=u_2\in U_1$, which is a contradiction. Similarly, if $u_1+u_2\in U_2$, we have $-u_2\in U_2$, so $(u_1+u_2)-u_2=u_1\in U_2$, which is again a contradiction. Hence $u_1+u_2$ is in neither $U_1$ nor $U_2$, and so is not in $U_1\cup U_2$, which means that $U_1\cup U_2$ is not closed under addition and so is not a subspace. Taking the contrapositive, this means that if $U_1\cup U_2$ is a subspace, one must be contained within the other.
+\end{soln}
+
+\begin{prob}[Cf. Axler 1.C.24.]
+A function $f:\R\to\R$ is called even if $f(-x)=f(x)$ for all $x\in\R$. A function $f:\R\to\R$ is called odd if $f(-x)=-f(x)$ for all $x\in\R$. Let $U_e$ denote the set of real-valued even functions on $\R$, and $U_o$ the set of real-valued odd functions on $\R$. Show that $\R^\R=U_e\oplus U_o$.
+\end{prob}
+
+\begin{soln}
+To prove that $\R^\R=U_e\oplus U_o$, we need to prove three things: that $U_e$ and $U_o$ are subspaces of $\R^\R$, that $\R^\R=U_e+U_o$, and that $U_e\cap U_o=0$.
+ 
+\underline{$U_e,U_o$ are subspaces:} We will start with $U_e$. First, let $z\in \R^\R$ be the function where $z(x)=0$ for all $x$. We then have $z(-x)=0=z(x)$ for all $x$, so the zero function is in $U_e$. Second, let $f,g$ be even functions. Then for all $x\in\R$, we have $(f+g)(-x)=f(-x)+g(-x)=f(x)+g(x)=(f+g)(x)$, so $f+g$ is also even, hence $U_e$ is also closed under addition. Finally, let $f$ be an even function, and $\lambda\in \R$ a scalar. Then for all $x\in\R$, we have $(\lambda f)(-x)=\lambda f(-x)=\lambda f(x) = (\lambda f)(x)$, so $\lambda f$ is even, hence $U_e$ is also closed under scalar multiplication, and so is a subspace of $\R^\R$.
+
+The proof for $U_o$ is virtually identical. First, let $z\in \R^\R$ be the function where $z(x)=0$ for all $x$. We then have $z(-x)=0=-0=-z(x)$ for all $x$, so the zero function is in $U_o$. Second, let $f,g$ be odd functions. Then for all $x\in\R$, we have $(f+g)(-x)=f(-x)+g(-x)=-f(x)-g(x)=-(f+g)(x)$, so $f+g$ is also odd, hence $U_o$ is also closed under addition. Finally, let $f$ be an odd function, and $\lambda\in \R$ a scalar. Then for all $x\in\R$, we have $(\lambda f)(-x)=\lambda f(-x)=\lambda (-f(x)) = -\lambda f(x)=(\lambda f)(x)$, so $\lambda f$ is odd, hence $U_o$ is also closed under scalar multiplication, and so is a subspace of $\R^\R$.
+
+\underline{$\R^\R=U_e+U_o$:} What this means is that every element in $\R^\R$ can be written as a sum of an element in $U_e$ and an element in $U_o$. Let $f$ be an arbitrary function in $\R^\R$. Define the new functions $f_e,f_o$ by
+\[f_e(x) = \frac{f(x)+f(-x)}{2}, \qquad f_o(x) = \frac{f(x)-f(-x)}{2}.\]
+We have
+\[f_e(x)+f_o(x) = \frac{f(x)+f(-x)}{2} + \frac{f(x)-f(-x)}{2} = \frac{2f(x)}{2} = f(x),\]
+so $f=f_e+f_o$. We now show that $f_e$ is even and $f_o$ is odd: we have
+\[f_e(-x)= \frac{f(-x)+f(x)}{2} = \frac{f(x)+f(-x)}{2} = f_e(x),\]
+so $f_e$ is indeed even, and 
+\[f_o(-x) = \frac{f(-x)-f(x)}{2} = -\frac{f(x)-f(-x)}{2} = -f_o(x),\]
+so $f_o$ is indeed odd. Hence every function $f:\R\to\R$ can be written as the sum of an even function and an odd function; in other words, $\R^\R=U_e+U_o$.
+
+\underline{$U_e\cap U_o=\{0\}$:} Finally, we need to prove that the intersection of these two subspaces contains only the $0$ element (recall that this is equivalent to the sum we found above being \emph{unique}). Let $f$ be a function in $U_e\cap U_o$, so that $f$ is both even and odd. This means that $f(-x)=f(x)$ and $f(-x)=-f(x)$ for all $x$, so we have $f(-x)=-f(-x)$ for all $x$. Rearranging this equation gives $2f(-x)=0$ for all $x$, so $f(-x)=0$ for all $x$, so $f$ is indeed the $0$ function, and $U_e\cap U_o=\{0\}$.
+
+Having proven all the necessary conditions, we conclude that $\R^\R=U_e\oplus U_o$.
+\end{soln}
+
+
+\begin{prob}
+Let $V$ be the real vector space of continuous functions $f:[0,1]\to\R$. Show that $U=\{f\in V:\int_0^1 f(x)dx= 0\}$ is a subspace of $V$.
+\end{prob}
+
+\begin{soln}
+To prove that a subset is a subspace, we need to prove three things: it must contain $0$, be closed under addition, and be closed under scalar multiplication.
+\underline{Contains $0$:} The $0$ element in the vector space $V$ is the function $z:[0,1]\to\R$ where $z(x)=0$ for all $x$. We have
+\[\int_0^1 z(x)dx = \int_0^1 0dx = 0,\]
+so this is indeed in $U$.
+
+\underline{Closed under addition:} Let $f,g$ be two functions in $U$, so $\int_0^1 f(x)dx=0$ and $\int_0^1 g(x)dx=0$. We then have
+\[\int_0^1 (f+g)(x)dx = \int_0^1 (f(x)+g(x))dx = \int_0^1 f(x)dx+\int_0^1 g(x)dx = 0+0=0,\]
+so $f+g\in U$. Hence $U$ is closed under addition.
+
+\underline{Closed under scalar multiplication:} Let $f$ be a function in $U$, so $\int_0^1 f(x)dx=0$, and let $\lambda$ a scalar in the ground field $\R$. We then have
+\[\int_0^1 (\lambda f)(x) dx = \int_0^1 \lambda f(x)dx = \lambda \int_0^1 f(x)dx = \lambda\cdot 0 = 0,\]
+so $\lambda f\in U$. Hence $U$ is closed under scalar multiplication.
+
+Having proved all three necessary properties, we conclude that $U$ is a subspace of $V$.
+\end{soln}
+
+
+\begin{soln}
+This is TRUE. One way we can find such a basis is using the previous problem. The standard basis for $\mathcal{P}_4(\F)$ is $1,x,x^2,x^3$. Let $v_1=x^2,v_2=x^3,v_3=1,v_4=x$. By the previous problem, $x^2+x^3,x^3+1,1+x,x$ is also a basis for $\mathcal{P}_3(\F)$, and none of these has degree 2.
+
+\textbf{Note:} this is not the only possible basis where none of the polynomials has degree 2, e.g. another possibility is $1,x,x^2+x^3,x^3$.
+\end{soln}
+
+\break
+
+\begin{prob}[Axler  2.A.11]
+Suppose  that $v_1,\ldots,v_m$ are  linearly  independent  in $V$ and $w\in V$.   Show  that $v_1,\ldots,v_m, w$ are linearly independent if and only if $w\notin\Span(v_1,\ldots,v_m)$.
+\end{prob}
+
+\begin{soln}
+Suppose first that $w\notin\Span(v_1,\ldots,v_m)$; we want to show that $v_1,\ldots,v_m,w$ are linearly independent. Consider the equation
+\[a_1v_1+\dots+a_mv_m+bw=0.\]
+If $b\neq 0$, we can divide by $b$ and rearrange to get
+\[w=\frac{a_1}{b}v_1+\dots+\frac{a_m}{b}v_m.\]
+Hence $w\in\Span(v_1,\ldots,v_m)$, which contradicts our initial assumption, so $b$ must be $0$, and we are left with the equation $a_1v_1+\dots+a_mv_m=0$. Since $v_1,\dots,v_m$ are linearly independent, we have $a_1=0,\dots,a_m=0$. Hence all our coefficients must be $0$ and $v_1,\ldots,v_m, w$ are linearly independent.
+
+Conversely, suppose that $w\in\Span(v_1,\ldots,v_m)$, so $w=a_1v_1+\dots+a_mv_m$ for some scalars $a_1,\dots,a_m$. This means that we have
+\[a_1v_1+\dots+a_mv_m-w=0,\]
+so that $v_1,\ldots,v_m, w$ are not linearly independent, since the coefficient of $w$ here is $1\neq 0$.
+\end{soln}
+
+
+\end{document}

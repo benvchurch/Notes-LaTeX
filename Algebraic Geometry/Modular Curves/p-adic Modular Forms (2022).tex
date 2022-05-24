@@ -1,0 +1,1174 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\newcommand{\can}{\mathrm{can}}
+\newcommand{\cO}{\mathcal{O}}
+
+\section{Mar. 30}
+
+\begin{rmk}
+Let $G$ be an $S$-group with structure map $\pi : G \to S$ and $e : S \to G$ the identity section. Then $\Omega_{G/S} \cong \pi^* e^* \Omega_{G/S}$ canonically. Indeed, consider the diagram,
+\begin{center}
+\begin{tikzcd}
+G \times_S G \arrow[rdd, bend right, "\pi_1"'] \arrow[rd, dashed] \arrow[rrd, bend left, "m"]
+\\
+& G \times_S \pullback G \arrow[r] \arrow[d] & G \arrow[d]
+\\
+& G  \arrow[r] & S
+\end{tikzcd}
+\end{center}
+The morphism $(\pi_1, m)$ is an isomorphism because it has $(\pi_1, m \circ (\iota \circ \pi_1, \pi_2))$ is an inverse. 
+\end{rmk}
+
+Let $E$ be an elliptic curve over a ring $R$ with $p = 0$. Then let $\omega$ be a basis for $\Omega^1_{E/R}$ last time: we defined the Hasse invariant $A(E, \omega)$ which is a modular form of 1evel $1$ and weight $p-1$. And $A(E,\omega) = 0$ iff $E$ is super singular. Furthermore, $A(\mathrm{Tate}(q), \omega_{\can}) = 1$. 
+
+\subsection{Lifting to Characteristic zero}
+
+For $p \ge 5$ the $q$-expansion of $E_{p-1}$ is $1$ mod $p$ and $E_{p-1}$ is a lift of $A(E, \omega)$ to $\Z_p$ any other lift differs by multiples of $p$. 
+
+
+\subsection{Katz-Lubin Canonical Subgroup}
+
+$E[p]$ is a finite flat group scheme over $\cO$ of order $p^2$ with $k$-resiude field.  Then consider the connected-\etale sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E[p]^0_k \arrow[r] & E[p]_k \arrow[r] & E[p]^{\et}_k \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+If $E$ is ordinary then $E[p]^{\et}_{\bar{k}} \cong \Z / p \Z$ and $E[p]^0_{\bar{k}} \cong (\Z / p \Z)^\vee \cong \mu_p$. Then,
+\[ E[p]^0 = \ker{(F_{\text{rel}} : E \to E^{(p)})} \] 
+
+\section{April 1}
+
+\subsection{Finishing the Calculation for the Formal Group}
+
+\newcommand{\Spf}[1]{\mathrm{Spf}\left( #1 \right)}
+
+Recally that $E / \cO$ for $\cO$ the ring of integers of a finite extension of $\Q_p$. We want the valuation of the points in $\hat{E}[p]$ therefore we need to draw the Newton polygon of $[p](T)$ then we want the coeffints of $[p](T)$.
+
+\begin{lemma}
+$[p](T) \equiv f(T^p) \mod p$. 
+\end{lemma}
+
+\begin{proof}
+Here denote by $E$ the reduction on $E$ modulo $\lambda$ so that it is an elliptic curve in characteristic $p$.
+Consider the relative Frobenius $F : E \to E^{(p)}$ is an isogeny of order $p$. Therefore it has a dual isogeny $V : E^{(p)} \to E$ (the Verschebung) such that $V \circ F = [p]$. Taking the formal completion $\hat{E} \cong \Spf{\cO[[T]]}$ we get that $F$ is given by $T \mapsto T^p$ and therfore,
+\[ [p](T) = V(F(T)) = V(T^p) \]
+so we win. 
+\end{proof}
+
+\begin{lemma}
+The coefficient of $T^p$ in $[p](T)$ is congruent to $A(E, \omega)$ modulo $p$.
+\end{lemma}
+
+\begin{proof}
+We have $[p](T) \equiv V(T^p) \mod p$. Therefore the coefficient of $T^p$ in $[p](T)$ is the coefficient of $T$ in $V$ which is $V'(0)$. 
+\bigskip\\
+Now $A(E, \omega) \omega^\vee = F_{\text{abs}}^* \omega^\vee$ this gives the same answer as $V^* \omega = A(E, \omega) \omega$. And we can compute this directly (DO THIS).
+\end{proof}
+
+Therefore letting $h(E) = v(A(E,\omega))$ we get that the newton polygon is controlled by the points $(1,1)$ and $(p, h(E))$ and $(p^2, 0)$ (WHY IS THE LAST ONE ZERO). Therefore the two cases are,
+\[ h(E) < \frac{p}{p+1} \]
+and otherwise.
+
+\begin{thm}[Katz]
+Let $R$ be any $p$-adically complete $\cO$-algebra and $E / R$ and elliptic curve with 
+\[ h(E) \le r < \frac{p}{p+1} \]
+at all $\bar{\cO}$-points. Then $[p](T) \in R[[T]]$ has factor $T^p - a T$ for $a$ topologically nilpotent in $R$ given maximal valuation roots we found for each $\bar{\cO}$-points. 
+\end{thm}
+
+\begin{rmk}
+Therefore, over families we have a canonical subscheme,
+\[ \Spf{R[[T]]/(T^p - a T)} \]
+We want to show this is a subgroup. Writing $G(X,Y)$ for the formal group law of $\hat{E}$ we need to show that,
+\[ G(X,Y)^p - a G(X, Y) \in R[[X,Y]]/(X^p - a X, Y^p - a Y) \]
+This is finite free ove r$R$ of rank $p^2$ with basis $X^i Y^j$ for $0 \le i,j \le p-1$. Expaning in this basis,
+\[ G(X,Y)^p - a G(X,Y) = \sum_{i,j} g_{ij} X^i Y^j \]
+we need the $g_{ij}$ to vanish in $R$. It suffices to consider the universal case $X = X_1(N)$ the modular curve of level $\Gamma_1(N)$ whose points are pairs $(E, \psi_N)$ where $\psi_N : \mu_N \to E[N]$ is an embedding. Let $R$ be the rigid analytic function on the subset $\{ h(E) \le r \}$ of $X$. Then $R \embed R'$ where $R'$ is the rigid analytic functions on $\{ h(E) = 0 \}$. However, over $R'$,
+\[ \Spf{R[[T]]/(T^p - a T)} = \hat{E}[p] \]
+is a group because $E$ is ordinary.
+\end{rmk}
+
+\section{Rigid Analytic Geometry}
+
+\begin{rmk}
+Reference: Brian Conrad's AWS notes.
+\end{rmk}
+
+Consider $L / \Q_p$ and $\cO$ its ring of integers with maximal ideal $\m$ and residue field $k = \cO / \m$. The rigid analytic unit disk is $\mSpec{L\left< t \right>}$ where,
+\[ L \left< T \right> = \{ \sum_n a_n t_n \in L[[t]] \mid | a_n | \to 0 \text{ as } n \to \infty \} \]
+this means we consider power series that are $p$-adically convergent when $|t| \le 1$. Similarly, the polydisk is,
+\[ \mSpec{L \left< t_1, \dots, t_n \right>} \]
+Anything of the form $L \left< t_1, \dots, t_n \right> / I$ for an ideal $I$ is called an $L$-affinoid algebra. 
+If $A$ is an $L$-affinoid algebra then $\mSpec{A}$ is an affinoid rigid analytic space. 
+
+\subsection{Topologies}
+
+We have the $p$-adic topology but it is far too fine (because then all spaces would be totally disconnected). Therefore we restrict possible open sets and open coversing to get a Grothendieck topology. 
+
+\begin{example}
+Consider $L \left< t \right> \left< X \right> /(r X - t)$ for $0 < |r| \le 1$. These are power series which are convergent when $\left| \frac{t}{r} \right| \le 1$ i.e. $|t| \le |r|$ so it represents a smaller unit disk called $D(r)$. This is an alowable open. 
+\end{example}
+
+\begin{example}
+$L\left< t \right> \left< X \right> /(t X - r)$ converges when $|t| \ge |r|$ giving an anulus.
+\end{example}
+
+In general, if $A$ is $L$-affinoid and $a_1, \dots, a_n, a' \in A$ are elements with no common zero then,
+\[ R =  A \left< \tfrac{a_1}{a'}, \dots, \tfrac{a_n}{a'} \right> = A \left< X_1, \dots, X_n \right> / (a' X_1 - a_1, \dots, a' X_n - a_n) \]
+are affinoid and,
+\[ \mSpec{R} = \{ x \in \mSpec{A} \mid \forall i : |a_i(x)| \le | a'(x) | \} \]
+Now consider the following,
+\[ D^\circ = \bigcup_n \{ |t| \le |r|^{\frac{1}{n}} \} \]
+gives the open unit disk which is not affinoid.
+
+\begin{defn}
+$U \subset \mSpec{A}$ is \textit{admissible} if it has a set-theoretic cover by $U_i \subset \mSpec{A}$ affinoid s.t. every affinoid $U' \subset \mSpec{A}$ such that $U' \subset U$ is covered by finitely many $U_i$. 
+\end{defn}
+
+\begin{rmk}
+$D^\circ \subset D$ is admissible by the maximum modulus principle: if $U' \subset D$ affinoid and $|t| < 1$ on $U'$ then there exists $|r| < 1$ such that $|t| \le |r|$ on $U'$.
+\end{rmk}
+
+\section{April 4}
+
+Last time we defined:
+
+\begin{enumerate}
+\item affinoid $L$-algebras e.g. $L\left< t \right>$
+\item affinoid rigid spaces, e.g. $M(L\left< t \right)) = D$
+\item affinoid subdomains: closed subdisk of $D$ and anuli
+\item admissible open sets include affinoid subdomains and also open subdisks.
+\end{enumerate}
+
+\subsection{Admissible Covers}
+
+Let $\{ V_i \}$ be a collection of admissible open subsets. We say that $\{ V_i \}$ forms an admissible open cover of $V$ if,
+\begin{enumerate}
+\item $\bigcup V_i = V$ (we think this implies that $V$ is admissible)
+\item for every affinoid subdomain $V' \subset V$ the induced cover of $V'$ has a finite refinement. 
+\end{enumerate}
+
+\begin{example}
+Some positive examples:
+\begin{enumerate}
+\item finite union of affinoids is admissible and form an admissible cover of the union
+\end{enumerate}
+Here is a nonexample, consider,
+\[ D^\circ \cup C = D \]
+where,
+\[ C = \{ |t| \le 1 \} \cap \{ |t| = 1 \} = \{ |t| = 1 \} \]
+is affinoid. I claim this is not an admissible cover of $D$. Otherwise $D$ would have a finite cover by affinoids contained in $D^\circ$ and $C$ implies that $D^\circ$ is covered by finitely affinoids inside $D^\circ$ which is impossible by the maximum modulus principle. 
+\end{example}
+
+\begin{rmk}
+This does not form a topology because we see that the union of admissible opens does not give an admissible cover so instead this is a $G$-topology (version of a Grothendieck topology on the category of subsets where coverings are a subcollection of the set-theoretic covers).
+\end{rmk}
+
+
+\subsection{Rigid Spaces}
+
+\begin{defn}
+A rigid space is a locally ringed $G$-space which is locally isomorphic to an affinoid space with its sheaf of rigid analytic functions (arising from the Tate coordinate ring). 
+\end{defn}
+
+\begin{example}
+$\A^1_L$ is given by gluing balls of increasing radius (or alternatively anuli $|a| \le r \le |b|$ for sequences $a \to 0$ and $b \to 1$ to get the anulus $0 < r < 1$. 
+\end{example}
+
+\subsection{Raynaud's Generic Fiber}
+
+Let $X / L$ be a scheme over $L$ a finite extension of $\Q_p$. Then we want to define a rigid space $X^\an$ with a map $X^\an \to X$ of locally ringed spaces with an $L$-algebra structure sheaf an a universal property. 
+\bigskip\\
+For example we want $\A^1_L \mapsto \A^1_L$ as a rigid space. 
+\bigskip\\
+Let $X$ be a $\cO$-scheme then the generic fiber $X_L$ has $X_L^\an$ but alternatively we can form a formal scheme $\X$ by compleing at $\m$ this gives the Raynaud generic fiber.
+
+\newcommand{\rig}{\mathrm{rig}}
+
+\begin{example}
+$X = \A^1_{\cO} = \Spec{\cO[t]}$ and $\X = \Spf{\widehat{\cO[t]}} = \Spf{\cO\left< t \right>}$ completed at the maximal ideal $\m \subset \cO$.
+Therefore,
+\[ X^{\rig} := \mSpec{L \ot_{\cO} \cO \left< t \right>} = \mSpec{L \left< t \right>} = D \]
+which is not all of $\A^1_L$. 
+\end{example}
+
+\begin{thm}
+If $X$ is proper over $\cO$ then $X^{\an}_L = X^{\text{rig}}$. 
+\end{thm}
+
+\begin{example}
+Consider $X = \P^1_{\cO}$ then $X^\an_L$ is the gluing of two copies of $(\A^1_L)^\an$ but $X^{\rig}$ is two copies of $(\A^1_{\cO})^\rig = D$ glued and these give the same answer.
+\end{example}
+
+
+\begin{defn}
+There is a specialization map $\mathrm{sp} : X^\rig \to \X$ defined as follows. Cover $X^\rig$ by $\mSpec{L \ot_{\cO} A_i}$ where $\Spf{A_i}$ is a finite affine open covering of $\X$ with $A_i$ an $\m$-adically complete $\cO$-algebra. Then we map $\mSpec{L \ot_{\cO} A_i} \to \Spf{A_i}$ via for a point $x \in \mSpec{L \ot_{\cO} A_i}$ this fives $L \ot_{\cO} A_i \to L(x)$ (the residue field) then $A_i \to \cO(x)$ (a valuation ring) then we get $A_i \m \to \cO(x) / \m = k(x)$ which is a point of $\Spec{A_i / \m}$ giving a point of $\Spf{A_i}$. 
+\end{defn}
+
+\begin{prop}[Berthelot]
+Let $\xi \subset \X$ be a closed subscheme. Then $\hat{X}^\xi$ the formal completion of $\X$ along $\xi$ we have $\mathrm{sp}^{-1}(\xi) \subset \X^\rig$ is admissible and equals $(\hat{\X}^\xi)^\rig$. 
+\end{prop}
+
+\begin{example}
+Let $X = \A^1_{\cO}$  or $\P^1_{\cO}$ with coordinate $t$ at $0$ let $\xi \subset \X$ from $\overline{0} \in X_k$ then locally $\X$ is $\Spf{\cO\left< t \right>}$ and,
+\[ \hat{X}^\xi = \Spf{\cO\left< t \right> \text{ completed at } t} = \Spf{\cO[[t]]} \]
+Then,
+\[ (\hat{X}^\xi)^\rig = \mSpec{L \ot_{\cO} \cO[[t]]} = D^\circ \]
+because $L \ot_{\cO} \cO[[t]]$ is power series whose coefficients have bounded below valuations. Then $\mathrm{sp}^{-1}(\overline{0})$ is points of distance $<1$ from $0$ which is the same points that reduce to $\overline{0}$ mod $\overline{\m}$. 
+\end{example}
+
+\section{April 6}
+
+We want to apply these results to modular curves. Let $X_1(N)$ be the scheme theoretic modular curve over $\Z_p$ for $p \ndivides N$ for $N \ge 5$ where the points parametrize,
+\[ (E, \psi_E : \mu_N \embed E[N]) \]
+Then write $X_0(p)$ for the scheme theoretic modular curve over $\Z_p$ whose points parametrize,
+\[ (E, \psi_N, C) \text{ quad } C \subset E[p] \]
+[LOOK AT KATZ-MAZUR Ch. 12-13]  
+
+\subsection{The Story mod $p$}
+
+We reduce modulo $p$ to get $X_1(N)$ and $X_0(p)$. Then there are two irreducible components of $X_0(p)$,
+\[ X_0(p)^{\can} = \{ (E, \psi_N, \ker{(F : E \to E^{(p)})}) \} \]
+and the \etale locus
+\[ X_0(p)^{\et} = \{ (E, \psi_N, \ker{V}) \} \] 
+these intersect at the supersingular locus. The intersections are normal crossings with completed local ring,
+\[ k[[x,y]] / (xy) \] 
+The natural map $\pi_1 : X_0(p) \to X$ given by $(E, \psi_N, C) \mapsto (E, \psi_N)$ is bijective on each component and is ramified at the supersingular locus. However, there is a second map $\pi_2 : (E, \psi_N, C) \mapsto (E/C, \bar{\psi}_N)$. Then $\pi_1$ has degree $1$ on $X_0(p)^\can$ and degree $p$ on $X_0(p)^\et$. 
+\bigskip\\
+On the other hand, $\pi_2$ on $X_0(p)^\can$ is $E \mapsto E / \ker{F}$ which is degree $p$ i.e. $F : E \to E^{(p)}$ on universal $E$. Then $\pi_2$ on $X_0(p)^\et$ is degree $1$. This is because for $D \neq \ker{F}$ we want to recover $(E, D)$ from $E' = E / D$. Consider,
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, "\pi"] \arrow[d, "F"] & E' \arrow[d, "F"]
+\\
+E^{(p)} \arrow[r] & (E')^{(p)} 
+\end{tikzcd}
+\end{center} 
+Then $\pi(\ker{F_E}) \subset \ker{F_{E'}}$ and actually $\pi(\ker{F_E}) = \ker{F_{E'}}$ because $D$ is disjoint from $\ker{F_E}$ (because it is a distinct prime-order subgroup). Then $\ker{F_E}$ and $D$ then span $E[p]$ so we see that $\ker{F_E'} = \ker{F_E} / D = E[p] / D \subset E'[p]$. Therefore, \[ E' / \ker{F_{E'}} = (E/D) / (E[p] / D) \xrightarrow{p} E \]
+is an isomorphism. Furthermore,
+\[ E'[p] / \ker{F_{E'}} = (E/D) [p] / (E[p] / D) \iso D \]
+(WHY)
+Therfore each component of $X_0(p)$ is isomorphic to $X$ but via different projections,
+\begin{align*}
+\pi_1 : X_0(p)^\can \iso X
+\\
+\pi_2 : X_0(p)^\et \iso X 
+\end{align*} 
+and each $\pi_i$ is degree $p$ on the other component so each is degree $p+1$. 
+
+\begin{rmk}
+We can describe $X_0(p) = X_0(N;p)$ as elliptic curves $E$ with $N$ level structure and a degree $p$ isogeny $E \to E'$ then $\pi_1$ and $\pi_2$ are forgetting this map and mapping to the source and target respectively.
+\end{rmk}
+
+\renewcommand{\ss}{\mathrm{ss}}
+
+\subsection{How to Draw the Rigid Spaces}
+
+Let $k = \overline{\FF}_p$ and $\cO = W(\overline{\FF}_p)$. Given $X_k$ we have $X^\rig$ which is the inverse of $X_k$ under the specialization map. Then the preimage of each point is an open disk. Then $X^{\ss}$ is a union of open disks and $X^{\ord}$ is affinoid. 
+\bigskip\\
+For $X_0(p)$ we have two components $X_0(p)^\can$ and $X_0(p)^\et$ then the inverse of the specialization map gives two rigid spaces $X_0(p)^\can$ and $X_0(p)^\et$ which are affinoid after removing the supersingular points  (both are isomorphic to $X^{\ord}$). Then the local ring at the supersingular points $k[[x,y]] /(xy)$ gives the local ring $\cO[[x,y]]/(xy-p)$ which is an open anulus $p^{-1} < r < 1$. Therefore, $X_0(p)^\can$ and $X_0(p)^\et$ are glued together by ``tubes'' i.e. anuli.  
+
+\begin{rmk}
+We could consider the same construction for,
+\[ X_0(p^n) = \{ (E, \psi_N, C^n) \text{ with } C^n \subset E[p^n] \text{ cyclic of order } p^n \} \]
+Then the special fiber has $n+1$ components each isomorphic to $X$ that all collide at the supersingular locus. Then the $a^{\text{th}}$ component is,
+\[ X_a = \{ C^n \supset \ker{F^a} \text{ but } C^n \not\supset \ker{F^{a+1}} \} \]
+Then the local ring in characteristic $p$ at the supersingular points is in Katz-Mazur. However, the generic fiber construction to get a rigid space is not so nice (although it probably is still smooth whatever that means).  
+\end{rmk}
+
+\begin{rmk}
+Remember we are writing $X = X_1(N)$ so $X_0(p)$ has level structure $\Gamma_1(N) \cap \Gamma_0(p)$ (global functions are modular forms of this level). 
+\end{rmk}
+
+\section{April 8}
+
+\subsection{Coordinates on supersingular disc in $X$}
+
+Under the inverse of the specialization map $e \in X_k$ is mapped to some open disk $D_e$ in $X^{\rig}$. If the local ring at $e$ is $k[[t]]$ and $t \mod p$ has a simple root at $e$ then the local ring for the disk is $\cO[[t]]$. 
+\bigskip\\
+Any other $t'$ defined over $W(\overline{\FF}_p)$ is $p a(t) + t u(t)$ for $u \in \cO[[t]]^\times$ and $a(t) \in \cO[[t]]$. Then consider,
+\[ v(p a(t) + t u(t)) = v(t) \]
+if $v(t) < 1$ since $v(u) = 0$. Therefore, $h : \overline{D}_e \to [0, 1]$ defined by $(E, \psi_N) \mapsto \min \{1 , v(t(E, \psi_N)) \}$ is well-defined. 
+\bigskip\\
+Fix a generator $\omega$ of $\Omega^1_{\E / X}$ locally near $D_e$ then any lift of $A(E, \omega)$ is a function which is defined over $W(\overline{\FF}_p)$ reduces to $0 \mod p$ at $e$. 
+
+\begin{rmk}
+For $p = 2,3$ no lift of $A(E, \omega)$ to modular form integrally. Fine, pick any $t$ coordinate on $D_e$ then $X^{\ord}$ define $h(E) = \{ 1, v(t(E)) \}$. 
+\end{rmk}
+
+There is a section of ,
+\[ \pi_1^{-1}(X_0(p)) \to X(< \tfrac{p}{p+1}) \]
+sending $(E, c) \mapsto E$ given by $E \mapsto (E, H_{\can})$. 
+
+\subsection{Coordinates on supersingular anulus in $X_0(p)$}
+
+Consider $X_0(p)^{\can}_k$ and $X_0(p)^{\et}_k$ then the inverse specialization map takes an intersection point $e$ to an anulus (we saw this last time) $A_e$ connecting the canonical rigid locus to the \etale rigit locus. 
+
+\begin{lemma}[Goren-Kassae]
+with some conditions,
+\[ \pi_1 : X_0(p) \to X \]
+in coordinates is $\cO[[t]] \to \cO[[x,y]] / (xy - p)$ where $u,v \in (\cO[[x,y]] / (xy - p))^\times$ given by $t \mapsto u x + v y^p$. 
+\end{lemma}
+
+\begin{defn}
+$v(E, C) = v_p(x(E, C)0$ for any such $x$ and $v(x) < \frac{p}{p+1}$ if and only if $v(y) > \frac{1}{p+1}$ if and only if $v(y^p) > \frac{p}{p+1} > v(x)$. Therefore,
+\[ v(t) = v(ux + v y^p) = v(x) \]
+\end{defn}
+
+\subsection{Interpretation of the Valuation}
+
+Let $G / S$ be a group scheme then let $\omega_{G/S} = \id_G^* \Omega^1_{G/S}$. For example $\omega_{E/S}$ is a line bundle. 
+
+\begin{prop}
+$C \subset E[p]$ be order $p$ defined over $\cO = \overline{\cO}$. Then,
+\[ \omega_C \cong 
+\begin{cases}
+(\cO / p^{1- h(E)} \cO) \d{T} & C \text{ canonical }
+\\
+(\cO / p^{h(E) / p} \cO & C \text{ not canonical} 
+\end{cases}\] 
+\end{prop}
+
+\begin{rmk}
+If $C$ is \etale then $h(E) = 0$ because it means that $E$ must be ordinary and also $C$ is not canonical so we indeed get $\omega_C = 0$ as it should be. 
+\end{rmk}
+
+\begin{proof}
+Katz construction of the canonical subgroup $H_{\can}$ goes through,
+\[ \hat{H_{\can}} = \Spf{\cO[[T]] / (T^p - a T)} \]
+Then $v(n) = 1 - h(E)$ and $v(\text{nonzero point}) = \frac{1 - h(E)}{p-1}$. Oort-Tate show that any finite flat group scheme $C / \cO$ of order $p$ is isomorphic to
+\[ \Spec{\cO[T] / (T^p - a T)} \]
+for some $a$. Then,
+\[ \Omega^1_{C/\cO} = \cO[T] / (p T^{p-1} - a) \d{T} \]
+and thus,
+\[ \id^*_C \Omega^1_{C/\cO} \cong \cO / a \]
+Then we apply the conormal exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \omega_E \arrow[r, "p"] & \omega_E \arrow[r] & \omega_{E[p]} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\omega_{E[p]} = \omega_E / p \omega_E$. Likewise we have a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \omega_{E[p]/C} \arrow[r, "\times a"] & \omega_{E[p]} \arrow[r] & \omega_C \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then the image is $a \omega_E / p \omega_E \cong \omega_E / a \omega_E$. HMMMM 
+\end{proof}
+
+\section{April 11}
+
+Continuing from last time
+
+
+
+
+
+
+$A_e$ has completed local ring $\struct{}[[x,y]]/(xy - p)$
+
+\begin{prop}
+The valuation,
+\[ v(E, C) = v_p(x(E, C)) = 
+\begin{cases}
+h(E) & C \text{ is canonical}
+\\
+1 - \frac{h(E)}{p} & C \text{ not canonical} 
+\end{cases} \]
+\end{prop}
+
+\subsection{Atkin-Lehener Involution}
+
+\begin{defn}
+The automorphism $w : X_0(p) \to X_p(p)$ taking,
+\[ w(E, C) = (E/C, E[p]/C) \]
+We showed this is an involution when we computed the degree of the projection $\pi_2$. Explicitly,
+\[ (E/C)/(E[p]/C) \cong E \quad \text{ and } \quad (E/C)[p]/(E[p]/C) \cong C \]
+\end{defn}
+
+\begin{prop}
+$w$ satisfies,
+\begin{enumerate}
+\item $(E, C) \in X_0(p)^{\can, \ord} \iff w(E,C) \in X_p(p)^{\et, \ord}$
+\item $v(w(E, C)) = 1 - v(E, C)$ (so why does Buzzard need the analytic continuation arguments!)
+\item $\pi_1 \circ w = \pi_2$ and $\pi_2 \circ w = \pi_1$.  
+\end{enumerate}
+\end{prop}
+
+\subsection{Serre $p$-adic Modular Forms}
+
+\begin{defn}
+Let $\omega = e^* \Omega^1_{\E/X}$ with $X = X_1(N)$. A classical modular form of weight $k$ and level $N$ is an element of,
+\[ H^0(X, \omega^{\ot k}) \]
+\end{defn}
+
+\begin{example}
+The Hasse invariant $h \in H^0(X_{\FF_p}, \omega^{p-1})$ is a modular form. For $p \ge 5$ there is a lift,
+\[ E_{p-1} \in H^0(X_{\Z_p}, \omega^{p-1}) \]
+\end{example}
+
+\begin{prop}
+The $p$-adic closure of,
+\[ \bop_k H^0(X, \omega^k) \]
+is,
+\[ R = \widehat{\bop}_k H^0(X^{\ord}, \omega^k) \]
+\end{prop}
+
+\begin{rmk}
+For a $\Z$-algebra $R$ the $p$-adic closure is the completion of $R$ at the ideal $p R$. 
+\end{rmk}
+
+\begin{proof}
+If $f \in R$ then,
+\[ f \mod p \in \bop_k H^0(X_{\overline{\FF}_p}^{\ord}, \omega^k) \]
+is a rational section over $X_{\overline{\FF}_p}$ with finite poles at supersingular points. Let $A \in H^0(X, \omega^{(p-1)})$ lifting the Hasse invariant. Then $A \equiv 0 \mod p$ on supersingular points so $f A^{p^n}$ has no poles for $n$ sufficiently large. But $A \equiv 1 \mod p$ on $X^{\ord}$ and therefore $A^{p^n} \equiv 1 \mod p^n$ on $X^{\ord}$ so we see that $| f - f A^{p^n}|$ is small. 
+\end{proof}
+
+\begin{defn}
+Serre $p$-adic modular forms of weight $k$ is an element of $H^0(X^{\ord}, \omega^k)$ and hence on $X_0(p)^{\can, \ord}$. 
+\end{defn}
+
+\subsection{Hecke $U_p$ Operator}
+
+$U_p \acts H^0(X_0(p), \omega^k)$ via,
+\[ U_p f(E, \psi_N, C) = \frac{1}{p} \sum_{D \neq C} \pi^*_{E \to E/D} f(E/D, \bar{\psi}_N, C/D) \]
+where $f(E/D, \bar{\psi}_N, C/D)$ is an invariant differential on $E/D$ and thus we can pull it back to $E$. I think this does not make sense in characteristic $p$ we need $U_p = \pi_1^* \tr{\pi_2}$. 
+
+\begin{prop}
+On $q$-expansions at cusps in $X_0(p)^{\can}$,
+\[ U_p : \sum_n a_n q^n \mapsto \sum_n a_{np} q^n \]
+\end{prop}
+
+\section{April 13}
+
+\subsection{The $U_p$ operator}
+
+\begin{defn}
+$U_p \acts H^0(X_0(p), \omega^k)$ given by,
+\[ U_p f(E, \psi_N, C) = \frac{1}{p} \sum_{D \neq C} \pi^* f(E/D, \bar{\psi}_N, C/D) \]
+\end{defn}
+
+\begin{prop}
+On cusps in $X_p(p)^{\can}$,
+\[ U_p : \sum_n a_n q^n \mapsto \sum_n a_{np} q^n \]
+\end{prop}
+
+\newcommand{\Tate}{\mathrm{Tate}}
+
+\begin{proof}
+Let $T = \mathrm{Tate}(q)$ the order-$p$ subgroups with $\zeta \neq 1$ but $\zeta^p = 1$ implies $\left< \zeta \right> = \mu_p$ get the canonical subgroup $\ker{[p]}$ and $\left< \zeta^i q^{\frac{1}{p}} \right>$. Then,
+\[ \mathrm{Tate}(q) / \left< \zeta^i q^{\frac{1}{p}} \right> \cong \Gm / \left< \zeta^i q^{\frac{1}{p}} \right> \cong \mathrm{Tate}(\zeta^i q^{\frac{1}{p}}) \]
+Then $\pi_1 : \Tate(q) \to \Tate(\zeta^i q^{1/p})$ preserves canonical subgroups. Then,
+\[ f(\Tate(q), \psi_N, \left< \zeta \right>) = \left( \sum_n a_n q^n \right) \omega_{\can}^k \]
+Therefore,
+\begin{align*}
+U_p f(\Tate(q), \psi_N, \left< \zeta \right>) & = \frac{1}{p} \sum_{i = 0}^{p-1} f(\Tate(\zeta^i q^n), \bar{\psi}_N, \left< \zeta^i \right>) = \frac{1}{p} \sum_{n = 0}^{p-1} \sum_{n} a_n (\zeta^i q^{1/p})^n \omega_{\can}^k 
+\\
+& = \sum_n a_n \left( \frac{1}{p} \sum_{i = 0}^{p-1} \zeta^{in} \right) q^{n/p} \omega_{\can}^k
+\\
+& = \sum_k a_{pk} q^k 
+\end{align*}
+\end{proof}
+
+If $(E, C) \in X_0(p)^{\can, \ord}$ and $D \neq C$ then $C/D$ is canonical in $E / D$ (because Frob commutes with mod $D$). Therefore $(E/D, C/D) \in X_0(p)^{\can, \ord}$. Therefore,
+\[ U_p \acts H^0(X_0(p)^{\can, \ord}, \omega^k) \cong H^0(X^{\ord}, \omega^k) \]
+because $\pi_1 : X_0(p)^{\can, \ord} \to X^{\ord}$ gives an isomorphism.
+
+\subsection{An Eigenvalue Issue}
+
+\begin{defn}
+For $f \in H^0(X^{\ord}, \omega^k)$ define,
+\[ V_p f(E, \psi_N) = \pi^*_{E \to E/H_{\can}} f(E/H_{\can}, \bar{\psi}_N) \]
+Then,
+\[ V_p (\sum_n a_n q^n) = \sum_n a_n q^{np} \implies U_p V_p = \id \]
+because for the tate curve $\Tate(q) / \left< \zeta \right> \cong \Tate(q^p)$. 
+\end{defn}
+
+For $f$ weight $k$ then define
+\[ g = (1 - V_p U_p) f \]
+implies that,
+\[ U_p g = (U_p - V_p V_p U_p) f = 0 \]
+Then for any $\lambda \in \CC_p$ for $v(\lambda) > 0$ then we can define,
+\[ f_\lambda = \sum_{n = 0}^\infty \lambda^n V_p^n g \]
+but applying $U_p$ we get,
+\[ U_p f_\lambda = \sum_{n = 0}^\infty \lambda^n U_p V_p^n g = U_p g + \sum_{n = 1}^\infty \lambda^n V_{p}^{n-1} g = 0 + \lambda \sum_{n = 0}^\infty \lambda^n V_p^{n-1} g = \lambda f_\lambda \]
+and therefore $U_p$ has an eigenform for every eigenvalue $\lambda \in \CC_p$. 
+
+\subsection{Katz $p$-adic modular forms}
+
+\begin{rmk}
+To fix this problem we introduce overconvergent modular forms. 
+\end{rmk}
+
+\begin{defn}
+A Katz \textit{overconvergent} modular form of radius $r$ and weight $k$ is an element of $H^0(X(\le r), \omega^k)$ where,
+\[ X(\le r) = h^{-1}(\{ t \le r \}) \]
+where this extends into the supersingular locus with Hasse invariant bounded by $r$. 
+\end{defn}
+
+\begin{rmk}
+When we say a form is overconvergent without specifying $r$ we mean overconvergent for some $r > 0$. 
+\end{rmk}
+
+\begin{prop}
+Let $H$ be the canonical subgroup of $E$ if it exists. Then,
+\begin{enumerate}
+\item $h(E) < \frac{1}{p+1}$ then $h(E/H) = p h(E) < \frac{p}{p+1}$ so $E/H$ has a canonical subgroup and is not equal to $E[p]/H$
+\item $h(E) = \frac{1}{p+1}$ then $h(E/H) \ge \frac{p}{p+1}$ and $E/H$ has no canonical subgroup
+\item if $\frac{1}{p+1} < h(E) < \frac{p}{p+1}$ then $h(E/H) = 1 - h(E) < \frac{p}{p+1}$ so $E/H$ has a canonical subgroup and it is $E[p]/H$
+\item if $h(E) \ge \frac{p}{p+1}$ and $C \subset E$ has order $p$ then $h(E/C) = \frac{1}{p+1}$ and $E[p]/C$ is the canonical subgroup in $E/C$
+\item $h(E) < \frac{p}{p+1}$ and $C \neq H$ has order $p$ then $h(E/C) = h(E)/p$ and $E[p]/C$ is canonical in $E/C$. 
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Pages of newton polygon calculations (Katz 73 p-adic properties of modular forms and modular schemes). Choose coordinates $\wh{E} \cong \Spec{\cO[[T]]}$ and $\wh{E/C} \cong \Spec{\cO[[T']]}$. Then,
+\[ \wh{E} \to \wh{E/C} \]
+is given by,
+\[ T \mapsto \prod_{c \in C} G(T, c) \]
+where $G(X,Y)$ is the formal group law on $\wh{E}$. This is zero on anything in $C$ since invariant undertranlation by $C$. Compute vals of roots of $[p]$ on $\wh{E/C}$ in terms of vals of roots of $[p]$ on $\wh{E}$. 
+\end{proof}
+
+\begin{prop}
+When $r < \frac{p}{p+1}$ we have $U_p : H^0(X(\le r), \omega^k) \to H^0(X(\le pr) \cap X(<\tfrac{p}{p+1}), \omega^k)$
+\end{prop}
+
+\begin{proof}
+In our notation let $X = X_0(p)$. Then,
+\[ U_p f(E, C) = \frac{1}{p} \sum_{D \neq C} \pi^* f(E/D, C/D) \]
+Then $C$ is canonical and $D$ is not canonical implies $h(E/D) = h(E) / p$ and $C/D$ is canonical in $E/D$. So if $h(E,C) \in X(\le pr)$ then $h(E/D, C/D) \in X(\le r)$ for all $D \neq C$. 
+\end{proof}
+
+\begin{rmk}
+Now we have,
+\[ \bigcup_{n \ge 0} H^0(X(\le \tfrac{1}{p^n(p+1)}), \omega^k) \]
+and $U_p :  H^0(X(\le \tfrac{1}{p^n(p+1)}), \omega^k) \to  H^0(X(\le \tfrac{1}{p^{n-1}(p+1)}), \omega^k)$ is compact (I THINK!!)
+it will follow that nonzero eigenvalues of $U_p$ ofrm a countable sequence $\lambda_1, \lambda_2, \lambda_3, \dots$ and $|\lambda_i| \to 0$ as $i \to \infty$. If $U_p f = \lambda_i f$ then $f$ has ``finite-slope'' if $\lambda \neq 0$ called a slope from the newton polygon of $\det{(I - \lambda U_p)}$.
+\end{rmk}
+
+\section{April 15}
+
+First here is why the two definitions of a modular form agree. If $F(E, s)$ is a function on $E$ with a generator of $\omega_E$ with $F(E,\lambda s) = \lambda^{-s} F(E, s)$ then $F(E, s) s^k$ is a well-defined section because $F(E, \lambda s) (\lambda s)^k = F(E, s)$. 
+
+\subsection{Eigenfunctions as Overconvergent Forrms}
+
+\begin{prop}
+If $f$ is overconvergent and $U_p f = \lambda f$ for $\lambda \neq 0$ then $f$ extends to $X(< \frac{p}{p+1})$.
+\end{prop}
+
+\begin{proof}
+We write,
+\[ f = \frac{1}{\lambda} U_p f = \frac{1}{\lambda^n} U_p^n f \]
+for all $n$ but $U_p^n f$ converges on all of $X(< \frac{p}{p+1})$ as $n \to \infty$. 
+\end{proof}
+
+\begin{rmk}
+Here $X$ refers to $X_1(N)$. However, using canonical subgroups there is an isomorphism,
+\[ X(< \tfrac{p}{p+1}) \cong X_0(p)(< \tfrac{p}{p+1}) \]
+\end{rmk}
+
+\begin{prop}
+We have $H^0(X_0(p^m), \omega^k) \embed H^0(X(<\frac{1}{p^{n-2}(p+1)}), \omega^k)$
+\end{prop}
+
+\begin{proof}
+Let $h(E) < \frac{1}{p^{m-2}(p+1)}$ for $m \ge 1$ then $E$ has $H^1 \subset E$ canonical. We want to find higher canonical subgroups. Then $h(E/H') = p h(E) < \frac{1}{p^{m-3}(p+1)}$ so if $m \ge 2$ then $E/H^1$ has a canonical subgroup $H' \subset E / H^1$ and let $H^2$ be its preimage in $E$ under $E \to E / H^1$ which is cyclic because $H' \neq E[p] / H^1$. Continue inductively to produce subgroups for all $i \le m$ we set $H^i$ the preimage of $H^{i-1}(E/H^1)$ under $E \to E/H^1$. 
+\bigskip\\
+Therefor we get a component of $X_0(p^m)^{\can, \ord}$ given by $(E, C^m)$ and,
+\[ X(< \frac{1}{p^{m-2}(p+1)}) \to X_0(p^m) \]
+so for $f \in H^0(X_0(p^m), \omega^k)$ we restrict along this embedding $X^{\ord} \to X_0(p^m)^{\can, \ord}$. 
+\end{proof}
+
+\subsection{Going Past the Canonical Locus}
+
+If $v(E, C) < \frac{p}{p+1}$ we know $v(E, C) = h(E)$ and $C$ is canonical by definition. If $D \neq C$ then $v(E/D, C/D) = h(E/D) = h(E)/p = v(E,C)/p$. If $v(E, C) = \frac{p}{p+1}$ then $h(E) \ge \frac{p}{p+1}$ and thus $v(E/D, C/D) = \frac{1}{p+1}$ for $D \neq C$. 
+\bigskip\\
+Now suppose,
+\[ \frac{p}{p+1} < v(E, C) < 1 - \frac{1}{p(p+1)} \]
+then $C$ is not canonical and,
+\[ h(E) = p (1 - v(E, C)) \]
+therefore,
+\[ \frac{1}{p+1} < h(E) < \frac{p}{p+1} \]
+so have $H \subset E$ canonical $H \neq C$. Then $v(E/H, C/H) = v(E/H, E[p]/H) \in (\tfrac{1}{p+1}, \tfrac{p}{p+1})$. For $D \neq C$ we have $v(E/D, C/D) = h(E)/p < \frac{1}{p+1}$. Consider the interval,
+\[ 1 - \frac{1}{p^n (p+1)} \le v(E, C) < 1 - \frac{1}{p^{n+1}(p+1)} \]
+for $n \ge 1$. Then $C$ is not canonical so,
+\[ \frac{1}{p^n (p+1)} < h(E) \le \frac{1}{p^{n-1}(p+1)} \]
+therefore either $H \subset E$ is canonical $H \neq C$ so then mutiplying by $p$,
+\[ h(E/H) > \frac{1}{p^{n-1}(p+1)} \]
+and $C/H$ is not canonical so,
+\[ v(E/H, E/H) = 1 - \frac{h(E/H)}{p} < 1 - \frac{1}{p^n(p+1)} \]
+so the valuation decreases into the next interval. Similarly, if $D \neq H,C$ then diving by $p$
+\[ h(E/D) \le \frac{1}{p^{n}(p+1)} \] 
+and $C/D$ is canonical so,
+\[ v(E/D, C/D) = h(E/D) < h(E/D) = \frac{1}{p^n(p+1)} \]
+is much smaller than these intervals so we get the following.
+
+\renewcommand{\succ}{\mathrm{succ}}
+\newcommand{\Qbar}{\overline{\Q}}
+
+\begin{prop}
+Let $v \in (0, 1)$ define,
+\[ \succ(v) = 
+\begin{cases}
+p v & 0 < v \le \frac{1}{p+1}
+\\
+1 - \frac{1}{p^n(p+1)} & 1 - \frac{1}{p^{n-1}(p+1)} \le v < 1 - \frac{1}{p^n(p+1)}
+\end{cases} \]
+Then,
+\[ U_p : H^0(X_0(p)(\le v), \omega^k) \to H^0(X_0(p)(\le \succ(v)), \omega^k) \]
+Therefore, every application of $U_p$ increases the radius of overconvergence since $\succ(v) > v$ and furthermore $\succ^n(v) \to 1$ as $n \to \infty$. 
+\end{prop}
+
+\begin{cor}
+If $f$ is overconvergent and $U_p f = \lambda f$ for $\lambda \neq 0$ then $f$ extends to 
+\[ X_0(p)(\le 1) = X_0(p) \sm X_0(p)^{\et, \ord} \]
+\end{cor}
+
+\begin{rmk}
+The reason Buzzard needs this is to make things work at higher level.
+\end{rmk}
+
+\subsection{Higher Levels at $p$}
+
+Consider 
+\[ X_0(p^m)_{\overline{\FF}_p} = \{ (E, C^m) \mid E \text{ ord}, C^m \supset \ker{F^a} \text{ not } \ker{F^{a+1}} \} \]
+Then $C^a = C^m[p^a]$ and 
+\[ X_0(p)^{a, \ord}_{\rig} = \{ (E, C^m) \mid C^a \text{ level-a canonical subgroup of } E \text{ a maximal} \} \]
+Consider the map  $\pi_1 : X_0(p^m) \to X_0(p)$ sending $(E, C^m) \mapsto (E, C^1)$ 
+
+
+\section{April 18}
+
+Consider $X_0(p^m)$ has an Atkin-Lehner involution $w^m : (E, C^m) \mapsto (E/C^m, E[p^m]/C^m)$. The Atkin-Lehner involution satisfies $\pi_2 \circ w^m = w \circ \pi_1$ where,
+\begin{align*}
+\pi_1 : & (E, C^m) \mapsto (E, C')
+\\
+\pi_2 : & (E, C^m) \mapsto (E/C^{m-1}, C^m /C^{m-1}) 
+\end{align*}
+
+--------------------------
+
+but just need for $i = m,\dots, 1$
+\[ U_i = X_0(p^m)^{\ss} \cup \bigcup_{a = m, \dots, m-i} X_0(p^m)^{a, \ord} \]
+admissible and connected,
+\[ U_i^{\ord} = \{ C^m \text{ canonical up to at least } m - i \} \]
+then $U_i \subset U_{i+1}$. Buzzard: continue forms to $U_{m-1} = X_0(p^m) \sm X_0(p^m)^{0, \ord}$. 
+
+\begin{defn}
+$U_p = H^0(X_0(p^m), \omega^k)$ which is acted on by $U_p$ where,
+\[ U_p f = \frac{1}{p} \sum_{D \neq C^1} \pi^* f (E/D, C^m/D) \]
+\end{defn}
+
+\begin{prop}
+For $i = 1, \dots, m-1$ and $(E, C^m) \in U_p$ then $D \neq C^1 \implies (E/D, C^m/D) \in U_{i-1}$. 
+\end{prop}
+
+\begin{proof}
+Let $H^a(E)$ be the level $a$ canonical subgroup. We only need $E$ ordinary. Consider $(E, C^m) \in U_1$ which implies $E^1 = H^1(E) \neq D$. Then have $C^{m-i} = H^{m-i}(E)$ and need $C^{m-i+1}/D = H^{m-i+1}(E/D)$ and then $C^1/D = H^1(E/D)$ implies that $H^{m-i+1}(E/D)$ is the preimage of $H^{m-i}((E/D)/(C^1/D))$ under $E/D \to (E/D)/(C^1/D)$. We know $H^{m-i}(E) = C^{m-i}$ and,
+\[ H^{m-i}((E/D)/(C^1/D)) \xrightarrow{\times p} C^{m-i} \]
+\end{proof}
+
+\begin{cor}
+If $U_p f = \lambda f$ for $\lambda \neq 0$ and $f \in H^0(X_0(p)(\le r), \omega^k)$ for $r < \frac{1}{p^{m-2} (p+1)}$ then $\pi^*f$ extends to $U_{m-1}$.
+\end{cor}
+
+\subsection{Buzzard Classicality}
+
+Use $X_1(p^m) = \{ (E, \psi_N, P) \}$ for $P$ a point of order $p^m$ (not just the data of the subgroup it generates). Then we get a diagram,
+\begin{center}
+\begin{tikzcd}
+X_1(p^m) \arrow[r] \arrow[d] & X_0(p^m) \arrow[d]
+\\
+X_1(p) & X_0(p)
+\end{tikzcd}
+\end{center}
+
+\begin{defn}
+For $f \in h^0(X_1(p^m)(\le r), \omega^k)$ a classical or overconvergent modular form we say $f$ \textit{nebentypus character} $\chi : (\Z / p^m \Z)^\times \to \Qbar_p^\times$ if,
+\[ f(E, \psi_N, aP) = \chi(a) f(E, \psi_N, P) \]
+for all $a \in (\Z / p^m \Z)^\times$. 
+\end{defn}
+
+\begin{thm}
+Let $f,g$ be overconvergent cusp forms of weight $k$ and level $\Gamma_1(N p^m)$ for $m \ge 2$ and $U_p f = a_p f \neq 0$ and $U_p g = b_p g \neq 0$. Suppose $f, g$ have nebentupus $\chi$ and $\chi^{-1}$ respectively for $\chi$ cond $p^m$. Let $\zeta$ be a primitive $p^m$-th root. Then the $q$-expansions of $f$ and $g$ at $(\Tate(q), \zeta)$ are,
+\[ f(q) = \sum_n a_n q^n \quad g(q) = \sum_n b_n q^n \]
+such that $a_1 = b_1 = 1$ and $a_n = \chi(n) b_n$ for all $p \ndivides n$. Then $f$ and $g$ are classical. 
+\end{thm}
+
+\begin{proof}
+By previous analytic continuation, $f,g$ extend to $U_{m-1} \subset X_1(p^m)$. Look at cusp $c = (\Tate(q), q^{\frac{1}{p}} \zeta)$ in $X_1(p^m)^{\ord}$ because $\left< q^{\frac{1}{p}} \zeta \right> \neq H^m(\Tate(q)) = \left< \zeta \right>$ but,
+\[ \left< (q^{\frac{1}{p}} \zeta)^p \right> = \left< \zeta^p \right> = H^{m-1}(\Tate(q)) \]
+Therefore $f$ and $(w^m)^* f$ are well-defined at $c$. Then,
+\[ U_{m-1} \cup w^m(U_{m-1}) \]
+is an admissible cover of $X_1(p^m)$ so it suffices to show that $f(c) = r (w^m)^* g(c)$ for some constant $r$ then they agree on some neighbrohood of $c$ and their domains of definition cover the entire modular curve so they glue to a rigid analytic section of $\omega^k$ on $X_1(p^m)$ which hence is classical by rigid GAGA. 
+\end{proof}
+
+\begin{rmk}
+Next time we will compute $f(c)$ and $g(c)$ to complete the proof. 
+\end{rmk}
+
+\section{April 20}
+
+\subsection{Buzzard Classicality}
+
+For $f \in H^0(X_1(p^m)^{m,\ord}, \omega^k)$ overconvergent with nebentypus $\chi : (\Z / p^m \Z)^\times \to \Qbar_p^\times$ cand $p^m$. For $U_p f = a_p f \neq 0$ 
+
+
+
+
+Let $\mu = \zeta^{p^m - 1}$ be a primitive $p$-th root of $1$ let $f(c) = \frac{1}{a_p} U_p f(c)$ with,
+\[ U_p f(c) = \frac{1}{p} \sum_{i = 0}^{p-1} \pi^* f(\Tate(\mu^i q^{\frac{1}{p}}), q^{\frac{1}{p}} \zeta (\text{mod} \, \mu q^{\frac{1}{p}})) \]
+This gives,
+\begin{align*}
+\sum_{i = 0}^{p-1} & \chi(1 - i p^{m-1}) \pi^* f(\Tate(\mu^i q^{\frac{1}{p}}, \zeta \mu^{-i}) = \sum_{i = 0}^{p-1} \chi(1 - i p^{m-1}) \pi^* f(\Tate(\mu^i q^{\frac{1}{p}}), \zeta)
+\\
+& = \sum_{i = 0}^{p-1} \chi(1 - i p^{m-1}) \sum_n a_n(\mu^i q^{1/p})^n \omega_\can^k
+\\
+& = \sum_n a_n q^{n/p} \sum_{i = 0}^{p-1} \chi(1 - i p^{m-1}) \mu^m \omega_\can^k 
+\end{align*}
+
+\section{Totally Real Fields}
+
+\begin{defn}
+A \textit{totally real field} is an extension $L / \Q$ of degree $g$ such that every $\sigma : L \embed \CC$ factors through $\RR \embed \CC$. We call the embeddings $\sigma_1, \dots, \sigma_g : L \embed \RR$.
+\end{defn}
+
+\begin{example}
+Some totally real fields,
+\begin{enumerate}
+\item $\Q$
+\item $\Q(\sqrt{D})$ for $D > 0$
+\item $\Q(\zeta_m + \bar{\zeta}_m) \subset \Q(\zeta_m)$ the subfield fixed by complex conjugation.
+\end{enumerate}
+\end{example}
+
+\begin{defn}
+We say that $s \in L$ \textit{totally positive} if $\sigma_i(s) > 0$ for all $i$. We write $s \gg 0$. For $S \subset L$ we write $S^+$ for the subset of totally positive elements.
+\end{defn}
+
+\begin{defn}
+Let $\cO_L \sub L$ be the ring of integers and $\D_L$ the differenti ideal,
+\[ \D_L = \{ \ell \in L \mid \tr_{L/\Q} (\ell r) \in \cO_L \forall r \in \cO_L \}^{-1} \]
+and $d_L = N_{L/\Q}(\D_L)$ is the discriminant. Then let,
+\[ \Cl{L}^+ = \{ \text{fractional ideals} \} / (\text{priciple ideals generated by tot. positive elements} \} \]
+\[ \Cl{L} = \{ \text{factional ideals} \} / \{ \text{principle ideals} \} \]
+where the first is the \textit{narrow class group}. 
+\end{defn}
+
+There is,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & L^\times / (\cO_L^\times \cdot L^\times)^{+} \arrow[r] & \Cl{L}^+ \arrow[r] & \Cl{L} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+
+\begin{rmk}
+$\Cl{L}^+ = \mathrm{Pic}^+(\cO_L)$ is isomorphic classes of porjective $\cO_L$-modules $M$ of rank-$1$ along with a choice of positivity meaning for each $i$ choose an orientation on $M \ot_{\sigma} \RR$ and isomorphisms are required to preserve this orientation. 
+\bigskip\\
+Indeed, if $\a \subset L$ is a fractional ideal then $\sigma_i |_{\a} : \a \to \RR$ gives an orientation on $\a \ot_{\sigma_i} \RR$ but we only declare equivalence when an isomorphism preserves orientation i.e. is given by a totally real element. 
+\end{rmk}
+
+\subsection{Complex Abelian Varieties with Real Multiplication}
+
+\begin{defn}
+A \textit{complex abelian variety with real multiplication by} $\cO_L$ is a $g$-dimensional abelian variety $A / \CC$ with a fixed embedding of rings $\iota : \cO_L \embed \End{A}$.
+\end{defn}
+
+\begin{example}
+\begin{enumerate}
+\item elliptic curves always have real multiplication by $\Z$
+\item for $E$ an elliptic curve and $L = \Q(\sqrt{D})$ for $D > 1$ square-free then construct $\cO_L \acts E \times E$ by, if $D \equiv 2,3 \mod 4$, declaring $\cO_L \acts E \times E$ via sending
+\[ \sqrt{D} \mapsto M \text{ with characteristic polynomial }\lambda^2 - D \]
+and if $D \equiv 1 \mod 4$ sending,
+\[ \frac{1 + \sqrt{D}}{2} \mapsto M \text{ with characteristic polynomial } \lambda^2 - \lambda + \frac{1-D}{4} \]
+\item If $X_0(p)$ has no tame level structure then its Jacobian is isogenous to $\Pi$ simple abelian variety with real multiplication.
+\end{enumerate}
+\end{example}
+
+
+Some facts:
+\begin{enumerate}
+\item Suppose $A$ has $\iota : \cO_L \to \End{A}$ then $A^\vee$ has $\iota^\vee : \cO_L \to \End{A^\vee}$ via $\ell \mapsto \iota(\ell)^\vee$ (which is still a ring map because $\cO_L$ is commutative). 
+
+\item $- \ot \Q$ gives $\iota : L \embed \End{A} \ot_{\Z} {\Q}$
+
+\item tangent space of $A$ at $0$ is a free $\cO_L \ot_{\Z} \C$-module of rank $1$
+
+\item Poincare: $A$ is siogenous to $A_1^{n_1} \times \cdots \times A^{n_k}_k$ for $A_i$ simple then $A$ has RM implies $A$ is isogenous to $B^r$ for $B$ simple.
+\end{enumerate}
+
+\begin{proof}
+Let $B^r$ be a maximal factor of $A$ and $\cO_L \acts B^r$ nontriviall so get $L \to \End{B^r} \ot \Q$ but the tangent space to $B^r$ is a free $\cO_L \ot_{\Z} \CC$ so $B^r$ has dimension $g$ so it is the only factor. 
+\end{proof}
+
+\subsection{Constructing Abelian Varieties with Real Multiplication}
+
+\renewcommand{\b}{\mathfrak{b}}
+\newcommand{\h}{\mathfrak{h}}
+
+Choose fractional ideals $\a, \b \sub L$ and $L \acts \CC^g$ via for $\ell \in L$ and $t = (t_1, \dots, t_g)$ set,
+\[ \ell \cdot t = (\sigma_1(\ell) t_1, \dots, \sigma_g(\ell) t_g) \]
+For the upper half plane,
+\[ \h = \{ z \in \CC \mid \imag{z} > 0 \} \]
+choose a tuple $z \in \h^g$ Then construct the lattice,
+\[ \Lambda_z = \a \cdot z + \b \cdot 1 = \{ (\sigma_1
+(a) z_1 + \sigma_1(b), \dots, \sigma_g(a) z_g + \sigma_g(b)) \mid a \in \a, b \in \b \} \]
+Then let,
+\[ A_z = \CC^g / \Lambda_z \]
+with the action $L \acts \CC^g$ gives an action $\cO_L \acts A_z$ which is an embedding,
+\[ \cO_L \embed \End{A_z} \]
+The set of $A_z$ that appear should only depend on $\a \b^{-1} \in \Cl{L}^+$. 
+
+\subsection{Riemann Forms on $\Lambda_2$}
+
+\begin{defn}
+Let $r \in L$ consider $E_r : (\a \oplus \b) \times (\a \oplus \b) \to \Q$ defined by,
+\[ ((x_1, y_1), (x_2, y_2)) \mapsto \tr_{L/\Q} r(x_1 y_2 - x_2 y_1) \]
+This is alternating, bilinear and $\im \subset \Z \iff r \in (\D_L \a \b)^{-1}$.
+\end{defn}
+
+\begin{rmk}
+Recall $\D_L^{-1} = \{ \ell \in L \mid \forall r \in \cO_L : \tr_{L/\Q}(\ell v) \in \Z \}$.
+\end{rmk}
+
+\begin{rmk}
+The induced pairing on $\Lambda_z = \a z + \b$ extends $\RR$-linearly to $\CC^g$ to $E_{r,2}$ antisymmetric $\RR$-bilinear perfect pariting if $r \neq 0$.
+\end{rmk}
+
+\begin{defn}
+Let,
+\[ H_{r,z}((x_1, \dots, x_g), (y_1, \dots, y_g)) = \sum_{i = 1}^g \frac{x_i \bar{y}_i \sigma_i(r)}{\im{z_i}} \]
+which is a Hermitian form on $\CC^g$. Recall, $\im{H_{r,z}} = E_{r,2}$ and,
+\[ \tr_{L/\Q}(\ell) = \sum_{i = 1}^g \sigma_i(\ell) \]
+Then $H_{r,z}$ is positive definite iff $r \gg 0$. Therefore, $H_{r, z}, E_{r,z}$ gives a Riemann form on $A_z$ so it is an abelian variety with real multiplication. 
+\end{defn}
+
+\subsection{Polarization Classes}
+
+\begin{defn}
+Let $(A, \iota : \cO_L \embed \End{A})$ be an Abelian Variety with RM by $\cO_L$ and,
+\[ M_A = \{ \lambda : A \to A^\vee \mid \lambda = \lambda^\vee \text{ where } \lambda \text{ is } \cO_L\text{-linear} \} \]
+and write,
+\[ M^+_A = \{ \lambda \in M \mid \lambda \text{ polarization} \} \]
+\end{defn}
+
+\begin{lemma}
+\begin{enumerate}
+\item $M_A$ is a projective $\cO_L$-module of rank $1$
+\item there exists a notion of posititivity on $M_A$ such that $M_A^+$ is the set of positive elements in each $M_A \ot_{\sigma_i} \RR$. 
+\end{enumerate}
+\end{lemma}
+
+\newcommand{\Lie}{\mathrm{Lie}}
+
+\begin{proof}
+We have $\cO_L \acts M_A$ via $\ell \lambda = \lambda \circ \iota(\lambda)$. We need to show that $\ell \lambda \in M_A$ meaning it is symmetric,
+\[ (\lambda \circ \iota(\ell))^\vee = \iota(\ell)^\vee \circ \lambda^\vee = \iota(\lambda)^\vee \circ \lambda = \lambda \circ \iota(\ell) \]
+where the last step is $\cO_L$-linearity. Because $\cO_L$ is a Dedekind domain, to prove projectivity, it suffices to show that $M_A$ is torsion-free. If $\lambda \in M_A$ then is nonzero then,
+\[ \lambda : \Lie(A) \to \Lie(A^\vee) \]
+is nonzero and both are free $\cO_L \ot_{\Z} \CC$-modules of rank $1$ so this map must be an isomorphism and so multiplying by nonzero $\ell$ cannot make it zero (it is a map of $1$-dimensional free modules) so we see $M_A$ is torsion-free.
+\bigskip\\
+If $M^+_A \neq \empty$ assume $\lambda \in M_A^+$ then consider $C_{\End{A} \ot \Q}(L)$ the centralizer. And consider, $C_{\End{A} \ot \Q}(L)^{\text{sym}}$ which is the subalgebra of elements fixed by the Rosati involution $\nu \mapsto \lambda^{-1} \nu^\vee \lambda$. Then there is an embedding,
+\[ M_A \embed C_{\End{A} \ot \Q}(L)^{\text{sym}} \]
+via sending $\mu \mapsto \lambda^{-1} \mu$. Indeed, applying the Rosati involution,
+\[ \lambda^{-1} (\lambda^{-1} \mu)^\vee \lambda = \lambda^{-1} \mu^\vee (\lambda^{-1})^\vee \lambda = \lambda^{-1} \mu \]
+\end{proof}
+
+
+\begin{rmk}
+Any division algebra over $\Q$ with Rosati involution is one,
+\begin{enumerate}
+\item a central simple algebra over $L$
+\item a central simple algebra over a totally imaginary quadratic extension of $L$.
+\end{enumerate}
+There exists $(c, c^+) \in \Cl{L}^+$ such that,
+\[ (M_A, M_A^+) \iso (c, c^+) \]
+and thus abelian varities with RM by $\cO_L$ are partitioned into components corresponding to $\Cl{L}^+$. 
+\end{rmk}
+
+\begin{rmk}
+Also $A = \CC^g / \Lambda$ is an ABRM implies that $\Lambda$ is a projective $\cO_L$-module of rank $2$. Then $\Lambda \cong \Lambda'$ if and only if they have the same Steinitz class $s$,
+\[ \bigwedge^2_{\cO_L} \Lambda \]
+Then if $\Lambda \cong \a \oplus \b$ the Steinitz class is,
+\[ \bigwedge_{\cO_L}^2 \Lambda \cong \a \b \]
+\end{rmk}
+
+\begin{rmk}
+We can identify,
+\[ (M_{A_z}, M_{A_z}^+) \iso ((\D_L \a \b)^{-1}, ((\D_L \a \b)^{-1})^{-1}) \]
+where the map sends,
+\[ H_{r,z} \mapsto r \]
+\end{rmk}
+
+\subsection{Families of AB with RM}
+
+\begin{defn}
+Consider 
+\[ \GL(\a \oplus \b) = \left\{
+\begin{pmatrix}
+a & b 
+\\
+c & d
+\end{pmatrix} :
+b \in \a^{-1} \b, c \in \a \b^{-1}, ad - bc \in (\cO_L^\times)^+ \right\} \]
+which are the matrices with totally positive determinant and that preserve $\a \oplus \b$ (by multiplication on the right for some reason).  
+\end{defn}
+
+\begin{defn}
+There is an action on the upper half plane,
+\[ \GL(\a \oplus \b) \acts \h^g \]
+via,
+\[ \begin{pmatrix}
+a & b
+\\
+c & d
+\end{pmatrix}
+\cdot (z_1, \dots, z-g) = \left( \frac{\sigma_i(a) z_i + \sigma_i(b)}{\sigma_i(c) z_i + \sigma(d)} \right)_{i = 1, \dots, g} \]
+\end{defn}
+
+\begin{thm}
+\begin{enumerate}
+\item Isomorphism classes of $(A, \iota) / \CC$ such that there exists,
+\[ (M_A, M_A^+) \iso (c, c^+) \quad \text{ where } \quad c = (\D_L \a \b)^{-1} \]
+are parametrized by 
+\[ \GL(\a \oplus \b)^+ \backslash \h^g \]
+\item the isomorphism classes of $(A, \iota) / \CC$ with fixed isomorphism,
+\[ m : (M_A, M_A^+) \iso (c, c^+) \]
+are parametrized by
+\[ \SL(\a \oplus \b) \backslash \h^g \]
+\end{enumerate}
+\end{thm}
+
+\section{April 25}
+
+\begin{thm}
+\begin{enumerate}
+\item Isomorphism classes of $(A, \iota) / \CC$ such that there is an isomorphism
+\[ (M_A, M_A^+) \iso (c, c^+) \]
+where,
+\[ cc = (\D \a \b)^{-1} \]
+Are parametrized by $\GL(\a \oplus \b)^+ \backslash \h^g$
+\item Isom classes of $(A, \iota) / \CC$ with fixed isomorphism,
+\[ m : (M_A, M_A^+) \iso (c, c^+) \]
+are parametrized by,
+\[ \SL(\a \oplus \b)^+ \backslash \h^g \]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Suppose that,
+\[ \mu = \begin{pmatrix}
+a & b 
+\\
+c & d
+\end{pmatrix} \in \GL(\a \oplus \b)^+ \quad \text{ and } \quad z = (z_1, \dots, z_g) \in \h^g \]
+Check $f : \CC^g \to \CC^g$ sending,
+\[  x \mapsto x \, \mathrm{diag}((\sigma_i(c) z_i + \sigma_i(d))_i) \]
+gives a map,
+\[ f : \Lambda_{\mu z} \iso \Lambda_z \]
+where,
+\[ (\mu z)_i = \left( \frac{\sigma_i(a) z_i + \sigma_i(b)}{\sigma_i(z) z_i + \sigma_i(d)} \right) \]
+Then an element of $\Lambda_{\mu z}$ is $(\alpha, \beta) \in \a \oplus \b$ such that,
+\[ \left( \sigma_i(\alpha) \left( \frac{\sigma_i(a) z_i + \sigma_i(b)}{\sigma_i(c) z_i + \sigma_i(d)} + \sigma_i(\beta) \right) (\sigma_i(c) + \sigma_i(d) \right) \]
+
+
+
+Need to show that if $A_z \cong A_{z'}$ are AVRM with $z, z' \in \h^g$ then there exists $\mu \in \GL(\a \oplus \b)^+$ such that $\mu z = z'$ and also if $(A, \iota)$ has $((M_A, M_A^+) \cong (c, c^+)$ then $(A, \iota) \cong (A_z, \iota)$ for some $z \in \h^g$. 
+\bigskip\\
+To show this, consider $f : \CC^g / \Lambda_{z'} \iso \CC^g / \Lambda_z$ via some matrix $M : \CC^g \to \CC^G$ but it commutes with,
+\[ \ell = \mathrm{diag}(\sigma_1(\ell), \dots, \sigma_n(\ell) \]
+for all $\ell \in L$ which generate all diagonal matrices by linear independence of characters and therefore $M$ commutes with all diagonal matrices so $M$ is diagonal. Write,
+\[ M = \mathrm{diag}(m_1, \dots, m_g) \]
+We can write $m_i = \sigma_i(c) z_i + \sigma_i(d)$ for $c, d \in L$ then $M$ takes $\b \cdot 1 \subset \Lambda_z'$ into $\Lambda_z$
+\end{proof}
+
+\section{April 27}
+
+\subsection{Compactification}
+
+Add to $\GL(\a \oplus \b)^+ \backslash \h^g$ a finite set of points $\GL(\a \oplus \b)^+ \backslash \P^1(L)$ ``cusps''.
+
+\begin{prop}
+$\GL(\a \oplus \b)^+ \backslash \P^1(L) \to \Cl{L}$ taking $[\alpha, \beta] \mapsto \alpha \a + \beta \b$ so there are $h = \# \Cl{L}$ cusps.
+\end{prop}
+
+Topology of the cusps,
+\[ \coprod \GL(\a \oplus \b)^+ \backslash \h^g \]
+is at $\infty \in \P^1(L)$ fundamental system of neighborhoods,
+\[ U_r = \{ z \in \h^g \mid \im{z_i} > r \} \]
+for all $r \in \RR$. Then $\mu u_r$ is a fundamental system of neighborhoods of $\mu \infty \in \P^1(L)$ for $\mu \in \GL_2(L)$. The compact complex variety is called the Satake/minimal compactification.
+\bigskip\\
+Notice that in every dimension, we are only adding a finite number of points meaning that the codimension of the boundary strata increases with dimension. Thus, in higher dimensions, modular forms automatically extend to the cusp. 
+\bigskip\\
+The cusps (ignoring level structure) represent semi-abelian varities with real multiplication by $\struct{L}$.
+
+\begin{defn}
+$A/S$ is a semi-abelian variety if $\pi : A \to S$ is smooth of relative dimension $g$ whose gemertric fibers are extensicons of abelian varities by a torus. Furthermore, it has real multiplication if there is $\iota : \struct{L} \to \End[S]{A}$ such that $\Lie(A/S)$ is a locally free sheaf of $\struct{L} \ot_{\Z} \struct{S}$-modules of rank $1$.
+\end{defn}
+
+\begin{rmk}
+A semi-abelian variety is the equivalent of an elliptic curve with multiplicative (or good) reduction rather than additive reduction. 
+\end{rmk}
+
+\begin{lemma}
+Semi-abelian varities with RM has geometric fibers that are either tori or abelian varieties.
+\end{lemma}
+
+\begin{proof}
+Let $A_s$ be a fiber that is not an abelian variety. Then choose a maximal torus $T \subset A_s$ (which is unique because $A_s$ is an abelian group) then $\struct{L} \acts T$ nontrivially (because $\Lie(A_s)$ is rank $1$ over $\struct{L}$) thus $L \acts X^*(T) \ot \Q$ nontrivially so this is an $L$-vectorspace so $\rank{X^*(T)} \ge [L : \Q] = g$ and hence $\dim{T} \ge g$ so $T = A_s$. 
+\end{proof}
+
+\begin{rmk}
+Furthermore, if $T$ is split then $X^*(T)$ is a projective $\struct{L}$-module of rank $g$ and thus rank $1$ over $\struct{L}$ and thus isomorphism classes of split tori with RM by $\struct{L}$ correspond to element of $\Cl{L}$ correspond to cusps in $\GL(\a \oplus \b)^+ \backslash \P^1(L)$. 
+\end{rmk}
+
+\subsection{Hilbert Modular Forms}
+
+\begin{defn}
+Consider,
+\[ \mu = \begin{pmatrix}
+a & b 
+\\
+c & d
+\end{pmatrix} \in \GL_2(\RR)^+ \]
+then we define the factor of automorphy,
+\[ j(\mu, z) = (c z + d) (\det{\mu]})^{-\frac{1}{2}} \]
+Then for multiple coordinates $z \in \h^g$ and $\mu \in \GL_2(L)^+$ we define,
+\[ j_{\underline{k}}(\mu, z) = \prod_{i = 1}^g j(\sigma_i(\mu), z_i)^{k_i} \]
+for $\underline{k} \in \Z^g$. Then let $f : \h^g \to \CC$ and define,
+\[ (f|_{\underline{k}} \mu)(z) = j_{\underline{k}}(\mu, z)^{-1} f(\mu z) \]
+For a finite index subgroup $\Gamma \subset \GL(\struct{L} \oplus \a)^+$ a \textit{Hilbert modular form} of weight $\underline{k}$ and level $\Gamma$ is a holomorphic function $f : \h^g \to \CC$ such that,
+\[ \forall \mu \in \Gamma : f|_{\underline{k}} \mu = f \]
+\end{defn}
+
+\begin{rmk}
+Explicitly, this becomes,
+\[ f \left( \left( \frac{\sigma_i(a) z_i + \sigma_i(b)}{\sigma_i(c) z_i + \sigma_i(d)} \right)_i \right) = \left[ \prod_{i = 1}^g \left( \sigma_i(c) z_i + \sigma_i(d) \right)^{k_i} \det{(\sigma_i(\mu))}^{-\frac{k_i}{2}} \right] f((z_i)_i) \]
+\end{rmk}
+
+\begin{rmk}
+Equivalently, $f$ is a section of some line bundle on $\Gamma \backslash \h^g$ given by $\Gamma \backslash \h^g \times \CC$ through the action for $\mu \in \Gamma, z \in \h^g, s \in \CC$,
+\[ \mu \cdot (z, s) = (\mu z, j_{\underline{k}}(\mu, z) s) \] 
+So why are these line bundles interesting? This line bundle is generated by $(\d{z_1})^{k_1/2} \cdots (\d{z_g})^{k_g/2}$. Indeed,
+\[ \d{(\mu z_i)} = \frac{\sigma_i(ad - bc)}{(\sigma_i(c) z_i + \sigma_i(d))^2} \d{z_i} = j(\sigma_i(\mu, z_i)^{-2} \d{z_i} \]
+Furthermore, if $A$ is an AVRM then $\omega_A$ is free $\struct{L} \ot_{\Z} \CC$-module of rank $1$ and we write,
+\[ \struct{L} \ot_{\Z} \CC \cong \prod_{i = 1}^g \CC \]
+with $\struct{L} \acts \CC$ in the $i$-th component by $\sigma_i$. Then we write,
+\[ \omega_A = \prod_{i = 1}^g \omega_{A, i} \]
+where $\struct{L} \acts \omega_{A, i}$ by $\sigma_i$ so each $\omega_{A,i}$ is a line bundle. Then if $A$ is the universal abelian variety on $\Gamma \backslash \h^g$ we get,
+\[ \bigotimes_{i = 1}^g \omega_{A,i}^{k_i} \]
+which is the correct line bundle (by the Kodaira-Spencer isomorphism). 
+\end{rmk}
+
+\subsection{$q$-Expansions}
+
+Consider,
+\[ M = \left\{ b : \begin{pmatrix}
+1 & b
+\\
+0 & 1
+\end{pmatrix} \in \Gamma \right\} \]
+where $\Gamma \subset \GL(\struct{L} \oplus \a)^+$ is finite index (or maybe congruence?). Suppose,
+\[ M \supset n \a \]
+with $n$ sufficiently large so that $M$ is projective $\struct{L}$-module of rank $1$ then consider,
+\[ \left( f\bigg|_{\underline{k}} \begin{pmatrix}
+1 & b 
+\\
+0 & 1
+\end{pmatrix} \right) (z_1, \dots, z_g) = f(z_1 + \sigma_1(b), \dots, z_g + \sigma_g(b)) = f(z_1, \dots, z_g) \]
+and thus $f$ is $(\sigma_1(b), \dots, \sigma_g(b))$-periodic for all $b \in M$. Therefore, there is a Fourier expansion,
+\[ f(z) = \sum_{v \in M^\vee} a_v e^{2 \pi i \tr{(v \cdot z)}} \]
+where,
+\[ M^\vee = \{ \ell \in L \mid \tr_{L / \Q}(\ell m) \in \Z \text{ for all } m \in M \} \]
+and likewise,
+\[ \tr{(v \cdot z)} = \sum_{j} \sigma_j(v) z_j \]
+This is periodic because for any $b \in M$ we have,
+\[ \tr{(v \cdot (z + b))} = \sum_j \sigma_j(v) (z_j + \sigma_j(b)) = \tr{(v \cdot z)} + \sum_j \sigma_j(vb) \]
+and $v b \in \Z$ so $\sigma_j(vb) \in \Z$. 
+
+\section{May 6}
+
+\subsection{Tate Periods}
+
+\newcommand{\TT}{\mathbb{T}}
+
+For $\a,\b \in \Cl{L}^+$. 
+Define,
+\[ \TT_{\a,\b} := \Gm \ot_{\Z} \D_L^{-1} \a^{-1} / q(\b) \]
+Over $S = \Z((\a \b, \Delta))$ whre,
+\[ q : \b \to \Gm \ot_{\Z} \D_L^{-1} \a^{-1} \]
+and
+\[ q : \a \b \to \Hom{\Z}{\struct{L}}{\a \b} \]
+via,
+\[ v \mapsto (\ell \mapsto v \ell) \]
+Then,
+\[ \Hom{\Z}{\struct{L}}{\a \b} = \struct{L}^\vee \ot_{\Z} \a \b = \D_L^{-1} \ot_{\Z} \a \b \]
+generated by,
+\[ \ell \mapsto \tr_{L/\Q} (\delta \ell) v \]
+some $\delta \ot v \in \D_L^{-1} \ot_{\Z} \a \b$. So,
+\[ q : \a \b \to \D_L^{-1} \ot_{\Z} \a \b \]
+is 
+\[ v \mapsto \sum_j \delta_j \ot v_j \]
+such that,
+\[ \forall \ell \in \struct{L} : \sum_j \tr_{L/\Q}(\delta_j \ell) v_j = v \ell \]
+Then we get,
+\[ q : \a \b \to \D_L^{-1} \ot_{\ZZ} \Gm(S) \]
+defined via,
+\[ v \mapsto \sum_j \delta_j \ot q^{v_j} \]
+Therefore,
+\[ (\tr_{L/\Q} \ot 1)(q(v)) = (\tr_{L/\Q} \ot 1) \left( \sum_j \delta_j \ot q^{v_j} \right) = \sum_j \tr_{L/\Q}(\delta_j) \ot q^{v_j} = \sum_j 1 \ot q^{\tr_{L/\Q}(\delta_j) v_j} = 1 \ot q^{\sum_j \tr_{L / \Q}(\delta_j) v_j} \] 
+which therefore lies in $\Z \ot_{\Z} \Gm(S)$.
+
+\subsection{$q$-Expansions}
+
+Let M be a HMV over $\Z_p$ with $\mu_N$-level structure with universal object $\cA$.
+
+\begin{defn}
+A \textit{Hilbert modular form} $f$ of weight $k$ and level $\mu_N$, pol $c \in \Cl{L}^+$, coeffs in $B$ is a function on tuples $(A/R, \iota, \lambda, \beta_N, \omega)$ with $(A/R, \iota, \lambda, \beta_N) \in M(R)$ where,
+\begin{enumerate}
+\item $A / R$ is a semi-abelian scheme
+\item $\iota : \struct{E} \to \End{A}$
+\item $\lambda$ is a polarization
+\item $\beta_N$ is a $\mu_N$-level structure
+\item $\omega$ is a nonvanihsing section of $\bigwedge^g \omega_{\cA}$
+\end{enumerate}
+such that,
+\[ f(A/R, \iota, \lambda, \beta_N, \mu \omega) = \sigma_1(\mu)^{-k_1} \cdots \sigma_g(\mu)^{-k_g} f(A/R, \iota, \lambda, \beta_N, \omega) \]
+for all $\mu \in (\struct{L} \ot_{\ZZ} R)^\times$.
+\end{defn}
+
+\begin{defn}
+The $q$-expansion at $\TT_c(q)$ is,
+\[ f_c(q) = f(\TT_c(q) \ot_S S_B, \iota_{\can}, \lambda_{\can}, \beta_{N, \can}, \omega_{\can}) \in S_B = \ZZ((c^{-1}, \Delta)) \ot_{\Z} B \]
+\end{defn}
+
+\begin{rmk}
+Here $B$ is a $\Z_p$-algebra and we define our embeddings $\sigma_i : L \embed \overline{\Q_p}$ so that $\struct{L}$ lands in $\overline{\Z_p}$. 
+\end{rmk}
+
+\begin{theorem}
+\begin{enumerate}
+\item $f_c(q)$ is independent of $\Delta$ in $\Z[[(c^{-1})^+]]^{U_N^2}$ where 
+\[ U_N = \{ u \in \struct{L}^\times \mid u \equiv 1 \mod N \} \]
+and $\Z[[(c^{-1})^+]]^{U_N^2}$ is the completion of the local ring of the cusp at $(\struct{L}, c^{-1})$ on $M_B$. 
+\item $M(B, k, c, \mu_N) \embed \Z[[ \dots ]] \ot_{\Z} \RR$
+
+\item if $f$ is a $\CC$-HMF then $f_C(q)$ is the analytic $q$-expansion. 
+\end{enumerate}
+\end{theorem}
+
+\subsection{Constructing Toroidal Compactifications}
+
+Universal semi-abelian varieties, with boundary given by a normal crossing divisor (codim 1 unlike the minimal compactification) and are equipped with maps to the minimal compactification (which are a series of blowups). Consider $\TT_c(q) / \Z((c^{_1}, \Delta))$ any rational subcone $\Delta$ of $\ell((c^{-1})^+) \ge 0$ in $L^+$. Conver $\{ \ell((c^{-1})^+) \ge 0 \}$ by $\infty$ rational subcones take Tate objects, glie, but need rational cones to be,
+\begin{enumerate}
+\item disjoint
+\item preserved by action of $U_N^2$
+\item finite after modding out by $U_N^2$.
+\end{enumerate}
+
+\end{document}

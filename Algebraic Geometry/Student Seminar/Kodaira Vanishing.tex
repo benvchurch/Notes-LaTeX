@@ -1,0 +1,223 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+\section{Kodaira Vanishing}
+
+
+\begin{thm}
+Let $k$ be a field of characteristic $0$ and $X$ is smooth projective of pure dimension $d$ over $k$. Let $\L$ be an ample line bundle. Then,
+\begin{enumerate}
+\item $H^j(X, \L \ot \Omega_X^i) = 0$ if $i + j > d$
+\item $H^j(X, \L^{\vee} \ot \Omega^i) = 0$ if $i + j < d$.
+\end{enumerate}
+\end{thm}
+
+\begin{rmk}
+These two statements are Serre dual. Indeed, there is a perfect pairing 
+\[ \bigwedge^i \Omega \times \bigwedge^{d-i} \Omega \to \bigwedge^d \Omega = \omega_X \]
+and therefore,
+\[ H^j(X, \L \otimes \Omega_X^i) = H^{d-j}(X, \L^{\vee} \otimes (\Omega_X^i)^\vee \otimes \omega)^\vee = H^{d-j}(X, \L^\vee \otimes \Omega_X^{d-i})^\vee \]
+and $(d - j) + (d - i) = 2 d - (i + j) < d \iff i + j > d$.
+\end{rmk}
+
+
+\begin{rmk}
+In order to prove this theorem, we will deduce it from a positive characteristic version.
+\end{rmk}
+
+\begin{thm}
+Suppose that $k$ has $\ch{k} = p$. If $X$ is smooth and projective over $k$ pure of dimension $d$ with $d < p$ and $X$ lifts (smoothly) over $W_2(k)$ then,
+\begin{enumerate}
+\item $H^j(X, \L \ot \Omega_X^i) = 0$ if $i + j > d$
+\item $H^j(X, \L^{\vee} \ot \Omega^i_X) = 0$ if $i + j < d$.
+\end{enumerate}
+\end{thm}
+
+\begin{rmk}
+Because these are equivalent by Serre duality, it suffices to prove the second statement.
+\end{rmk}
+
+\begin{rmk}
+Our first case comes from the following classic result of Serre.
+\end{rmk}
+
+\begin{thm}
+If $X$ is projective over $k$ and $\L$ is ample for any coherent sheaf $\E$ there exists $n_0$ such that for $n \ge n_0$ then,
+\[ H^i(X, \E \otimes \L^{\otimes n}) = 0 \]
+for all $i > 0$.
+\end{thm}
+
+\begin{rmk}
+We apply this to $\E = \Omega_X^{d-i}$ then for $n \ge n_0$ we have,
+\[ H^{j}(X, \L^{\otimes -n} \otimes \Omega_X^{i}) = H^{d-j}(X, \L^{\otimes n} \otimes \Omega_X^{d-i})^\vee = 0 \]
+for all $j < d$.
+\end{rmk}
+
+\begin{proof}[Proof of Thm. 1.0.2]
+In particular, we can choose some power $n = p^m$ such that $n \ge n_0$ and thus,
+\[ H^j(X, (\L^\vee)^{\otimes p^m} \otimes \Omega^i_X) = 0 \]
+for all $j < d$ and thus also whenever $i + j < d$. Therefore, we can apply descending induction to prove that,
+\[ H^j(X, \L^\vee \otimes \Omega^i_X) = 0 \]
+for all $i + j < d$ by applying the following results.
+\end{proof}
+
+\subsection{The Induction}
+
+\begin{prop}
+Let $\M$ be any invertible sheaf. Suppose that,
+\[ H^j(X, \M^{\otimes p} \ot \Omega^i) = 0 \] 
+for all $i + j < d$ then,
+\[ H^j(X, \M \ot \Omega^i) = 0 \]
+for all $i + j < d$.
+\end{prop}
+
+\begin{rmk}
+Let $F_X$ denote the absolute Frobenius $F_X : X \to X$ and $F : X \to X^{(p)}$ the relative Frobenius.
+\end{rmk}
+
+\begin{lemma}
+For any invertible module $\M$,
+\[ F_X^* \M \iso \M^{\otimes p} \]
+\end{lemma}
+
+\begin{proof}
+Consider the map $\M \to (F_X)_* \M^{\otimes p}$ via $m \mapsto m^{\otimes p}$ which is linear because,
+\[ am \mapsto (am)^p = a^p m^p = a \cdot m^p \]
+because this is $(F_X)_* \M^{\otimes p}$. Then by adjunction, we get a map $F_X^* \M \to \M^{\otimes p}$ via $m \otimes r \mapsto m^{\otimes p} r$ which is well-defined because,
+\[ (am) \otimes r = m \otimes a^p r \mapsto m^{\otimes p} a^p r = (am)^{\otimes p} r  \] 
+Then it suffices to check for the case $\M = \struct{X}$ in which case we get $\struct{X} \iso \struct{X}$ by $1 \otimes r \mapsto r$.
+\end{proof}
+
+\begin{cor}
+Let $\M'$ be the pullback of $\M$ under $\pi : X^{(p)} \to X$. Then $F^* \M' = \M^{\otimes p}$. 
+\end{cor}
+
+\begin{proof}[Proof of induction (Prop. 1.1.1)]
+By the projection formula,
+\[ F_*(\M^{\otimes p} \otimes \Omega^i_X) \cong F_*(F^* \M' \otimes \Omega^i) \cong \M' \otimes F_* \Omega_X^i \] 
+Now we apply the hypercohomlogy exact sequence,
+\[ E^{ij}_1 = R^j T(K^i) \implies R^{i+j} T(K^\bullet) \]
+Then we apply this to the above complex with $T = \Gamma(X^{(p)}, -)$ giving,
+\[ E^{ij}_1 = H^j(X^{(p)}, \M' \otimes F_* \Omega^i_X) \implies \mathbb{H}^{i+j}(X^{(p)}, \M' \otimes F_* \Omega^\bullet_X) \]
+However,
+\[ H^j(X^{(p)}, \M' \otimes F_* \Omega^i_X) = H^j(X^{(p)}, F_*(\M^{\ot p} \ot \Omega_X^i)) = H^j(X, \M^{\ot p} \otimes \Omega^i_X) = 0 \]
+for $i + j < d$ by the induction hypothesis. Therefore, we conclude from the spectral sequence,
+\[ \mathbb{H}^{n}(X^{(p)}, \M' \otimes F_* \Omega^\bullet_X) = 0 \]
+for $n < d$. Now we need to recall the Cartier isomorphism and decomposability in positive characteristic to complete the proof.
+\end{proof}
+
+\begin{prop}
+The complex $F_* \Omega^\bullet_X$ is decomposable meaning there is a quasi-isomorphism,
+\[ F_* \Omega^\bullet_X \iso \bigoplus_{i} \cH^i(F_* \Omega^\bullet_X )[-i] \]
+Then from the Cartier isomorphism,
+\[ \gamma : \cH^i(F_* \Omega^\bullet_X) \to \Omega^\bullet_{X^{(p)}} \]
+we get a quasi quasi-isomorphism,
+\[ F_* \Omega^\bullet_{X} \iso \bigoplus_i \Omega^i_{X^{(p)}} [-i] \]
+\end{prop}
+
+\begin{proof}[Completing the proof of induction (Prop. 1.1.1)]
+Then the hypercohomlogy of,
+\[ \M' \ot F_* \Omega^\bullet_X \iso \bigoplus_{i} \M' \otimes \Omega^i_X [-i] \]
+is given by,
+\[ \mathbb{H}^n(X^{(p)}, \M' \ot F_* \Omega_X^\bullet) = \bigoplus_{i + j = n} H^j(X^{(p)}, \M' \ot \Omega^i_{X^{(p)}}) \]
+and thus by vanihsing of the hypercohomology for $n < d$ we get vanishing,
+\[ H^j(X^{(p)}, \M' \ot \Omega^i_{X^{(p)}}) = 0 \]
+for $i + j < d$. However, in general, for a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[r, "g'"] \arrow[d, "f'"'] & Y' \arrow[d, "f"]
+\\
+Y' \arrow[r, "g"'] & Y
+\end{tikzcd}
+\end{center}
+we get a natural isomorphism $g'^* \Omega_{X/Y} = \Omega_{X'/Y'}$. Applying this to $\pi : X^{(p)} \to X$ over $F_S : \Spec{k} \to \Spec{k}$ we get $\pi^* \Omega_{X/k} = \Omega_{X^{(p)}/k}$ (where this is $X^{(p)} \to \Spec{k}$ is the structure map not composed with $F_S$ i.e. meaning that $\pi$ is \textit{not} $k$-linear). Then we have $\M' \otimes \Omega^i_{X^{(p)}} = \pi^* (\M \otimes \Omega^i_X)$. However, $F_S$ is flat because $k$ is a field so $\pi$ is also flat by preservation under base change. Applying flat base change,
+\[ F_S^* H^j(X, \M \otimes \Omega^i_X) = H^j(X^{(p)}, \pi^*(\M \otimes \Omega^i_X)) = H^j(X^{(p)}, \M' \otimes \Omega^i_{X^{(p)}}) = 0 \]
+for $i + j < d$ thus completing the induction.
+\end{proof}
+
+
+
+
+\subsection{Spreading Out}
+
+\newcommand{\X}{\mathfrak{X}}
+
+\begin{prop}
+Ampleness spreads out. Meaning given $L$ ample on $X / k$ then we can spread out to $\X / S = \Spec{A}$ then we can spread out to $\L$ ample on $\X / S$. 
+\end{prop}
+
+\begin{proof}
+WLOG can assume that $\L$ is very ample. Then spread out the closed embedding to a closed embedding into projective space.
+\end{proof}
+
+\begin{rmk}
+Now we finally prove the main theorem.
+\end{rmk}
+
+\begin{thm}
+Let $K$ be a field of characteristic $0$ and $X$ is smooth projective of pure dimension $d$ over $K$. Let $L$ be an ample line bundle. Then,
+\begin{enumerate}
+\item $H^j(X, L \ot \Omega_X^i) = 0$ if $i + j > d$
+\item $H^j(X, L^{\vee} \ot \Omega^i) = 0$ if $i + j < d$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Recall that by Serre duality we need only prove the second statement.
+\bigskip\\
+We consider,
+\[ K = \varinjlim A \]
+where $A$ runs over finite-type $\Z$-algerbas. Thus we can spread out over a smooth $S = \Spec{A} \to \Spec{\Z}$ to give a smooth, projective, finite type $f : \X \to S$ pure of relative dimension $d$ and $\L$ is an ample invertible sheaf on $\X$. Then by restricting $S$ we can assume that $R^j f_* (\L \otimes \Omega^i_{\X/S})$ are all free of constant rank (via semicontinuity and cohomlogy and base change). Then we choose a point $s_0 : \Spec{k} \to S$ such that $d < \ch(k)$ and now by smoothness of $S$ over $\Z$ the point $s_0$ lifts to $g : \Spec{W_2(k)} \to S$. Then $g^* \X$ gives a lift of $\X_{s_0}$ over $W_2(k)$ and therefore we have proved that,
+\[ H^i(\X_{s_0}, \L^{\vee}_{s_0} \otimes \Omega^i_{\X_{s_0}/k}) = 0 \]
+for all $i + j < d$. However, by cohomology and base change, for any point $s \in S$,
+\[ H^j(X, \L^\vee_s \otimes \Omega^i_{\X_s/\kappa(s)}) = (R^j f_* (\L^\vee \otimes \Omega^i_{\X/S}))_s \otimes \kappa(s) \]
+However, because the pushforwards $R^j f_* (\L^\vee \otimes \Omega^i_{\X/S})$ are locally free of constant rank and thus the cohomology has constant dimension in $s$. Taking $s = s_0$ we see that this dimension is zero so,
+\[ R^j f_* (\L^\vee \otimes \Omega^i_{\X / S}) = 0 \]
+In particular, taking the fiber over the point $\xi : \Spec{K} \to S$ we find that,
+\[ H^j(X, \L_s^{\vee} \otimes \Omega^i_{X}) = (R^j f_* (\L^\vee \otimes \Omega^i_{\X/S}))_\xi \otimes K = 0 \]
+for $i + j < d$.
+\end{proof}
+
+\subsection{Counterexamples}
+
+\begin{thm}[Raynaud]
+Kodaira vanishing can fail in characteristic $p$ when no lifting to $W_2(k)$ exists.
+\end{thm}
+
+\begin{thm}[Serre]
+There exists $X$ in characteristic $p$ \textit{not} lifting to characteristic $0$.
+\end{thm}
+
+\subsubsection{The Proof}
+
+\renewcommand{\PGL}{\mathrm{PGL}}
+
+Let $k$ be of characteristic $p$ and $k$ either infinite or ``large'' (we will see what this means in a bit). 
+
+\begin{prop}[Godeaux]
+Suppose we have an action $r_0 : G \to \PGL_n(K)$ then there exists a smooth closed subvariety $Y_0$ of $\P^{n-1}_K$ a complete intersection such that $G \acts Y_0$ without fixed-points. 
+\end{prop}
+
+\begin{prop}[Serre]
+Suppose $\forall g \neq 1$ the fixed scheme in $\P^{n-1}_K$ has codimension $\ge 4$ then can take $\dim{Y_0} \ge 3$ and if $X_0 = Y_0 /G$ lifts to some $A$ complete noetherian local ring of $\ch(A) = 0$ then $r_0$ lifts to a map $r : G \to \PGL_n(A)$.
+\end{prop}
+
+\begin{rmk}
+Therefore, it suffices to produce a group action with these properties that does not lift to characteristic zero.
+\end{rmk}
+
+Consider the standard order $5$ nilpotent matrix $N \in M_5(k)$. Let $G = \Ga$ or $G = \FF_p^5 \subset k$. Then take $G \to \PGL_n$. Then we consider the map $g \mapsto \exp{(gN)}$. It is not hard to show that there is a unique fixed point in $\P^4(k)$ so it has codimension $4$. If we can lift $G \to \PGL_n(A)$ we may assume that $A$ is a domain (because $A$ has characteristic $0$ so $p$ is not nilpotent so we can quoitent by a prime not containing $p$) then we get $G \to \PGL_n(L)$ with $\ch(L) = 0$. Then we would get $\FF_p^5 \subset \PGL_5(L)$ but this is abelian so we can simultaneously diagonalize but this is not possible because these would have to be diagonal matrces of which we can have at most $\FF_p^4$. 
+
+
+\end{document}

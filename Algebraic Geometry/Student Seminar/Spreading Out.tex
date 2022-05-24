@@ -1,0 +1,248 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Spreading Out}
+
+\begin{rmk}
+All rings and schemes here are noetherian. 
+\end{rmk}
+
+\begin{rmk}
+Spreading out should capture the following notions,
+\begin{enumerate}
+\item ``anything true at the generic point should be true at the general point''
+\item Lefschitz ``$\CC$ is the only algebraically closed field of characteristic zero''
+\item  reduction to the case of finite type schemes over $\Z$
+\end{enumerate}
+\end{rmk}
+
+\begin{rmk}
+General noetherian schemes need not be Jacobson or excellent etc so the third point is helpful.
+\end{rmk}
+
+\begin{prop}
+Let $M$ be a finite $A$-module with $A$ a domain. Then there is some $f \in A \setminus \{ f \}$ such that $M_f$ is a free $A_f$-module.
+\end{prop}
+
+\begin{rmk}
+This is supposed to be because $M \otimes_A K$ is free because its a vectorspace.
+\end{rmk}
+
+\begin{proof}
+Suppose $m_1, \dots, m_n$ generate $M$. Let,
+\[ \frac{x_1}{f_1}, \dots, \frac{x_k}{f_k} \]
+form a basis for $M \otimes_A K$. Then we can write,
+\[ m_i = \sum \frac{a_{ij}}{g_{ij}} \frac{x_i}{f_j} \]
+Take $f = \left( \prod f_i \right) \left( \prod g_{ij} \right)$ then the $x_i$ generate and are linearly independent because they are independent in $M \otimes_A K$.
+\end{proof}
+
+\subsection{Inverse Limits of Schemes}
+
+\begin{example}
+$\prod^\infty_{n = 1} \P^1$ is not a scheme, it is a functor not representatble by even an algebraic space.
+\end{example}
+
+\begin{prop}
+Suppose that $\{ S_\lambda \}$ is a projective system of (remember noetherian) schemes with affine transition maps. Then,
+\[ S = \varprojlim_\lambda S_\lambda \]
+exists. 
+\end{prop}
+
+\begin{proof}
+Fix $\lambda_0$. I can restrict to the limit over $\lambda > \lambda_0$. Since $S_\lambda \to S_{\lambda_0}$ is affine so $S_\lambda = \rSpec{S_{\lambda_0}}{\sA_\lambda}$ for some quasi-coherent sheaf of $\struct{S_{\lambda_0}}$-algebras. Then,
+\[ S = \varprojlim_{\lambda} S_\lambda = \rSpec{S_{\lambda_0}}{\varinjlim_{\lambda > \lambda_0} \sA_{\lambda_0}} \]
+\end{proof}
+
+\begin{rmk}
+This is basically just the fact for affine schemes that,
+\[ \Spec{\varinjlim A_i} = \varprojlim \Spec{A_i} \]
+\end{rmk}
+
+\begin{thm}
+Using the previous notation,
+\begin{enumerate}
+\item If $\F$ is a coherent sheaf on $S$, then there exists $\lambda_0$ and a coherent sheaf $\F_{\lambda_0}$ on $S_{\lambda_0}$ so that $\F \cong \F_{\lambda_0} \otimes_{\struct{S_{\lambda_0}}} \struct{S}$ 
+\item Set $\F_{\lambda} = \F_{\lambda_0} \otimes_{\struct{S_{\lambda_0}}} \struct{S_\lambda}$ for all $\lambda \ge \lambda_0$. And let $\G$ and $\G_{\lambda}$ be similar then,
+\[ \varprojlim_{\lambda} \Hom{\struct{S_{\lambda}}}{\F_\lambda}{\G_\lambda} \iso \Hom{\struct{S}}{\F}{\G} \]
+\item Analogous statments for finite type schemes over $S$ and $S_\lambda$ etc.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+First lets do the affine case $S_\lambda = \Spec{A_\lambda}$. Let $M$ be a finite $A$-module so there is a short exact sequence (assumed $A$ is noetherian in general need finitely presented),
+\begin{center}
+\begin{tikzcd}
+A^n \arrow[r, "\phi"] & A^m \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and $\phi$ is an $m \times n$ matrix with coefficients in $A$ and thus $A_{\lambda}$ for some finite level. Therefore we get,
+\begin{center}
+\begin{tikzcd}
+A^n_\lambda \arrow[r, "\phi"] & A^m_\lambda \arrow[r] & M_\lambda \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that by right exactness $M = A \otimes_{A_\lambda} M_\lambda$.
+\bigskip\\
+Now given a morphism $M \to N$ get a diagram,
+\begin{center}
+\begin{tikzcd}
+A^n \arrow[d] \arrow[r, "\phi"] & A^m  \arrow[d]\arrow[r] & M \arrow[d] \arrow[r] & 0
+\\
+A^\ell \arrow[r, "\psi"] & A^k \arrow[r] & N \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then the map $A^k \to A^k$ is given by a matrix and thus defined at some finite level $A_\lambda$ so I get a diagram,
+\begin{center}
+\begin{tikzcd}
+A^n_\lambda \arrow[d] \arrow[r, "\phi"] & A^m_\lambda \arrow[d]\arrow[r] & M_\lambda \arrow[d, dashed] \arrow[r] & 0
+\\
+A^\ell_\lambda \arrow[r, "\psi"] & A^k_\lambda \arrow[r] & N_\lambda \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and thus we conclude.
+\bigskip\\
+How do we globalize this? If we first assume that $S$ is separated then we do it on affines and check the cocycle condition which we have to further spread out [EGA IV, 8.5.2 + 8.8.2].
+\end{proof}
+
+\begin{rmk}
+Principal of spreading out. If $\{ f_\lambda : X_\lambda \to Y_\lambda \}_\lambda$ is a family of $S_\lambda$-morphisms with the property of $Y_\mu = Y_\lambda \times_{S_\lambda} S_\mu$ (and everything else is connected by base changes) and $X_\lambda$ and $Y_\lambda$  then if $f : X \to Y$ is the limit then everything true of $f$ is true of $f_\lambda$ for $\lambda \gg 0$. 
+\end{rmk}
+
+\begin{rmk}
+The other direction is ``obvious'' because limits and base change commute so $f$ is the base change of $f_{\lambda}$ so if any $f_{\lambda}$ satisfies a property then $f$ should also.
+\end{rmk}
+
+\begin{example}
+Say $S$ is an integral scheme let $\{ U_\lambda \}$ be the family of nonempty affine neighborhoofs of $s \in S$ then,
+\[ \varprojlim_{\lambda} U_\lambda = \Spec{\stalk{S}{s}} \]
+and thus our version of spreading out generalizes the motivating examples.
+\end{example}
+
+\begin{example}
+If $K/k$ is an extension of fields then,
+\[ K = \varinjlim k_\lambda \]
+where $k_\lambda / k$ is a finitely generated field extension. In particular if $k = \Q$ then every field of characteristic zero is the direct limit of finitely generated field extensions of $\Q$ which can all be embedded in $\CC$.
+\end{example}
+
+\begin{example}
+For any ring,
+\[ A = \varinjlim \Z[x_1, \dots, x_n] \]
+For $x_1, \dots, x_n \in A$.
+\end{example}
+
+\begin{example}
+Start out easy. Let's do $f : X \to Y$ is an isomorphism. Let $g : Y \to X$ be the inverse. First spread out $g$ to give $g_\lambda$ and then $f_\lambda \circ g_\lambda$ and $g_\lambda \circ f_\lambda$ are the identity after base change to $S$ and thus are the identity at some finite level by the main spreading out theorem.
+\bigskip\\
+We can do monomorphism via noting that $\Delta_{X/Y} : X \iso X \times_Y X$ are isomorphisms iff $X \to Y$ is a monomorphism.
+\end{example}
+
+\subsection{Constructible Sets}
+
+\begin{defn}
+A $C \subset S$ is constructible if its a finite union of locally closed subsets.
+\end{defn}
+
+\begin{prop}
+Construcible sets are closed under taking finite intersections, finite unions, and complements.
+\end{prop}
+
+\begin{prop}
+If $C \subset X$ is closed iff its constructible and closed under specialization. Furthemore, $C \subset X$ is open iff its constructible and closed under generalization.
+\end{prop}
+
+\begin{thm}[Chevallay]
+Let $f : X \to Y$ be finite tpye and $C \subset X$ is constructible. Then $f(C)$ is constructible.
+\end{thm}
+
+\begin{proof}
+[AM, Chap.V]
+\end{proof}
+
+\begin{prop}
+If $C$ is constructible then there exists $f : Y \to X$ finite type with $Y$ affine such that $f(Y) = C$.
+\end{prop}
+
+\begin{cor}
+Let $C_\lambda \subset S_\lambda$ be construcible for all $\lambda$ and $u_{\lambda, \mu}^{-1}(C_\mu) = C_\lambda$. If,
+\[ \bigcap_{\lambda} n_\lambda^{-1}(C_\lambda) = \empty \]
+then $C_\lambda = \empty$ for some $\lambda$.
+\end{cor}
+
+\begin{proof}
+Use converse to Chevally, plus the fact that $\varinjlim A_i = 0$ then $A_i = 0$ for some $i$. 
+\end{proof}
+
+\begin{rmk}
+An application: finite type flat maps are open. This hold by spreading out because it is surjective for local maps. 
+\end{rmk}
+
+\subsubsection{Speading Out Closed Embeddings}
+
+Consider,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, hook] & Y 
+\\
+X_\lambda \arrow[r] & Y_\lambda
+\end{tikzcd}
+\end{center}
+We need to show that its topologically a closed embedding. If $X \subset Y$ then its defined by some ideal sheaf $\I = \ker{(\struct{Y} \onto \struct{X})}$. We can descend $\struct{X}$ to some coherent sheaf $\F_\lambda$ on $Y_\lambda$ and the map to get,
+\begin{center}
+\begin{tikzcd}
+\struct{Y_\lambda} \arrow[r] & \F_\lambda \arrow[r] & \sC_\lambda \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Then we use the fact that if $\sC_\lambda \otimes \struct{S} = 0$ then $\sC_\lambda = 0$ at some finite stage. Then consider $\Supp{\struct{S_\lambda}}{\F_\lambda} \subset Y_\lambda$ is closed so constructible. Consider $(\im{X_\lambda}) \, \Delta \, \Supp{}{\F_\lambda} = C_\lambda$ is constructible. But the limit is $\im{X} \Delta \Supp{}{\F} = \empty$ and thus by the corollary there is some finite level at which $C_\lambda = 0$. Furthermore, we can spread out such that $f_\lambda$ is a monomorphism. Thus its a closed embedding at the level of topological spaces. 
+
+\subsubsection{Some more Examples}
+
+\begin{enumerate}
+\item Open immersion: this is similar but easier
+\item Surjective: similar to $\F_\lambda(X_\lambda) = \empty$ for some $\lambda$
+\item Separated: this is equivalent to $\Delta_{X/Y}$ be a closed embedding so we just use spreading out for closed embeddings.
+\end{enumerate}
+
+\subsubsection{Properness}
+
+If $f : X \to Y$ is proper, in particular separated, then $f_\lambda : X_\lambda \to Y_\lambda$ is separated. Then by Chow's lemma there is a diagram,
+\begin{center}
+\begin{tikzcd}
+X_\lambda \arrow[rd] & \arrow[l, "\pi_\lambda"] Z_\lambda \arrow[d] \arrow[r, "j_\lambda"] & P_\lambda \arrow[ld]
+\\
+& Y_\lambda
+\end{tikzcd}
+\end{center}
+such that $\pi_\lambda$ is proj. and surj. and $g_\lambda$ is proj. and $j_\lambda$ is an denese embedding. Then when I base change to $S$ we get,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd] & \arrow[l, "\pi_\lambda"'] Z \arrow[d] \arrow[r, "j_\lambda"] & P \arrow[ld]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+but $f : X \to Y$ is proper so $j$ is an isomorphism (because its a proper open dense embedding using 2 out of 3 property to get properness and thus a closed embedding) and thus by spreading out isomorphisms $j_\lambda$ is an isomorphism at some finite stage. Then $X_\lambda \to Y_\lambda$ is proper because,
+\begin{center}
+\begin{tikzcd}
+
+\end{tikzcd}
+\end{center}
+
+\subsubsection{Etale Monomorphisms}
+
+Let $X \to Y$ be an \etale monomorphism. It is finite type and flat and thus open so we can replace by its image to assume that its surjective (if only locally finite type then break up into finite type parts). Then we use,
+
+\[ \text{universal homoemorphism} \iff \text{radicial, universally closed, surjective} \iff \text{integral, radicial, surjective} \]
+Integral + finite type gives finite and thus we just need to show finite flat on fibers but radicial plus \etale implies injective on fibers (because if its radicial then field extensions are purely insep and is \etale so they are separable so they are trivial).    
+
+\end{document}

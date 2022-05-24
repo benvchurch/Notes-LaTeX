@@ -1,0 +1,460 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Introduction to the Enumerative Problem}
+
+Let $k$ be an algebraically closed field. Suppose I take two random polynomials $f, g \in k[x]$. We might ask is how many linear combinations $f + \lambda g$ have a double root? 
+\bigskip\\
+First let's think about how we might do this without any machinery. We can write down the descriminant $\Delta(f + \lambda g)$ as a polynomial in $\lambda$ and guess how many roots $\Delta$ has in terms of its degree. The discriminant $\Delta(f)$ is a homogeneous polynomial in the coefficients of $f$ of degree $2(\deg{f} - 1)$. Therefore, $\Delta(f + \lambda g)$ is a polynomial in $\lambda$ of degree $2(d - 1)$ for random polynomials of degree $d$. Therefore, we expect there should be $2(d - 1)$ linear combinations with double roots. Notice already we see that $\Delta(f + \lambda g)$ can have double roots in $\lambda$ which corresponds to having a particular $f + \lambda g$ with either a root of higher multiplicity or with multiple double roots. Therefore, we see that, in order to have a better behaved invariant when singularities deform, we should count not the number of $f + \lambda g$ with multiple roots rather the total exceptional multiplicity of roots summed over all $f + \lambda g$.
+\bigskip\\
+Now we might want to extend to the problem. Consider $f,g \in k[x_1, \dots, x_n]$ then we want to ask how many hypersurfaces $V(f + \lambda g) \subset \A^n$ have singularities (or rather we should count the total number of singularities with multiplicity). This is pretty scary already for $n = 2$.
+\bigskip\\
+Let's rephrase this problem in terms of projective space. For $f,g \in k[x]$ we homogenize in two variables to give $f,g \in \Gamma(\P^1, \struct{\P^1}(d))$. Then linear combinations of $f, g$ give a linear system inside $\Gamma(\P^1, \struct{\P^1}(d))$ so we are asking how many singularities are on a general pencil of degree $d$ divisors on $\P^1$. The more general problem can be phrased as, how many singularities lie on the divisors corresponding to a general degree $d$ pencil i.e. a linear system $V \subset \Gamma(\P^n, \struct{X}(d))$ of dimension $1$.
+
+\section{Chern Classes}
+
+\newcommand{\cV}{\mathcal{V}}
+
+\begin{rmk}
+I am following Grothendieck's treatment of Chern classes see \textit{La th\'{e}orie does classes de Chern} for details.
+\end{rmk}
+
+\begin{defn}
+Let $\cV$ be the category of smooth projective vareities over $k$. An \textit{algebraic cohomolgy theory} is the following data,
+\begin{enumerate}
+\item a contravariant functor,
+\[ A : \cV \to \mathbf{GrdComRing} \]
+
+\item functorial homomorphisms of abelian groups $p_X : \Pic{X} \to A^2(X)$ for $X \in \cV$. 
+
+\item for closed subvariaties $\iota_* : Y \embed X$ of pure codimension $p$ with $Y \in \cV$ there is a group homomorphism,
+\[ \iota_* : A(Y) \to A(X) \]
+of degree $2p$. We write $p_X(Y) = [Y] \in A(X)$ for $\iota_*(1_Y)$.
+\end{enumerate}
+such that the following axioms hold,
+\begin{enumerate}
+\item[A1] For $X \in \cV$ and $\E$ a rank $r$ vector bundle on $X$ let $\xi_\E = p_{\P_X(\E)}(\struct{\P_X(\E)}(1)) \in A^2(\P_X(\E))$ then, 
+\[ 1, \xi_{\E}, \xi_{\E}^2, \dots, \xi_{\E}^{r-1} \]
+forms a basis of $A(\P_X(\E))$ as a free $A(X)$-module
+
+\item[A2] For $X \in \cV$ and $\L \in \Pic{X}$ and $s$ a regular section of $\L$,
+\[ [V(s)] = p_X(\L) \]
+
+\item[A3] For $\iota : Z \embed Y$ and $j : Y \embed X$ closed embeddings with $X,Y,Z \in \cV$ then,
+\[ (j \circ \iota)_* = j_* \circ \iota_* \]
+
+\item[A4] For $\iota : Z \embed X$ a closed embedding with $Z, X \in \cV$ we have,
+\[ \iota_* (\alpha \cdot \iota^* \beta) = \iota_*(\alpha) \cdot \beta \]
+for all $\alpha \in A(Z)$ and $\beta \in A(X)$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+In our definition of a graded commuative ring,
+\[ x \cdot y = (-1)^{\deg{x} \deg{y}} y \cdot x \]
+Some examples,
+\begin{enumerate}
+\item $A^i(X) = \CH^{2i}(X)$
+\item $A^i(X) = H_{\et}^i(X_{\bar{k}}, \Q_\ell)$ for $\ch{k} \neq \ell$
+\item $A^i(X) = H_{\dR}^i(X)$ for $\ch{k} = 0$
+\item $A^i(X) = H_{\text{sing}}^i(X(\CC))$ for $k \subset \CC$.
+\end{enumerate}
+\end{rmk}
+
+\begin{thm}
+For each algebraic cohomology theory, $A$ there exists a unique natural map \[ c : \mathrm{Vect}_X \to A(X) \]
+called the \textit{total Chern class} such that,
+\begin{enumerate}
+\item for any $f : X \to Y$ morphism in $\cV$ and $\E$ a vector bundle on $Y$,
+\[ c(f^* \E) = f^*(c(\E)) \]
+\item let $\L$ be a line bundle on $X \in \cV$ then,
+\[ c(L) = 1 + p_X(\L) \]
+\item for $X \in \cV$ and an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_1 \arrow[r] & \E_2 \arrow[r] & \E_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of vector bundles on $X$ then,
+\[ c(\E_2) = c(\E_1) \cdot c(\E_2) \]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We apply the so called ''splitting principle''. Consider the projective bundle $\pi : \P_X(\E) \to X$ then by definition there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_1 \arrow[r] & \pi^* \E \arrow[r] & \struct{\P(\E)}(1) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Repeating inductively, I get a morphism $\pi : \wt{X} \to X$ such that there is a filtration,
+\[ \pi^* \E = \E_0 \supset \E_1 \supset \cdots \supset \E_r = (0) \]
+where $\E_i / \E_{i+1} \cong \struct{\P(\E_i)}(1)$ is a line bundle. Then the exact sequences show that,
+\[ \pi^* c(\E) = c(\pi^* \E) = \prod_{i = 0}^r c(\E_i / \E_{i+1}) = \prod_{i = 0}^r (1 + p_{\wt{X}}(\E_i/\E_{i+1})) \]
+Because $\pi^* : A(X) \to A(\wt{X})$ is injective this proves uniqueness and also provides a formula for computing Chern classes. Thus we define $c$ via this construction and prove the required properties.
+\end{proof}
+
+
+\begin{prop}
+Let $\E$ be a vector bundle on $X \in \cV$ and $s_1, \dots, s_k \in \Gamma(X, \E)$ generically independent global sections meaning $s_1, \dots, s_k \in \E_\xi$ are independent. Then,
+\[ Z = \{ x \in X \mid s_1, \dots, s_k \in \F_x \otimes_{\stalk{X}{x}} \kappa(x) \text{ are dependent} \} = V(s_1 \wedge \cdots \wedge s_k) \]
+is closed of codimension $r - k + 1$ and,
+\[ c_{r - k + 1}(\F) = [Z] \]
+\end{prop}
+
+\begin{proof}
+By considering $s = s_1 \wedge \cdots \wedge s_k \in \Gamma(X, \bigwedge^k \E)$ and $Z = V(s)$ we reduce to the case $k = 1$ via,
+\[ c_{r-k+1}(\E) = c_{{n \choose k}} \left(\bigwedge^k \E\right) \]
+which follows from the splittng principle. Since $s_1, \dots, s_k$ are generically independent, notice that $s_1 \wedge \cdots \wedge s_k$ is a regular section. Thus we need to prove that if $\E$ is a vector bundle of rank $r$ and $s \in \Gamma(X, \E)$ is a regular section then,
+\[ c_r(\E) = [V(s)] \]
+The case $r = 1$ is A2. We use the splitting principle to proceed by induction. (GIVE DETAILS)
+\end{proof}
+
+\begin{example}
+We compute the total Chern classes of $\Omega^k_{\P^n}(d)$. We use the Euler sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{\P^n} \arrow[r] & \struct{\P^n}(-1)^{\oplus (n+1)} \arrow[r] & \struct{\P^n} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now to find a similar sequence for $\Omega^k_{\P^n}(d)$ we use the following lemma to get a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^k_{\P^n} \arrow[r] & \struct{\P^n}(-k)^{\oplus {n+1 \choose k}} \arrow[r] & \Omega^{k-1}_{\P^n} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Twisting by $d$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^k_{\P^n}(d) \arrow[r] & \struct{\P^n}(d-k)^{\oplus {n+1 \choose k}} \arrow[r] & \Omega^{k-1}_{\P^n}(d) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, taking total Chern classes,
+\[ c(\Omega^k_{\P^n}(d)) \cdot c(\Omega^{k-1}_{\P^n}(d)) = (1 + (d - k) H)^{{n + 1 \choose k }} \] 
+Furthermore, for the $k = 0$ case we know $c(\struct{\P^n}(d)) = 1 + d H$. Therefore, by induction,
+\[ c(\Omega^k_{\P^n}(d)) = \prod_{j = 0}^k (1 + (d - j) H)^{(-1)^{k-j} { n + 1 \choose j }} \]
+\end{example}
+
+\begin{lemma}
+Consider a sequence of vector bundles,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r, "\varphi"] & \E \arrow[r, "\psi"] & \L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\L$ is a line bundle. Then for any integer $k \ge 0$ there is an induced exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \bigwedge^k \F \arrow[r] & \bigwedge^k \E \arrow[r] & \L \otimes \bigwedge^{k-1} \F  \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+We describe the second map and leave the rest to you. Given local sections $s_1, \dots, s_k \in \E(U)$ and let $e \in \L(U)$ be a local frame. Then $\psi(s_i) = f_i e$ where $f_i \in \struct{X}(U)$ since $\psi$ is surjective we can choose $s \in \E(U)$ such that $\psi(s) = e$. Then each $f_k s_i - f_i s_k$ is in the image of $\varphi$ so $f_k s_i - f_i s_k = \varphi(t_i)$ for $t_i \in \F(U)$ so,
+\[ s_1 \wedge \cdots \wedge s_k = t_1 \wedge \dots \wedge t_k + f_1 s \wedge t_2 \wedge \cdots \wedge t_k + \cdots + t_1 \wedge \cdots \wedge t_{k-1} \wedge f_k s \]
+Then we send,
+\[ s_1 \wedge \cdots \wedge s_k \mapsto f_1 e \otimes (t_2 \wedge \cdots \wedge t_k) + \cdots + (-1)^k f_k e \otimes (t_1 \wedge \cdots \wedge t_{k-1}) \]
+\end{proof}
+
+\section{Jet Bundles}
+
+
+\begin{defn}
+Let $f : X \to S$ be an $S$-scheme and let $\F, \G$ be $\struct{X}$-modules. Let,
+\[ \shDiff{n}{X/S}{\F}{\G} \]
+be the sheaf of differential operators of degree $\le n$ over $S$. Its sections over $U$ are $f^{-1} \struct{S}$-linear maps $\varphi : \F|_U \to \G|_U$ such that for all local sections $s \in \struct{X}(V)$ for $V \subset U$ the sheaf map,
+\[ \varphi(s \cdot -) - \varphi(-) : \F|_V \to \G|_V \]
+is a differential operator of degree $\le n - 1$ over $S$ where a differential operator of degree $0$ is a $\struct{X}$-linear map. 
+\end{defn}
+
+\begin{defn}
+The degree $n$ Jet bundle $J^n(\F)$ of $\F$ is the $\struct{X}$-module (if it exists) representing $\Diff{\quad n}{X/S}{\F}{-}$ meaning,
+\[ \Hom{\struct{X}}{J^n(\F)}{\G} \iso \Diff{n}{X/S}{\F}{\G} \]
+Then $J^n(\F)$ is equiped with a universal differential operator $\d^n : \F \to J^n(\F)$ such that every degree $n$ differential operator $D : \F \to \G$ factors through $\d^n : \F \to J^n(\F)$ via a unique $\struct{X}$-linear map $\varphi_D : J^n(\F) \to \G$.
+\end{defn}
+
+\begin{rmk}
+Then by naturality,
+\[ \shHom{\struct{X}}{J^n(\F)}{\G} \iso \shDiff{n}{X/S}{\F}{\G} \]
+\end{rmk}
+
+\begin{defn}
+Let $f : X \to S$ be a separated morphism. Define the $n^{\text{th}}$-order thickening of the diagonal as follows. The diagonal $\Delta_{X/S} : X \to X \times_S X$ is a closed immersion with ideal sheaf $\I_{\Delta} \subset \struct{X \times_S X}$. Let $X^{(n)}$ be the closed subscheme defined by $\I_{\Delta}^{n+1}$ equipped with the projection maps $\pi_i^{(n)} : X^{(n)} \to X$. Then $\Delta^{(n)} : X \to X^{(n)}$ is a homeomorphism and $\pi_i^{(n)} \circ \Delta^{(n)} = \id_X$.
+\end{defn}
+
+\begin{prop}
+Let $f : X \to S$ be separated and $\F$ is a $\struct{X}$-module. Then,
+\[ J^n(\F) = (\pi_1^{(n)})_* (\pi_2^{(n)})^* \F = (\struct{X \times_S X} / \I_\Delta^{n+1}) \otimes_{\struct{X}} \F \]
+is a representing object for the order $\le n$ differential operators. The universal differential operator is obtained by the unit $\d^n : \F \to (\pi_2^{(n)})_* (\pi_2^{(n)})^* \F$ where $(\pi_2^{(n)})_* (\pi_2^{(n)})^* \F = J^n(\F)$ \textit{as abelian sheaves} but with a different $\struct{X}$-module structure explaining why $\d^n$ is not $\struct{X}$-linear.
+\end{prop}
+
+\begin{rmk}
+Notice that $\struct{X \times_S X}$ has two different $\struct{X}$-module structures (from the two projections). We have selected which one $\F$ is tensored through (the ``right one'') and which $J^n(\F)$ is viewed as an $\struct{X}$-module through (the ``left one'') via the notation, $(\pi_1^{(n)})_* (\pi_2^{(n)})^* \F$. However, when we write,
+\[ J^n(\F) = (\struct{X \times_S X} / \I_\Delta^{n+1}) \otimes_{\struct{X}} \F \]
+we are implicitly using the ``right'' module structure in the tensor product and viewing the result under the ``left'' module structure. This may be easier to think about in the affine setting:
+\[ J^n(M) = (A \ot_R A)/I^{n+1} \ot_A M \]
+is viwed as an $A$-module via $a \cdot (1 \otimes 1 \otimes m) = a \otimes 1 \otimes m$ while the tensor relation says that $1 \otimes 1 \otimes a m = 1 \otimes a \otimes m$ notice that these are not the same so $a \cdot (1 \otimes 1 \otimes m) \neq (1 \otimes 1 \otimes am)$. This explains why there is only a map $M \to (A \otimes_R A) \otimes_A M$ for the ``second'' $A$-module structure.
+\bigskip\\
+In EGA IV slightly different notation is used. We write $\sP^n_{X/S} := \Delta^{-1}(\struct{X^{(n)}}) = \struct{X \times_S X} / \I^{n+1}_\Delta$ viewed as a $\struct{X}$-bialgebra. We designate the ``left`` $\struct{X}$-algebra structure as the structue map $\struct{X} \to \sP^n_{X/S}$ and the ``right'' $\struct{X}$-algebra structure as the differntial $\d^n_{X/S} : \struct{X} \to \sP^n_{X/S}$. Define,
+\[ \sP^n(\F) = \sP^n \otimes_{\struct{X}} \F \]
+using the $\d^n : \struct{X} \to \sP^n_{X/S}$ module structure but viewing the result as a $\struct{X}$-module through the structure map. Then, in fact $\sP^n(\F)$ is a $\sP^n_{X/S}$-module. In Grothendieck's terminology this is called the \textit{sheaf of prinicpal parts} (refering to the \textit{principal part} or \textit{principal symbol} of a differential operator). Notice that $\d^n : \struct{X} \to \sP^n_{X/S}$ tensors to give $\F \to \sP^n(\F)$ linear for the \textit{right} $\struct{X}$-structure but the cooresponding map $\F \to \sP^n(\F)$ induced by $\struct{X} \to \sP^n_{X/S}$ is \textit{not} well-defined because it does not respect formation of the tensor product on the right ($A \otimes_A M \to (A \otimes_R A) \otimes_A M$ sending $a \otimes m \mapsto a \otimes 1 \otimes m$ does not give a well-defined map only $a \otimes m \mapsto 1 \otimes a \otimes m$ does).
+\end{rmk}
+
+\begin{proof}[Proof of Proposition]
+Via post composing with the universal derivation we get a map,
+\[ \Hom{\struct{X}}{J^n(\F)}{\G} \to \Diff{n}{X/S}{\F}{\G} \]
+By naturality and the sheaf condition for both sides, it suffices to check that this is locally an isomorphism. Therefore, it suffices to show that for $A$-modules $M,N$ the map,
+\[ \Hom{A}{(A \ot_R A) / I^{n+1} \ot_A M}{N} \iso \mathrm{Diff}^n_{A}(M,N) \]
+is an isomorphism meaning that $D : M \to N$ is a differential operator if and only if it factors, \[ M \xrightarrow{\d} (A \ot_R A) / I^{n+1} \ot_A M \xrightarrow{\varphi} N \]
+Injectivity is clear because $\varphi$ is linear and $\d{M}$ generates as an $A$-module so $\varphi \circ \d$ determines $\varphi$. We prove surjectivity by induction on $n$. The case $n = 0$ is clear. Now, if $D$ is an order $\le n$ differential operator then define,
+\[ \varphi : (A \ot_R A) \ot M \to N \quad \text{ via } \quad \varphi(a \ot m) = a D(m) \]
+which is well-defined since $D$ is $R$-linear. Thus it suffices to show that $\varphi(I^{n+1} M) = 0$. To check this we only need to show that $\varphi$ kills generators of the form,
+\[  e = \prod_{i = 1}^{n+1} (1 \ot t_i - t_i \ot 1) m \]
+Notice that, 
+\begin{align*}
+\varphi(e) & = \sum_{H \subset [n+1]} (-1)^{|H|} \left( \prod_{i \in H} t_i \right) D \left( \left( \prod_{i \in H^c} t_i \right) m \right) 
+\\
+& = \sum_{H \subset [n]} (-1)^{|H|} \left( \prod_{i \in H} t_i \right) D \left( \left( t_{n+1} \prod_{i \in H^c} t_i \right) m \right) - \sum_{H \subset [n]} (-1)^{|H|} \left( t_{n+1} \prod_{i \in H} t_i \right) D \left( \left( \prod_{i \in H^c} t_i \right) m \right)
+\\
+& = \sum_{H \subset [n]} (-1)^{|H|} \left( \prod_{i \in H} t_i \right) D_{t_{n+1}} \left( \left( \prod_{i \in H^c} t_i \right) m \right) = \varphi_{t_{n+1}} \left( \prod_{i = 1}^n (1 \ot t_i - t_i \ot 1) \right) = 0
+\end{align*}
+because the linear map $\varphi_{t_0}$ associated to $D_{t_0}(-) = D(t_0 -) - t_0 D(-)$ kills $I^n M$ by the induction hypothesis.
+\end{proof}
+
+\begin{lemma}
+Let $X$ be a Cohen-Macalay separated finite type $k$-scheme. Then for any flat $\struct{X}$-module $\F$ and integer $n \ge 0$ there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \nSym{n}{\Omega_X} \otimes_{\struct{X}} \F \arrow[r] & J^n(\F) \arrow[r] & J^{n-1}(\F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+In particular, since $J^0(\F) = \F$ if $\F$ is locally free and $X$ is smooth then $J^n(\F)$ is locally free.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence of $\struct{X \times_S X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I^n_\Delta / \I^{n+1}_\Delta \arrow[r] & \struct{X \times_S X}/\I_\Delta^{n+1} \arrow[r] & \struct{X \times_S X} / \I_\Delta^{n} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+because $\F$ is $\struct{X}$-flat we see that
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\I^n_\Delta / \I^{n+1}_\Delta) \otimes \pi_2^* \F \arrow[r] & (\struct{X \times_S X}/\I_\Delta^{n+1}) \otimes \pi_2^* \F \arrow[r] & (\struct{X \times_S X} / \I_\Delta^{n}) \otimes \pi_2^* \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact as a sequence of $\struct{X \times_S X}$-modules. Now $\I^n_{\Delta} / \I^{n+1}_\Delta$ is a $(\struct{X \times_S X} / \I^n_{\Delta})$-module and thus all its $\struct{X}$-module structures agree (they all factor through the (standard) diagonal) therefore viewing this as a sequence of sheaves on the thickened diagonal,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\I^n_\Delta / \I^{n+1}_\Delta) \otimes \F \arrow[r] & (\pi^{(n)}_2)^* \F \arrow[r] & (\pi^{(n-1)}_2)^* \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and finally pushing forward to $X$ along $\pi_1^{(n)}$ (i.e. viewing these as $\struct{X}$-modules via the ``left'' action),
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\I^n_\Delta / \I^{n+1}_\Delta) \otimes \F \arrow[r] & J^n(\F) \arrow[r] & J^{n-1}(\F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now the canonical map,
+\[ \Sym{\struct{X}}{\I_\Delta/\I_\Delta^2} \to \bigoplus_{n \ge 0} \I^n_\Delta / \I^{n+1}_{\Delta} \]
+is an isomorphism whenever $\Delta : X \to X \times_S X$ is a regular immersion which occurs when $X$ is Cohen-Macalay (every closed Cohen-Macalay subscheme of a Cohen-Macalay scheme is cut out locally by a regular sequence). Therefore,
+\[ \I^n_\Delta / \I^{n+1}_\Delta \cong \nSym{n}{\Omega_X} \]
+so we conclude.
+\end{proof}
+
+\begin{cor}
+In the previous case,
+\[ c(J^n(\F)) = c((\struct{X} \oplus \cdots \oplus \nSym{n}{\Omega_X}) \otimes \F) = c(\F) \cdots c(\nSym{n}{\Omega_X} \otimes \F) \]
+And if $\F$ is a vector bundle of rank $r$ then $J^n(\F)$ is a vector bundle of rank ${ r + d - 1 \choose d }$ with $d = \dim{X}$.
+\end{cor}
+
+\begin{rmk}
+Although it may look it from the previous formula, the sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \nSym{n}{\Omega_X} \otimes_{\struct{X}} \F \arrow[r] & J^n(\F) \arrow[r] & J^{n-1}(\F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+are usually not split. Indeed, sections of
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_X \ot \F \arrow[r] & J^1(\F) \arrow[r] & \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+meaning actual $\struct{X}$-linear maps $\F \to J^1(\F)$ (with respect to the ``left'' $\struct{X}$-structure we always have $\d^1  :\F \to J^1(\F)$ linear for the ``right'' $\struct{X}$-structure) correspond to connections on $\F$. Therefore, the extension class,
+\[ A(\F) = [0 \to \Omega_X \ot \F \to J^1(\F) \to \F \to 0] \in \Ext{1}{\struct{X}}{\F}{\Omega_X \otimes \F} = H^1(X, \Omega_X \otimes \shEnd{\struct{X}}{\F}) \]
+is the obstruction to the existence of a connection on $\F$. Indeed, if $\F = \L$ is a line bundle then,
+\[ A(\L) = [0 \to \Omega_X \otimes \L \to J^1(\L) \to \L \to 0] \in \Ext{1}{\struct{X}}{\L}{\Omega_X \otimes \L} = H^1(X, \Omega_X) \]
+is $c_1(\L)$ under the canonical map $H^1(X, \Omega^1) \to H^2_{\dR}(X)$.
+\end{rmk}
+
+\begin{prop}
+A section $s \in \Gamma(X, \F)$ has a zero of multplicitly at least $n+1$ at $x \in X$ if and only if $\d{s} \in \Gamma(X, J^n(\F))$ has a zero at $x$.
+\end{prop}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\Gamma(X, \F) \arrow[d] \arrow[r, "\d"] & \Gamma(X, J^n(\F)) \arrow[d]
+\\
+\F_x \arrow[rd, dashed] \arrow[r, "\d"] & J^n(\F)_x \arrow[d]
+\\
+& J^n(\F)_x \ot \kappa(x)
+\end{tikzcd}
+\end{center}
+We can compute\footnote{notice that $\d$ is not linear and therefore will not generally factor through $\F_x \to \F_x \ot \kappa(x)$} $\F_x \to J^n(\F)_x \ot \kappa(x)$ locally on an affine $x \in U = \Spec{A}$,
+\[ J^n(\F)_x \ot \kappa(x) = (A/\p)_\p \ot_A (A \ot_S A)/I^{n+1} \ot_A M \]
+Let $(R, \m, \kappa) = (A_\p, \p A_\p, \kappa(x))$ be the local ring. Then,
+\[ J^n(\F)_x \ot \kappa(x) = (R \ot_S R)/(\m \ot R + I^{n+1}) \ot_R M_\m \]
+Now, $\m \ot R + I^{n+1} = \m \ot R + R \ot \m^{n+1}$ because
+\[  \prod_{i = 0}^{n+1} (y_i \ot 1 - 1 \ot y_i) - 1 \ot y_1 \cdots y_{n+1} \in \m \ot R \]
+and therefore,
+\[ J^n(\F)_x \ot \kappa(x) = R/\m^{n+1} \ot_R M = M / \m^{n+1} M \]
+and thus $\F_x \to J^n(\F)_x \ot \kappa(x)$ sends $s_x \mapsto 0$ iff $s_x \in \m_x^{n+1}$.
+\end{proof}
+
+(DO THESE ALWAYS GIVE GENERICALLY INDEPENDENT SECTIONS??)
+
+(I THINK SO BECAUSE $\F \to J^1(\F) \to \F$ is the identity right)
+
+\begin{rmk}
+I got a bit worried that $(A \otimes_R A)/I^{n+1}$ gives a different sheaf if you localize on the left vs on the right which would be a problem because pushing forward along $\pi_1^{(n)}$ or $\pi_2^{(n)}$ is supposed to give the same abelian sheaf. However, this works because,
+\[ a \otimes 1 = (a \ot 1 - 1 \ot a) + 1 \ot a \]
+but $(a \ot 1 - 1 \ot a)$ is nilpotent so $a \ot 1$ is invertible iff $1 \ot a$ is invertible. 
+\end{rmk}
+
+\section{Solving Some Enumerative Problems}
+
+\begin{example}
+We return to counting the number of singular points in a general pencil of degree $d$ divisors on $\P^1$. These correspond to the line bundle $\struct{\P^1}(d)$. To compute singularities of order at least $1$ we need the rank two vector bundle $J^1(\struct{\P^1}(d))$. A pencil gives two sections of $J^1(\struct{\P^1}(d))$. The points at which these are dependent are exactly the singular points of some element of the pencil counted with the proper multiplicity. Therefore, the divisor of singularities in question is,
+\[ c_1(J^1(\struct{\P^1}(d)) = c_1(\struct{\P^1}(d) \oplus \Omega_{\P^1}(d)) = c_1(\struct{\P^1}(d)) + c_1(\Omega_{\P^1}(d)) \]
+However, $\Omega_{\P^1} = \struct{\P^1}(-2)$ and $c_1(\struct{\P^1}(d)) = d H$ where $H$ is the hyperplane (point) class so,
+\[ c_1(J^1(\struct{\P^1}(d)) = c_1(\struct{\P^1}(d)) + c_1(\struct{\P^1}(d-2)) = d H + (d - 2) H = 2 (d - 1) H \]
+therefore there are $2 (d - 1)$ points!
+\end{example}
+
+\begin{example}
+Let's think about counting singularities in a general pencil of degree $d$ on $\P^n$. This means we should look at $c_{n}(J^1(\struct{\P^n}(d)) \in \CH^n(X)$. Recall that $J^1(\struct{\P^n}(d))$ is a vector bundle of rank $n + 1$ so given two sections $c_{n}(J^1(\struct{\P^n}(d)) \in \CH^n(X)$ is the locus of singular points. Then,
+\[ c(J^1(\struct{\P^n}(d))) = c(\struct{\P^n}(d)) \cdot c(\Omega_{\P^n}(d)) = (1 + d H) \cdot \frac{(1 + (d - 1) H)^{n+1}}{1 + d H} = (1 + (d-1) H)^{n+1} \]
+Therefore,
+\[ c_n(J^1(\struct{\P^n}(d))) = (n+1) \cdot (d-1)^n H^n \]
+so there are $(n + 1)(d - 1)^n$ singularities. 
+\end{example}
+
+\begin{example}
+Let's give an example in the case $n = 3$ and $d = 2$ to see how this works. Let $f = X_0^2 + X_1^2 + X_2^2 - X_3^2$ and $g = X_0 X_1 + X_2 X_3$. It is clear that both $f$ and $g$ define smooth quadric surfaces. Now we consider,
+\[ f_{\lambda} = f + \lambda g = X_0^2 + X_1^2 + X_2^2 - X_3^2 + \lambda (X_0 X_1 + X_2 X_3) \]
+Let's look at the Jacobian,
+\begin{align*}
+\pderiv{f_\lambda}{X_0} & = 2 X_0 + \lambda X_1
+\\
+\pderiv{f_\lambda}{X_1} & = 2 X_1 + \lambda X_0
+\\
+\pderiv{f_\lambda}{X_2} & = 2 X_2 + \lambda X_3
+\\
+\pderiv{f_\lambda}{X_3} & = -2 X_3 + \lambda X_2
+\end{align*}
+Thus we need $2 X_0 = - \lambda X_1$ and $2 X_1 = - \lambda X_0$ so $4 X_0 = \lambda^2 X_0$ so either $X_0 = X_1 = 0$ or $\lambda = \pm 2$. Similarly we need $2 X_2 = - \lambda X_3$ and $2 X_3 = \lambda X_2$ so $4 X_2 = - \lambda^2 X_3$ so either $X_2 = X_3 = 0$ or $\lambda = - \pm 2i$. Therefore, we get four singular points,
+\begin{align*}
+\lambda &= 2 \quad && P = [1 : -1 : 0 : 0]
+\\
+\lambda &= -2 \quad && P = [1 : 1 : 0 : 0]
+\\
+\lambda &= 2 i \quad && P = [0 : 0 : i : -1]
+\\
+\lambda & = -2i \quad && P = [0 : 0 : i : 1]
+\end{align*}
+as expected from the formula.
+\end{example}
+
+\begin{example}
+The parameter space of degree $d$ curves in $\P^2$ is $\P^N = \P(\Gamma(\P^2, \struct{\P^2}(d)))$ where $N = {2 + d \choose d} - 1$. Let $Z_2 \subset \P^N$ be the singular locus and $Z_3 \subset \P^N$ the locus of curves with a triple point. What are the codimension and degrees of these subvarities?
+\bigskip\\
+We can figure this out from intersection theory by slicing these subvarieties with general linear spaces of different dimensions. Notice that $Z_2 \cap V$ is exactly the singular locus of the linear system $V$. The union of the singular points in $\P^2$ is then,
+\[ c_{3 - r}(J^1(\struct{\P^2}(d))) \in \CH^{3-r}(\P^2) \]
+where $r = \dim{V}$. Therefore, we get a finite collection of points exactly for $r = 1$ showing that $\codim{Z_2, \P^N} = 1$ and
+\[ \deg{Z_2} = \deg{J^1(\struct{\P^2}(d))} = 3 (d - 1)^2 \]
+We play the exact same game with $Z_3$. However, points in $Z_3$ correspond to vanishing of sections of $J^2(\struct{\P^2}(d))$ because the second partial derivatives also vanish at a triple point. Therefore a linear system $V \subset \P^N$ intersects $Z_3$ in the locus corresponding to,
+\[ c_{6 - r}(J^2(\struct{\P^2}(d))) \in \CH^{6-r}(\P^2) \]
+where $\rank{(J^2(\struct{\P^2}(d)))} = 1 + 2 + 3 = 6$. Therefore, for $r = 4$ we get a finite set of points so we see that $\codim{Z_3, \P^N} = 4$ and,
+\[ \deg{Z_3} = \deg{c_2(J^2(\struct{\P^2}(d)))} \]
+Therefore we should compute,
+\[ c(J^2(\struct{\P^2}(d))) = c(\struct{\P^2}(d)) \cdot c(\Omega_{\P^2}(d)) \cdot c(\nSym{2}{\Omega_{\P^2}}(d)) \]
+To compute $c(\nSym{2}{\Omega_{\P^2}}(d))$ we apply Hartshorne [Ex. 5.16(c)] which says given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \E \arrow[r] & \G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of vector bundles then there are exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cA \arrow[r] & \nSym{2}{\E} \arrow[r] & \nSym{2}{\G} \arrow[r] & 0
+\\
+0 \arrow[r] & \nSym{2}{\F} \arrow[r] &  \cA \arrow[r] & \F \otimes \G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Applying this to the Euler sequence and twising gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cA(d) \arrow[r] & \struct{\P^n}(d-2)^{\oplus { n + 2 \choose 2 }} \arrow[r] & \struct{\P^n}(d) \arrow[r] & 0
+\\
+0 \arrow[r] & \nSym{2}{\Omega_{\P^n}}(d) \arrow[r] & \cA(d) \arrow[r] &  \Omega_{\P^n}(d) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore,
+\[ c(\nSym{2}{\Omega_{\P^2}}(d)) = \frac{(1 + (d-2)H)^{{ n + 2 \choose  2}}}{(1 + (d - 1) H)^{n + 1}} \]
+Plugging in $n = 2$ we find,
+\[ c(\nSym{2}{\Omega_{\P^2}}(d)) = 1 + 3(d - 3) H + 3 (d^2 - 6  + 10) H^2 \]
+In fact, notice that,
+\[ c(J^2(\struct{\P^n}(d))) = c(\struct{\P^n}(d)) \cdot c(\Omega_{\P^n}(d)) \cdot c(\nSym{2}{\Omega_{\P^n}}(d)) = (1 + (d - 2) H)^{{ n + 2 \choose 2 }} \]
+I'm not sure why there is such nice cancellation. Then we get,
+\[ c_2(J^2(\struct{\P^2}(d))) = 1 + 6(d - 2) H + 15 (d - 2)^2 H^2 \]
+\[ c_n(J^2(\struct{\P^n}(d))) = { {n + 2 \choose 2} \choose n} (d - 2)^n H^n \]
+Therefore, we see that,
+\[ \deg{Z_3} = \deg{c_2(J^2(\struct{\P^2}(d)))} = 15 (d - 2)^2 \]
+In particular, for $d = 3$ we recover the fact that the subvariety of three lines meeting at a single point inside the space of cubics has degree $15$.
+\end{example}
+
+\begin{example}
+Let $X$ be a smooth projective surface and $\L$ a line bundle. How many singularities are there on a general pencil of $\L$-curves?
+\bigskip\\
+The process is somewhat standard now. A pencil is given by two sections $s_0, s_1 \in \Gamma(X, \L)$ and we want to compute the dependancy locus of $\d{s_0}, \d{s_1} \in \Gamma(X, J^1(\L))$ which is,
+\[ c_2(J^1(\L)) = (c(\L) \cdot c(\Omega_X \ot \L))_2 \]
+To compute the first term, we use the splitting principle. Write (after pulling back to a projective bundle)
+\[ \Omega_X = F^1 \supset F^2 \supset F^3 = (0) \]
+with $F^i/F^{i+1}$ a line bundle. Then,
+\[ c(\Omega_X) = \prod_{i = 1}^2 (1 + \gamma_i) \]
+where $\gamma_i = c_1(F^i/F^{i+1})$ are the Chern roots. Tensoring with $\L$ we get a similar filtration with $\wt{F}^i / \wt{F}^{i+1} = (F^i / F^{i+1}) \ot \L$ and thus Chern roots,
+\[ \wt{\gamma}_i = c_1(\wt{F}^i / \wt{F}^{i+1}) = c_1((F^i / F^{i+1}) \ot \L) = \gamma_i + c_1(\L) \]
+Thus,
+\begin{align*}
+c(\Omega_X \ot \L) & = \prod_{i = 1}^2 (1 + \gamma_i + c_1(\L)) = (1 + \gamma_1)(1 + \gamma_2) + (2 + \gamma_1 + \gamma_2) c_1(\L) + c_1(\L)^2 
+\\
+& = c(\Omega_X) + (2 + c_1(\Omega_X)) c_1(\L) + c_1(\L)^2
+\end{align*}
+Therefore,
+\[ c(J^1(\L)) = c(\L) \cdot c(\Omega_X \ot \L) = c(\Omega_X) + (3 + 2 c_1(\Omega_X)) c_1(\L) + 3 c_1(\L)^2 \]
+Therefore,
+\[ c_2(J^1(\L)) = c_2(\Omega_X) + 2 c_1(\Omega_X) c_1(\L) + 3 c_1(\L)^3 \]
+Since $K = c_1(\Omega_X)$ writing $D = c_1(\L)$ for the associated divisor and $c_2 = c_2(\Omega_X)$ we get a formula,
+\[ \deg{c_2(J^1(\L))} = c_2 + D \cdot (2 K + 3 D) \]
+In particular, for $D = -K$,
+\[ \deg{c_2(J^1(\omega_X^\vee))} = c_2 + K \cdot K = 12 \chi(0) \]
+\end{example}
+
+\end{document}

@@ -1,0 +1,293 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{NumberTheoryCommands}
+
+
+\begin{document}
+
+\section{Introduction and Definitions}
+
+Let $k$ be a finite field and $K$ a dimension $1$ function field over $k$ (i.e. a field extension $K/k$ of transcendence degree $1$). Let $\bar{k}$ be a fixed algberaic closure of $k$ and $L = K \bar{k}$ the compositum inside a fixed alebgraic closure $\bar{K}$. Let $X$ denote the unique regular projective curve over $k$ with $K(X) = K$. Note that because $k$ is perfect, $X$ is smooth. We assume that $X$ is geometrically integral over $k$ so that $k = \Gamma(X, \struct{X})$ is the field of constants, otherwise we replace $k$ by $\Gamma(X, \struct{X})$. Throughout we denote $q = p^e = \# k$ where $p = \ch{k}$.
+
+\subsection{Background Results}
+
+Here we collect some results on the class group which we will try to reprove using adelic techniques.
+
+\begin{rmk}
+Because $X$ is smooth we can freely use isomorphisms $\Cl{X} \cong \CaCl{X} \cong \Pic{X}$. Furthermore, there is a degree map, $\deg : \Cl{X} \to \Z$ sending 
+\[ [P] \mapsto [\kappa(P) : k] = \log_q{\# \kappa(P)} \]
+\end{rmk}
+
+\newcommand{\Picz}[1]{\mathrm{Pic}^0\left( #1 \right)}
+
+\begin{lemma}
+$\Picz{X}$ is finite and $\Pic{X} \cong \Picz{X} \times \Z$ noncanonically.
+\end{lemma}
+
+\begin{proof}
+Choose some prime divisor $D_0$ (meaning a point $P \in X$) and let $d = \deg{D}$. Then the map $D \mapsto D - nD_0$ gives an isomorphism $\mathrm{Pic}^{nd}(X) \iso \Picz{X}$ so it suffices to show that $\mathrm{Pic}^{nd}(X)$ is finite for $n \gg 0$. However, by Riemann-Roch, if $\deg{D} = nd \ge 2g$ then 
+\[ H^0(X, \struct{X}(D)) = \deg{D} + 1 - g \ge g + 1 \ge 1 \]
+so there is an effective divisor $D' \sim D$. Then fixing $n$ large enough so that $nd \ge 2d$ for any $D \in \mathrm{Pic}^{nd}(X)$ there is $D' \sim D$ with $D$ effective and $\deg{D'} = nd$ however there are finitely many prime divisors of bounded degree because $X(k')$ is finite for each finite extension $k'/k$ and thus there are finitely many effective divisors with fixed degree so $\mathrm{Pic}^{nd}(X)$ is finite.
+\bigskip\\
+There is a canonical exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Picz{X} \arrow[r] & \Pic{X} \arrow[r] & \Z
+\end{tikzcd}
+\end{center}
+Surjectivity of $\deg : \Pic{X} \to \Z$ is obvious if $X$ has a $k$-point $P$ because $\deg{[P]} = 1$. In general, surjectivity is a consequence of $X$ being geometrically integral (otherwise suppose that $X$ is a $k'$-scheme then every divisor will have residue field containing $k'$ so $\im{\deg}$ will have index at least $[k' : k]$). Because $X$ is geometrically integral, the Weil conjectures gives,
+\[ \# X(\FF_{q^n}) = 1 + q^n - \sum_{i = 1}^{2g} \beta_i^n \]
+with $|\beta_i| = q^{\frac{1}{2}}$. Therefore,
+\[ | \# X(\F_{q^n}) - 1 - q^n | \le 2 g \, q^{\frac{n}{2}} \]
+and thus for $n \gg 0$ we have $q^n +1 > 2g q^{\frac{n}{2}}$ so $X(\FF_{q^n}) \neq \empty$. In paricular there are points $P, Q \in X$ with $\deg{P} = n$ and $\deg{Q} = n+1$ so $D = [Q] - [P]$ is a divisor with $\deg{D} = 1$ proving surjectivity. Then because $\Z$ is projective the sequence splits.
+\end{proof}
+
+\begin{rmk}
+The point counting formula requires $X$ to be geometrically integral such that $X_{\bar{k}}$ is an (in particular connected) variety so that $H^0_{\et}(X_{\bar{k}}, \Q_\ell)$ and $H^1_{\et}(X_{\bar{k}}, \Q_\ell)$ have the expected dimension and Galois representations. To see what can go wrong, consider $X = \P^1_{\FF_{q^2}}$ over $\Spec{\FF_q}$. Then,
+\[ X(\FF_{q^n}) = 
+\begin{cases}
+2(1 + q^n) & n \text{ even}
+\\
+0 & n \text{ odd}
+\end{cases} \]
+which does not following the counting formula nor does it have a divisor of degree $1$.
+\end{rmk}
+
+\newcommand{\sPic}[1]{\mathbf{Pic}_{#1}}
+\newcommand{\csPic}[1]{\mathbf{Pic}^0_{#1}}
+
+\begin{rmk}
+We can also give a much fancier proof. There is an exact sequence of group schemes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \csPic{X/k} \arrow[r] & \sPic{X/k} \arrow[r] & \underline{\Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\csPic{X/k}$ is finite type over $k$ and thus $\Picz{X} = \csPic{X/k}(k)$ is finite because $k$ is a finite field. Surjectivity of $\sPic{X/k} \to \underline{\Z}$ is clear in the \etale topology on $\Spec{k}$ because $X$ has a degree $1$ prime divisor after a finite extension of $k$ (e.g. take the residue field of any closed point). Therefore, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \csPic{X/k}(k) \arrow[r] & \sPic{X/k}(k) \arrow[r] & \underline{\Z}(k) \arrow[r] & H^1(k, \csPic{X/k})
+\end{tikzcd}
+\end{center}
+However, $\csPic{X/k}$ is an abelian variety so by Lang's theorem on $H^1$-vanishing, $H^1(k, \csPic{X/k}) = 0$ and therefore,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Picz{X} \arrow[r] & \Pic{X} \arrow[r] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact and $\Z$ is projective so it splits.
+\end{rmk}
+
+\begin{rmk}
+We needed to assume $X$ was geometrically integral over $k$ for representability of the relative Picard functor [FGA V, Thm. 3.1]. In general, there is an abelian variety $J$ called the \textit{Jacobian} but $J(k) \neq \Picz{X}$ in general (see Poonen 5.7).  
+\end{rmk}
+
+\begin{theorem}[Lang]
+Let $A$ be a smooth connected finite type $k$-group with $k$ finite. Then,
+\[ H^1(k, A) = 0 \]
+\end{theorem}
+
+\begin{proof}
+FIND BETTER REFERENCE? Can Look at Chapter VI of Serre’s \textit{Algebraic Groups and Class Fields}. Or Poonen Rational Points Thm. 5.12.19.
+\end{proof}
+
+\begin{rmk}
+In the case that $A$ is an elliptic curve over $k$, I have a cheeky proof. A class $X \in H^1(k, A)$ represents an $A$-torsor on $\Spec{k}_{\et}$ and thus is trivial if and only if $X$ has a $k$-point (a ``global section''). However, $X$ is a form of $A$ and thus,
+\[ H^i_{\et}(X_{\bar{k}}, \Q_\ell) = H^i_{\et}(A_{\bar{k}}, \Q_\ell) \]
+so by the Lefschetz trace formula $\# X(k) = 1 + q - \alpha - \bar{\alpha}$ with $|\alpha| = \sqrt{q}$. Thus, 
+\[ \#X(k) \ge 1 + q - 2 \sqrt{q} = (\sqrt{q}-1)^2 > 0 \] 
+so $X(k) \neq \empty$. Maybe I can make this work for abelian varieties.
+\end{rmk}
+
+\subsubsection{The Ad\`{e}les and Id\`{e}les}
+
+\begin{lemma}
+Every valuation ring of $K/k$ is a DVR and is $\stalk{X}{x}$ for some unique point $x \in K$.
+\end{lemma}
+
+\begin{proof}
+See [H, Ex. 4.12(a)].
+\end{proof}
+
+\begin{rmk}
+We write $v_x$ for the associated valuation which we normalize so that, 
+\[ v_x(\varpi_x) = \deg{x} = [\kappa(x) : k] = \log_q{\# \kappa(x)} \]
+This normalization is chosen such that the associated norm $|a|_x = q^{-v_x(a)}$ satisfies $|\varpi_x|_x = (\# \kappa(x))^{-1}$. We also write $\ord_x$ for the valuation normalized such that $\ord_x(\varpi) = 1$ so that,
+\[ \div{f} = \sum_{x \in X} \ord_x(f) [x] \]
+\end{rmk}
+
+
+\renewcommand{\I}{\mathbb{I}}
+
+\begin{defn}
+The adeles and ideles of a function field are,
+\[ \A_K = \sideset{}{'}\prod_{x \in X} (K_x, \stalk{K}{x}) \quad \text{ and } \quad \I_K = \sideset{}{'}\prod_{x \in X} (K_x^\times, \stalk{K}{x}^\times) \]
+where $\stalk{K}{x}$ is the completed local ring,
+\[ \stalk{K}{x} = \widehat{\stalk{X}{x}} = \varprojlim_n \stalk{X}{x} / \m_x^n \]
+and $K_x = \Frac{\stalk{K}{x}}$ is the local field at $x \in X$. The valuations and norms extend to $v_x : K_x^\times \to \Z$ making it a non-archimedean local field with discrete valuation ring $\stalk{K}{x}$.
+\end{defn}
+
+\begin{rmk}
+Unlike the number field case, all the local fields $K_x$ are isomorphic to $k'((t))$ because $X$ is regular so $\widehat{\stalk{X}{x}} \cong k'[[t]]$ for $k' = \kappa(s)$. We require $k$ to be finite in order that $K_x$ is a local field, in particular so that $K_x$ is locally compact. Indeed, a fundamental system of neighborhoods of $0 \in k((t))$ are given by groups isomorphic to $k[[t]]$ which is compact if and only if $k$ is finite. Indeed, $k[[t]] \onto k[t]/(t^n)$ so if $k[[t]]$ is compact then its image $k[t]/(t^n)$ is compact but also discrete and thus finite. Conversely, if $k$ is finite then $k[t]/(t^n)$ is finite and thus discrete so Tychonoff's theorem shows that.
+\[ k[[t]] = \varprojlim_n k[t]/(t^n) \]
+is compact as well. Therefore, it is essential that we restric to function fields over \textit{finite} fields if we want to have a good local theory.
+\end{rmk}
+
+\begin{defn}
+The \idele class group is,
+\[ C_K = \I_K / K^\times \]
+where $K^\times \embed C_K$ via the diagonal embedding $K^\times \embed K_x^\times$. This makes sense because each $f \in K$ has only finitely many poles meaning $f \in \stalk{X}{x}$ and thus $f \in \widehat{\stalk{X}{x}}$ for all but finitely many $x \in X$. 
+\end{defn}
+
+\begin{defn}
+There is a degree map $\deg : C_K \to \Z$ defined by taking,
+\[ \deg (a_v) = \sum_{v} v(a_v) \]
+which is well-defined because $a_v \in \stalk{K}{v}$ so $v(a_v) = 0$ for all but finitely many $v$ and a norm,
+\[ |a| = \prod_{v} |a_v|_v \]
+Now define the open subgroup $C^0_K = \ker{\deg} = \I^1 / K^\times$ where
+\[ \I^1_K = \left\{ (a_v) \, \middle| \, a_v \in K_v \text{ and } a_v \in \stalk{K}{v} \text{ for all but finitely many } v \text{ and } \prod_{v} |a_v|_v = 1 \right\}  \]
+There is another open subgroup,
+\[ U_K = \left( \prod_{v} \stalk{K}{v} \right) / K^\times \]
+\end{defn}
+
+\begin{prop}
+There is a surjection $C_K \onto \Pic{X}$ with kernel $U$ such that the diagram,
+\begin{center}
+\begin{tikzcd}
+C_K \arrow[r, two heads] \arrow[rd,"\ord"'] & \Pic{X} \arrow[d, two heads, "\deg"]
+\\
+& \Z 
+\end{tikzcd}
+\end{center}
+commutes giving isomorphisms $C_K / C^0_K \iso \Z$ and $C_K^0/U_K \iso \Picz{X}$.
+\end{prop}
+
+\begin{proof}
+For $(a_x) \in \I_K$ we know $\ord_x(a_x) = 0$ for all by finitely many $x$ so there is a map,
+\[ (a_x) \mapsto \sum_{x \in X} \ord_x(a_x) [x] \]
+which is well-defined because $f \mapsto \div{f}$ for $f \in K^\times$. This is surjective since divisors are finite sums and $(\varpi_{x_0}) \mapsto [x_0]$. Furthermore,
+\[ \deg{\left( \sum_{x \in X} \ord_x(a_x) [x] \right)} = \sum_{x \in X} \ord_x(a_x) \deg{x} = \sum_{x \in X} v_x(a_x) = \deg{(a_v)} \]
+By definition, $C^0_K = \ker{\ord}$ giving the first isomorphism. Then $C^0_K \to \Pic{X}$ surjects onto $\Picz{X} = \ker{(\Pic{X} \to \Z)}$ and $\ker{(C^0_K \to \Pic{X})} = U_K$ because if $(a_v) \mapsto D$ and $D = \div{f}$ then $v(a_v/f) = 0$ so $a_v/f \in \stalk{K}{v}$ proving that $(a_v) \in U_K$.
+\end{proof}
+
+\begin{thm}
+$C^0_K$ is compact.
+\end{thm}
+
+\begin{proof}
+DO THIS!!!
+\end{proof}
+
+
+\begin{cor}
+$\Picz{X}$ is finite. Indeed, because $C^0_K$ is compact we see that $\Picz{X}$ is compact. Furthermore, $U_K \subset C^0_K$ is open so $C^0_K / U \iso \Picz{X}$ is also discrete and thus finite. 
+\end{cor}
+
+\section{The First Inequality}
+
+(WHAT THE HELL IS CURLY H)
+
+We first recall some facts about the Herbrand quotient. Define,
+\[ h^i(G, M) = \dim_k H^i(G, M) \]
+then the Herbrand quotient is,
+\[ h_{2/1}(G, A) = h^2(G,A)/h^1(G, A) \]
+
+(DO I NEED $G$ TO BE CYCLIC HERE!!)
+
+\begin{prop}
+The index $h_{2/1}$ is multiplicative. Given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of $G$-modules then,
+\[ h_{2/1}(M_2) = h_{2/1}(M_1) h_{2/1}(M_3) \]
+\end{prop}
+
+\begin{prop}
+If $A$ is finite then $h_{2/1}(A) = 1$.
+\end{prop}
+
+\begin{prop}
+$h_{2/1}(\Z) = |G|$ where $\Z$ has a trivial $\Z$-action.
+\end{prop}
+
+\begin{prop}
+Let $L/K$ be an extension of local fields then,
+\[ h_{1}(\Gal{L/K}, U) = h_{2}(\Gal{L/K}, U) = e(L/K) \]
+where $U \subset L$ are the units of the ring of integers. 
+\end{prop}
+
+\begin{defn}
+Let $L/K$ be a finite cyclic extension of order $n$. Then,
+\[ h_{2/1}(G, C_L) = n \] 
+\end{defn}
+
+\begin{theorem}
+Let $L/K$ be a cyclic extension of degree $n$ with Galois group $G$. Then,
+\[ h_{2/1}(G, C_L) = n \]
+\end{theorem}
+
+\begin{proof}
+We have,
+\[ h_{2/1}(C_L) = h_{2/1}(C_L/C_L^0) h_{2/1}(C_L^0/U) h_{2/1}(U) \]
+First, $C_L/C_L^0 \iso \Z$ and thus $h_{2/1}(C_L/C_L^0) = n$ and $h_{2/1}(C_L^0/U_L) \iso \Picz{X}$ which is finite so $h_{2/1}(C_L^0/U_L) = 1$. Now,
+\[ h_{2/1}(U_L) = h_{2/1}(W) h_{2/1}(L^\times \cap W)^{-1} \]
+where,
+\[ W = \prod_{w} \stalk{L}{w}^\times = \prod_{v} \left( \prod_{w \divides v} \stalk{L}{w}^\times \right) \]
+Now,
+\[ H^r(G, W) = \prod_{v} H^r \left(G, \prod_{w \divides v} \stalk{L}{w}^\times \right) = \prod_{v} H^r(G_\nu, \struct{L_\nu}^\times)  \]
+by Shapiro's lemma since,
+\[ \prod_{w \divides v} \stalk{L}{w}^\times = \Ind{G}{G_\nu}{\struct{L_v}^\times} \]
+By the local theory, 
+\[ h_2(G_\nu, \struct{L_v}^\times) = h_1(G_\nu, \struct{L_v}^\times) = e_\nu \]
+and since $e_\nu = 1$ all but finitely often we see that,
+\[ h^1(G, W) = h^2(G, W) = \prod_{v} e_v \]
+and therefore $h_{2/1}(W) = 1$. Finally, $L^\times \cap W$ is the field of constants which is finite (this is where we're using the function field setting! otherwise we need to do more work) so $h_{2/1}(L^\times \cap W) = 1$ proving that,
+\[ h_{2/1}(C_L) = n \cdot 1 \cdot 1 \cdot 1 = n \]
+\end{proof}
+
+\section{The Second Inequality}
+
+\section{The Existence Theorem}
+
+\newcommand{\Nm}{\mathrm{N}}
+
+\begin{defn}
+Let $L/K$ be a finite extension and $f : X' \to X$ the corresponding finite map of nonsingular curves. Then $L_{w} / K_{v}$ is a finite extension so there is a local norm $\Nm_{L_{w}/K_{v}} : L_{w}^\times \to K_{v}^\times$. Then we define the norm,
+\[ \Nm_{L/K} : C_L \to C_K \quad (a_w) \mapsto (b_v) \quad \text{where} \quad b_v = \prod_{w \mapsto v} \Nm_{L_{w}/K_{v}}(a_w) \]
+\end{defn}
+
+\begin{defn}
+What is $\omega$??????????????
+\end{defn}
+
+\begin{thm}
+Let $N \subset C_K$ be a finite index open subgroup. Then there exists a finite abelian extension $L/K$ such that $\Nm_{L/K}(C_L) = N$ and $K$ is the fixed field of $\omega(N)$.
+\end{thm}
+
+\begin{thm}
+Let $L/K$ be a finite abelian extension with $N = \Nm_{L/K}(C_L)$. Then $x \in X$ is uniramified if and only if $\stalk{K}{x}^\times \subset N$ and $x$ splits completely if and only if $K_x^\times \subset N$.
+\end{thm}
+
+\section{The Hilbert Class Field}
+
+In the number field case, we consider the open subgroup $U_K = (K^\times \cdot \I_{K, S_\infty})/K^\times$ with $C_K / U_K \iso \Cl{K}$. Then by the global existence theorem there is a finite abelian extension $H_K / K$ with $\Nm_{H_K/K}(C_{H_K}) = U_K$. Therefore, we see that $H_K$ is unramified everywhere because $\stalk{K}{\nu}^\times \subset U_K$ and also for any $L / K$ such that $L/K$ is everywhere unramified then $\stalk{X}{\nu}^\times \subset \Nm_{L/K}(C_L)$ and therefore $U_K \subset \Nm_{L/K}(C_L)$ which implies that $L \subset H_K$ so $H_K$ is the maximal abelian unramified extension of $K$. 
+
+\begin{prop}
+Let $K$ be a number field and $H_K / K$ be its Hilbert class field. Then $\p$ is prinicpal iff $\p$ splits completely in $H_K$.
+\end{prop}
+
+\begin{proof}
+The isomorphism $C_K/\Nm_{H_K/K}(H_K) \iso \Gal{H_K/K}$ and $C_K/\Nm_{H_K/K}(H_K) \iso \Cl{K}$ send the uniformizer $\varpi_\p$ to $\Frob_{\p}$ and $[\p]$ respectively. Therefore, $[\p] = [0]$ iff $\Frob_\p$ is trivial iff $\p$ splits completely in $H_K/K$. 
+\end{proof}
+
+However, in the function field case we have,
+\[ C_K / U_K \iso \Pic{X} \cong \Picz{X} \times \Z \]
+which is not finite. Therefore, to apply the global existence theorem and thus get an analogue of the Hilbert Class field we need to choose a different open subgroup that does have finite index. 
+\bigskip\\
+The issue is essentially due to extensions of the constant field $k$ which are all abelian and unramified. This should somehow correspond to the factor $\Z$ in $\Pic{X}$ which should relate to $\Gal{\bar{k}/k} \cong \hat{\Z}$. We will now make these correspondences precise. 
+
+\end{document}
+

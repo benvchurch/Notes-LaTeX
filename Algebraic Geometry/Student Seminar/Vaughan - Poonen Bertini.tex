@@ -1,0 +1,173 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Bertini over Finite Fields}
+
+Bertini smoothness. Let $k$ be a field. We want $X \subset \P^n_k$ quasi-projective, has a property $P$ then ``most'' hyperplanes $H_f \in (\P^n_k)^*$ have $X \cap H_f$ has property $P$.
+
+\subsection{Classical Bertini}
+
+\begin{thm}
+(Bertini for the case $k = \bar{k}$) and ($k$ infinite Jouanolou). Let $k$ be an infinite field and say that $X \subset \P^n_k$ is quasiprojective, smooth over $k$, and of dimension $m$. Then there exists a dense open $U \subset (\P_k^n)^*$ such that for all open $H \in U$ we have $X \cap U$ is smooth of dimension $m - 1$. 
+\end{thm}
+
+\begin{proof}
+When $k = \bar{k}$. There are two steps. Step (1), smoothness if local, so characterize algebraically when $H \in (\P^n_k)^*$ has $H \cap X$ smooth of dim $n - 1$. First we consider the set of bad hyperplanes,
+\[ B_x = \{ H \in (\P^n_k)^* \mid H \cap X \text{ not smooth of dim } n - 1 \text{ at } x \} = \{ f \in H^0(\struct{\P^n}(d)) \mid \Proj{S / (x)} \cap X \text{ ... } \} \]
+Set $V := H^0(\struct{\P^n}(1))$ for $f_0 \in V$ with $x \notin H_{f_0}$ to dehomogenize then define,
+\[ \varphi_x : V \to \struct{X}{x} / \m_{x}^2 \quad \text{ via } \quad f \mapsto (f / f_0)_x \]
+Then $x \in H_f \cap X$ iff $\varphi_x(f) \in \m_x$ and $H_g \cap X$ is not regular at $x$ iff $\varphi_x(f) = 0$ because then $\stalk{X}{x} / \varphi_x(f)$ would not be regular. Therefore $B_x = \P(\ker{\varphi_x})$. 
+\bigskip\\
+Step (2). Because $k = \bar{k}$ then $\varphi_x$ is surjective because $\kappa(x) = k$. Then $\dim_k(V) = n + 1$ and,
+\[ \dim_k \stalk{X}{x} / \m_x^2 = 1 + m \]
+where $m = \dim{X}$. Therefore,
+\[ \dim{B_x} = \dim{\ker{\varphi_x}} - 1 = n - m - 1 \] 
+Then let,
+\[ B = \{ (x, H) \mid x \in X \text{ closed point and } H \in B_x \} \]
+Then $B \subset X \times (\P^n_k)^*$ defines a closed subscheme. Then step (1) implies that $p_1 : B \to X$ has fibers isomorphic to $\P^{n-m-1}$ and thus is surjective and $B$ is irreducible and $\dim{B} = (n - m - 1) + m = n - 1$. Therefore, the image of $p_2(B)$ cannot be dense because it has dimension $n - 1$ so the complement of its image is a dense open.
+\bigskip\\
+Now if $k$ is infinite, a dense open $U \subset (\P_k^n)^*$ has a $k$-point so there exists $H_f \in (\P^n_k)^*(k)$ with $H_f \cap X$ smooth of dimension $m - 1$.  
+\bigskip\\
+Therefore we pass to $\bar{k}$ and then $U$ will be defined over some finite extension so the image of its complement is closed.
+\end{proof}
+
+\begin{rmk}
+However over $\FF_q$ the set $\p^n_{\FF_q}(\FF_q)$ is finite so there exsits a dense open containing no rational point.
+\end{rmk}
+
+\begin{example}[Katz]
+Bertini for hyperplanes fails over $\FF_q$. Consider,
+\[ f = \sum_{i = 1}^{n+1} (X_i Y_i^q - X_i^q Y_i) \]
+and take $X = V(f) \subset \P^{2n + 1}_{\FF_q}$. Note that,
+\[ X(\FF_q) = \P^{2n+1}_{\FF_q}(\FF_q) \]
+because every rational point satisfies $f$. Now all $H_f \in (\P^{2n+1}_{\FF_q})(\FF_q)$ have $H_f \cap X$ not transverse. 
+\bigskip\\
+Ideal: the dual variety $X \to (\P_{\FF_q}^{2n+1})^*$ via $x \mapsto T_x X \subset T_x \P^n$ then its scheme theoretic image is the dual variety. 
+\bigskip\\
+In our case,
+\[ \varphi : (X_i, Y_i) \mapsto (Y_i^q, - X_i^q) = \mathrm{Frob}(Y_i, - X_i) \]
+so $\varphi : X \to X^*$ is an isomorphism. Therefore, since $X$ contains every $\FF_q$-rational point $X^*$ also contains every $\FF_q$-rational point and therefore it is tangent to every $\FF_q$ hyperplane because it is isomorphic to its dual variety. 
+\end{example}
+
+\subsection{Poonen's Theorem}
+
+\begin{rmk}
+We need to increase somthing either the size of the field or the degree of the hypersurface. It is clear by passing to the algebraic closure that by doing a finite field extension we can get such a hyperplane. However, we want to stay over $\FF_q$. Therefore we want to ask if Bertini works over $\FF_q$ for large enough degree hyperplanes.
+\end{rmk}
+
+Setup, 
+\[ S = \bigoplus_{d \ge 0} S_d = \FF_q[x_0, \dots, x_n] \]
+and let 
+\[ S_{\text{homog}} = \bigcup_{d \ge 0} S_d \]
+For each $f \in S_{\text{homog}}$ we get $H_f = \Proj{S / (f)}$ a hypersurface. For $\cP \subset S_{\text{homog}}$ we define a notion of density,
+\[ \mu(\cP) = \lim_{d \to \infty} \frac{ \# (\cP \cap S_d)}{\# S_d} \]
+Furthermore we define the upper and lower denity,
+\[ \overline{\mu}(\cP) = \limsup_{d \to \infty} \frac{ \# (\cP \cap S_d)}{\# S_d} \]
+and 
+\[ \underline{\mu}(\cP) = \liminf_{d \to \infty} \frac{ \# (\cP \cap S_d)}{\# S_d} \]
+Furthermore, we define the Zeta function,
+\[ \zeta_X(s) = Z_X(q^{-s}) = \prod_{x \in X_{\text{closed}}} (1 - q^{-s \deg{x}})^{-1} = \exp \left( \sum_{r \ge 1} \frac{\# X(\FF_{q^r})}{r} q^{-rs} \right) \]
+
+\begin{thm}[Poonen]
+Let $X \subset \P^n_{\FF_q}$ quasi-projective, smooth of dimension $n \ge 0$. Then,
+\[ \cP_{\text{sm}} = \{ f \in S_{\text{homog}} \mid H_f \cap X \text{ smooth of dimension } n - 1 \} \]
+then,
+\[ \mu(\cP_{\text{sm}}) = \zeta_X(m+1)^{-1} \]
+\end{thm}
+
+\begin{rmk}
+The number $\zeta_X(m+1)^{-1}$ is nonzero and rational because $Z_X$ is a rational function whose polls have $|\alpha| = p^{i/2}$ for $i \le m$. This is why is converges.
+\end{rmk}
+
+\begin{example}
+Let $X = \A_{\FF_q}^1$. When if $V(f)$ smooth? It is smooth exactly when $f$ is not squarefree. For each irred. poly $g$ need $g^2 \ndivides f$. This should happen with probability,
+\[ \left( 1 - \left( \frac{1}{\# (k[x]/g)} \right)^2 \right) \]
+because under $k[x] \onto k[x]/(g^2)$ we expect every residue to be equally likely and then,
+\[ \# k[x]/(g^2) = \left( \# k[x] / (g) \right)^2 \]
+Therefore, we guess that,
+\[ \mu(\cP) = \prod_{g \text{ irred }} \left(1 - (\# k[x]/(g))^{-2} \right) = \zeta_{\A^1}(2)^{-1} \]
+\end{example}
+
+\begin{rmk}
+More generally, let $f \in S_d$. Then for each closed $x \in X$ we have,
+\[ f \text{ singular } \iff m + 1 \text{ linear conditions vanish over } \kappa(p) \]
+Therefore, we expect this to happen with probability,
+\[ \left( q^{-\deg{x}} \right)^{m + 1} \]
+Therefore we guess,
+\[ \mu(f) = \prod_{\text{closed} x \in X} \left( 1 - q^{-\deg{x} (m+1)} \right) = \zeta_X(m+1)^{-1} \]
+\end{rmk}
+
+To prove this we need ``Sieve techniques'' to rigorize, we need to ``handle error terms''. 
+
+\begin{thm}[Bertini with Taylor conditions]
+For $X \subset \P^n_{\FF_q}$ as above. Together with the data $Z \subset \P_{\FF_q}^n$ a finite subscheme such that $U = X \setminus (Z \cap Z)$. Fix $T \subset H^0(Z, \struct{Z})$. For $f \in S_d$ we define $f|_Z \in H^0(Z, \struct{Z})$ so that on each component $Z_i \subset Z$ we let $f|_Z$ is restriction of $x_j^{-d} f$ with $j$ the smallest index of $x_j$ invertible on $Z_i$. Then let,
+\[ \cP_T = \{ f \in S_{\text{homog}} \mid H_f \cap U \text{ smooth of dim } n - 1 \text{ and } f|_Z \in T \} \]
+Then we conclude,
+\[ \mu(\cP) = \frac{\# T}{H^0(Z, \struct{Z})} \zeta_U(m+1)^{-1} \]
+\end{thm}
+ 
+\begin{proof}
+Singularities of low degree (main term). Let,
+\[ U_{<r} = \{ x \in U \text{ closed} \mid \deg{x} < r \} \]
+likewise for $U_{>r}$ and $U_{=r}$. 
+\bigskip\\
+We will then split up into low degree $U_{<r}$ and medium degree ($r < \deg{x} < \frac{d}{m+1}$) and high degree $(\frac{d}{n+1} < \deg{x})$. 
+\end{proof} 
+
+
+ 
+\begin{lemma}
+Define,
+\[ \cP_r = \{ f \in S_{\text{homog}} \mid H_f \cap U \text{ smooth of dim } m - 1 \text{ at } x \text{ and } f|_Z \in T \text{ for all } x \in U_{<r} \} \]
+Then,
+\[ \mu(\cP_r) = \frac{\# T}{\# H^0(Z, \struct{Z})} \prod \left( 1 - q^{-(m+1) \deg{x}} \right) \]
+\end{lemma} 
+
+\begin{proof}
+Let $U_{<r} = \{x_1, \dots, x_s \}$. let $\m_i \subset \struct{U}$ be the ideal sheaf of $x_i$. Let $Y_i = V(\m_i^2)$. Set $Y = \bigcup Y_i$. Then,
+\[ \phi_d : S_d = H^0(\P^n, \struct{\P^n}(d)) \to H^0(Y, \struct{Y}(d)) \]
+Then $H_f \cap Y$ not smooth of dim $m - 1$ at $x$ iff $f \in \ker{\phi_d}$. Furthermore, $\phi_d$ is surjective for, 
+\[ d \ge \dim H^0(Y, \struct{Y}) - 1 \]
+To see this, $\coker{\phi_d} \subset H^1(\P^n, \I_Y(d))$ this will vanish for $d \gg 0$ so its surjective for large enough $d$. Furthermore, if $B_j = \im{\phi_j}$ then,
+\[ B_{j + 1} = B_j + \sum x_i B_j \]
+so $B_{j+1} \supset B_j$. By the formula if $B_{j+1} = B_j$ for some $j$ then it stabilizes at $j$. Therefore, it must stabilize after $j \ge \dim{H^0(Y, \struct{Y}) }- 1$ since it cant jump more times than dimensions in the codomain.
+\bigskip\\
+Then $\cP_r \cap S_d$,
+\[ R_d : S_d \to H^0(Y \cap Z, \I_{Y \cup Z}(d)) \cong H^0(Z, \struct{Z}) \times \prod^s_{i = 1} H^0(Y_i, \struct{Y_i}) \]
+Then,
+\[ \cP_r \cap S_d = R_d^{-1}(T \times (H^0(Y_i, \struct{Y_i}) \setminus \{ 0 \}) \]
+Therefore,
+\[ \mu(\cP_r) = \frac{\# (\cP_r \cap S_d)}{\# S_d} = \frac{\# R_d^{-1}(\cP_d \cap S_d)}{\# H^0(Z, \struct{Z}) \times \prod H^0(Y_i, \struct{Y_i})} = \frac{\# T \cdot (\# H^0(Y_i, \struct{Y_i}) - 1)}{\# H^0(Z, \struct{Z}) \times \prod \# H^0(Y_i, \struct{Y_i})} \]
+Note that,
+\[ H^0(Y_i, \struct{Y_i}) = \stalk{X}{x_i} / \m_{x_i}^2 \]
+which has dimension $m + 1$ over $\kappa(x_i)$. Therefore,
+\[ \mu(\cP_r) = \frac{\# T}{\# H^0(Z, \struct{Z})} \]
+\end{proof}
+
+\subsection{Consequences}
+
+\begin{thm}[Anti-Bertini]
+There exists $X \subset \P^n_k$ such that $H_f \cap X$ is not smooth for any $f \in S_1 \cup \dots \cup S_d$ for fixed $d$. 
+\end{thm}
+
+\begin{thm}[Space-Filling Curves]
+For $X / \FF_q$ nice (smooth projective geometrically integral) and $E / \FF_q$ any finite extension there is a nice curve $Y \subset X$ s.t. $Y(E) = X(E)$. 
+\end{thm}
+ 
+\begin{thm}
+For any nice $X$ there is a nice curve $Y \subset X$ such that $\mathrm{Alb}(Y) \to \mathrm{Alb}(X)$ is surjective
+\end{thm}
+
+\end{document}
+

@@ -4,6 +4,12 @@
 
 \begin{document}
 
+\title{Commutative Algebra Facts for Algebraic Geometry}
+
+\maketitle
+
+\tableofcontents
+
 \begin{remark}
 Unless otherwise stated, all rings are commutative and unital.
 \end{remark}
@@ -372,7 +378,7 @@ Since localization is exact, we get an exact sequence,
 0 \arrow[r] & (\Ann{A}{m})_\p \arrow[r] & A_\p \arrow[r, "m"] & M_\p
 \end{tikzcd}
 \end{center}
-Therefore, $\Ann{A_\p}{m} = (\Ann{A}{m})_\p$. If $\p \supset \Ann{A}{m}$ is minimal then $\p A_\p \subset (\Ann{A}{m})_\p = \Ann{A_\p}{m}$ is minimal. Conversely, if $\p A_\p \supset \Ann{A_\p}{m/s}$ is minimal then,
+Therefore, $\Ann{A_\p}{m} = (\Ann{A}{m})_\p$. If $\p \supset \Ann{A}{m}$ is minimal then $\p A_\p \supset (\Ann{A}{m})_\p = \Ann{A_\p}{m}$ is minimal. Conversely, if $\p A_\p \supset \Ann{A_\p}{m/s}$ is minimal then,
 \[ \Ann{A_\p}{m/s} = \Ann{A_\p}{m} = (\Ann{A}{m})_\p \]
 which implies that $\p \supset \Ann{A}{m}$ is minimal because if $x \in \Ann{A}{m}$ and $x \notin \p$ then $(\Ann{A}{m})_\p = A_\p$ and any prime $\q$ such that $\p \subset \q \subset \Ann{A}{m}$ implies that $\q A_\p$ is intermediate.
 \end{proof}
@@ -385,6 +391,29 @@ Let $A$ be a ring and $M$ an $A$-module. Then $\WAss{A}{M} \subset \Supp{A}{M}$ 
 Since $\p \supset \Ann{A}{m}$ we know $M_\p \neq 0$ since $m$ is nonzero in $M_\p$. Furthermore, suppose that $\p \in \Supp{A}{M}$ is minimal. Then $\Supp{A_\p}{M_\p} = \{ \p A_\p \}$ and $M_\p \neq 0$ so $\WAss{A_\p}{M_\p} = \{ A_\p \}$ and thus $\p \in \WAss{A}{M}$.
 \end{proof}
 
+\begin{prop}
+Let $M$ be finite or $A$ finite-dimensional. Every element of $\Supp{A}{M}$ is contained in a minimal element. Likewise for $\WAss{A}{M}$ and the sets of minimal elements coincide.
+\end{prop}
+
+\begin{proof}
+For Zorn's lemma, we need to show that every downward chain in $\Supp{A}{M}$ has a lower bound. If $\dim{A} < \infty$ then any downward chain of primes stabilizes. Alternatively, assume that $M$ is finite and consider a chain $\{ \p_i \}_{i \in I}$ then I claim that,
+\[ \q = \bigcap_{i \in I} \p_i \in \Supp{A}{M} \]
+First, $\q$ is prime because if $xy \in \q$ then $xy \in \p_i$ at each stage so either $x \in \p_i$ or $y \in \p_i$ but because $I$ is totally ordered either there is a maximal $i \in I$ at which $x$ appears in which case $y \in \q$ or $x$ lies is $\p_i$ for arbitrarily large $i$ meaning that $x \in \p_i$ for all $i$ so $x \in \q$. Now I claim that $M_\q \neq 0$. Let $m_1, \dots, m_r \in M$ generate. It suffices to show that $\q \supset \Ann{A}{m_j}$ for some $j$ or equivalently that $\p_i \supset \Ann{A}{m_j}$ for some fixed $j$ and all $i$. Indeed for each $i$ there is some $j$ so that $\p_i \supset \Ann{A}{m_j}$. Therefore, at least one $j$ must satisfy $\p_i \supset \Ann{A}{m_j}$ for unbounded $i$ and hence $\p_i \supset \Ann{A}{m_j}$ for all $i$. 
+\bigskip\\
+Now let $\p \in \WAss{A}{M}$ then $\p \in \Supp{A}{M}$ so choose $\q \subset \p$ minimal in $\Supp{A}{M}$ then we have shown that $\q \in \WAss{A}{M}$ and is minimal in $\WAss{A}{M}$ because $\WAss{A}{M} \subset \Supp{A}{M}$ and it is minimal in $\Supp{A}{M}$. We have shown that any minimal element of $\Supp{A}{M}$ is in $\WAss{A}{M}$ and hence is minimal in $\WAss{A}{M}$. This discussion shows the converse. 
+\end{proof}
+
+\begin{rmk}
+The condition that $M$ is finite is necessary if $A$ is not finite dimensional (in which case downward chains of primes always stabilize). For example, let $A = k[x_0, x_1, \dots]$ and,
+\[ M = \bigoplus_{i = 0}^\infty A / \p_i \text{ where } \p_i = (x_i, x_{i+1}, \dots) \]
+Then,
+\[ \Supp{A}{M} = \bigcup_{i = 0}^\infty V(\p_i) \]
+Thus if $\q \in \Supp{A}{M}$ then $\q \supset \p_i$ for some $i$ but then $\q \supset \p_i \supsetneq \p_{i+1}$ so $\Supp{A}{M}$ has no minimal elements.  
+\end{rmk}
+
+\begin{rmk}
+The set $\WAss{A}{M}$ need not be a downward set (even when every element is contained in a minimal element) even in the best situations of $A$ a finite-dimensional noetherian ring and $M$ a finite $A$-module. For example let $A = k[x,y,z] / (x^2, xy, xz)$ and $M = A$ then $\WAss{A}{M} = \{ (x), (x,y,z) \}$ so the intermediate prime $(x,y)$ is not associated. 
+\end{rmk}
 
 \begin{lemma} \label{ass_primes_localization}
 Let $A$ be a ring and $M$ an $A$-module and $S \subset A$ a multiplicative subset. Then.
@@ -402,7 +431,7 @@ For $\p \in \Spec{S^{-1} A}$ (i.e. $S \subset A \setminus \p$) we have $S^{-1} M
 
 
 \begin{proposition}
-Let $A$ be a ring $M$ an $A$-module then $\p \in \Supp{A}{M}$ if and only if there exists $\q \subset \p$ with $\q \in \WAss{A}{M}$. Therefore, \[ \bigcap_{\p \in \Supp{A}{M}} \p = \bigcap_{\p \in \WAss{A}{M}} \p \]
+Let $A$ be a ring $M$ an $A$-module then $\p \in \Supp{A}{M}$ if and only if there exists $\q \subset \p$ with $\q \in \WAss{A}{M}$. Therefore, \[ \bigcap_{\p \in \Supp{A}{M}} \p = \bigcap_{\p \in \WAss{A}{M}} \p \quad \text{ and } \quad \Supp{A}{M} = \bigcup_{\p \in \WAss{A}{M}} V(\p) \]
 \end{proposition}
 
 \begin{proof}
@@ -444,24 +473,11 @@ Let $m \in M$ have zero divisors then there is exists a minimal prime (by Zorn's
 \end{proof}
 
 \begin{prop}
-Let $(A, \m)$ be a local ring then $\m \in \WAss{A}{A}$ iff $\m = \{ \text{zero divisors} \}$.
-\end{prop}
-
-\begin{proof}
-Immediate from the above since zero divisors are not units and thus contained in $\m$.
-\end{proof}
-
-\begin{cor}
-Given a prime $\p \in \Spec{A}$ and an $A$-module $M$ we have,
-\[ \p \in \WAss{A}{A} \iff \p A_\p = \{ \text{zero divisors of } A_\p \} \]
-\end{cor}
-
-\begin{prop}
 Let $A$ be reduced then $\WAss{A}{A}$ are exactly the minimal primes of $A$.
 \end{prop}
 
 \begin{proof}
-The minimal primes are in $\WAss{A}{A}$ by Lemma \ref{minimal_supp_wass}. Because $\p \in \WAss{A}{A} \iff \p A_\p \in \WAss{A_\p}{A_\p}$ is suffices to consider the case of a reduced local ring $(R, \m)$ and $\m \in \WAss{R}{R}$. Then $\m$ is minimal over $\Ann{R}{x}$ for some $x \in \m$ so $\m = \sqrt{\Ann{R}{x}}$. Thus $x^n \in \Ann{R}{x}$ so $x^{n+1} = x \cdot x^n = 0$ so $x = 0$ because $R$ is reduced a contradiction unless $\m = 0$ so $R$ is a field so $\m$ is minimal showing that $\p A_\p \subset A_\p$ and thus $\p \subset A$ are minimal primes and that $A_\p$ is a field. 
+The minimal primes are in $\WAss{A}{A}$ by Lemma \ref{minimal_supp_wass}. Because $\p \in \WAss{A}{A} \iff \p A_\p \in \WAss{A_\p}{A_\p}$ is suffices to consider the case of a reduced local ring $(R, \m)$ and $\m \in \WAss{R}{R}$. Then $\m$ is minimal over $\Ann{R}{x}$ for some $x \in \m$ so $\m = \sqrt{\Ann{R}{x}}$. Thus $x^n \in \Ann{R}{x}$ so $x^{n+1} = x^n \cdot x = 0$ so $x = 0$ because $R$ is reduced a contradiction unless $\m = 0$ so $R$ is a field so $\m$ is minimal showing that $\p A_\p \subset A_\p$ and thus $\p \subset A$ are minimal primes and that $A_\p$ is a field. 
 \end{proof}
 
 \begin{lemma}
@@ -570,7 +586,7 @@ Tag 05BZ.
 \end{proof}
 
 
-\begin{proposition} \label{noetherian_finite_wass}
+\begin{proposition} \label{noetherian_finite_ass}
 Let $A$ be a Noetherian ring and $M$ a finite $A$-module. Then,
 \begin{enumerate}
 \item there exists a finite filtration,
@@ -584,6 +600,40 @@ such that each $M_{i} / M_{i-1} \cong A / \p_{i}$ for some $\p_i \in \supp{A}{M}
 \begin{proof}
 $M$ is a Noetherian module so this applies directly from Prop. \ref{noetherian_finite_wass}.
 \end{proof}
+
+\begin{prop}
+Let $A$ be a Noetherian ring and $I \subset A$ an ideal and $M$ a finite $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $I \subset \p$ for some $\p \in \Ass{A}{M}$
+\item $I \subset \{ \text{zero divisors on } M \}$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+If $I \subset \p$ for $\p \in \Ass{A}{M}$ then,
+\[ I \subset \p  \subset \{ \text{zero divisors on } M \} \]
+Conversely, if $I \subset \{\text{zero divisors on } M\}$ then,
+\[ I \subset \{ \text{zero divisors on } M \} = \bigcup_{\p \in \Ass{A}{M}} \p \]
+By Proposition \ref{noetherian_finite_ass}, the set $\Ass{A}{M}$ is finite so by prime avoidance $I \subset \p$ for some $\p \in \Ass{A}{M}$. 
+\end{proof}
+
+\begin{cor}
+Let $\m \subset A$ be a maximal ideal with $A$ noetherian and $M$ a finite $A$-module. Then $\m \in \Ass{A}{M}$ if and only if $\m \subset \{ \text{zero divisors on } M\}$.
+\end{cor}
+
+\begin{cor}
+Let $(A, \m)$ be a noetherian local ring then $\m \in \Ass{A}{A}$ iff $\m = \{ \text{zero divisors} \}$.
+\end{cor}
+
+\begin{proof}
+Immediate from the above since zero divisors are not units and thus contained in $\m$.
+\end{proof}
+
+
+\begin{cor}
+Let $A$ be noetherian and $M$ be a finite $A$-module then for all $\p \in \Spec{A}$,
+\[ \p \in \Ass{A}{M} \iff \p A_\p = \{ \text{zero divisors on } M_\p \} \]
+\end{cor}
 
 \subsection{Primary Decomposition}
 
@@ -992,7 +1042,246 @@ Let $(A, \m)$ be a Noetherian local ring and $f \in \m$ a nonzero divisor. Then 
 We have $\depth{}{A/(f)} = \depth{}{A} - 1$ and $\dim{A/(f)} = \dim{A} - 1$.
 \end{proof}
 
+\section{Finite Projective Modules over Local Rings}
 
+\begin{remark}
+It is well know that if $\phi : M \to M$ is an endomorphism of Noetherian $R$-modules which is surjective then it is injective. However, we can remove the Noetherian hypothesis and only require $M$ to be finitely generated (which does not imply Noetherian unless $R$ is Noetherian). 
+\end{remark}
+
+\begin{remark}
+The following proposition crucially only holds for \textit{commutative} rings.  
+\end{remark}
+
+\begin{theorem}
+Let $M$ be a finite $R$-module and $\phi : M \to M$ a surjective endomorphism then $\phi$ is injective.
+\end{theorem}
+
+\begin{proof}
+We consider $M$ as a $R[X]$-module with $X \cdot m  = f(m)$. Let $I = (X) \subset R[X]$ then $I \cdot M = M$ since $f$ is surjective. Thus, by Nakayama, $\exists P(X) \in I$ such that $(1 - P(X)) \cdot M = 0$. Thus, for all $m \in M$ we have $P(X) \cdot m = m$ i.e. $m = P(f)(m)$ so if $f(m) = 0$ then $m = 0$ since $P(X) \in I$ and thus has no constant terms.
+\end{proof}
+
+\begin{lemma}
+Let $(R, \m, \kappa)$ be a local ring and $M$ a finite $R$-module with $M \otimes_R \kappa = 0$. Then $M = 0$.
+\end{lemma}
+
+\begin{proof}
+If $M \otimes_R \kappa = M / \m M = 0$ then $\m M = M$. However, since $R$ is local $\m = \Jac{R}$ and $M$ is finite so by Nakayama, $M = 0$.
+\end{proof}
+
+\begin{lemma}
+Let $(R, \m, \kappa)$ be a local ring and $\phi : M \to N$ a map of $R$ modules with $N$ finite such that $\phi \otimes \id_\kappa : M \otimes_R \kappa \to N \otimes_R \kappa$ is surjective. Then $\phi$ is surjective.
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+M \arrow[r, "\phi"] & N \arrow[r] & \coker{\phi} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $- \otimes_R \kappa$ is right-exact, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+M \otimes_R \kappa \arrow[r, "\phi \otimes \id_\kappa"] & N \otimes_R \kappa \arrow[r] & \coker{\phi} \otimes_R \kappa \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, $\phi \otimes \id_\kappa$ is surjective so by exactness $\coker{\phi} \otimes_R \kappa = 0$. However, since $N$ is finite so is $\coker{\phi}$ and thus $\coker{\phi} = 0$ by the lemma showing that $\phi$ is surjective.
+\end{proof}
+
+\begin{lemma}
+Let $(R, \m, \kappa)$ be a local ring. Suppose that $M$ is a finite $R$-module with an endomorphism $\phi : M \to M$ such that $\phi \otimes \id : M \otimes_R \kappa \to M \otimes_R \kappa$ is an isomorphism then $\phi$ is an isomorphism. 
+\end{lemma}
+
+\begin{proof}
+Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+M \arrow[r, "\phi"] & M \arrow[r] & \coker{\phi} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and apply the right-exact functor $(-) \otimes_R \kappa$ to get,
+\begin{center}
+\begin{tikzcd}
+M \otimes_R \kappa \arrow[r, "\phi \otimes \id"] & M \otimes_R \kappa \arrow[r] & (\coker{\phi}) \otimes_R \kappa \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+But $\phi \otimes \id$ is an isomorphism and the sequence is exact so $(\coker{\phi}) \otimes_R \kappa = 0$ and thus, by the previous lemma, $\coker{\phi} = 0$ so $\phi$ is surjective. Now we apply the previous theorem to get that $\phi$ is an isomorphism.
+\end{proof}
+
+\begin{lemma}
+Let $M$ be a finite module over $R$ a local ring then bases of $M \otimes_R \kappa$ lift to generating sets $R^n \onto M$ giving,
+\[ \mathrm{rank}(M) = \dim_{\kappa}{(M \otimes_R \kappa)} \]
+\end{lemma}
+
+\begin{proof}
+If $M$ is generated by $m_1, \dots, m_n$ then $M \otimes_R \kappa = M / \m M$ is generated by $\bar{m}_1, \dots, \bar{m}_n$ over $\kappa = R / \m R$ since surjectivity of $R^n \to M$ is preserved after applying $(-) \otimes_R \kappa$. Thus,
+\[ \mathrm{rank}(M) = \dim_{\kappa} M \otimes_{R} \kappa \le n \]
+Now suppose that $v_1, \dots, v_n$ is a $\kappa$-basis of $M \otimes_{R} \kappa = M / \m M$ then choose lifts $m_1, \dots, m_n \in M$. I claim that $m_1, \dots, m_n$ generate $M$ as an $R$-module. Let $N \subset M$ be the $R$-submodule generated by the $m_1, \dots, m_n$ and let $K = M / N$. Then I claim that $\m K = K$. To see this it suffices to show that $K \subset \m K$. For any $m \in M$ we know that its image $\bar{m} \in M / \m M$ is in the span of the basis $v_1, \dots, v_n$ so,
+\[ \bar{m} = r_1 v_1 + \cdots r_n v_n \]
+for $r_i \in R$. Thus,
+\[ m - (r_1 m_1 + \cdots r_n m_n) \in \m M \]
+This implies that in $K$ we have $m \in \m K$ so $K = \m K$. Then since $\Jac{R} = \m$ (because $R$ is local) by Nakayama $K = 0$ so $M$ is generated by $m_1, \dots, m_n$. 
+\end{proof}
+
+\begin{theorem}
+Every finite projective module over a local ring is free.
+\end{theorem}
+
+\begin{proof}
+Let $P$ be a finite projective $R$-module where $(R, \m, \kappa)$ is a local ring. Then there is a surjection $R^n \to P$ which we may assume gives a basis $\kappa^n \xrightarrow{\sim} P \otimes_R \kappa$. We extend to a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & R^n \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but $P$ is projective so the sequence splits giving $R^n \cong K \oplus P$ and a surjection $R^n \to K$ making $K$ finitely generated. Since split exact sequences are preserved under additive functors,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \otimes_R \kappa \arrow[r] & \kappa^n \arrow[r] & P \otimes_R \kappa \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but the second map is an isomorphism so $K \otimes_R \kappa = 0$ and $K$ is finite so by the lemma $K = 0$. Thus $R^n \xrightarrow{\sim} P$ is an isomorphism so $P$ is free.
+\end{proof}
+
+\begin{lemma}
+Let $P$ be a projective $R$-module and $S \subset R$ a multiplicative subset. Then $S^{-1} P$ is a projective $S^{-1} R$-module.
+\end{lemma}
+
+\begin{proof}
+Let $M, N$ be $S^{-1} R$-modules and consider a diagram in the category of $R$-modules,
+\begin{center}
+\begin{tikzcd}
+& & M \arrow[d, two heads]
+\\
+P \arrow[r] \arrow[rru, dashed, "\phi"] & S^{-1} P \arrow[ru, dashed, "\tilde{\phi}"'] \arrow[r] & N
+\end{tikzcd}
+\end{center}
+then $P \to N$ lifts to $\phi : P \to M$ since $P$ is projective. Now we define $\tilde{\phi} : S^{-1} P \to M$ via $\tilde{\phi}(x \otimes r/s) = (r/s) \cdot \phi(x)$ using the decomposition $S^{-1} P = P \otimes_R S^{-1} R$. This makes the diagram commute. 
+\end{proof}
+
+\begin{remark}
+We can also use the fact that (See Tag 05G3),
+\[ \Hom{S^{-1} R}{S^{-1} P}{-} = \Hom{S^{-1} R}{P \otimes_R S^{-1} R}{-} = \Hom{R}{P}{\mathrm{Res}^{S^{-1} R}_{R} (-)} \]
+and that projectiveity of $P$ is equivalent to $\Hom{R}{P}{\mathrm{Res}^{S^{-1} R}_{R} (-)}$ being exact showing that $S^{-1} P$ is $S^{-1} R$-projective.
+\end{remark}
+
+\begin{lemma}
+Let $M$ be a finitely-presented $R$-module such that $M_\p$ is a free $R_\p$-module at each prime $\p \in \Spec{R}$. Then $M$ is a localy free $R$-module.
+\end{lemma}
+
+\begin{proof}
+Take a prime $\p \in \Spec{R}$ then $M_\p$ is a finite free $R_\p$-module say $M_\p \cong R_\p^n$. Lift the basis to give a map $R^n \to M$ and an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C \arrow[r] & R^n \arrow[r] & M \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $M$ is finitely-presented, both $K$ and $C$ are finitely generated. Futhermore, localizing at $\p$ gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C_\p \arrow[r] & R^n_\p \arrow[r] & M_\p \arrow[r] & K_\p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but $R^n_\p \to M_\p$ is an isomorphism so $C_\p = 0$ and $K_\p = 0$. Since they are finitely generated, there is an element $f \notin \p$ killing both generating sets and thus $C_f = 0$ and $K_f = 0$. Therefore, 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C_f \arrow[r] & R^n_f \arrow[r] & M_f \arrow[r] & K_f \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact so $R^n_f \xrightarrow{\sim} M_f$ is an isomorphism so $M$ is free on $D(f) \subset \Spec{R}$ for $\p \in D(f)$ so $M$ is locally free.
+\end{proof}
+
+\begin{theorem}
+Let $R$ be a ring. Then finite projective $R$-modules are exactly the finite locally free $R$-modules. 
+\end{theorem}
+
+\begin{proof}
+If $P$ is finite projective then $P_\p$ is finite projective over $R_\p$ and thus free. Furthermore, $P$ is finitely presented because there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & R^n \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which splits $R^n \cong K \oplus P$ since $P$ is projective giving a surjection $R^n \to K$ thus showing that $K$ is finite and giving a finite presentation,
+\begin{center}
+\begin{tikzcd}
+R^n \arrow[r] & R^n \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, by the previous lemma, $P$ is locally free. 
+\bigskip\\
+Conversely, if $P$ is locally free so there exists a finite ($\Spec{R}$ is quasi-compact) open cover $D(f_i)$ of $\Spec{R}$ such that $P_{f_i} \cong R_{f_i}^n$. Then we need to show that $\Hom{R}{P}{-}$ is exact. We use that $\Hom{R}{P}{-}_{f_i} = \Hom{R_{f_i}}{P_{f_i}}{(-)_{f_i}}$ which is exact since $P_{f_i}$ is free and localization $(-)_{f_i}$ is an exact functor. Then $\Hom{R}{P}{-}$ is exact since we can check exactness of the hom sequence locally. 
+\end{proof}
+
+\begin{remark}
+Look at Tag 00NV for more detailed version.
+\end{remark}
+
+\section{Integral and Finite Extensions}
+
+\begin{defn}
+Let $\varphi : A \to B$ be a map of rings. We say that an element $x \in B$ is \textit{integral} over $A$ if it satisfies a monic polynomial,
+\[ x^n + \varphi(a_{n-1}) x^{n-1} + \cdots + \varphi(a_0) = 0 \]
+for $a_i \in A$. We say that $\varphi$ is \textit{integral} if every element $x \in B$ is integral over $A$.
+\end{defn}
+(DO THIS \chref{https://stacks.math.columbia.edu/tag/00GH}{STUFF}).
+
+\section{Normal Domains}
+
+
+\begin{defn}
+Let $R$ be a domain. We say that $R$ is \textit{normal} if $R$ is integrally closed in $\Frac{R}$.
+\end{defn}
+
+\begin{lemma}
+Let $R$ be a domain. The following are equivalent,
+\begin{enumerate}
+\item $R$ is a normal domain
+\item for each multiplicative subset $S \subset R$, the localization $S^{-1} R$ is a normal domain
+\item for each prime $\p \subset R$ the localization $R_\p$ is a normal domain
+\item for each maximal ideal $\p \subset R$ the localization $R_\m$ is a normal domain.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $R$ be a normal domain and $x \in K = \Frac{R}$ satisfying the monic polynomial,
+\[ x^n + \frac{r_{n-1}}{s_{n-1}} x^{n-1} + \cdots + \frac{r_0}{s_0} \]
+for $\frac{r_{i}}{s_i} \in S^{-1} R$. Then let $s = s_{n-1} \cdots s_0$ and,
+\[ (sx)^n + s_0 \cdots s_{n-2} r_{n-1} (sx)^{n-1} + \cdots + s^{n-1} s_1 \cdots s_{n-1} r_{0} = 0 \]
+and therefore $sx \in K$ is integral over $R$ so $sx \in R$ and thus $x \in S^{-1} R$ showing that $S^{-1} R$ is integrally closed.
+\bigskip\\
+Clearly, (b) $\implies$ (c) $\implies$ (d). Finally, suppose that each $R_{\m}$ is integrally closed. Then,
+\[ R = \bigcap R_{\m} \]
+inside $K$. Suppose that $x \in K$ is integral over $R$ then $x$ is integral over each $R_{\m}$ and thus $x \in R_{\m}$ for each $\m$ by integral closure so $x \in R$ proving that $R$ is an integrally closed domain. 
+\end{proof}
+
+\subsection{Normalization}
+
+\begin{lemma}
+Let $\varphi : A \to B$ be a ring map. Then,
+\[ B' = \{ b \in B \mid b \text{ is integral over } A \} \]
+is an integrally closed $A$-subalgebra of $B$ called the integral closure of $A$ in $B$.
+\end{lemma}
+
+\begin{proof}
+(DO THIS!!!)
+\end{proof}
+
+\begin{prop}
+Let $A$ be a noetherian normal domain with $K = \Frac{A}$ and $L/K$ a finite seperable extension. Let $A'$ be the normalization of $A$ in $L$. Then $A \subset A'$ is a finite extension of rank $n = [L : K]$.
+\end{prop}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\begin{proof}
+Consider the trace pairing,
+\[ L \times L \to K \quad (x,y) \mapsto \inner{x}{y} := \mathrm{Tr}_{L/K}(xy) \]
+Since $L/K$ is separable this is nondegenerate (see algebra review). Furthermore, if $x \in L$ is integral over $A$ then $\mathrm{Tr}_{L/K}(x) \in K$ is integral over $A$ so because $A$ is normal $\mathrm{Tr}_{L/K}(x) \in A$. Therefore, choosing an integral $K$-basis $x_1, \dots, x_n \in L$ (which we can always do by clearing denominators since $L/K$ is algebraic) then $A' \subset L$ is contained in,
+\[ M = \{ \alpha \in L \mid \inner{\alpha}{x_i} \in A \text{ for all } i \} \]
+which is an $A$-module because $\inner{-}{x_i}$ is linear. However, $M \cong A^{\oplus n}$ via choosing the dual basis of $x_1, \dots, x_n$. Thus $A' \subset A^{\oplus n}$ so $A'$ is a finite $A$-module since $A$ is noetherian. Furthermore,
+\[ N = A x_1 \oplus \cdots \oplus A x_n \subset A' \]
+by definition because each $x_i \in L$ is integral. Therefore, $A^{\oplus n} \subset A' \subset A^{\oplus n}$ so by tensoring with $K$ we see that $\rank{(A')} = n$.
+\end{proof}
 
 \section{Projective and Global Dimension}
 

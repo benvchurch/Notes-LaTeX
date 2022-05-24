@@ -1,0 +1,112 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\tors}{\mathrm{tors}}
+\renewcommand{\C}{\mathbb{C}}
+\usepackage{mathdots}
+\newcommand{\atr}{\mathrm{atr}}
+
+\begin{document}
+
+\begin{defn}
+Take $\alpha \in \CC$ to be an algebraic integer with minmal polynomial,
+\[ p(z) = z^n + a_{n-1} z^{n-1} + \cdots + a_n \]
+Then,
+\[ \tr{\alpha} = \sum_{\text{conjugates}} \sigma(\alpha) = - a_{n-1} \]
+Then the absolute trace is,
+\[ \atr{\alpha} = \frac{1}{\deg{\alpha}}\sum_{\text{conjugates}} \sigma(\alpha) = - \frac{a_{n-1}}{n} \]
+\end{defn}
+
+Call $\alpha$ totally positive (TPAI = totally positive algebraic integer) if all roots of $p$ are positive reals (if $\Q(\alpha)$ is totally real and $\alpha$ always embeds as a positive number). 
+\bigskip\\
+There are TPAIs with $\atr = 1, \frac{3}{2}, \frac{5}{3}, \dots$ approaching $2$. If $\zeta^p = 1$ and $\zeta \neq 1$ and $p$ is an odd prime then $\zeta + \zeta^{-1} + 2$ as $\atr < 2$.
+
+\subsection{Schur-Siegel-Smyth Trace Problem}
+
+Choose an enummeration $\alpha_1, \alpha_2, \dots$ of TPAI define,
+\[ \lambda_{SSS} = \liminf_{k \to \infty} \atr(\alpha_k) \le k \]
+We want to show that $\lambda_{SSS} = 2$.
+
+\subsection{Serre}
+
+There are lots of results like $\lambda_{SSS} > 1.79$. Serre showed that their method cannot prove $\lambda_{SSS} > \lambda_{\text{Serre}}$ where $\lambda_{\text{Serre}} \simeq 1.899$.
+
+\subsection{What Alex Showed}
+
+Proved that $1.809 > \lambda_{SSS} > 1.802$ so the conjecture is false.
+
+\subsection{Methods}
+
+We two methods.
+
+\subsubsection{Integrality of Resultants}
+
+Suppose $\alpha$ is an AI with conjugates $\alpha_1, \dots, \alpha_n$. Take $\Q$ be an integer polynomial and suppose that $Q(\alpha) \neq 0$ then,
+\[ \prod_{i \le n} |Q(\alpha_i)| \ge 1 \]
+
+\subsubsection{Integrality of Discriminants}
+
+\[ \prod_{i < j} |\alpha_i - \alpha_j|^2 \ge 1 \]
+
+\subsubsection{Analysis}
+
+\begin{defn}
+Given $\alpha \in \CC$ take $\delta_\alpha$ to be the Borel measure on $\C$ defined by,
+\[ \delta_\alpha(Y) = 
+\begin{cases}
+1 & \alpha \in Y 
+\\
+0 & \alpha \notin Y 
+\end{cases} \]
+Given $P(z) = a_n(z - \alpha_1) \cdots (z - \alpha_n)$ then we define,
+\[ \mu_P = \tfrac{1}{n}(\delta_{\alpha_1} + \cdots + \delta_{\alpha_n}) \]
+
+\begin{prop}
+If $\alpha$ is an AI with min poly $P$ and given an int poly $Q$ with $P + Q$ then,
+\[ \int \log{|Q(z)|} \d{\mu_O} \ge 0 \]
+\end{prop}
+
+\subsubsection{Smyth Approach}
+
+Find integer polynomials $Q_1, \dots, A_N$ and positive numbers $a_1, \dots, a_N, \lambda$ so that ,
+\[ t \ge \lambda + \sum_{i \le N} a_i \log{(Q_i(t)} \]
+for $t \ge 0$. Suppose $\alpha$ is TPAI with min poly $P$ and $p \ndivides Q_1, \dots, Q_N$ then,
+\[ \atr(\alpha) = \int t \d{\mu_P}(t) \ge \int \lambda \d{\mu_P} + \sum_{i \le N} a_i \int \log{|Q_i|} \d{\mu_P} \ge \lambda \]
+The exception list is exactly the roots of the $Q_1, \dots, Q_N$. 
+\end{defn}
+
+\begin{prop}
+Suppose every probability measure $\mu$ on $\RR^{\ge 0}$ satisfying,
+\begin{enumerate}
+\item $\int \log{|Q_i|} \d{\mu} \ge 0$
+\item $I(\mu) = \int \int \log{|z-w|} \d{\mu(z)} \d{\mu(w)} \ge 0$ 
+\end{enumerate}
+also satisfies,
+\[ \int t \d{\mu} \ge \lambda \]
+Then $\lambda_{SSS} \ge \lambda$.
+
+\subsubsection{Schur}
+
+Uses no polynomials but incorporates the discriminant.
+
+\subsubsection{Siegel}
+
+Uses only one polynomial $Q_1(x) = x$. 
+
+\subsubsection{Alexander Smith}
+
+
+Uses about $10$ polynomials. Key ingredients in the proof, given a sequence of prob. measures $\mu_1, \mu_2, \dots$ on $\P^1_\C$ there is a measure $\mu$ and subsequence, $n_1, n_2, \dots,$ so $\mu_{n_k} \to \mu$ converge in the weak-$*$ topology (this is because $\mu_i(\P^1_\C) = 1$ for all $i$ so this is in the unit ball). Also for every $f : \CC^\infty \to \RR$ continuous then,
+\[ \lim_{k \to \infty} \int f \d{\mu_{n_k}} = \int f \d{\mu} \]
+\end{prop}
+
+\begin{rmk}
+This is just because $C(X)^*$ is the space of finite sined measures on $X$ and the probability measures are the unit sphere which is inside the unit ball which is weak-$*$ compact. For what it's worth $(L^1)^* = L^\infty$ and $(L^\infty)^*$ are finitely-additive signed measures absolutely continuous with respect to the measure defining $L^\infty$. 
+\end{rmk}
+
+\begin{thm}
+Let $\Sigma$ be a finite union of closed bounded real intervals. 
+\end{thm}
+
+\end{document}

@@ -16,21 +16,27 @@ Let $(X, \struct{X})$ be a ringed space. We say a section $f \in \Gamma(U, \stru
 Let $X$ be a locally ringed space and $f \in \Gamma(U, \struct{X})$ a section. Then the following are equivalent,
 \begin{enumerate}
 \item $f$ is a regular section 
-\item for any $x \in U$ the image $f \in \stalk{X}{x}$ is a non-zero divisor.
+\item for each open $V \subset U$ the section $f|_V \in \Gamma(V, \struct{X})$ is a non zero-divisor
+\item for any $x \in U$ the image $f_x \in \stalk{X}{x}$ is a non zero-divisor.
 \end{enumerate}
-If $X$ is a scheme there are also equivalent to,
+If $X$ is a scheme, these are also equivalent to,
 \begin{enumerate}
-\item for any affine open $\Spec{A} = V \subset U$ the image $f \in A$ is a non-zero divisor
+\item[(1)] for any affine open $\Spec{A} = V \subset U$ the image $f|_V \in A$ is a non zero-divisor
+\item[(2)] there is an affine open cover $\Spec{A_i} = V_i \subset U$ such that $f|_{V_i} \in A_i$ is a non zero-divisor.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-$f$ is regular when for any open $V \subset U$ and $g \in \Gamma(V, \struct{X})$ we have $f|_V g = 0 \implies g = 0$ which is exactly the condition that $f_x \in \stalk{X}{x}$ is a nonzero divisor for each $x \in U$ since $f_x \in \stalk{X}{x}$ is a zero divisor if there is some neighborhood $x \in V$ and nonzero $g \in \Gamma(V, \struct{X})$ with $f|_V g = 0$. 
+The sheaf map $\struct{X}|_U \xrightarrow{f} \struct{X}|_U$ given by $f \mapsto fs$ is injective iff on each stalk $\stalk{X}{x} \xrightarrow{f_x} \stalk{X}{x}$ is injective i.e. $f_x \in \stalk{X}{x}$ is a non zero-divisor for each $x \in U$. Furthermore, the sheaf map $\struct{X}|_U \to \struct{X}|_U$ is injective if and only if it is injective on sections $\struct{X}(V) \to \struct{X}(V)$ if and only if $f|_V \in \Gamma(V, \struct{X})$ is a non zero-divisor.
 \bigskip\\
-The sheaf map $\struct{X} \to \struct{X}$ given by $f \mapsto fs$ is injective iff on stalks $\stalk{X}{x} \to \stalk{X}{x}$ is injective i.e. $f \in \stalk{X}{x}$ is a non-zero divisor. 
+Alternatively, $f$ is regular iff for any open $V \subset U$ and $g \in \Gamma(V, \struct{X})$ we have $f|_V g = 0 \implies g = 0$ which is exactly (b) and is equivalent to $f_x \in \stalk{X}{x}$ being a non zero-divisor for each $x \in U$ since $f_x \in \stalk{X}{x}$ is a zero divisor iff there is some open $V \ni x$ and nonzero $g \in \Gamma(V, \struct{X})$ with $f|_V g = 0$. 
 \bigskip\\
-Now let $X$ be a scheme. If on each affine open $\Spec{A} = V \subset U$ the image $f \in A$ is a non zero divisor then, since affine opens form a base for the topology on $X$, then $f_x \in \stalk{X}{x}$ is a non zero divisor since otherwise it would be a zero divisor on some open neighborhood containing an affine open. Conversely, if $f |_U$ is a zero divisor on some affine open then for each $x \in U$ the image $f_x \in \stalk{X}{x}$ is a zero divisor.
+Now let $X$ be a scheme. Suppose that $f |_V$ is a zero divisor on some nonempty affine open then for each $x \in V$ the image $f_x \in \stalk{X}{x}$ is a zero divisor so $f$ is not regular. Clearly (1) $\implies$ (2). Injectivity of $f : \struct{X}|_U \to \struct{X}|_U$ can be checked on the open cover $V_i$. However, $f|_{V_i} : \struct{X}|_{V_i} \to \struct{X}|_{V_i}$ is the map $\wt{A_i} \to \wt{A_i}$ given by $A_i \to A_i$ via multiplication by $f|_{V_i} \in A_i$. This is injective if and only if $A_i \to A_i$ is injective if and only if $f|_{V_i} \in A_i$ is a non zero-divisor proving that (2) $\implies$ (a).
 \end{proof}
+
+\begin{rmk}
+Even for schemes, a \textit{global} section may fail (in the non-affine case) to be regular even if it is a non zero-divisor. See \href{https://mathoverflow.net/questions/73936/the-restriction-of-a-global-section-which-is-not-a-zero-divisor-is-still-a-non-z}{this example}. Therefore, while non zero-divisors form a presheaf on an affine scheme, they do not form a presheaf on a general scheme. Even worse, by looking at disconnected examples, it is clear that non zero-divisors do not form a sheaf even in the affine case. The notion of regular sections fixes these problems.
+\end{rmk}
 
 \begin{definition}
 Let $(X, \struct{X})$ be a ringed space. Then define the sheaf of regular sections $\S_X$ via, 
@@ -96,7 +102,7 @@ Let $X$ be a integral scheme. Then $\K_X = \underline{K(X)}$.
 \end{prop}
 
 \begin{proof}
-Let $\xi \in X$ be the generic point and $U \subset X$ an open set. Consider the  presheaf map $\S_X(U)^{-1} \struct{X}(U) \to K(X)$ sending $f \mapsto f_\xi$ which is well-defined because regular sections have $f_\xi \neq 0$ and $K(X)$ is a field so regular sections are invertible in $K(X)$. Sheafifying, gives a map $\K_X \to \underline{K(X)}$. To show this map is an isomorphism it suffices to check on the stalks which can be computed from the above presheaves. By above, the map $\S_X(U)^{-1} \stalk{X}(U) \to K(X)$ is always injective. Furthermore, for any $x \in X$ choose an affine open neighborhood $U = \Spec{A}$ with $A$ a domain. Then $\S_X(U) = A \setminus \{ 0 \}$ since $A \to A_\p$ is injective and $A_\p$ is a domain for each prime $\p$ so evey nonzero $f \in A$ is regular. Thus, $\S_X(U)^{-1} \struct{X}(U) = \Frac{A}$ and the map $\S_X(U)^{-1} \struct{X}(U) \to K(X) = A_{(0)} = \Frac{A}$ is an isomorphism.   
+Let $\xi \in X$ be the generic point and $U \subset X$ an open set. Consider the  presheaf map $\S_X(U)^{-1} \struct{X}(U) \to K(X)$ sending $f \mapsto f_\xi$ which is well-defined because regular sections have $f_\xi \neq 0$ and $K(X)$ is a field so regular sections are invertible in $K(X)$. Sheafifying, gives a map $\K_X \to \underline{K(X)}$. To show this map is an isomorphism it suffices to check on the stalks which can be computed from the above presheaves. By above, the map $\S_X(U)^{-1} \struct{X}(U) \to K(X)$ is always injective. Furthermore, for any $x \in X$ choose an affine open neighborhood $U = \Spec{A}$ with $A$ a domain. Then $\S_X(U) = A \setminus \{ 0 \}$ since $A \to A_\p$ is injective and $A_\p$ is a domain for each prime $\p$ so evey nonzero $f \in A$ is regular. Thus, $\S_X(U)^{-1} \struct{X}(U) = \Frac{A}$ and the map $\S_X(U)^{-1} \struct{X}(U) \to K(X) = A_{(0)} = \Frac{A}$ is an isomorphism.   
 \end{proof}
 
 \subsection{Meromorphic Sections}

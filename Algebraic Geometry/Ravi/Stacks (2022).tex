@@ -1,0 +1,637 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\section{Mar. 30}
+
+\begin{rmk}
+Here is a reason that a $-1$-category should be the initial (empty) category or the terminal category (single object and single morphism). We want the Hom spaces of a $0$-category (a set) to be $-1$-categories but these are singletons or empty. Therefore, we can say that a $-1$-sheaf ($-2$-stack) should be a function because its a category fibered over $X$ in $-1$-categories so just a single element over open compatibly with restriction. 
+\end{rmk}
+
+Given a (pre)sheaf on a topological space $X$ we can ``glue the fibers together'' to get a fibered category over $\mathrm{Open}(U)$ where the fibers are the sets $\F(U)$ over some open. The morphisms in this category are exactly $f|_U \to f$ where the morphism represents the restriction of the function $f$ over $U \embed V$. To make this a sheaf we need axioms involving the topology. 
+\bigskip\\
+We do the same thing for stacks.
+
+\begin{defn}
+A 2-presheaf over a topological space $X$ is a functor $f : \C \to \mathrm{Open}(X)$ such that
+\begin{enumerate}
+\item pullbacks exist
+\item every morphism in $\C$ is a pullback
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Some exercises:
+\begin{enumerate}
+\item the fibers of a 2-presheaf are groupoids. 
+\end{enumerate}
+\end{rmk}
+
+\newcommand{\Isom}[2]{\mathrm{Isom}\left(#1, #2\right)}
+
+\begin{defn}
+Let $\C$ be a 2-presheaf then $\C$ is a stack if
+\begin{enumerate}
+\item for $a, b \in \C(U)$ the functor $\Isom{a}{b}$ is a sheaf on $U$
+\item objects glue. 
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+A category of geometric spaces is a category $\G$ such that there is a distinguished class of ``open immersions'' which is 
+\begin{enumerate}
+\item closed under composition
+\item local in nature
+\item preserved by pullbacks (fibered products)
+\end{enumerate}
+\end{defn}
+
+\newcommand{\PSh}{\mathrm{PSh}}
+
+\begin{prop}[Yonega]
+Consider the category $\PSh_\C$ which is the contravariant functors from $\C$ to Set. Then $X \mapsto h^X = \Hom{\C}{-}{X}$ gives a fully faithfully embedding $\C \embed \PSh_\C$.
+\end{prop}
+
+\section{Geometry on PSh}
+
+What is a vectorbundle on a presheaf? If we are going to give it geometry we should know an answer to this question. 
+\bigskip\\
+Example, the Hodge bundle. For any $S \to \M_g$ there is a family of curves $\pi : \C \to S$ and thus we get the Hodge bundle $\pi_* \Omega_{\C/S}$ which is a rank $g$ vector bundle on $S$. These vector bundles are compatible (by cohomology and base change) with pullbacks $S' \to S \to \M_g$. 
+\bigskip\\
+We call this data a vector bundle on $\M_g$.
+
+\begin{defn}
+A vector bundle $\E$ on $\F \in \PSh_\G$ is a vector bundle $\E(S)$ on each $S \in \G$ along with isomorphisms (DO THIS)
+\end{defn}
+
+\begin{exercise}
+Let $\G$ be the category of open balls in $\C^n$ and holomorphic maps between them. Then $\mathrm{Man}_{\mathbb{C}} \to \PSh_\G$ is a fully faithful embedding.
+\end{exercise}
+
+\subsection{Fiber Products}
+
+$\G$ may not have fiber products because. For example if $\G$ is the category of smooth manifolds and smooth maps then fiber products of non submersions is not a smooth manifold.
+\bigskip\\
+However, $\PSh_\G$ does have fiber products. Indeed we construct fiber products point-wise. 
+
+\begin{exercise}
+Any fiber product in $\G$ agrees with the corresponding fiber product in $\PSh_\G$ (the Yoneda embedding preserves fiber products). 
+\end{exercise}
+
+The Yoneda functor preserves fiber products basically by definition because 
+\[ h^{A \times_B C}(X) = \Hom{\G}{X}{A \times_B C} = \Hom{\G}{X}{A} \times_{\Hom{\G}{X}{B}} \Hom{\G}{X}{C} \]
+
+\begin{defn}
+A morphism $f : F \to G$ in $\PSh_\G$ is representable when for any map $S \to G$ from $S \in \G$ then $F \times_G S$ is representable. 
+\end{defn}
+
+\begin{rmk}
+If $\G$ has fiber products then every morphism between representable functors is representable.
+\end{rmk}
+
+\begin{exercise}
+Representable morphisms are preserved by base change.
+\end{exercise}
+
+\begin{defn}
+Given a property $\cP$ of morphisms in $\G$. Then we say a representable morphism $f : F \to G$ in $\PSh_\G$ has property $\cP$ if for every $S \to G$ with $S \in \G$ the morphism $F \times_G S \to S$ (which is a $\G$-morphism) has property $\cP$.
+\end{defn}
+
+\begin{rmk}
+For this to make sense, we need $\cP$ to be a property preserved under base change so that $X \to Y$ has property $\cP$ if and only if $X_{Y'} \to Y'$ has property $\cP$. 
+\end{rmk}
+
+\begin{defn}
+We can now define an open cover in $\PSh_\G$. A representable morphism is open in the above sense. 
+\end{defn}
+
+\section{April 4}
+
+\begin{rmk}
+Notice that every representable presheaf on $\G$ is a sheaf when restricted to each object $X \in \G$. 
+\end{rmk}
+
+\begin{defn}
+A presheaf $F \in \PSh_\G$ is a \textit{sheaf} if for each $X \in \G$ the presheaf $X|_{\G}$ (restriction to the open subsets of $\G$) is a sheaf. 
+\end{defn}
+
+\begin{rmk}
+This will be a sheaf for the topology on $\G$ induced by open embeddings. 
+\end{rmk}
+
+\begin{defn}
+Let $\G$ be a category (not necessarily with fiber products). A topology on $\G$ is a connection of morphisms $\G^\circ \subset \G$ (the ``open immersions'') satisfying the following properties:
+\begin{enumerate}
+\item and isomorphism $f : X \to Y$ is in $\G^\circ$ (for example $\id_X$ because $\G^\circ$ is a subcategory)
+\item openness is preserved under composition ($\G$ is a subcategory)
+\item pullbacks of morphisms in $\G^\circ$ by morphisms in $\G$ exist and are in $\G^\circ$.
+\item the fiber product of $U_1 \to X$ and $U_2 \to X$ gives $U_1 \times_X U_2 \to X$ is open (this is implied by composition and preservation under fiber products).
+\end{enumerate}
+Along with the data of distinguished collections of morphisms in $\G^\circ$ called covering families such that
+\begin{enumerate}
+\item every isomorphism $f : X \to Y$ is a covering family
+\item given a covering on $Y$ and a morphism $f : X \to Y$ then the base change is a cover of $X$
+\item a cover of a cover is a cover meaning if $\{ X_\alpha \to X \}$ is a covering family and $\{ X_{\beta \alpha} \to X_\alpha \}$ are covering families then $\{ X_{\beta \alpha} \to X \}$ is a covering family. 
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+The category of sheaves $\Sh_\G \subset \PSh_\G$ is the full subcategory of objects ``determined locally on covers'' i.e. satisfying the usual sheaf axiom. 
+\end{defn}
+
+\begin{exercise}
+$\Sh_\G$ has all fiber products and they agree with fiber products in $\G$ (when they exist) and an in $\PSh_\G$ under the fully faithfully embeddings,
+\[ \G \embed \Sh_\G \embed \PSh_\G \]
+\end{exercise}
+
+\begin{defn}
+If $X \in \G$ define $\G_X$ the slice category of morphisms $f : Y \to X$.
+\end{defn}
+
+\begin{defn}
+A sheaf $F \in \Sh_\G$ is \textit{locally representable} if there is an open cover by representable sheaves. Explicitly there are representable sheaves and representable morphisms $U_i \to F$ such that for every such diagram,
+\begin{center}
+\begin{tikzcd}
+X_i \pullback \arrow[d] \arrow[r] & X \arrow[d]
+\\
+U_i \arrow[r] & F
+\end{tikzcd}
+\end{center}
+for $X \in \G$ we have $\{ X_i \to X \}$ is a covering family in $\G$.  
+\end{defn}
+
+\begin{rmk}
+Applying this construction we get:
+\begin{enumerate}
+\item for affine schemes and open immersions get all schemes
+\item for varieties and open immersions get pre-varieties (no separatedness or quasi-compactness)
+\item for open balls in $\C^n$ with open holomorphic embeddings get pre-manifolds (no Hausdorffness or second countability).
+\end{enumerate}
+\end{rmk}
+
+
+\section{April 6}
+
+
+\newcommand{\LRep}{\mathrm{LRep}}
+\newcommand{\AffSch}{\mathrm{AffSch}}
+
+Reminder about $\G$: maybe it doesn't have fiber products (e.g. manifolds). We require our topology is \textit{subcanonical} meaning for any $Y \in \G$ the functor $h^Y$ is a sheaf. 
+\bigskip\\
+Our category $\G$ is often a subcategory of locally ringed spaces. In most cases we can recover the sheaf of rings via maps to a ring object $\A^1 \in \G$. 
+
+\begin{exercise}
+$\LRep_{\AffSch} \subset \Sch$. 
+\end{exercise}
+
+\begin{thm}
+If $\G$ contains all fiber products (and a terminal object) then every $M \in \LRep_\G$ has $\Delta : M \to M \times M$ representable.
+\end{thm} 
+
+\begin{rmk}
+In the example $\G = \AffSch$ we see that $\A^2$ with the doubled origin is not in $\LRep_{\G}$ because its diagonal is not affine and hence not representable.
+\end{rmk}
+
+\begin{lemma}
+If $\G$ has products and fiber products. Then all maps $X \to F$ for $X \in \G$ and $F \in \PSh_\G$ are representable if and only if $\Delta : F \to F \times F$ is representable.
+\end{lemma}
+
+\begin{proof}
+First, assume that $\Delta$ is representable. Then,
+\begin{center}
+\begin{tikzcd}
+X \times_F Y \arrow[r] \arrow[d] \pullback & Y \arrow[d]
+\\
+X \arrow[r] & F
+\end{tikzcd}
+\end{center}
+The following diagram is also cartesian,
+\begin{center}
+\begin{tikzcd}
+X \times_F Y \arrow[d] \arrow[r] \pullback & X \times Y \arrow[d]
+\\
+F \arrow[r] & F \times F 
+\end{tikzcd}
+\end{center}
+and $X \times Y \in \G$ so $X \times_F Y \in \G$ proving the claim. Next, suppose that $X \to F$ is always representable. For $U \in \G$ and $U \to F \times F$ we want to show that $U \times_{F \times F} F \in \G$. 
+\begin{center}
+\begin{tikzcd}
+U \times_{F \times F} F \pullback \arrow[r] \arrow[d] & U \arrow[d]
+\\
+U \times_F U \arrow[d] \arrow[r] \pullback & U \times U \arrow[d]
+\\
+F \arrow[r] & F \times F
+\end{tikzcd}
+\end{center}
+We see that $U \times_F U$ is representable because $U \to F$ is representable and thus the top square is all in $\G$ and hence because $\G$ has fiber products we conclude.
+\end{proof}
+
+\begin{rmk}
+Given a diagram,
+\begin{center}
+\begin{tikzcd}
+\mathrm{Isom} \pullback \arrow[r] \arrow[d] & U \arrow[d] 
+\\
+F \arrow[r] & F \times F
+\end{tikzcd}
+\end{center}
+then the pullback will classify isomorphisms between the objects over $U$ represented by $F$ under the two maps $U \to F$. 
+\end{rmk}
+
+\begin{proof}[Proof of Theorem]
+We need to show that $F \to F \times F$ is representable. By the lemma, it is equivalent to ask if for every diagram with $X, Y \in \G$ we have,
+\begin{center}
+\begin{tikzcd}
+X \times_F Y \arrow[r] \arrow[d] & Y \arrow[d]
+\\
+X \arrow[r] & F 
+\end{tikzcd}
+\end{center}
+we want $X \times_F Y$ is representable. Choose a cover $U_i \to F$ by representable $U_i$. Then we pullback to get
+\end{proof}
+
+\subsection{Complex Analytic Spaces}
+
+\subsection{Sheafification}
+
+\section{April 8}
+
+Given the data $U_i \in \G$ along with opens immersions $U_{ij} \embed U_i$ and $U_{ij} \to U_j$ such that $U_{ij} \times_{U_i} U_{ik} = U_{kj} \times_{U_j} U_{ij}$ MAKE THIS WORK!!!
+\bigskip\\
+Then we get that,
+\[ M^-(X) = \Hom{\G}{X}{\coprod U_i} / \Hom{\G}{X}{\coprod U_{ij}} \]
+automatically $M^-(X) \in \PSh^+_{\G}$. This cannot be the right presheaf however, for example $\id_M$ doesn't make sense because we are not stratifying $X$. To do this we exactly take the sheafification. Therefore we define $M = (M^-)^+$. 
+\bigskip\\
+The claim is that $U_i \to M$ is open and make $M$ be locally representable. 
+
+\begin{rmk}
+Suppose that $\Delta : M \to M \times M$ is representable. Then for any cover $U_i \to M$ is 
+\end{rmk}
+
+\section{April ---}
+
+\section{April 13}
+
+Question: given $\pi : U \to X$ in $\G$ does $F$ satisfy the sheaf condition for $\pi$ meaning is,
+\begin{center}
+\begin{tikzcd}
+F(X) \arrow[r] & F(U) \arrow[r, shift left] \arrow[r, shift right] & F(U \times_X U)
+\end{tikzcd}
+\end{center}
+
+\begin{theorem}
+If there is $s : X \to U$ such that $\pi \circ \sigma = \id$ then any presheaf $F$ satisfies the sheaf condition for $\pi : U \to X$. 
+\end{theorem}
+
+\begin{proof}
+We get maps $\sigma_i : U \to U \times_X U$ given by $(\sigma, \id)$ and $(\id, \sigma)$. Now we get $s^* \pi^* = \id$ so we see that $\pi^*$ is injective giving the first part. For gluing, given $s \in F(U)$ such that $\pi_1^* s = \pi_2^* s$. Then take $t = \sigma^* s$ and we need to show that $\pi^* t = s$.  Now $\pi_1 \circ \sigma_2 = \sigma \circ \pi$ and thus,
+\[ \pi^* \sigma^* s = \sigma_2^* \pi_1^* s = \sigma_2^* \pi_2^* s = s \]
+because $\pi_1^* s = \pi_2^* s$ and $\pi_2 \circ \sigma_2 = \id$.
+\end{proof}
+
+\begin{cor}
+Suppose we have a diagram,
+\begin{center}
+\begin{tikzcd}
+V \arrow[rd] \arrow[r] & U \arrow[d]
+\\
+& X
+\end{tikzcd}
+\end{center}
+If $F$ satisfies the sheaf condition for $V \to X$ then it satisfies the sheaf condition for $U \to X$. 
+\end{cor}
+
+\begin{proof}
+Consider,
+\begin{center}
+\begin{tikzcd}
+V \times_X U \arrow[d] \arrow[r] & U \arrow[d]
+\\
+V \arrow[r] \arrow[ru] & X
+\end{tikzcd}
+\end{center}
+We know automatically that $F$ satisfies the sheaf condition for $V \times_X U \to V$ because there is a section $V \to V \times_X U$. By assumption $F$ is a sheaf for $V \to X$. 
+\end{proof}
+
+\section{April 20}
+
+\subsection{Quasi-Coherent Sheaves on Algebraic Spaces}
+
+For every $\Spec{A} \to X$ where $X$ is an algebraic space, I want an $A$-module $M$ such that for $\Spec{A'} \to \Spec{A}$ we have $M'$ is the pullback of $M$. 
+
+\begin{prop}
+If $\pi : X \to Y$ is a quasi-compact and quasi-separated morphism of algebraic spaces and $\F$ is quasi-coherent then $\pi_* \F$ is quasi-coherent.
+\end{prop}
+
+\subsection{Cech Cohomology}
+
+For the Zariski topology (and also other cohomology) on $X$ an algebraic space with quasi-compact and affine diagonal then Cech cohomology works for quasi-coherent sheaves.
+
+\section{Example}
+
+Consider $\M^a_3$ the moduli space of genus $3$ curves with no nontrivial automorphisms over $\CC$. Let $\G = \Sch_{\CC}$ then $\M^a_3 \in \PSh_\G$ is the functor,
+\[ S \mapsto \{ \pi :  C \to S \text{ relative dim 1 smooth geometrically intergral fibers of genus 3 with no automorphisms} \} \]
+Consider $\pi_* \Omega_{C/S}$ is a rank $3$ vector bundle (by cohomology and base change) and thus we get a closed embedding,
+\[ C \embed \P_S(\pi_* \Omega_{C/S}) \]
+over $S$. These are all embedded as plane quartic curves. Quartic divisors are parametrized by $\P^{14}$ there is an open $U \subset \P^{14}$ where the associated plane quadric is a smooth irreducible curve. Then,
+\[ \M^a_{3} = U / \PGL_{3} \]
+To see this, consider,
+\begin{center}
+\begin{tikzcd}
+B_U \arrow[r] \arrow[d] \pullback & U \arrow[d]
+\\
+B \arrow[r] & \M^a_3
+\end{tikzcd}
+\end{center}
+Then $B_U$ is exactly $\Isom{\P_B(\pi_* \Omega_{C/S})}{\P^3_B}$ which is a Zarikis $\PGL_3$-torsor OR MAYBE where $C^{\text{univ}} \to U$ is the universal curve over $U$. Maybe it's actually correct to take the $\PGL_3$-torsor $D$ over $B$ of sections of $\P_S(\pi_* \Omega_{C/S})$ and tak
+\bigskip\\
+Let's check this. The $T$-points $T \to B_U$ are exactly given by the following data $(a, b, \gamma)$ where $a : T \to B$ and $b : T \to U$ and an isomorphism $\gamma : C_T \iso C^{\text{univ}}_T$ which is the data of a map 
+\[ T \to \mathrm{Isom}_{B \times U}(C_{B \times U}, C^{\text{univ}}_{B \times U}) \]
+However, since $C^{\text{text}} \to U$ is universal the maps $b : T \to U$ are exactly classified by isomorphism classes $[C_T]$ as closed subschemes since because these curves are canonically embedded, as $C \embed \P_B(\pi_* \Omega_{X/S})$ and $C^{\text{univ}} \embed \P^3_U$ the isomorphism $C_T \iso C_T^{\text{univ}}$ induces an isomorphism $\P(\pi_* \Omega_{X/S}) \iso \P^3$. For a fixed such isomorphism there is a unique map $T \to U$ defined by the image of $C_T$ in $\P^3$ therefore,
+\[ B_U = \mathrm{Isom}_{B \times U}(C_{B \times U}, C^{\text{univ}}_{B \times U}) = \mathrm{Isom}_{B}(\P_B(\pi_* \Omega_{X/S}), \P^3_B) \]
+
+\section{April 25}
+
+\begin{defn}
+A \textit{sieve} over $X$ is a sub-presheav of $h_X$.
+\end{defn}
+
+\begin{example}
+$S_{U \to X}$ for any $U$
+\end{example}
+
+\begin{defn}
+Given $\tau$, a sieve is called a \textit{covering sieve} if it contains some cover.
+\end{defn}
+
+\begin{example}
+If $\C$ is the category of opens of a topological space $X$ then a sieve on $X$ is a collection of open in $X$ stable under subsets. 
+\end{example}
+
+\begin{thm}
+A presheaf $\F$ satisfies,
+\[ \F \text{ is a sheaf } \iff \Hom{}{S}{\F} = \Hom{}{h_X}{\F} \text{ for all covering sieves } S \subset h_X \]
+\end{thm}
+
+\begin{rmk}
+This shows that the category of sheaves recovers the covering sieves because we can take the sieves to be those that satisfy,
+\[ \Hom{}{S}{\F} = \Hom{}{h_X}{\F} \]
+for all sheaves $\F$.
+\end{rmk}
+
+\subsection{Example}
+
+
+We want to show that $\M_g^a$ is an algebraic space. First we need to show it is a sheaf in the \etale (or smooth) topology. In fact, this will work in the fpqcK topology. 
+
+\begin{thm}
+The data of $(X, \L)$ where $\L$ is ample descends because we can descend the algebra,
+\[ \bigoplus_{n \ge 0} \L^{\ot n} \]
+which determines $X$ via embedding into projective space.
+\end{thm}
+
+\section{April 27}
+
+Suppose $G \acts X$ where $G$ is a geometric group. We want to define $X / G$ as an algebraic space. 
+
+\begin{example}
+We want,
+\begin{enumerate}
+\item $X \to Y$ is a $G$-bundle then $X/G = Y$
+\item $\Z / 2 \acts \A^1$ via $x \mapsto -x$ is not a $G$-bundle and we want $\A^1 / (\Z / 2)$ to be the GIT quotient. 
+\end{enumerate}
+\end{example}
+\noindent
+What is the definition of $X/G$ as an algebraic space? There should be a $G$-invariant map $X \to X/G$ such that any $G$-invariant map $X \to Y$ factors uniquely through $X \to X / G \to Y$,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd] \arrow[r] & X/G \arrow[d, dashed]
+\\
+& Y
+\end{tikzcd}
+\end{center} 
+We call this the categorical quotient. There are some problems with this definition,
+\begin{enumerate}
+\item it might not exist
+\item $X \to X / G$ might not be a $G$-bundle e.g. $\A^1 \to \A^1$ via $x \mapsto x^2$ is the quotient $\A^1 / (\Z / 2)$ but this is not a $\Z/2$-bundle (ramified over the origin). 
+\end{enumerate}
+
+Some possible answers,
+\begin{enumerate}
+\item define $X/G$ as the categorical quotient
+\item define $X/G$ as the categorical quotient by only when $X \to X / G$ is a $G$-bundle
+\item defined it as the presheaf (or the sheafification)
+\[ Y \mapsto X(Y) / G(Y) \]
+\item define it as the presheaf sending $Y$ to equivariant maps,
+\begin{center}
+\begin{tikzcd}
+P \arrow[r] \arrow[d] & X
+\\
+Y 
+\end{tikzcd}
+\end{center}
+where $P \to Y$ is a principal $G$-bundle. We would have to take this up to isomorphism and this will be bad if there are nontrivial automorphisms of the map $P \to X$.
+\item Consider the presheaf $h^X / h^G$ and take the sheafification to get $X/G$. If $G \acts X$ freely then $h^X / h^G$ is a separated presheaf.
+\end{enumerate}
+
+\begin{example}
+If $Y = *$ and $P$ is the trivial $\Z/2$-bundle over $Y$ then the two maps $P \to \A^1$ whose image is $\pm 1$ have no automorphisms but the map $P \to \A^1$ whose image is $0$ does have an automorphism because the action is not free. 
+\end{example}
+
+\begin{defn}
+The action $G \acts X$ is \text{free} if it is free on $T$-points $G(T) \acts X(T)$.
+\end{defn}
+
+\begin{example}
+An elliptic curve is $E = \CC / \Lambda$ analytically and indeed $h^E = (h^{\CC} / h^\Lambda)^{++}$. Algebraically we have $\Lambda \acts \Spec{\CC[t]} = \A^1_{\CC}$ where $\Lambda$ is a discrete group viewed as a scheme. And we can define $\A^1_{\CC} / \Lambda$ which is an algebraic space but not isomorphic to an elliptic curve! However $(\A^1_{\CC} / \Lambda)^{\an} \cong \CC / \Lambda$ so $(\A^1_{\CC} / \Lambda)^{\an} \cong E^\an$ but the isomorphism (the Weierstrass $\wp$-function) is not algebraic. 
+\end{example}
+
+\section{May 6}
+
+Question: how many times do you need to plus $h^U / h^R$ to get a stack? 
+
+\subsection{How do we tell if a stack is DM}
+
+\begin{prop}
+If $\M$ is DM then $\I_{\M} \to \M$ is unramified. 
+\end{prop}
+
+\begin{proof}
+Consider,
+\begin{center}
+\begin{tikzcd}
+R \arrow[r] \arrow[d] & U \times U \arrow[d]
+\\
+\M \arrow[r] & \M \times \M
+\end{tikzcd}
+\end{center}
+where the donward maps are \etale. However, $R \to U$ is \etale and hence unramified so $R \to U \times U$ is unramified. 
+\end{proof}
+
+\begin{prop}
+If $\M$ is an algebraic stack and $\I_{\M} \to \M$ is unramified then $\M$ is DM.
+\end{prop}
+
+\begin{proof}
+Given a smooth cover $U \to \M$. For each point $p \in U$ where the relative dimension $n > 0$ we want to slice to find an \etale neighborhood. 
+\end{proof}
+
+\section{May. 9}
+
+Let $\M$ be an algebraic stack (meaning a locally representable stack in the smooth topology on schemes). 
+
+\begin{defn}
+The inertia stack,
+\begin{center}
+\begin{tikzcd}
+\I_{\M} \arrow[d, "\Delta"]  \arrow[r] & \M \arrow[d, "\Delta"]
+\\
+\M \arrow[r, "\Delta"] & \M \times \M
+\end{tikzcd}
+\end{center}
+is defined by the above fiber product.
+\end{defn}
+
+\begin{prop}
+Let $\M$ be an algebraic stack, then $\M$ is as an algebraic space if and only if $\I \to \M$ is an isomorphism. 
+\end{prop}
+
+\begin{prop}
+The following are equivalent,
+\begin{enumerate}
+\item $\M$ is DM 
+\item $\Delta$ is unramified
+\item $\Omega_{\M / \M \times \M} = 0$
+\item $\Omega_{\I/\M} = 0$.
+\end{enumerate}
+\end{prop}
+
+\begin{theorem}
+Let $\pi : X \to Y$ be proper flat, whose geometric fibers are reduced and connected with $Y$ locally noetherian. Let $\L$ be a line bundle on $\L$. Then the presheaf sending $Z \to Y$ to data $(\M_Z, \varphi)$ where $\varphi : \pi_Z^* \M_Z \iso \L|_Z$ is an isomorphism of line bundles on $X_Z$ for the diagram,
+\begin{center}
+\begin{tikzcd}
+X_Z \arrow[d, "\pi_Z"] \arrow[r] & X \arrow[d, "\pi"]
+\\
+Z \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+This is represented by a locally closed subscheme of $Y$. If the fibers of $\pi$ are integral then a closed subscheme. 
+\end{theorem}
+
+\begin{rmk}
+If we assume $\pi$ is finitely presented then we can drop noetherian assumptions because it is the pullback of a noetherian case and therefore the theorem holds (showing it can be pulled back from a \textit{flat} noetherian case is the tricky part). 
+\end{rmk}
+
+\newcommand{\Y}{\mathscr{Y}}
+
+\begin{rmk}
+The above theorem works for a schematic morphism $f : \X \to \Y$ of algebraic stacks because it holds after all base changes to schemes. 
+\end{rmk}
+
+\begin{prop}
+For $g \ge 2$ the stack $\M_g$ sending $B$ to families of smooth genus $g$ curves (flat schematic smooth map of relative dimension $1$ with integral curves of genus $g$ fibers) is algebraic. It is a stack in the fpqcK topology. 
+\end{prop}
+
+\begin{proof}
+Any family of curves $\C \to B$ has $\omega_{\C / B}$ relatively ample and hence we get an embedding into projective space locally. Using cohomology and base change,
+\[ \C \embed \P(\pi_* \omega_{\C/B}^{\ot 3}) \]
+Therefore, consider the locus of canonically embedded curves $H \embed \Hilb_{\P^n}$ and then $H \to \M_g$ is a $\PGL_n$-torsor.  
+\end{proof}
+
+\begin{prop}
+The stack of dimension $n$ smooth projective varities $X$ where $\det{\Omega_X} = \omega_X$ is ample is an algebraic stack for the fpqcK topology.
+\end{prop}
+
+\begin{proof}
+Let $X \to B$ be such a family. Then there is some $\omega_{X_0}^{\ot N}$ which is very ample with vanishing higher cohomology. Then we consider the open substack of $\M$ where $h^{>0}(X, \omega_X^{\ot N}) = 0$ and $h^0$ is constant which is open by semicontinuity. Then the very ample locus is open (for flat maps the closed embedding locus is open). Then we get $\M_{X_0} \subset \M$ open and $H \to \M_{x_0}$ is a $\PGL_n$-torsor. 
+\end{proof}
+
+\section{May 11}
+
+\begin{prop}
+Suppose that $\M$ is an algebraic stack. Then the following are equivalent,
+\begin{enumerate}
+\item $\Omega_{\I / \M} = 0$
+\item $\Omega_{\Delta} = 0$
+\item $\M$ has a representable \etale cover by a scheme so is DM.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+By pullback (b) implies (a) and $\I \to \M$ has a section so (a) implies (b) by pullback as well. We showed previously that if $\M$ is DM then $\Omega_{\Delta} = 0$ since $\Delta$ admits an \etale cover by an unramified morphism. Therefore, we just need to show that if $\Omega_{\Delta}$ then $\M$ is DM. 
+\bigskip\\
+Start with a smooth cover $U \to \M$ by a scheme $U$. We need to slice $U$ to make it \etale. We can shrink and take disjoint usion so we may take $U = \Spec{A}$. Now consider,
+\begin{center}
+\begin{tikzcd}
+R \arrow[d, "\pi_2"] \arrow[r, "\pi_1"] & U \arrow[d]
+\\
+U \arrow[r] & \M
+\end{tikzcd}
+\end{center}
+To slice a smooth morphism we just need that its restriction to the fiber cuts down the dimension of the differentials by one. Consider the sequence for $R \to U \times U \to \M$,
+\begin{center}
+\begin{tikzcd}
+\pi_1^* \Omega_{U/\M} \oplus \pi_2^* \Omega_{U/\M} \arrow[r] & \Omega_{R/\M} \arrow[r] & \Omega_{R / (U \times U)} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $R \to U \times U$ is unramified we see that $\Omega_{R / U \times U} = 0$ and thus any function $f \in \m \setminus \m^2$ for a point $\m \subset A$ then it has a nonzero differential using the sequence (with structure map $\pi_2 : R \to U$),
+\begin{center}
+\begin{tikzcd}
+\pi_2^* \Omega_{U / \M} \arrow[r] & \Omega_{R/\M} \arrow[r] & \Omega_{R/U} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+So we see from these sequences that $\pi_1^* \Omega_{U / \M} \onto \Omega_{R/U}$ therefore for any covector in $(\Omega_{R/U})_p$ arises locally from pullback of some form $\Omega_{U/\M}$ which locally $\d{f}$ for $f \in \m$ on $\Spec{A} \subset U$. 
+\end{proof}
+
+\subsection{Stack of Algebraic Curves}
+
+If $g \ge 2$ then $H^0(C, \T_C) = 0$ and therefore there are no infinitessimal automorphisms. This proves that $\Omega_{\I / \M_g} = 0$ so $\M_g$ is DM. Furthermore, because the stabiliers are closed subschemes of $\PGL_n$ we see that $\M_g$ has affine diagonal (in particular quasi-compact). However, it is unramified so we see that every genus $g$ curve has finitely many automorphisms. 
+\bigskip\\
+Consider genus $g$ curves with distinct smooth marked points $p_1, \dots, p_n \in C$ such that,
+\[ \struct{C}(p_1 + \cdots + p_n) \]
+is very ample with $h^1 = 0$. We claim this is an Artin stack by exactly the same argument: embed into $\P^n$ in families. 
+
+\section{May 13}
+
+\begin{rmk}
+Amazing theorem is that we don't need smooth covers, flat is enough.
+\end{rmk}
+
+\begin{theorem}[04S6]
+Let $F$ be an fppf sheaf and $f : U \to F$ a representable (by algebraic spaces) morphism which is surjective flat and locally finitely presented. Then $F$ is an algebraic space.
+\end{theorem}
+
+\begin{theorem}[06DC]
+Let $f : \X \to \Y$ be a morphism of stacks in the fppf topology. Suppose that $\X$ is an algebraic stack, $f$ is representable by algebraic stacks which is surjective locally of finite presentation and flat. Then $\Y$ is an algebraic space. 
+\end{theorem}
+
+Return to $\M^{vp}_{g,n}$ is the moduli stack of families $f : \C \to B$ with $f$ flat finitely presented with $n$ sections whose geometric fibers are $1$-dimensional schemes where the sections are distinct smooth points $p_1, \dots, p_n \in \C_{\bar{s}}$ and $\C_{\bar{s}}$ has arithmetic genus $g = 1 - \chi(C, \struct{C})$ and,
+\[ \struct{}(p_1 + \cdots + p_n) \]
+is very ample with vanishing $h^1$. 
+
+\begin{rmk}
+The genus can be weird for example $g(\P^1 \sqcup \P^1) = -1$. But this really is the right notion because $\chi$ is locally constant in flat families. 
+\end{rmk}
+
+\begin{prop}
+Why is $B \embed \C$ via the sections $\sigma_i$ effective Cartier divisors. We need to show $\I_{B / \C}$ is invertible. There is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I_{B / \C} \arrow[r] & \struct{\C} \arrow[r] & \struct{B} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+
+We construct this as follows. Let $U \subset \Hilb(\P^N)$ be the locus where the intersection with a fixed hyperplane $H$ is degree $n$. Then $V = Z \cap H \to U$ is flat of degree $n$ where $Z$ is the universal familiy over $U$. Then we take our parameter space $V \times_U \cdots \times_U V \setminus \Delta$ where $\Delta$ is the locus where the points are equal. This gives canonical sections of $V$ pulled back to here thus labeling the points. Then we mod out by the $\PGL_n$ action fixing $H$ to get our stack.
+\bigskip\\
+Then $U \to \M_{g,n}$ where $U \subset \M_{g,N}$ is the smooth geometric fibers locus where $N = n + d$ where $d$ is large enough so that $N > 2 g + 2$. 
+
+\begin{rmk}
+Consider $M_g$ the stack of nodal genus $g$ curves with connected fibers. 
+\end{rmk}  
+
+\end{document}

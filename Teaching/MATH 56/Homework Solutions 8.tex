@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{null}}
+\newcommand{\range}{\operatorname{range}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 8 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+
+\begin{prob}[Abbott, Exercise 2.2.1]
+What happens if we reverse the order of quantifiers in Definition 2.2.3?
+
+\emph{Definition: A sequence $(x_n)$ verconges to $x$ if there exists an $\varepsilon>0$ such that for all $N\in\N$ it is true that $n\geq N$ implies $|x_n-x|<\varepsilon$.}
+
+Give  an  example  of  a  vercongent  sequence. Is there an example of a vercongent sequence that is divergent? Can a sequence verconge to two different values? What exactly is being described by this strange definition?
+\end{prob}
+
+\begin{soln}
+An example of a vercongent sequence might be $a_n=1$, which verconges to $1$ (in fact any $\varepsilon>0$ will work).
+
+An example of a vercongent sequence might be $a_n=(-1)^n$, which runs $-1,1,-1,1,\dots$. This verconges to $1$: if we choose $\varepsilon=3$, then every term satisfies $|a_n-1|<3$.
+
+A sequence can verconge to two different values. The sequence $a_n=(-1)^n$ verconges to both $1$ and $-1$: if we choose $\varepsilon=3$, every term satisfies $|a_n-1|<3$ and $|a_n+1|<3$. (In fact, if a sequence verconges to some value, it verconges to every value.)
+
+The property of ``vercongence'' is the same as being bounded. We can see this as follows: if $(x_n)$ is bounded, then $|x_n|<M$ for all $n$, so $x_n$ verconges to $0$. Conversely, if $x_n$ verconges to $x$, there exists some $\varepsilon>0$ such that $|x_n-x|<\varepsilon$ for all $n\geq 1$, i.e., for all $n$. This means that $-\varepsilon<x_n-x<\varepsilon$ for all $n$, so $x-\varepsilon<x_n<x+\varepsilon$ for all $n$. Hence $|x_n|<\max\{|x-\varepsilon|,|x+\varepsilon|\}$ for all $n$, so $(x_n)$ is bounded.
+\end{soln}
+
+\begin{prob}[Abbott, Exercise 2.2.2]
+Verify, using the definition of convergence of a sequence, that the following sequences converge to the proposed limit. (a) $\lim\frac{2n+1}{5n+4}=\frac{2}{5}$, (b) $\lim\frac{2n^2}{n^3+3}=0$, (c) $\lim\frac{\sin(n^2)}{n^{1/3}}=0$
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item We have
+\[\left|\frac{2n+1}{5n+4}-\frac{2}{5}\right| = \left|\frac{1}{10+25n}\right| = \frac{1}{10+25n}.\]
+Fix arbitrary $\varepsilon>0$. Let $N\in\N$ be such that $\frac{1}{10+25N}<\varepsilon$. Then for $n\geq N$, we have $10+25n\geq 10+25N$, so that $\frac{1}{10+25n}\leq \frac{1}{10+25N}$. Hence for all $n\geq N$ we have
+\[\left|\frac{2n+1}{5n+4}-\frac{2}{5}\right|=\frac{1}{10+25n}\leq\frac{1}{10+25N}<\varepsilon.\]
+Hence the sequence converges to the proposed limit.
+
+\item We have 
+\[\left|\frac{2n^2}{n^3+3}\right|=\frac{2n^2}{n^3+3}<\frac{2n^2}{n^3}=\frac{2}{n},\]
+using the fact that $n^3+3>n^3>0$, so $0<\frac{1}{n^3+3}<\frac{1}{n^3}$. Fix arbitrary $\varepsilon>0$. Let $N$ be such that $\frac{2}{N}<\varepsilon$. Then for $n\geq N$, we have $\frac{2}{n}\leq \frac{2}{N}$, so for all $n\geq N$, we have
+\[\left|\frac{2n^2}{n^3+3}\right|<\frac{2}{n}\leq \frac{2}{N}<\varepsilon.\]
+Hence the sequence converges to the proposed limit.
+
+\item We have
+\[\left|\frac{\sin(n^2)}{n^{1/3}}\right|\leq \frac{1}{n^{1/3}},\]
+using the fact that $|\sin x|\leq 1$ for all real $x$. Fix arbitrary $\varepsilon>0$. Let $N\in\N$ be such that $\frac{1}{N^{1/3}}<\varepsilon$. For $n\geq N\geq 1$, we have $n^{1/3}\geq N^{1/3}$, so $\frac{1}{n^{1/3}}\leq \frac{1}{N^{1/3}}$. Hence for all $n\geq N$ we have
+\[\left|\frac{\sin(n^2)}{n^{1/3}}\right|\leq \frac{1}{n^{1/3}}\leq \frac{1}{N^{1/3}}<\varepsilon.\]
+Hence the sequence converges to the proposed limit.
+\end{enumerate}
+\end{soln}
+
+\begin{prob}[Abbott, Exercise 2.2.6]
+Prove Theorem 2.2.7, uniqueness of limits. To get started, assume $(a_n)\to a$ and $(a_n)\to b$. Now argue $a=b$.
+\end{prob}
+
+\begin{soln}
+Fix arbitrary $\varepsilon>0$. Since $a_n\to a$, there exists some $N_1$ such that $n\geq N_1$ implies $|a_n-a|<\varepsilon/2$; similarly, since $a_n\to b$, there exists $N_2$ such that $n\geq N_2$ implies $|a_n-b|\leq \varepsilon/2$. Then, applying these facts and the triangle inequality, we have
+\[|a-b|=|a-a_n+a_n-b|\leq |a-a_n|+|a_n-b|<\varepsilon/2+\varepsilon/2=\epsilon.\]
+We can do this for all $\varepsilon>0$, so we have $|a-b|<\varepsilon$ for all $\varepsilon>0$. Since $|a-b|\geq 0$, this means that we must have $|a-b|=0$, so $a=b$.
+\end{soln}
+
+
+
+\begin{prob}[Abbott, Exercise 2.3.1]
+Let $x_n\geq 0$ for all $n\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item If $(x_n)\to0$, show that $(\sqrt{x_n})\to 0$.
+
+\item If $(x_n)\to x$, show that $(\sqrt{x_n})\to\sqrt{x}$.
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item If $x_n\to0$, then for every $\varepsilon>0$ there exists $N\in\N$ such that $n\geq\N$ implies $|x_n|<\varepsilon^2$. This means that $|\sqrt{x_n}|<\varepsilon$, so indeed $\sqrt{x_n}\to 0$.
+
+\item Suppose that $x_n\to x\neq 0$, since we already dealt with the zero case. Note that since $x_n\geq 0$, we must have $x>0$, since otherwise we would have a gap of at least $|x|$ between every $x_n$ and $x$. Since $x_n\to x$, for every $\varepsilon>0$, there exists $N\in\N$ such that $n\geq\N$ implies $|x_n-x|<\varepsilon\sqrt{x}$. This gives us
+\begin{align*}
+|\sqrt{x_n}-\sqrt{x}| &= \frac{|x_n-x|}{\sqrt{x_n}+\sqrt{x}} \tag{using $(\sqrt{x_n}-\sqrt{x})(\sqrt{x_n}+\sqrt{x})=x_n-x$}\\
+&\leq \frac{|x_n-x|}{\sqrt{x}} \tag{since $\sqrt{x_n}\geq 0$, so $\sqrt{x_n}+\sqrt{x}\geq \sqrt{x}$ and therefore $\frac{1}{\sqrt{x_n}+\sqrt{x}}\leq \frac{1}{\sqrt{x}}$}\\
+&< \frac{\varepsilon\sqrt{x}}{\sqrt{x}} \tag{using the limit definition as above}\\
+&= \varepsilon.
+\end{align*}
+Hence for $x_n\to x\neq 0$, we have $\sqrt{x_n}\to\sqrt{x}$ as required.
+\end{enumerate}
+\end{soln}
+
+\begin{prob}[Abbott, Exercise 2.3.3]
+(Squeeze theorem) Show that if $x_n\leq y_n \leq z_n$ for all $n\in\N$ and if $\lim x_n=\lim z_n=l$, then $\lim y_n=l$ as well.
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=\textbf{Method \arabic*.}]
+\item Fix arbitrary $\varepsilon>0$. Since $x_n\to x$, there exists $N_1\in\N$ such that $n\geq N_1$ implies $|x_n-l|< \varepsilon$; similarly, since $z_n\to z$, there exists $N_2\in N$ such that $n\geq N_2$ implies $|z_n-l|<\varepsilon$. Let $N=\max\{N_1,N_2\}$, so that if $n\geq N$, we have $|x_n-l|<\varepsilon$ and $|z_n-l|<\varepsilon$. We can rearrange these inequalities as we have done before: $|x_n-l|<\varepsilon$ is the same as saying $l-\varepsilon<x_n<l+\varepsilon$; similarly, $|z_n-l|<\varepsilon$ is equivalent to $l-\varepsilon<z_n<l+\varepsilon$. Using the ``squeezing'' inequality, we have, for all $n\geq N$,
+\[l-\varepsilon<x_n\leq y_n\leq z_n<l+\varepsilon,\]
+so $|y_n-l|<\varepsilon$. Hence $y_n\to l$ as required.
+
+\item I saw this when grading and liked it, so I'm adding it here. Fix arbitrary $\varepsilon>0$. Since $x_n\to x$, there exists $N_1\in\N$ such that $n\geq N_1$ implies $|x_n-l|< \varepsilon/3$; similarly, since $z_n\to z$, there exists $N_2\in N$ such that $n\geq N_2$ implies $|z_n-l|<\varepsilon/3$. Let $N=\max\{N_1,N_2\}$, so that if $n\geq N$, we have $|x_n-l|<\varepsilon/3$ and $|z_n-l|<\varepsilon/3$. Then for $n\geq N$, we have
+\begin{align*}
+|y_n-l| &= |y_n-x_n+x_n-l| \\
+&\leq |y_n-x_n|+|x_n-l| \tag{by the triangle inequality}\\
+&\leq |z_n-x_n|+|x_n-l| \tag{since $z_n\geq y_n\geq x_n$}\\
+&= |z_n-l+l-x_n|+|x_n-l| \\
+&\leq |z_n-l|+|x_n-l|+|x_n-l| \tag{by the triangle inequality again}\\
+&< \varepsilon/3+\varepsilon/3+\varepsilon/3\\
+&= \varepsilon.
+\end{align*}
+Hence $y_n\to l$ as well.
+\end{enumerate}
+\end{soln}
+
+\begin{prob}[Abbott, Exercise 2.3.8]
+Let $(x_n)\to x$ and let $p$ be a polynomial.
+\begin{enumerate}[label=(\alph*)]
+\item Show that $p(x_n)\to p(x)$.
+
+\item Find an example of a function $f$ and a convergent sequence $(x_n)\to x$ such that $f(x_n)$ converges but not to $f(x)$.
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item This follows directly from Theorem 2.3.3 (The algebra of limits). Explicitly, write $p$ out as $p(t)=\sum_{i=0}^m a_it^i$. We then have
+\begin{align*}
+\lim p(x_n) &= \lim\left(\sum_{i=0}^m a_ix_n^i\right) \tag{using our definition of $p$}\\
+&= \sum_{i=0}^m \lim(a_ix_n^i) \tag{Theorem 2.3.3(a), limit of sum is sum of limits}\\
+&= \sum_{i=0}^m a_i\lim(x_n^i) \tag{Theorem 2.3.3(b), limit of scalar multiple is scalar multiple of limit}\\
+&= \sum_{i=0}^m a_i \lim(x_n)^i \tag{Theorem 2.3.3(c), limit of product is product of limits}\\
+&= p(x) \tag{definition of $p$ and $\lim x_n=x$.}
+\end{align*}
+Hence $p(x_n)\to p(x)$ as required.
+
+\item Define the following function:
+\begin{align*}
+f:\R &\to \R\\
+f(x) &= \begin{cases} 1 &\text{if $x$ is rational} \\ 0 &\text{if $x$ is irrational} \end{cases}
+\end{align*}
+Now let $x_n$ be a sequence of rational numbers converging to $\sqrt{2}$ (an example is given in Problem 5). We have $x_n\to \sqrt{2}$, but $f(x_n)=1$ for all $n$, so $f(x_n)\to 1\neq 2$.
+
+{\small (There is a property of functions such that if $f$ has this property and $x_n\to x$, then $f(x_n)\to f(x)$. This property is called \emph{continuity}.)}
+\end{enumerate}
+\end{soln}
+
+\end{document}

@@ -1,0 +1,971 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+\usepackage[nottoc]{tocbibind}
+\bibliographystyle{alpha}
+
+
+\newcommand{\uHilb}{\underline{\Hilb}}
+\newcommand{\uHom}[3]{\underline{\mathrm{Hom}}_{#1}\left(#2, #3\right)}
+\newcommand{\ufixHom}[4]{\underline{\mathrm{Hom}}_{#1} \left( #2, #3 ; #4 \right)}
+\newcommand{\fixHom}[4]{\mathrm{Hom}_{#1} \left( #2, #3 ; #4 \right)}
+\newcommand{\scHom}[4]{\mathrm{Hom}_{#1}^{#2}\left(#3, #4\right)}
+
+\newcommand{\Art}{\mathrm{Art}}
+\newcommand{\CLoc}{\mathrm{CLoc}}
+\newcommand{\ob}{\mathrm{ob}}
+
+\begin{document}
+
+\title{Bend and Break}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction and Sketches}
+
+\subsection{Rational Curves}
+
+\begin{rmk}
+In this talk we will usually restrict to varieties for simplicity which here means an integral separated scheme of finite type over an algebraically closed field $k$. However, we will, unless otherwise stated, work over an base field $k$ of arbitrary characteristic.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a proper variety. A \textit{rational curve} on $X$ is an integral closed subvariety $C \subset X$ of dimension $1$ whose normalization is isomorphic to $\P^1$ (equivalently\footnote{Using crucially that $k = \bar{k}$.} $g(C) = 0$).
+\end{defn}
+
+\begin{prop}
+Rational curves on $X$ correspond to non-constant morphisms $f : \P^1 \to X$ up the equivalence induced by refinement meaning $f_1 \sim f_2$ if there is a diagram of non-constant maps,
+\begin{center}
+\begin{tikzcd}
+& \P^1 \arrow[ld, "g_1"'] \arrow[rd, "g_2"] 
+\\
+\P^1 \arrow[rd, "f_1"']  & & \P^1 \arrow[dl, "f_2"]
+\\
+& X
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+Given $f : \P^1 \to X$ its scheme theoretic image $C \subset X$ is clearly a rational curve. Conversely, to any rational curve we have the normalization map $\nu : \P^1 \to C \to X$. Now $f : \P^1 \to C$ factors through $\nu : \P^1 \to C$ because $\P^1$ is normal. 
+\end{proof}
+
+\subsection{The Method and Main Results}
+
+\begin{defn}
+A variety $X$ is \textit{Fano} if $-K_X$ is an ample ($\Q$-Cartier) divisor. 
+\end{defn}
+
+\begin{rmk}
+We will only consider smooth Fano varieties meaning $K_X$ is Cartier but we really only need $X$ to be Gorenstein (actually even $K_X$ being $\Q$-Cartier is probably enough).
+\end{rmk}
+
+\begin{rmk}
+A major result we will be able to prove with the Bend and Break technique is the following.
+\end{rmk}
+
+\begin{thm}
+Let $X$ be a smooth Fano variety of dimension $n$. Then every closed point of $X$ lies on a rational curve $C_x$ such that,
+\[ - K_X \cdot C_x \le n + 1 \]
+\end{thm}
+
+\begin{defn}
+Let $X$ be a Fano variety of dimension $n$. Let $C \subset X$ be a rational curve. We define the \textit{degree} of $C$ to be $\deg{C} = (-K_X) \cdot C$. By the main theorem, there is a covering family of rational curves $C_x$. We define the \textit{degree} of the covering family to be,
+\[ d = \max{(-K_X) \cdot C_x} \]
+Therefore, the main theorem proves that $d \le n + 1$.
+\end{defn}
+
+\begin{rmk}
+Ugh, you say, another overloaded meaning of the word ``degree''. Let me try to convince you that this is reasonable. Given the morphism $f : \P^1 \to X$ with image $C$ we have,
+\[ (-K_X) \cdot C = \deg{f^* \omega_X} \]
+ However, $\omega_X$ is ample so after some tensor power $\omega_X^{\otimes n}$ defines an embedding $X \embed \P^N$ which I hope you will agree is the most sensible way to embed $X$ in projective space. Therefore, 
+\[ n \deg{C} = \deg{f^* \omega_X^{\otimes n}} = \deg{\struct{C}(1)} \]
+is the degree of the curve $C \embed X \embed \P^N$ in the standard sense showing that $\deg{C}$ agrees with our usual notion up to the one-time choice of the universal (for curves on $X$) constant $n$.
+\end{rmk}
+
+\begin{example}
+To see where this numerology comes from, consider the case $X = \P^n$. Then $-K_X = (n+1)H$ where $H$ is the hyperplane class. Then we know that $\P^n$ is covered by lines $L$ and $H \cdot L = 1$. Therefore,
+\[ (-K_X) \cdot L = n + 1 \]
+It turns out $\P^n$ is in this intersection sense ``maximal'' as a Fano variety. In fact, Mori proved the following characterization of projective space.
+\end{example}
+
+\begin{thm}[Mori]
+Let $X$ be a smooth projective Fano variety of dimension $n$. Suppose that the smallest degree of a covering family of rational curves is $n + 1$ then $X \cong \P^n$. 
+\end{thm}
+
+\begin{cor}
+Let $X$ be a smooth projective variety. If on $\P_X(\T_X) \to X$ the line bundle $\struct{X}(1)$ is ample then $X \cong \P^n$. 
+\end{cor}
+
+\subsection{Examples}
+
+\begin{example}
+Let $X = (\P^1)^n$. The ruling lines $L \subset X$ cut out by sections of the sheaves,
+\[ \struct{X}(1,\dots, 0), \dots, \struct{X}(0, \dots, 1) \]
+form a covering family of rational cuves with degree $2$ since $\omega_X = \struct{X}(-2, \dots, -2)$. 
+\end{example}
+
+\begin{example}
+Let $\lambda = (n_1, \dots, n_k)$ be a partition of $n$. Then let $X = \P^{n_1} \times \cdots \times \P^{n_k}$ which is an $n$-dimensional Fano variety. Furthermore, 
+\[ -K_X = \sum_{i = 1}^k (n_i + 1) H_i \]
+Then I can cover $X$ by lines $L_i$ that lie inside $\P^{n_i}$ with the other coordinates fixed for some $i$. Thus, $L_i \cdot H_j = \delta_{ij}$. Then we see that,
+\[ (-K_X) \cdot L_i = (n_i + 1) \]
+so we can achieve a covering family of any degree,
+\[ 2 \le d \le n + 1 \]
+Even better if we take a partition with smallest element $n_k = \ell$ then we have minimal covering degree for $L_k$ with,
+\[ (-K_X) \cdot L_k = (\ell + 1) \]
+so we can achieve any \textit{minimal} covering degree,
+\[ 2 \le \ell \le n + 1 \]
+for a Fano of dimension $n$.
+\end{example}
+
+\begin{rmk}
+Is is possible for a smooth Fano to have a covering family of degree $1$? I don't know but I expect it is not possible. Here is a sketch of a proof in the surface case. Let $C \subset X$ be a rational curve which is a Cartier divisor. I will assume that $C$ is smooth (I think in characteristic zero I can do this for a general $C$ and this will be enough for the proof). Suppose that $C \cdot (-K_X) = 1$. I will show there are only finitely many $C$. By the adjunction formula,
+\[ C \cdot (C + K_X) = 2 g - 2 = -2 \]
+and therefore $C^2 = -1$. Therefore, by Castelnuovo's contraction theorem, there exists a smooth projective surface $Y$ and a map $\pi : X \to Y$ which is a blowup at a smooth point with exceptional fiber $C$. Then I can continue this process killing each of the rational curves on $X$ with $C \cdot (-K_X) = 1$. Why must this terminate? At each contraction step we have $\dim{H^2(X)} = \dim{H^2(Y)} + 1$ and $H^2(X)$ is finite-dimensional so we win. 
+\end{rmk}
+
+\begin{example}
+If $X$ is a smooth proper varity covered by rational curves it need not be Fano. For example $X = E \times \P^1$ for $E$ an elliptic cruve. Furthermore, $\omega_X = \pi_2^* \struct{\P^1}(-2)$ and the line $L_x = \{ x \} \times \P^1$ is a divisor corresponding to $\pi_1^* \struct{E}(x)$ and therefore,
+\[ L_x \cdot (-K_X) = 2 \]
+so we cannot even expect $X$ to be fano if it is covered by rational curves with positive anticanonical intersection. 
+\end{example}
+
+\begin{example}
+There are many $3$-fold Fanos that are not rational. A cubic $3$-fold has,
+\[ \omega_X = \struct{X}(-1) \]
+and thus is Fano but a nonsingular cubic $3$-fold is not rational [Clemens and Griffiths, 1972].
+\end{example}
+
+\begin{example}
+Most rational varieties you would think of are Fano. However, there are non-projective toric varieties (which are always rational) which therefore cannot be Fano. Even better, there are smooth projective toric surfaces which are not Fano. For example, the toric variety associated to a lattice octagon (I THINK). 
+\end{example}
+
+\subsection{Outline of the Proof of the Main Theorem}
+
+\begin{rmk}
+The idea is to choose some morphism $f : C \to X$ from a curve mapping $p_0 \mapsto x_0$ and prove that by modifying the curve we can ensure that it ``bends'' meaning that $f$ deforms while preserving the condition that $p_0 \mapsto x_0$. This will ``break'' the curve into rational curves all passing though $x_0$ because of rigidity lemmas.
+\end{rmk}
+
+\subsection{Bend}
+
+\subsubsection{The Hom Scheme}
+
+\begin{rmk}
+We want to deform a morphism $f : C \to X$ from a fixed curve $X$. To do this, we need to ask: what is a family of morphisms? How do we parameterize them? 
+\end{rmk}
+
+\begin{defn}
+Let $X$ and $Y$ be schemes over $S$. Then the functor $\uHom{S}{X}{Y}$ is defined as:
+\[ T \mapsto \Hom{T}{X_T}{Y_T} = \Hom{S}{X \times_S T}{Y} \]
+\end{defn}
+
+\begin{prop}
+This is a sheaf in the Zariski (\etale, fppf, ... any subcanonical) topology.
+\end{prop}
+
+\begin{proof}
+For any cover $\{ T_i \to T \}$ we get a cover $\{ X \times_S T_i \to X \times_S T \}$ and we know that $\Hom{S}{-}{Y}$ is a sheaf so we conclude that,
+\begin{center}
+\begin{tikzcd}
+\uHom{S}{X \times_S T}{Y} \arrow[r] & \prod \uHom{S}{X \times_S T_i}{Y} \arrow[r, shift left] \arrow[r, shift right] & \prod \uHom{S}{X \times_S T_i \times_S T_j}{Y}
+\end{tikzcd}
+\end{center}
+is an equalizer.
+\end{proof}
+
+\begin{prop}
+If $S$ is the spectrum of a field, $X$ is quasi-projective over $S$ and $Y$ is projective over $S$ then $\uHom{S}{X}{Y}$ is representable by a locally Noetherian scheme $\Hom{S}{X}{Y}$ which is a countable disjoint union of quasi-projective (and hence finite type) $S$-schemes. In particular, there is a universal ``evaluation'' morphism:
+\[ \ev : X \times_S \Hom{S}{X}{Y} \to Y \]
+\end{prop}
+
+\begin{rmk}
+This is an ``exponential object'' in the category of $S$-schemes: morphisms $f : X \times_S T \to Y$ correspond to $\lambda f : T \to \Hom{S}{X}{Y}$ such that $\ev \circ (\id_X \times \lambda f) = f$. 
+\end{rmk}
+
+\begin{rmk}
+Without $Y$ being projective this is very false. For example,
+\[ \uHom{k}{\A^1}{\A^1} = \A^{\infty} \]
+\end{rmk}
+
+
+\begin{proof}[Sketch:]
+We will identify $\uHom{S}{X}{Y}$ with an open subfunctor of the Hilbert scheme $\Hilb_{X \times_S Y / S}$. The idea is that a morphism $f : X \times_S T \to Y$ is defined by its graph $\Gamma \subset (X \times_S Y) \times_S T$. Morphisms correspond to closed subschemes $\Gamma \subset (X \times_S Y) \times_S T$ such that $\Gamma \to X \times_S T$ is an isomorphism. Since $X \to S$ is fppf this in particular implies that $\Gamma \to T$ is fppf and hence $\Gamma \in \Hilb_{X \times_S Y / S}(T)$. It suffices to show that,
+\[ \uHom{S}{X}{Y} \to \Hilb_{X \times_S Y/S} \]
+is a closed immersion. This is because for proper $Y$, the ``locus over $T$ on which a morphism of $T$-schemes is an isomorphism is open''. 
+\end{proof}
+
+\subsubsection{Local Structure of the Hom Scheme}
+
+\begin{rmk}
+In order to bend a morphism $f : C \to X$ we want to find a curve $T \to \Hom{}{C}{X}$ passing through $[f]$ since then $\ev : C \times T \to X$ gives a nontrivial family of curves. To do this, we would like to know about the tangent space and local structure of $\Hom{}{C}{X}$.
+\end{rmk}
+
+\begin{prop}
+Canonically (even when it's not representable) for a $k$-point $[f] \in \uHom{S}{X}{Y}(k)$,
+\[ T_{[f]} \uHom{S}{X}{Y} \cong \Hom{\struct{X_s}}{f^* \Omega_{Y/S}}{\struct{X_s}} \]
+\end{prop}
+
+\begin{proof}
+Let $s \to S$ be the $k$-point $\Spec{k} \to S$.
+This is a classic sort of deformation theory argument about maps fitting into the diagram,
+\begin{center}
+\begin{tikzcd}
+X_s \arrow[r, "f"] \arrow[d] & Y \arrow[d]
+\\
+X_s \times_s D \arrow[ru, dashed, "\tilde{f}"'] \arrow[r] & S
+\end{tikzcd}
+\end{center}
+where $D = \Spec{k[\epsilon]}$. Since $s \to D$ is a split extension there exists a canonical lift $\tilde{f}$. Last quarter we proved that the set of lifts is a torsor over $\Hom{\struct{X_s}}{f^* \Omega_{Y/S}}{\epsilon \struct{X_s}}$ and thus canonically isomorphic to it because there is a canonical choice of base point.
+\end{proof}
+
+\begin{cor}
+If $f : X \to Y$ lands in the smooth locus of $Y/S$ then,
+\[ T_{[f]} \uHom{S}{X}{Y} = H^0(X_s, f^* \T_{Y/S}) \]
+\end{cor}
+
+\begin{rmk}
+This says $Y$-valued vector fields on $X$ are really infinitesimal deformations of a morphism.
+\end{rmk}
+
+\begin{rmk}
+Knowing the tangent space is not quite enough to locally find a curve on a highly singular scheme. Therefore, we need to somehow bound $\dim T_{[f]} \Hom{S}{X}{Y} - \dim{\Hom{S}{X}{Y}}$.
+\end{rmk}
+
+\begin{prop}
+Let $S = \Spec{k}$ and $X$ a projective variety over $k$ and $Y$ a quasi-projective variety over $k$ and $f : X \to Y$ a $k$-morphism mapping into the smooth locus of $Y$. Then,
+\[ \dim T_{[f]} \Hom{S}{X}{Y} - \dim{\Hom{S}{X}{Y}} \le \dim H^1(X, f^* \T_Y) \]
+and therefore,
+\[ \dim_{[f]} \Hom{S}{X}{Y} \ge \dim H^0(X, f^* \T_Y) - \dim H^1(X, f^* \T_Y) \]
+\end{prop}
+
+\subsubsection{Bending in Positive Characteristic}
+
+The previous discussion takes a particularly simple form for $\Hom{k}{C}{X}$ where $C$ is a smooth complete curve and $X$ is a smooth proper $k$-variety. Then,
+\[ \dim_{[f]} \Hom{k}{C}{X} \ge h^0(C, f^* \T_X) - h^1(C, f^* \T_X) = \chi(C, f^* \T_X) = (1 - g(C)) \cdot \dim{X} + \deg{f^* \T_X} \]
+At first we are very sad because producing curves of bounded genus is really really hard. Then Mori has the brilliant insight: why can't I pump up the degree of $f^* \T_X$ by pumping up the degree of $f$ as long as $\deg{f^* \T_X} > 0$.
+
+\begin{rmk}
+This positivity is where $X$ being Fano will enter since $\det{\T_X}$ is ample so $f^* \det{\T_X}$ is also ample (since $f$ is non-constant) and hence $\deg{f^* \T_X} > 0$.
+In terms of intersection theory,
+\[ \deg{f^* \T_X} = (-K_X) \cdot f_* C \]
+where $f_* C$ is the cycle corresponding to the scheme theoretic image of $f : C \to X$.
+\end{rmk}
+\noindent
+If I can replace $f$ by $f_n : C \to X$ with $\deg{f_n} = n \det{f}$ (without increasing the genus) then $\deg{f_n^* \T_X} = n \deg{f^* \T_X}$ so we can make sure there are lots of deformations.
+
+\begin{example}
+If $g(C) = 1$ then there are multiplication by $n$ maps $[n] : C \to C$ so we let $f_{n^n} = f \circ [n]$ and we win, there is always $f : C \to X$ that bends.
+\end{example}
+\noindent
+However, if $g(C) > 0$ it is not at all clear we can do this. Non-constant separable maps $g : C' \to C$ of smooth curves satisfy Riemann-Hurwitz so the best we can hope for is the \etale case in which,
+\[ g(C') = n(g(C) - 1) + 1 \]
+and therefore,
+\[ \chi(C', g^* f^* \T_X) = (1 - g'(C)) \cdot \dim{X} + \deg{g^* f^* \T_X} = n (1 - g(C)) \cdot \dim{X} + n \deg{f^* \T_X} = n \cdot \chi(C, f^* \T_X) \]
+so if $\chi(C, f^* \T_X) = 0$ this cannot help. There is nothing that can be done ... unless we drop the separability condition. That's right we need to use the Frobenius in positive characteristic! Then notice we get $F^n : C \to C$ composes to gives $\deg{(f \circ F^n)} = p^n \deg{f}$ keeping the genus $g(C)$ fixed. Therefore, we can always pump up the degree term so that $\chi(C, (f \circ F^n)^* \T_X) \ge 1$ for $n \gg 0$.
+
+\begin{prop}
+Let $k$ have positive characteristic. For any smooth curve $C$ with a map $f_0 : C \to X$ there exist an $n_0$ such that for all $n \ge n_0$,
+\[ \dim_{[f \circ F^n]} \Hom{k}{C}{X} \ge 1 \]
+and hence there exists a non-constant map $T \to \Hom{k}{C}{X}$ through $f \circ F^n$ from a smooth curve $T$ producing a morphism,
+\[ f : C \times T \to X \]
+such that $f(-,t_0) = f_0 \circ F^n$. 
+\end{prop}
+
+\begin{proof}
+Choose a locally closed curve $T_0 \embed \Hom{k}{C}{X}$ passing through $[f_0 \circ F^n]$ which exists because there is a finite type $k$-scheme open of positive dimension. Then let $\nu : T \to T_0$ be the normalization. Then let $f_0$ be $T \to T_0 \to X$ which is non-constant. Then,
+\[ C \times T \to C \times T_0 \xrightarrow{\ev} X \]
+gives the desired map.
+\end{proof}
+
+\subsection{Break}
+
+\begin{rmk}
+What does it mean for a family to ``break'' and why does it break into rational curves. Explicitly, the family is an extension of the map to $f : C \times T \to X$ where $T$ is a smooth affine curve. Let $\bar{T}$ be the unique smooth projective model of $T$. This defines a rational map $f : C \times \bar{T} \rat X$. Rigidity tell us that this rational map must have some indeterminacy locus. At first, this observation seems parochial: we shouldn't expect a random rational map from a surface to extend. However, in good circumstances, the indeterminacy locus will define rational curves on the target as the ``broken'' limit of the bent curve $C$. This is morally because indeterminacy can be resolved through blowups at smooth points which introduce exceptional fibers that are copies of $\P^1$ in the source. 
+\end{rmk}
+
+\begin{prop} \label{break}
+Let $C$ be a smooth projective curve and $T$ aa smooth curve. Choose fixed points $p_0 \in C$ and $t_0 \in T$. Let $f : C \times T \to X$ be a morphism such that,
+\begin{enumerate}
+\item $f(p_0,-)$ is constant at $x_0 \in X$
+\item $f(-,t_0)$ is non-constant
+\item $f(-,t)$ is different from $f(-,t_0)$ for general $t \in T$ or equivalently there exists a point $p \in C$ such that $f(p, -)$ is non-constant.
+\end{enumerate}
+Let $\overline{T}$ be the unique smooth projective model of $T$. Then the rational map $f : C \times \overline{T} \rat X$ is not everywhere defined. Indeed, there exists $t_1 \in \overline{T}$ such that $(p_0, t_1)$ is in the indeterminacy locus.
+\end{prop}
+
+\begin{rmk}
+The picture is that $f$ is a nontrivial (condition (c)) family of generically non-constant (condition (b)) maps $f_t : C \to X$ such that $f_t(p_0) = x_0$ is fixed (condition (a)).
+\end{rmk}
+
+\begin{rmk}
+The importance of this result is in collaboration with the following result.
+\end{rmk}
+
+\begin{prop}
+Let $Z$ be a smooth variety and $f : Z \rat X$ a rational map. If we resolve the rational map via the graph,
+\begin{center}
+\begin{tikzcd}
+\hat{Z} \arrow[d, "\pi"'] \arrow[rrd, "\hat{f}"] 
+\\
+Z \arrow[rr, dashed, "f"'] & & X
+\end{tikzcd}
+\end{center}
+Let $S \subset Z$ be the indeterminacy locus. Then $\tilde{f}(\pi^{-1}(S))$ is a union of rational curves on $X$.
+\end{prop}
+
+\begin{rmk}
+Vaguely: if $\pi$ can be resolved by blowups at smooth centers. Therefore, $\pi^{-1}(S) \to S$ is a projective bundle and therefore is covered by rational curves so its image $\tilde{f}(\pi^{-1}(S)) \subset X$ is covered by rational curves. Unfortunately, we don't know resolution of singularities in positive characteristic (we need this result in positive characteristic to prove our main theorem even over $\CC$).
+\end{rmk}
+
+\begin{cor}
+In the hypotheses of Prop. \ref{break} there exists a rational curve on $X$ through $x_0$.
+\end{cor}
+
+\subsection{Reduction to Positive Characteristic}
+
+We want to show that $\Hom{K}{\P^1}{X}$ is nonempty\footnote{The astute in the audience will notice this is not at all what we want: first, this is never empty because of constant morphisms, second we want rational curves passing through a fixed point $x \in X$. To remedy both notions we will refine our Hom scheme in the coming lectures to keep track both of the degree and of a fixed base-point.}. However, we only know how to do this in positive characteristic.
+\bigskip\\ 
+Therefore, given a Fano variety $X$ over a field $K$ of characteristic zero we spread out to a smooth and proper $\X \to \Spec{A}$ where $A \subset K$ is a finite type $\Z$-algebra and such that $\omega_{\X / A}$ is ample since closed immersion spread out. The Hom scheme is well-defined over $\Z$ and respects base change so we get $\Hom{A}{\P^1_A}{\X} \to \Spec{A}$. We know that this has nonempty fibers over every point of positive residue characteristic. Since $\Hom{A}{\P^1_A}{\X}$ is finite type\footnote{The astute in the audience will notice that this is totally false. This is another reason we need to introduce a Hom scheme that keeps track of the degree of the morphism. The Hom scheme of morphism of uniformly bounded degree will actually be finite type and a technical lemma will show we can arrange our curves to have uniformly bounded degree (independent of the characteristic) so we win. Incidentally, this is also where the degree bound $\le n + 1$ in the conclusion of the theorem will come from.} by Chevallay's theorem its image is constructible but also contains every closed point and hence is dense (since $\Spec{A}$ is Jacobson) so it contains the generic point meaning that $\Hom{K}{\P^1}{X}$ is nonempty and we win. 
+
+\section{Bend}
+
+\begin{rmk}
+In this lecture we will refine the Hom scheme to keep track of the data of a ``fixed point'' and the ``degree of the morphism'' in order to make the proposed proof sketch actually go through. Then we will prove the properties of the Hom scheme presented last time. Recall the Hom scheme is defined as follows.
+\end{rmk}
+
+\begin{defn}
+Let $X$ and $Y$ be schemes over $S$. Then the functor $\uHom{S}{X}{Y}$ is defined as:
+\[ T \mapsto \Hom{T}{X_T}{Y_T} = \Hom{S}{X \times_S T}{Y} \]
+\end{defn}
+
+\begin{rmk}
+First we recall the Hilbert scheme and its representability. 
+\end{rmk}
+
+\begin{defn}
+Let $X \to S$ be a morphism of schemes. Then the Hilbert functor $\underline{\Hilb}_{X/S}$ is,
+\[ T \mapsto \left\{ \text{closed subschemes } Z \subset X \times_S T \mid Z \to T \text{ is flat, proper, and finitely presented } \right\} \]
+\end{defn}
+
+\begin{rmk}
+Let $\L$ be a line bundle on $X$.
+Because $Z \to T$ is flat and proper we see that for every point $t \in T$ the fiber $Z_t$ is a proper $\kappa(t)$-scheme so,
+\[ \Phi_{t}^{Z, \L}(n) = \sum_{i = 0}^{\dim{Z}} (-1)^i \dim H^i(Z_t, \L|_{Z_t}^{\ot n}) \]
+is a well-defined polynomial in $n$ and  is locally constant in $t$ by flatness.
+\end{rmk}
+
+\begin{defn}
+Let $\L$ be a line bundle on $X$. For a polynomial $\Phi \in \Q[\lambda]$ we define $\underline{\Hilb}^{\Phi, \L}_{X/S}$ via,
+\[ T \mapsto \{ Z \in \underline{\Hilb}_{X/S} \mid \Phi_{t}^{Z, \L} = \Phi \text{ for all } t \in T \} \]
+\end{defn}
+
+\begin{prop}
+As sheaves there is a natural decomposition,
+\[ \uHilb_{X/S} = \coprod_{\Phi \in \Q[\lambda]} \uHilb^{\Phi, \L}_{X/S} \]
+\end{prop}
+
+\begin{proof}
+Because $t \mapsto \Phi_t^{Z, \L}$ is locally constant, we see that $T$ decomposes into a disjoint union on which $\Phi_t^Z$ is constant and therefore naturally factors through the inclusion,
+\[ \coprod_{\Phi \in \Q[\lambda]} \uHilb^{\Phi, \L}_{X/S} \to \uHilb_{X/S} \]
+which is hence an isomorphism. 
+\end{proof}
+
+\begin{thm}[Grothendieck]
+Let $S$ be a Noetherian scheme. Let $X \to S$ be (quasi)-projective with $\L$ a relatively ample line bundle for $X \to S$. Then, $\uHilb_{X/Y}^{\Phi, \L}$ is represented by a (quasi)-projective $S$-scheme $\Hilb_{X/Y}^{\Phi, \L}$.
+\end{thm}
+
+\begin{prop}
+Let $X \to S$ be flat, proper, and finitely presented and $Y \to S$ be separated. Then the map taking a morphism to its graph, 
+\[ \Gamma : \uHom{S}{X}{Y} \to \uHilb_{X \times_S Y /S} \]
+is an open immersion of sheaves.
+\end{prop}
+
+\begin{proof}
+The graph morphism takes $f : X_T \to Y_T$ over $T$ and sends it to the closed subscheme $\Gamma_f : X_T \to X_T \times_T Y_T = (X \times_S Y) \times_S T$. Notice that $\Gamma_f$ is a closed immersion because $Y \to S$ is separated and $\Gamma_f$ is a base chage of $\Delta_{Y/S}$. Since $\pi_{X_T} \circ \Gamma_f = \id_{X_T}$ the hypotheses on $X \to S$ show that $\im{\Gamma_f} \to T$ is flat, proper, and finitely presented and hence $\im{\Gamma_f} \in \uHilb_{X \times_S Y/S}(T)$.
+\bigskip\\
+We need to show for any $S$-scheme $T$ with a map $T \to \uHilb_{X \times_S Y /S}$ meaning a choice of a closed subscheme $Z \subset (X \times_S Y) \times_S T$ flat and finitely presented over $T$ that the diagram,
+\begin{center}
+\begin{tikzcd}
+U \pullback \arrow[d] \arrow[r] & T \arrow[d]
+\\
+\uHom{S}{X}{Y} \arrow[r] & \uHilb_{X \times_S Y / S} 
+\end{tikzcd}
+\end{center}
+produces an open immersion $U \to T$. Explicitly, for any test scheme  we want to show there is an open $U \subset T$ such that $T' \to T$ factors through $U \to T$ (meaning has image inside $U$) if and only if $Z \to \uHilb_{X \times_S Y/S}$ factors through $\uHom{S}{X}{Y} \to \uHilb_{X \times_S Y/S}$ which is equivalent to saying that $Z_{T'} \to T'$ is an isomorphism. This is proven in the following lemma.
+\end{proof}
+
+\begin{lemma}
+If $f : X \to Y$ is a morphism of schemes proper and flat over a noetherian base $S$ then there exist open subschemes $S_i \subset S_f \subset S$ such that,
+\begin{enumerate}
+\item for any $T \to S$ the map $f_T : X_T \to Y_T$ is flat iff $T \to S$ factors through $S_f$
+\item for any $T \to S$ the map $f_T : X_T \to T_Y$ is an isomorphism iff $T \to S$ factors through $S_i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The flat locus of $f : X \to Y$ is an open $U$. Since $g_X : X \to S$ is proper the locus $S_f = S \setminus g_X(X \setminus U)$ is open. By the local criterion for flatness, $S_f$ is the set of points $s \in S$ such that $f : X_s \to Y_s$ is flat. For $T \to S$ and $t \in T$ we see that $f_t : X_t \to Y_s$ is exactly $f_s : X_s \to Y_s$ for $t \mapsto s$. Therefore, by the local criterion, $f_T$ is flat if and only if $T \to S_f$ .
+\bigskip\\
+Via the previous part, we may assume that $f : X \to Y$ is flat. If $f : X_s \to Y_s$ is an isomorphism then it spreads out to an isomorphism $f_U : X_U \to Y_U$ over an open of the base [EGAIII.4, Prop. 4.6.7]. Thefore we get a universal open in the same way as above.
+\end{proof}
+
+\begin{cor}
+Let $S$ be a Noetherian scheme. Let $X \to S$ be projective and flat and $Y \to S$ (quasi)-projective with relatively ample $\L$. Then $\Hom{S}{X}{Y}$ is representable as an open subscheme of $\Hilb_{X \times_S Y/S}$ and therefore decomposes as a disjoint union, 
+\[ \Hom{S}{X}{Y} = \coprod_{\Phi \in \Q[\lambda]} \scHom{S}{\Phi,\L}{X}{Y} \]
+where $\scHom{S}{\Phi,\L}{X}{Y}$ are (quasi)-projective (and hence finite type) $S$-schemes representing the moduli problems,
+\[ T \mapsto \{ f : X_T \to Y_T \mid \Phi^{f^* \L}_t = \Phi \text{ for all } t \in T \} \] 
+\end{cor}
+
+\begin{rmk}
+For $\Phi^{f^* \L}_t$ to be well-defined and locally constant explains why we need $X \to S$ to be flat and proper.
+\end{rmk}
+
+\subsection{Infinitesimal Deformation Theory}
+
+To study the local structue of a moduli space we employ the technique of probing via ``infinitesimal deformations''. For example, $\Spec{k[t]/(t^n)} \to X$ give ``infinitesimal arcs''. The idea will be to consider maps from Artin local rings $\Spec{A} \to X$ deforming a point meaning that $A / \m_A = \kappa(x)$. 
+
+\begin{defn}
+Let $\Art_k$ be the category of Artin local rings with residue field $k$. A \textit{deformation functor} is a functor,
+\[ D : \Art_k \to \mathrm{Set} \]
+such that $D(k)$ is a singleton set.
+\end{defn}
+
+\begin{rmk}
+We think of $D(k)$ as the base object and $D(A)$ its set of deformations over $\Spec{A}$. The structure map $k \to A$ makes $D(A)$ a pointed set via $D(k) \to D(A)$. Furthermore $k \to A$ is a section splitting the extension $A \to A / \m_A \to k$.
+\end{rmk}
+
+\begin{example}
+For a functor\footnote{Thought of as representing some moduli problem} $F : \mathrm{Sch}_S^{\op} \to \mathrm{Set}$ and a point $p \in F(\Spec{k})$ we define the associated deformation functor,
+\[ D_{F,p}(A) = \{ \alpha \in F(\Spec{A}) \mid \alpha|_{\Spec{A/\m_A}} = p \} \]
+For example, if $F$ is representable, meaning $F = h^X$ for some scheme $X$, and $p \in X(k)$ is a point with residue field $k$ then the infinitesimal information of $X$ is captured in,
+\[ D_{X,p} = D_{h^X, p} \]
+\end{example}
+
+\begin{rmk}
+Every extension $B \onto A$ of Artin local rings is automatically infinitesimal meaning $\ker{(B \to A)}$ is a nilpotent ideal. We can filter these into particular first-order extensions (thickenings) which we call small extensions.
+\end{rmk}
+
+\begin{defn}
+An extension $B \onto A$ of local rings with kernel $K$ is \textit{small} if $\m_B K = 0$. Equivalently, it is an exact sequence of $B$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B \arrow[r, two heads] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that $A$ is a $B$-algebra and $K$ is a $B$-module through $B \to B / \m_B$.
+\end{defn}
+
+\begin{prop}
+Every surjection in $\Art_k$ can be factored into small extensions.
+\end{prop}
+
+\begin{rmk}
+Small extensions in $\Art_k$ have the agreeable property that $K$ is determined by its $k$-vectorspace structure. 
+\end{rmk}
+
+\begin{defn}
+Let $\mathrm{Loc}_k$ be the category of local $k$-algebras with residue field $k$ and finite dimensional tangent space. Let $\CLoc_k$ be the full subcategory of complete local rings.
+\end{defn}
+
+\begin{defn}
+We say that a deformation functor $D$ is pro-representable if there exists $R \in \mathrm{Loc}_k$ such that $D = h^R$ where $h^R$ is the deformation functor,
+\[ h^R(A) = \Hom{k-\text{loc}}{R}{A} \]
+\end{defn}
+
+\begin{rmk}
+Because Artin local rings are complete, any local map $R \to A$ factors uniquely through the completion as $R \to \hat{R} \to A$. Therefore, $h^{R} = h^{\hat{R}}$ so we may assume that pro-representing objects are in $\CLoc_k$ hence the terminology.
+\end{rmk}
+
+\begin{rmk}
+The deformation functor $D_{X,p}$ for a scheme $X$ is pro-representable by $R = \stalk{X}{p}$ or $\widehat{\stalk{X}{p}}$.
+\end{rmk}
+
+\begin{prop}
+The functor $R \mapsto h^R$ on $\CLoc_k$ is fully faithful.
+\end{prop}
+
+
+\begin{defn}
+A deformation functor $D$ is said to have \textit{tangent-obstruction theory} if there are finite-dimensional $k$-vector spaces $T^1, T^2$ such that every small extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+gives rise to a natural exact sequence of pointed sets,
+\begin{center}
+\begin{tikzcd}
+T^1 \ot_k K \arrow[r] & D(B) \arrow[r] & D(A) \arrow[r, "\ob"] & T^2 \ot_k K
+\end{tikzcd}
+\end{center}
+which is exact on the left when $A = k$. A morphism of tangent-obstruction theories is a pair of $k$-linear maps $\varphi_1 : T^1 \to T'^1$ and $\varphi_2 : T^2 \to T'^2$ natural in the sense that all such diagrams commute,
+\begin{center}
+\begin{tikzcd}
+T^1 \ot_k K \arrow[d, "\varphi_1 \ot \id_K"'] \arrow[r] & D(B) \arrow[d, equals] \arrow[r] & D(A) \arrow[r, "\ob"] \arrow[d, equals] & T^2 \ot_k K \arrow[d, "\varphi_2 \ot \id_K"]
+\\
+T'^1 \ot_k K \arrow[r] & D(B) \arrow[r] & D(A) \arrow[r, "\ob'"] & T'^2 \ot_k K
+\end{tikzcd}
+\end{center}
+We call a tangent-obstruction theory \textit{universal} if it is initial for tangent-obstruction theories.
+\end{defn}
+
+\begin{rmk}
+We think of $T^1$ as the tangent space and $T^2$ as the space of obstructions to lifting. If there is a universal tangent-obstruction theory $(T^1, T^2, \ob)$ we say that $T^1$ is the tangent space of $D$ and $T^2$ is the obstruction space of $D$ and $\ob : D \to T^2$ is the obstruction class.
+\end{rmk}
+
+\begin{prop}
+If $D$ has tangent-obstruction theory then $T^1$ is unique up to unique isomorphism and is identified with the tangent space of $D$,
+\[ T D = \ker{(D(k[\epsilon]) \to D(k))} \]
+Therefore $\varphi_1$ for any morphism of tangent-obstruction theories is an isomorphism.
+\end{prop}
+
+\begin{proof}
+This follows immediately from $D(k) = *$ and the sequence applied to the small extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \epsilon k \arrow[r] & k[\epsilon] \arrow[r] & k \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+along with the fact that the functoriality of $D$ determines a $k$-vectorspace structure on $TD$. 
+\end{proof}
+
+\begin{rmk}
+The obstruction space $T^2$ is not uniquely determined but in suitable cases there will exist a universal obstruction space. We will discuss this now in the representable case.
+\end{rmk}
+
+\begin{lemma}
+Let $R \in \CLoc_k$ and $d = \dim_k T_R$. Then there exists a surjection $k[[t_1, \dots, t_d]] \onto R$ so we can write $R = k[[t_1, \dots, t_d]] / J$ for some ideal $J \subset k[[t_1, \dots, t_d]]$ with $J \subset \m_S^2$.
+\end{lemma}
+
+\begin{proof}
+Choosing a basis for $\m_R / \m_R^2$ gives a map, $S \to R$. It suffices to prove that $S \to R$ is surjective. Because these are complete local rings this follows from $S / \m_S^n \onto R / \m_R^n$ which for $n = 1$ is because they both have residue field $k$. Then $\m^n_S / \m^{n+1}_S \onto \m_R^n / \m_R^{n+1}$ is surjective because,
+\begin{center}
+\begin{tikzcd}
+\nSym{n}{\m_S/\m^2_S} \arrow[d, two heads] \arrow[r, two heads] & \m_S^{n} / \m_S^{n+1} \arrow[d]
+\\
+\nSym{n}{\m_R/\m_R^2} \arrow[r, two heads] & \m_R^n / \m_R^{n+1}
+\end{tikzcd}
+\end{center}
+Then we conclude via induction and the five lemma,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \m_S^{n} / \m_S^{n+1} \arrow[d] \arrow[r] & S / \m_S^{n+1} \arrow[r] \arrow[d] & S / \m_S^n \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \m_R^n / \m_R^{n+1} \arrow[r] & R / \m_R^{n+1} \arrow[r] & R / \m_R^n \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+This also shows that, $S / \m_S^2 \to R / \m_R^2$ is an isomorphism so $J \subset \m_S^2$. 
+\end{proof}
+
+\begin{rmk}
+Because of this lemma, we refer to $d = \dim_k T_R$ as the embedding dimension of $R$. 
+\end{rmk}
+
+\begin{thm}
+If $D$ is pro-representable then it admits a universal tangent-obstruction theory. Explicitly, if $D = h^R$ for $R \in \CLoc_k$ then write $R = S / J$ for $S = k[[t_1, \dots, t_d]]$ let $T^1_R = (\m_R / \m_R^2)^\vee$ and $T^2_{R} = (J / \m_S J)^\vee$ then for any small extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+there is a natural short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T^1_R \ot K \arrow[r] & D(B) \arrow[r] & D(A) \arrow[r, "\ob"] & T^2_R \ot K 
+\end{tikzcd}
+\end{center}
+Furthermore, for any tangent-obstruction theory $(T^1, T^2)$ for $D$ there exists a unique morphism,
+\[ \varphi : (T^1_R, T^2_R) \to (T^1, T^2) \]
+and additionally $\varphi$ is injective.
+\end{thm}
+
+\begin{proof}
+Consider a small extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B \arrow[r] & A \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Consider a map $\varphi : R \to A$. As $S$ is a power series ring there is a lift $\tilde{\varphi} : S \to B$. Then $D(B)$ correspond to lifts $S \to B$ killing $J$. 
+\bigskip\\
+First, if $\alpha, \beta : R \to B$ are two lifts then $\alpha - \beta : R \to K$ is a $k$-derivation and hence the lifts of $\varphi$ are an affine space over $T_R \ot_k K = \Hom{k}{\m_R/\m_R^2}{K} = \Der{k}{R}{K}$. 
+\bigskip\\
+Now suppose that $\tilde{\varphi}, \tilde{\varphi}' : S \to B$ are two lifts then $h = \tilde{\varphi} - \tilde{\varphi}'$ is a derivation $S \to K$. Since $J \subset \m_S^2$ and $\m_S K = 0$ we see that $h|_J = 0$ so $\ob(\varphi) : J/\m_S J \to K$ is independent of the lift. Thus $\tilde{\varphi}$ can be chosen such that $\tilde{\varphi}|_J = 0$ i.e. a lift of $\varphi : R \to A$ to $R \to B$ exists if and only if $\ob(\varphi) \in (J / \m_S J)^\vee \ot_k K$ is zero. 
+\bigskip\\
+Finally we need to show that $(T^1_R, T^2_R)$ is universal. Consider the small extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (J + \m_S^k)/(\m_S J + \m_S^k) \arrow[r] & S / (\m_S J + \m_S^k) \arrow[r] & R / \m_S^k \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+By Artin-Rees, for $k \gg 0$ we have $\m_S^n \cap J \subset \m_S J$ and thus $K = (J + \m_S^k)/(\m_S J + \m_S^k) = J / \m_S J$. Then we apply the tangent-obstruction theory,
+\begin{center}
+\begin{tikzcd}
+T^1 \ot_k K \arrow[r] & D(B) \arrow[r] & D(A) \arrow[r, "\ob'"] & T^2 \ot_k K
+\end{tikzcd}
+\end{center}
+The obstruction to lifting the canonical map $\varphi : R \to R / \m_S^k$ is an element,
+\[ \ob'(\varphi) \in (J / \m_S J) \ot_k T^2 = \Hom{k}{(J / \m_S J)^\vee}{T^2} \]
+Using our previous construction choose the canonical map $\tilde{\varphi} : S \to S /(\m_S J + \m_S^k)$ as the lift then restricting to $J$ gives $\id : J / \m_S J \to J / \m_S J$ so $\ob(\varphi) = \id_{J/\m_S J}$ is universal so the map $\ob'(\varphi) : T^2_R \to T^2$ commutes with obstruction classes.
+\bigskip\\
+Suppose that $T^2_R \to T^2$ is not injective meaning some nonzero $v \in T^2_R$ maps to zero. Then under $\pi : K \to K / V$ for the codim one subspace $V = \ker{v}$ the class $\ob'(\varphi) \mapsto 0$. But for the extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K / V \arrow[r] & B / V \arrow[r] & A \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+the obstruction of $\varphi : R \to A$ is constructed via taking a lift $S \to B / V$ which we can choose to be the canonical quotient and then $\ob'(\varphi) = (K \to K / V)$ so this class does not vanish. 
+\end{proof}
+
+\begin{cor}
+If $D = h^R$ for $R \in \CLoc_k$ and $(T^1, T^2)$ is a tangent-obstruction theory for $D$,
+\begin{enumerate}
+\item $\dim_k T^1 \ge \dim{R} \ge \dim_k T^1 - \dim_k T^2$
+\item if $\dim{R} = \dim_k T^1$ then $R$ is regular
+\item if $\dim{R} = \dim_k T^1 - \dim_k T^2$ then $(T^1, T^2)$ is universal and $R$ is a complete intersection.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+We have,
+\[ \dim_k T^1_R \dim{R} \ge \dim{S} - \dim_k {(J / \m_S J)} = \dim_k T^1_R - \dim_k T^2_R \ge \dim_k T^1_R - \dim_k T^2_R \]
+Regularity by definition means $\dim_k T^1_R = \dim{R}$. Furthermore, if $\dim{R} = \dim_k T^1_R - \dim_k T^2_R$ then the above inequalities are equalities so,
+\[ \dim_k (J / \m_S J) = \dim{S} - \dim{R} \]
+proving that $R$ is a complete intersection.
+\end{proof}
+
+\subsection{Examples}
+
+\begin{rmk}
+It is clear from the definition that $\Hom{S}{X}{Y}$ if it exists is compatible with base change meaning for any $T \to X$,
+\[ \Hom{T}{X_T}{Y_T} = \Hom{S}{X}{Y} \times_S T \]
+In particular, $\Hom{S}{X}{Y}$ respects taking fibers,
+\[ \Hom{S}{X}{Y}_s = \Hom{s}{X_s}{Y_s} \]
+as we saw before. Furthermore, the infinitesimal deformation theory for an $S$-schme $X \to S$ is taken relative to a fixed point $\Spec{k} \to X$ as an $S$-scheme meaning that we are only keeping track of relative information meaning $D_{X/S,p} = D_{X_s, p}$. For example, the tangent space defined as maps $\Spec{k[\epsilon]} \to X$ extending $\Spec{k} \to X$ \textit{as $S$-schemes} satisies,
+\[ T_{X/S,x} = T_{X_s/s,x} \]
+Therefore, it suffices to work over a field.
+\end{rmk}
+
+\begin{prop}
+Let $D$ be the deformation functor for $\uHom{k}{X}{Y}$ at a point $[f] \in \Hom{k}{X}{Y}(k)$. Assume that $f : X \to Y$ lands in the smooth locus. Then $D$ has a tangent-obstruction theory with,
+\[ T^i = \Ext{i-1}{\struct{X}}{f^* \Omega_{Y/S}}{\struct{X}} \]
+\end{prop}
+
+\begin{prop}
+Given a small extensions,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the question amounts to considering lifts,
+\begin{center}
+\begin{tikzcd}
+X \times_k \Spec{A} \arrow[d] \arrow[r, "f"] & Y \arrow[d]
+\\
+X \times_k \Spec{B} \arrow[r] \arrow[ru, dashed] & S
+\end{tikzcd}
+\end{center}
+Because the right is a first-order infinitesimal extension and $f$ lands in the smooth locus of $Y \to S$ we proved last quarter there is a natural obstruction class,
+\[ \ob(f) \in \Ext{1}{\struct{X}}{f^* \Omega_{Y/S}}{\struct{X} \ot_B K} = \Ext{1}{\struct{X}}{f^* \Omega_{Y/S}}{\struct{X}} \ot_k K \]
+vanishing exactly if there exists such a lift. If $\ob(f) = 0$ then the set of lifts is a torsor over,
+\[ \Hom{\struct{X}}{f^* \Omega_{Y/S}}{\struct{X}} \ot_k K \]
+These exactly say that the tangent-obstruction sequence is exact.
+\end{prop}
+
+\begin{cor}
+Let $X$ a projective variety over $k$ and $Y$ a quasi-projective variety over $k$ and $f : X \to Y$ a $k$-morphism mapping into the smooth locus of $Y$. Then,
+\[ \dim T_{[f]} \Hom{S}{X}{Y} - \dim{\Hom{S}{X}{Y}} \le \dim H^1(X, f^* \T_Y) \]
+and therefore,
+\[ \dim_{[f]} \Hom{S}{X}{Y} \ge \dim H^0(X, f^* \T_Y) - \dim H^1(X, f^* \T_Y) \]
+\end{cor}
+
+\begin{rmk}
+Another example is the infinitesimal deformation theory of a smooth scheme $X \to \Spec{k}$. Consider the deformation functor $\mathbf{Def}_X$ taking $A$ to the isomorphism classes of smooth lifts of $X$ over $\Spec{A}$. We showed that $\mathbf{Def}_X$ admits tangent-obstruction theory,
+\[ T^i = H^i(X, \T_X) \]
+and $T^0 = H^0(X, \T_X)$ is the space of automorphisms of a given lift. When the automorphism space is nonzero, $\mathbf{Def}_X$ cannot be representable by a scheme. Instead, this obstruction theory is describing the local structure of the deformation stack. 
+\end{rmk}
+
+\subsection{Fixing a Base Point}
+
+\begin{defn}
+Let $X, Y$ be $S$-schemes and fix $S$-morphisms $\iota : Z \to X$ and $g : Z \to Y$. Then we define the functor $\ufixHom{S}{X}{Y}{\iota, g}$,
+\[ T \mapsto \{ f : X \times_S T \to Y \mid f \circ (\iota \times \id_T) = g \circ \pi_1\} \]
+which is the set of maping making the following diagram commute,
+\begin{center}
+\begin{tikzcd}
+Z \times_S T \arrow[d, "\iota \times \id_T"'] \arrow[rd, "g \circ \pi_1"] 
+\\
+X \times_S T \arrow[r, "f"'] & Y
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{rmk}
+We usually consider this is the case that $\iota : Z \to X$ is a closed immersion identifying $Z$ with a closed subscheme of $X$ and therefore omit $\iota$ from the notation.
+\end{rmk}
+
+\begin{prop}
+Let $X, Z$ be projective and flat over $S$ and $Y \to S$ be quasi-projective. Then $\ufixHom{S}{X}{Y}{\iota, g}$ is representable by a closed subscheme of $\Hom{S}{X}{Y}$.
+\end{prop}
+
+\begin{proof}
+Let $S \to \Hom{S}{Z}{Y}$ be the point $g : Z \to Y$. Then consider,
+\begin{center}
+\begin{tikzcd}
+\ufixHom{S}{X}{Y}{\iota,g} \arrow[r] \arrow[d] \arrow[d] \pullback & S \arrow[d]
+\\
+\Hom{S}{X}{Y} \arrow[r] & \Hom{S}{Z}{Y} 
+\end{tikzcd}
+\end{center}
+Since $\Hom{S}{Z}{Y}$ is a quasi-projective $S$-scheme and hence separated the section $S \to \Hom{S}{Z}{Y}$ is a closed immersion and hence $\ufixHom{S}{X}{Y}{\iota,g} \to \Hom{S}{X}{Y}$ is a closed immersion of functors so $\ufixHom{S}{X}{Y}{\iota,g}$ is representable by a closed subscheme.
+\end{proof}
+
+\begin{prop}
+For a $k$-point $[f] \in \ufixHom{k}{X}{Y}{g}(k)$, there is a canonical isomorphism,
+\[ T_{[f]} \ufixHom{k}{X}{Y}{g} \cong \Hom{\struct{X}}{f^* \Omega_{Y}}{\I_Z} \]
+Furthermore, when $f$ maps to the smooth locus of $Y$ then the deformation functor of $\ufixHom{k}{X}{Y}{g}$ has tangent-obstruction theory with,
+\[ T^i = \Ext{i-1}{\struct{X}}{f^* \Omega_{Y}}{\I_Z} \]
+\end{prop}
+
+\begin{proof}
+We can replace $Y$ by $Y^{\text{sm}}$ because $f$ maps into the open smooth locus and restricting to open subsets does not affect the infinitesimal deformation theory. We need to consider lifts which fit into the diagram,
+\begin{center}
+\begin{tikzcd}
+Z \times_k \Spec{A} \arrow[rd] \arrow[dd] \arrow[rr] & &  X \times_k \Spec{A} \arrow[dd] \arrow[ld, "f"']
+\\
+& Y 
+\\
+Z \times_k \Spec{B} \arrow[ru]  \arrow[rd] \arrow[rr] & &  X \times_k \Spec{B} \arrow[ld] \arrow[lu, "\tilde{f}", dashed]
+\\
+& \Spec{k} \arrow[from=uu,crossing over]
+\end{tikzcd}
+\end{center}
+Topologically, there is nothing to do because $\tilde{f}$ is defined by the same topological map as $f$ which already commutes with the maps from $Z$. Therefore, this is a question of maps of sheaves on $X$. Consider, 
+\begin{center}
+\begin{tikzcd}
+& & 0 \arrow[d]
+\\
+& \I_Z \ot_k K \arrow[r] \arrow[d] \pullback & \I_Z \ot_k B \arrow[d]
+\\
+0 \arrow[r] & \struct{X} \ot_k K \arrow[r] & \struct{X} \ot_k B \arrow[d] \arrow[r] & \struct{X} \ot_k A \arrow[r] & 0
+\\
+& & \iota_* \struct{Z} \ot_k B \arrow[d]  & f^{-1} \struct{Y} \arrow[u] \arrow[l] \arrow[lu, dashed]
+\\
+& & 0
+\end{tikzcd}
+\end{center}
+Therefore, because $K^2 = 0$ as an ideal, the set of dashed maps forms a torsor over,
+\[ \Der{k}{f^{-1} \struct{Y}}{\I_Z \ot_k K} = \Hom{\struct{X}}{f^* \Omega_Y}{\I_Z} \ot_k K \]
+In particular, for $A = k$ and $B = k[\epsilon]$ this computes the tangent space. Furthermore, it shows that the sheaf of lifts over the Zariski topology on $X$ is a pseudo-torsor over,
+\[  \Hom{\struct{X}}{f^* \Omega_Y}{\I_Z} \ot_k K \]
+We need to show that it is locally nonempty. If $X = \Spec{R}$ is affine then by smoothness of $Y \to \Spec{k}$ there exists a lift $f^{-1} \struct{Y} \to \struct{X} \ot_k B$. Consider,
+
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d]
+\\
+0 \arrow[r] & I \ot_k K \arrow[d] \arrow[r] & I \ot_k B \arrow[d] \arrow[r] & I \ot_k A \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & R \ot_k K \arrow[d] \arrow[r] & R \ot_k B \arrow[d] \arrow[r] & R \ot_k A \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & R/I \ot_k K \arrow[r] \arrow[d] & R/I \ot_k B \arrow[d] \arrow[r] & R/I \ot_k A \arrow[r] \arrow[d] & 0
+\\
+& 0 & 0 & 0
+\end{tikzcd}
+\end{center}
+We are given $g : f^{-1} \struct{Y} \to R/I$ and $\varphi : f^{-1} \struct{Y} \to R \ot_k A$ and $\tilde{\varphi} : f^{-1} \struct{Y} \to R \ot_k B$ such that applying $R \ot_k B \to R \ot_k A$ gives $\varphi$ and applying $\pi : R \ot_k A \to (R/I) \ot_k A$ to $\varphi$ gives $g \ot \id_A$. We need to find a new lift such that furthermore applying $R \ot_k B \to R/I \ot_k B$ gives $g \ot \id_B : f^{-1} \struct{Y} \to (R/I) \ot_k B$. Consider $\pi \circ \tilde{\varphi} - g \ot \id_B$ which is a derivation landing in $(R/I) \ot_k K$. Because $f^* \Omega_Y$ is locally free, this lifts to a derivation $q : f^{-1} \struct{Y} \to R \ot_k K$. Then $\tilde{\varphi} - q$ satisfies the desired conditions.
+\bigskip\\
+Therefore, the obstruction to the sheaf of lifts having a global section is the class of this torsor,
+\[ \ob(f) \in \Ext{1}{\struct{X}}{f^* \Omega_Y}{\I_Z} \ot_k K \]
+where there is no sheaf-Ext term because $f^* \Omega_Y$ is locally-free.
+\end{proof}
+
+\begin{cor}
+Let $X$ be projective over $k$ and $Y$ be quasi-projective over $k$ and $f : X \to Y$ a $k$-morphism mapping into the smooth locus of $Y$. Furthermore, let $Z \subset X$ be a closed subscheme and fix $g = f|_Z : Z \to Y$. Then, $\Hom{k}{X}{Y}{g}$ exists and,
+\[ \dim_{[f]} \Hom{S}{X}{Y} \ge \dim H^0(X, f^* \T_Y \ot_{\struct{X}} \I_Z) - \dim H^1(X, f^* \T_Y \ot_{\struct{X}} \I_Z) \]
+\end{cor}
+
+
+\section{Break (TODO Vaughan)}
+
+\subsection{The Rigidity Lemma}
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{https://www.math.ens.psl.eu/~debarre/Grenoble.pdf}{Olivier Debarre's Notes Lemma 9}
+\item \cite[section 1.1, Corollary 1.7 and Lemma 1.9]{birational_geometry}
+\item \cite[Section II.5, Lemma 1.6]{rational_curves}.
+\end{enumerate}
+\end{rmk}
+
+
+\begin{lemma}
+Let $f : X \to Y$ and $g : X \to Z$ be morphisms of varieties. If $f_* \struct{X} = \struct{Y}$ and there is a point $y \in Y$ such that $g : X_y \to Z$ is a constant map then there exists an open neighborhood $U \subset Y$ of $y$ such that,
+\begin{center}
+\begin{tikzcd}
+f^{-1}(U) \arrow[rd, "g"] \arrow[r, "f"] & U \arrow[d, "h"]
+\\
+& Z
+\end{tikzcd}
+\end{center}
+commutes. This says over an open of $Y$ ``$g$ contracts all the fibers of $f$''.
+\end{lemma}
+
+\begin{proof}
+TODO
+\end{proof}
+
+
+\subsection{Rational Curves In The Indeterminacy Locus (TODO Vaughan)}
+
+\begin{rmk}
+Now that we have a rational map with an indeterminacy locus, what can we do with it. It turns out a lot!
+\end{rmk}
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{https://www.math.ens.psl.eu/~debarre/Grenoble.pdf}{Olivier Debarre's Notes Section 1}
+\item \cite[section 1.1, p.8-9]{birational_geometry}.
+\item \cite[section VI.1]{rational_curves}.
+\end{enumerate}
+\end{rmk}
+
+\subsection{The Main Breaking Results}
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{https://www.math.ens.psl.eu/~debarre/Grenoble.pdf}{Olivier Debarre's Notes Section 5}
+\item \cite[Section 1.1, Corollary 1.7 and Lemma 1.9]{birational_geometry}.
+\item \cite[Section II.5]{rational_curves}.
+\end{enumerate}
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a projective variety. Let $f : C \to X$ be a smooth curve, and let $c_0 \in C$ a point. If $\dim_{[f]} \fixHom{k}{C}{X}{f|_{c_0}} \ge 1$ then there exists a rational curve on $X$ through $f(c)$. 
+\end{prop}
+
+\begin{proof}
+TODO 
+\end{proof}
+
+\begin{rmk}
+In order to get the correct degree information for these newly produced rational curves, we need the following refined version of the breaking result.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a projective variety and let $f : \P^1 \to X$ be a rational curve. If $\dim_{[f]} \Hom{k}{\P^1}{X}{f|_{\{0, \infty\}}} \ge 2$ then the $1$-cycle $f_* \P^1$ is numerically equivalent to a connected nonintegral effective rational $1$-cycle passing through $f(0)$ and $f(\infty)$. 
+\end{prop}
+
+
+\section{Reduction to Positive Characteristic and Completion of the Proof (TODO Vaughan)}
+
+(LOOK AT THE SKETCH OF THE PROOF IN THE INTRODUCTION)
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{https://www.math.ens.psl.eu/~debarre/Grenoble.pdf}{Olivier Debarre's Notes Section 6}
+\item \cite[Theorem 1.10]{birational_geometry}.
+\item \cite[Section II.5]{rational_curves}.
+\end{enumerate}
+\end{rmk}
+
+
+\section{Applications of Bend and Break (TODO Spencer)}
+
+\subsection{Ample Vector Bundles}
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{http://www.numdam.org/article/PMIHES_1966__29__63_0.pdf}{Hartshorne, Ample vector bundles \cite{ample_vb}.}
+\end{enumerate}
+\end{rmk}
+
+\begin{defn}
+A vector bundle $\E$ on a projective scheme $X$ is \textit{ample} if $\struct{X}(1)$ on $\P_X(\E)$ is ample. 
+\end{defn}
+
+\begin{prop}
+A quotient of an ample vector bundle is ample.
+\end{prop}
+
+\begin{proof}
+Let $\E_0 \onto \E_1$ be a surjection. This defines a closed immersion $\P_X(\E_1) \embed \P_X(\E_0)$ such that $\struct{\P_X(\E_0)}(1) |_{\P_X(\E_1)} = \struct{\P_X(\E_1)}(1)$ and therefore if $\struct{\P_X(\E_0)}(1)$ is ample so is $\struct{\P_X(\E_1)}(1)$.
+\end{proof}
+
+\begin{prop}
+Let $\E$ and $\E'$ be ample vector bundles. Then, $\E_1 \oplus \E_2$ is ample if and only if $\E_1$ and $\E_2$ are ample.
+\end{prop}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{prop}
+Let $\E$ and $\E'$ be ample vector bundles. Then,
+\begin{enumerate}
+\item $\E \oplus \E'$ is ample
+\item $\E \ot \E'$ is ample
+\item $\bigwedge^k \E$ is ample
+\item $S^k(\E)$ is ample.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\subsection{Characterizing $\P^n$, Hartshorne's Conjecture}
+
+\begin{rmk}
+References for this section:
+\begin{enumerate}
+\item \href{https://www.jstor.org/stable/1971241?seq=1#metadata_info_tab_contents}{Mori's original paper. \cite{ample_tangent}.}
+\item For historical interest: \href{https://projecteuclid.org/journals/kyoto-journal-of-mathematics/volume-18/issue-3/On-Hartshornes-conjecture/10.1215/kjm/1250522508.full}{Mori's earlier paper proving the $n = 3$ case \cite{Hartshorne_conjecture}.}
+\end{enumerate}
+\end{rmk}
+
+\begin{thm}[Mori]
+Let $X$ be a smooth projective Fano variety of dimension $n$. Suppose that the smallest degree of a covering family of rational curves is $n + 1$ then $X \cong \P^n$. 
+\end{thm}
+
+\begin{proof}
+TODO
+\end{proof}
+
+\begin{cor}
+Let $X$ be a smooth projective variety. If $\T_X$ is ample then $X \cong \P^n$. 
+\end{cor}
+
+\begin{proof}(FIX THIS PROOF)
+Since $\T_X$ is ample this implies that $\omega_X^\vee = \det{\T_X}$ is ample and thus $X$ is Fano. Let $C \subset X$ be a rational curve. Then we may compute,
+\[ (-K_X) \cdot C = \deg{(\omega_X^\vee|_C)} \]
+However, $\nu : \P^1 \to C$ is finite and birational and (DOES THIS ACTUALLY WORK) 
+\[ (-K_X) \cdot C = \deg{\nu^* \omega_X^\vee} \]
+However, by a theorem of Grothendieck, every vector bundle on $\P^1$ is split,
+\[ \nu^* \T_X = \struct{\P^1}(a_1) \oplus \cdots \oplus \struct{\P^1}(a_n) \]
+Furthermore, $\nu$ is finite so $\nu^* \T_X$ is ample and therefore each $a_i \ge 1$. There is also a map $\T_{\P^1} \to \nu^* \T_X$ and $\T_{\P^1} = \struct{\P^1}(2)$ so this implies that some $a_i \ge 2$ (WLOG let $a_1 \ge 2$). Thus,
+\[ -K_X \cdot C = \deg{\nu^* \omega_X^\vee} = \deg{ \nu^* \wedge \T_X} = \sum_{i = 1}^n a_i \ge n + 1 \]
+Therefore $X$ is Fano with minimal rational covering degree $d \ge n + 1$ so by the main theorems $d = n + 1$ and $X \cong \P^n$. 
+\end{proof}
+
+\bibliography{BB_refs}
+
+\end{document}
+

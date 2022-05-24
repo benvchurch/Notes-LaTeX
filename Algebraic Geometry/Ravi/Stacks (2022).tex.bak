@@ -1,0 +1,382 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\section{Mar. 30}
+
+\begin{rmk}
+Here is a reason that a $-1$-category should be the initial (empty) category or the terminal category (single object and single morphism). We want the Hom spaces of a $0$-category (a set) to be $-1$-categories but these are singletons or empty. Therefore, we can say that a $-1$-sheaf ($-2$-stack) should be a function because its a category fibered over $X$ in $-1$-categories so just a single element over open compatibly with restriction. 
+\end{rmk}
+
+Given a (pre)sheaf on a topological space $X$ we can ``glue the fibers together'' to get a fibered category over $\mathrm{Open}(U)$ where the fibers are the sets $\F(U)$ over some open. The morphisms in this category are exactly $f|_U \to f$ where the morphism represents the restriction of the function $f$ over $U \embed V$. To make this a sheaf we need axioms involving the topology. 
+\bigskip\\
+We do the same thing for stacks.
+
+\begin{defn}
+A 2-presheaf over a topological space $X$ is a functor $f : \C \to \mathrm{Open}(X)$ such that
+\begin{enumerate}
+\item pullbacks exist
+\item every morphism in $\C$ is a pullback
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Some exercises:
+\begin{enumerate}
+\item the fibers of a 2-presheaf are groupoids. 
+\end{enumerate}
+\end{rmk}
+
+\newcommand{\Isom}[2]{\mathrm{Isom}\left(#1, #2\right)}
+
+\begin{defn}
+Let $\C$ be a 2-presheaf then $\C$ is a stack if
+\begin{enumerate}
+\item for $a, b \in \C(U)$ the functor $\Isom{a}{b}$ is a sheaf on $U$
+\item objects glue. 
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+A category of geometric spaces is a category $\G$ such that there is a distinguished class of ``open immersions'' which is 
+\begin{enumerate}
+\item closed under composition
+\item local in nature
+\item preserved by pullbacks (fibered products)
+\end{enumerate}
+\end{defn}
+
+\newcommand{\PSh}{\mathrm{PSh}}
+
+\begin{prop}[Yonega]
+Consider the category $\PSh_\C$ which is the contravariant functors from $\C$ to Set. Then $X \mapsto h^X = \Hom{\C}{-}{X}$ gives a fully faithfully embedding $\C \embed \PSh_\C$.
+\end{prop}
+
+\section{Geometry on PSh}
+
+What is a vectorbundle on a presheaf? If we are going to give it geometry we should know an answer to this question. 
+\bigskip\\
+Example, the Hodge bundle. For any $S \to \M_g$ there is a family of curves $\pi : \C \to S$ and thus we get the Hodge bundle $\pi_* \Omega_{\C/S}$ which is a rank $g$ vector bundle on $S$. These vector bundles are compatible (by cohomology and base change) with pullbacks $S' \to S \to \M_g$. 
+\bigskip\\
+We call this data a vector bundle on $\M_g$.
+
+\begin{defn}
+A vector bundle $\E$ on $\F \in \PSh_\G$ is a vector bundle $\E(S)$ on each $S \in \G$ along with isomorphisms (DO THIS)
+\end{defn}
+
+\begin{exercise}
+Let $\G$ be the category of open balls in $\C^n$ and holomorphic maps between them. Then $\mathrm{Man}_{\mathbb{C}} \to \PSh_\G$ is a fully faithful embedding.
+\end{exercise}
+
+\subsection{Fiber Products}
+
+$\G$ may not have fiber products because. For example if $\G$ is the category of smooth manifolds and smooth maps then fiber products of non submersions is not a smooth manifold.
+\bigskip\\
+However, $\PSh_\G$ does have fiber products. Indeed we construct fiber products pointwise. 
+
+\begin{exercise}
+Any fiber product in $\G$ agrees with the corresponding fiber product in $\PSh_\G$ (the Yoneda embedding preserves fiber products). 
+\end{exercise}
+
+The Yoneda functor preserves fiber products basically by definition because 
+\[ h^{A \times_B C}(X) = \Hom{\G}{X}{A \times_B C} = \Hom{\G}{X}{A} \times_{\Hom{\G}{X}{B}} \Hom{\G}{X}{C} \]
+
+\begin{defn}
+A morphism $f : F \to G$ in $\PSh_\G$ is representable when for any map $S \to G$ from $S \in \G$ then $F \times_G S$ is representable. 
+\end{defn}
+
+\begin{rmk}
+If $\G$ has fiber products then every morphism between representable functors is representable.
+\end{rmk}
+
+\begin{exercise}
+Representable morphisms are preseved by base change.
+\end{exercise}
+
+\begin{defn}
+Given a property $\cP$ of morphisms in $\G$. Then we say a representable morphism $f : F \to G$ in $\PSh_\G$ has property $\cP$ if for every $S \to G$ with $S \in \G$ the morphism $F \times_G S \to S$ (which is a $\G$-morphism) has property $\cP$.
+\end{defn}
+
+\begin{rmk}
+For this to make sense, we need $\cP$ to be a property preserved under base change so that $X \to Y$ has property $\cP$ if and only if $X_{Y'} \to Y'$ has property $\cP$. 
+\end{rmk}
+
+\begin{defn}
+We can now define an open cover in $\PSh_\G$. A representable morphism is open in the above sense. 
+\end{defn}
+
+\section{April 4}
+
+\begin{rmk}
+Notice that every reprsentable presheaf on $\G$ is a sheaf when restricted to each object $X \in \G$. 
+\end{rmk}
+
+\begin{defn}
+A presheaf $F \in \PSh_\G$ is a \textit{sheaf} if for each $X \in \G$ the presheaf $X|_{\G}$ (restriction to the open subsets of $\G$) is a sheaf. 
+\end{defn}
+
+\begin{rmk}
+This will be a sheaf for the topology on $\G$ induced by open embeddings. 
+\end{rmk}
+
+\begin{defn}
+Let $\G$ be a category (not necessarily with fiber products). A topology on $\G$ is a connection of morphisms $\G^\circ \subset \G$ (the ``open immersions'') satisfying the following properties:
+\begin{enumerate}
+\item and isomorphism $f : X \to Y$ is in $\G^\circ$ (for example $\id_X$ because $\G^\circ$ is a subcategory)
+\item openness is preserved under composition ($\G$ is a subcategory)
+\item pullbacks of morphisms in $\G^\circ$ by morphisms in $\G$ exist and are in $\G^\circ$.
+\item the fiber product of $U_1 \to X$ and $U_2 \to X$ gives $U_1 \times_X U_2 \to X$ is open (this is implied by composition and preservation under fiber products).
+\end{enumerate}
+Along with the data of distinguished collections of morphisms in $\G^\circ$ called covering families such that
+\begin{enumerate}
+\item every isomorphism $f : X \to Y$ is a covering family
+\item given a covering on $Y$ and a morphism $f : X \to Y$ then the base change is a cover of $X$
+\item a cover of a cover is a cover meaning if $\{ X_\alpha \to X \}$ is a covering family and $\{ X_{\beta \alpha} \to X_\alpha \}$ are covering families then $\{ X_{\beta \alpha} \to X \}$ is a covering family. 
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+The category of sheaves $\Sh_\G \subset \PSh_\G$ is the full subcategory of objects ``determined locally on covers'' i.e. satisfying the usual sheaf axiom. 
+\end{defn}
+
+\begin{exercise}
+$\Sh_\G$ has all fiber products and they agree with fiber products in $\G$ (when they exist) and an in $\PSh_\G$ under the fully faithfull embeddings,
+\[ \G \embed \Sh_\G \embed \PSh_\G \]
+\end{exercise}
+
+\begin{defn}
+If $X \in \G$ define $\G_X$ the slice category of morphisms $f : Y \to X$.
+\end{defn}
+
+\begin{defn}
+A sheaf $F \in \Sh_\G$ is \textit{locally representable} if there is an open cover by representable sheaves. Explicitly there are representable sheaves and representable morphisms $U_i \to F$ such that for every such diagram,
+\begin{center}
+\begin{tikzcd}
+X_i \pullback \arrow[d] \arrow[r] & X \arrow[d]
+\\
+U_i \arrow[r] & F
+\end{tikzcd}
+\end{center}
+for $X \in \G$ we have $\{ X_i \to X \}$ is a covering family in $\G$.  
+\end{defn}
+
+\begin{rmk}
+Applying this construction we get:
+\begin{enumerate}
+\item for affine schemes and open immersions get all schemes
+\item for varities and open immersions get pre-varities (no separatedness or quasi-compactness)
+\item for open balls in $\C^n$ with open holomorphic embeddings get pre-manifolds (no Hausdorffness or second countability).
+\end{enumerate}
+\end{rmk}
+
+\section{Notes April 4}
+
+If we take $\G = \mathbf{AffSch}$ with open immersions as the admissible morphisms (what we called ``open immersions'' in class and just means ``is an element of a covering family'' as Daniel pointed out) we see that $\Sh_{\G}$ contains all schemes however the notion of ``open immersion'' we defined for a morphism of sheaves only applies in the case that it is representable and thus the only schemes in $\Sh_{\G}$ which are locally covered by affines in the induced topology are those with an affine cover whose inclusions are \textit{affine morphisms} i.e. the schemes whose diagonal is affine. 
+\bigskip\\
+To fix this, we clearly need to expand our definition of what it means for a morphism $f : F \to G$ to be an open immersion outside the representable setting. I will consider some ways to define properties of non-representable morphisms 
+
+\subsection{Generalities}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms in a site $\G$ (a category with a Grothendieck (pre)-topology). Then we say that,
+\begin{enumerate}
+\item $\cP$ is \textit{preserved under shrinking the source} if for any $f : X \to Y$ having $\cP$ and $g : X' \to X$ admissible then $f \circ g : X' \to Y$ has $\cP$
+\item $\cP$ is \textit{preserved under shrinking the target} if for any $f : X \to Y$ having $\cP$ and $g : Y' \to Y$ admissible then $f' : X \times_Y Y' \to Y'$ has $\cP$
+\item $\cP$ is \textit{preserved under base change} if for any $f : X \to Y$ having $\cP$ and any $g : Y' \to Y$ then $f' : X \times_Y Y' \to Y'$ has $\cP$
+\item $\cP$ is \textit{local on the source} if for every covering family $\{ X_\alpha \to X\}$,
+\[ f : X \to Y \text{ has } \cP \iff \text{ each } X_\alpha \to X \to Y \text{ has } \cP \]
+\item $\cP$ is \textit{local on the target} if for every covering family $\{ Y_\alpha \to Y \}$,
+\[ f : X \to Y \text{ has } \cP \iff \text{ each } f_\alpha : X \times_Y Y_\alpha \to Y_\alpha \text{ has } \cP \]
+\item $\cP$ is \textit{local on the source-and-target} if $\cP$ is local on the source and local on the target and if $f : X \to Y$ has $\cP$ and $g : Y \to Z$ is an admissible morphism  then $g \circ f$ has $\cP$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The reason I make the somewhat artificial seeminig condition in ``local on the source-and-target'' is discussed in \href{https://stacks.math.columbia.edu/tag/04QW}{Tag 04QW}  
+\end{rmk}
+
+\begin{prop}
+The property of being an admissible morphism is preserved under base change and shrinking the source.
+\end{prop}
+
+\begin{proof}
+This is exactly part of the definition of a site.
+\end{proof}
+
+\begin{defn}
+A site is \textit{locally complete} if being an admissible morphism is local on the source-and-target.
+\end{defn}
+
+\begin{rmk}
+It is automatic that admissible morphisms satisfy the ``only if'' portion of local on the source and local on the target. Indeed, the definition of a pre-topology includes that if $f : X \to Y$ and $g : Y' \to Y$ is admissible then $f' : X \times_Y Y' \to Y'$ is admissible. Likewise admissible morphisms preserved under composition giving the ``only if'' part of local on the source and the extra post-composition property. 
+\bigskip\\
+The thing that can go wrong is that there are ``not enough'' admissible morphisms in the sense that a morphism can be locally admissible but not admissible. This is what I wanted the name to capture but I just made it up so I hope it doesn't already mean something. 
+\bigskip\\
+My guess is that we can complete a site so that it becomes locally complete and this does not change the category of sheaves we obtain so there is no harm in assuming that our sites are locally complete.
+\end{rmk}
+
+\subsection{Properties of morphisms of pre-sheaves}
+
+\begin{defn}
+A morphism $f : F \to G$ of pre-sheaves is representable if for every pullback diagram,
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[d] \arrow[r] \pullback & X \arrow[d]
+\\
+F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable then $F \times_G X$ is representable. 
+\end{defn}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms of $\G$ which is preseved under base change and $f : F \to G$ a representable morphism. Then we say that $f$ has $A\cP$ if for every pullback diagram,
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[d] \arrow[r] \pullback & X \arrow[d]
+\\
+F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable the morphism $F \times_G X \to X$ has $\cP$ (in the sense of morphisms in $\G$).
+\end{defn}
+
+\begin{rmk}
+If we start with a property of morphism of $\G$ which is not local on the target then the property we recover on $\G \embed \PSh_\G$ via the above definition is ``universally $\cP$'' rather than $\cP$. 
+\end{rmk}
+
+\begin{defn}
+We say a morphism $f : X \to Y$ in $\G$ has the property \textit{universally} $\cP$ if for every $Y' \to Y$ the base change $f' : X \times_Y Y' \to Y'$ exists and has $\cP$.
+\end{defn}
+
+\begin{rmk}
+The issue with the above method for extending property of morphisms in $\G$ to $\PSh_\G$ is that there is no way for it to make sense outside the representable context. We can do a bit better if we require some locality of our property. 
+\end{rmk}
+
+\begin{defn}
+Let $\cP$ be a property of morphisms which is preseved under base change and shrinking the source. Then we say that a morphism $f : F \to G$ has $B\cP$ if for every diagram,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+with $X$ representable and $U \to F \times_G X$ an representable admissible morphism from a representable object $U$ then $U \to X$ has $\cP$ (in the $\G$ sense).
+\end{defn}
+
+\begin{prop}
+If $f : F \to G$ is representable then $f$ has $A \cP$ if and only if $f$ has $B \cP$.
+\end{prop}
+
+\begin{proof}
+Suppose $f : F \to G$ has $\cP$ according to the second definition. Then for any representable $X$
+\begin{center}
+\begin{tikzcd}
+F \times_G X \arrow[r, equals] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+we have $F \times_G X$ representable and $\id : F \times_G X \to F \times_G X$ is admissible and thus $F \times_G X \to X$ has $\cP$ in the $\G$-sense proving that $f$ has $\cP$ according the to the first definition. 
+\bigskip\\
+Conversely, suppose that $f$ has $\cP$ accordining to the first definition. Given any diagram,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & F \times_G X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F \arrow[r] & G
+\end{tikzcd}
+\end{center}
+we know that $F \times_G X \to X$ is a morphism in $\G$ with proprety $\cP$ so since $U \to F \times_G X$ is admissible it is an admissible morphism in $\G$ and thus $U \to X$ has $\cP$ in the $\G$ sense.
+\end{proof}
+
+\begin{rmk}
+In light of this proposition we overload our terminology by calling $A \cP$ and $B \cP$ just $\cP$.
+\end{rmk}
+
+\begin{cor}
+If $\G$ admits all fiber products then all morphisms in $\G$ are representable. Therefore, $\cP$ and $A \cP$ and $B \cP$ all agree on $\G$.
+\end{cor}
+
+\begin{prop}
+If $f : X \to Y$ is a morphism in $\G$ such that $h^f : h^X \to h^Y$ has $B \cP$ then $f$ has $\cP$ (in the $\G$ sense).
+\end{prop}
+
+\begin{proof}
+First if $f : X \to Y$ is a morphism in $\G$ then if $h^f : h^X \to h^Y$ has $\cP$ then by definition,
+\begin{center}
+\begin{tikzcd}
+h^X \arrow[r, equals] & h^X \arrow[d, equals] \pullback \arrow[r]  & h^Y \arrow[d, equals]
+\\
+& h^X \arrow[r, "f"] & h^Y 
+\end{tikzcd}
+\end{center}
+since $\id : X \to X$ is admissible and representable we have $h^X \to h^Y$ has $\cP$ in the $\G$ sense which means exactly that $f : X \to Y$ has $\cP$. 
+\end{proof}
+
+\begin{rmk}
+If $\G$ does not have fiber products then we might not have $\cP$ on $\G$ agree with $\cP$ on $\PSh_\G$ restricted to $\G$ but it will at least be a subclass of $\cP$ on $\G$.
+\end{rmk}
+
+\begin{defn}
+We say that a morphism $f : F \to G$ is \textit{admissible} if it is $B$-admissible.
+\end{defn}
+
+\begin{rmk}
+This makes sense because admissible morphisms are preserved under base change and shrinking the source by definition of a site.
+\end{rmk}
+
+\subsection{Open Embeddings}
+
+We saw that it was deficient to define an open embedding of schemes as a representable open embedding of sheaves on $\mathbf{AffSch}$ with the topology of open embeddings of affine schemes because this requires representability. Luckily, we now have a notion of an admissible morphism without needing representability. 
+
+\begin{defn}
+A sheaf $F \in \Sh_\G$ is \textit{locally representable} if there exist admissible morphisms $F_\alpha \to F$ from representable sheaves $F_\alpha$ such that for every representable $X$ with a morphism $X \to F$ there are diagrams,
+\begin{center}
+\begin{tikzcd}
+U_{\alpha \beta} \arrow[r] & F_\alpha \times_F X \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& F_\alpha \arrow[r] & F
+\end{tikzcd}
+\end{center}
+with $U_{\alpha \beta} \to F_\alpha \times_F X$ a representable admissible morphism such that $\{ U_{\alpha \beta} \to X \}$ is a covering family (note admissibility of $F_\alpha \to F$ implies that $U_{\alpha \beta} \to X$ is automatically admissible).
+\end{defn}
+
+
+\begin{lemma}
+Let $\G = \mathrm{AffSch}$ with the topology of open embeddings of affine schemes. Let $f : T \to X$ be a representable admissible morphism of schemes. Then $f$ is an open embedding.
+\end{lemma}
+
+\begin{proof}
+For any affine open $U \to X$ we have $f_U : T_U \to U$ is admissible (meaning and open embedding) by definition. Since being an open embedding of schemes is local on the target we see that $f$ is an open embedding.
+\end{proof}
+
+\begin{prop}
+Let $\G = \mathrm{AffSch}$ with the topology of open embeddings of affine schemes. Then the full subcategory of $\Sh_{\G}$ of locally-representable sheaves is equivalent to the category of schemes taking admissible morphisms to open embeddings of schemes. 
+\end{prop}
+
+\begin{proof}
+Consider the functor $\mathrm{Sch} \to \Sh_{\G}$ sending $X \mapsto h^X$ to its functor of points.This is fully faithful so we need to show it is essentially surjective onto locally representable sheaves.  From now on, I will abuse notation by conflating a scheme by its functor of points. Recall that a representable object is an affine scheme and a representable morphism is an affine morphism.  First, I claim that $X$ is locally representable. Indeed, let $V \subset X$ be an affine open. Then I claim that $V \to X$ is admissible. Indeed, for any affine scheme $T$ and $T \to X$ consider,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] & V \times_X T \arrow[r] \arrow[d] \pullback & T \arrow[d]
+\\
+& V \arrow[r] & X
+\end{tikzcd}
+\end{center}
+with $U \to V \times_X T$ a representable admissible morphism. Since $V \to X$ is an open immersion of schemes so is $T \times_X V \to T$. Since $U \to V \times_X T$ is a representable admissible morphism it is an open embedding and hence an affine open. Thus $U \to V \times_X T \to T$ is an open embedding. Thus we see that $V \to X$ is admissible so $X$. Now I claim that the $\{ V_\alpha \to X \}$ form a covering family. To do this it suffices to show that every affine open $U \to V \times_X T$ fits into the above diagram meaning it is a representable admissible morphism. Since $V \times_X T \to T$ is an open immersion $T \times_X V$ is quasi-affine and hence separated. Therefore for each affine open $U \subset V \times_X T$ the morphism $U \to V \times_X T$ is affine and hence a representable admissible morphism. Furthermore $U \to V \times_X T \to T$ is an open embedding and hence $U \to T$ is an admissible morphism in $\G$. Therefore, taking $U_{\alpha \beta}$ to be an affine cover of $V_\alpha \times_X T$ we get a covering family $\{ U_{\alpha \beta} \to T \}$. Thus $X$ is locally representable. 
+\bigskip\\
+Finally, we need to show that every locally representable sheaf is representable by a scheme. Consider a cover by admissible morphisms $U_\alpha \to F$ with $U_\alpha$ affine schemes. Consider $U_{\alpha\beta} = U_\alpha \times_X U_\beta$ which is equipped with admissible morphisms $U_{\alpha\beta} \to U_\alpha$ and $U_{\alpha\beta} \to U_\beta$ which are hence open embeddings of (quasi-affine) schemes. Furthermore, there is a clear isomorphism $\varphi_{\alpha \beta} : U_{\alpha \beta} \iso U_{\beta \alpha}$ satisfying the cocycle condition. Because $F$ is a sheaf for any cover $\{ T_{\alpha \gamma} \to T \}$ with $\{ T_{\alpha \gamma} \to U_\alpha \times_F T \}_\gamma$ a cover we have,
+\begin{align*}
+F(T) &= \mathrm{eq}{\left( \prod_{\alpha \gamma} F(T_{\alpha \gamma}) \to \prod_{\alpha \gamma \alpha' \gamma'} F(U_{\alpha \gamma} \times_T U_{\alpha' \gamma'}) \right)} 
+\\
+& = \{ g_{\alpha \gamma} : T_{\alpha \gamma} \to U_\alpha \mid g_{\beta \gamma'} |_{T_{\alpha \gamma} \times_T T_{\beta \gamma'}} = \varphi_{\alpha \beta} \circ g_{\alpha \gamma}  |_{T_{\alpha \gamma} \times_T T_{\beta \gamma'}} \} 
+\end{align*}
+which is the functor of points of the scheme $X$ produced by the above gluing data.
+\end{proof}
+
+\end{document}

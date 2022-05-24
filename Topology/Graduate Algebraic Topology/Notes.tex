@@ -447,7 +447,7 @@ Notice that (at least for $n > 1$) there is no distinction between the unbased m
 \[ [X, K(G, n)] = \left< X, K(G, n) \right> / \pi_1(K(G, n)) \]
 but $\pi_1(K(G, n)) = 0$ by definition so $[X, K(G, n)] = \left< X, K(G, n) \right>$. We need to be a bit more careful in the $n = 1$ case. Then $\pi_1(K(G,1)) = G$ acts on $\left< X, K(G, 1) \right> = \Hom{\pi_1(X)}{G}$ by conjugation. Therefore, if $G$ is abelian, the action is trivial so again $[X, K(G, 1)] = \left< X, K(G, 1) \right> = \Hom{\pi_1(X)}{G} = H^1(X, G)$. In general, for nonabelian $G$, we have $\left< X, K(G, 1) \right> = \Hom{\pi_1(X)}{G}$ and $[X, K(G, 1)]$ are the conjugacy classes of maps $\pi_1(X) \to G$ (which equals the set $H^1(X, G)$ although this isn't defined in the standard definition unless $G$ is abelian).
 \bigskip\\
-We can improve this to coefficients in a sheaf of groups $\mathcal{G}$. Then $H^1(X, \mathcal{G})$ is defined to classify $\mathcal{G}$-torsors. If $G$ is a topological group we get a sheaf of groups $\mathcal{G} = \mathcal{C}^0(-,G)$ and define $H^1(X, G) := H^1(X, \mathcal{G})$ which exactly classifies principal $G$-bundles. The classifying space $BG$ is defined such that $H^1(X, G) = \mathrm{Bun}_G(-) = [-, BG]$. Therefore, we need to be careful for topological groups because $BG \not\simeq K(G,1) \simeq B G_{\text{disc}}$ and $H^1(X, G) \neq H^1(X, G_{\text{disc}}) = \Hom{\pi_1(X)}{G}$.
+We can improve this to coefficients in a sheaf of groups $\mathcal{G}$. Then $H^1(X, \mathcal{G})$ is defined to classify $\mathcal{G}$-torsors. If $G$ is a topological group we get a sheaf of groups $\mathcal{G} = \mathcal{C}^0(-,G)$ and define $H^1(X, G) := H^1(X, \mathcal{G})$ which exactly classifies principal $G$-bundles. The classifying space $BG$ is defined such that $H^1(-, G) = \mathrm{Bun}_G(-) = [-, BG]$. Therefore, we need to be careful for topological groups because $BG \not\simeq K(G,1) \simeq B G_{\text{disc}}$ and $H^1(X, G) \neq H^1(X, G_{\text{disc}}) = \Hom{\pi_1(X)}{G}$.
 \end{rmk}
 
 \begin{remark}
@@ -541,7 +541,7 @@ $O_s \in H^{n+1}(B, \pi_n(F))$ vanishes iff $s|_{B^{n-1}}$ extends to $B^{n+1}$.
 Assume that $\pi_0(F) = \pi_1(F) = \cdots = \pi_{n-1}(F) = 0$. Then there is no obstruction to finding a section $s : B^n \to E$ (since the obstructions are zero at the cochain level). Then $O_s \in H^{n+1}(B, \pi_n(F))$ we get the first nonzero obstruction cochain.
 
 \begin{prop}
-This first nonvanish obstruction $O_s$ does not depend on the choice of $s : B^n \to E$
+This first nonvanishing obstruction $O_s$ does not depend on the choice of a section $s : B^n \to E$ over the $n$-skeleton.
 \end{prop}
 
 \begin{proof}
@@ -752,39 +752,68 @@ Every class $\alpha \in K(X)$ can be represented as $[E] - [\varepsilon^n]$.
 \newcommand{\C}{\mathbb{C}}
 
 \begin{defn}
-We say that vector bundles $E$ and $E'$ are \textit{stably equivalent} if $E \oplus \varepsilon^n = E' \oplus \varepsilon^{m}$ for $n,m \in \N$. Then define reduced K-theory,
-\[ \tilde{K}(X, x_0) = \ker{(K(X) \to K(x_0))} \]
-for connected $X$ we have $\tilde{K}(X) = \mathrm{Vect}_{\C}(X) / \text{stb. eq.}$. 
+We say that vector bundles $E$ and $E'$ are \textit{stably equivalent} if $E \oplus \varepsilon^n \cong E' \oplus \varepsilon^{m}$ for $n,m \in \N$. Then define reduced K-theory,
+\[ \wt{K}(X, x_0) = \ker{(K(X) \to K(x_0))} \]
+for connected $X$ we have $\wt{K}(X) = \mathrm{Vect}_{\C}(X) / \text{stable equivalence}$. 
 \end{defn}
 
+\newcommand{\rk}{\mathrm{rk}}
+
+\begin{rmk}
+Notice that $\wt{K}(X) \subset K(X)$ is an ideal and in particular a $K(X)$-module but $\wt{K}(X)$ is not itself a ring under $\otimes$. From the viewpoint of stable equivalence, this is because the $\otimes$ unit $\varepsilon$ is set to zero and we need to modify our definition of multiplication. Notice that $\otimes$ does not respect stable equivalence. Indeed, if $E \sim E'$ then,
+\[ E \oplus \varepsilon^n \cong E' \oplus \varepsilon^m \]
+for some $n$ and $m$ so,
+\[ (E \oplus \varepsilon^n) \otimes F \cong (E' \oplus \varepsilon^m) \otimes F \]
+which gives that,
+\[ (E \otimes F) \oplus F^n \cong (E' \otimes F) \oplus F^m \]
+but this does not necessarily mean that $E \otimes F$ and $E \otimes F'$ are stably equivalent. Thus we define,
+\[ E \otimes^{\mathrm{stab}} E' = E \otimes E' \oplus (E^\perp)^{\rk(E')} \oplus (E'^\perp)^{\rk(E)} \]
+which comes from embedding $\wt{K}(X) \embed K(X)$ and inducing the product structure. Now if $E \sim E'$ then,
+\begin{align*}
+(E \oplus \varepsilon^n) \otimes^{\text{stab}} F & = E \otimes F \oplus F^n \oplus (E^\perp)^{\rk(F)} \oplus \varepsilon^{n \rk(F)} \oplus (F^\perp)^{n + \rk(E)}
+\\
+& \cong E \otimes F \oplus (E^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E)} \oplus \varepsilon^{n \rk(F) + n}
+\end{align*}
+\begin{align*}
+(E' \oplus \varepsilon^m) \otimes^{\text{stab}} F & = E' \otimes F \oplus F^m \oplus (E'^\perp)^{\rk(F)} \oplus \varepsilon^{m \rk(F)} \oplus (F^\perp)^{m + \rk(E')}
+\\
+& \cong E' \otimes F \oplus (E'^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E')} \oplus \varepsilon^{m \rk(F) + m}
+\end{align*}
+and therefore because $E \oplus \varepsilon^n \cong E' \oplus \varepsilon^m$ we see that,
+\[ E \otimes F \oplus (E^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E)} \oplus \varepsilon^{n \rk(F) + n} \cong E' \otimes F \oplus (E'^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E')} \oplus \varepsilon^{m \rk(F) + m} \]
+which implies that,
+\[ E \otimes^{\text{stab}} F = E \otimes F \oplus (E^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E)} \sim E' \otimes F \oplus (E'^\perp)^{\rk(F)} \oplus (F^\perp)^{\rk(E')} = E' \otimes^{\text{stab}} F \]
+which proves that $\otimes^{\text{stab}}$ is well-defined on stable equivalence classes since it is symmetric the exact same argument works for the second argument. 
+\end{rmk}
+
 \begin{prop}
-For connected $X$ we have $\tilde{K}(X) = [X : BU]$ where $BU = \varinjlim_{n} BU(n)$ since homotopy equivalence to $BU$ is equivalent to stable equivalence 
+For connected $X$ we have $\wt{K}(X) = [X : BU]$ where $BU = \varinjlim_{n} BU(n)$ since homotopy equivalence to $BU$ is equivalent to stable equivalence 
 \end{prop}
 
 \subsection{Mar 2}
 
 Let $X$ be a finite CW complex and $\Vect_\C(X)$ complex vector-bundles on $X$. Then we define,  $K(X)$ is the group completion of the monoid $\Vect_{\C}(X)$ under $\oplus$. Then $K(X)$ is a ring under $\oplus$ and $\otimes$.
 \bigskip\\
-Then $X \mapsto K(X)$ is a functor: $f : X \to Y$ gives $f^* : K(Y) \to K(X)$ from pulling back bundles. Then $f^*$ depends only on the homotopy class $f \in [X : Y]$.
+Then $X \mapsto K(X)$ is a functor: $f : X \to Y$ gives $f^* : K(Y) \to K(X)$ from pulling back bundles. Then $f^*$ depends only on the homotopy class $f \in [X, Y]$.
 \bigskip\\
 \begin{rmk}
 Is $X$ is contractible then $K(X) \cong K(*) = \Z$.
 \end{rmk}
 
 \begin{prop}
-For any vector bundle $E$ on $X$ there exists a vector bundle $E'$ on $X$ with $E \oplus E' = \underline{\C}^{N}$. 
+For any vector bundle $E$ on $X$ there exists a vector bundle $E'$ on $X$ with $E \oplus E' = \varepsilon^{N}$. 
 \end{prop}
 
 \begin{cor}
-In the $K$-group we have $[E] - [F] = [E'] - [\C^N]$ and furthermore $[E] - [\C^N] = [E'] - [\C^M]$ if and only if $\dim{E} - N = \dim{E'} - M$ and $E \sim_s E'$ are stably equivalent i.e. $E \oplus \underline{\C}^n \cong E' \oplus \underline{\C}^m$.  
+In the $K$-group we have $[E] - [F] = [E'] - [\varepsilon^N]$ and furthermore $[E] - [\varepsilon^N] = [E'] - [\varepsilon^M]$ if and only if $\dim{E} - N = \dim{E'} - M$ and $E \sim_s E'$ are stably equivalent i.e. $E \oplus \varepsilon^n \cong E' \oplus \varepsilon^m$.  
 \end{cor}
 
 \begin{defn}
-For a point $x_0 \in X$ we have $\tilde{K}(X) = \ker{(K(X) \to K(x_0))}$ this gives bundles up to stable equivalence (assume that $X$ is connected). 
+For a point $x_0 \in X$ we have $\wt{K}(X) = \ker{(K(X) \to K(x_0))}$ this gives bundles up to stable equivalence (assume that $X$ is connected). 
 \end{defn}
 
 \begin{prop}
-$\tilde{K}(X) = [X : BU]$ with $BU = \varinjlim_n BU(n)$.
+$\wt{K}(X) = [X : BU]$ with $BU = \varinjlim_n BU(n)$.
 \end{prop}
 
 \begin{rmk}
@@ -814,7 +843,7 @@ Our previous proposition says that $\pi_r(U) \cong \pi_{r+1}(BU)$.
 \end{rmk}
 
 \begin{prop}
-Then $\tilde{K}(S^r) = [S^r, BU] = \pi_r(BU) = \pi_{r-1}(U)$. 
+Then $\wt{K}(S^r) = [S^r, BU] = \pi_r(BU) = \pi_{r-1}(U)$. 
 \end{prop}
 
 \begin{proof}
@@ -822,29 +851,29 @@ There is no issuse with based vs unbased maps because $\pi_1(BU) \acts \pi_n(BU)
 \end{proof}
 
 \begin{example}
-$\tilde{K}(S^1) = \pi_0(U) = 0$ and $\tilde{K}(S^2) = \pi_1(U) = \pi_1(U(1)) = \Z$ 
+$\wt{K}(S^1) = \pi_0(U) = 0$ and $\wt{K}(S^2) = \pi_1(U) = \pi_1(U(1)) = \Z$ 
 \end{example}
 
 \begin{rmk}
-The generator of $\tilde{K}(S^2) = \Z$ is the tautological bundle $\gamma \to \CP^1 = S^2$ and we write its reduced class as $[\gamma] - [\C]$. To see this, note that $\tilde{K}(S^2) \xrightarrow{\sim} \Z$ is given by the Chern class $c_1$ and $c_1(\gamma) = -1 \in H^2(S^2; \Z)$.
+The generator of $\wt{K}(S^2) = \Z$ is the tautological bundle $\gamma \to \CP^1 = S^2$ and we write its reduced class as $[\gamma] - [\C]$. To see this, note that $\wt{K}(S^2) \xrightarrow{\sim} \Z$ is given by the Chern class $c_1$ and $c_1(\gamma) = -1 \in H^2(S^2; \Z)$.
 \end{rmk}
 
 \begin{rmk}
-We can describe $K(S^2) = \tilde{K}(S^2) \oplus \Z = \Z \oplus \Z$ via $\xi \mapsto (c_1(\xi), \dim{\xi})$. Consider in particular,
+We can describe $K(S^2) = \wt{K}(S^2) \oplus \Z = \Z \oplus \Z$ via $\xi \mapsto (c_1(\xi), \dim{\xi})$. Consider in particular,
 \[ (\gamma \otimes \gamma) \oplus \C \mapsto (-2, 2) \quad \text{ and thus } \quad (\gamma \otimes \gamma) \mapsto (-2, 2) \]
-Then in $K(S^2)$ we have $\gamma^2 \oplus \underline{\C} = 2 \gamma$ and thus $\gamma^2 + 1 = 2 \gamma$ therefore $([\gamma] - 1)^2 = 0$ in $K(S^2)$. Therefore, $K(S^2) = \Z[x]/x^2$. 
+Then in $K(S^2)$ we have $\gamma^2 \oplus \varepsilon = 2 \gamma$ and thus $\gamma^2 + 1 = 2 \gamma$ therefore $([\gamma] - 1)^2 = 0$ in $K(S^2)$. Therefore, $K(S^2) = \Z[x]/x^2$. 
 \end{rmk}
 
 \subsection{Long Exact Sequence of a Pair}
 
 \begin{lemma}
 Let $(X, A)$ be a finite CW pair. Then consider the sequence $A \embed X \to X / A$. Then we get induced maps,
-\[ \tilde{K}(X/A) \xrightarrow{p^*} \tilde{K}(X) \xrightarrow{\iota^*} \tilde{K}(A) \]
+\[ \wt{K}(X/A) \xrightarrow{p^*} \wt{K}(X) \xrightarrow{\iota^*} \wt{K}(A) \]
 which is exact meaning $\ker{\iota^*} = \Im{p^*}$.
 \end{lemma}
 
 \begin{proof}
-We know that $\tilde{K}(-) = [-, BU]$ so the above sequence is simply,
+We know that $\wt{K}(-) = [-, BU]$ so the above sequence is simply,
 \[ [X/A, BU] \to [X, BU] \to [A, BU]  \]
 if a map $f : X \to BU$ restricts to a nullhomotopic map $f|_A : [A, BU]$ then by the homotopy extension property of the pair $(X, A)$ we get a homotopy on $f : X \to BU$ making $f |_A$ trivial i.e. $f$ descends to the quotient $\tilde{f} : X / A \to BU$.  
 \end{proof}
@@ -860,16 +889,33 @@ A \arrow[r, hook] & X \arrow[r, two heads] \arrow[d, equals] & X / A \arrow[d, "
 & & X \cup CA \arrow[r, hook] & (X \cup CA) \cup CX \arrow[r, two heads] & \Sigma X
 \end{tikzcd}
 \end{center}
+and therefore an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\wt{K}(\Sigma X) \arrow[r] & \wt{K}(\Sigma A) \arrow[r] & \wt{K}(X/A) \arrow[r] & \wt{K}(X) \arrow[r] & \wt{K}(A)
+\end{tikzcd}
+\end{center}
 \end{rmk}
 
 \section{Mar 4}
 
 \begin{defn}
-We define $\tilde{K}^{-q}(X) = \tilde{K}(\Sigma^q X)$. Furthermore, $K(X, A) = \tilde{K}(X/A)$.
+We define $\wt{K}^{-q}(X) = \wt{K}(\Sigma^q X)$. Furthermore, $K(X, A) = \wt{K}(X/A)$.
 \end{defn}
 
+\begin{prop}
+Given a finite CW pair $(X, A)$ there is a long exact sequence,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & \wt{K}^{q-2}(A) \arrow[r] & \wt{K}^{q-1}(X/A) \arrow[r] & \wt{K}^{q-1}(X) \arrow[r] & K^{q-1}(A) \connectingmap{dll} 
+\\
+& & \wt{K}^q(X/A) \arrow[r] & \wt{K}^q(X) \arrow[r] & \wt{K}^q(A) \arrow[r] & \wt{K}^{q+1}(X/A) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+\end{prop}
+
 \begin{thm}[Bott]
-The map $K(X) \otimes K(S^2) \to K(X \times S^2)$ is an isomorphism. Explicitly, this is,
+The map $K(X) \otimes K(S^2) \to K(X \times S^2)$ is an isomorphism. Explicitly,
 \begin{align*}
 K(X) \otimes K(S^2) & = K(X) \otimes \Z[H]/(H-1)^2 \cong K(X) \oplus K(X)
 \\
@@ -880,7 +926,7 @@ K(X) \oplus K(X) \xrightarrow{\sim} & K(X \times S^2)
 \end{thm}
 
 \begin{cor}
-$\tilde{K}(X) = \tilde{K}(\Sigma^2 X) = \tilde{K}^{-2}(X)$. 
+$\wt{K}(X) = \wt{K}(\Sigma^2 X) = \wt{K}^{-2}(X)$. 
 \end{cor}
 
 \begin{proof}
@@ -892,30 +938,31 @@ Now we consider the pair $(X \times S^2, X \vee S^2)$ which gives an exact seque
 K^{-1}(X \times S^2) \arrow[r, two heads] & K^{-1}(X \vee S^2) \arrow[r] & K(X \times S^2, X \vee S^2) \arrow[r] & K(X \times S^2) \arrow[r, two heads, "\varphi"] & K(X \vee S^2)
 \end{tikzcd}
 \end{center}
-where the maps $K(X \times Y) \to K(X \vee Y)$ are surjective since $\tilde{K}(X \vee Y) = \tilde{K}(X) \oplus \tilde{K}(Y)$ and there is a pullback $K(X) \to K(X \times Y)$.
+where the maps $K(X \times Y) \to K(X \vee Y)$ are surjective since $\wt{K}(X \vee Y) = \wt{K}(X) \oplus \wt{K}(Y)$ and there is a pullback $K(X) \to K(X \times Y)$.
 Note that there is a diagram,
 \begin{center}
 \begin{tikzcd}
 K(X \times S^2) \arrow[r, two heads] & K(X \vee S^2) \arrow[d, equals]
 \\
-\tilde{K}(X) \oplus \tilde{K}(S^2) \oplus \Z \arrow[u, dashed] \arrow[r, equals] & \tilde{K}(X \vee S^2) \oplus \Z
+\wt{K}(X) \oplus \wt{K}(S^2) \oplus \Z \arrow[u, dashed] \arrow[r, equals] & \wt{K}(X \vee S^2) \oplus \Z
 \end{tikzcd}
 \end{center}
-Therefore,  $K(X \times S^2, X \vee S^2) = \ker{\varphi}$. By Bott's theorem, we see that $\alpha_1 \otimes 1 + \alpha_2 \otimes \gamma = \alpha \otimes (\gamma - 1) + \beta \otimes \gamma$ then $\varphi(x) = 0$ iff both restrictions to $X$ and $S^2$ are zero. 
-
+Therefore,  $K(X \times S^2, X \vee S^2) = \ker{\varphi}$. By Bott's theorem, we see that,
+\[ \alpha_1 \otimes 1 + \alpha_2 \otimes \gamma = \alpha \otimes (\gamma - 1) + \beta \otimes \gamma \]
+then $\varphi(x) = 0$ iff both restrictions to $X$ and $S^2$ are zero. 
 Therefore, 
-\[ \tilde{K}(X) = K(X \times S^2, X \vee S^2) \cong \tilde{K}(\Sigma^2 X) \]
+\[ \wt{K}(X) = K(X \times S^2, X \vee S^2) \cong \wt{K}(\Sigma^2 X) \]
 \end{proof}
 
 \subsection{Proof of Bott's Theorem}
 
-First we consider vector bundles on $S^2$. Such vector bundles must be trivial on the upper and lower hemispheres but can have a nontrivial attaching function $f : S^1 \to \GL{n}{\C}$.  Then, noting that $\pi_1(\GL{n}{\C}) = \Z$  we see immediately that $\tilde{K}(S^2) = \Z$. 
+First we consider vector bundles on $S^2$. Such vector bundles must be trivial on the upper and lower hemispheres but can have a nontrivial attaching function $f : S^1 \to \GL{n}{\C}$.  Then, noting that $\pi_1(\GL{n}{\C}) = \Z$  we see immediately that $\wt{K}(S^2) = \Z$. 
 \bigskip\\
 Now consider $E |_{X \times D^2_{\pm}}$ is the pullback of a bundle $E_0$ on $X$ since $D^2$ is contractible. Then $E$ is obtained by gluing these together via,
 \[ f : X \times S^1 \to \Aut{E_0} \]
 so $E$ can be described as a pair $[E, f]$. 
 \begin{example}
-The tautological bundle $\gamma \to S^2$ is represented by the pair $[\underline{\C}, z^{-1}]$. 
+The tautological bundle $\gamma \to S^2$ is represented by the pair $[\varepsilon, z^{-1}]$. 
 \end{example}
 \noindent
 We have some basic facts,
@@ -928,7 +975,9 @@ in particular,
 Bott's theorem is that every bundle on $X \times S^2$ can be stabily represented as $\alpha_1 \otimes 1 + \alpha_2 \otimes \gamma$ i.e. every element in $K(X \times S^2)$ is stabily represented by,
 \[ [E_0, \id] \oplus [E_1, z^{-1} ] \]
 \bigskip\\
-First, given $[E_0, f]$ we have $f : X \times S^1 \to \Aut{E_0}$ so fixing $x \in X$ we get $f(x, -) : S^1 \to \Aut{(E_0)_x} = \GL{n}{\C}$ and thus we can use Fourier analysis to conclude that there is a convergent series,
+First, given $[E_0, f]$ we have $f : X \times S^1 \to \Aut{E_0}$ so fixing $x \in X$ we get,
+\[ f(x, -) : S^1 \to \Aut{(E_0)_x} = \GL{n}{\C} \]
+and thus we can use Fourier analysis to conclude that there is a convergent series,
 \[ f(x, z) = \sum_{n \in \Z} a_n(x) z^n \] 
 for each $x \in X$. Furthermore, since $f$ is continuous on $X \times S^1$ we get that $a_n : X \to \C$ are continuous since they are computed by a continuous family of integrals. However, $X$ is compact we get that,
 \[ \sum_{n = -N}^N a_n(x) z^n \to f(x, z) \]
@@ -963,12 +1012,12 @@ $KO(X) = K(\Vect_\R(X))$
 \end{defn}
 
 \begin{example}
-For spheres we can compute $\widetilde{KO}(S^n)$,
+For spheres we can compute $\wt{KO}(S^n)$,
 \begin{center}
 \begin{tabular}{ c | c | c | c | c | c | c | c | c }
 n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
 \hline \hline
-$\widetilde{KO}(S^n)$ & $\Z$  & $\Z_2$ & $\Z_2$ & $0$ & $\Z$ & $0$ & $0$ & $0$
+$\wt{KO}(S^n)$ & $\Z$  & $\Z_2$ & $\Z_2$ & $0$ & $\Z$ & $0$ & $0$ & $0$
 \end{tabular}
 \end{center}
 and these groups are $8$-periodic.
@@ -976,7 +1025,7 @@ and these groups are $8$-periodic.
 
 \section{K-Theory and Cohomology}
 
-Let $X$ be a finite CW complex then we have cohomology theories $H^*(X)$ and $K(X)$ which are both rings. 
+Let $X$ be a finite CW complex then we have ring cohomology theories $H^*(X)$ and $K(X)$. 
 \bigskip\\
 We have the total Chern class $c(E) = 1 + c_1(E) + c_2(E) + \cdots + c_n(E) \in H^*(X; \Z)$. 
 Then given line bundles $L_1, L_2$ we have $c(L_i) = 1 + c_1(L_i)$ so,
@@ -986,7 +1035,7 @@ and
 Therefore, the total Chern class is poorly behaved as a ring map. 
 \bigskip\\
 \begin{theorem}[Splitting]
-Given a vector bundle $E \to X$ then there exists $f : X' \to X$ s.t. $f^* E = L_1 \oplus \cdots \oplus L_n$ is a direct sum of line bundles with $n = \rank{E}$. Furthermore, $f^* : H^*(X; \Z) \to H^*(X'; \Z)$ and $f^* : K(X) \to K(X')$ are injective. 
+Given a vector bundle $E \to X$ then there exists $f : X' \to X$ s.t. $f^* E = L_1 \oplus \cdots \oplus L_n$ is a direct sum of line bundles with $n = \rank{(E)}$. Furthermore, the pullback maps  $f^* : H^*(X; \Z) \to H^*(X'; \Z)$ and $f^* : K(X) \to K(X')$ are injective. 
 \end{theorem}
 
 \begin{rmk}
@@ -1177,10 +1226,10 @@ $S^n$ is parallelizable iff $n = 0,1,3,7$ with trivialization explicitly given b
 We reinterpret $h(f)$ in terms of K-theory. If $f : S^{4n - 1} \to S^{2n}$ is a map then $C_f = S^{2n} \cup_f D^{4n}$. Then $C_f / S^{2n} = S^{4n}$. Then we look at the LES of the pair $(C_f, S^{2n})$ in $K$-theory,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \tilde{K}(S^{4n}) \arrow[r] & \tilde{K}(C_f) \arrow[r] & \tilde{K}(S^{2n}) \arrow[r] & 0
+0 \arrow[r] & \wt{K}(S^{4n}) \arrow[r] & \wt{K}(C_f) \arrow[r] & \wt{K}(S^{2n}) \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-using that $\tilde{K}^1(S^{4n}) = \tilde{K}^1(S^{2n}) = 0$. Then the canonical class $(H - 1)^2 \mapsto \beta$ in $\tilde{K}(C_f)$ and $\alpha \mapsto (H - 1)^n$ then $\alpha^2 \mapsto 0$ so it is in the image and thus $\alpha^2 = h(f) \beta$ where $h(f)$ is the Hopf invariant.
+using that $\wt{K}^1(S^{4n}) = \wt{K}^1(S^{2n}) = 0$. Then the canonical class $(H - 1)^2 \mapsto \beta$ in $\wt{K}(C_f)$ and $\alpha \mapsto (H - 1)^n$ then $\alpha^2 \mapsto 0$ so it is in the image and thus $\alpha^2 = h(f) \beta$ where $h(f)$ is the Hopf invariant.
 
 \subsection{Adams Operations}
 
@@ -1217,10 +1266,10 @@ since the multinomial coefficients are all divisible by $p$.
 Let $f : S^{4n - 1} \to S^{2k}$ be some map with odd Hopf invariant and take $C_f = S^{2n} \cup_f D^{4n}$. Then consider the exact sequence,
 \begin{center}
 \begin{tikzcd}
-0 \arrow[r] & \tilde{K}(S^{4n}) \arrow[r] & \tilde{K}(C_f) \arrow[r] & \tilde{K}(S^{2n}) \arrow[r] & 0
+0 \arrow[r] & \wt{K}(S^{4n}) \arrow[r] & \wt{K}(C_f) \arrow[r] & \wt{K}(S^{2n}) \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-Choose generators $\alpha \in \tilde{K}(S^{4n})$ and $\gamma \in \tilde{K}(S^{2n})$ and $\beta \in \tilde{K}(C_f)$ mapping to $\gamma$. Then, since $\gamma^2 = 0$ we must have $\beta^2$ in the kernel so by exactness $\beta^2 = h(f) \alpha$. By the proposition $\psi^{k}(\alpha) = k^{2n} \alpha$. Then $\psi^k(\beta)$ maps to $k^n \cdot \gamma$. Therefore,
+Choose generators $\alpha \in \wt{K}(S^{4n})$ and $\gamma \in \wt{K}(S^{2n})$ and $\beta \in \wt{K}(C_f)$ mapping to $\gamma$. Then, since $\gamma^2 = 0$ we must have $\beta^2$ in the kernel so by exactness $\beta^2 = h(f) \alpha$. By the proposition $\psi^{k}(\alpha) = k^{2n} \alpha$. Then $\psi^k(\beta)$ maps to $k^n \cdot \gamma$. Therefore,
 \[ \psi^k(\beta) = k^n \beta  + \mu_k \alpha \]
 for $\mu_k \in \Z$. However, $\psi^k \circ \psi^\ell = \psi^{k\ell}$ applying to $\alpha$ and $\beta$ gives,
 \[ (k^{2n} - k^n) \mu_\ell = (\ell^{2n} - \ell^n) \mu_k \]

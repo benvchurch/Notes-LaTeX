@@ -1,0 +1,167 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{null}}
+\newcommand{\range}{\operatorname{range}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 4 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+
+\begin{prob}[Axler 3.A.1]
+Suppose $b,c\in\R$. Define $T:\R^3\to\R^2$ by $T(x,y,z)=(2x?4y+3z+b,6x+cxyz)$. Show that $T$ is linear if and only if $b=c=0$.
+\end{prob}
+
+\begin{soln}
+Suppose first that $b=c=0$, so $T(x,y,z)=(2x-4y+3z,6x)$. Let $(x_1,y_1,z_1)$, $(x_2,y_2,z_2)$ be two arbitrary elements of $\R^2$: we have
+\begin{align*}
+T((x_1,y_1,z_1)+(x_2,y_2,z_2)) &= T(x_1+x_2,y_1+y_2,z_1+z_2) \tag*{addition in $\R^3$}\\
+&= (2(x_1+x_2)-4(y_1+y_2)+3(z_1+z_2),6(x_1+x_2)) \\
+&= (2x_1+2x_2-4y_1-4y_2+3z_1+3z_2,6x_1+6x_2) \tag*{distribution in $\R$}\\
+&= (2x_1-4y_1+3z_1,6x_1)+(2x_2-4y_2+3z_2,6x_2) \tag*{addition in $\R^2$}\\
+&= T(x_1,y_1,z_1)+T(x_2,y_2,z_2).
+\end{align*}
+So $T$ commutes with addition. Similarly, let $(x,y,z)$ be an arbitrary element of $\R^3$ and $\lambda$ an arbitrary scalar in $\R$: we have
+\begin{align*}
+T(\lambda(x,y,z)) &= T(\lambda x,\lambda y,\lambda z) \tag*{scalar multiplication in $\R^3$}\\
+&= (2\lambda x-4\lambda y+3\lambda z,6\lambda x) \\
+&= \lambda (2x-4y+3z,6x) \tag*{scalar multiplication in $\R^2$}\\
+&= \lambda T(x,y,z).
+\end{align*}
+So $T$ also commutes with scalar multiplication and is therefore linear.
+
+Conversely, suppose that $a\neq 0$ or $b\neq 0$. If $b\neq 0$, then $T(0)=(b,0)\neq 0$, so $T$ is not linear, therefore $b$ has to be zero if $T$ is linear. Similarly, if $b=0$ but $c\neq 0$, then 
+\[T(1,1,1)=(1,6+c), \qquad T(2,2,2)=(2,12+8c),\]
+so $T(2,2,2)\neq 2T(1,1,1)$, since if $c\neq 0$, then $8c\neq 2c$, so $T$ is not linear. Hence $c$ must also be $0$ if $T$ is linear.
+\end{soln}
+
+\break
+
+\begin{prob}[Axler 3.A.3]
+Suppose that $T\in \mathcal{L}(\F^n,\F^m)$. Show that there exist scalars $a_{jk}\in\F$, $j=1,\dots,m,k=1,\dots,n$ such that
+\[T(x_1,\dots,x_n)=(a_{11}x_1+\dots+a_{1n}x_n,\dots,a_{m1}x_1+\dots+a_{mn}x_n)\]
+for every $(x_1,\dots,x_n)\in\F^n$.
+\end{prob}
+
+\begin{soln}
+To prove this, we use the following basis for $\F^n$, called the \emph{standard basis}:
+\begin{align*}
+e_1 &= (1,0,0,\dots,0)\\
+e_2 &= (0,1,0,\dots,0)\\
+\vdots\\
+e_n &= (0,\dots,0,1) 
+\end{align*}
+where each $e_j$ has zero co-ordinates except for the $j$th co-ordinate, which is $1$. There are $n$ of these, and we have
+\[(x_1,\dots,x_n)=x_1e_1+\dots+x_ne_n,\]
+so these indeed form a basis.
+
+Now, for each $e_j$, the image $T(e_j)$ is an element of $\F^m$, so for every $j=1,\dots,n$, we have $T(e_j)=(a_{1j},a_{2j},\dots,a_{mj})$ for some scalars $a_{1j},\dots,a_{mj}\in\F$. Using these image vectors, we have
+\begin{align*}
+T(x_1,\ldots,x_n) &= T(x_1e_1+\dots+x_ne_n) \tag{using the standard basis}\\
+&= x_1T(e_1)+\dots+x_nT(e_n) \tag{since $T$ is linear}\\
+&= x_1(a_{11},a_{21},\dots,a_{m1})+\dots+x_n(a_{1n}+a_{2n}+\dots+a_{nn})\\
+&= (a_{11}x_1+\dots+a_{1n}x_n,\dots,a_{m1}x_1+\dots+a_{mn}x_n) \tag{taking linear combinations in $\F^m$.}
+\end{align*}
+This proves the statement.
+
+{\small(As an aside, if you're familiar with matrices, this is basically how they work, with respect to the standard bases for both $\F^n$ and $\F^m$.)}
+\end{soln}
+
+\begin{prob}[Axler 3.A.4]
+Suppose that $T\in\mathcal{L}(V,W)$ and $v_1,\dots,v_m$ is a list of vectors such that $Tv_1,\dots,Tv_m$ is a linearly independent list in $W$. Prove that $v_1,\dots,v_m$ is linearly independent.
+\end{prob}
+
+\begin{soln}
+Consider the equation $a_1v_1+\dots+a_mv_m=0$. We can apply $T$ to both sides of this equation, and since $T$ is linear, this gives us
+\[a_1Tv_1+\dots+a_mTv_m = T(0)=0.\]
+Since the vectors $Tv_1,\dots,Tv_m$ are linearly independent, this means that $a_1,\dots,a_m=0$. Hence $v_1,\dots,v_m$ are linearly independent as required.
+\end{soln}
+
+\begin{prob}[Axler 3.B.2]
+Suppose that $V$ is a vector space, $S,T\in\mathcal{L}(V,V)$ are such that $\operatorname{range}S\subset \operatorname{null} T$. Prove that $(ST)^2=0$.
+\end{prob}
+
+\begin{soln}
+Since $\operatorname{range}S\subset \operatorname{null} T$, we have $T(S(v))=0$ for any $v\in V$, so that $TS=0$. Note that ``multiplication'' here is composition of linear maps, which is associative, but \emph{not} commutative! This gives us $(ST)^2=(ST)(ST)=S(TS)T=S0T=0$, as required.
+\end{soln}
+
+
+\begin{prob}[Axler 3.B.13]
+Suppose that $T$ is a linear map from $\F^4$ to $\F^2$ such that 
+\[\Null T=\{(x_1,x_2,x_3,x_4)\in\F^4:x_1=5x_2,x_3=7x_4\}.\]
+Prove that $T$ is surjective.
+\end{prob}
+
+\begin{soln}
+We have a subspace of $\F^4$ defined by the solutions to two linearly independent equations, so we expect that $\dim\Null T=4-2=2$. Let's prove this rigorously: using the equations, we can say that a general element in $\Null T$ is of the form
+\[(5x_2,x_2,7x_4,x_4)=x_2(5,1,0,0)+x_4(0,0,7,1)\]
+for some scalars $x_2,x_4\in\F$. Hence the vectors $(5,1,0,0)$ and $(0,0,7,1)$ span $\Null T$. Moreover, they are linearly independent, as if
+\[a(5,1,0,0)+b(0,0,7,1)=(0,0,0,0),\]
+then looking at the first or second co-ordinate gives us $a=0$, and looking at the third or fourth co-ordinate gives us $b=0$. Hence $(5,1,0,0)$ and $(0,0,7,1)$ form a basis of $\Null T$, so $\dim \Null T=2$. By the rank-nullity theorem, we have $\dim\Null T+\dim\range T=\dim \F^4$. We know that $\dim \Null T=2$ and $\dim \F^4=4$, so we have $\dim \range T=2$. Now $\range T\subset \F^2$, which also has dimension 2, so, by Homework 4 Problem 2, we have $\range T=\F^2$. By definition, this is the same as saying that $T$ is surjective.
+\end{soln}
+
+\begin{prob}[Axler 3.B.20]
+Suppose that $W$ is finite dimensional and $T\in\mathcal{L}(V,W)$. Show that $T$ is injective if and only if there exists $S\in\mathcal{L}(W,V)$ such that $ST$ is the identity map on $V$.
+\end{prob}
+
+\begin{soln}
+$(\Leftarrow)$: Suppose that there exists $S\in \mathcal{L}(W,V)$ such that $ST$ is the identity map on $V$. Suppose that we have $v\in V$ such that $Tv=0$. Since $ST$ is the identity, we have $STv=v$, and since $S$ is linear, we also have $STv=S(0)=0$. Hence $v=0$, so $\Null T$ is trivial and $T$ is injective.
+
+$(\Rightarrow)$: Suppose that $T$ is injective. We first prove that $T$ preserves linear independence, i.e. if $v_1,\dots,v_n$ are linearly independent in $V$, then $Tv_1,\dots,Tv_n$ are linearly independent in $W$. (NOTE: This is NOT true if $T$ is not injective!) Suppose that $v_1,\dots,v_n$ is a linearly independent list, and suppose that $a_1Tv_1+\dots+a_nTv_n=0$. Using the linearity of $T$, we can rewrite this as $T(a_1v_1+\dots+a_nv_n)=0$. Since $T$ is injective, $Tv=0$ if and only if $v=0$, so this means that $a_1v_1+\dots+a_nv_n=0$, so $a_1,\dots,a_n=0$ by linear independence of $v_1,\dots,v_n$.
+
+This means that if we have a basis for $V$, the image of that basis in $W$ is a linearly independent set: in particular, $V$ must be finite-dimensional and satisfy $\dim V\leq \dim W$. Let $v_1,\dots,v_n$ be a basis for $V$; we know that $Tv_1,\dots,Tv_n$ is a linearly independent list in $W$. Let us extend this to a basis of $W$, which will be of the form $Tv_1,\dots,Tv_n,w_1,\dots,w_m$, for some $w_1,\dots,w_m\in W$. Define the linear map $S:W\to V$ by setting $S(Tv_i)=v_i$ and $S(w_j)=0$ (note: you can make $S(w_j)$ anything in $V$, this is just simplest), and extending this to a linear map on all of $W$. This is a linear map, so let's check that $ST$ is the identity on $V$. Let $v$ be an arbitrary vector in $V$, so $v=a_1v_1+\dots+a_nv_n$, using our basis. Then
+\begin{align*}
+STv &= ST(a_1v_1+\dots+a_nv_n)\\
+&= S(a_1Tv_1+\dots+a_nTv_n) \tag{using linearity of $T$}\\
+&= a_1S(Tv_1)+\dots+a_nS(Tv_n) \tag{using linearity of $S$}\\
+&= a_1v_1+\dots+a_nv_n \tag{using definition of $S$ on basis elements}\\
+&= v.
+\end{align*}
+Hence we have a linear map $S\in\mathcal{L}(W,V)$ such that $ST$ is the identity on $V$, as required.
+\\~\\
+{\small (Additional notes for your interest: first, the map $S$ is not unique unless $\dim V=\dim W$, because I can set $S(w_j)$ to be anything I want (it didn't have to be $0$) and it will still be a linear map such that $ST$ is the identity on $V$. Second, there is a similar statement for \emph{surjectivity}: let $V$ be a finite dimensional vector space, and let $T\in\mathcal{L}(V,W)$. Then $T$ is surjective if and only if there exists $S\in \mathcal{L}(W,V)$ such that $TS$ is the identity on $W$.)}
+\end{soln}
+
+
+\end{document}

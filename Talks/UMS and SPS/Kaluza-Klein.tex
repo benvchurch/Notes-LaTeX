@@ -1,0 +1,198 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[total={6in, 9in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsthm, amssymb, amsmath}
+\usepackage{mathrsfs}
+
+
+\usepackage[T1]{fontenc}
+%\usepackage{newtxtext}
+%\usepackage[frenchmath]{newtxmath}
+
+%\usepackage{libertinust1math}
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge A Not So Gentle Introduction to General Relativity}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\d}[1]{\mathrm{d}#1}
+\newcommand{\dn}[2]{\mathrm{d}^{#1} #2}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\nderiv}[3]{\frac{\d{^{#1} #2}}{\d{#3}^{#1}}}
+\newcommand{\cderiv}[3]{\left(\frac{\partial{#1}}{\partial{#2}}\right)_{#3}}
+\newcommand{\cobase}[1]{\vec{e}^{\, #1}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[subsection]
+
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Kaluza-Klein Theory}
+
+In a 1919 letter to Einstein, Kaluza proposed that a 5-dimensional theory of general relativity could unify gravity and electromagnetism through a purely geometric theory. Although Kaluza-Klein theory makes incorrect predictions about the charges and masses of elementary particles, the framework has become one the foundational pillars of modern physics leading to Yang-Mills theories. 
+
+\subsection{A Five-Dimensional Space-Time}
+\begin{remark}
+It will be convnient to use the $(-, +, +, +)$ convention for this chapter.
+\end{remark}
+\noindent
+Consider a metric,
+\[ \tilde{g}_{\mu \nu} = \begin{pmatrix}
+g_{\mu \nu} & g_{\mu 5} \\
+g_{\nu 5} & g_{55}
+\end{pmatrix}\]
+where tildes will indicate 5-dimensional quantities. Adding a whole new space-time dimension provides far too much dyamical freedom. We require the fifth dimension to be compactified, rolled-up in a small circle, explaining the fact that an extra spatial dimension cannot be observed. The 5-dimensional space-time we construct has the topology of a fiber bundle of the circle $S^1$ over a usual four dimensional Minkowski-like manifold $M^4$. This means the space looks locally like $M^4 \times S^1$. Often, we will take the space to gobally have the topology $M^4 \times S^1$ which we refer to a ``trivial'' bundle.
+\bigskip\\
+In general, the 5th basis vector will not be orthogonal to the basis $\vec{e}_\mu$ so $g_{\mu 5} = \vec{e}_\mu \cdot \vec{e}_5 \neq 0$. We can decompose $\vec{e}_\mu = \vec{e}_{\mu}^{\, \parallel} + \vec{e}_\mu^{\, \perp}$ where $\vec{e}_{\mu}^{\, \perp} \parallel \vec{e}_5$ and $\vec{e}_{\mu}^{\, \perp} \perp \vec{e}_5$. We then write, $\vec{e}_{\mu}^{\, \parallel} = B_\mu \vec{e}_5$ and thus,
+\[ \tilde{g}_{\mu \nu} =  (\vec{e}_{\mu}^{\, \perp} + \vec{e}_\mu^{\, \parallel}) \cdot (\vec{e}_{\nu}^{\, \perp} + \vec{e}_\nu^{\, \parallel}) = \vec{e}_{\mu}^{\, \perp} \cdot \vec{e}_{\nu}^{\, \perp} + \vec{e}_\mu^{\, \parallel} \cdot \vec{e}_{\nu}^{\, \parallel} = g_{\mu \nu} + \phi^2 B_\mu B_\nu \]
+Where,
+\[g = \vec{e}^{\, \perp}_{\mu} \cdot \vec{e}^{\, \perp}_{\nu} \quad \text{and} \quad \phi^2 = \tilde{g}_{55} = \vec{e}_5 \cdot \vec{e}_5 \quad \text{and} \quad B_\mu = \frac{\vec{e}^{\, \parallel}_\mu \cdot \vec{e}_5}{\vec{e}_5 \cdot \vec{e}_5} = \frac{\vec{e}_\mu \cdot \vec{e}_5}{\vec{e}_5 \cdot \vec{e}_5} =  \frac{\tilde{g}_{\mu5}}{\tilde{g}_{55}} \]
+Therefore, the entire 5D metric becomes,
+\[ \tilde{g}_{\mu \nu} = \begin{pmatrix}
+g_{\mu \nu} + \phi^2 B_\mu B_\nu & \phi^2 B_\mu \\
+\phi^2 B_\nu & \phi^2
+\end{pmatrix}\]
+A simple calculation shows that,
+\[ \tilde{g}^{\mu \nu} = 
+\begin{pmatrix}
+g^{\mu \nu} & - B^\mu \\
+- B^\nu & \phi^{-2} + B_\alpha B^\alpha
+\end{pmatrix}\]
+Furthermore,
+\[ \tilde{g} = \det{\tilde{g}_{\mu \nu}} = \phi^2 g \] 
+where index juggling is performed with the 4D metric $g_{\mu \nu}$. To be able to project physics down into the base 4D space-time, we impose the cylinder condition,
+\[ \partial_5 \tilde{g}_{\mu \nu} = 0 \]
+so physical quantities should not change while moving along the circular fifth dimension. 
+
+\subsection{Gauge Transformations}
+
+Suppose we make a coordinate transformation by rotating about the local copy of $S^1$ by an amount dependent on 4D space-time position. As we will see, such a transformation is exactly a local gauge transformation which is why Kaluza-Klein is considered a $U(1)$ gauge theory. Explicitly, consider the transformation, $x'^\mu = x^\mu$ and $x'^5 = x^5 - \chi(x^\mu)$. Then, consider the change in components of the metric,
+\[ \tilde{g}'_{\mu \nu} = \pderiv{\tilde{x}^\alpha}{\tilde{x}'^\mu} \pderiv{\tilde{x}^\beta}{\tilde{x}'^\nu} \tilde{g}_{\alpha \beta} \]
+In particular,
+\[ \phi'^2 = \tilde{g}'_{55} = \pderiv{\tilde{x}^\alpha}{\tilde{x}'^5} \pderiv{\tilde{x}^\beta}{\tilde{x}'^5} \tilde{g}_{\alpha \beta} = \tilde{g}_{55} = \phi^2 \]
+since the coordinate transformation does not depend on $x^5$. However,
+\[ \phi'^2 B'_\mu = \tilde{g}'_{\mu 5} = \pderiv{\tilde{x}^\alpha}{\tilde{x}'^\mu} \pderiv{\tilde{x}^\beta}{\tilde{x}'^5} \tilde{g}_{\alpha \beta} = \tilde{g}_{\mu 5} + \pderiv{x^5}{x'^\mu} \tilde{g}_{55} = \tilde{g}_{\mu 5} + \phi^2 \, \partial_\mu \chi = \phi^2 ( B_\mu + \partial_\mu \chi)\]
+Therefore, since $\phi = \phi'$, we see that $B_\mu$ transforms as a gauge field,
+\[ B_\mu' = B_\mu + \partial_\mu \chi \] 
+Finally, the 4D part of the metric transforms as,
+\[ \tilde{g}'_{\mu \nu} = \tilde{g}_{\mu \nu} + \pderiv{\tilde{x}^5}{x'^\mu}  \tilde{g}_{5 \nu} + \pderiv{\tilde{x}^5}{x'^\nu}  \tilde{g}_{\mu 5} + \pderiv{\tilde{x}^5}{x'^\mu} \pderiv{\tilde{x}^5}{x'^\nu}  \tilde{g}_{5 5} = \tilde{g}_{\mu \nu} + \partial_\mu \chi \tilde{g}_{5 \nu} + \tilde{g}_{\mu 5} \partial_\nu \chi + \tilde{g}_{55} \partial_\mu \chi \partial_\nu \chi  \]
+Using our introduced fields,
+\[ g'_{\mu \nu} + \phi'^2 B'_\mu B'_\nu = g_{\mu \nu} + \phi^2 \bigg[ B_\mu B_\nu + \partial_\mu \chi B_\nu + B_\mu \partial_\nu \chi \bigg] = g_{\mu \nu} + \phi^2 B'_\mu B'_\nu \]
+and thus the 4D space-time metric is left invariant under the gauge transformation. 
+\[ g'_{\mu \nu} = g_{\mu \nu} \]
+Therefore, rotating locally around the $S^1$ components only changes the gauge field $B_\mu$,
+\[ \phi \mapsto \phi \quad \quad B_\mu \mapsto B_\mu + \partial_\mu \chi \quad \quad g_{\mu \nu} \mapsto g_{\mu \nu} \]
+
+
+\subsection{The Five-Dimensional Christoffel Symbols}
+
+Starting directly from the 5D metric, the Christoffel symbols are easily calculated in terms of their 4D counterparts. For the 4D components,
+\begin{align*}
+\tilde{\Gamma}^{\alpha}_{\mu \nu} & = \frac{1}{2} \tilde{g}^{\alpha \beta} \left( \partial_\mu \tilde{g}_{\beta \nu} + \partial_{\nu} \tilde{g}_{\mu \beta} - \partial_{\beta} \tilde{g}_{\mu \nu} \right)
+\\
+& = \Gamma^\alpha_{\mu \nu}  + \frac{1}{2} g^{\alpha \beta} \left( \partial_\mu \phi^2 B_\beta B_\nu + \partial_\nu \phi^2 B_\mu B_\beta - \partial_\beta \phi^2 B_\mu B_\nu \right) + \frac{1}{2} \tilde{g}^{\alpha 5} \left( \partial_\mu \tilde{g}_{5 \nu} + \partial_\nu \tilde{g}_{\mu 5} \right) 
+\\
+& = \Gamma^\alpha_{\mu \nu} + \phi^2 g^{\alpha \beta} \left(W_{\mu \beta} B_\nu + B_\mu W_{\nu \beta} - B_\mu B_\nu \partial_\beta \ln{\phi^2} \right)
+\end{align*}
+where I have used the cyclindrical condition $\partial_5 g_{\mu \nu} = 0$ and defined the quantity,
+\[ W_{\mu \nu} = \partial_\mu B_\nu - \partial_\nu B_\mu \]
+Furthermore,
+\begin{align*} 
+\tilde{\Gamma}^\alpha_{\mu 5} & = \frac{1}{2} \tilde{g}^{\alpha \beta} \left( \partial_\mu \tilde{g}_{\beta 5} - \partial_\beta \tilde{g}_{\mu 5}  \right) = \frac{1}{2} g^{\alpha \beta} \phi^2 \left( \partial_\mu B_\beta - \partial_\beta B_\mu + B_\beta \partial_\mu \ln{\phi^2} - B_\mu \partial_\beta \ln{\phi^2}  \right) + \frac{1}{2} \tilde{g}^{\alpha 5} \partial_{\mu} \tilde{g}_{55}
+\\
+& = \frac{1}{2} g^{\alpha \beta} \phi^2 \left( W_{\mu \beta} - B_\mu \partial_\beta \ln{\phi^2}  \right) 
+\end{align*}
+and finally,
+\begin{align*}
+\tilde{\Gamma}^\alpha_{55} = - \frac{1}{2} \tilde{g}^{\alpha \beta} \partial_{\beta} \tilde{g}_{55} = - \frac{1}{2} g^{\alpha \beta} \partial_{\beta} \phi^2
+\end{align*}
+where I can restrict to $\beta \neq 5$ by the cylindrical condition.
+
+
+\subsection{The Einstein-Hilbert Action for Kaluza-Klein Theory}
+
+To study the dynamics of the Kaluza-Klein metric, we need to calculate the Christoffel symbols and then the curvature tensor. This is a straightforward yet exceedingly tedius calculation so I will simply write down the results. We postulate a 5D Einstein-Hilbert action proportional to the simplest curvature invariant, $R$ the Ricci curvature scalar. This is the exact same form as the action for 4D general relativity. Consider the action,
+\[ \tilde{S}_{KK} = \int \frac{1}{2 \tilde{\kappa}} \tilde{R} \sqrt{\tilde{g}} \: \dn{5}{x}\]
+Therefore, we need to examine the form of the 5-dimensional quantity $\tilde{R}$. The expression for $\tilde{R}$ follows formally from the form of the metric and the Christoffel symbols,
+\[ \tilde{R} = R  - \frac{1}{4} \phi^2 W_{\mu \nu} W^{\mu \nu} - \frac{2}{\phi} \partial_\mu \partial^\mu \phi \]
+This is our first hint of the so called ``Kaluza Miricle'' since term,
+\[ \mathcal{L}_{\text{``EM''}} = - \frac{1}{4} W_{\mu \nu} W^{\mu \nu} \] 
+has exactly the form of the electromagnetic Lagrangian. Therefore, the action becomes,
+\[ \tilde{S}_{KK} = \int \left[ \frac{1}{2 \tilde{\kappa}} R - \frac{1}{8 \tilde{\kappa}} W_{\mu \nu} W^{\mu \nu} \right] \phi \sqrt{g} \: \dn{5}{x} - \int \partial_\mu \partial^\mu \phi \: \sqrt{g} \: \dn{5}{x} \]
+By the cylinder condition, none of these quantities depends on $x^5$ so we can integrate out by $x^5$. Suppose that $C$ is the period of $x^5$ or equivalently the circumference of the compactified dimension. Then the Kaluza-Klein action becomes,
+\[ \tilde{S}_{KK} = \int \left[ \frac{C}{2 \tilde{\kappa}} R - \frac{C}{8 \tilde{\kappa}} \phi^2 W_{\mu \nu} W^{\mu \nu} \right] \phi \sqrt{g} \: \dn{4}{x} - C \int \partial_\mu \partial^\mu \phi \: \sqrt{g} \: \dn{4}{x} \]
+Now, one last bit of alchemy. Since the constant $\tilde{\kappa}$ is arbitrary, set,
+\[ \tilde{\kappa} = \frac{8 \pi G C}{c^4} \] 
+Then we define the vector potential $A_\mu = \sqrt{\frac{C}{2 \tilde{\kappa}}} B_\mu$ and the force tensor $F_\mu \nu = \partial_\mu A_\nu - \partial_\nu A_\mu$. Then, 
+\[ F_{\mu \nu} F^{\mu \nu} = \frac{C}{2 \tilde{\kappa}} \phi^2 W_{\mu \nu} W^{\mu \nu} \]
+And at last, the Kaluza Miracle,
+\[ \tilde{S}_{KK} = \int \frac{c^4}{16 \pi G} R \: \phi \: \sqrt{g} \: \dn{4}{x} - \int \frac{1}{4} F_{\mu \nu} F^{\mu \nu} \phi^3 \: \sqrt{g} \: \dn{4}{x} - C \int \partial_\mu \partial^\mu \phi \: \sqrt{g} \: \dn{4}{n} = S_{GR} + S_{EM} + S_{SF} \]
+the Kaluza-Klien action becomes the action of general relativity plus the action of electromagnetism plus the action of a scalar field. However, there is one sublty, the GR and EM Lagrangians are multiplied by the scalar field $\phi$. However, if $\phi$ is slowly varying then we can approximate it as a constant and absorb it as a constant multiple of the enire Lagrangian. When $\phi \approx \phi_0$ a constant, the action literally reduces to,
+\[ \tilde{S}_{KK} = S_{GR} + S_{EM} \]
+\subsection{The Field Equations}
+
+We have seen that the Einstein-Hilbert action for the 5D Kaluza-Klein theory gives rise to a 4D Einstein-Hilbert action and the Lagrangian of an electromagnetic-like theory. Varying this action with respect to the fields, we recover the Einstein field equations with an electromagnetic source term from varying the 4D metric, Maxwell's equations from varying the field $A_\mu$ and an equation of motion for the scalar field by varying $\phi$. These results can also be obtained with a slightly different flavor by runing the derivation with the oposite order. Since the Kaluza-Klein action is simple the 5D Einstein Hilbert action,  
+\[ \tilde{S}_{KK} = \int \left[ \frac{1}{2 \tilde{\kappa}} \tilde{R} + \tilde{\mathcal{L}}_{M} \right] \sqrt{\tilde{g}} \: \dn{5}{x} \]
+varying with respect to the 5D metric $\tilde{g}_{\mu \nu}$ will recover a 5D version of the Einstein field equations with exactly the same form as its 4D general relativity counterpart,
+\[ \tilde{R}_{\mu \nu} - \frac{1}{2} \tilde{R} \tilde{g}_{\mu \nu} = \tilde{\kappa} \tilde{T}_{\mu \nu} \]
+As before, I will restrict to 5D ``vacuua'' in which $T_{\mu \nu} = 0$. We shall consider the different components of the Einstein field equations. First, the 4D space-time part,
+\[ \tilde{R}_{\mu \nu} - \frac{1}{2} \tilde{R} \tilde{g}_{\mu \nu} = 0\]
+gives when expanded in term of 4D quantities,
+\[ R_{\mu \nu} - \frac{1}{2} R g_{\mu \nu} = \frac{8 \pi G}{c^4} \phi^2 \left(F_{\mu \alpha} {F_{\nu}}^{\alpha} - \frac{1}{2} g_{\mu \nu} F_{\alpha \beta} F^{\alpha \beta} \right) + \frac{1}{\phi} \left( \nabla_\mu \nabla_\nu \phi - g_{\mu \nu} \phi \right) \]
+which is the 4D Einstein field equations with an electromagnetic energy-momentum tensor and a strange scalar field energy-momentum. 
+Using the fact that,
+\[ \tilde{R}_{\mu \nu} - \frac{1}{2} \tilde{R} \tilde{g}_{\mu \nu} = 0 \implies \tilde{R}_{\mu \nu} = 0\] 
+by the standard trace trick then we get,
+
+\[ \tilde{R}^{5 \mu} = 0 \implies \frac{1}{2} \nabla_{\nu} \left( \phi^3 F^{\mu \nu} \right) = 0 \]
+For a slowly varying $\phi$ field this tells us that,
+\[ \nabla_\nu F^{\mu \nu} = 0 \]
+which is the Maxwell equations. 
+Finally, 
+\[ \tilde{R}_{55} = 0 \implies \nabla_\mu \nabla^\mu \phi = \frac{1}{4} \phi^4 F_{\alpha \beta} F^{\alpha \beta} \]
+which tells us that the electromagnetic field is the source of this strange new scalar field. 
+
+\subsection{The Lorentz Force Law}
+
+We now want to consider the geodesics in this 5D Kaluza-Klein spacetime. In particular, we care about the 4D projections of these trajectories. Unfortunatly, the full geodesic equation has many many terms. Speficially, we want to look at the terms contracted with $\tilde{\Gamma}^{\mu}_{\alpha \beta}$ and $\tilde{\Gamma}^{\mu}_{\alpha 5}$. We get,
+\[ \deriv{\tilde{U}^\mu}{s} + \Gamma^\mu_{\alpha \beta} \tilde{U}^\alpha \tilde{U}^\beta + \sqrt{\frac{8 \pi G}{c^4}} g^{\mu \nu} \phi^2 \left( F_{\alpha \nu} - A_{\alpha} \partial_{\nu} \ln{\phi^2} \right) \tilde{U}^\alpha \tilde{U}^5 + O(A^3) = 0 \]
+Furthermore, the cylinder condition tells us that $\partial_5 g_{\alpha \beta} = 0$ therefore, the constant vector $\xi^\mu = (0, 0, 0, 0, 1)$ is a Killing vector so the quantity,
+\[ \xi^\mu \tilde{U}_\mu = \tilde{U}_5 \]
+is conserved along geodesics. Therefore, we can write,
+\[ \deriv{\tilde{U}^\mu}{s} + \Gamma^\mu_{\alpha \beta} \tilde{U}^\alpha \tilde{U}^\beta = \sqrt{\frac{8 \pi G}{c^4}} \: \phi^2 \: \tilde{U}^5 \: {F^\mu}_{\alpha} \tilde{U}^\alpha + O(A^2) \]
+This is the Lorentz force law if we set,
+\[ \frac{q}{mc} = \sqrt{\frac{8 \pi G}{c^4}} \tilde{U}^5\]
+The velocity in the compactified dimension is the charge to mass ratio of the particle!
+
+\subsection{Charge Quantization}
+
+Now we add a tad bit of quantum mechainics! We have particles constrained to a closed periodic circle in the $x^5$ direction. Therefore, a quantum particle cannot have an arbitrary momentum in the $x^5$ direction. If we want to have definite momentum (corresponding to a state with definite charge) then we need to have a standing wave in the $x^5$ direction. Therefore we need to have $C$ be an integer number of wavelengths $n \lambda$. Thus,
+\[ \lambda = \frac{h}{p} = \frac{h}{m \tilde{U}^5} = \frac{C}{n} \]  
+Therefore, solving for $\tilde{U}^5$ we arrive at a condition on the charge,
+\[ q = \frac{n}{C} \frac{h \sqrt{8 \pi G}}{c}  \]
+and therefore charge is quantized in units of,
+\[ q_Q = \frac{1}{C} \frac{h \sqrt{8 \pi G}}{c} \]
+
+
+\end{document}

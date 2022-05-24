@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{null}}
+\newcommand{\range}{\operatorname{range}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 7 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+
+\begin{prob}
+Let $(F,+,\cdot)$ be the field of real numbers of the form $a+b\sqrt{2}$, $a,b\in\Q$ with the inherited $+,\cdot$. Define $P\subset F$ by $a+b\sqrt{2}\in P$ if $a-b\sqrt{2}$ is positive as an element of $\R$. Show that $(F,+,\cdot,P)$ is an ordered field.
+\end{prob}
+
+
+\begin{soln}
+We need to prove three things: the trichotomy axiom, $x,y\in P\implies x+y\in P$, and $x,y\in P\implies x+y\in P$. To make things simpler, for $x=a+b\sqrt{2}$, we define $\overline{x}=a-b\sqrt{2}$, so that $x\in P$ if and only if $\overline{x}>0$ in $\R$. We have the following properties:
+\begin{enumerate}[label=(\roman*)]
+\item For $x=a+b\sqrt{2}\in F$, we have $\overline{-x}=-\overline{x}$: we compute
+\[\overline{-x}=\overline{-(a+b\sqrt{2})}=\overline{a-b\sqrt{2}}=-a+b\sqrt{2}=-(a-b\sqrt{2})=-\overline{x}.\]
+In particular, $\overline{0}=0$.
+
+\item For $x=a+b\sqrt{2},y=c+d\sqrt{2}\in F$, we have $\overline{x+y}=\overline{x}+\overline{y}$: we compute
+\begin{multline}
+\overline{x+y}=\overline{(a+b\sqrt{2})+(c+d\sqrt{2})}=\overline{(a+c)+(b+d)\sqrt{2}}\\
+=(a+c)-(b+d)\sqrt{2}=(a-c\sqrt{2})+(b-d\sqrt{2})=\overline{x}+\overline{y}.
+\end{multline}
+
+\item For $x=a+b\sqrt{2},y=c+d\sqrt{2}\in F$, we have $\overline{x\cdot y}=\overline{x}\cdot\overline{y}$: we compute
+\begin{multline}
+\overline{x\cdot y}=\overline{(a+b\sqrt{2})(c+d\sqrt{2})}=\overline{(ac+2bd)+(ad+bc)\sqrt{2}}\\
+=(ac+2bd)-(ad+bc)\sqrt{2}=(a-b\sqrt{2})(c-d\sqrt{2})=\overline{x}\cdot\overline{y}.
+\end{multline}
+\end{enumerate}
+
+The rest is just using the order axioms in $\R$.
+
+\underline{Trichotomy:}
+Let $x$ be an arbitrary element of $F$. By the trichotomy axiom in $\R$, exactly one of the following is true: $\overline{x}=0$, $\overline{x}<0$ in $\R$, or $-\overline{x}>0$ in $\R$. By property (i), this is equivalent to saying that $x=0$, $\overline{x}<0$ in $\R$, or $\overline{-x}>0$ in $\R$. Hence exactly one of the following is true: $x=0$, $x\in P$, or $-x\in P$.
+
+\underline{$x,y\in P\implies x+y\in P$:}
+Suppose that $x,y\in P$. This means that $\overline{x},\overline{y}>0$ in $\R$, so by the second ordered field axiom in $\R$ and property (ii), we have $\overline{x+y}=\overline{x}+\overline{y}>0$ in $\R$. Hence $x+y\in P$.
+
+\underline{$x,y\in P\implies x\cdot y\in P$:}
+Suppose that $x,y\in P$. This means that $\overline{x},\overline{y}>0$ in $\R$, so by the second ordered field axiom in $\R$ and property (iii), we have $\overline{x\cdot y}=\overline{x}\cdot\overline{y}>0$ in $\R$. Hence $x+y\in P$.
+\end{soln}
+
+\break
+
+\begin{prob}
+Show that in an ordered field for all $x,y\in F$, we have $|x\cdot y|=|x|\cdot|y|$.
+\end{prob}
+
+\begin{soln}
+Let $P$ be the set of ``positive'' elements of $F$. We have four possible cases to deal with: at least one of $x,y$ is $0$, both are in $P$, neither are in $P$, or exactly one is in $P$.
+\begin{enumerate}[label=\textbf{Case \arabic*.}]
+\item Suppose that at least one of $x,y$ is $0$; without loss of generality, suppose that $x=0$. Then $|x\cdot y|=|0|=0$, and $|x|\cdot |y|=|0|\cdot |y|=0\cdot |y|=0$, so the statement is true in this case.
+
+\item Suppose that $x,y\in P$, so that $x\cdot y\in P$. Hence $|x\cdot y|=x\cdot y=|x|\cdot |y|$, so the statement is true in this case.
+
+\item Suppose that $x,y\notin P$, so that $-x,-y\in P$, and $x\cdot y\in P$. We have $|x\cdot y|=x\cdot y$, and $|x|\cdot |y|=(-x)\cdot (-y)=x\cdot y$, so the statement is true in this case.
+
+\item Suppose that exactly one of $x,y$ is in $P$; without loss of generality, suppose that $x\in P,y\notin P$, so that $x\in P$, $-y\in P$. In particular, this means that $-x\cdot y=x\cdot (-y)\in P$, so $x\cdot y\notin P$. Then $|x\cdot y|=-(x\cdot y)$, and $|x|\cdot |y|=x\cdot (-y)=-(x\cdot y)$, so the statement is true in this case.
+\end{enumerate}
+Having covered all cases, we conclude that $|x\cdot y|=|x|\cdot|y|$.
+\end{soln}
+
+\break
+
+\begin{prob}
+Show that in an ordered field if $a>b>0$, then $b^{-1}>a^{-1}>0$.
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=\textbf{Method \arabic*.}]
+\item Let $P$ be the set of positive numbers in the field, and suppose that $a>b>0$, so that $a,b,b-a\in P$. Suppose that $a^{-1}\notin P$, so that $-a^{-1}\in P$. This gives us $a(-a^{-1})=-1\in P$, which is false, so $a^{-1}\in P$; similarly, $b^{-1}\in P$, so $a^{-1},b^{-1}>0$. Finally, consider the element $b^{-1}-a^{-1}$. We have
+\[b^{-1}-a^{-1} = aa^{-1}b^{-1}-a^{-1}bb^{-1}=(a-b)a^{-1}b^{-1}.\]
+We know that $a-b,a^{-1},b^{-1}\in P$, so this is in $P$. Hence $b^{-1}-a^{-1}\in P$, which gives us $b^{-1}>a^{-1}$, as required.
+
+\item We claim that if $x<y$ and $\lambda>0$, then $\lambda x<\lambda y$. This is because if $x<y$, then $y-x>0$, so $\lambda(y-x)>0$ by the multiplicative closure of $P$. Multiplying out gives $\lambda y-\lambda x>0$, i.e. $\lambda x<\lambda y$.
+
+Now let's apply this to our situation. We have $a>b>0$. Suppose that $b^{-1}<0$. Multiplying this inequality by $b$, which is positive, gives us $1<0$, which is false. Hence $b^{-1}>0$; similarly, $a^{-1}>0$, so that $a^{-1}b^{-1}$ is positive. Now let us multiply $b>a$ by $a^{-1}b^{-1}$, which is positive: we get $a^{-1}>b^{-1}$ as required.
+\end{enumerate}
+\end{soln}
+
+
+\break
+
+\begin{prob}[Abbott, Exercise 1.3.5]
+Let $A\subset\R$ be non-empty, bounded above, and let $cA=\{ca:a\in A\}$. If $c\geq 0$, show that $\sup(cA)=c\sup A$.
+\end{prob}
+
+\begin{soln}
+If $c=0$, then $A=\{0\}$, so its upper bound is $0=c\sup A$. We therefore turn to the case where $c>0$.
+\begin{enumerate}[label=\textbf{Method \arabic*.}]
+\item By definition, $a\leq \sup A$ for all $a\in A$, so $ca\leq c\sup A$ for all $ca\in cA$, since $c>0$. Hence $c\sup A$ is an upper bound for $cA$. Now suppose that $b<c\sup A$ is also an upper bound for $A$. Since $b<c\sup A$, multiplying by $1/c>0$ gives $b/c<\sup A$. Since $ca\leq b$ for all $ca\in cA$, we also have $a<b/c$ for all $a\in A$. But this means that we have found a smaller upper bound for $A$ than $\sup A$, which is a contradiction. Hence $c\sup A$ is the smallest upper bound for $cA$, i.e. $c\sup A=\sup(cA)$.
+
+\item We can use Lemma 1.3.8: if $s\in\R$ is an upper bound for a set $A\subseteq\R$, then $s=\sup A$ if and only if for every $\varepsilon>0$ there exists $a\in A$ with $a>s-\varepsilon$. By definition of the supremum, every $a\in A$ satisfies $a\leq \sup A$, so for $c\geq 0$, this implies that $ca\leq c\sup A$ for every $a\in A$. Hence $c\sup A$ is an upper bound for $cA$. By Lemma 1.3.8, for every $\varepsilon>0$, there exists $a\in A$ such that $a>\sup A-\varepsilon/c$. This means that for every $\varepsilon>0$, there exists $ca\in cA$ such that $ca>c\sup A-\varepsilon$. By Lemma 1.3.8, this means that $\sup cA=c\sup A$, as required.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}[Abbott, Exercise 1.3.6(a,d)]
+Given sets $A,B$ define $A+B=\{a+b:a\in A,b\in B\}$. The goal is to show that if $A,B$ are non-empty, bounded above then $\sup(A+B)=\sup A+\sup B$.
+\begin{enumerate}[label=\arabic*.]
+\item Let $s=\sup A,t= \sup B$. Show that $s+t$ is an upper bound for $A+B$.
+
+\item Use Lemma 1.3.8 to show that $\sup(A+B)=s+t$.
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=\arabic*.]
+\item Since $s=\sup A,t=\sup B$, we know that $a\leq s$, $b\leq t$ for all $a\in A$ and all $b\in B$. As we showed in the previous homework, this means that $a+b\leq s+t$, so that $s+t$ is an upper bound for $A+B$.
+
+\item By Lemma 1.3.8, for every $\varepsilon>0$, there exists $a\in A$ and $b\in B$ such that $a>s-\varepsilon/2$ and $b>t-\varepsilon/2$. Adding these as in the previous homework, we get 
+$a+b>s+t-\varepsilon$. Hence the condition of Lemma 1.3.8 is fulfilled, and $s+t=\sup(A+B)$.
+\end{enumerate}
+\end{soln}
+
+\end{document}

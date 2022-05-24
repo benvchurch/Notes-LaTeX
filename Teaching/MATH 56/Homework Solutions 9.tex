@@ -1,0 +1,171 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{null}}
+\newcommand{\range}{\operatorname{range}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 9 Solutions}
+\author{Naomi Kraushar and Ben Church}
+\maketitle
+
+
+\begin{prob}[Abbott, Exercise 2.3.11: Ces\`{a}ro means]
+\begin{enumerate}[label=(\alph*)]
+\item Show that if $(x_n)$ is a convergent sequence then the sequence given by the averages
+\[y_n=\frac{x_1+x_2+\dots+x_n}{n}\]
+also converges to the same limit.
+
+\item Given an example to show that it is possible for the sequence $(y_n)$ of averages to converge even if $(x_n)$ does not.
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item Let $x=\lim_{n\to\infty} x_n$. Fix arbitrary $\varepsilon>0$. By definition, there exists some $N_\varepsilon\in\N$ such that $n\geq N_\varepsilon$ implies $|x_n-x|<\varepsilon/2$. Nnow consider the sequence of averages for $n\geq N_\varepsilon$: we have
+\begin{align*}
+|y_n-x| &= \left|\frac{\sum_{k=1}^n x_k}{n}-x\right| \tag{definition of the average $y_n$}\\
+&= \left|\frac{\sum_{k=1}^n (x_k-x)}{n}\right| \tag{moving $x$ inside the sum}\\
+&\leq \frac{1}{n}\sum_{k=1}^{N_\varepsilon} |x_k-x| +\frac{1}{n} \sum_{k=N_\varepsilon+1}^n |x_k-x| \tag{using the triangle inequality and taking $1/n$ out of the sums.}
+\end{align*}
+The first sum is finite, and depends only on $N_\varepsilon$, and hence on $\varepsilon$, so let $S_\varepsilon=\sum_{k=1}^{N_\varepsilon} |x_k-x|$. Every term in the second sum is less than $\varepsilon/2$, so we have
+\begin{align*}
+|y_n-x| &\leq \frac{1}{n}\sum_{k=1}^{N_\varepsilon} |x_k-x| +\frac{1}{n} \sum_{k=N_\varepsilon+1}^n |x_k-x| \\
+&< \frac{S_\varepsilon}{n}+\frac{\varepsilon(n-N_\varepsilon+1)}{2n} \\
+&\leq \frac{S_{\varepsilon}}{n}+\frac{\varepsilon}{2} \tag{since $n\geq N_\varepsilon$, so $n-N_\varepsilon+1\leq n$.}
+\end{align*}
+Recall that $S_\varepsilon$ depends on $\varepsilon$, not $n$, so we can now choose $n$ so large that $\frac{S_\varepsilon}{n}<\frac{\varepsilon}{2}$, which then gives $|y_n-x|<\varepsilon$. Hence the sequence of averages has the same limit as the original sequence.
+
+\item Let $x_n=(-1)^n$, so odd terms are $-1$ and even terms are $1$. The sum of the first $n$ terms is $0$ if $n$ is even, and $-1$ if $n$ is odd. This gives us the sequence of averages
+\[y_n = \begin{cases} 0 &\text{if $n$ is even} \\ -1/n &\text{if $n$ is odd}\end{cases}\]
+Then for any $\varepsilon>0$, if we choose $N$ sufficiently large so that $1/N<\varepsilon$, then $|y_n|\leq 1/N<\varepsilon$ for all $n\geq N$, so $y_n\to 0$. Hence it is possible for a divergent sequence to have its sequence of averages converge.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}[Abbott, Exercise 2.6.3]
+If $(x_n)$ and $(y_n)$ are Cauchy sequences then one easy way to prove that $(x_n+y_n)$ is Cauchy is to use the Cauchy criterion. By Theorem 2.6.4, $(x_n)$ and $(y_n)$ must be convergent, and the Algebraic Limit Theorem implies that $(x_n+y_n)$ is convergent, hence Cauchy.
+\begin{enumerate}[label=(\alph*)]
+\item Give a direct argument that $(x_n+y_n)$ is a Cauchy sequence that does not use the Cauchy criterion or the Algebraic Limit Theorem.
+
+\item Do the same for the product $(x_ny_n)$.
+\end{enumerate}
+\end{prob}
+
+
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item We have that $(x_n)$ and $(y_n)$ are Cauchy sequence, so, by definition, there exists $N_1\in \N$ such that $m,n\geq N_1$ implies $|x_n-x_m|<\varepsilon/2$ and there exists $N_2\in\N$ such that $m,n\geq N_2$ implies $|y_n-y_m|<\varepsilon/2$. Let $N=\max\{N_1,N_2\}$, so that for $m,n\geq N$, we have
+\begin{align*}
+|(x_n+y_n)-(x_m+y_m)| &= |(x_n-x_m)+(y_n-y_m)|\\
+&\leq |x_n-x_m|+|y_n-y_m| \tag{by the triangle inequality}\\
+&<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
+\end{align*}
+Hence $(x_n+y_n)$ is a Cauchy sequence.
+
+\item For this part of the problem, we use Lemma 2.6.3: every Cauchy sequence is bounded. Hence there exists some $X,Y\in \R$ such that $|x_n|\leq X$ and $|y_n|\leq Y$ for all $n\in\N$. By definition, there exists $N_1\in\N$ such that $m,n\geq N_1$ implies $|x_n-x_m|<\varepsilon/2Y$ and there exists $N_2\in\N$ such that $n\geq N_2$ implies $|y_n-y_m|<\varepsilon/2X$. Let $N=\max\{N_1,N_2\}$, so that for $m,n\geq N$, we have
+\begin{align*}
+|x_ny_n-x_my_m| &= |x_ny_n-x_my_n+x_my_n-x_my_m|\\
+&\leq |x_ny_n-x_my_n|+|x_my_n-x_my_m| \tag{by the triangle inequality}\\
+&= |x_n-x_m| |y_n| + |x_m| |y_n-y_m| \\
+&< \left(\frac{\varepsilon}{2Y}\right)Y + X\left(\frac{\varepsilon}{2X}\right)\\
+&= \frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
+\end{align*}
+Hence $(x_ny_n)$ is a Cauchy sequence.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}[From the writing assignment]
+Prove that if all the elements $b_n\geq 0$, then
+\[\sum_{n=1}^\infty b_n=\sup\left\{\sum_{i\in A}b_i:A\subset\N, A \text{ finite}\right\},\]
+where the supremum is taken over all finite subsets of $\N=\{1,2,3,\dots\}$.
+\end{prob}
+
+\begin{soln}
+Let $(s_N)$ be the sequence of partial sums, i.e. $s_N=\sum_{n=1}^N b_n$. Let $X$ be the set of all partial sums, i.e. $X=\{s_N\}_{N\in\N}$ and let $Y=\left\{\sum_{i\in A}b_i:A\subset\N, A \text{ finite}\right\}$ be the set in the question. We will prove that $\sup X=\sup Y$. First, we observe that $\{1,2,\dots,N\}$ is a finite subset of $\N$, so that
+\[s_N = \sum_{i\in\{1,\dots,N\}} b_i\]
+is in $Y$. Hence every partial sum is in the set $Y$, so $X\subset Y$, which means that $\sup X\leq \sup Y$.
+
+Next, let $A$ be an arbitrary finite subset of $\N$. Since $A$ is finite, it has a maximal element $N$. Since $b_i\geq 0$ for all $i\in\N$, we have
+\[\sum_{i\in A} b_i\leq \sum_{i\in A}b_i+\sum_{\substack{i\leq N\\i\notin A}} b_i = \sum_{i=1}^N b_i = s_N.\]
+Hence every element in $Y$ is bounded above by some partial sum, which is an element in $X$, so $\sup Y\leq \sup X$. Since we also have $\sup X\leq \sup Y$, this means that $\sup X=\sup Y$.
+
+Finally, we want to show that $\sum_{n=1}^\infty b_n=\sup X$. By definition, $\sum_{n=1}^\infty b_n=\lim_{N\to\infty} s_N$. Since $b_n\geq 0$ for all $n$, the sequence of partial sums is a monotone increasing sequence. From the proof of Theorem 2.4.2 (Monotone Convergence Theorem), if this sequence is bounded above, it converges to its supremum, which is $\sup X$. Hence in the case where the series converges, we have $\sum_{n=1}^\infty b_n =\sup X=\sup Y$ as required. If the sequence $(s_N)$ is not bounded above, the supremum $\sup X=\infty$, and also $\lim s_N=\sum_{n=1}^\infty b_n=\infty$, so we again have $\sum_{n=1}^\infty =\sup X=\sup Y (=\infty)$, as required.
+\end{soln}
+
+
+\break
+
+\begin{prob}
+Recall that $A$ is closed if whenever $(a_n)$ is a sequence in $A$ with $x=\lim a_n$ existing in $\R$, in fact $x\in A$.  Show directly from the definition of being closed that
+\begin{enumerate}[label=(\alph*)]
+\item Any intersection of any collection of closed sets is closed.
+
+\item The finite union of closed sets is closed. 
+
+{\small (Hint: if $(a_n)$ is a sequence in $C_1\cup\dots\cup C_N$, show that there is a subsequence $(a_{n_k})$ and an index $j$ such that $a_{n_k}\in C_j$ for all $k$.)}
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item Let $\{C_\alpha\}_{\alpha\in A}$ be an arbitrary collection of closed sets in $\R$, with $A$ some indexing set, and suppose that $(a_n)$ is a sequence in $\bigcap_\alpha C_\alpha$ for all $\alpha\in A$, with $x=\lim a_n$ existing in $\R$. Since $a_n\in \bigcap_{\alpha\in A} C_\alpha$, we have $a_n\in C_\alpha$ for all $\alpha\in A$. Since every $C_\alpha$ is closed, we have $x\in C_\alpha$ for all $\alpha\in A$. Hence $x\in \bigcap_{\alpha\in A} C_\alpha$. Hence the intersection of closed sets is closed.
+
+\item Let $C_1,\dots,C_N$ be a finite collection of closed sets in $\R$, and suppose that $a_n$ is a sequence in $\bigcup_{j=1}^N C_j$ for all $n$, with $x=\lim a_n$ existing in $\R$. We now use the hint: suppose that there is no subsequence $(a_{n_k})$ in $C_j$ for some $j$. This means that there are only finitely many terms of the original sequence in $C_j$. This means that if there is no subsequence of $(a_n)$ in any $C_j$, then each $C_j$ only has finitely many terms of the sequence, so the union $\bigcup_{j=1}^N C_j$ has only finitely many terms in the sequence, which contradicts the assumption that $(a_n)$ is a sequence in $\bigcup_{j=1}^N C_j$. Hence there must be some index $j$ such that $C_j$ contains some subsequence $(a_{n_k})$ of the sequence $(a_n)$. Since subsequences of a convergent sequence converge to the same limit, $a_{n_k}$ converges to $x$, and since $C_j$ is closed, this means that $x\in C_j\subset \bigcup_{j=1}^N C_j$. Hence the union does contain the limit, so finite unions of closed sets are closed.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}
+[Abbott, Exercise 3.3.3] Suppose that $K \subset \R$ is closed and bounded. Show that every sequence $(a_n)$ in $K$ has a subsequence converging to a point in $K$, i.e. that $K$ is compact.
+\end{prob}
+
+\begin{soln}
+Because $K$ is bounded and $a_n \in K$ this means that the sequence $a_n$ is bounded. Therefore, by the Bolzano-Weierstrass theorem, there exists a subsequence $a_{n(j)}$ that coverges to some $a \in \mathbb{R}$. Therefore it suffices to show that $a \in K$. However, $K$ is closed and each $a_{n(j)} \in K$ which implies that the limit $a \in K$ by Theorem 3.2.5. 
+\end{soln}
+
+\end{document}

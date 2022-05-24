@@ -1,0 +1,772 @@
+\documentclass[12pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+\usepackage{mathrsfs} 
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+
+\DeclareMathOperator{\im}{\mathrm{im}} 
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\End}[1]{\mathrm{End}\left(#1\right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{ \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{ \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^{#1}}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\fderiv}[2]{\frac{\delta #1}{\delta #2}}
+
+
+\DeclareMathOperator{\Hess}{\mathrm{Hess}}
+
+\DeclareMathOperator{\grad}{\mathrm{grad}}
+\DeclareMathOperator{\ind}{\mathrm{ind}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\C}[1]{\mathcal{C}^{#1}}
+\newcommand{\res}{\mathrm{res}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\m}{\mathfrak{m}}
+
+\newcommand{\GL}[1]{\mathrm{GL}\left(#1\right)}
+\newcommand{\SL}[1]{\mathrm{SL}\left(#1\right)}
+\newcommand{\PGL}[1]{\mathrm{PGL}\left(#1\right)}
+\newcommand{\PSL}[1]{\mathrm{PSL}\left(#1\right)}
+
+\newcommand{\Orth}[1]{\mathrm{O}\left(#1\right)}
+\newcommand{\U}[1]{\mathrm{U}\left(#1\right)}
+\newcommand{\SO}[1]{\mathrm{SO}\left(#1\right)}
+\newcommand{\SU}[1]{\mathrm{SU}\left(#1\right)}
+
+\newcommand{\embed}{\hookrightarrow}
+\newcommand{\imm}{\looparrowright}
+
+
+\begin{document}
+
+\section{Whitney Embedding Theorem}
+
+Let $M$ be a smooth manifold $\dim{M} = m$ we showed how to embed $M \embed \R^k$ for some large $k$. Choose a hyperplane $\R^{k-1} \subset \R^k$ and a vector $v \in \R^k \setminus \R^{k-1}$ which defines a projection map $\R^k \to \R^{k-1}$. 
+
+\begin{lemma}
+For a generic $v \in \R^k \setminus \R^{k-1}$ the projection $M \embed \R^k \to \R^{k-1}$ is
+\begin{enumerate}
+\item immersed if $2 m + 1 \le k$
+\item injective if $2 m + 1 < k$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The issues that can arise are double points and tangent points. Therefore we consider the bad locus,
+\begin{enumerate}
+\item $(x,v)$ such that $\pi_v |_M$ is not an immersion at $x \in M$ equivalently $v \in T_x M$
+\item $(x_1, x_2, v)$ such that $\pi_v(x_1) = \pi_v(x_2)$ 
+\end{enumerate}
+Therefore, we consider the map $S(TM) \setminus 0 \to S^{k-1}$ defined by $(x,v) \mapsto \frac{v}{||v||}$ is a smooth map from a $2 \dim{M}$ dimensional manifold to a $k-1$ dimensional manifold. Therefore by Sard's theorem, its image is measure zero if $2 \dim{M} - 1 < k - 1$ meaning that for a generic $v$ it is not in the image which implies that $\pi_v |_M$ is an immersion.
+\bigskip\\
+For the second, need that $v$ is not in the image of $(M \times M) \setminus \Delta \to S^{k-1}$ sending $(x_1, x_2) \mapsto \frac{x_1 - x_2}{|| x_1 - x_2 ||}$. This is smooth and therefore if $2 \dim{M} < k - 1$ we see that the image is measure zero. Therefore, for a generic $v \in \R^{k}$ its ray does not lie in the image. 
+\end{proof}
+
+\begin{remark}
+Therefore, we conclude Whitney's first embedding theorem. Using the fact that a proper injective immersion is an embedding (it is automatically closed). For example if $M$ is compact then properness of a map to a Hausdorff space is automatic.
+\end{remark}
+
+\begin{theorem}[Whitney Embedding]
+Assume $M$ is compact and $\dim{M} = m$ then there exists an embedding of $M \embed \R^{2m + 1}$ and an immersion $M \imm \R^{2m}$.
+\end{theorem}
+
+\begin{theorem}[Whitney Approximation]
+For $M$ compact and $\dim{M} = m$ then for any smooth map $f : M \to \R^k$ can be (uniformly) approximated by embeddings provided $k \ge 2 m + 1$ meaning for all $\epsilon > 0$ there is an embedding $g_\epsilon : M \embed \R^k$ such that $|| f - g ||_{C^0} < \epsilon$.
+\end{theorem}
+
+\begin{proof}
+Let $f : M \to \R^k$ is smooth and there exists an embedding $\iota : M \embed \R^N$ then consider $(f, \iota) : M \to \R^{k + N}$ which is also an embedding. Then the generic projection $M \to \R^{k + N} \to \R^N$ is am embedding. We can also show that by choosing the right projections we can make the $C^0$ distance as small as we want.
+\end{proof}
+
+\begin{theorem}[Strong Whitney Approximation]
+Let $M$ be compact then for all $r$ 
+\[ \mathrm{Emb}(M, \R^k) \subset C^r(M, \R^k) \]
+is dense if $k > 2 \dim{M}$ and likewise,
+\[ \mathrm{Imm}(M, \R^k) \subset C^r(M, \R^k) \]
+is dense if $k \ge 2 \dim{M}$. 
+\end{theorem}
+
+\begin{theorem}[Strong Whitney Embedding]
+Let $M$ be a smooth compact manifold with $\dim{M} = m > 0$. Then there exist,
+\begin{enumerate}
+\item an embedding $M \embed \R^{2m}$
+\item an immersion $M \embed \R^{2m - 1}$
+\end{enumerate}
+\end{theorem}
+
+\newcommand{\RP}{\mathbb{RP}}
+
+\begin{remark}
+There is an embedding $\RP^2 \embed \R^4$ but there is only an immersion $\RP^2 \imm \R^3$ but no embedding. Furthermore, $\RP^2$ does not immerse in $\R^2$ so the above theorem is sharp. 
+\end{remark}
+
+\begin{remark}
+The strong embedding theorem cannot be extended to an approximation theorem. The figure eight immersion $S^1 \imm \R^2$ cannot be approximated by embeddings. A generic immersion $M \imm \R^{2m}$ has transverse double points only. Then Whitney eliminates double points by introducing more double point of the opposite orientation and then cancel them. 
+\end{remark}
+
+\begin{remark}
+All of these results generalize to proper embeddings / immersions if $M$ is not compact and manifolds with boundary.
+\end{remark}
+
+\subsection{Tubular Neighborhood Theorem}
+
+\begin{definition}
+Let $S \subset M$ be a submanifold. A \textit{tubular neighborhood} of $S$ is a pair $(U, \varphi)$ such that $U \subset M$ is an open neighborhood of $S$ and $\varphi : U \to N_{S/M}$ is a diffeomorphism over $S$ meaning that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r, "\varphi"] & N_{S/M} 
+\\
+S \arrow[u, hook] \arrow[r, equals] & S \arrow[u, hook]
+\end{tikzcd}
+\end{center} 
+\end{definition}
+
+\begin{theorem}
+Let $S \subset M$ is a compact submanifold ($M$ need not be compact). Then there exists a tubular neighborhood of $S$.
+\end{theorem}
+
+\begin{proof}
+Assume that $M = \R^m$ and $S \embed \R^m$ then define $\varphi : N_{S/M} \to \R^m$ via first using the metric on $\R^m$ embedding $N_{S/M} \cong (T S)^\perp \subset TM$ and then define, 
+\[ \varphi : (x, v) \mapsto x + v \]
+I claim that the compactness of $S$ implies that $\varphi$ is a diffeomorphism for sufficiently small $v$. 
+\bigskip\\
+Now for a general $M$ we embed $S \embed M \embed \R^k$ and choose a tubular neighborhood of $M$ so that $\varphi : U \to N_{M/\R^k}$ is a diffeo onto an open neighborhood $U \subset \R^k$. Then there is a tubular neighborhood of $S$ in $M$ via $(x, v) \mapsto \pi_M(x+v)$ where we get a map $\pi : U \to M$ from $\pi \circ \varphi$ for the projection of the normal bundle. 
+\end{proof} 
+
+\subsection{Vector Fields}
+
+Let $M$ be a smooth manifold then $\pi : E \to M$ is a smooth vector such that there exists a local trivialization with smooth transition functions. For example $T M$ is a smooth vector bundle.
+\bigskip\\
+Smooth sections of $E$ are smooth maps $s : M \to E$ such that $\pi \circ s = \id$. We write $\Gamma(X, E)$ for the vector space of smooth sections. 
+
+\section{de Rham's Theorem}
+
+\newcommand{\dR}{\mathrm{dR}}
+
+We defined the de Rham complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^0(M) \arrow[r, "\mathrm{d}"] & \Omega^1(M) \arrow[r, "\mathrm{d}"] & \Omega^2(M) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Then the de Rham cohomology is,
+\[ H^k_{\dR}(M) := \frac{\ker{(\d : \Omega^k \to \Omega^{k+1})}}{\im{(\d : \Omega^{k-1} \to \Omega^k)}} \]
+Furthermore, if $f : M \to N$ is smooth then $f^* : \Omega^k(N) \to \Omega^k(M)$ defined by,
+\[ (f^* \omega)_x(v_1, \dots, v_k) = \omega_{f(x)}(\d{f_x}(v_1), \dots, \d{f_x}(v_k)) \]
+intertwines with the de Rham complex meaning $f^* (\d{\omega}) = \d{f^* \omega}$. Therefore, we get a morphism of cohomology,
+\[ f^* : H^k_{\dR}(N) \to H^k_{\dR}(M) \]
+
+\subsection{de Rham's Theorem}
+
+There is a canonical isomorphism,
+\[ H^k_{\dR}(M) \xrightarrow{I} H^k_{\text{sing}}(M, \R) \]
+Let $C_k(M)$ be singular chain complex generated by smooth (at least $C^1$ so that pullbacks are defined) singular simplices $\sigma : \Delta^k \to M$. Then $C^k(M) = \Hom{}{C_k(M)}{\R}$. Then there is the singular cochain complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C^0(M) \arrow[r, "\delta"] & C^1(M) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center} 
+Consider the morphism of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^0(M) \arrow[d, "I"] \arrow[r, "\mathrm{d}"] & \Omega^1(M) \arrow[d, "I"] \arrow[r, "\mathrm{d}"] & \Omega^2(M) \arrow[r, "\mathrm{d}"] & \cdots
+\\
+0 \arrow[r] & C^0(M) \arrow[r, "\delta"] & C^1(M) \arrow[r] & C^2(M) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+where we define,
+\[ I : \Omega^k(M) \to C^k(M) \]
+via,
+\[ I(\omega)(\sigma) = \int_\sigma \omega = \int_{\Delta^k} \sigma^* \omega \]
+Notice that $I$ is a chain map $I \circ \d{} = \delta \circ I$ because by Stokes' theorem,
+\[ \int_{\Delta^k} \d{\omega} = \int_{\partial \Delta^k} \omega \]
+Furthermore, $I$ is natural in the sense that for $f : M \to N$ there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+\Omega^k(N) \arrow[d, "I"] \arrow[r, "f^*"] & \Omega^k(M) \arrow[d, "I"]
+\\
+C^k(M) \arrow[r, "f^*"] & C^k(N)
+\end{tikzcd}
+\end{center}
+meaning $f^* \circ I = I \circ f^*$. 
+
+\begin{theorem}[de Rham]
+$M$ is a smooth manifold. Then $I : \Omega^k(M) \to C^k(M)$ is a natural chain homotopy equivalence and thus descends to a natural isomorphism,
+\[ I : H^k_{\dR}(M) \xrightarrow{\sim} H^k(M, \R) \]
+\end{theorem}
+
+\begin{remark}
+We will show both cohomology theories have similar properties:
+\begin{enumerate}
+\item homotopy invariance (not clear for $\dR$)
+\item dimension axiom: calculation on a ball (Poincare lemma)
+\item Mayer-Vietoris 
+\end{enumerate}
+\end{remark}
+
+\begin{theorem}
+Homotopic maps $f_i : M \to N$ induce equal maps on $H_{\dR}^*$.
+\end{theorem}
+
+\begin{proof}
+Consider the projection $\pi : M \times \R \to M$ and the zero section $s : M \to M \times \R$. The claim is that $s_*$ and $\pi_*$ induce inverse maps in cohomology. Indeed, $\pi \circ s = \id$ so $s^* \circ \pi^* = \id$. Therefore we just need to show that $\pi^* \circ s^* = \id$. Once we have done this we immediately conclude the general case because if $f_0 \sim f_1$ then $f_i = F \circ s_i$ for sections $s_i : M \to M \times \{ i \}$ and $F : M \times \R \to N$. Then $f_i^* = s_i^* \circ F^*$ but $s_0^* = s_1^* = (\pi^*)^{-1}$ and thus $f_0^* = f_1^*$.
+\bigskip\\
+Therefore, we need to show that $\pi^* \circ s^*$. This is a calculation, we can write,
+\[ \omega(x,t) = \xi(x,t) + \eta(x,t) \wedge \d{t} \]
+and then,
+\[ s^* \circ \pi^* (\omega)(x,t) = \xi(x,0) \]
+Then we need to show that,
+\[ \omega(x,t) - s^* \circ \pi^* (\omega)(x,t) = \xi(x,t) - \xi(x,0) + \eta(x,t) \wedge \d{t} \]
+is a boundary. 
+\end{proof}
+
+\begin{lemma}[Poincare]
+On a ball $U \subset \R^n$ (or a convex open subset) any closed $k$-form is exact ($k \ge 1$) meaning,
+\[ H^k_{\dR}(U) = 
+\begin{cases}
+\R & k = 0
+\\
+0 & k > 0 
+\end{cases}\]
+\end{lemma}
+
+\begin{proof}
+By induction on $n$ from homotopy invariant gives this. Directly, given $\omega$ such that $\d{\omega} = 0$ we need to find $\eta$ with $\d{\eta} = \omega$. We define,
+\[ \eta(x) = \int_0^x \omega \]
+which id well-defined because the region is simply-connected and $\d{\omega} = 0$ so this is path independent. 
+\end{proof}
+
+\begin{proposition}[Mayer-Vietoris]
+Let $U, V \subset M$ be open subsets then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^k(U \cup V) \arrow[r] & \Omega^k(U) \oplus \Omega^k(V) \arrow[r] & \Omega^k(U \cap V) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+given by $\omega \mapsto (\omega|_U, - \omega|_V)$ and $(\eta_1, \eta_2) \mapsto (\eta_1 + \eta_2)|_{U \cap V}$ is a short exact sequence of complexes. Therefore there is a compatible long exact sequence of cohomology,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+\cdots \arrow[r] & H^k_{\dR}(U \cap V) \arrow[d, "I"] \arrow[r] & H^k_{\dR}(U) \oplus H^k_{\dR}(V) \arrow[d, "I"] \arrow[r] & H^k_{\dR}(U \cap V) \arrow[d, "I"] \arrow[r, "\delta"] & H^{k+1}_{\dR}(U \cup V) \arrow[d, "I"] \arrow[r] & \cdots 
+\\
+\cdots \arrow[r] & H^k_{\text{sing}}(U \cap V) \arrow[r] & H^k_{\text{sing}}(U) \oplus H^k_{\text{sing}}(V) \arrow[r] & H^k_{\text{sing}}(U \cap V) \arrow[r, "\delta"] & H^{k+1}_{\text{sing}}(U \cup V) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+\end{proposition}
+
+\begin{definition}
+Let $M$ be a manifold. An \textit{exhaustion function} is a smooth map $f : M \to \R$ such that $f^{-1}([a, \infty])$ is compact for all $a \in \R$.
+\end{definition}
+
+\begin{lemma}
+If $M$ is second countable then $M$ admits an exhaustion function.
+\end{lemma}
+
+\begin{proof}
+Let $\{ \beta_k \}$ be a partition of unity for a locally finite countable open cover $\{ U_k \}$. Then consider,
+\[ f = \sum_{k = 1}^\infty k \cdot \beta_k \]
+\end{proof}
+
+\begin{lemma}
+Let $P(U)$ be a property of the open submanifolds $U \subset M$ such that,
+\begin{enumerate}
+\item $P(U)$ is true if $U$ is diffeomorphic to a ball $B \subset \R^n$ (or a convex set)
+\item if $P(U)$ and $P(V)$ and $P(U \cap V)$ then $P(U \cup V)$
+\item if $\{ U_\alpha \}_{\alpha}$ are disjoint and each $P(U_\alpha)$ is true then $P(\sqcup U_\alpha)$ is true.
+\end{enumerate}
+then $P(M)$ is true. 
+\end{lemma}
+
+\begin{proof}
+If $M$ is compact then we can cover $M$ by finitely many balls and use  (a) and (b) to conclude. In general, we use an exhaustion function to split the manifold into compact bands. Then we extend these to open sets carefully to conlcude (DO THIS).
+\end{proof}
+
+\begin{proof}[Proof of de Rham's Theorem]
+Let $P(M)$ be that $I : H^k_{\dR}(M) \to H^k_{\text{sing}}(M, \R)$ is an isomorphism. We checked that property (1) holds. From Mayer-Vietoris and the 5-lemma we conclude (2). Funaly, (3) is clear because both sides are additive over disjoint union.
+\bigskip\\
+However, there is a subtilty. We use smooth chains not singular chains and therefore we need to use the approximation theorem to show that the complex of smooth chains and singular chains compute the same cohomology groups.  
+\end{proof}
+
+\subsection{Compactly Supported de Rham Cohomology}
+
+Let $M$ be a manifold and define, $\Omega^k_c(M)$ be compactly supported $k$-forms. Then $\Omega^k_c(M) \xrightarrow{\mathrm{d}} \Omega^{k+1}_c(M)$ is well-defined because if $\omega$ is compactly supported then $\d{\omega}$ is compactly supported. Then its cohomology gives the compactly supported cohomology $H^k_c(M)$.
+\bigskip\\
+Given open $U \subset M$ there is an extension by zero map $\Omega^k_c(U) \to \Omega^k_c(M)$ to give,
+\[ \iota_* : H^*_c(U) \to H^*_c(M) \]
+Then using extension by zero we get ``backwards'' Mayer-Vietoris. Consider the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega^*_c(U \cap V) \arrow[r] & \Omega^*_c(U) \oplus \Omega^*_c(V) \arrow[r] & \Omega_c^*(U \cup V) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+defined by $\omega \mapsto (\iota_U \omega, - \iota_V \omega)$ and $(\eta_1, \eta_2) \mapsto \iota_{U \cup V} \eta_1 + \iota_{U \cup V} \eta_2$.
+
+\subsection{Poincare Duality}
+
+Compactly supported cohomology gives a Poincare duality for all oriented manifolds,
+\[ \mathrm{PD} : H^k_{\dR}(M) \to H^{n-k}_c(M)^* \]
+defined by,
+\[ \mathrm{PD}(\omega)(\eta) = \int_M \omega \wedge \eta \]
+which makes sense because $\eta$ is compactly supported. 
+
+\subsubsection{Orientation}
+
+\begin{definition}
+A vector bundle $E \to X$ is \textit{orientable} if $\det{E}$ is a trivial line bundle.
+\end{definition}
+
+\begin{definition}
+A manifold $M$ is \textit{orientable} if $TM$ is \textit{oriented}.
+\end{definition}
+
+\begin{definition}
+A orientation of an oriented manifold $M$ is a choice of trivialization of $\det{TM}$ up to multiplication by a strictly positive function. 
+\end{definition}
+
+\subsubsection{Integration}
+
+Let $\omega \in \Omega^n_c(M)$ be a compactly supported form on $M$ then we can integrate it if $M$ is oriented. Choose charts $\{ U_\alpha \}$ fir $M$ with positive determinant transition functions. Then we get a partition of unity,
+\[ 1 = \sum \rho_\alpha(x) \]
+with $\rho_\alpha$ supported on $U_\alpha$. Let $\varphi : U_\alpha \to V_\alpha \subset \R^n$ be the charts. Then we define,
+\[ \int_M \omega = \sum_\alpha \int_M \rho_\alpha \cdot \omega = \sum_\alpha = \int_{U_\alpha} \rho_\alpha \cdot \omega = \sum_\alpha \int_{V_\alpha} (\varphi^{-1})^* (\rho_\alpha \omega) \]
+This is well-defined because the transition functions have positive determinant and is a finite sum because $\omega$ is compact and the sum is locally finite. 
+
+\begin{remark}
+Paracompact means covers have locally-finite refinements in the sense that each point $x$ \textit{has a neighborhood} $U_x$ that intersects finitely many elements of the refinement. A cover is point-finite if just each point $x$ is an element of finitely many elements of the cover. If every open cover has a point-finite refinement we say that $X$ is metacompact. 
+\bigskip\\
+Let $\{ U_\alpha \}$ be a locally-finite cover and $K \subset X$ compact. Then $K$ intersects finitely many $U_\alpha$. Indeed, for each $x \in K$ there is an open $U_x$ that intersects finitely many $U_\alpha$. However, because $K$ is compact we need only finitely many $U_x$ to cover $K$ and therefore only finitely many $U_\alpha$ can intersect $K$ since if $U_\alpha$ intersects $K$ then it intersects some $U_x$ in the finite subcover. 
+\end{remark}
+
+\section{Morse Theory}
+
+\newcommand{\RR}{\mathbb{R}}
+
+Let $M$ be a closed $n$ dimensional manifold and $f : M \to \RR$ a smooth function. 
+
+\begin{definition}
+$x \in M$ is a critical point of $f$ iff $\d{f} = 0$ (in general it means $\d{f}$ is not surjective but its target is one dimensional). $c \in \RR$ is a critical value if $f^{-1}(c)$ contains a critical point. 
+\end{definition}
+
+\begin{definition}
+The \textit{Hessian} at $x \in M$ of $f : M \to \RR$ is the quadratic form,
+\[ (\Hess f)_x : T_x M \times T_x M \to \RR \]
+defined by,
+\[ (\Hess f)_x(v,w) = V(W f)_x = (V g)_x \]
+where $V$ and $W$ are extensions of $v$ and $w$ to smooth vector fields locally around $x$ and $g = (W f) = \d{f}(W)$. 
+\end{definition}
+
+\begin{lemma}
+If $x$ is a critical point\footnote{Otherwise this definition does not give a well-defined answer.} then $\Hess_x f$ is well-defined independent of choices and symmetric.
+\end{lemma}
+
+\begin{proof}
+First show symmetry: need $(V W f)_x = (W V f)_x$ Consider the difference,
+\[ [V, W]f = (V W f) - (W V f) \]
+and $[V, W]$ is a vector field so $[V, W] f  = \d{f}([V, W])$ which is zero at the critical point $x \in M$. Furthermore, 
+\[ (\Hess f)_x = (V g)_x = \d{g}_x(V) = \d{g}_x(v) \]
+so it is well-defined in the first coordinate but it is symmetric and therefore well-defined in both coordinates. Bilinearity is clear. 
+\end{proof}
+
+\begin{proposition}
+Given a local diffeomorphism $\varphi : M \to N$ (or define on some open about $x$) with $x \in M$ a critical point of $f : M \to \RR$ then,
+\[v(\Hess f)_x = \varphi^* (\Hess (f \circ \varphi^{-1}))_x \]
+\end{proposition}
+
+\begin{definition}
+$x$ is a nondegenerate critical point if $(\Hess f)_x$ is non-degenerate.
+\end{definition}
+
+If $f : M \to \RR$ is smooth then $\d{f}_x = T_x M \to T_{f(x)} \RR = \RR$ then $\d{f}_x \in T^*_x M$ and regard $\d{f}$ via the ``graph'' of $\d{f}$ the map $x \mapsto \d{f}_x$ as a section of the cotangent bundle $\Gamma_{\d{f}} \in \Gamma(M, T^* M)$. Then the intersections of $\Gamma_f$ with the zero section are exactly the critical points which are nondegenerate if and only if the intersection is transverse. 
+
+\begin{definition}
+If $x \in M$ is a nondeg critical point define,
+\[ \ind_x f = \# \text{neg eigenvalues of } \Hess_x f \]
+\end{definition}
+
+\begin{lemma}[Morse]
+Let $p \in M$ is a nondeg critical point of $f : M \to \RR$ then there exists local coodinates $x = (x_1, \dots, x_n)$ on $M$ at $x$ such that,
+\[ f(x) = f(p) - (x_1^2 + \cdots + x_k^2) + (x_{k+1}^2 + \cdots + x_n^2) \]
+where $k$ is the index.  
+\end{lemma}
+
+\begin{proof}
+We can assume $f(p) = 0$. Then,
+\[ f(x) = \int_0^1 \deriv{}{t} f(tx) \d{t} = \sum_{i = 1}^m x_i \int_0^1 \pderiv{f}{x_i} (fx_i) \d{t} \]
+Because this derivative vanishes at $p$ we can repeat the same trick to get,
+\[ f(x) = \sum_{i,j} x_i x_j h_{ij}(x) \]
+where,
+\[ h_{ij}(x) =  \]
+Then we need to show that 
+\end{proof}
+
+
+\begin{corollary}
+Nondegenerate critical points are isolated 
+\end{corollary}
+
+\begin{definition}
+$f : M \to \RR$ is \textit{Morse} if it has only nondeg ciritcal points i.e. $\Gamma_{\d{f}}$ is transverse to the zero section of $T^* M$ if and only if $(\Hess_x f)$ is nonsingular.
+\end{definition}
+
+\begin{example}
+$f(x,y) = x^3 + 3 x y^2$ is not Morse. 
+\end{example}
+
+\begin{proposition}
+Assume $M$ is a closed manifold. Then the generic (smmoth or $C^2$) function $f: M \to \RR$ is Morse.
+\end{proposition}
+
+\begin{proof}
+Having nondeg critical points is an open condition so it suffices to show that it is dense. Embed $M \embed \RR^N$. Then we consider linear deformations of $f$ i.e. consider, $f_a : M \to \RR$ given by $f_a(x) = f(x) + a \cdot x$ for $a \in \RR^N$. Thom transversality 
+\end{proof}
+
+\begin{remark}
+While the space of Morse functions is not path connected in general, still in a generic path $f_t$ connecting $f_0$ and $f_1$ Morse the generic $f_t$ is also Morse and the exceptions will have a unique degenerate critical point where two opposite nondeg critical points merge and cancel. 
+\end{remark}
+
+\begin{definition}
+If $a \in \RR$ let $M^a = f^{-1}((-\infty, a])$ be the sublevel set.
+\end{definition}
+
+\begin{proposition}
+If $a$ is a regular value then $M^a$ is a smooth submanifold with boundary $f^{-1}(a)$.
+\end{proposition}
+
+
+\begin{definition}
+Let $(M, g)$ be a Riemannian metric. This induces a canonical isomorphism $TM \cong T^*M$. Then we get a gradient vector field $\grad f = g^{-1}(\d{f}) \in \Gamma(M, TM)$. 
+\end{definition}
+
+\begin{proposition}
+If $a < b$ and there are no critical values in $[a,b]$ then,
+\begin{enumerate}
+\item $f^{-1}([a,b]) \cong [a,b] \times f^{-1}(a)$
+\item $M^a \cong M^b$ and $M^b = M^a \cup_{f^{-1}(a)} [a,b] \times f^{-1}(a)$. 
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Consider the vector field $\grad f$ but we need to modify it so that it sends level sets to level sets. There are no critical values on $(a - \epsilon, b + \epsilon)$ because they are isolated (does this assume the function is Morse?). Thus define,
+\[ \rho = 
+\begin{cases}
+\frac{1}{|| \grad f ||^2} & x \in f^{-1}(a - \epsilon/2, b + \epsilon/2) 
+\\
+\text{bump function} & \text{else}
+\end{cases} \] 
+so that $\rho$ smoothly goes to zero on the boundary. Then define,
+\[ V = \rho \cdot \grad f \]
+This is a compactly supported vector field so its flow $\phi = (\varphi_t)_{t \in \RR}$ exists for all $t \in \RR$. I claim that $\varphi_{b-a}$ is a diffeomorphism from $M^b$ to $M^a$. The key is that,
+\[ \deriv{}{t} f(\varphi_t) = \d{f}(V) = \rho \cdot \d{f}(\grad f) = \rho \cdot g(\d{f}, \d{f}) = 1 \]
+when $f(\varphi_t(x)) \in [a,b]$. 
+\end{proof}
+
+\begin{definition}
+Let $M$ be a manifold with boundary and $n = \dim{M}$. To attach a $k$-handle to $M$ means to consider $M_f = M \cup_f D^k \times D^{n-k}$ via an attaching map $f : \partial (\partial D^k) \times D^{n-k} \to \partial M$. Then $\partial M_f = M \# (D^k \times \partial D^{n-k})$.
+\end{definition}
+
+
+\section{Mar. 8}
+
+\begin{theorem}[Weak Morse Inequality]
+Assume $M$ is a closed oriented manifold and $f : M \to \RR$ is a Morse function. Then,
+\[ c_i(f) = \# \{ \text{critical points of } f \text{ of index } i \} \le \ge \mathrm{rank} H_i(M ; A) \]
+for any abelian group coefficients $A$. Therefore,
+\[ \# \{ \text{ critical point of } f \} \ge \sum_{i = 1}^\infty b_i(M) \]
+\end{theorem}
+
+\begin{remark}
+From intersection theory,
+\[ \chi(M) = \Gamma_{\d{f}} \cap \Delta = \sum_{x \text{ critical}} (-1)^{\ind{x}} \]
+\end{remark}
+
+\begin{theorem}[Strong Morse Inequality]
+Assume $M$ is a closed oriented manifold and $f : M \to \RR$ is a Morse function. For all $k \in \Z$,
+\[ \sum_{i = 0}^k (-1)^{k-i} c_i(f) \ge \sum_{i = 0}^k (-1)^{k-i} b_i(M) \]
+\end{theorem}
+
+\begin{remark}
+This implies the weak More inequality if we take the cases $k$ and $k-1$ and adding gives,
+\[ c_k(f) \ge b_k(M) \]
+\end{remark}
+
+\newcommand{\CP}{\mathbb{CP}}
+
+\begin{example}
+Any Morse $\rho : \CP^n \to \RR$ has at least 1 critical point of index $2k$ for all $k = 0, \dots, n$.  
+\end{example}
+
+\begin{theorem}[Reeb Theorem]
+Assume $M$ is a closed smooth manifold such that there exists a Morse function $f : M \to \RR$ with only $2$ closed points\footnote{A nonconstant map on a compact manifold always achieves its maximum and its minimum and thus has at least two critical points}. Then $M$ is homeomorphic to $S^n$.
+\end{theorem}
+
+\begin{remark}
+However, $M$ may not be diffeomorphic to $S^n$ for example Milnor's exotic $7$-spheres do admit such a Morse function. Milnor showed that there are exactly $28$ nondiffeomorphic smooth structures on $S^7$.
+\end{remark}
+
+\begin{remark}
+Smooth structures on $S^n$ form an abelian group under connect sum. For $n \le 3$ this is trivial. For $n \ge 5$ this group is finite. For $n = 4$ it is unknown if the group is finite.  
+\end{remark}
+
+\subsection{Morse Homology}
+
+Construct a complex where $CM_i$ is the free group generated by index $i$ critical points of $f$. The differential $\d$ will could gradient flow lines. Because of physics, we traditionally consider negative gradient flow of $f$ meaning solutions to,
+\[ \deriv{\gamma}{t} + (\nabla f)_{\gamma(t)} = 0 \]
+If $p$ is a critical point of $f : M \to \RR$ then the stable manifold is,
+\[ W^S(p) = \{ x \in M \mid \lim_{t \to \infty} \varphi_{t}(x) = p \} \]
+and the unstable manifold is,
+\[ W^U(p) = \{ x \in M \mid \lim_{t \to -\infty} \varphi_{t}(x) = p \} \]
+where in both cases $\varphi$ is the diffeomorphism generated by the flow. 
+
+\begin{theorem}[Stable Manifold]
+If $f : M \to \RR$ is a Morse function and $x$ is a critical point of index $k$ then $W^U(p)$ and $W^S(p)$ are (embedded) smooth submanifolds diffeomorphic to open disks of dimension $k$ and $m-k$ respectively. Furthermore, $T W^U(p)$ is the negative eigenspace of $(\Hess f)_x$ and $T W^S(p)$ is the positive eigenspace of $(\Hess f)_x$ which together span $T_p M$ because $(\Hess f)_x$ is nondegenerate. 
+\end{theorem}
+
+\begin{corollary}
+For a Morse function $f : M \to \RR$ we get a decomposition,
+\[ M = \cup_{p \text{ critical}} W^U(p) \]
+which is disjoint as sets but not as topological spaces. These pieces are homeomorphic to open disks. 
+\end{corollary}
+
+\begin{definition}
+Let $f : M \to \RR$ More, and $g$ a Riemannian metric on $M$. Then $f$ is called \textit{Palais-Smale} if for any two critical point $x, y$ the stable and unstable manifolds intersect transversally. 
+\end{definition}
+
+\begin{remark}
+It is clear that $W^U(p)$ and $W^S(p)$ intsect transversally because their tangent spaces lie in distinct eigenspaces. However for distinct critical points this is not necessarily the case. 
+\end{remark}
+
+\begin{definition}
+For a Morse-Smale pair $(f, g)$ let $W(x,y) = W^U(x) \cap W^S(y)$ in the set of points that flow from $x$ to $y$ and is a smooth (embedded) submanifold of dimension,
+\[ \dim{W(x,y)} = \ind{x} - \ind{y} \]
+\end{definition}
+
+\begin{definition}
+There is an $\RR$-action induced by the flow. Let, $m(x,y) = W(x,y) / \RR$ which is the space of flow lines. If $x \neq y$ (with Morse-Smale condition) then $m(x,y)$ is a smooth manifold of dimension $\ind{x} - \dim{y} - 1$. In particular it is empty unless $\im{x} > \ind{y}$. 
+\end{definition}
+
+\begin{example}
+The standard metric and height function on a torus in $\RR^3$ is not Morse-Smale because there are two flow lines between the $2$ index $1$ points. However, a generic tilt of the torus has the same critical point structure but now is Morse-Smale. 
+\end{example}
+
+\begin{remark}
+If Morse-Smale, the manifolds $m(x,y)$ are smooth but may not be compact. However, it can be compactified by adding broken flow lines that pass through intermediate critical points. 
+\end{remark}
+
+\begin{theorem}
+For a Morse-Smale pair,
+\begin{enumerate}
+\item if $\ind{x} - \ind{y} = 1$ then $\overline{m}(x,y) = m(x,y)$ is a zero dimensional compact oriented manifold. 
+\item if $\ind{x} - \ind{y} = 2$ then $\overline{m}(x,y)$ is a compact $1$-dimensional oriented manifold with,
+\[ \partial \overline{m}(x,y) = \sqcup_{z} m(x,z) \times m(z,y) \]
+with $\ind{z} = \ind{x} -1 = \ind{y} + 1$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}
+The Morse-Smale complex of a Morse-Smale pair $(f,g)$ is the complex,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & CM_i \arrow[r, "\d{}"] & CM_{i+1} \arrow[r, "\d{}"] & \cdots 
+\end{tikzcd}
+\end{center}
+where,
+\[ CM_i = \bigoplus_{x \text{ critical}} \Z \left< x \right> \]
+and the differential is,
+\[ \d{x} = \sum_{\substack{y \text{ critical} \\ \ind{y} = \ind{x} - 1}} y \cdot \left( \# \overline{m}(x,y) \right) \]
+\end{definition}
+
+\begin{theorem}
+$\d{}^2 = 0$ so $(CM_i, \d{})$ is a chain complex and its homology is canonically isomorphic to $H_*(M)$ and therefore independent of all choices. 
+\end{theorem}
+
+\begin{proof}
+First, why is $\d{}^2 = 0$. Consider,
+\[ \d{\d{x}} = \sum y \left( \# \overline{m}(x,z) \right) \left( \# \overline{m}(z, y) \right) \]
+We know $\ind{x} - \ind{y} = 2$ then consider $\overline{m}(x,y)$ which is a $1$-dimensional compact oriented manifold with boundary,
+\[ \partial \overline{m}(x,y) = \sqcup_z \overline{m}(x,z) \times \overline{m}(z,y) \]
+But the sum of the siged boundary of a $1$-dimensional compact oriented manifold is zero. Therefore,
+\[ \sum_z \left( \# \overline{m}(x,z) \right) \cdot \left( \# \overline{m}(z,y) \right) = 0 \]
+proving the claim. The rest requires more work.
+\end{proof}
+
+\begin{example}
+For the torus in $\RR^3$ tilted so that it is Morse-Smale. There are exactly flow lines for each of $M \mapsto a \mapsto m$ and $M \mapsto b \mapsto m$ with $M$ the max and $m$ the min. We get the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z[m] \arrow[r, "\d{}"] & \Z[a] \oplus \Z[b] \arrow[r, "\d{}"] & \Z[M] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+The boundary maps are zero because there are exactly two flow lines in each case with opposite orientations. Therefore, we recover the correct singular homology $H_*(M)$. 
+\end{example}
+
+\subsection{Witten}
+
+Witten defined a deformation of the deRham complex,
+\begin{center}
+\begin{tikzcd}
+\Omega^k(M) \arrow[r, "\d{}"] & \Omega^{k+1}(M) 
+\end{tikzcd}
+\end{center}
+by a Morse function $f$ and a parameter $t \in \RR$ to give,
+\[ \d{}_t = e^{-tf} \d{e^{tf}} = \d{} + t \d{f} \wedge - \]
+This complex still computes deRham cohomology. However, as $t \to \infty$ the low eigenspaces of the deformed laplacian $\Delta_t = \d{}_t \d{}_t^* + \d{}_t^* \d{}_t$ have elements which concetrate as $\delta$ distributions on the critical points of $f$ and therefore we recover the Morse complex. 
+
+\section{Mar. 10}
+
+Trying to find invariants of a smooth structure. deRham cohomology and Morse homology are both only topological invariants even though its construction relies on the smooth structure. 
+
+\begin{definition}
+A cobordism between oriented manifolds $M_0$ and $M_1$ is an oriented manifold $W$ with boundary whose boundary is,
+\[ \partial W = M_1 \sqcup \overline{M_0} \] 
+\end{definition}
+
+\begin{example}
+The trivial coborhism from $M_0$ to $M_0$ is $M_0 \times [0,1]$.
+\end{example}
+
+\begin{definition}
+A cobordism $W$ is an h-cobordism if the inclusions $\partial_- W \embed W$ and $\partial_+ W \embed W$ are homotopy equivalences. 
+\end{definition}
+
+\begin{theorem}[Smale]
+If $\dim{W} \ge 6$ then any simply-connected compact oriented $h$-cobordism $W$ is diffeomorphic to the trivial cobordism. In particular, $\partial_- W \cong \partial_+ W$. 
+\end{theorem}
+
+\begin{remark}
+For $5$ dimensional cobordisms (meaning coborant $4$-manifolds) this fails by a result of Donaldson. However, Freedman showed that the result still holds for ``homeomorphism'' instead of ``diffeomorphism''.
+\end{remark}
+
+\subsection{Exotic Spheres}
+
+Milnor (1956) found a Morse function with only two critical points (which implies that the space is homeomorphic to $S^7$) on a space that was not diffeomorphic to $S^7$. Considering $S^3$-bundles over $S^4$ but clutching the two trivializations over the equatorial $S^3$ using a diffeomorphism. Then Milnor used the following to show that it is not diffeomorphic to $S^7$.
+
+\begin{theorem}
+Let $M$ be a closed $4k$-manifold. Consider the intersection form,
+\[ H_*(M) \times H_*(M) \to \RR \]
+the signature $\sigma(M)$ is equal to,
+\[ \sigma(M) = \text{polynomial in Pontryagin classes} \]
+\end{theorem}
+
+Then the standard $S^7$ has a trivial tangent bundle and therefore the Pontryagin classes should vanish but they cannot for his example. (Note that these characteristic classes are topological so the Exotic $S^7$ has topologically nontrivial tangent bundle).
+
+\begin{theorem}[Atyiah-Singer]
+Let $D$ be an elliptic operator $D$. Then,
+\[ \text{index}(D) = \dim{\ker{D}} - \dim{\coker{D}} \] 
+is equal to the topological index,
+\[ \int_X \mathrm{ch}(D) \mathrm{Td}(X) \]
+\end{theorem}
+
+\begin{theorem}[Dirac-Rochlin]
+Let $M$ be a simply-connected smooth $4$-manifold. The intersection form,
+\[ H_2(M) \times H_2(M) \to \RR \]
+then the signature is a multiple of $16$. 
+\end{theorem}
+
+\begin{remark}
+If $M$ is a topological $4$-manifold then the signature is a mutiple of $8$. One can construct an example of a topological $4$-manifold with signature not divisible by $16$ and thus cannot be smoothed. Freedman (1982) constructed closed oriented simply-connected topological manfiold with intersection form $E_8$ (unimodular and negative-definite but not diagonalizable over $\Z$) which has signature $8$. 
+\end{remark}
+
+\begin{remark}
+Milnor proved that if $n \neq 4$ there are finite many smooth structues on $S^n$. Then you can put these exotic structures on $S^n$ on any other $n$-manifold $M$ via taking the connect sum $M \# S^n$ with a weird smooth structure on $S^n$.
+\end{remark}
+
+\begin{definition}
+A \textit{twisted sphere} is $D^n \cup_f D^n$ for an orientation-preserving diffeomorphism $f : S^{n-1} \to S^{n-1}$. 
+\end{definition}
+
+\begin{proposition}
+Twisted spheres are homeomorphic to $S^n$.
+\end{proposition}
+
+\begin{proof}
+The attaching map $f$ is degree $1$ and thus homotopy equivalent to the identity so the twisted sphere is homotopy equivalent to $S^n$ and thus by the Poincare conjecture (now a theorem) is homeomorphic to $S^n$.
+\end{proof}
+
+To get something exotic we need $f$ not in the image,
+\[ \pi_0(\mathrm{Diff}^+(D^n)) \to \pi_0(\mathrm{Diff}^+(S^{n-1})) \to \Theta_n \to 0 \]
+so we consider the cokernel $\Theta_n$. 
+
+\begin{theorem}[Cerf]
+If $n \ge 6$ then $\pi_0(\mathrm{Diff}^+(D^n)) = 0$. 
+\end{theorem}
+
+This plus $h$-cobordism theorem implies that all exotic spheres in $n \ge 6$ are twisted spheres. 
+
+\subsection{Brieskorn Spheres}
+
+Consider intersecting singulairties $z_1^{a_1} + \cdots + z_n^{a_n} = 0$ in $\CC^n$ with a small sphere then get a link. Then consider,
+\[ z_1^2 + z_2^2 + z_3^2 + z_4^2 + z_5^{6k-1} = 0 \]
+for $k = 1, \dots, 28$ this is a link of topological $S^7$
+
+\subsection{Invariants of the Smooth Structure}
+
+Idea: count solutions to some natural geometric PDEs on your manifold. Gauge theory involves bundles over $4$-manifold an anti-self dual connection over a SU(2) bundle. Donaldson invariants are smooth invariants (92) then Seiborg-Witten equation (94).
+\bigskip\\
+Gromov-Witten invariants in symplectic geometry counting pseudo-holomorphic maps into a manifold. 
+  
+\end{document}
+
+
+

@@ -1,0 +1,282 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../../Algebraic Geometry/"}{AlgGeoCommands}
+
+\begin{document}
+
+
+\section{Unimodular Lattices}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\h}{\mathfrak{h}}
+
+\begin{defn}
+Let $(V, \inner{-}{-})$ be a real inner-product space with $n = \dim{V}$ finite. Then a \textit{lattice} is a subgroup $\Lambda \subset V$ such that $\Lambda \ot_{\Z} \R = V$.  
+\end{defn}
+
+\begin{defn}
+Let $\Lambda$ be a lattice. Then we define the \textit{dual Lattice},
+\[ \Lambda^* \subset V^* \quad \text{ where } \Lambda^* = \{ \varphi \in V^* \mid \forall \gamma \in \Lambda : \varphi(\gamma) \in \Z \} \]
+However, $V$ is equipped with an inner product and under the natural isomorphism $V \iso V^*$ defined by $v \mapsto \inner{v}{-}$ we can identify,
+\[ \Lambda^* \subset V \quad \text{ via } \quad \Lambda^* = \{ v \in V \mid \forall \gamma \in \Lambda \mid \inner{v}{\gamma} \in \Z \} \]
+Thus we can write,
+\begin{center}
+\begin{tikzcd}
+\Lambda^* \pullback \arrow[d] \arrow[r, "\sim"] & \Hom{}{\Lambda}{\Z} \arrow[d]
+\\
+V^* \arrow[r] & \Hom{}{\Lambda}{\RR}
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{defn}
+The \textit{covolume} or DEFINE
+\end{defn}
+
+\begin{prop}
+$|\Lambda| \cdot |\Lambda^*| = 1$
+\end{prop}
+
+\begin{proof}
+DO THIS!!
+\end{proof}
+
+\begin{defn}
+A lattice $\Lambda$ is,
+\begin{enumerate}
+\item \textit{integral} if $\inner{\gamma}{\gamma'} \in \Z$ for all $\gamma, \gamma' \in \Lambda$
+\item \textit{unimodular} if $|\Lambda| = 1$
+\item \textit{even} if $|| \gamma ||^2 \in 2 \Z$ for all $\gamma \in \Lambda$
+\item \textit{self-dual} if $\Lambda^* = \Lambda$ inside $V$.
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+A lattice $\Lambda$ is self-dual if and only if $\Lambda$ is integral and unimodular. 
+\end{lemma}
+
+\begin{proof}
+If $\Lambda$ is integral, $\Lambda \subset \Lambda^*$ and if $\Lambda$ is unimodular then $|\Lambda^*| = |\Lambda| = 1$ proving that $\Lambda = \Lambda^*$. Conversely, if $\Lambda = \Lambda^*$ then $|\Lambda| = |\Lambda^*| = 1$ and $\Lambda \subset \Lambda^*$ proving that $\Lambda$ is unimodular and integral.
+\end{proof}
+
+\begin{defn}
+Let $\Lambda$ be a lattice. We define the theta function,
+\[ \Theta_{\Lambda} : \h \to \CC \]
+via the infinite summation,
+\[ \Theta_{\Lambda}(\tau) = \sum_{\gamma \in \Lambda} e^{i \pi \tau || \gamma ||^2} \]
+\end{defn}
+
+
+\begin{prop}
+The summation form of $\Theta_{\Lambda}$ is everywhere absolutely convergent on $\h$. 
+\end{prop}
+
+\begin{proof}
+Notice that,
+\[ | e^{i \pi \tau || \gamma ||^2} | = e^{- \pi || \gamma ||^2 \, \Im{\tau}} \]
+Since $\Im{\tau} > 0$ we see that $0 < e^{-\pi \Im{\tau}} < 1$ and therefore because the number of lattice points of bounded norm grows polynomially the sum is convergent. 
+\end{proof}
+
+\begin{thm}[Poisson Summation]
+Let $f : V \to \CC$ be a Schwartz function with Fourier transform $\hat{f} : V^* \to \CC$. Then,
+\[ \sum_{\gamma \in \Lambda} f(\gamma) = \frac{1}{|\Lambda|} \sum_{\varphi \in \Lambda^*} \hat{f}(\varphi) \]
+\end{thm}
+
+\begin{prop}
+Let $\Lambda$ be a lattice. For any $\tau \in \h$,
+\[ \Theta_{\Lambda^*}(-1/\tau) = \left( \frac{\tau}{i} \right)^{\frac{n}{2}} | \Lambda | \cdot  \Theta_{\Lambda}(\tau) \]
+\end{prop}
+
+\begin{proof}
+This is a direct application of Poisson summation for $f(v) = e^{i \pi \tau || v ||^2}$. A direct calculation shows that, 
+\[ \hat{f}(v) = \left( \frac{i}{\tau} \right)^{\frac{n}{2}} e^{-i \pi || v ||^2 / \tau} \] 
+Then,
+\[ \Theta_{\Lambda}(\tau) = \sum_{\gamma \in \Lambda} f(\gamma) = \frac{1}{| \Lambda |} \sum_{\varphi \in \Lambda^*} \hat{f}(\varphi) = \frac{1}{|\Lambda|} \left( \frac{i}{\tau} \right)^{\frac{n}{2}} \Theta_{\Lambda^*}(-1/\tau) \]
+\end{proof}
+
+\begin{cor}
+If $\Lambda$ is self-dual then,
+\[ \Theta_{\Lambda}(-1/\tau) = \left( \frac{\tau}{i} \right)^{\frac{n}{2}} \Theta_{\Lambda}(\tau) \]
+\end{cor}
+
+\begin{prop}
+If $\Lambda$ is integral then $\Theta_{\Lambda}(\tau + 2) = \Theta_{\Lambda}(\tau)$. If $\Lambda$ is even then $\Theta_{\Lambda}(\tau + 1) = \Theta_{\Lambda}(\tau)$.
+\end{prop}
+
+\begin{proof}
+If $||\gamma||^2 \in \Z$ then,
+\[ e^{i \pi (\tau + 2) || \gamma ||^2} = e^{2 \pi i || \gamma ||^2} e^{i \pi \tau || \gamma ||^2} = e^{i \pi \tau || \gamma ||^2} \] Likewise, if $|| \gamma ||^2 \in 2 \Z$ then,
+\[ e^{i \pi (\tau + 1) || \gamma ||^2} = e^{\pi i || \gamma ||^2} e^{i \pi \tau || \gamma ||^2} = e^{i \pi \tau || \gamma ||^2} \]
+\end{proof}
+
+\begin{cor}
+If $\Lambda$ is self-dual and even then $\Theta_{\Lambda}$ is modular.
+\end{cor}
+
+\begin{thm}
+Let $\Lambda$ be an even integral unimodular lattice. Then $8 \divides \dim{\Lambda}$. 
+\end{thm}
+
+\begin{proof}
+Since integral unimodular lattices are self-dual we see that $\Theta_{\Lambda}$ is modular. 
+\end{proof}
+
+\begin{proof}
+Let $S, T \in \SL{2}{\Z}$ describe $T : \tau \mapsto \tau + 1$ and $S : \tau \mapsto -1/\tau$. The relation $(ST)^3 = \id$ describes the trajectory,
+\[ \tau \mapsto - \frac{1}{\tau} \mapsto \frac{\tau - 1}{\tau} \mapsto \frac{\tau}{1 - \tau} \mapsto \frac{1}{1 - \tau} \mapsto \tau - 1 \mapsto \tau \]
+Using the modularity properties,
+\[ \Theta_{\Lambda}(\tau) = \left( \frac{i}{\tau - 1} \right)^{\frac{n}{2}} \left( \frac{\tau - 1}{i \tau} \right)^{\frac{n}{2}} \left( \frac{\tau}{i} \right)^{\frac{n}{2}} \Theta_{\Lambda}(\tau) = \left( \frac{1}{i} \right)^{\frac{n}{2}} \Theta_{\Lambda}(\tau) \]
+Since $\Theta_{\Lambda}(\tau) \neq 0$ because,
+\[ \Theta_{\Lambda}(i) = \sum_{\Lambda} e^{- \pi || \gamma ||^2} > 0 \]
+and therefore, we must have $i^{\frac{n}{2}} = 1$ and hence $n$ is divisible by $8$. 
+\end{proof}
+
+\begin{rmk}
+All these numbers lie in a wedge on the complex plane (indeed $\mathrm{Re}(z) > 0$) and thus the function $(-)^{\frac{n}{2}}$ is well-defined and is multiplicative. 
+\end{rmk}
+
+
+\section{Introduction}
+
+\begin{rmk}
+Following F. BEUKERS
+Irrationality proofs using modular forms.
+\end{rmk}
+
+\section{The Proof}
+
+\subsection{The Main Lemma}
+
+\newcommand{\lcm}{\mathrm{lcm}}
+
+\begin{lemma}
+Consider power series $f_0, \dots, f_k \in \Q[[t]]$ and let $a_j(n)$ be the $n^{\text{th}}$ coefficient of $f_k$. Suppose that there are positive integers $r, d$ such that for all $n, j$,
+\[ d^n \lcm{(1, \dots, n)}^r a_j(n) \in \Z \]
+Then suppose there are real numbers $\theta_1, \dots, \theta_k \in \RR$ such that,
+\[ F(t) = f_0(t) + \theta_1 f_1(t) + \cdots + \cdots + \theta_k f_k(t) \in \RR[[t]] \]
+is a power series with radius of convergence $\rho > d e^r$. Then either a least one of $\theta_1, \dots, \theta_k$ is irrational or $F$ is a polynomial.
+\end{lemma}
+
+\begin{proof}
+Suppose $\theta_1, \dots, \theta_k \in \Q$ then let $D$ be the product of their denominators. Then $F \in \Q[[t]]$ and its coefficients satisfy,
+\[ c_n(F) = a_0(n) + \theta_1 a_1(n) + \cdots + \theta_k a_k(n) \]
+and thus,
+\[ D \, d^n \, \lcm{(1, \dots, n)}^r c_n(F) \in \Z \]
+However, since the power series is convergent for $|t| = d e^r$ we see that,
+\[ |c_n(F) t^n| = (d e^r)^n c_n(F) \to 0 \]
+Furthermore, $\lcm{(1, \dots, n)} \sim e^n$ and therefore, we see that,
+\[ D \, d^n \, \lcm{(1, \dots, n)}^r c_n(F) \to 0 \]
+but it is an integer so we conclude that $c_n(F) = 0$ for $n \gg 0$ meaning that $F$ is a polynomial.
+\end{proof}
+
+\begin{rmk}
+To see why $\lcm{(1, \dots, n)} \sim e^n$ we use the Chebyshev function,
+\[ \psi(x) = \sum_{p^k \le x} \log{p} = \sum_{n \le x} \Lambda(n) \]
+where $\Lambda$ is the von Mangoldt function,
+\[ \Lambda(n) = 
+\begin{cases}
+\log{p} & n = p^k
+\\
+0 & \text{else}
+\end{cases} \]
+Then we see that,
+\[ \psi(x) = \sum_{p \le x} \lfloor \log_p(n) \rfloor \log{p} \]
+\[ e^{\psi(n)} = \prod_{p^k \le n} p = \prod_{\text{primes}} p^{\lfloor \log_p(n) \rfloor} = \lcm{(1, \dots, n)} \]
+Then the prime number theorem is equivalent to,
+\[ \psi(x) \sim x \]
+\end{rmk}
+
+\subsection{Some Modualar Forms}
+
+The Eisenstein series,
+\[ E_{k}(\tau) = \frac{1}{2 \zeta(k)} \sum_{(n,m) \neq (0,0)} \frac{1}{(n \tau + m)^k} \]
+are modular meaning that for any matrix,
+\[ \gamma = \begin{pmatrix}
+a & b 
+\\
+c & d
+\end{pmatrix}
+\in \mathrm{SL}_2(\Z) \]
+we have,
+\[ E_k(\gamma \cdot \tau) = E_k\left(\frac{a \tau + b}{c \tau + d} \right)  = (c \tau + d)^k E_k(\tau) \]
+Define,
+\[ F(\tau) = \tfrac{1}{40} \left[ E_4(\tau) - 36 E_4(6 \tau) - 7 (4 E_4(2 \tau) - 9 E_4(3 \tau)) \right] \]
+(note that the $6 \tau$ is written as $36 \tau$ but I think this is a typo). 
+and also we define,
+\[ E(\tau) = \tfrac{1}{24} \left[ -5 (E_2(\tau) - 6 E_2(6 \tau)) + 2 E_2(2 \tau) - 3 E_2(3 \tau) \right] \]
+these are modular forms of weight $4$ and $2$ respectively and of level $\Gamma_1(6)$ meaning they transform under $\tau \mapsto -1/(6 \tau)$ as,
+\[ F(-1/(6 \tau)) = (6 \tau)^4 F(\tau) \quad \text{ and } F(-1/(6 \tau)) = \](FUCK WHAT!!!)
+(ETA FUNCTION!!)
+We also define the function,
+\[ t(\tau) = \left( \frac{\Delta(6 \tau) \Delta(\tau)}{\Delta(3 \tau) \Delta(2 \tau)} \right)^{\frac{1}{2}} = q \prod_0^{\infty} (1 - q^{6 n + 1})^{12} (1 - q^{6n+5})^{-12} \]
+which can more correctly be expressed in terms if the Dedekind $\eta$ function (to remove the square-root ambiguity) is invariant under $\tau \mapsto -1/(6 \tau)$ (SHOW THIS)
+DO THIS PROPERLY!!
+Finally, we define $f(\tau)$ as the solution to the differential equation,
+\[ f^{(3)}(\tau) = (2\pi i)^3 F(\tau) \]
+with boundary condition $f(i \infty) = 0$.
+
+\subsection{The $L$-Function}
+
+Given a modular form $f$ with a $q$-expansion,
+\[ f(\tau) = \sum_{n \ge 0} a_n q^n \]
+we associate an $L$-function,
+\[ L(f, s) = \sum_{n \ge 1} \frac{a_n}{n^s} \]
+For example, for the Eisenstein series $E_{2k}$ we get,
+\[ E_{2k}(\tau) = 1 - \frac{4 k}{B_{2k}} \sum_{n = 1}^\infty \sigma_{2k - 1}(n) q^n \]
+Therefore, 
+\[ L(E_{2k}, s) = - \frac{4k}{B_{2k}} \sum_{n \ge 1} \frac{\sigma_{2k-1}(n)}{n^s} \]
+In particular, for $k = 2$ we get,
+\[ L(E_4, s) = 240 \sum_{n \ge 1} \frac{\sigma_3(n)}{n^s} \]
+Let's try to understand this function. Like $\zeta$ is has an Euler product expression because $\sigma_3$ is multiplicative over coprime inputs. If $n = p_1^{e_1} \cdots p_r^{e_r}$ then we just need to understand,
+\[ \frac{\sigma_k(p^e)}{p^{es}} = p^{-es} \left(1 + p^k + p^{2k} + \cdots + p^{ek} \right) = p^{-es} \frac{p^{(e + 1) k} - 1}{p^k - 1} \]
+Therefore, 
+\begin{align*}
+L(E_4, s) & = 240 \prod_{p} \sum_{e \ge 0} p^{-es} \frac{p^{(e + 1) k} - 1}{p^k - 1} 
+\\
+& = 240 \prod_{p} \frac{1}{p^k - 1} \sum_{e \ge 0} (p^{(e+1)k - es} - p^{-es} ) 
+\\
+& = 240 \prod_{p} \frac{1}{p^k - 1} \cdot \left( \frac{p^k}{1 - p^{-(s-k)}} - \frac{1}{1 - p^{-s}} \right) = 240 \prod_p \frac{1}{p^k - 1} \cdot \frac{p^k - 1}{(1 - p^{-(s-k)})(1 - p^{-s})}
+\\
+& = 240 \prod_{p} \frac{1}{1 - p^{-(s-k)}} \cdot \frac{1}{1 - p^{-s}} = 240 \zeta(s-k) \zeta(s) 
+\end{align*}
+Therefore, for our modular form $E$ we get the following $L$-function just by plugging in,
+\begin{align*}
+L(F, s) & = 6 \sum_{n \ge 1} \left( \frac{\sigma_3(n)}{n^s} - 36 \frac{\sigma_3(n)}{(6 n)^s} - 28 \frac{\sigma_3(n)}{(2n)^s} + 63 \frac{\sigma_3(n)}{(3 n)^s} \right)
+\\
+& = 6(1 - 6^{2-s} - 7 \cdot 2^{2-s} + 7 \cdot 3^{2-s}) \zeta(s) \zeta(s - 3)
+\end{align*}
+This $3$ appearing in the $\zeta$ will be the key.
+
+\subsection{Some Computations}
+
+\begin{prop}
+Let,
+\[ F(\tau) = \sum_{n \ge 1} a_n q^n \]
+be convergence for $|q| < 1$ such that for some positive integers $k,N$,
+\[ F(-1/(N \tau)) = - (-i \tau \sqrt{N})^{k+1} F(\tau) \]
+for $\epsilon = \pm 1$.
+Let $f(\tau)$ be defined by the following Fourier series,
+\[ f(\tau) = \sum_{n \ge 1} \frac{a_n}{n^{k}} q^n \]
+meaning exactly that $f$ satisfies the differential equation,
+\[ \left( \deriv{}{\tau} \right)^{k} f(\tau) = (2 \pi i)^{k} F(\tau) \]
+and define,
+\[ h(\tau) = f(\tau) - \sum_{0 \le r < \tfrac{1}{2}(k-1)} (2\pi i \tau)^r \frac{L(F, k-r)}{r!} \]
+Then,
+\[ h(\tau) = (-1)^{k+1} (-i \tau \sqrt{N})^{k-1} h(-1/(N \tau)) \]
+\end{prop}
+
+\par\noindent\rule{\textwidth}{0.4pt}
+We apply this with $k = 3$ and $N = 6$ because we have,
+\[ F(-1/(6 \tau)) = - (6 \tau^2)^2 F(\tau) \] 
+In this case,
+\[ h(\tau) = f(\tau) - L(F, 3) = f(\tau) - 6 [1 - 6^{-1} - 7 \cdot 2^{-1} + 7 \cdot 3^{-1}) \zeta(3) \zeta(0) = f(\tau) - \zeta(3) \]
+which hopefully explains why some of these strange constants were chosen. 
+\[ E(-1/(6 \tau)) \big[ f(-1/(6 \tau)) - \zeta(3) \big] = E(\tau) \big[ f(\tau) - \zeta(3) \big] \]
+this implies that $E(\tau) f(\tau)$ satisfies the hypothesis that $\lcm{(1, \dots, n)}^3 E(\tau) f(\tau) \in \Z[[q]]$. (WHY IS THIS!!!)
+
+Finally, I claim using some nasty calculations that,
+\[ G(\tau) := E(\tau) \big[ f(\tau) - \zeta(3) \big] \]
+has radius of convergence $\rho > e^3$ and hence by the main lemma one of $1$ and $\zeta(3)$ must be irrational.  
+
+\end{document}

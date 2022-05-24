@@ -2,6 +2,8 @@
 \usepackage{import}
 \import{../}{AlgGeoCommands}
 
+\newcommand{\heart}{\ensuremath\heartsuit}
+
 \begin{document}
 
 \section{Week 1}
@@ -176,7 +178,6 @@ which is funtorial in $X$ because cokernels and $C \mapsto I(C)$ is thus giving,
 
 \subsubsection*{1}
 
-\newcommand{\heart}{\ensuremath\heartsuit}
 
 Let $\D$ be a triangulated category equiped with a $t$-structure. Let $X, Y \in \D^{\heart}$. Recall that,
 \[ \Ext{-n}{\D}{X}{Y} = \Hom{\D}{X}{Y[-n]} \]
@@ -287,5 +288,496 @@ is dual to
 \subsubsection*{4}
 
 Let $X$ be a smooth complete variety over $\mathbb{\C}$ and let $x \in X$ be a fixed point. Let $\iota_x : \{ x \} \embed X$ be the inclusion. We want to compute $\F = \mathrm{RHom}{}{\iota_x \underline{\Q}}{\underline{\Q}_X}$.
+
+\newcommand{\Perv}[1]{\mathrm{Perv}\left( #1 \right)}
+
+\newcommand{\RHom}[3]{\mathrm{RHom}_{#1} \left( #2, #3 \right)}
+
+
+\section{The Perverse t-structure}
+
+Every scheme will be reduced finite type separated over a field $k$ either finite or algebraically closed. Let,
+\[ D(X) := D_c^b(X, \overline{\Q}_\ell) \]
+with $\ell$ not the characteristic. Let $D_X K$ be the Verdier dual of $K \in D(X)$.
+
+\begin{prop}[Poincare Duality]
+For a morphism $ : X \to Y$ then,
+\[ Rf_* (D_X K) \cong D_Y (Rf_! K) \]
+for any $K \in D_c^b(X, \overline{\Q}_\ell)$. 
+\end{prop}
+
+\begin{prop}[Biduality]
+We have $D_X \circ D_X = \id$ via natural maps $K \to D_X D_X K$. Furthermore,
+\begin{enumerate}
+\item $D_Y \circ R f_! = Rf_* \circ D_X$
+\item $D_Y \circ R _* = R f_! \circ D_X$
+\item $D_X \circ f^* = f^! \circ D_Y$
+\item $D_X \circ f^! = f^* D_Y$
+\end{enumerate}
+\end{prop}
+
+\begin{defn}
+We define the \textit{perverse t-structue} $(D_p^{\le 0}(X), D_p^{\ge 0}(X))$ on $D(X)$. As follows,
+\begin{enumerate}
+\item $B \in D_p^{\le 0}(X) \iff \dim \supp{}{H^{-i}(B)} \le i$ for all $i \in \Z$
+\item $B \in D_p^{\ge 0}(X) \iff \dim \supp{}{H^{-i} (D_X B)} \le i$ for all $i \in \Z$
+\end{enumerate}
+The the abelian category of \textit{perverse sheaves} is $\Perv{X} = D_p^{\le 0} \cap D_p^{\ge 0}$ is the heart. 
+\end{defn}
+
+\begin{example}
+If $X$ is \textit{smooth} of dimension $n$ and $K \in D(X)$ is \textit{lisse} (i.e. it has lcc cohomology sheaves) then,
+\[ D_X K = \RHom{X}{K}{\overline{\Q}_\ell(n)}[2n] \]
+and therefore,
+\[ K \in D_p^{\le 0}(X) \iff H^i(K) = 0 \text{ for } i > - n \]
+and likewise,
+\[ K \in D_p^{\ge 0} \iff H^i(K) = 0 \text{ for } i < - n \]
+\end{example}
+
+\begin{proof}
+To show that this is a t-structue we use that any $K \in D(X)$ admits a stratification (because of constructibility) $\Sigma = (S_i)_i$ of $X$ s.t. $K|_{S_i}$ is lisse for every $i$ and,
+\[ D(X) = \bigcup_{\Sigma} D_{\Sigma}(X) \]
+where $D_\Sigma(X)$ is the full subcategory of $D(X)$ consisting of complexes which are ``lisse along $\Sigma$''. To show that $D_\Sigma(X)$ has a t-structue, appeal to the gluing formalisim using the stratification (See KW, III.3).
+\end{proof}
+
+\begin{lemma}
+Let $j : U \to X$ open, $\iota : Y \to X$ its complementary closed. Then for $K \in D(X)$,
+\begin{enumerate}
+\item $B \in D_p^{\le 0}(X) \iff j^* D^{\le 0}(U) \text{ and } \iota^* B \in D_p^{\le 0}(Y)$
+\item $B \in D^{\ge 0}(X) \iff j^! B = j^* B \in D^{\ge 0}(U) \text{ and } R \iota^! B \in D_p^{\ge 0}(Y)$
+\end{enumerate}
+\end{lemma}
+
+\begin{prop}
+If $j : U \to X$ is an open embedding and $\iota : Y \to X$ is the complementary closed, then for the perverse t-structure,
+\begin{enumerate}
+\item $j^!$ and $\iota^*$ are t-right exact 
+\item $\iota_*$ and $j^*$ are t-exact
+\item $R j_*, R \iota^!$ are t-left exact
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Use adjunction of the various functors and duality.
+\end{proof}
+
+\begin{rmk}
+In what follows, t-exactness will always refer to the perverse t-structue.
+\end{rmk}
+
+\subsubsection{Intermediate Extensions}
+
+Fix a dense open embedding $j : U \to X$ and a complementary closed $\iota : Z \to X$.
+
+\begin{defn}
+A perverse sheaf $\overline{B}$ on $X$ is a \textit{extension} of $B$ on $U$ if $j^* \overline{B} = B$. 
+\end{defn}
+
+\begin{rmk}
+The intermediate extension is the ``best'' extension of $B$ characterized amoung extensions by the following equivalent properties,
+\begin{enumerate}
+\item $\overline{B}$ has no subobjects or quotients in $\iota_* \Perv{Y}$ which is a full subcategory of $\Perv{X}$ because $\iota_*$ is t-exact and fully faithful.
+\item $H^0_p(\iota^* \overline{B}) = 0$ and $H_p^0(R \iota^! \overline{B}) = 0$
+\item $\iota^* \overline{B} \in D_p^{\le -1}(Y)$ and $R \iota^! \overline{B} \in D_p^{\ge 1}(Y)$
+\end{enumerate}
+[More equivalences in KW, III.5.1]. We denote the intermediate extension by $j_{!*} B$ and moreover this is computed via,
+\[ j_{!*} B = ``\im{(j_! B \to R j_* B)}`` = \im{(H_p^0(j_! B) \to H_p^0(R j_* B))} \]
+where we take $H_p^0$ to make these actually perverse sheaves (recall that $j_!$ and $R j_*$ are not fully t-exact so they don't preserve perverse sheaves so to take images in an abelian category we need to project onto the heart).
+\end{rmk}
+
+\begin{proof}
+First claim that,
+\begin{enumerate}
+\item $\iota_* H_p^0(R \iota^1 \overline{B}) \embed \overline{B}$ is the largest subobject from $\iota_* \Perv{Y}$
+\item $\overline{B} \onto \iota_* H^0_p(\iota^* \overline{B})$ is the largest quotient from $\iota_* \Perv{Y}$. 
+\end{enumerate}
+The proof follows from explointing some adjunctions. We also use that $\iota^*$ is t-right exact and that $R \iota^!$ is t-left exact.
+\end{proof}
+
+\begin{example}
+Suppose $X$ is smooth and $B = \F|_U[d]$ for $\F$ an lcc $\overline{\Q}_\ell$-sheaf on $X$. Then, $j_{!*} B = \F[d]$. Indeed,
+\[ \iota^* \F[d] \in D_p^{\le - 1}(Y) \text{ and } R \iota^! \F[d] \in D_p^{\ge 1}(Y) \]
+because,
+\[ \dim{\supp{}{H^\nu(\iota^* \F[d])}} = 
+\begin{cases}
+-\infty & \nu \neq d
+\\
+\dim{Y} & \nu = d 
+\end{cases} \]
+and therefore it satisfies the perversity condition. The other condition follows from duality.
+\end{example}
+
+\subsection{Comparison}
+
+In this section only let $k = \CC$. Let $X$ be finite type reduced separated $\CC$-scheme. 
+
+\begin{thm}[BBD, 6.12]
+For every prime $\ell$, there is an equivalence of categories,
+\[ \{ \text{constructible } \Z_\ell\text{-sheaves on } X_{\et} \} \iso \{ \text{constructible sheafs of } \Z_\ell-\text{modules on } X(\CC) \} \]
+extending to an equivalence,
+\[ D_c^b(X_\et, \Z_\ell) \iso D^b_c(X(\CC), \Z_e\ll) \]
+and cohomology agrees on both sides and the equivalence commutes with the six operations. 
+\end{thm}
+
+\begin{rmk}
+Replacing $\Z_\ell$ by $\Q_\ell$ or $\overline{\Q}_\ell$ still gives a functor but it is only fully faithful (though every other claim is true). Say that $X$ is smooth. Then lcc $\Q_\ell$-sheaves correspond to continuous representations of $\pi_1^{\et}(X, \bar{x})$. Since $\pi_1^{\et}(X, \bar{x})$ is profinite, it is exact, and therefore factors through a lattice $\GL{n}{\Z_\ell} \to \GL{n}{\Q_\ell}$. 
+\end{rmk}
+
+\begin{example}
+If $X = \Gm$ and $\F$ is the rank $1$ local system on $\Gm(\C) = \C^\times$ with monodromy given by multiplication by $\ell$. This does not preserve a lattice so it does not come from an \etale sheaf. 
+\end{example}
+
+\begin{rmk}
+On both sides of the equivalence there are perverse t-sructures both defined by dimension bounds on the support of cohomology. Thus they agree and we get $\Perv{X_{\et}} \embed \Perv{X(\C)}$.
+\end{rmk}
+
+\begin{example}
+if $\F$ is a rank $2$ lcc $\overline{\Q}_\ell$-shraf on $Y = \Gm \embed \A$ with monodromy,
+\[
+\begin{pmatrix}
+1 & 1 
+\\
+0 & 1
+\end{pmatrix}
+\]
+then $j_{!*} \F[1]$ is concentrated in deg $-1$ and $\iota^* j_{! *} \F[1] = \overline{Q}_\ell[1]$. 
+\end{example}
+
+\begin{example}
+If $X$ is the affine nodal cubic $\{ y^2 = x^3 + x^2 \}$ and $p$ is the singular point them
+\[ \iota^* j_{!*} (\overline{\Q}_\ell[1]) = \overline{\Q}_\ell^{\oplus 3}[1] \] 
+\end{example}
+
+\subsubsection{Finiteness properties of $\Perv{X}$}
+
+A perverse sheaf $B$ on $X$ is simple iff $B = \iota_{0,*} j_{0!*} \G[d]$ where $\iota_0 : Y_0 \embed X$ is a closed embedding with $Y_0$ irred. of dim $d$ and $j_0 : V_0 \embed Y_0$ is an open desne embedding with $V_0$ smooth and $\G$ is a irreducible lcc $\overline{Q}_\ell$-sheaf on $V_0$. 
+\bigskip\\
+Take $j : U \embed X$ and $\iota : Y \embed X$ such that is dense and smooth and use the earlier claim,
+\[ \iota_* H_p^0(\iota^! b) \embed B \]
+the largest perverse subobject. Then,
+\[ B \to \iota_* H_p^0(\iota^* B) \]
+Shrink $U$ to assume $B|_U$ is lisse and use noetherian induction. For the other direction, show $\iota_{0*}, j_{0!*}$ preserve simplicity, and that $\G[d]$ is simple as a perverse sheaf. For the second part, say $B \embed \G[d]$ is a nontrivial sub. After shrinking $V_0$, can assume that $B$ is lisse, hence $\F[d]$ for $\F$ lcc.
+\bigskip\\
+$\Perv{X}$ is artinian and noetherian so there are Jordan-Holder decompositions. Furthermore $\Perv{U}$ is a full subcategory of $\Perv{X}$ via $B \mapsto j_{!*} B$ i.e.,
+\[ \Hom{\Perv{X}}{j_{!*} B_1}{j_{!*} B_2} = \Hom{\Perv{U}}{B_1}{B_2} \]
+
+\subsubsection{Exactness Theorems}
+
+\begin{theorem}
+We have the following exactness theorems,
+\begin{enumerate}
+\item if $f : X \to Y$ is affine then $R f_*$ is t-right exact and $R f_!$ is t-left exact
+\item if $f : X \to Y$ is smooth of relative dimension $d$ then $f^*[d] = f^![-d](-d)$ is t-exact. 
+\end{enumerate}
+\end{theorem} 
+
+\begin{proof}
+(a) uses Artin's theorem on pushforwards under affine morphisms,
+\[ \dim{\supp{}{R^q f_* \F}} \le \dim{\sup{}{\F}} - q \]
+(SGA4, Exp. XIV, Thm 3.1). For $R f_!$ we apply duality. 
+\bigskip\\
+For (b) (using duality) we just need to show that $f^*[d]$ is t-right exact. This follows from,
+\[ \dim{\supp{}{H^{-\nu}(f^* B)}} = \dim \supp{}{f^* H^{-\nu}(B)} \le \dim{\supp{}{H^{-\nu}(B)}} + d \]
+\end{proof}
+
+\subsubsection{The Fourier Transform}
+
+Fix $\psi : \FF_q \to \overline{\Q}_\ell^\times$ a nontrivial additive character (throughout, $k = \FF_q$, subscript 0 denotes something defined over $k$). Then $\L_0(\psi)$ is the Artin-Schrier sheaf on $\A^1_0$ coming from,
+\begin{center}
+\begin{tikzcd}
+\pi_1(\A_0^1, \bar{0}) \onto \FF_q \arrow[r, "\psi"] & \overline{\Q}_\ell^\times
+\end{tikzcd}
+\end{center}
+
+\begin{rmk}
+The map $\pi_1(\A^1_0, \bar{0}) \to \FF_q$ comes from the Artin-Schreier cover $\A^1_0 \to \A^1_0$ by $x \mapsto x^q - x$. 
+\end{rmk}
+\noindent
+Let $n,r,s$ be natural numbers, $n = r + s$ and consider,
+\begin{center}
+\begin{tikzcd}
+& \A^r_0 \times \A_0^r \A_0^s \arrow[rr, "m_{12}"] \arrow[dl, "p_{13}"] \arrow[dr, "p_{23}"]  & & \A_0^1
+\\
+\A_0^r \times \A_0^s & & \A_0^r \times \A_0^s
+\end{tikzcd}
+\end{center}
+
+\begin{defn}
+Let $T_\psi : D^b_c(\A^n_0, \overline{\Q}_\ell) \to D^b_c(\A^n_0, \overline{\Q}_\ell)$ via,
+\[ T_\psi K = R(p_{13})_! (p_{23}^* K \otimes m_{12}^* \L_0(\psi))[r] \]
+\end{defn}
+More generally, if $Y_0$ is a $k$-scheme, we define,
+\[ T_\psi : D(\A^n_0 \times Y_0) \to D(\A^n_0 \times Y_0) \]
+which depends on $r$ as well as $\psi_n$.
+
+\begin{thm}
+For $B \in D(\A^n_0 \times Y_0)$ the following hold,
+\begin{enumerate}
+\item $T_{\psi^{-1}} T_{\psi} B = B(-r)$
+\item If $B$ is mixed, $w(B) \le B \iff w(T_\psi B) \le w + r$ where,
+\[ w(B) = \max_{\nu} w(H^\nu(B)) - \nu \]
+\item $T_\psi : \Perv{\A_0^n \times Y_0} \to \Perv{\A^n_0 \times Y_0}$ is an equivalence of categories. 
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+(a) $r = n = 1$, and $Y_0 = \Spec{k}$ was covered in Koji's talk, KW say it is easy to reduce to this case by proper base change. 
+\bigskip\\
+(b) the forward direction follows from the Weil conjectures and the backwards direction follows from (a)
+\bigskip\\
+Note $p_{23}$ is smooth with equidimensional $r$ fibers. By a previous exactness theorem, $p_{23}^*[r]$ is t-exact. Also, $- \otimes  m_{12}^* \L_0(\psi)$ is t-exact and since $p_{13}$ is affine, Artin's theorem says that $R(p_{13})_!$ is t-left exact. So $T_\psi$ is t-left exact. So $T_\psi B \in D_p^{\ge 0}$. We have a dist. triangle,
+\[ H_p^0(T_\psi B) \to T_\psi B \to \tau_{\ge 1}^p T_\psi B \]
+which equals
+\[ T_{\psi^{-1}} H_p^0(T_\psi B) \to B(-r) \to T_{\psi^{-1}} \tau_{\ge 1}^p T_\psi B \]
+By left exactness, $T_{\psi^{-1}} \tau_{\ge 1}^p T_{\psi B} \in D_p^{\ge 1}$ so the rightmost map is $0$. By Fourier inversion, $T_\psi B \to \tau_{\ge 1}^p T_\psi B$ is 0. Thus,
+\[ (H^0_p T_\psi B)[1] \cong \mathrm{cone} \left( T_\psi B \to \tau^p_{\ge 1} T_\psi B) \right) = T_\psi B[1] \oplus \tau_{\ge 1}^p T_{\psi} B \]
+Then shift by $[-1]$ and apply $\tau_{\ge 1}^p$ to get $\tau^p_{\ge 1} T_\psi B = 0$ which suffices becasuse we already know that $\tau_{\ge 1}^p T_\psi B \in D^{\le 1}$ (OR SOMETHING LIKE THAT??)
+\end{proof}
+
+\begin{rmk}
+If $B \in \Perv{\A^r_0 \times \A^r_0 \times \A^s_0}$ then $B \otimes m^* \L$ is also perverse. We need to check,
+\[ \supp{}{H^{-\nu}(B \otimes m_{12}^* \L)} = \supp{}{H^{-\nu}(B)} \]
+and therefore,
+\[ B \otimes m_{12}^* \L \in D_p^{\le 0} \]
+Then,
+\[ D(B \otimes m_{12}^* \L) = D(B \otimes DD m_{12}^* \L) = D \RHom{}{D m_{12}^* \L}{B} \]
+\end{rmk}
+
+\section{Oct. 12}
+
+\subsection{Decomposition Theorem (Gabber)}
+
+Let $k_0$ be the base field, finite and $k$ its algebraic closure. Let $X_0$ be defined over $k_0$ and $X$ its base change to $k$. Fix an isomorphism $\tau : \CC_\ell \to \CC$.
+
+\begin{theorem}[Usual Form]
+Let $f_0 : X_0 \to Y_0$ be proper then,
+\[ R f_* IC_X \]
+can be decomposed into a direct sum of $B[i]$ where $B \in \Perv{Y}$ are simple perverse sheaves.
+\end{theorem}
+
+\newcommand{\Qbar}{\overline{\Q}}
+
+\begin{thm}[Gabber]
+Let $B_0 \in D^b_c(X_0, \Qbar_\ell)$ is $\tau$-pure of weight $w$ and $B \in D^b_c(X, \Qbar_\ell)$ its base change. Then,
+\[ B \cong \bigoplus_{g} A[i] \]
+with $A$ simple perverse sheaf on $X$.
+\end{thm}
+
+\begin{defn}
+Let $B_0 \in D^b_c(X_0, \Qbar_\ell)$ is $\tau$-mixed if all its cohomology sheaves are $\tau$-mixed in the usual sense. Then define $D_{\text{mixed}}(X_0)$ is the triangulated subcategory of $D^b_c(X_0, \Qbar_\ell)$ spanned by all $\tau$-mixed complexes.
+\end{defn}
+
+\begin{rmk}
+The six operations preserve $\tau$-mixed complexes.
+\end{rmk}
+
+\begin{defn}
+Suppose that $B_0 \in D^b_c(X_0, \Qbar_\ell)$ is $\tau$-mixed then define,
+\[ w(B_0) = \max_{\nu} \left( w(\mathcal{H}^\nu(B_0)) - \nu \right) \]
+where as usual $w(\F)$ for a sheaf $\F$ is the maximum of all eigenvalues of $F_{\bar{x}}$ on $\F_{\bar{x}}$ for all $x$ of the number,
+\[ \frac{2\log{|\tau(\alpha)|}}{\log{|\# \kappa(x)|}} \]
+meaning it has norm the correct power of $q$ if $k_0 = \FF_q$.
+\end{defn}
+
+\begin{defn}
+Now let,
+\[ D^n_{\le w}(X_0) = \{ K_0 \in D_{\text{mixed}}(X_0) \mid w(K_0) \le w \} \]
+and similarly,
+\[ D^n_{\ge w}(X_0) = \{ K_0 \in D_{\text{mixed}}(X_0) \mid w(D(K_0)) \ge - w \} \]
+Then we say that $K_0$ is $\tau$-pure of weight $w$ if,
+\[ K_0 \in D^b_{\le w}(X_0) \cap D^b_{\ge w}(X_0) \]
+\end{defn}
+
+\begin{rmk}
+If $X_0 = \Spec{k_0}$ and $K_0$ is a Weil sheaf given by a $\Z$-rep $V$ then $K_0$ is pure of wirhgt $w$ iff all eigenvalues $\alpha$ of $F_{k_0}$ satisfy,
+\[ | \tau \alpha| = (\# k_0)^{\frac{w}{2}} \]
+\end{rmk}
+
+\begin{rmk}
+Let $K_0 \in D_{\mathrm{mixed}}(X_0)$ is an actual sheaf, then being $\tau$-pure in the above sense is \textit{not} the same as being $\tau$-pure in the sense we had last lecture. The ideal is that, when $X0$ is not smooth or $K_0$ is not smooth then $D K_0$ can be not as expected. However, if $X_0$ is smooth and $K_0$ is lisse then these two notions agree.
+\end{rmk}
+
+\begin{rmk}
+If $w(K_0) \ge w$ this does not imply that $K_0 \in D^b_{\le w}(X_0)$ goes wrong in $\Spec{k_0} = X_0$ case. However, $K_0 \in D^b_{\ge w}(X_0)$ implies $w(K_0) \ge w$.
+\end{rmk}
+
+\begin{prop}
+If $K_0 \in D^b_{\text{mixed}}(X_0)$ then,
+\begin{enumerate}
+\item $w(K_0[n]) = w(K_0) + n$
+\item $w(K_0(m)) = w(K_0) - 2m$
+\item If $f : X_0 \to Y_0$ then,
+\[ R f_!(D_{\le w}(X_0)) \subset D_{\le w}(Y_0) \]
+and there is a spectral sequence,
+\[ R f_!^p (\mathcal{H}^q(K_0)) \implies \mathcal{H}^{p+q}(R f_! K_0) \]
+\item for $f : X_0 \to Y_0$ then,
+\[ R f_* (D_{\ge w}(X_0)) \subset D_{\ge w}(Y_0) \]
+by the dual of the previous.
+\end{enumerate}
+\end{prop}
+
+\begin{lemma}[Semicontinuity of Weights]
+if $j : U_0 \embed X_0$ is open dense, $\iota : Y_0 \embed X_0$ its complement and $\overline{B_0} \in \Perv{X_0}$ is $\tau$-mixed s.t. 
+\[ j^*(\overline{B_0}) = B_0 \]
+assume $H_p^0(\iota^* (\overline{B}_0)) = 0$. Then,
+\[ w(\overline{B}_0) = w(B_0) \]
+\end{lemma}
+
+\begin{rmk}
+For $B_0 \in \Perv{U}$ this lemma apply for $j_{!*} B$.
+\end{rmk}
+
+\begin{lemma}[Subquotient cannot increase weight]
+If $B_0 \in \Perv{X_0}$ is $\tau$-mixed, then for any $A_0$ perverse subquotient of $B_0$,
+\[ w(A_0) \le w(B_0) \]
+\end{lemma}
+
+\begin{lemma}[Weight Filtration]
+For $E_0 \in \Perv{X_0}$ and $\tau$-mixed, then $E_0$ has a unique finite increasing $\tau$-weight filtration,
+\[ 0 \subset E_0^{(w_1)} \subset \cdots E_0^{(w_r)} = E_0 \]
+such that $E_0^{(w_i)}/E_0^{(w_{i-1})}$ is nonzero and $\tau$-pure (in the sense of complexes not sheaves) of weight $w_i$ such that $w_i < w_j$ for $i < j$. Furtehrmore, this filtration is functorial.
+\end{lemma}
+
+\begin{theorem}
+Gabber's theorem implies ``usual form''.
+\end{theorem}
+
+\begin{proof}
+Consider,
+\[ IC_{X_0} = j_{!*} \left( \Qbar_\ell[d] (-d/2) \right) \]
+Then,
+\[ D(IC_{X_0}) = j_{!*}(D \Qbar_\ell) = j_{!*} \Qbar_\ell = IC_{X_0} \]
+This implies that $IC_{X_0} \in D_{\ge 0}(X_0)$. Thus $IC_{X_0}$ is pure of weight $0$.  Then if $f : X_0 \to Y_0$ is proper then $R f_* = R f_!$. On smooth $U$ we can compare,
+\[ K_U \cong \Qbar_\ell[2d](d) \]
+and then,
+\[ \RHom{}{\Qbar_\ell[d](d/2)}{\Qbar_\ell[2d](d)} \cong \Qbar_\ell[d](d/2) \]
+Therefore,
+\[ Rf_* IC_{X_0} \subset D_{\ge 0}(Y_0) \cap D_{\le 0}(Y_0) \]
+pure of weight $0$ then we conclude by Gabber's theorem. 
+\end{proof}
+
+\begin{prop}
+For $A_0 \in D^b_{\le w}(X_0)$ and $B_0 \in D^b_{\ge w'}(X_0)$ is $\tau$-mixed. Then,
+\begin{enumerate}
+\item if $w' > w + 1$ then $\Hom{D_c^b}{A_0}{B_0} = 0$
+\item if $w' > x$ then $\Hom{D^b_c}{A_0}{B_0} \to \Hom{D^b_c}{A}{B}^F = 0$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Observe that,
+\[ \Hom{D^b_c}{A_0}{B_0} \cong H^0(X_0, \RHom{}{A_0}{B_0}) \]
+Call this RHom $\F_0^\bullet \in D^b_c(X_)$. Then for $\pi : X_0 \to \Spec{k_0}$ we use the Leray spectral sequence,
+\[ R \Gamma_{X_0} = R \Gamma_{k_0} \circ R \pi_* \]
+Therefore,
+\[ E_2^{p,q} = H^p(\Gal{k/k_0}, (R^q \pi_* \F_0)_{\bar{x}}) \implies H^{p+q}(X_0, \F_0) \]
+Furthermore, $(R^q \pi_* \F)_{\bar{x}} = H^q(X, \F)$ by flat base change or something. Also,
+\[ \Gal{k/k_0} \cong \hat{\Z} \]
+and so the only interesting Galois cohomology lives in degree $0$ and $1$. Therefore the spectral sequence has two columns so the spectral sequence has degenerated and therefore the result is filtered by these entries so we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^{-1}(X, \F)_F \arrow[r] & \Hom{D^b_c}{A_0}{B_0} \arrow[r] & H^0(X, \F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now what about the weights of $\F_0$. I claim that $\F_0 \in D^b_{\ge w' - w}(X_0)$. By double duality,
+\[ \RHom{A_0}{B_0} \cong \RHom{}{A_0}{\RHom{}{D B_0}{K_X}} \cong D(A_0 \otimes^{\mathbb{L}} D B_0) \]
+and thus $D \F \cong^{\mathbb{L}} A_0 \otimes D B_0$ haing weights less that $w$ and $-w'$ repspectively so $w(D \F_0) \le w - w'$.  Then $R \pi_*$ preserves $D_{\ge w' - w}$ and therefore, $F \acts H^0(X, \F)$ has norm of eigenvalues at least $q^{\frac{1}{2}(w'-w)} > 1$. Therefore $F \acts H^{-1}(X, \F)$ has norm of its eigenvalues at least $q^{\frac{1}{2}(w' - w - 1)} > 1$ if $w' - w > 1$.
+\end{proof}
+
+\begin{cor}
+If $K_0 \in D_{\text{mixed}}(X_)$ and $K_0 \not\cong 0$ then $w(D K_0) \ge - w(K_)$ if $K_0 \in D_{\ge w}(X_0)$ then $w(K_0) \ge w$.
+\end{cor}
+
+\begin{proof}
+Consider $\id_{K_0} \mapsto \id_K$ from the map
+\[ \Hom{D^b_c}{K_0}{K_0} \to \Hom{D^b_c}{K}{K} \]
+Then,
+\[ K_0 \in D_{\ge -w(DK_0)}(X_0) \]
+and
+\[ K_0 \in D_{\le w(K_0)}(X_0) \]
+then if $w(D K_0) < - w(K_0)$ then
+\[ - w(D K_0) > w(K_0) \]
+by the previous proposition we would see that the right hand side of the map is zero (at least after taking Frob invariants) and thus $\id_K = 0$ which would mean that $K \cong 0$. (WHY IS THIS A CONTRADICTION?!)
+\end{proof}
+
+\section{Oct. 19}
+
+Recall $B_0 \in D_{\text{mixed}}(X_0)$ then,
+\[ \omega(B_0) := \max_{\nu} \left( \omega(\cH^\nu(B_0)) - \nu \right) \]
+And $D_{\le w}(X_0)$ if 
+\bigskip\\
+Then $B_0$ is pure of weight $w$ if $B_0 \in D_{\le w}(X_0) \cap D_{\ge w}(X_0)$.
+
+\begin{lemma}[Semi-continuity of weights]
+Let $j : U_0 \embed X_0$ be an open dense, $\iota : Y_0 \embed X_0$ the closed complement. Let $\overline{B}_0 \in \Perv{X_0}$ be $\tau$-mixed such that $j^*(\overline{B}_0) = B_0$ and assume that $H_p^0(\iota^* (\overline{B}_0)) = 0$ then
+\[ w(\overline{B}_0) = w(B_0) \]
+\end{lemma}
+
+\begin{proof}
+The inequality $w(B_0) \le w(\overline{B}_0)$ is obvious so we just need to show the other direction. We apply the Fourier transform,
+\begin{center}
+\begin{tikzcd}
+& \arrow[ld, "p_{13}"] \arrow[rd, "p_{23}"] \A_0^r \times \A_0^r \times \A_0^s \arrow[rr, "m_{12}"] & & \A_0^1
+\\
+\A_0^r \times \A_0^s & &  \A_0^r \times \A_0^s
+\end{tikzcd}
+\end{center}
+For $B \in D_c^b(\A_0^r \times \A_0^s)$ then,
+\[ T_\psi(B) = R (p_{13})_! (p_{23}^* B \otimes^{\mathbb{L}} m_{12}^* \L_0(\psi))[r] \]
+Then the followin hold,
+\begin{enumerate}
+\item $T_{\psi^\top} T_{\psi} B = B(-r)$
+\item If $B$ is $\tau$-mixed then,
+\[ w(B) \le w \iff w(T_\psi B) \le w + r \]
+\item $T_\psi : \Perv{\A_0^r \otimes \A_0^s} \to \Perv{\A_0^r \times \A_0^s}$ is an equivalence of categories.
+\end{enumerate}
+Now we do the proof.
+\end{proof}
+
+\section{Oct. 26}
+
+Let $X_0$ be finite type scheme over $\FF_q$.
+
+\begin{defn}
+For $K_0 \in D_c^b(X_0, \Qbar_\ell)$ define the function $f^{K_0} : X_0(k) \to \CC$ via,
+\[ f^{K_0}(x) = \tau \sum_{\nu} (-1)^\nu \tr{F_x | \mathcal{H}^\nu(K_0)} \] 
+\end{defn}
+
+\begin{thm}
+The dictionary:
+\begin{enumerate}
+\item $K_0 \to L_0 \to M_0$ a distingulished triangle in $D^b_c(X_0, \Qbar_\ell)$ then,
+\[ f^{L_0} = f^{K_0} + f^{M_0} \]
+\item for $K_0, L_0 \in D^b_c(X_0, \Qbar_\ell)$ then,
+\[ f^{K_0 \otimes^{\mathbb{L}} L_0} = f^{K_0} \cdot f^{L_0} \]
+\item Let $K_0, L_0$ be semisimple perverse sheaves on $X_0$ the following are equivalent,
+\begin{enumerate}
+\item $f_m^{K_0}(x) = f^{L_0}_m(x)$ for all $m \in \Z^+$ for all $x \in X_0(\F_{q^m})$.
+\item WWWWWW
+\end{enumerate}
+\item WWWWW
+
+\item $f^{K_0[d](n)}(x) = (-1)^d g^{-n} f^{K_0}(x)$ 
+
+\item Let $K_0 \in D_{\text{mixed}}(X_0, \Qbar)$ be $\tau$-pure of weight $w$ then $f^{DK_0}(x) = q^{-w} \overline{f^{K_0}(x)}$
+\end{enumerate}
+\end{thm}
+
+
+\begin{proof}
+The first follows from the long exact sequence. The tensor one follows from,
+\[ (K \otimes^{\mathbb{L}} L)_{\bar{x}} = K_{\bar{x}} \otimes^{\mathbb{L}} L_{\bar{x}} \]
+\bigskip\\
+Constructible $\Qbar_\ell$-sheaf is smooth on a dense open. Assume $X_0$ is reduced, find $U_0$ smooth dense open in $X_0$ over which $\H^\nu(K_0)$ and $\H^\nu(L_0)$ are all smooth. Then $j : U_0 \embed X_0$ with complement $\iota : Z_0 \embed X_0$. Then $K_0 = j_{!*} F_0 \oplus \iota_* \F_0'$ and $L_0 = j_{!*} G_0 \oplus \iota_* G_0'$ so,
+\[ f^{K_0}_m(x) = f_m^{j_{!*} F_0}(x) = f_m^{F_0}(j(x)) \]
+for $x \in U_0(\FF_{q^m})$ because,
+\[ j^* (j_{!*} F_0) = F_0 \]
+Therefore,
+\[ \forall x \in U_0(\FF_{q^m} : f_m^{F_0}(x) = f_m^{G_0}(x) \]
+Then we apply Cebotarev densitiy for smooth variety over $\FF_q$ to conconlude that,
+\[ \{ F_{\bar{x}} : x \in |X_0| \} \subset \pi_1(U, \bar{x_0}) \]
+is dense. Therefore $F_0 \cong G_0$. 
+\end{proof}
+
 
 \end{document}

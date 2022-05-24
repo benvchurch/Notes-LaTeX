@@ -1,0 +1,209 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{null}}
+\newcommand{\range}{\operatorname{range}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 5 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+\begin{prob}[Axler 3.D.7]
+Suppose $V$ and $W$ are finite dimensional and $v\in V$. Let 
+\[E=\{T\in\mathcal{L}(V,W):Tv=0\}\]
+\begin{enumerate}[label=\arabic*.]
+\item Show that $E$ is a subspace of $\mathcal{L}(V,W)$.
+
+\item Suppose $v\neq0$. What is $\dim E$?
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=\arabic*.]
+\item We need to show that $E$ contains $0$ and is closed under addition and scalar multiplication. The zero element in $\mathcal{L}(V,W)$ is the map that sends everything to $0$ in $W$, which clearly sends $v$ to $0$ and so is in $E$. If $T_1$ and $T_2$ are in $E$, so that $T_1v=T_2v=0$, then $(T_1+T_2)(v)=T_1v+T_2v=0+0=0$, so $T_1+T_2\in E$. Finally, if $T\in E$ and $\lambda$ is a scalar, then $(\lambda T)(v)=\lambda(Tv)=\lambda(0)=0$, so $\lambda T\in E$. Hence $E$ is a subspace of $\mathcal{L}(V,W)$.
+
+\item There are a few different ways we can prove this. I'll give you a few that I thought of or saw in your solutions.
+\begin{enumerate}[label=\textbf{Method \arabic*.}]
+\item Define the following map:
+\begin{align*}
+F:\mathcal{L}(V,W) &\to W\\
+F(T) &= Tv.
+\end{align*}
+This is a linear map, since $(T+T')(v)=Tv+T'v$, and $(\lambda T)(v)=\lambda (Tv)$. By definition, $\Null F=\{T\in\mathcal{L}(V,W):Tv=0\}=E$. Since $v\neq 0$, we can extend $v$ to a basis $v=v_1,v_2,\dots,v_n$ of $V$, where $n=\dim V$. This means that for any $w\in W$, we can find $T\in\mathcal{L}(V,W)$ such that $Tv=w$: just let $Tv=w$ and $Tv_i=0$ for $i\geq 2$, and extend linearly to a map on $V$. Hence $F$ is surjective, so $\dim \range F=\dim W$. By the rank-nullity theorem, we have
+\begin{align*}
+\dim \Null F+\dim\range F &= \dim\mathcal{L}(V,W)\\
+\implies \dim E = \dim\Null F &= \dim \mathcal{L}(V,W)-\dim\range F\\
+&=\dim\mathcal{L}(V,W)-\dim W\\
+&= \dim V\dim W-\dim W\\
+&=(\dim V-1)\dim W.
+\end{align*}
+
+\item Since $v\neq 0$, we can extend $v$ to a basis $v=v_1,v_2,\dots,v_n$ of $V$, where $n=\dim V$. Let $V'=\Span(v_2,\dots,v_n)$, so that $V=\Span(v)\oplus V'$. Define the following map.
+\begin{align*}
+F:E &\to \mathcal{L}(V',W)\\
+F(T)(v') &= T(v'),
+\end{align*}
+where $v'\in V'\subset V$ is any element in $V'$. What $F$ does is take a map in $E$, which means it's a map $V\to W$, and restrict it to $V'\subset V$. Since $(T+T')v'=Tv'+T'v'$, and $(\lambda T)v'=\lambda (Tv')$, the map $F$ is linear. Since $V=\Span(v)\oplus V'$, we can write every element in $V$ uniquely as $av+v'$ for some scalar $a$ and some $v'\in V'$. Using this, we define an inverse for $F$ given by 
+\begin{align*}
+F^{-1}:\mathcal{L}(V',W) &\to E\\
+F^{-1}(T)(av+v') &= T(v').
+\end{align*}
+Note that for any $T\in\mathcal{L}(V',W)$, we have $F^{-1}(T)(v)=F^{-1}(T)(v+0)=0$, so that this is indeed a map in $E$. In the same way as above, $F^{-1}$ is linear. For a map $T\in E$, and an element $av+v'\in V$, we have $FF^{-1}(T)(av+v')=Tv'=T(av+v')$, since $T$ is linear and $Tv=0$, and for a map $T\in \mathcal{L}(V,W)$ and an element $v'\in V'$ we have $F^{-1}F(T)v'=Tv'$. Hence $F^{-1}$ is indeed an inverse for $F$, so $F$ is an isomorphism, and therefore
+\[\dim E=\dim\mathcal{L}(V',W)=\dim V\dim W=(\dim V-1)\dim W.\]
+
+\item We can prove this explicitly by finding a basis for $E$. Since $v\neq 0$, we can extend $v$ to a basis $v=v_1,v_2,\dots,v_n$ of $V$, where $n=\dim V$. Let $w_1,\dots,w_m$ be a basis for $W$. Define the linear maps $T_{ij}$, for $i=2,\dots,n$ and $j=1,\dots,m$ by
+\begin{align*}
+T_{ij}(v_i) &= w_j \\
+T_{kj}(v_k) &= 0 \tag{for $k\neq i$.}
+\end{align*}
+Note that all of these map $v_1=v$ to $0$, so they are all in $E$. We claim that the set of $T_{ij}$ is a basis for $E$. We need to prove that this set is linearly independent and spans $E$.
+
+\underline{Linearly independent:} Suppose that we have a set of scalars $a_{ij}$, $i=2,\dots,n$, $j=1,\dots,m$ such that
+\[a_{21}T_{21}+\dots+a_{2m}T_{2m}+\dots+a_{n1}T_{n1}+\dots+a_{nm}T_{nm}=0.\]
+Consider the vector $v_2\in V$. Since $a_{21}T_{21}+\dots+a_{2m}T_{2m}+\dots+a_{n1}T_{n1}+\dots+a_{nm}T_{nm}=0$, we have
+\[a_{21}T_{21}v_2+\dots+a_{2m}T_{2m}v_2+\dots+a_{n1}T_{n1}v_2+\dots+a_{nm}T_{nm}v_2=0.\]
+Terms on the left-hand side of the form $a_{ij}T_{ij}v_2$ where $i\neq 2$ are $0$, and $T_{2j}v_2=w_j$, so this simplifies to
+\[a_{21}w_1+\dots+a_{2m}v_m=0.\]
+By linear independence of $w_1,\dots,w_m$, this means that $a_{21},\dots,a_{2m}=0$. Applying the same method for each $v_i$ gives $a_{ij}=0$ for $j=1,\dots,m$. Hence $a_{ij}=0$ for all $i=2,\dots,n$ and $j=1,\dots,m$, so the set of these $T_{ij}$ is linearly independent as required.
+
+\underline{Spans $E$:} Let $T$ be an arbitrary map in $E$, so that $Tv=0$. For $i=2,\dots,n$, we have
+\[Tv_i=a_{i1}w_j+\dots+a_{im}w_m\]
+for some scalars $a_{i1},\dots,a_{im}$. Since $T$ is completely determined by the images of the basis elements $v=v_1,v_2,\dots,v_n$, we can conclude that
+\[T=a_{21}T_{21}+\dots+a_{2m}T_{2m}+\dots+a_{n1}T_{n1}+\dots+a_{nm}T_{nm},\]
+since applying the maps on both sides to a basis vector gives us the same output, namely $0$ for $v$, and $a_{i1}w_j+\dots+a_{im}w_m$ for $v_i$, where $i=2,\dots, n$. Hence the set of $T_{ij}$ spans $E$ as required.
+
+We have a basis for $E$, namely, the set of $T_{ij}$, where $i=2,\dots,n$ and $j=1,\dots,m$. This gives $\dim E=(n-1)m=(\dim V-1)\dim W$.
+
+\item Since $v\neq 0$, we can extend it to a basis $v=v_1,\dots,v_n$ of $V$. Let $w_1,\dots,w_n$ be a basis for $W$. For each linear map $T\in\mathcal{L}(V,W)$, we can define its matrix $M(T)$ with respect to these bases; this gives us an isomorphism from $\mathcal{L}(V,W)$ to $\F^{m,n}$, which has dimension $M$. By definition, $T$ is in $E$ if and only if the first column of $M(T)$ is $0$, so $E$ corresponds to the subspace of $\F^{m,n}$ where the first column is all $0$-s, hence $\dim E=m(n-1)=\dim W(\dim V-1)$.
+\end{enumerate}
+\end{enumerate}
+\end{soln}
+
+\begin{prob}[Axler 3.D.14]
+Suppose $v_1,v_2,\dots,v_n$ is a basis of $V$. Prove that the map $T:V\to \F^{n,1}$ defined by $Tv=M(v)$ is an isomorphism of $V$ onto $\F^{n,1}$. Here $M(v)$ is the matrix of $v$ with respect to the basis $v_1,\dots,v_n$.
+\end{prob}
+
+\begin{soln}
+Recall that for $v=a_1v_1+\dots+a_nv_n$, the matrix of $v$ with respect to the basis $v_1,\dots,v_n$ is given by
+\[\mathcal{M}(v)=\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}.\]
+This defines a map $T:V\to\F^{n,1}$ given by $Tv=\mathcal{M}(v)$. We want to show that this map is an isomorphism, i.e., that it is linear and invertible.
+
+\underline{Linear:}
+Suppose that $v,v'$ are two elements in $V$. Using the given basis, we can write $v=a_1v_1+\dots+a_nv_n$ and $v'=b_1v_1+\dots+b_nv_n$. Then
+\begin{align*}
+T(v+v') &= T\left((a_1v_1+\dots+a_nv_n)+(b_1v_1+\dots+b_nv_n)\right) \tag{writing $v,v'$ in terms of the given basis}\\
+&= T\left((a_1+b_1)v_1+\dots+(a_n+b_n)v_n\right) \tag{distributivity and commutative of addition in $V$}\\
+&= \begin{bmatrix} a_1+b_1 \\ \vdots \\ a_n+b_n \end{bmatrix} \tag{definition of $T$}\\
+&= \begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}+\begin{bmatrix} b_1 \\ \vdots \\ b_n \end{bmatrix} \tag{addition in $\F^{n,1}$}\\
+&= Tv+Tv' \tag{definition of $T$.}
+\end{align*}
+Hence $T$ is additive.
+
+Next, suppose that $v$ is an element of $V$, with $v=a_1v_1+\dots+a_nv_n$, and $\lambda$ is a scalar. Then
+\begin{align*}
+T(\lambda v) &= T\left(\lambda(a_1v_1+\dots+a_nv_n)\right)\\
+&= T(\lambda a_1v_1+\dots+\lambda a_nv_n) \tag{distributivity in $V$}\\
+&= \begin{bmatrix} \lambda a_1 \\ \vdots \\ \lambda a_n \end{bmatrix} \tag{definition of $T$}\\
+&= \lambda \begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix} \tag{scalar multiplication in $\F^{n,1}$}\\
+&= \lambda Tv \tag{definition of $T$.}
+\end{align*}
+Hence $T$ is also homogeneous, and so is a linear map.
+
+We now want to prove that $T$ is invertible. There are two similar ways we can approach this.
+\begin{enumerate}[label=\textbf{Method \arabic*.}]
+\item We can define an inverse for $T$. Define the map 
+\begin{align*}
+S:\F^{n,1} &\to V\\
+S\left(\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}\right) &= a_1v_1+\dots+a_nv_n
+\end{align*}
+By definition, we have $STv=v$ and $TS\left(\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}\right)=\left(\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}\right)$. Hence $S$ is an inverse for $T$, so $T$ is invertible and therefore an isomorphism.
+
+\item We can show that $T$ is both injective and surjective.
+
+\underline{Injective:} Suppose that $Tv=0$. We can write $v=a_1v_1+\dots+a_nv_n$, so that $Tv=\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}$. By definition, if this is the zero matrix in $\F^{n,1}$, then we must have $a_1=\dots=a_n=0$, so that $v=0$. Hence $\null T$ contains only the zero vector, so $T$ is injective.
+
+\underline{Surjective:} Consider an arbitrary matrix $M=\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix}$ in $\F^{n,1}$. Let $v=a_1v_1+\dots+a_nv_n$; by definition, this means that $Tv=M$. Hence $T$ is surjective.
+
+\textbf{Note:} We can use the rank-nullity theorem, along with the fact that $\dim V=\dim\F^{n,1}=n$, to show that $T$ is invertible using only one of the above properties.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}
+Compute the matrix of the linear map $T:V\to W$ with respect to the bases $\mathcal{B}$ of $V$ and $\mathcal{C}$ of $W$ for the following choices: $V=\mathcal{P}_2(R)$, $W=\mathcal{P}+3(R)$, $\mathcal{B}=(1,x,x^2)$, $\mathcal{C}=(1,x,x^2,x^3)$,
+\[(Tp)(x) =\int_0^x p(t)dt+p'(x).\]
+\end{prob}
+
+\begin{soln}
+We compute the image of each basis element in $\mathcal{B}$ under $T$. For $p(x)=x^n$, we have
+\[\int_0^xp(t)dt=\int_0^x t^ndt=\left[\frac{1}{n+1}t^{n+1}\right]_0^x=\frac{1}{n+1}x^{n+1},\]
+and $p'(x)=nx^{n-1}$. This gives us
+\begin{align*}
+T1(x) &= x\\
+Tx(x) &= \frac{1}{2}x^2+1\\
+Tx^2(x) &= \frac{1}{3}x^3+2x.
+\end{align*}
+Hence the matrix of $T$ with respect to the bases $\mathcal{B}$ and $\mathcal{C}$ is
+\[\begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 2 \\ 0 & 1/2 & 0 \\ 0 & 0 & 1/3 \end{bmatrix}.\]
+\end{soln}
+
+\break
+
+\begin{prob}
+Let $v_1,v_2$ be  the  basis $\mathcal{B}$ of $V$ and  define a new  basis $\mathcal{C}$ of $V$ by $w_1=v_1$, $w_2=v_1+v_2$. Let $T\in\mathcal{L}(V,V)$ be defined by $Tw_1=2w_1$, $Tw_2=-3w_2$. What is $M(T)$ in the basis $\mathcal{C}$? What is $M(T)$ in the basis $\mathcal{B}$?
+\end{prob}
+
+\begin{soln}
+By definition, the matrix for $T$ with respect to $\mathcal{C}$ is just
+\[\begin{bmatrix} 2 & 0 \\ 0 & -3 \end{bmatrix}.\]
+To compute $M(T)$ in the basis $\mathcal{B}$, we're going to need to compute $Tv_1$ and $Tv_2$ in terms of $v_1$ and $v_2$. To do this, we note that $v_1=w_1$ and $v_2=w_2-v_1=w_2-w_1$. So we have
+\begin{gather*}
+Tv_1 = Tw_1 = 2w_1 = 2v_1 \\
+Tv_2 = T(w_2-w_1) = Tw_2-Tw1 = -3w_2-2w_1 = -3(v_1+v_2)-2v_1 = -5v_1-3v_2
+\end{gather*}
+Hence $M(T)$ with respect to $\mathcal{B}$ is 
+\[\begin{bmatrix} 2 & -5 \\ 0 & -3 \end{bmatrix}.\]
+\end{soln}
+
+\end{document}

@@ -1,0 +1,491 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\newcommand{\Da}{\mbox{\usefont{T2A}{\rmdefault}{m}{n}\CYRD}}
+
+\begin{document}
+
+\section{The Spectral Sequence of a Filtered Complex} 
+
+\renewcommand{\gr}{\mathbf{gr}}
+\newcommand{\Tot}{\mathrm{Tot}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Hdr}{\mathcal{H}_{\dR}}
+\newcommand{\GM}{\Da}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\bH}{\mathbb{H}}
+
+\begin{rmk}
+My spectral sequences are cohomological and have differentials going,
+\[ \d_r^{p,q} : E_r^{p,q} \to E_r^{p+r, q-r+1} \]
+\end{rmk}
+
+
+\begin{defn}
+A filtered complex $(F^\bullet A^\bullet, \d)$ is a sequence of subcomplexes $F^{p+1} A^\bullet \subset F^p A^\bullet$ meaning that the differential $\d$ is compatible with the filtration in the sense that,
+\begin{center}
+\begin{tikzcd}
+A^q \arrow[r, "\d"] & A^{q+1}
+\\
+F^p A^q \arrow[u, hook] \arrow[r, "\d"] & F^p A^{q+1} \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+We set $A^\bullet = F^0 A^\bullet$. Because these the inclusions are maps of complexes, it induces a morphism on homology $H^q(F^{p+1} A^\bullet) \to H^q(F^{p} A^\bullet)$ and because these maps factor through eachother we get a filtration,
+\[ F^p H^q(A^\bullet) = \im{(H^q(F^p A^\bullet) \to H^q(A^\bullet))} \]
+on the cohomology of $A^\bullet$. Furthermore, we define the graded piece of $A^\bullet$,
+\[ \gr_F^p(A^\bullet) = F^p(A^\bullet) / F^{p+1}(A^\bullet) \]
+and similarly the graded piece of cohomology,
+\[ \gr_F^p H^q = F^p H^q(A^\bullet) / F^{p+1} H^q(A^\bullet) \]
+\end{defn}
+
+\begin{defn}
+We say that the filtration is \textit{finite} making $(F^\bullet A^\bullet, \d)$ a \textit{finitely filtered complex} if 
+\[ \forall q : \exists p : F^p A^q = 0 \]
+\end{defn}
+
+\begin{prop}
+Let $(F^\bullet A^\bullet, \d)$ be a finitely filtered complex. Then there exists a spectral sequence $E^{p,q}_r$ such that,
+\begin{enumerate}
+\item $E^{p,q}_0 = \gr^p A^{p+q}$ and the differential $\d_1^{p,q} : \gr^{p} A^{p+q} \to \gr^{p} A^{p+q+1}$ is induced by $\d$ 
+\item $E^{p,q}_r$ converges to $H^{p+q}(A^\bullet)$ with the filtration $F^p H^{p+q}(A^\bullet)$ explicitly this means for fixed $n = p+q$ there is an $r$ such that for all $p,q$ such that $p + q = n$ we have,
+\[ E^{p,q}_{\infty} = E^{p,q}_r = \gr^p_F H^{p+q}(A^\bullet) \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Litterally write down explicit formulas for the spectral sequence. This is done in [Voisin, Theorem 8.21] and in [EGA, $\mathrm{O_{III}}$, 11.2.2] 
+\end{proof}
+
+\begin{rmk}
+This spectral sequence implies the existence of the spectral sequences of a double complex. Indeed, given a double complex $A^{\bullet, \bullet}$ we get a canonical filtration on the total complex,
+\[ \Tot^n(A^{\bullet, \bullet}) = \bigoplus_{p+q = n} A^{p,q} \quad \text{ and } \quad F^r \Tot^n(A^{\bullet, \bullet}) = \bigoplus_{\substack{p + q = n \\ p \ge r}} A^{p,q} \]
+which is finite if $A$ is a bounded double complex. Therefore, we get an $E_0$-page spectral sequence,
+\[ E^{p,q}_0 = A^{p,q} \implies H^{p+q}(\Tot^\bullet(A^{\bullet, \bullet})) \]
+\end{rmk}
+
+\begin{lemma}
+The $E_1$-page can be explicitly described as,
+\[ E_1^{p,q} = H^{p+q}(\gr^p_F A^\bullet) \]
+and the differential,
+\[ \d_1^{p,q} : E_1^{p,q} \to E_1^{p+1,q} \]
+can be identified with the connecting homomorphism,
+\[ \delta : H^{p+q}(\gr^p_F A^\bullet) \to H^{p+q+1}(\gr_F^{p+1} A^\bullet) \]
+induced by the exact sequence of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \gr^{p+1}_F A^\bullet \arrow[r] & F^p A^\bullet / F^{p+1} A^\bullet \arrow[r] & \gr_F^{p} A^\bullet \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+The first isomorphism is by the definition of a spectral sequence. The identification of the map comes from looking under the hood and seeing that the definition in the spectral sequence is identical to the definition (using the snake lemma) of the connecting map [Voisin, Lemma 8.24].
+\end{proof}
+
+\subsection{The Interaction with Derived Functors}
+
+\begin{prop}
+Let $T : \cA \to \cB$ be an additive functor of abelian categories such that $\cA$ has enough injecitves. Let $(F^\bullet A^\bullet, \d)$ be a finitely filtered complex of objects in $\cA$. Then there is a spectral sequence $E_r^{p,q}$ such that,
+\begin{enumerate}
+\item $E^{p,q}_1 = \R^{p+q} T(\gr^p_F A^\bullet)$ 
+\item $E^{p,q}_r \implies \R^{p+q} T(A^\bullet)$ with the filtration,
+\[ F^p \R^n T(A^\bullet) = \im{(\R^n T(F^p A^\bullet)) \to \R^n T(A^\bullet))} = \ker{(\R^n T(A^\bullet) \to \R^n T (A^\bullet F^p A^\bullet))} \]
+meaning,
+\[ E^{p,q}_{\infty} = \gr^p_F \R^{p+q} T(A^\bullet) \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Apply the derived functor $\R \pi_*$ to the filtered complex to get a new filtered complex and then use the spectral sequence for taking cohomology $H^\bullet$. Alternatively, we need to choose a filtered resolution of injective objects, apply the functor $\pi_*$, and then use the spectral sequence for $H^\bullet$ on the induced filtered complex.
+\end{proof}
+
+\begin{rmk}
+The detail of choosing resolutions properly is elided in Voisin's book because in the analytic setting there is a canonical acyclic resolution of the Hodge complex, namely the smooth Hodge complex, so Voisin works directly with this to define her spectral sequences and then just applies global sections and cohomology of the complex (c.f. Vosin I p. 205).
+\end{rmk}
+
+\subsection{Extra Structure on Spectral Sequences}
+
+Suppose the filtered complex $(F^\bullet A^\bullet, \d)$ is equipped with a multiplicative structure,
+\[ * : A^{q} \times A^{q'} \to A^{q+q'} \]
+which is graded commutative meaning,
+\[ e_1 * e_2 = (-1)^{q q'} e_2 * e_1 \]
+and compatible with the filtration in the sense that 
+\[ * : F^{p} A^{q} \times F^{p'} A^{q'} \to F^{p + p'} A^{q + q'} \]
+and with the differential meaning,
+\[ \d(e_1 * e_2) = \d(e_1) * e_2 + (-1)^{q} e_1 * \d(e_2) \]
+Then these will induce an operation on the spectral sequence,
+\[ *:  E_r^{p, q} \times E_r^{p', q'} \to E_r^{p + p', q + q'} \]
+which is graded commuative meaning,
+\[ e_1 * e_2 = (-1)^{(p+q)(p' + q')} e_2 * e_1 \]
+and compatible with $\d$ meaning,
+\[ \d_r^{p + p', q + q'}(e_1 * e_2) = \d_r^{p,q}(e_1) * e_2 + (-1)^{p + q} e_1 * \d_r^{p', q'}(e_2) \]
+For sheaves, Katz-Oda say this operation is most easily constructed via the Godement resolution on which there are indeed such operations induced by the operations on the stalks of $A^\bullet$. 
+
+\section{The Gauss-Manin Connection}
+
+\begin{defn}
+Let $\pi : X \to Y$ be a smooth $k$-morphism of smooth $k$-schemes. The \textit{relative de Rham sheaf} is the quasi-coherent sheaf of graded anticommutative algebras on $S$,
+\[ \Hdr^\bullet(X/S) = \R^\bullet \pi_* (\Omega^\bullet_{X/S}) \]
+\end{defn}
+
+\begin{rmk}
+If $\pi$ is proper then $\Hdr^\bullet$ is coherent.
+\end{rmk}
+
+We will now define a canonical integrable connection on each cohomology sheaf $\Hdr^q(X/S)$ called the Gauss-Manin connection.
+
+\begin{defn}
+Consider the \textit{Katz-Oda} filtration,
+\[ F^p \Omega^\bullet_{X} = \im{(\Omega_X^{\bullet -p} \ot_{\struct{X}} \pi^* \Omega_S^p \to \Omega_X^\bullet)} \]
+\end{defn}
+
+\begin{lemma}
+For the Katz-Oda filtation,
+\[ \gr^p_F \Omega^\bullet_X \cong \pi^{*}\Omega_S^p \ot \Omega_{X/S}^{\bullet - p}  \]
+and therefore by the projection formula,
+\begin{align*}
+E_1^{p,q} & = \R^{p+q} \pi_*(\gr^p_F \Omega_X^\bullet) = \R^{p+q} \pi_* (\pi^* \Omega^p_S \ot_{\struct{X}} \Omega^{\bullet - p}_{X/S}) 
+\\
+& = \R^q \pi_* (\pi^* \Omega^p_X \ot_{\struct{X}} \Omega_{X/S}^\bullet) = \Omega^p_{S} \ot_{\struct{S}} \R^q \pi_* (\Omega^\bullet_{X/S}) = \Omega^p_S \ot_{\struct{S}} \Hdr^q(X/S) 
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+By the smoothness assumption, there is a locally split exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi^* \Omega_S \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+This is the filtration considered in Hartshorne [II, Ex. 5.18(d)] applied to the above sequence. 
+\end{proof}
+
+\begin{defn}
+The \textit{Gauss-Manin connection} is the differential $\d^{0,q}_1$ of the spectral sequence associated to the filtration,
+\[ \GM : \Hdr^q(X/S) \xrightarrow{\d^{0,q}_1} \Omega^1_S \ot_{\struct{S}} \Hdr^q(X/S)  \]
+\end{defn}
+
+\begin{prop}
+For each $q \ge 0$,
+\[ \GM : \Hdr^q(X/S) \xrightarrow{\d^{0,q}_1} \Omega^1_S \ot_{\struct{S}} \Hdr^q(X/S)  \]
+is a flat connection compatible with a product structure satisfying,
+\[ \GM(e_1 \cdot e_2) = \GM(e_1) \cdot e_2 + (-1)^q e_1 \cdot \GM(e_2) \]
+for $e_1 \in \Hdr^q(X/S)$ and $e_2 \in \Hdr^{q'}(X/S)$. 
+\end{prop}
+
+\begin{proof}
+Consider the $E_1$-page of the spectral sequence along the $E^{\bullet, q}_1$ row,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Hdr^q(X/S) \arrow[r, "\d^{0,q}_1"] & \Omega_S^1 \ot_{\struct{S}} \Hdr^q(X/S) \arrow[r, "\d_1^{1,q}"] & \Omega^2_S \ot_{\struct{S}} \Hdr^q(X/S) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+By definition, $\GM$ is the first map which I claim is a connection. Furthermore, I claim that $\d^{1,q}_1$ is the map on $\Hdr^q(X/S)$-valued $1$-forms induced by $\GM$. Given this, 
+\[ \omega_{\GM} = \d^{1,q}_1 \circ \d^{0,q}_0 = 0 \]
+by the definition of a spectral sequence so $\GM$ is flat. To check this, I claim it is enough to show that $\d^{p,0}_1(\omega \ot 1) = \d{\omega} \ot 1$ for $\omega \in \Gamma(U, \Omega^p_S)$. 
+Indeed, now the magic happens. Using the multiplicative structure,
+\[ \d_1^{p,q}(\omega \ot \eta) = \d_1^{p,0}(\omega \ot 1) \cdot (1 \ot \eta) + (-1)^p (\omega \ot 1) \cdot \d_1^{0,q} (1 \ot \eta) = \d{\omega} \ot \eta + (-1)^p \omega \wedge \d^{0,q}(\eta) \]
+which shows that $\d_1^{0,q}$ is a connection and at the same time that,
+\[ \d_1^{p,q} : \Hdr^q(X/S) \to \Omega_S^p \ot \Hdr^q(X/S) \]
+are the canonical maps induced by the connection $\d_1^{0,q}$. Also by the multiplicative structure,
+\[ \d_1^{0,q+q'}(\eta \cdot \eta') = \d_1^{0,q}(\eta) \cdot \eta' + (-1)^q \eta \cdot \d_1^{0,q'}(\eta') \]
+To check the claim, we may compute the differential on the $E_1$-page using the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \gr_F^{p+1} \Omega^{\bullet}_X \arrow[r] & F^p \Omega^{\bullet}_X / F^{p+2} \Omega^\bullet_X \arrow[r] & \gr_F^p \Omega_X^{\bullet} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+since we want to compute the differential $\d^{p,0}_1 : E^{p,0}_1 \to E^{p+1,0}_1$ 
+we investigate this map of complexes near degree $q = p$ giving,
+\begin{center}
+\begin{tikzcd}
+q = p & 0 \arrow[r] & 0 \arrow[d] \arrow[r] & \pi^* \Omega^p_S \arrow[d, "\d"] \arrow[r] & \pi^* \Omega^p_S \arrow[r] \arrow[d, "\id \ot \d"] & 0
+\\
+q = p+1 & 0 \arrow[r] & \pi^* \Omega^{p+1}_S \arrow[r] & (F^p \Omega_X^\bullet)^{p+1} \arrow[r] & \pi^* \Omega^{p} \ot \Omega^1_{X/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Note that $\id \ot \d : \pi^* \Omega^p_S \to \pi^* \Omega^p_S \ot \Omega^1_{X/S}$ which is the differential induced by $\d$ on $\gr^p_F \Omega^\bullet_X$ is well-defined because $\d$ kills $\pi^{-1} \struct{S}$ on $\Omega^1_{X/S}$. Under the identifications,
+\begin{center}
+\begin{tikzcd}
+E_1^{p,0} \arrow[d, equals] \arrow[r, "\d^{p,0}_1"] & E_1^{p+1,0} \arrow[d, equals]
+\\
+\R^{p} \pi_* (\gr_F^p \Omega^\bullet_X) \arrow[d, equals] \arrow[r] & \R^{p+1} \pi_* (\gr_F^{p+1} \Omega_X^\bullet) \arrow[d, equals]
+\\
+\Omega^p_S \ot \Hdr^0(X/S) \arrow[r, "\d \ot \id"] & \Omega^{p+1}_S \ot \Hdr^0(X/S)
+\end{tikzcd}
+\end{center}
+I can then read off\footnote{I am cheating a bit and really need to choose an exact sequence of injective resolutions of the columns but the terms in question are the first nonzero term in their column so when I apply $\pi_*$ and take homology I get the same answer before and after taking resolutions because $\pi_*$ is right exact so given a quasi-isomorphism $A^\bullet \to I^\bullet$,
+\[ \ker{(\pi_* I^0 \to \pi_* I^1)} = \pi_* \ker{(I^0 \to I^1)} = \pi_* \ker{(A^0 \to A^1)} = \ker{(\pi_* A^0 \to \pi_* A^1)} \] } that $\d^{p,0}_1(\omega \ot 1) = \d{\omega} \ot 1$.
+\end{proof}
+
+
+\section{Comparison with the Analytic Theory}
+
+\begin{prop}
+Let $f : X \to S$ be a smooth proper\footnote{Properness is only used to ensure that $f$ is a topological fiber bundle so that $\R^q f_* \underline{\C}$ is a local system.} map of (smooth) complex manifolds. The ``algebraic`` connection $\GM$ equals the analytic Gauss-Manin connection constructed via the Riemann-Hilbert correspondence which, by the correspondence, amounts to showing that,
+\[ \ker{\GM} = R^i f_* \ul{\CC} \subset \Hdr^q(X/S)^\an \]
+\end{prop}
+
+\begin{proof}
+Consider the map of complexes,
+\[ \ul{\CC} \to \Omega^\bullet_X \]
+(which by the Poincare lemma is a quasi-isomorphism). If we endow $\ul{\CC}$ with the trivial filtration $F^0 \ul{\CC} = \ul{\CC}$ and $F^p \ul{\CC} = 0$ for $p > 0$ this becomes a map of filtered complexes. Therefore, there is a map of hypercohomology spectral sequences inducing a diagram of the $\d_1^{0,q} : E_1^{0,q} \to E_1^{1,q}$ differentials,
+\begin{center}
+\begin{tikzcd}
+\R^q f_* (\gr^0 \ul{\CC}) \arrow[r] \arrow[d] & \R^q f_* (\gr^0_F \Omega_X^\bullet) \arrow[r, equals] \arrow[d] & \Hdr^q(X/S) \arrow[d, "\GM"]
+\\
+\R^q f_* (\gr^1 \ul{\CC}) \arrow[r] & \R^q f_* (\gr^1_F \Omega_X^\bullet) \arrow[r, equals] & \Omega_s^1 \ot \Hdr^q(X/S) 
+\end{tikzcd}
+\end{center}
+but $\gr^1 \ul{\CC} = 0$ by definition so by commutativity $\R^q f_* \ul{\CC} \subset \ker{\GM}$. However, $\R^q f_* \ul{\CC}$ is a local system of rank $r = \rank \Hdr^q(X/S)$ and by the Riemann-Hilbert correspondence\footnote{We only need that $\rank \ker{\GM} \le r$ which follows more cheaply from the uniqueness theorem for ODEs.} $\ker{\GM}$ also has rank $r$ so,
+\[ \R^q f_* \ul{\CC} = \ker{\GM} \]
+\end{proof}
+
+\begin{cor}
+Let $f : X \to S$ be a smooth proper map of smooth $\CC$-schemes. Then we can apply the previous result to $f^\an : X^\an \to S^\an$ to show that,
+\[ \ker{(\GM)^\an} = \R^q f_* \ul{\CC} \subset \Hdr^q(X^\an/S^\an) = \Hdr^q(X/S)^\an \]
+where the last equality follows from properness and GAGA showing that we have recovered the analytic Gauss-Manin connection as an algebraic connection on the scheme $X$.  
+\end{cor}
+
+\section{Examples}
+
+Consider the map $\pi : \Gm \to \Gm$ via $z \mapsto z^n$. Call this $\Spec{A} \to \Spec{B}$ where $A = k[z,z^{-1}]$ and $B = k[t,t^{-1}]$ and $t \mapsto z^n$. Then we will get,
+\[ \Hdr^0(X/S) = \pi_* \struct{X} \cong \struct{Y}^{\oplus n} \]
+and an induced connection on the trivial bundle which we would like to compute. The filtration on the de Rham complex takes the explicit form,
+\begin{center}
+\begin{tikzcd}
+F^0 \Omega^\bullet_X & & A \arrow[r, "\d"] & A \d{z}
+\\
+F^1 \Omega^\bullet_X & & 0 \arrow[r] & A \d{t}
+\\
+F^2 \Omega^\bullet_X & & 0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and notice that $\d{t} = n z^{n-1} \d{z}$. Therefore, the graded pieces are,
+\begin{center}
+\begin{tikzcd}
+\gr^0 \Omega^\bullet_X & & A \arrow[r, "\d"] & \frac{A \d{z}}{(n z^{n-1} \d{z})}
+\\
+\gr^1 \Omega^\bullet_X & & 0 \arrow[r] & A \d{t}
+\end{tikzcd}
+\end{center}
+and in characteristic $0$ we have $\frac{A \d{z}}{(n z^{n-1} \d{z})} = 0$ because $z^{n-1}$ is invertible. Then,
+\[ \Hdr^\bullet(X/Y) = H^\bullet(\R \pi_* \Omega^\bullet_{X/Y}) = \R^\bullet \pi_*(\Omega^\bullet_{X/Y}) \]
+Because everything is affine $\R \pi_* = \pi_*$ so we get,
+\begin{center}
+\begin{tikzcd}
+\R \pi_* \Omega^\bullet_{X/Y} & & A \arrow[r] & \Omega_{A/B} 
+\end{tikzcd}
+\end{center}
+as $B$-modules where $\Omega_{A/B} = \frac{A \d{z}}{(n z^{n-1} A \d{z})} = 0$ so we indeed get \[ \Hdr^q(X/Y) = 
+\begin{cases}
+A & q = 0
+\\
+0 & q > 0
+\end{cases} \] 
+Now we compute the connnection which is the connecting map derived from,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \gr^1 \arrow[r] & F^0 / F^2 \arrow[r] & \gr^0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 0 \arrow[r] \arrow[d] & A \arrow[d] \arrow[r] & A \arrow[r] \arrow[d, "\d"] & 0
+\\
+0 \arrow[r] & A \d{t} \arrow[r] & A \d{z} \arrow[r] & 0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then the connecting map,
+\[ \delta : H^0(\gr^0) \to H^1(\gr^1) \]
+is defined by,
+\[ z^{-k} \mapsto z^{-k} \mapsto -k z^{-(k+1)} \d{z} \mapsto -k z^{-(k+1)} \tfrac{\d{t}}{n z^{n-1}} = - \tfrac{k}{n} z^k \, \tfrac{\d{t}}{t} \]
+Then using the $B$-basis $1, z, \dots, z^{n-1}$ of $A$ we get the connection,
+\[ \GM(f_0 + f_1 z + \cdots + f_{n-1} z^{n-1}) = \d{f_0} + \d{f_1} z + \cdots + \d{f_{n-1}} z^{n-1} - (\tfrac{1}{n} f_1 z + \cdots + \tfrac{n-1}{n} f_{n-1} z^{n-1}) \tfrac{\d{t}}{t}  \]
+so the section,
+\[ s = f_0 + f_1 z + \cdots + f_{n-1} z^{n-1} \]
+is flat if and only if,
+\[ \d{f_i} = f_i \frac{i}{n} \frac{\d{t}}{t} \iff \frac{\d{f_i}}{f_i} = \frac{i}{n} \frac{\d{t}}{t} \]
+meaning,
+\[ \d{\log{f_i}} = \tfrac{i}{n} \d{\log{t}} \]
+so we get local analytic solutions of the form $f_i = c t^{\frac{i}{n}}$ and the branches give monodromy. A basis of flat local sections of $\Hdr^0(X/Y) = \pi_* \struct{X} = \struct{Y}^{\oplus n}$, near $t = 1$ is given by,
+\[ s_k = t^{\frac{k}{n}} z^{-k} \]
+The monodromy sends,
+\[ t^{\frac{i}{n}} \mapsto \zeta^{i}_n t^{\frac{i}{n}} \]
+which gives the monodromy matrix,
+\[ A = \begin{pmatrix}
+1 & 0 & \cdots & 0
+\\
+0 & \zeta_n & \cdots & 0
+\\
+0 & 0 & \ddots & \vdots
+\\
+0 & 0 & \cdots & \zeta_n^{n-1}
+\end{pmatrix} \]
+This is exactly a permutation representation, indeed using the basis,
+\[ e_j = \sum_{i} \zeta^{ij}_n s_i \] 
+the monodromy action sends,
+\[ e_0 \mapsto e_1 \mapsto \cdots \mapsto e_{n-1} \mapsto e_0 \quad \text{ because } \quad \zeta_n^{in} = 1 \]
+Therefore, the monodromy matrix is,
+\[ \Lambda = 
+\begin{pmatrix}
+0 & 0 & \cdots & 1 
+\\
+1 & 0 & \cdots & 0
+\\
+0 & 1 & \cdots & 0 
+\\
+\vdots & \vdots & \ddots & \vdots
+\\
+0 & 0 & \cdots & 0
+\end{pmatrix} \]
+which is exactly what we get from the monodromy of the local system $\pi_* \ul{\CC}$ from changing branches. 
+
+\section{The Picard-Fuchs Equation}
+
+\subsection{Classical Introduction}
+
+Let $\Lambda \subset \CC$ be a lattice. The Weierstrass $\wp$-function has periods $\Lambda$ 
+and therefore defines a map,
+\begin{center}
+\begin{tikzcd}
+\CC \arrow[rr] \arrow[rd]  & & \P^1 
+\\
+& E = \CC / \Lambda \arrow[ru, dashed]
+\end{tikzcd}
+\end{center}
+Furthermore, it satisfies the famous equation,
+\[ \wp'^2(z) = 4 \wp(z)^3 - g_2 \wp(w) - g_3 \]
+It will be convienient to shift this into Legendre form. The map $E_\tau \to \P^1$ is ramified over,
+\[ \wp(0), \wp(\omega_1/2), \wp(\omega_2/2), \wp(\omega_1 / 2 + \omega_2 / 2) \]
+Therefore, the fractional linear transformation fixing $\infty$,
+\[ z \mapsto \frac{z - \wp(\omega_1/2)}{\wp(\omega_2/2) - \wp(\omega_1/2)} \]
+sends $\wp(\omega_1/2) \mapsto 0$ and $\wp(\omega_2/2) \mapsto 1$ and $\wp(0) = \infty \mapsto \infty$ and,
+\[ \wp(\omega_1/2 + \omega_2/2) \mapsto \lambda(\omega_1, \omega_2) = \frac{\wp(\omega_1/2+\omega_2/2) - \wp(\omega_1/2)}{\wp(\omega_2/2) - \wp(\omega_1/2)} \]
+Therefore, composing with this automorphism of $\P^1$ gives a map $f : E \to \P^1$ ramified at $0,1,\infty, \lambda$ and hence $E_\tau$ is defined by the equation,
+\[ y^2 = x(x-1)(x-\lambda) \]
+Explicitly, the function,
+\[ \bar{\wp}(z) = \frac{\wp(z) - \wp(\omega_1/2)}{\wp(\omega_2/2) - \wp(\omega_1/2)} \]
+satisfies the equation, 
+\[ \bar{\wp}'^2(z) = C^{-2} \bar{\wp}(z) (\bar{\wp}(z) - 1)(\bar{\wp}(z) - \lambda(\tau)) \]
+for some constant $C$. If we consider the lattice $\Lambda_{\tau} = \left< 1, \tau \right>$ this defines a holomorphic function,
+\[ \lambda : \bH \to \CC \quad \tau \mapsto \lambda(\tau) = \lambda(1, \tau) \]
+
+\begin{prop}
+$\lambda : \bH \to \CC$ is a modular form of weight $0$ and level $\Gamma(2)$. 
+\end{prop}
+
+\begin{proof}
+It is clear that,
+\begin{align*}
+\lambda(\omega_1, \omega_2) &= \lambda(\omega_1, \omega_2 + 2 \omega_1)
+\\
+\lambda(\omega_1, \omega_2) & = \lambda(\omega_1 - 2 \omega_2, \omega_2) 
+\end{align*} 
+because these generate the same lattice and $\wp$ is periodic for $\Lambda$. Furthermore, $\wp_{c \Lambda}(cz) = c^{-2} \wp_{\Lambda}(z)$ which proves that $\lambda(c \omega_1, c \omega_2) = \lambda(\omega_1, \omega_2)$. Therefore, \[ \lambda(\tau + 2) = \lambda(\tau) \quad \text{ and } \quad \lambda \left(\tfrac{1}{1 - 2 \lambda} \right) = \lambda(\tau) \]
+\end{proof}
+
+\begin{rmk}
+$\lambda : \bH \to S = \CC \sm \{ 0, 1 \}$ is a covering map with deck transformation group $\Gamma(2) \subset \SL_2(\Z)$ generated by the above transformations. Since $[ \SL_2(\Z) : \Gamma(2)] = 12$ we see that $S \to \M_{1,1}$ is an \etale cover of degree $12$ because $\M_{1,1} = [\bH / \SL_2(\Z)]$.  
+\end{rmk}
+
+
+\subsection{The Classical Picard-Fuchs Equation}
+
+However, the question remains, given a Legendre form equation, how can I compute the periods of the elliptic curve or equivalently recover the period lattice $\Lambda$. If we choose the standard invariant $1$-form,
+\[ \omega = \frac{\d{x}}{y} \]
+we expect to be able to recover $\Lambda$ as the integrals over closed loops,
+\[ \oint_\gamma \omega \]
+Indeed, notice if we know $\Lambda$ that $x = C^{-1} \bar{\wp}'(z)$ and $y = \bar{\wp}(z)$ gives a parametrization then,
+\[ \wp'_{\Lambda}(z) = \deriv{\wp_\Lambda}{z} \implies \d{z} = \frac{\d{\wp}}{\wp'} = C \frac{\d{x}}{y} = C \frac{\d{x}}{\sqrt{x(x-1)(x-\lambda)}} = C \omega \]
+so integrating along a loop $\gamma : I \to E$ (taking the periods of this elliptic integral) should give,
+\[ C \oint_\gamma \omega = C \int \frac{\d{x}}{\sqrt{x(x-1)(x-\lambda)}} = \int_{\tilde{\gamma}} \d{z} = \tilde{\gamma}(1) - \tilde{\gamma}(0) \in \Lambda \]
+for a lift $\tilde{\gamma} : I \to \CC$. Now this form depends on $\lambda$ so we could just differentiate it,
+\[ \deriv{}{\lambda} \oint_\gamma \omega = \oint_\gamma \deriv{\omega}{\lambda} = \oint_{\gamma} \frac{x(1-x) \d{x}}{y^2} \]
+Via this naive differentiation we find a relation\footnote{There is a sign error on the RHS of this equation in Katz's book ''On the differential equations satisfied by period matrices.''},
+\[ \left( 4 \lambda(1 - \lambda) \nderiv{2}{}{\lambda} + 4 (1 - 2 \lambda) \deriv{}{\lambda} - 1 \right) \omega = \d \left( \frac{y}{(x - \lambda)^2} \right) \]
+and the right-hand side is exact so integrating gives,
+\[ \left( 4 \lambda(1 - \lambda) \nderiv{2}{}{\lambda} + 4 (1 - 2 \lambda) \deriv{}{\lambda} - 1 \right) \oint_\gamma  \omega = \oint_\gamma \d \left( \frac{y}{(x - \lambda)^2} \right) = 0 \] 
+thus if we write\footnote{Since this equation is homogeneous we only recover information about the ratios of the periods.},
+\[ P = \oint_\gamma \omega \]
+and then we get a differential equation for $P$ called the Picard-Fuchs equation,
+\[ \nderiv{2}{P}{\lambda} + \left( \frac{2 \lambda - 1}{\lambda (\lambda - 1)} \right) \deriv{P}{\lambda} + \frac{P}{4 \lambda(\lambda - 1)} = 0 \] 
+Which has a basis of solutions consisting of two hypergeometric functions whose ratio is $\tau(\lambda)$. 
+
+\subsection{Choosing Resolutions}
+
+To compute $\GM$ we need to choose acyclic resolutions to compute the derived pushforwards. Let $\pi : \C \to S$ be a smooth projective relative curve with $\C$ and $S$ smooth. Choose a relatively ample effecitve prime divisor $D \subset \C$ flat over $S$ so for $N \gg 0$ we have $\Omega^q_{\pi}(n D)$ is acyclic for all $n \ge N$. This alows us to form a resolution,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & 0 \arrow[d]
+\\
+0 \arrow[r] & \struct{\C} \arrow[r]  \arrow[d,"\d"] \arrow[r] & \struct{\C}(N \cdot D) \arrow[r] \arrow[d, "\d"] & \struct{C}(N \cdot D)|_{N \cdot D} \arrow[d, "\d"] \arrow[r] & 0
+\\
+0 \arrow[r] & \Omega^1_{\pi} \arrow[r] \arrow[d] & \Omega^1_{\pi}((N+1) \cdot D) \arrow[r] \arrow[d] & \Omega^1_\pi((N+1) \cdot D)|_{(N+1) \cdot D} \arrow[d] \arrow[r] & 0
+\\
+& 0 & 0 & 0
+\end{tikzcd}
+\end{center}
+The middle column is acyclic by twisting and the last column is acyclic because $D \to S$ is relative dimension $0$ and hence affine. 
+Therefore, the total complex $T^\bullet_{\pi}$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{C}(N \cdot D) \arrow[r] & \Omega^1_\pi((N+1) \cdot D) \oplus \struct{C}(N \cdot D)|_{N \cdot D} \arrow[r] & \Omega^1_\pi((N+1) \cdot D)|_{(N+1) \cdot D} \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+gives an acyclic resolution of the de Rham complex. Recall we want the connecting map in the exact sequence of complexes which we resolve as follows,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \pi^* (\Omega^1_S) \ot_{\struct{\C}} T^\bullet_{\pi}[1] \arrow[r] \arrow[from=d] & T^\bullet_{\C} \arrow[from=d] \arrow[r] & T^\bullet_\pi \arrow[r] \arrow[from=d] & 0
+\\
+0 \arrow[r] & \pi^*(\Omega^1_S) \ot_{\struct{C}} \Omega^{\bullet}_{\pi}[1] \arrow[r] & \Omega^\bullet_{\C} / F^2(\Omega^\bullet_{\C}) \arrow[r] & \Omega^\bullet_{\pi} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then to compute the connecting map,
+\[ \GM : \R^1 \pi_* \Omega^\bullet_\pi \to \Omega_S^1 \ot_{\struct{S}} \R^1 \pi_* \Omega^\bullet_\pi \]
+using our previous resolution we lift a local section $s \in \Hdr^1(\C/S) = \R^1 \pi_* \Omega^\bullet_\pi$ to a closed local section $s \in T^1_\pi$ and choose an arbitrary preimage in $\pi_* T^1_\C$ and apply exterior derivative $\d{s'} \in \pi_* T^2_{\C}$ which will lie in $\Omega^1_S \ot_{\struct{\C}} T^1_{\pi}$ and is closed and thus represents an element of $\Omega^1_S \ot \Hdr^1(\C/S)$.
+
+\subsection{Computing the Picard-Fuchs Equation}
+
+Let $A = k[\lambda, \lambda^{-1}, (\lambda - 1)^{-1}]$ be the coordinate ring of,
+\[ S = \Spec{A} \]
+Consider the relative elliptic curve,
+\[ \pi : \C = \Proj{R[X,Y,Z]/(Z Y^2 - X(X-Z)(X-Z\lambda)} \to S \] 
+We want to compute the Gauss-Manin connection of this family. There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \R^0 \pi_* \Omega^1_{\pi} \arrow[r] & \R^1 \pi_* (\Omega_\pi^\bullet) \arrow[r] & \R^1 \pi_* \Omega^1_\pi \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is the relative Hodge decomposition in degree $1$ arising from the Hodge-to-de Rham spectral sequence. Let's study the subsheaf,
+\[ \R^0 \pi_* \Omega^1_{\pi} \embed \R^1 \pi_* (\Omega_\pi^\bullet) = \Hdr^1(\C/S) \]
+We will see that it is \underline{not} preserved under the Gauss-Manin connection (examining this example leads to the correct statement of Griffiths transversality). We choose the usual invariant differential generating $\R^0 \pi_* \Omega^1_{\pi}$,
+\[ \omega = \frac{\d{x}}{y} = \frac{\d{x}}{\sqrt{x(x-1)(x-\lambda)}} \]
+The Gauss-Manin connection gives a way of differentiaing this form with respect to $\lambda$ via,
+\[ \R^0 \pi_* \Omega^1_{\pi} \embed \Hdr^1(\C/S) \xrightarrow{\GM} \Omega^1_S \ot \Hdr^1(\C/S) \xrightarrow{\pderiv{}{\lambda}} \Hdr^1(\C/S) \]
+We set,
+\[ \omega^{(1)} = \pderiv{\omega}{\lambda} = \GM_{\pderiv{}{\lambda}}(\omega) \quad \text{ and } \quad \omega^{(2)} = \pderiv{\omega^{(2)}}{\lambda} = \GM_{\pderiv{}{\lambda}}(\omega^{(1)}) \]
+Because $\Hdr^1(\C/S)$ is a rank $2$ vector bundle, the sections $\omega, \omega^{(1)}, \omega^{(2)}$ satisgy some relation - namely, $\omega$ satisfies a second-order differential equation. We work inside the module $K(\Omega^1_{\C})$ generated by meromorphic differentials $\d{x}, \d{y}, \d{\lambda}$ subject to the relation,
+\[ 2 y \d{y} = g(x, \lambda) \d{x} + h(x) \d{\lambda} \quad \text{ where } \quad g(x, \lambda) = 3x^2 - 2 (\lambda + 1) x + \lambda \quad \text{ and } \quad h(x) = x(x-1) \]
+Then we choose the explicit acyclic resolution twisting via the divisor $D = V(X - \lambda Z)$. To compute $\omega^{(1)}$ we first lift $\omega$ to a section $\omega' \in \Gamma(\C, \Omega^1_{\C}(2 D))$ (DO I REALLY NEED ORDER 2) indeed the form,
+\[ \omega' = \frac{\d{x}}{y} \]
+has poles along $D$ (CHECK THIS!!!) Now compute,
+\[ \d{\omega'} = -\frac{\d{y} \wedge \d{x}}{y^2} = \d{\lambda} \ot \frac{h(x) \d{x}}{2 y^3} \]
+Then we contract with $\pderiv{}{\lambda}$ to get the meromorphic form,
+\[ \omega^{(1)} = \frac{h(x) \d{x}}{2 y^3} = \frac{1}{2} \frac{\omega}{x - \lambda} \]
+(SEEMS LIKE SIGN ERROR)
+
+\end{document}
+

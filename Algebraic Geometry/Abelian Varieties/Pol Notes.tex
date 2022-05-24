@@ -1,0 +1,664 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\section{Week 1 Reading}
+
+\section{Week 1 Meeting Notes}
+\begin{prop}
+Any such $A / S$ is commuative.
+\end{prop}
+
+\begin{proof}
+Step -1 reduce to the case $S$ is locally noetherian by spreading out.
+\end{proof}
+
+\subsection{Duality}
+
+Given some abelian scheme $A / S$ there is a dual $A^\vee / S$ of the same dimension. If $S = \Spec{\C}$ then $H^1(A, \Omega_A) / H^1(A, \Z)$ gives a dual which we think of as Line bundles with trivial Chern class (degree zero). This gives a complex manifold and it turns out to be algebraic. We can make sense of this using the exponential sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 2 \pi \Z \arrow[r] & \struct{A} \arrow[r, "\exp"] & \struct{A}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+giving the map $H^1(A, \Z) \to H^1(A, \struct{A})$. We could also use,
+\[ H^0(X, \Omega_A)^\vee / H_1(A, \Z) \]
+with the map given by integrating along a homology cycle.
+ We can geometrise the moduli space of line bundles with Picard Schemes. 
+\bigskip\\
+Apparently if $A$ is a complex torus and $A$ and $A^\vee$ are isogenous then $A$ is algebraic.
+
+\subsection{Defining Pic}
+
+We consider the functor, 
+\[ (T \to S) \mapsto \Pic{X_T} / \Pic{T} \]
+this defines the set of maps,
+\[ T \to \Pic{X/S} \]
+
+\begin{rmk}
+$\Pic{T} \to \Pic{X_T}$ is injective for $X = A$ because there is a section but also because $\pi_* \struct{X} = \struct{T}$. 
+\end{rmk}
+
+\begin{theorem}[Grothendieck]
+If $A$ is zariski locally projective then $\Pic{A/S}$ is representable by a scheme locally of finite type.
+\end{theorem}
+
+\begin{rmk}
+According to Sean even if $A \to S$ is not locally projective $\Pic{A/S}$ is represented by an algebraic space but a theorem of Raynaud tells you that if an algebraic space is an abelian space then it is actually a scheme. 
+\end{rmk}
+
+\begin{prop}
+If $S = \Spec{k}$ then $T_e \Pic{A/S} = H^1(A, \struct{A}) = \Ext{1}{\struct{A}}{\struct{A}}{\struct{A}}$. 
+\end{prop}
+
+\begin{rmk}
+It should be true that $e^* \Omega^1_{\Pic{A}/S} = (R^1 \pi_* \struct{A})^\vee$. 
+\end{rmk}
+
+\begin{prop}
+$\Pic{A/S}$ is smooth. 
+\end{prop}
+
+\begin{proof}
+Use formal smoothness and deformation theory. Have to use the group structure. Let $B$ be an Artin local ring over $\stalk{S}{s}$ and an extension $B \embed B'$ with square-zero kernel $I$ (probably actually want $\m I = 0$). Given a line bundle $\L$ on $A_{B}$ we must show it lifts to $A_{B'}$. There is an obstruction element,
+\[ H^2(A_s, \struct{A_S}) \ot_k I \]
+\end{proof}
+
+\section{April 15}
+
+Let $A/k$ be an abelian variety over a field $k$. Let $\L$ be a line bundle on $A$. Define,
+\[ \Lambda(\L) = \mu^* \L \ot p_1^* \L^{\ot -1} \ot p_2^* \L^{\ot -1} \]
+is a line bundle on $A \times A$ and therefore defines $\Phi_\L : A \to \Pic{A}$. We need to check that $0 \mapsto 0$ then by rigidity it is automatically a group map. 
+\begin{center}
+\begin{tikzcd}
+A \arrow[d] \arrow[r] & A \times A \arrow[d, "\pi_1"] \arrow[r] & \Pic{A} \times A \arrow[d]
+\\
+e \arrow[r] & A \arrow[r] & \Pic{A}
+\end{tikzcd}
+\end{center}
+then a direct calculation shows that $P \mapsto \Lambda(\L) \mapsto \struct{A}$ so it sends $e$ to the trivial bundle in $\Pic{A}$. 
+
+\begin{thm}
+If $\L$ is ample then $\Phi_{\L}$ is finite flat (hence surjective) so an isogeny.
+\end{thm}
+
+\begin{proof}
+Suffices to prove that $K_{\L} = \ker{\Phi_{\L}}$ is quasi-finite (miracle flatness and dimension theory). Let $B = (K_{\L}^\red)^\circ$ observe that $M = \L \ot [-1]^* \L$ is ample and $M|_B$ is trivial therefore $B$ is finite. 
+\end{proof}
+
+\begin{rmk}
+Group surjective maps of smooth groups are flat. Either use generic flatness and translate or use miracle flatness since all fibers isomorphic to kernel so constant dimension.  
+\end{rmk}
+
+\begin{defn}
+Let $A / S$ be an abelian scheme, then a polarization is a group map $\lambda : A \to A^\vee$ such that for all geometric points $\bar{s} \to S$ we have $\lambda_{\bar{s}} = \Phi_{\L}$ for some ample $\L_{\bar{s}} \in \Pic{A_{\bar{S}}}$. 
+\end{defn}
+
+\begin{rmk}
+Even over a field $k$ we can have polarizations which do not arise from $\lambda$ because the $\Lambda$ might live over some field extension. I think \etale locally every polarization comes from $\Lambda$. 
+\end{rmk}
+
+\begin{rmk}
+Fibral flatness implies that $\varphi$ is finite flat and rigidity says that $\lambda$ is a group map and hence $A^\vee \cong A / \ker{\lambda}$. 
+\end{rmk}
+
+\begin{rmk}
+Let $P$ be the universal bundle on $A \times A^\vee$ then we get $M = \lambda^* P \in \Pic{A \times A}$. Then $\Delta^* M$ defines a line bundle. Now $\Delta^* \Phi_{\Lambda}^* P = \L^{\ot -1}$.  
+\end{rmk}
+
+\begin{rmk}
+Polarization is the same as a section of the section of the Neron-Severi scheme which is \etale. Then the map $\Pic{A} \to \mathrm{NS}_A$ \etale-locally admits sections so we \etale-locally do indeed get a line bundle \etale-locally. 
+\end{rmk}
+
+\begin{defn}
+The stack $\cA_{g,1} / \Spec{\Z}$ is the category fivered in groupoids of,
+\[ (S, \cA/S, \lambda : \cA \iso \cA^\vee) \]
+where $\lambda : \cA \iso \cA^\vee$ is a principal polarization (it is an isomorphism)
+whose morphisms are Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+\cA_S \arrow[r] \arrow[d] & \cA'_{S'} \arrow[d]
+\\
+S \arrow[r] & S'
+\end{tikzcd}
+\end{center}
+therefore,
+\[ \cA_{g,1}(S) = \{ (\cA, S, \lambda) \} \]
+with morphisms $f : A' \to A$ such that,
+\begin{center}
+\begin{tikzcd}
+A' \arrow[d, "\lambda'"] \arrow[r, "f"] & A \arrow[d, "\lambda"]
+\\
+A'^\vee \arrow[from=r, "f\vee"] & A^\vee
+\end{tikzcd}
+\end{center}
+commutes. Then we can also define $\cA_{g,d,n} / \Spec{\Z[1/n]}$ whose objects have degree $\sqrt{d}$-polarizations and $\eta : (\Z / n \Z)^{\oplus 2g} \iso A[n]$ which is compatible with the Weil pairing up to a scale. 
+\end{defn}
+
+\subsection{Deformation Theory}
+
+\newcommand{\Def}{\mathrm{Def}}
+
+Need to show that $\Def(A,m,e,i)$ is formally smooth. Then $\Def(A,m,e,i) \subset \Def(A)$ is actually an equality then the latter is formally smooth by a trick. 
+\bigskip\\
+Now we need to deform $m : A \times A \to A$ this is the same as deforming $\Gamma_m \subset A \times A \times A$. Deforming $\Gamma_m$ has a tangent obstruction theory,
+\[ H^{i-1}(\Gamma_m, N_{\Gamma_m}) \]
+Upshot: given $(A_0, m_0, e_0, \iota_0)$ over $R_0$ and given a fixed $(A, e)$ over $R$ we can lift $m$ and $i$ uniquely to get a group structure of $R$ so the deformation theory is formally smooth. Given $(A, e)$ and $(A, e')$ then $(A, e',m', i') \cong (A, e, m, i)$ by rigidity. Thus the defomational theorey is formally smooth and $\Def(A_0)$ and the tangent space is $H^1(A, T_A) \ot I$.
+\bigskip\\
+Problem $S \to \{ A / S \}$ does not have effective deformation rings meaning we can lift all the way to a formal scheme but cannot algebrize it. What about $\Def(A, \lambda)$. Consider $I \to R \to R_0$ and $(A_0, \lambda_0)$ over $R_0$. We can lift $A$ to $R$ and ask does $\lambda_0$ lift,
+\begin{center}
+\begin{tikzcd}
+A \arrow[d] \arrow[r, dashed, "\lambda"] & A^\vee \arrow[d]
+\\
+A_0 \arrow[r, "\lambda_0"] & A_0^\vee
+\end{tikzcd}
+\end{center}
+If a lift exists, then by rigidity it is unique. Therefore $\Def(A_0, \lambda_0) \subset \Def(A_0)$ but this is a strict containment. There is an obstruction,
+\[ H^1(\cA, T) \ot I \to H^2(\cA, \struct{A}) \ot I \]
+it turns out this is linear and there is a diagram,
+\begin{center}
+\begin{tikzcd}
+H^1(A, T_A) \ot I \arrow[r] \arrow[d, "(1 \, c(\L))"] & H^2(A, \struct{A}) \ot I \arrow[from=d]
+\\
+H^1(A, T_A) \ot H^1(A, \Omega^1) \ot I \arrow[r, "\smile"] & H^2(A, T \ot \Omega^1) \ot I
+\end{tikzcd}
+\end{center}
+where $c$ is the Chern class. This gives $\dim = g(g+1)/2$ and formal deformations are effective so $\cA_{g,1}$ is a smooth algebraic stack over $\Spec{\Z}$ of relative dimension $g(g+1)/2$. There is a universal family $B \to \cA_{g,1}$. Over $\Z$ we have $B[n]$ is proper and flat (only \etale over $\Z[1/n]$) so its dimension can be checked over $\CC$ 
+
+\begin{rmk}
+\[ \mathrm{Isom}((A, \lambda), (B, \mu)) \]
+is finite \etale over $k$. It is \etale because of rigidity so there is unique lifting of maps. Then we show for $n \ge 3$,
+\[ \mathrm{Isom}((A, \lambda), (B, \mu))  \embed \mathrm{Isom}(A[n], B[n]) \]
+which is finite because these are finite group schemes.
+\end{rmk}
+
+\begin{rmk}
+Is there a way to do level structure over all of $\Z$? de Jong defined $\cA_{g, \Gamma_0(p)}$ over $\Spec{\Z}$ where we fix a flag in $A[p]$ isotropic for the Weil pairing. But this has complicated geometry.  
+\end{rmk}
+
+\section{April 28}
+
+Let $\F = \varprojlim \F_n$ then,
+\[  \Omega_{\F / S} = \varprojlim \Omega_{\F_n/S} \]
+but the maps,
+\begin{center}
+\begin{tikzcd}
+\F_{n+m} \arrow[r] \arrow[d, "p^m"] & \F_n \arrow[d]
+\\
+\F_{n + m} \arrow[r, equals] & \F_{n + m}
+\end{tikzcd}
+\end{center}
+
+\subsection{Calculating Extensions}
+
+Let $E$ be a supersingular elliptic curve and $H \subset E \times E \times \P^1$ where $H$ is $\alpha_p \times \P^1$ embedded via,
+\[ \alpha_p \times \P^1 \embed E \times E \times \P^1 \quad \text{ via } \quad (x, [a:b]) \mapsto (\tfrac{a}{b} x, x, [a : b]) \] 
+There is a unique $\alpha_p \subset E$ kernel of Frobenius. The claim,
+\[ \dim_k \Hom{}{\alpha_p}{(E \times E)/(a,b) \alpha_p} = 
+\begin{cases}
+2 & \frac{a}{b} \in \FF_{p^2}
+\\
+1 & \text{else}
+\end{cases} \]
+Therefore, $\ker{F_{(E \times E)/H}}$ is $\alpha_p \times \alpha_p$ if $\frac{a}{b} \in \FF_{p^2}$ and $W_2$ otherwise. Consider the exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[d, "\frac{a}{b}"] \arrow[r, "a"] & E \arrow[d, equals] \arrow[r, "F"] & E \arrow[r] \arrow[d, equals] & 0
+\\
+0 \arrow[r] & \alpha_p \arrow[r, "b"] & E \arrow[r, "F"] & E \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Applying $\Hom{}{\alpha_p}{-}$ gives a diagram of exact sequences,
+\begin{center}
+\begin{tikzcd}
+\Hom{}{\alpha_p}{E} \arrow[r, "\delta"] \arrow[d, equals] & \Ext{1}{}{\alpha_p}{\alpha_p} \arrow[d, "\frac{a}{b} \cdot "] \arrow[r] & \Ext{1}{}{\alpha_p}{E} \arrow[d, equals] \arrow[r] & \Ext{1}{}{\alpha_p}{E} \arrow[d, equals]
+\\
+\Hom{}{\alpha_p}{E} \arrow[r, "\partial"] & \Ext{1}{}{\alpha_p}{\alpha_p} \arrow[r] & \Ext{1}{}{\alpha_p}{E} \arrow[r] & \Ext{1}{}{\alpha_p}{E}
+\end{tikzcd}
+\end{center}
+Note that $\Hom{}{\alpha_p}{\alpha_p} = k$ and thus we get a $k$-structure on $\Ext{1}{}{\alpha_p}{\alpha_p}$ but in two different ways the first factor gives the right structure and the second the left structure. What is $\Ext{1}{}{\alpha_p}{\alpha_p}$. There are $4$-isomorphism classes of groups in the extension (NOT isomorphism classes of extension) these are,
+\begin{enumerate}
+\item $\alpha_p \times \alpha_p$
+\item $\alpha_{p^2}$
+\item $W_2$
+\item $E[p]$
+\end{enumerate}
+Can argue that the second two span with extensions,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[r, "i"] & \alpha_{p^2} \arrow[r, "F"] & \alpha_p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and likewise,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[r, "p"] & W_2 \arrow[r, "\alpha_p"] & 0
+\end{tikzcd}
+\end{center}
+Acting on the right by $a^p$ and on the left by $a$ amounts to,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[d, equals] \arrow[r, "i"] & \alpha_{p^2} \arrow[r, "a^{-1} F"] \arrow[d, equals] & \alpha_p \arrow[d, "a^p"] \arrow[r] & 0
+\\
+0 \arrow[r] & \alpha_p \arrow[d, "a"] \arrow[r, "i"] & \alpha_{p^2} \arrow[d, equals] \arrow[r, "F"] & \alpha_p \arrow[d, equals] \arrow[r] & 0
+\\
+0 \arrow[r] & \alpha_p \arrow[r, "i a^{-1}"] & \alpha_{p^2} \arrow[r, "F"] & \alpha_p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+these are not isomorphisms of extensions. 
+But I claim the outside two extensions are isomorphic by,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[d, equals] \arrow[r, "i"] & \alpha_{p^2} \arrow[d, "a^{-1}"] \arrow[r, "F a^{-1}"] & \alpha_p \arrow[r] \arrow[d, equals] & 0
+\\
+0 \arrow[r] & \alpha_p \arrow[r, "i a^{-1}"] & \alpha_{p^2} \arrow[r, "F"] & \alpha_p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore,
+\begin{align*}
+a \cdot [\alpha_{p^2}] = [\alpha_{p^2}] \cdot a^p
+\\
+a^p \cdot [W_2] = [W_2] \cdot a 
+\end{align*}
+Then write in terms of the basis,
+\[ \delta(f) = \beta \cdot [\alpha_{p^2}] + \gamma \cdot [W_2] \]
+and thus by commutativity and moving the left $\frac{a}{b} \cdot -$ action to the right action,
+\[ \partial(f) = \beta \cdot [\alpha_{p^2}] \cdot \left( \frac{a}{b} \right)^p + \gamma \cdot [W_2] \cdot \left( \frac{a}{b} \right)^{\frac{1}{p}} \]
+Therefore,
+\[ \im{\delta} \cap \im{\partial} = \{ 0 \} \iff \frac{a}{b} \notin \FF_{p^2} \]
+Now consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \alpha_p \arrow[r, "a \, b"] & E \times E \arrow[r] & (E \times E)/H \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then applying $\Hom{}{\alpha_p}{-}$  we get,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & \Hom{}{\alpha_p}{\alpha_p} \arrow[r] & \Hom{}{\alpha_p}{E \times E} \arrow[r] & \Hom{}{\alpha_p}{(E \times E)/H} \arrow[r] & \Ext{1}{}{\alpha_p}{\alpha_p} \arrow[r] & \Ext{1}{}{\alpha_p}{E \times E}
+\end{tikzcd}
+\end{center}
+However, the map,
+\[ \Ext{1}{}{\alpha_p}{\alpha_p} \to \Ext{1}{}{\alpha_p}{E \times E} \]
+is the pair of maps after $\delta$ and $\partial$ thus is injective if and only if $\im{\delta} \cap \im{\partial} = \{ 0 \}$ so we see in this case that,
+\[ \dim{\Hom{}{\alpha}{(E \times E)/H}} = \dim{\Hom{}{\alpha_p}{E \times E}} - \dim{\Hom{}{\alpha_p}{\alpha_p}} = 2 - 1 = 1 \]
+and otherwise the map to $\Ext{1}{}{\alpha_p}{\alpha_p}$ is surjective (since it is nonzero and the target is $1$-dimensional) so we get,
+\[ \dim{\Hom{}{\alpha}{(E \times E)/H}} = 2 \]
+
+\subsection{Goal}
+
+Generalize this somehow menaing describe all positive dimensional families of PPAVs with constant isogeny class. Huristically, 
+\[ \text{isogeny classes in } \cA_{g,1} \iff \text{families of p-div groups} \]
+We have constructed,
+\[ \P^1 \to \cA_{g,1} \]
+giving by sending $[a,b] \mapsto (E \times E)/H$ which is constant $\overline{\FF}_p$-isogeny class of PPAV (by construction) but with nonconstant $p$-divisible group. 
+\[ \{ \text{BT} X \text{ with } \rho : X \rat X_0 \} \to \{ \text{BT} \} \]
+
+\subsection{TB Groups}
+
+\newcommand{\Aff}{\mathrm{Aff}}
+
+Let $\Aff_S$ be the category of affine schemes over a qcqs scheme $S$.
+
+\begin{defn}
+A \textit{Tate-Barsotti} group is a sheaf of abelian groups on $\Aff_S$ in the fpqc topology such that,
+\begin{enumerate}
+\item $[p] : \F \to \F$ is a closed immersion
+\item $\F_n = \F / [p]^n \F$ is a finite flat group scheme over $S$ (taking the fppf quotient)
+\item $\F \iso \varprojlim \F / [p]^n \F$
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+$\F$ is representable because it is the inverse limit of affine morphisms.
+\end{prop}
+
+\begin{example}
+Some TB groups,
+\begin{enumerate}
+\item $\underline{\Z_{p,S}} = \varprojlim_n \underline{\Z / p^n \Z}_S$ which represents continuous maps to $\Z_p$ with the $p$-adic topology
+
+\item $T_p \mu_{p^\infty, S} = \varprojlim_n \mu_{p^n}$
+
+\item If $A/S$ is an abelian scheme then,
+\[ T_p A = \varprojlim A[p^n] \]
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+Notice that,
+\begin{center}
+\begin{tikzcd}
+A[p^{n+m}] \arrow[rd, two heads] \arrow[d, "p^m"]
+\\
+A[p^{n+m}] \arrow[r] & A[p^n]
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{prop}
+Show there is a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_m \arrow[r] & \F_{n+m} \arrow[r] & \F_n \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+Notice,
+\[ \F_{n+m} = \F / p^{n+m} \F \]
+Then,
+\[ \F_{n+m} [p^n] = \frac{p^m \F}{p^{n+m} \F} \]
+\end{proof}
+
+\begin{cor}
+We have $\rank \F_1 = p^h$ then $\rank \F_n = p^{hn}$. 
+\end{cor}
+
+\begin{rmk}
+Over $k = \bar{k}$ of characteristic $p$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_{n+1}^\circ \arrow[d] \arrow[r] & \F_{n+1} \arrow[r] \arrow[d] & \F_{n+2}^\et \arrow[r] \arrow[d, two heads] & 0
+\\
+0 \arrow[r] & \F_n^\circ \arrow[r] & \F_n \arrow[r] & \F_n^{\et} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{theorem}[Raynaud]
+$\F_n^\circ = \Spec{k[x_1, \dots, x_n]/(x_1^{p^{i_1}}, \dots, x_n^{p^{i_n}})}$ 
+\end{theorem}
+
+\begin{rmk}
+We asked if the $i_r$ are locally constant. The degeneration of an ordinary elliptic curve to a supersingular elliptic curve and taking $p$-torsion gives a counterexample. A better counterexample is the universal extension of $\alpha_p$ by $\alpha_p$ which has fibers $\alpha_{p^2}$ degenerating to $\alpha_p^2$. 
+\end{rmk}
+
+\subsection{BT groups}
+
+Let $\F$ over $S$ as above. Then,
+\[ \F[\tfrac{1}{p}] = \colim_{[p]} \F = \colim_n \frac{1}{p^n} \F \]
+this is a sheaf (and ind-scheme) but only on quasi-compact test objects. Recall,
+\[ \F(R) = \varprojlim \F_n(R) \]
+is a $p$-adically complete $\Z_p$-module and hence $\F(R)[\tfrac{1}{p}]$ is a $\Q_p$-Banach space. 
+
+\section{May 6}
+
+Recall: a TB group over $S$ an fpqc sheaf on $\mathrm{Aff}_S$ such that,
+\begin{enumerate}
+\item $[p] : \F \to \F$ is a closed immersion
+\item $\F / p \F$ is finite flat
+\item $\F = \varprojlim \F / p^n \F$.
+\end{enumerate}
+Consider,
+\[ \frac{\F[\frac{1}{p}]}{\F} = X_{\F} \]
+We showed that $[p] : X_{\F} \to X_{\F}$ is surjective with finite cokernel. Then,
+\[ X_{\F} = \varinjlim_{n} X_{\F}[p^n] \]
+
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F / p^n \F \arrow[r] & \F / p^{n+m} \F \arrow[r] & \F / p^m \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+If $p^n = 0$ on $S$ then $X_{\F}$ is formally smooth. The Lie algebra has rank $d$ (locally constant on $S$). Then ($h$ is the height, locally constnat on $S$). 
+
+\begin{prop}
+Show that TB / $S$ and BT / $S$ via,
+\[ \F \mapsto X_{\F} \]
+and
+\[ X \mapsto T_p X = \Hom{}{\Q_p/\Z_p}{X} \]
+\end{prop}
+
+\begin{prop}
+If $S = \Spec{k}$ and $\F, \G$ are TB groups over $S$ then,
+\[ \Hom{}{\F}{\G} \]
+is also a TB group. 
+\end{prop}
+
+\begin{proof}
+Section 4.1 of Caraiani-Schotze.
+\end{proof}
+
+\begin{example}
+$\Hom{}{\Q_p/\Z_p}{\mu_{p^\infty}} =$
+\end{example}
+
+\begin{defn}
+An $\FF_p$-algebra $R$ is \textit{perfect} if $r \mapsto r^p$ is a bijection on $R$.
+\end{defn}
+
+\begin{example}
+The following are perfect,
+\begin{enumerate}
+\item $\FF_{p^n}$ and $\overline{\FF}_p$
+\item $\bigcup_n \FF_p[x^{\frac{1}{p^n}}]$.
+\end{enumerate}
+\end{example}
+
+\begin{defn}
+A strict $p$-ring is a ring $A$ that is $p$-adically complete, $p$-torsion free with $A / p$ perfect.
+\end{defn}
+
+\begin{example}
+The following are strict $p$-rings,
+\begin{enumerate}
+\item $\Z_{p^n}$, $\overline{\Z}_p$
+\item $\left( \bigcup_n \Z_p [x^{\frac{1}{p^n}}] \right)^{\wedge}_p$.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}
+The reduction mod $p$ functor gives an equivalence,
+\[ \{ \text{strict p-rings} \} \to \{ \text{perfect } \FF_p\text{-algebras} \} \]
+given by,
+\[ A \mapsto A / p A \]
+\end{theorem}
+
+\begin{proof}
+We construct a multiplicative section of $A \to A / p A$. Indeed, let $y_n$ be a lift of $x^{\frac{1}{p^n}}$ then,
+\[ [x] = \varinjlim y_n^{p^n} \]
+gives a well-defined unique lift. Then,
+\[ A = \left\{ \sum [a_n] p^n \right\} \]
+\end{proof}
+
+\begin{rmk}
+The preimage of a perfect $\FF_p$-algebra $R$ is $W(R)$ and $W_n(R) = W(R) / p^n W(R)$. 
+\end{rmk}
+
+\newcommand{\Spf}[1]{\mathrm{Spf}\left( #1 \right)}
+
+\begin{rmk}
+$\Hom{}{\Spec{B}}{\Spf{W(R)}} = \Hom{}{\Spec{B/p}}{R}$.
+\end{rmk}
+
+\begin{rmk}
+Claim that $(W(R), (p))$ is Henselian pair and thus gives \etale lifting (LOOK UP IN STACKS PROJECT).
+\end{rmk}
+
+\begin{defn}
+A Dieudonne-module over a perfect ring $R$ is a pair $(M, \varphi_M)$ where $M$ is a projective $W(R)$-module and an isomorphism
+\[ \varphi_M : \varphi^* M[1/p] \iso M[1/p] \]
+such that,
+\[ p M \subset \varphi_M (\varphi^* M) \subset M \]
+where $\varphi : W(R) \to W(R)$ is the lift of Frobenius on $R$. 
+\end{defn}
+
+\begin{example}
+Let $R = \FF_p$ then $W(R) = \ZZ_p$ and $M = \ZZ_p$ and $\varphi_M = p$ or $\varphi_M = 1$. Furthermore, we can define,
+\[ M = \bigoplus_{i = 1}^r e_i \ZZ_p \]
+such that,
+\[ \varphi_M(e_i) = 
+\begin{cases}
+e_{i + 1} & i \le r - s
+\\
+p e_{i+1} & r - s < i < r
+\\
+p e_1 & i = r 
+\end{cases} \]
+\end{example}
+
+\begin{defn}
+An isocrystal over $R$ is a projective $W(R)[1/p]$-module $N$ with the data,
+\[ \varphi_N : \varphi^*N \iso N \]
+We say that $N$ is of \textit{height} $\rank{N}$.
+\end{defn}
+
+\begin{rmk}
+Isocrystals of height $n$ are classified by $\GL_n(W(R)[1/p]) / \mathrm{Ad}_{\varphi} \GL_n(W(R)[1/p])$.
+\end{rmk}
+
+\begin{example}
+For $\lambda = \frac{s}{r} \in \Q$ with $r$ positive and reduced form,
+\[ N_\lambda = \Q_p[X] / (X^r - p^s) \]
+with $\varphi_{N_\lambda} = X \cdot -$.
+\end{example}
+
+\begin{prop}
+If $0 \le \lambda \le 1$ then,
+\[ N_\lambda \cong M_\lambda[1/p] \]
+as $F$-isocrystals. 
+\end{prop}
+
+\begin{prop}
+$N_\lambda \ot N_{\lambda'} = N_{\lambda + \lambda'}^{\gcd(r, r')}$.
+\end{prop}
+
+\begin{theorem}[Dieudonne-Manin]
+The category of $F$-isocrystals over $\bar{k}$ is a $\Q_p$-linear semisimple abelian tensor category with duals. In particular every $N$ decomposes as,
+\[ N = \bigoplus_\lambda N_\lambda^{c_\lambda} \]
+\end{theorem}
+
+\begin{defn}
+Fix height $h$ then decompose,
+\[ N = \bigoplus_\lambda N_\lambda^{c_\lambda} \]
+Define a sequence $(\mu_1 \le \cdots \mu_h)$ of $\mu_i \in \Q$. Say that,
+\[ (\mu_1 \le \cdots \le \mu_n) \le (\mu_1' \le \cdots \le \mu_n') \iff \forall j : \sum_{i = 1}^j \mu_i \le \sum_{i = 1}^j \mu_i' \]
+\end{defn}
+
+\begin{rmk}
+Think Bruhat order on $X_*(T)_{\Q}$. 
+\end{rmk}
+
+\begin{defn}
+Given an isocrystal $N$ over $S = \Spec{R}$ then for each geometric point $\bar{s} : \Spec{\bar{k}} \to S$ get a sequence,
+\[ N_{\bar{k}, \bar{s}} \iff (\mu_{1, \bar{s}} \le \cdots \le \mu_{h, \bar{s}}) \]
+\end{defn}
+
+\begin{theorem}[Grothendieck]
+The above function is constructible. In fact, for fixed $\mu_1 \le \cdots \le \mu_n$ consider,
+\[ \{ s \in S \mid (\mu_{1,s} \le \cdots \le \mu_{h,s}) \le (\mu_1 \le \cdots \le \mu_h) \} \]
+is closed and furthermore,
+\[ \sum_{i = 1}^h \mu_{i, \bar{s}} \text{ is closed } \]
+and the denominators are bounded by $h!$. 
+\end{theorem}
+
+\section{May 13}
+
+\subsection{Erratum}
+
+
+An isocrystal $N$ over $W(R)[\frac{1}{p}]$ should have a $W(R)$ lattice $M \subset N$ such that $\exists n,m \in \Z$ so that,
+\[ p^n M \subset \varphi_M(\varphi^* M) \subset p^m M \]
+Therefore, $N$ is \etale locally in $R$ free over $W(R)[\tfrac{1}{p}]$. 
+
+\begin{rmk}
+Let $M$ be a projective $W(R)$-module such that $M / p M$ is free. Write,
+\[ M / p M \cong \bigoplus_{i = 0}^n e_i W(R) \]
+Then consider $W(R)^{\oplus n} \to M$ sending $j_i \mapsto \wt{e}_i$. Then by Nakayama this is surjective and injective by $p$-adic completeness checking on $M / p^n M$ for all $n$. 
+\end{rmk}
+
+
+\begin{exercise}
+Any rank $1$ isocrystal is pro-\etale locally on $R$, isomorphic to an isomcrystal such that $\varphi = p^k$ for some $k$.
+\end{exercise}
+
+Wlog let $M = W(R)_{e_1}$ then,
+\[ \varphi(e_1) = \alpha e_1 \quad \text{ with } \alpha \in W(R)^\times [ \tfrac{1}{p} ] \]
+By fudging with denominators we wlog $\alpha \in W(R)^\times$. Then we want to pick a basis such that $(\lambda e_1)$ s.t. 
+\[ \varphi(\lambda e_1) = \sigma(\lambda) \alpha e_1 \]
+
+\newcommand{\Lie}{\mathrm{Lie}}
+\renewcommand{\D}{\mathbb{D}}
+
+\begin{theorem}[Gabber]
+Let $R$ be a perfect ring, then there is an equivalence of categories,
+\[ \{ \text{TB} / \Spec{R} \} \to \{ \text{Dieudonne-modules over } W(R) \} \]
+which we write $\F \mapsto \D(\F)$
+\begin{enumerate}
+\item $\rank \F = \height{\F}$
+\item $\Lie(\F / p \F) \cong \frac{\D(\F)}{\sigma(\D(\F))}$
+\end{enumerate}
+\end{theorem}
+
+\newcommand{\perf}{\mathrm{perf}}
+
+Given an abelian scheme $\cA \to S$ with $S$ of characteristic $p$ and $\cA / S$ is an abelian scheme. Let,
+\[ S^{\perf} = \varprojlim_{\varphi} S \to S \]
+be the terminal perfect scheme mapping to $S$. Then height $2g$ Dieudonne modules over $S^{\perf}$ and thus get isocrystals. Then,
+\[ S^{\perf} = \bigcup_b S^{\perf, b} \]
+where $b$ runs over height $2g$ and $\dim = g$ Newton polygons. Apply this to $S = \cA_g$, we get,
+\[ \cA_g = \bigcup_b \cA_{g, b} \]
+with $\cA_{g, \text{ss}}$ is closed and $\cA_{g, \ord}$ is open. 
+
+\begin{rmk}
+The Newton stratification is not functorial it is just a topological stratification which then inherts the reduced induced structures.  
+\end{rmk}
+
+\subsection{Goal: understand strata}
+
+\begin{rmk}
+Gabber tells us that,
+\[ \overline{\cA_{g,b}} \subset \bigcup_{b' \le b} \cA_{g,b} \]
+\end{rmk}
+
+\begin{theorem}[de Jong, Ort]
+This inclusion is an equality this gives the dimensions of $\cA_{g,b}$.
+\end{theorem}
+
+\begin{theorem}[de Jong-Oort]
+With Honda-Tate theory $\overline{\cA_{g,b}} \sm \cA_{g,b}$ has codimension at most one in $\overline{\cA_{g,b}}$.
+\end{theorem}
+
+\begin{theorem}[Li-Oort]
+Compute $\dim{\cA_{g, \text{ss}}}$.
+\end{theorem}
+
+\subsection{Ingredients}
+
+\newcommand{\TB}{\mathcal{TB}}
+
+Given $\cA / \overline{\FF}_p$ then,
+\[ \mathrm{Def}(A) \iso \mathrm{Def}(\F_A) \]
+Serre-Tate: bijection + deformations of TB groups are effective. We are going to study $\cA_g$ or $\cA_{g,b}$ via the map,
+\[ \cA_g \to \TB_{2g,g,\text{sym}} = \{ \text{stack of height } 2 g \text{ dim } g \text{ polarized TB groups} \} \]
+and we can fix the Newton polygon on both sides,
+\[ \widehat{\cA_{g,b}} \to \TB_{2g, g, b} \]
+We need to take the formal completion to rectify this fact that $\cA_{g,b}$ does not have a functorial description. Serre-Tate: this map is formally \etale. 
+
+\begin{rmk}
+Over the category of perfect schemes these stalks are pro-artin stacks.
+\end{rmk}
+
+\begin{defn}
+Fix $\F / \FF_p$ a TB group. Define $X_{\F}(R)$ as the groupoid,
+\[ \{ \text{TB groups over } \Spec{R} \text{ with } \alpha : G[\tfrac{1}{p}] \to \F_R[\tfrac{1}{p}] \} \]
+The morphisms are,
+\begin{center}
+\begin{tikzcd}
+G \arrow[r, "\iso"] \arrow[d, "\alpha"] & G \arrow[d, "\alpha'"]
+\\
+\F_R[\tfrac{1}{p}] \arrow[r, equals] & \F_R[\tfrac{1}{p}] 
+\end{tikzcd}
+\end{center}
+so we see there are no nontrivial automorphisms since,
+\[ \Hom{}{G}{G'} \embed \Hom{}{G}{G'}[\tfrac{1}{p}] \]
+meaning there is no $p$-torsion. Furthermore, there is an action of the group functor,
+\[ R \mapsto \Aut{\F_R[\tfrac{1}{p}]} \]
+Caraiani-Scholze prove that this group is a formal algebraic space (but a terrible one!).
+\end{defn}
+
+\end{document}

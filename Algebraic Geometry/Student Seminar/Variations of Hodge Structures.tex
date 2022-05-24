@@ -1,0 +1,716 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\pr}{\mathrm{pr}}
+
+\begin{document}
+ 
+\section{Connections April 13}
+
+\begin{rmk}
+Reference is Deligne's book on differential equations and regular singular points.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a complex manifold and $\E$ a holomorphic vector bundle on $X$. Informally, a connection is the data of, for each pair of ''infinitessimally close'' $(x,y)$ an isomorphism $\gamma_{y,x} : \E(x) \iso \E(y)$ depending holomorphically on $(x,y)$ such that $\gamma_{x,x} = \id$. 
+\end{defn}
+
+\begin{rmk}
+How do we make this precise? We need complex analytic spaces (locally ringed space locally isomorphic to vanishing of finitely many analytic functions on a polydisk) to use nilpotents.
+\end{rmk}
+
+\begin{defn}
+Consider the diagonal embedding,
+\[ \Delta_X : X \embed X \times X \]
+gives $X^{(n)} = V(\I^{n+1})$ where $\I$ is the idea of definition of $\Delta_X$. We say that $f,g : S \to X$ are \textit{infinitessimally close} if,
+\begin{center}
+\begin{tikzcd}
+S \arrow[r, "(f \, g)"] \arrow[rd] & X \times X 
+\\
+& X^{(1)} \arrow[u]
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\begin{rmk}
+We can now interpret the informal definition litterally for $S$-points. 
+\end{rmk}
+
+\begin{defn}
+A connection is a functorial assignment,
+\[ (f,g) \mapsto \gamma : f^* \E \to g^* \E \]
+where $f,g : S \to X$ are infinitessimally close. 
+\end{defn}
+
+\begin{prop}
+A connection is equivalent to an isomorphism $\gamma : p_1^* \E \iso p_2^* \E$ restricting to the identity over $\Delta_X$. 
+\end{prop}
+
+\begin{proof}
+By Yoneda's lemma.
+\end{proof}
+
+\begin{prop}
+Let $J^1(\E) = (p_1)_* p_2^* \E$ be the first jet bundle. Then the following are equivalent data,
+\begin{enumerate}
+\item an isomorphism $\gamma : p_1^* \E \iso p_2^* \E$ restricting to the identity over $\Delta_X$. 
+\item a section of $J^1(\E) \to \E$ splitting $J^1(\E) \cong \E \oplus (\Omega^1_X \ot \E)$
+\item a map $\Delta : \E \to \Omega^1_X \ot \E$ satisfying,
+\[ \nabla (fs) = \d{f} \ot s + f \nabla s \]
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+The following are true,
+\begin{enumerate}
+\item $\d : \struct{X} \to \Omega^1_X$ is a connection
+\item more generally if $\Lambda$ is a $\CC$-local system on $X$ then,
+\[ \d \ot \id : \struct{X} \ot_{\CC} \Lambda \to \Omega^1_X \ot_{\CC} \Lambda \]
+is a connection
+\item if $\nabla$ and $\nabla'$ are two connections then $\nabla - \nabla' \in \shHom{\struct{X}}{\E}{\Omega_X^1 \ot \E}$. 
+\end{enumerate}
+\end{prop}
+
+\begin{example}
+Let $X = \CC^\times$ then find all vector bundles with connection. First, all holomorphic vector bundles on $X$ are trivial so we may assume that $\E \cong \struct{X}^{\oplus n}$. We prove this as follows,
+\begin{enumerate}
+\item all topological $\CC$-vector bundles are trivial, classified by,
+\[ S^1 \to B \GL_n(\CC) \]
+but 
+\[ \pi_1(B \GL_n(\CC)) = \pi_0(\GL_n(\CC)) = \{ * \} \]
+
+\item Oka's principle says if $G$ is a complex Lie group, $X$ is a Stein manifold, $P \to X$ is a principle $G$-bundle with a topological section, it has a holomorphic section (special case of Gromov's $h$-principle). 
+
+\item Apply (a) and (b) to the frame bundle which is a principle $\GL_n$-bundle. 
+\end{enumerate}
+We have one connection on $\struct{X}$ so the rest are obtained by adding a global $1$-form. Thus every holomorphic connection on $\struct{X}$ is given by,
+\[ \nabla(s) = \d{s} + f s \d{z} \]
+for some $f \in \struct{X}(X)$. Suppose we write the Laurent series,
+\[ f = \sum_{n = - \infty}^{\infty} a_n z^n \]
+then I claim that,
+\[ (\struct{X}, \nabla_f) \cong (\struct{X}, \nabla_{\frac{a_{-1}}{z}}) \]
+The point is that $g$ such that $g' = f - \frac{a_{-1}}{z}$ exists and then, 
+\[ (\struct{X}, \nabla_f) \to (\struct{X}, \nabla_{\frac{a_{-1}}{z}}) \quad \text{ via } \quad  s \mapsto s e^{g} \]
+Furthermore,
+\[ (\struct{X}, \nabla_{\frac{a}{z}}) \cong (\struct{X}, \nabla_{\frac{a+1}{z}}) \]
+via $s \mapsto zs$. Then,
+\[ \ker{\nabla_{-\frac{a}{z}}} = \left\{ \pderiv{s}{z} = \frac{a}{z} \right \} \]
+These are the local representatives of $c z^a$ locally $c e^{a \log{z}}$. These exist locally but not globally so $\ker{\nabla_{-\frac{a}{z}}}$ is a local system with monodromy $e^{2\pi i a}$ is an arbitrary element of $\CC^\times$. This every $1$-dimensional local system appears as the monodromy of one of these local systems. Therefore, the local systems are parametrized by $\CC / \Z \cong \CC^\times$. Furthermore,
+\[ (\ker{\nabla_{\frac{a}{z}}} \ot_{\CC} \struct{X}, 1 \ot \d) \iso (\struct{X}, \nabla_{\frac{a}{z}}) \]
+\end{example}
+
+\begin{defn}
+Given $(\E, \nabla)$ define
+\[ \nabla^p : \Omega^p_X \ot \E \to \Omega^{p+1}_X \ot \E \]
+by,
+\[ \nabla^p(\omega \ot e) = \d{\omega} \ot e + (-1)^p \omega \wedge \nabla e \]
+A calculation shows that,
+\[ \nabla^{p+1} \nabla^p(\omega \ot e) = \omega \wedge \nabla^1 \nabla(e) \]
+We say that $\nabla^1 \nabla$ is the curvature. In this case, get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E \arrow[r, "\nabla"] & \Omega_X^1 \ot \E \arrow[r, "\nabla"] & \Omega_X^2 \ot \E \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+which is a complex called the de Rham complex $(\Omega^\bullet_X \ot \E, \nabla)$.
+\end{defn}
+
+\begin{example}
+\begin{enumerate}
+\item If $X$ is $1$-dimensional, all connections are integrable (curvature vanishes for dimension reasons).
+\item If $\Lambda$ is a local system then $(\struct{X} \ot_{\CC} \Lambda, \d \ot 1)$ is integrable.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[Riemann-Hilbert]
+There is an equivalence of categories,
+\begin{align*}
+\{ \text{vector bundles with flat connection } (\E, \nabla) \} & \iff \{ \CC\text{-local systems} \}
+\\
+(\E, \nabla) & \mapsto \ker{\nabla}
+\\
+(\struct{X} \ot_{\CC} \Lambda, \d \ot 1) & \mapsfrom \Lambda
+\end{align*}
+This works equally well for smooth manifolds.
+\end{theorem}
+
+\begin{rmk}
+If $X / \CC$ is smooth and proper then we get algebraic vector bundles with connections. When is the associated $\Lambda$ an \etale local system? In the $\Gm$ example $\Lambda$ was only algebraic if $a \in \Q$.
+\end{rmk}
+
+\begin{thm}[Deligne]
+Let $X$ be a smooth variety over $\CC$. Then there is an equivalence of categories,
+\[ \{ \text{algebraic vector bundles with regular connection } (\E, \nabla) \} \iff \{ \CC\text{-local systems on } X(\CC) \} \]
+\end{thm}
+
+\begin{defn}
+For curves, ``regular'' means simple poles on the boundary. 
+\end{defn}
+
+\begin{rmk}
+This theorem is amazing because it relates a purely algebraic to a purely topological category. For an example why this is amazing, if $X$ is a smooth proj. variety over a field $K$ then $\pi_1(X(\CC))$ depends on $K \embed \CC$. 
+\end{rmk}
+
+\begin{example}
+Due to Serre: 
+\begin{enumerate}
+\item choose a certain prime $p$, construct using the main theorem of complex multiplication for $k = \Q(\sqrt{-p})$ and $K$ the hilbert class field an an abelian variety $A$ with CM by $S = \Z[\zeta_p]$ and two embeddings $\varphi, \psi : K \to \CC$ such that
+\begin{enumerate}
+\item $\pi_1(A_\varphi)$ is a free $S$-module
+\item $\pi_1(A_{\psi})$ is a nonfree $S$-module.
+\end{enumerate}
+\item Find a smooth hypersurface $Y \subset \P^n$ such that $G = \Z / p \Z$ acts freely on $Y$. For large enough $n$ we know $Y$ is simply connected then $X = Y / G$ has $\pi_1(X(\CC)) = G$. Choose $\Z[G] \onto S$ which gives an action $G \acts A$ detecting triviality of the fundamental groups as representations.
+\item Let $V = (Y \times A)/G$ where $g(y,a) = (g^{-1} y, g a)$. Then there is a fibration,
+\[ A_\varphi \to V_\varphi \to X_\varphi \]
+which has a section $X_\varphi \to V_\varphi$ using the identity section which is fixed under $G \acts A$.  $G$ does not act freely on $A$ but it does act freely on $Y$. Therefore by the long exact homotopy sequence,
+\[ \pi_1(V_\varphi) \cong \pi_1(A_\varphi) \rtimes G \]
+because it is a split exact sequence.
+\item  Therefore, it suffices to prove that,
+\[ \pi_1(A_\varphi) \rtimes G \not\cong \pi_1(A_\psi) \rtimes G \]
+Any isomorphism sends $\pi_1(A_\varphi)$ to $\pi_1(A_\psi)$ because each is the unique abelian index $p$ subgroup. Therefore, this induces an isomorphism $\sigma : G \to G$. Thus,
+\[ \pi_1(A_\varphi) \iso \pi_1(A_\psi) \]
+in an $\sigma$-semilinear way but one is free over $S$ and the other is not (and hence they are different $\Z[G]$-modules) so there does not exist such an isomorphism. 
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+The main theorem of CM says that if $E$ has CM by $k$ then $E(\CC) \cong \CC / \Lambda$ for $\Lambda \subset k$ is a rank $1$ projective $\struct{k}$-module and all such $\Lambda$ appear. If $\sigma \in \Gal{K/\Q}$   
+\end{rmk}
+
+\subsection{The Tannakian Perspective}
+
+\begin{theorem}[Tannaka]
+Let $k$ be a field. There is an anti-equivalence of categories,
+\[ \{ \text{affine k-group schemes} \} \iff \{ \text{neutral rigid abelian tensor categories equipped with faithful exact fiber functor} \} \]
+Given by $G \mapsto (\mathrm{Rep}_k(G), \ot, F)$ where $F$ is the forgetful category to vectorspaces. The inverse is given by,
+\[ (\C, \ot, \omega) \mapsto \underline{\mathrm{Aut}}^{\otimes}(\omega) \]
+\end{theorem}
+
+\begin{rmk}
+Neutral means there is a unit, abelian means the tensor is symmetric, rigid means there is an internal hom. 
+\end{rmk}
+
+\begin{rmk}
+Consider what the $2$-morphisms are on the right!!
+\end{rmk}
+
+\begin{rmk}
+This is a generalization of Grothendieck's Galois category formalism. 
+\end{rmk}
+
+\newcommand{\aff}{\mathrm{aff}}
+
+\begin{example}
+The category of finite dimensional representations of \textit{any} group satisfies the RHS so what affine group scheme do you recover? By Deligne's theorem we can recover the Tanakian category alebraically so how much do we recover about the group?
+\begin{enumerate}
+\item if $\pi_1(X(\CC))$ is finite then $\pi_1(X(\CC))^{\aff} = \pi_1(X(\CC))$
+\item if $\pi_1(X(\CC)) \cong \Z$ then finite dim reps of $\Z$ correspond to matrices $M$ so the Jordan decomposition gives a commuting pair of ss and unip matrices. Then,
+\[ \Z^{\aff} = D(\CC^\times) \times \Ga = \Spec{\CC[\CC^\times]} \times \Ga \]
+$D(\CC^\times)$ are semisimple they correspond to $\CC^\times$-grading of a vectorspace correspond to semisimple matrices. The commuting condition is realized in the fact that this is a direct product.
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+Given the scheme $X$ we have access to $\pi_1^{\et}(X) = \wh{\pi_1(X(\CC))}$ and also $\pi_1(X(\CC))^\aff$ from the Tanakian formalism. 
+\end{rmk}
+
+\begin{prop}
+If $\wh{G} = 0$ then $G^{\aff} = 0$ so we don't recover that much more from the Tanakian formalism. 
+\end{prop}
+
+\begin{prop}
+Any f.g. matrix group is ``res. fin.'' 
+\[ \forall g \in G : \exists f:  G \to H \text{ s.t } f(g) \neq 0 \text{ and } H \text{ finite} \] 
+\end{prop}
+
+\begin{rmk}
+Open question: does there exist a smooth variety $X / \CC$ with $\pi_1(X(\CC)) \neq 0$ but $\pi_1^{\et}(X) = 0$. 
+\end{rmk}
+
+\begin{example}
+The Higman group,
+\[ G = \left< a,b,c,d, a^{-1} b a = b^2, b^{-1} c b = c^2, c^{-1} d c = d^2, d^{-1} a d = a^2 \right> \]
+is infinite but with no nontrivial homs to any finite group. 
+\end{example}
+
+\subsection{The Relative Setting}
+
+\begin{defn}
+Let $f : X \to S$ be a smooth morphism of analytic spaces (locally on the source given by $D^n \times S \to S$). 
+\end{defn}
+
+\begin{rmk}
+If $S$ and $X$ are smooth this is the same as a submersion by the constant rank theoem. 
+\end{rmk}
+
+\begin{defn}
+A \textit{relative local system} is a sheaf of $f^{-1} \struct{S}$-modules locally isomorphic to the pullback of a coherent sheaf on $S$. 
+\end{defn}
+
+\begin{defn}
+A relative connection on $\E$ is an $f^{-1} \struct{S}$-linear map,
+\[ \nabla : \E \to \Omega^1_{X/S} \ot_{\struct{X}} \E \]
+which satisfies,
+\[ \nabla(se) = \d{s} \ot e + s \nabla (e) \]
+\end{defn}
+
+\begin{prop}
+A coherent sheaf with connection on a smooth manifold is automatically a vector bundle. 
+\end{prop}
+
+\begin{thm}
+There is an equivalence of categories,
+\[ \{ \text{relative local systems } \Lambda \} \iff \{ \text{coherent sheaves with relative integrable connection } (\E, \nabla) \} \]
+where,
+\[ \Lambda \mapsto (\Lambda \ot_{f^{-1} \struct{S}} \struct{X}, 1 \ot \d) \]
+and
+\[ (\E, \nabla) \mapsto \ker{\nabla} \]
+Moreover, $(\Lambda \ot_{f^{-1} \struct{S}} \Omega_{X/S}^\bullet) = (\Omega^\bullet_{X/S} \ot \E, \nabla)$ is a resolution of $\Lambda$ for any relative local system. 
+\end{thm}
+
+\begin{rmk}
+The previous thing works even when $X$ is not smooth as long as $X \to S$ is smooth.
+\end{rmk}
+
+\begin{rmk}
+The Poincare lemma says that $\Omega^\bullet_X$ is a resolution of $\underline{\CC}$ and thus $\Lambda \ot_{\CC} \Omega^\bullet_X$ is a resolution of $\Lambda$ and thus $\Omega_X^\bullet \ot_{\struct{X}} \E$ is a resolution of $\ker{\nabla}$. 
+\end{rmk}
+
+\begin{cor}
+If $\Lambda$ is a local system on $X$ then $\struct{S} \ot_{\CC} R^i f_* \Lambda \iso R^i f_* (\Omega^\bullet_{X/S} \ot_{\CC} \Lambda)$ is a quasi-isomorphism. 
+\end{cor}
+
+\begin{defn}
+The Gauss-Manin connection is the connection on $R^i f_* (\Omega^\bullet_{X/S} \ot_{\CC} \Lambda)$ whose flat sections is the local system $\struct{S} \ot_{\CC} R^i f_* \Lambda$. 
+\end{defn}
+
+\section{Connections in Local Coordinates}
+
+Locally over $U \subset X$ we can trivial $\E|_U$ choosing a local frame $e_1, \dots, e_n$ defines an isomorphism $\struct{U}^{\oplus n} \iso \E|_U$. Then we we define $1$-forms $\omega_{ij}$ via,
+\[ \nabla e_j = \sum \omega_{ij} \ot e_i \]
+Therefore, the connection acts on $(f_1, \dots, f_n)$ as,
+\[ \nabla \left( \sum_{j = 1}^n f_j e_j \right) = \sum_{j = 1}^n \left( \d{f_j} e_j + \sum_{i = 1}^n f_j \omega_{ij} \ot e_i \right) = \sum_{i = 1}^n \left( \d{f_i} + \sum_{j = 1}^n f_j \omega_{ij} \right) \ot e_i \]
+
+\begin{prop}
+Given a change of coordinate matrix $g$ the $1$-form matrix changes as,
+\[ \omega \mapsto g^{-1} \d{g} + g^{-1} \omega g \]
+\end{prop} 
+
+\begin{cor}
+For a line bundle $\L$, two connection forms represent the same connection iff $\omega - \omega' = \d{\log}(f)$ for some $f \in \struct{X}^\times$. Therefore, a line bundle defines a class,
+\[ (U_{ij}, \d{\log{f_{ij}}}) \in H^2(X, \Omega_X) \]
+which is zero if and only if there exist forms $\omega_i$ on $U_i$ such that $\omega_i - \omega_j = \d{\log{f_{ij}}}$ if and only if $\L$ admits a connection. 
+\end{cor}
+
+\begin{prop}
+For a line bundle with connection form $\omega$ the curvature is $\d{\omega}$. It locally admits a smooth frame iff $\omega$ is locally exact iff $F_\nabla = 0$ on a neighborhood.
+\end{prop}
+
+\section{Relative Riemann-Hilbert April 20}
+
+Let $f : X \to S$ be a smooth morphism of analytic spaces. 
+
+\begin{rmk}
+Good reference: Coherent Sheaves (Grauert-Remmert). 
+\end{rmk}
+
+\begin{rmk}
+Smooth means the morphism is locally on the source $S \times D^n \to S$. If $X,S$ are smooth this is equivalent to $f$ being a submersion. Note that $D^n = (D^1)^n$ is a polydisk not a coordinate ball. 
+\end{rmk}
+
+\begin{defn}
+A \textit{relative local system} is a sheaf of $f^{-1} \struct{S}$-modules which locally on $X$ is the pullback of a coherent sheaf on $S$. 
+\end{defn}
+
+\newcommand{\cV}{\mathcal{V}}
+
+\begin{defn}
+A \textit{relative connection} on a coherent sheaf $\cV$ on $X$ is a $f^{-1} \struct{S}$-linear map,
+\[ \nabla : \cV \to \Omega^1_{X/S} \ot_{f^{-1} \struct{S}} \cV \]
+We say that $\nabla$ is \textit{integrable} if $\nabla^1 \circ \nabla = 0$ or equivalently $\nabla_{[X,Y]} = [\nabla_X, \nabla_Y]$. 
+\end{defn}
+
+\begin{rmk}
+If $S = \mathrm{Sp}(\CC)$ then we recover the notion of a vector bundle with connection (not obvious that $\cV$ is a vector bundle but it is true).
+\end{rmk}
+
+\begin{thm}[relative RH]
+Let $f : X \to S$ be a smooth morphism of analytic spaces,
+\begin{enumerate}
+\item if $\Lambda$ is a relative local system on $X$ then,
+\[ \cV = \struct{X} \ot_{f^{-1} \struct{S}} \Lambda \quad \text{ equipped with } \nabla = \d_{X/S} \ot \id \]
+is an integrable relative connection and gives a resolution,
+\[ \Lambda \to (\Omega_{X/S}^\bullet \ot_{f^{-1} \struct{S}} \Lambda) \]
+
+\item The functors,
+\[ \Lambda \mapsto  (\struct{X} \ot_{f^{-1} \struct{S}}, \d_{X/S} \ot \id) \]
+and,
+\[ (\cV, \nabla) \mapsto \ker{\nabla} \]
+define an equivalence of abelian categories between relative local systems and vector bundles with relative integrable connections.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+The first question is local (we just need to show the complex is acyclic the first two points are clear) so assume first that $S = D^n$ and $X = D^n \times D^n$ for $f = \pi_1$ and $\Lambda = f^{-1} \struct{S}$ then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(f^{-1} \struct{S}) \arrow[r] & \Gamma(\struct{X}) \arrow[r] & \Gamma(\Omega^1_{X/S}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+is acyclic. We can show this with an explicit homotopy. In general, can assume that $S \embed D^n$ closed and $X = D^m \times S$ and $f = \pi_2$ and $\Lambda = f^{-1} \Lambda_0$ for $\Lambda_0$ coherent on $S$ (we can shrink untill this is true). Further shrinking, assume $L_\bullet \to \iota_* \Lambda_0$ is a free resolution. To get this resultion, use the fact that $\stalk{D^n}{x}$ is regular local (look at the completion) and thus by Serre's theorem on projective dimension we get a resolution over the local ring which spreads out to some open so we can assume such a resolution exists by shrinking. Then pass from $S$ to $D^n$ by replacing $\Lambda_0$ by $\iota_* \Lambda_0$. Assume there is an exact sequence of coherent $\struct{S}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & V_0' \arrow[r] & V_0 \arrow[r] & V_0'' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+call this sequence $\Sigma_0$. Then $\Sigma := f^{-1} \Sigma_0$ is exact. Then,
+\[ \Omega_{X/S}^\bullet \ot \Sigma = \Sigma \ot_{f^{-1} \struct{S}} \Omega^\bullet_{X/S} \]
+Applying the snake lemma shows that proving the acyclicity for any two of the bundles proves it for the last and thus we reduce to the free case via taking a resolution. 
+\bigskip\\
+For the second step, we first deal with relative dimension $1$. We will prove any $(\cV, \nabla)$ arises from a relative local system. 
+\begin{enumerate}
+\item Case $1$ let $S = D^1$ and $X = D^{n} \times D^1$ and $f = \pi_2$ and $\cV$ is free. In this case, let $s_0 : S \to X$ be the zero section. If $v$ is a local section of $s_0^{-1} \cV$ then there is a unique horizontal section $\tilde{v}$ of $\cV$ coinciding with $v$ over $s_0(S)$. In local coordinates, this amounts to solving $\rank \cV$ differential equations of the form,
+\[ \partial_i \tilde{v} = A_i(z, \tilde{v}) \]
+such that $\tilde{v} |_{s_0(S)} = v$. 
+Let,
+\[ \tilde{v} = \sum s_i v_i \]
+and so in the local relative coordinate $z$ (relative dimension $1$)
+\[ \nabla \tilde{v} = \sum_i \d{s_i} \ot v_i + \sum s_i \nabla v_i = \sum_i \d{s_i} \ot v_i + \sum s_{ik} \d{z} \ot v_k  \]
+so we get,
+\[ \sum_{i} \pderiv{s_i}{z} \d{z} \ot v_i + \sum_{ijk} s_i s_{ik} \d{z} \ot v_k \]
+This is called the Cauchy problem. Sketch: show there exists a formal solution by induction on the coefficients and then find bounds to ensure convergence. 
+
+\item Case 2, $S = D^n$ and $X = D^{n+1}$ and $f = \pi_1$ but $\cV$ not free. Shrink to assume a presentation,
+\begin{center}
+\begin{tikzcd}
+\cV_1 \arrow[r] & \cV \arrow[r] & \cV \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where the first two are free. By further shrinking can assume that $\cV_1$ and $\cV_0$ have integrable connection which respect the maps. Thus by the first case $\cV_0 = \struct{X} \ot \Lambda_0$ and $\cV_1 = \struct{X} \ot \Lambda_1$ and then we see that $\cV = \struct{X} \ot \coker{(\Lambda_1 \to \Lambda_0)}$. 
+
+\item Case 3, $f : X \to S$ has relative dimension $1$. Shrinking we can assume that $S \embed D^n$ and $X = S \times D$ and $f = \pr_1$. All objects on $X, S$ correspond to the analogous onjects on $D^{n+1}$ and $D^n$ killed by the coherent ideal sheaf $\I$ of $S \embed D^n$. Therefore, by the previous case we conclude for these pushforward objects.
+
+\item Case 4, general $f : X \to S$. We induct on the relative dimension of $f$. If $n = 0$ this becomes trivial. If $n \neq 0$ then shrink to assume that $X = S \times D^{n-1} \times D$ and $f = \pi_1$. Then $(\cV, \nabla)$ induces $(\cV_0, \nabla_0)$ on $X_0 = S \times D^{n-1} \times \{ 0 \}$ by restriction. By induction, $\cV_0 \cong \struct{X_0} \ot_{\pi_1^{-1} \struct{S}} \Lambda$ for $\Lambda$ a relative local system on $X_0$. Therefore, we have a projection map $p : X \to S \times D^{n-1}$ of relative dimension $1$ and $\nabla$ induces a relative (to $p$) connection on $\cV$ (by quotienting pullback forms). Then by case 3, there is a coherent sheaf $\Lambda_1$ on $X_0 = S \times D^{n-1}$ and $\cV \cong \struct{X} \ot_{p^{-1} \struct{S \times D^{n-1}}} p^{-1} \Lambda_1$ compatible with connections relative to $p$. Thus we get an isomorphism,
+\[ \alpha : \cV \to \struct{X} \ot_{f^{-1} \struct{S}} f^{-1} \Lambda \]
+such that,
+\begin{enumerate}
+\item $\alpha|_{X_0}$ respects connection relative to $f$ 
+\item $\alpha$ respects the connection relative to $p$. 
+\end{enumerate}
+We want to show that $\alpha$ respects the connection relative to $f$. It suffices to show that if $v$ is a local section of $\Lambda$ then $\nabla v = 0$ because $\Lambda$ generates both sides $\struct{X}$-linearly so it suffices to check that the connections act the same way. 
+\end{enumerate}
+If $v$ is such a section, (ii) shows that $\nabla_{x_n} v = 0$ if $1 \le i < n$ then,
+\[ \nabla_{x_n} \nabla_{x_i} v = \nabla x_i \nabla_{x_n} v = 0 \]
+by integrability since $[\pderiv{}{x_n}, \pderiv{}{x_1}] = 0$. Therefore $\nabla_{x_i} v$ is a relative horizontal section for $p$ and by (i) it is $0$ on $X_0$. Thus by uniqueness of solutions for a Cauchy problem we have $\nabla_{x_i} v = 0$ and hence $\nabla v = 0$ so we win. 
+\end{proof}
+
+
+\subsection{Gauss-Manin Connection}
+
+\begin{prop}
+Let $f : X \to S$ be a smooth and separated map of analytic spaces, $i \in \Z$ and $\Lambda$ a $\CC$-local system on $X$. Suppose,
+\begin{enumerate}
+\item $f$ is a topological fiber bundle (e.g. if $f$ is proper) 
+\item $\dim{H^i(f^{-1}(s), \Lambda)} < \infty$ for all $s \in S$.
+\end{enumerate}
+Then $\struct{S} \ot_{\CC} R^i f_* \Lambda \iso R^i f_* (\Omega^\bullet_{X/S} \ot_{\CC} \Lambda)$.
+\end{prop}
+
+\begin{rmk}
+Consider $\A^2 \sm \{ 0 \} \to \A^1$ which is not a fiber bundle because its fibers are $\A^1$ over all points but the origin and $\Gm$ over the origin. This is why we need something like properness.
+\end{rmk}
+
+\begin{proof}
+By relative Poincare,
+\[ R f_* (\Omega_{X/S} \ot_{\CC} \Lambda) =  R f_* (\Omega_{X/S}^\bullet \ot_{f^{-1} \struct{S}} (f^{-1} \struct{S}) \ot_{\CC} \Lambda)) = R f_* (f^{-1} \struct{S} \ot_{\CC} \Lambda) \]
+Therefore, it remains to prove that,
+\[ R f_* (f^{-1} \struct{S} \ot_{\CC} \Lambda) \iso \struct{S} \ot_{\CC} R f_* \Lambda \]
+This is a pure topology question. 
+\end{proof}
+
+\begin{defn}
+If $S$ is moreover smooth then the Gauss-Manin connection on $R^i f_* (\Omega_{X/S}^\bullet \ot_{\CC} \Lambda)$ is the unique connection whose flat sections are $R^i f_* \Lambda$. 
+\end{defn}
+
+\section{Griffiths Transversality}
+
+Let $f : X \to S$ be a smooth projective ($H$-projective meaning embedded in $\P^n \times S$) morphism of smooth complex analytic spaces of relative dimension $d$. 
+
+\begin{thm}[Ehresmann]
+If $f : M \to N$ is a proper submersion of smooth manifolds then $f$ is a fiber bundle. In particular, all the fibers of $f$ are diffeomorphic. 
+\end{thm}
+
+\begin{defn}
+$R^\bullet_{\Z}(f) = \sum R^n f_* \Z$. For any abelian sheaf $\F$ we have,
+\[ R^n_{\F} (f) = \F \ot R^n_{\Z} (f) = R^n f_* (f^* \F) \]
+\end{defn}
+
+Then there is,
+\[ \eta \in H^0(S, R^2_{\Z}(f)) \]
+which is a relative Lefschetz class. We have, sublocal systems,
+\[ P^n_{\Z}(f) \subset R^n_{\Q}(f) \]
+where,
+\[ P^n_{\Q}(f) = \ker{(\eta^{d - n + 1} \wedge - : R^n_{\Q}(f) \to R^{2d - n + 1}_{\Q}(f))} \]
+and,
+\[ P^n_{\Z}(f) = P^n_{\Q}(f) \cap R^n_{\Q}(f) \]
+Then we define a form,
+\[ \psi(x,y) = \int_{X_s} \eta^{d-n} \wedge x \wedge y \]
+which is a bilinear form,
+\[ \psi : R^n_{\Z}(f) \ot R^n_{\Z}(f) \to \Z \]
+
+\subsection{de Rham complex}
+
+Let $\Omega^1{X/S} =  \Omega^1_X / f^* \Omega^1_S$ and $\Omega^p_{X/S} = \bigwedge^p \Omega^1_{X/S}$ and $T^1_{X/S} = (\Omega^1_{X/S})^\vee$.
+
+\begin{prop}[Relative Poincare]
+$\Omega^\bullet_{X/S}$ is a resolution of $f^* \struct{S}$.
+\end{prop} 
+
+\begin{prop}
+There is a spectral sequence,
+\[ E^{p,q}_1 = R^q f_* \Omega^p_{X/S} \implies \RR^{p+q} f_* \Omega^\bullet_{X/S} = R^{p+q} f_* (f^* \struct{S}) \]
+Taking fibers over $s \in S$ we obtain the usual Hodge-to-de Rham spectral sequence,
+\[ E^{p,q}_1 = H^q(X_s, \Omega^p_{X_s}) \implies H^{p+q}_{\dR}(X_s) = H^{p+q}(X_S, \underline{\CC}) \]
+By usual Hodge theory this spectral sequence degenerates. 
+\end{prop}
+
+Furthermore, by Ehresmann's theorem all the fibers are diffeomorphic and therefore all $H^{p+q}(X_S, \underline{\CC})$ have the same dimension. By degeneration,
+\[ \sum_{p+q = n} h^q(X_s, \Omega^p_{X_s}) = \dim{H^n(X_s, \underline{\CC})} \]
+And by semi-continuity we see that the Hodge numbers can only jump up and therefore by this equality they are constant. Since $S$ is smooth we can apply Grauert's theorem to conclude that,
+\begin{enumerate}
+\item $R^q f_* \Omega^p_{X/S}$ are vector bundles
+\item the relative Hodge-de Rham spectral sequence degenerates. 
+\end{enumerate}
+
+\begin{cor}
+There is a ``relative Hodge filtration'' $F^\bullet$ on $\RR^n f_* (\Omega^\bullet_{X/S})$ which restricts on fibers to the Hodge filtration.
+\end{cor}
+
+\subsection{The Gauss-Manin Connection}
+
+\begin{defn}
+Observe that $R^n_{\CC}(f)$ is a sublocal system of $R^n_{\struct{S}}(f)$. Then \textit{Gauss-Manin connection} is a connection,
+\[ \nabla : R^n_{\struct{S}}(f) \to \Omega^1_{S} \ot R^n_{\struct{S}}(f) \]
+Whose flat sections are the local system $R^n_{\CC}(f)$. 
+\end{defn}
+
+\begin{rmk}
+Question: does the Gauss-Manin connection preserve the Hodge filtration? Equivalently, can we make a global Hodge filtration on $R^n_{\CC}(f)$ that tensors with $\struct{S}$ to give the relative Hodge filtration on $R^n_{\struct{S}}(f) = \mathcal{H}_{\dR}^{n}(X/S)$.
+\end{rmk}
+
+\begin{rmk}
+The answer is no but the next best thing is true. 
+\end{rmk}
+
+\begin{theorem}[Griffiths Transversality]
+$\nabla F^p(R^n_{\struct{S}}(f)) \subset \Omega^1_S \ot F^{p-1}(R^n_{\struct{S}}(f))$.
+\end{theorem}
+
+\begin{proof}
+This is local on $S$ so we may assume that $S$ is Stein. It is enough to show that for all vector fields $v$ we have,
+\[ \nabla_v (F^p) \subset F^{p-1} \]
+Now we do some Cech calculations to verify. Let $\{ U_i \}$ be a Stein open cover of $X$. Consider the double complex,
+\[ f_*(U, \Omega^1_{X/S})^{p,q} = \bigoplus_{|Q| = q + 1} f_* (U_Q, \Omega^p_{X/S}) \]
+The pushforward $f : U_Q \to S$ is acyclic on coherent sheaves because it is a map of Stein manifolds. Therefore, this is an acyclic Cartan-Eilenberg resolution so we can use it to compute hypercohomology. Setting,
+\[ E_0^{p,q} = f_*(U, \Omega^1_{X/S})^{p,q} \]
+and then the $E_1$-page is,
+\[ E_1^{p,q} = R^q f_* \Omega^p_{X/S} \]
+But $F^p$ arises from the $p$ filtration on $E^{\bullet, \bullet}_1$. 
+\bigskip\\
+Recall that the Gauss-Manin connection is the edge map (ASK ABOUT HTHIS)!.
+
+
+
+Let $v$ be a holomorphic bector field on $S$. For all $i$ let $v_i$ be a lifting to $_i$. Let,
+\[ \theta(v_i) : E^{p,q}_0 = f_*(U, \Omega^\bullet_{X/S}) \to f_*(U_Q, \Omega^p_{X/S}) \oplus \bigoplus_{i_0 < i_1} f_*(U_{\{ i_0 \} \cup Q}, \Omega^p_{X/S}) \subset E_0^{p-1, q+1} \oplus E_0^{p,q} \]
+The components of this map are,
+(DEFINE!!!)
+Therefore it suffices to prove the following.
+\end{proof}
+
+\begin{lemma}
+The map $\theta(v_i)$ induces $\nabla_{v_i}$ on hypercohomology.
+\end{lemma}
+
+\begin{proof}
+Consider the smooth analogues. Choose $v_i'$ smooth lifting of $v$. Then,
+\[ \theta(v_i') - \theta(v_i'') = \d{H} = H \d{} \]
+for $H = (v_i' - v_i'') L$ at the level of hypercohomology meaning the choice of lift does not matter. When working in the $C^\infty$ contex we can take $\underline{U} = \{ X \}$ because all smooth sheaves are acyclic. Then,
+\[ f_* (\underline{U}, \Omega^*_{C^\infty, X/S}) = f_* (\Omega^\bullet_{C^\infty, X/S}) \]
+Then $\theta(v_i)$ is ``visibly'' $\nabla_{v_i}$. 
+\end{proof}
+
+\begin{defn}
+A \textit{variation of real Hodge structures} of weight $n$ consists of
+\begin{enumerate}
+\item a local system $H_{\RR}$ of real vector spaces on $S$ 
+\item a finite downward holomorphic filtration by locally free analytic sheaves of $H_{\struct{S}} = H_{\RR} \ot_{\RR} \struct{S}$ (where the inclusions are strongly of constant rank)
+\end{enumerate}
+such that for the canonical connection on $H_{\struct{S}}$ (corresponding to $H_{\RR}$ by Riemann-Hilbert)
+\begin{enumerate}
+\item $\nabla F^p(H_{\struct{S}}) \subset \Omega^1_{X/S} \ot F^{p-1}(H_{\struct{S}})$
+\item on each fiber the filtration forms a Hodge structure. 
+\end{enumerate}
+A \textit{variation of Hodge structures} of weight $n$ consists of a local system of free $\ZZ$-modules $H_{\ZZ}$ such that $H_{\ZZ} \ot_{\ZZ} \RR$ is a variation of real Hodge structures. 
+\end{defn}
+
+\section{May 11 Hodge Loci}
+
+\begin{defn}
+A $\Z$-variation of hodge structures on a complex analytic space $B$ is the data of,
+\begin{enumerate}
+\item a local system $H$ of finite free $\Z$-modules
+
+\item a decreasing filtration $F^\bullet$ by subbundles on $\cH = H \ot_{\Z} \struct{B}$ (note $\cH$ is a vector bundle with the obvious connection.
+\end{enumerate}
+Such that,
+\begin{enumerate}
+\item Griffoths transversality: $\nabla F^p (\cH) \subset \Omega_B^1 \ot F^{p-1} \H$
+\item each fiber $H_b$ equipped with the filtration on $\cH_b$ is a $\Z$-Hodge structure. 
+\end{enumerate}
+\end{defn}
+
+\subsection{Noether-Lefschetz Loci}
+
+We conisder surfaces $S_u \subset \P^3$. Note: any curve $C \subset S_n$ is a mutiple of the hyperplane class $H$ iff $C = S_u \cap H$ is a complete intersection where $H$ is a hypersurface. We will study the classical question of asking if all curves are of this form. 
+\bigskip\\
+Let $B \subset \P H^0(\P^3, \struct{\P^3}(d))$ be the locus of smooth hypersurfaces in the moduli space of smooth hypersurfaces. Consider the universal hypersurface $\phi : S_B \to B$. 
+
+\newcommand{\NL}{\mathrm{NL}}
+
+\begin{defn}
+The Noether-Lefschetz Locus is,
+\[ \NL(B) := \{ u \in B \mid \Pic{\P^3} \to \Pic{S_u} \text{ not surjective} \} \]
+\end{defn}
+
+\begin{theorem}[Noether-Lefschetz]
+If $d \ge 4$ the components of $\NL(B) \subset B$ are proper algebraic subsets so every ``very general'' smooth $S \subset \P^3$ of degree $d \ge 4$ has every $C \subset S$ of the form $C = S \cap H$. 
+\end{theorem}
+
+\begin{rmk}
+Consider,
+\[ C^k_B = \{ (Z,H) \mid Z = S_H \cap Y \text{ for } Y \text{ a hypersurface of degree } k \} \]
+Then thre is a map,
+\[ \bigcup_k C^k_B \to B \]
+
+\end{rmk}
+
+\subsection{Hodge Loci}
+
+Given a $\Z$-VHS $(H, F^\bullet, \nabla)$ on $B$ consider $\lambda \in \Gamma(B, H)$.
+
+\begin{defn}
+Given $p, \lambda$ the \textit{Hodge locus},
+\[ \U^p_\lambda = \{ u \in U \mid \lambda_u \in F^p \cH_u \} \]
+is the set of points where $\lambda$ lies in the $p^{\text{th}}$ filtered part.
+\end{defn}
+
+\begin{rmk}
+In the case $k = 2p$ then $U^p_\lambda$ is the locus where $\lambda$ is a ``Hodge class'' because,
+\[ H^{2p}(X, \Z) \cap H^p H^{2p}(X, \CC) = H^{p,p} \]
+because $H^{2p}(X, \Z)$ is conjugation invariant so any $H^{p,q}$ part must be paired with a $H^{q,p}$ part not allowed in the filtration. 
+\end{rmk}
+
+\begin{rmk}
+The class $k = 2$ and $p = 1$ then the Lefschetz $(1,1)$-theorem says that,
+\[ c_1 : \Pic{X} \to H^{1,1}(X) \cap H^2(X, \Z) \]
+is surjective. Suppose that the $\Z$-VHS arises from a smooth proper family $f : X \to S$ then,
+\[ U^p_\lambda = \{ u \in U \mid \lambda_u = c_1(\L) \text{ for some } \L \in \Pic{X_u} \} \]
+Claim: for well-chosen $\lambda$,
+\[ \NL(B) = \bigcup_{\lambda} U^p_\lambda \]
+(WHAT)
+\end{rmk}
+
+More generally, $\pi : \X_B \to B$ is the universal hypersurface of degree $d$. Let $U \subset B$ be an open set and,
+\[ \lambda \in \Gamma(U, R^{n-1} \pi_* U_{\text{prim}}) \]
+
+\begin{theorem}
+If $d,n,p$ are chosen with,
+\[ d(n - p + 1) - (n-1) \le (d-2) (n+1) \]
+then $U^p_\lambda$ are proper \textit{analytic} subsets of $U$ all nonzero $\lambda$. 
+\end{theorem}
+
+\subsection{Generalities on Hodge Loci}
+
+\begin{lemma}
+$U^p_q \subset U$ is a complex analytic subspace. 
+\end{lemma}
+
+\begin{proof}
+Since the bundles $F^p \cH$ are holomorphic then,
+\[ U^p_\lambda := \{ u \in U \mid \bar{\lambda}_u = 0 \text{ inside } \cH / F^p \cH \} \]
+and $\cH / F^p \cH$ is a vector bundle so the vanishing of its sections are closed in the analytic topology.  
+\end{proof}
+
+\begin{prop}
+$U^p_\lambda$ can be defined locally by $h^{p-1} := \rank{F^{p-1} \cH / F^p \cH}$ equations.
+\end{prop}
+
+\begin{proof}
+For $u \in U^p_\lambda$, in a neighborhood, choose a decomposition,
+\[ \cH / F^p \cH \cong F^{p-1} \cH / F^p \cH \oplus \F \]
+and we write $\bar{\lambda} = \bar{\lambda}_{p-1} + \bar{\lambda}_{\F}$. Then we have,
+\[ U^p_\lambda \subset V^p_\lambda = \{ u \in U \mid \bar{\lambda}_{p-1} = 0 \} \]
+and we want to show this is an equality. First, pass to $U = V_\lambda^p$ meaning $\bar{\lambda} = 0$ globally. We work formally,
+\[ U_\ell = \Spec{\stalk{U}{u} / \m_u^{\ell + 1}} \]
+It suffices to show that $U^p_\lambda \cap U_{\ell} = U_\ell$. We prove this by induction on $\ell$. The base case it clear. Assume true for $\ell$. Let $\lambda \in \cH$ is in $F^{p-1} \cH \mod \m_u^\ell$. Then,
+\[ \lambda = \mu - \sum_i \alpha_i \sigma_i \]
+for $\alpha_i \in \m_u^\ell$ and $\sigma_i \in \ch$ a local basis of flat sections with $\mu \in F^p \cH$. Then $\bar{\lambda}_{p-1} = 0$ implies that $\lambda - \mu \in \m_u^{\lambda + 1} \cH$ projects to $0$ in, $\m_u^{\ell + 1} / \m_u^{\ell + 2} F^{p-1} \cH / F^p \cH$. 
+\bigskip\\
+However, recall that $\lambda \in H$ and therefore is a flat section which implies that,
+\[ \nabla (\lambda - \mu) = - \nabla \mu = \sum \d{\alpha} \ot \sigma-i \in \cH \ot \Omega^1 \]
+and by transversality,
+\[ \nabla (\lambda - \mu) \in F^{p-1} \cH \ot \Omega \]
+\end{proof}
+
+\begin{prop}
+Consider the following induced maps,
+\begin{center}
+\begin{tikzcd}
+F^{p+1} \cH^k \arrow[r, "\nabla"] \arrow[d] & F^p \cH \ot \Omega_B \arrow[d]
+\\
+F^p \cH^k \arrow[r, "\nabla"] \arrow[d] & F^{p-1} \cH^k \ot \Omega_B \arrow[d]
+\\
+\cH^{p,q} \arrow[r, "\overline{\nabla}"] \arrow[d] & \cH^{p-1, q+1} \ot \Omega_B \arrow[d]
+\\
+0 & 0
+\end{tikzcd}
+\end{center}
+and $\overline{\nabla}$ is $\struct{B}$-linear. This is called an \textit{infinitesimal variation of Hodge structures}.
+\end{prop}
+
+\begin{rmk}
+This is called the infinitesimal variation of Hodge structures becuase it is the differential of the period map. Indeed,
+\[ P_p : B \to \mathrm{Gr}(F^p, H^k(X, \CC)) \]
+then the differential is,
+\[ \d{P_p} : T_{B,b} \to \Hom{}{F^p H^k}{H^k / F^p H^k} \]
+but this factors by transversality as,
+\begin{center}
+\begin{tikzcd}
+T_{B, n} \arrow[rd] \arrow[rdd, bend right] \arrow[rr] & & \Hom{}{F^p H^k}{H^k / F^p H^k}
+\\
+& \Hom{}{F^p H^k}{F^{p-1} H^k / F^p H^k} \arrow[ru]
+\\
+& \Hom{}{F^p H^k / F^{p+1} H^k}{F^{p-1} H^k / F^p H^k} \arrow[u] \arrow[ruu, bend right]
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{lemma}
+\[ T_{U^p_\lambda, x} = \ker{\overline{\nabla}(\bar{\lambda}_x)} \subset T_{U, x} \]
+where,
+\[ \overline{\nabla}_x(\bar{\lambda}_x) \in F^{p-1} / F^p \ot \Omega_B \cong \Hom{}{T_{U,x}}{F^{p-1} \cH_x / F^p \cH_x} \]
+\end{lemma}
+
+
+\end{document}
+

@@ -1,0 +1,231 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{GeometryCommands}
+
+
+\begin{document}
+
+
+\section{Tensor Densities}
+
+\begin{defn}
+For any vector bundle $\pi : E \to M$ there is an associated frame bundle $F(E)$. For $s \in \R$, consider the homomorphism $\rho_s : \GL{n,\R} \to \R^\times$ via $A \mapsto |\det{A}|^{-s}$ which gives a $1$-dimensional representation. Then the \textit{bundle of $E$ densities} is the line bundle,
+\[ D^s(E) = F(E) \times_{\rho_s} \R \]
+Because $\rho$ has image inside $\R^+$ and therefore $\rho$ gives an action on $\R^+$ by multiplication. Therefore, there is a canonical principal $\R^+$-bundle inside $D^s(E)$,
+\[ D_+^s(E) = F(E) \times_{\rho_s} \R^+ \embed F(E) \times_{\rho_s} \R = D^s(E) \]
+corresponding to the positive densities. This is a restriction of the structue group of $D^s(E)$ from $\R^\times$ to $\R^+$ which corresponds to putting an orientation on $D^s(E)$ and thus a notion of positivity.
+\end{defn}
+
+\begin{prop}
+The line bundle $D^s(E)$ is always trivial.
+\end{prop}
+
+\begin{proof}
+The subbundle $D^s_+(E) \embed D^s(E)$ gives an orientation of $D^s(E)$ and thus $D^s(E)$ is trivial. Furthermore, all principal $\R^+$-bundles are trivial and thus $D^s_+(E)$ has a section which gives a nonvanishing section of $D^s(E)$ that trivializes it.
+\end{proof}
+
+\begin{rmk}
+Notice: there does not exist a canonical trivialization of $D^s(E)$. Here we recall some cohomological arguments for the structure of the torsors in question. There is a morphism of exact sequences of abelian sheaves on $M$ where the second row is $\exp : \struct{M} \to \struct{M}^\times$ replaced by its image,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{M} \arrow[d, "\exp"']  \arrow[r, "\exp"] & \struct{M}^\times \arrow[r] & \underline{\{ \pm 1 \}} \arrow[r] & 0
+\\
+0 \arrow[r] & \struct{M}^+ \arrow[r] & \struct{M} \arrow[u, equals] \arrow[r] & \underline{\{ \pm 1 \}} \arrow[u, equals] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then we get a morphism of long exact sequence of cohomology,
+\begin{center}
+\begin{tikzcd}
+H^1(M, \struct{M}) \arrow[d, "\exp"] \arrow[r] & H^1(M, \struct{M}^\times) \arrow[r] \arrow[d, equals] & H^1(M, \{ \pm 1 \}) \arrow[d, equals] \arrow[r] & H^2(M, \struct{M}) \arrow[d, "\exp"]
+\\
+H^1(M, \struct{M}^+) \arrow[r] & H^1(M, \struct{M}^\times) \arrow[r] & H^1(M, \{ \pm 1 \}) \arrow[r] & H^2(M, \struct{M})
+\end{tikzcd}
+\end{center}
+but $\struct{M}$ is soft so $H^i(M, \struct{M}) = 0$ for all $i > 0$ and thus $w_1 : H^1(M, \struct{M}^\times) \to H^1(M, \Z / 2 \Z)$ is an isomorphism classifying line bundles by their first Steifel-Whitney class. Furthemore, since $\exp$ is an isomorphism we see that $H^i(M, \struct{M}^+) = 0$ so in particular, every prinicpal $\R^+$-bundle is trivial. A more prosaic reason is that principal $\R^+$-bundles are reduction of structure groups of a line bundle $\L$ thus giving the strucutre of an orientation on $\L$ but an oriented line bundle is trivial. 
+\end{rmk}
+
+\begin{rmk}
+Warning! In topology, the singular cohomology group $H^1(M, G)$ only classifies $G$-bundles \underline{for a discrete groups} $G$. To classify $G$-bundles for a topoolgical group we need to use the sheaf $\F_G$ of continuous maps to $G$. Then sheaf cohomology $H^1(M, \F_G)$ classifies $G$-torsors on $M$. Warning $\F_G$ is NOT the constant sheaf $\underline{G}$ unless $G$ is discrete and thus,
+\[ H^1_{\text{sing}}(M, G) = H^1(M, \underline{G}) \neq H^1(M, \F_G) = \{ \text{principal } G \text{-bundles on } M \} \]
+For example, principal $\R$-bundles are all trivial but $H^1(M, \R)$ need not be zero.
+\end{rmk}
+
+
+\section{Conformal Geometry}
+
+\renewcommand{\C}{\mathcal{C}}
+
+\begin{defn}
+Let $M$ be a smooth manifold. Two Riemannian metrics $g_1, g_2$ are \textit{conformally equivalent} if there exists a positive smooth function $\lambda : M \to \R$ such that $g_1 = \lambda^2 g_2$.
+\end{defn}
+
+\begin{defn}
+A smooth map $f : M \to N$ of Riemannian manifolds is \textit{conformal} if $g_M$ and $f^* g_N$ are conformally equivalent. 
+\end{defn}
+
+\begin{defn}
+A \textit{conformal manifold} is a pair $(M, [g])$ where $M$ is a smooth manifold and $[g]$ is a conformal class of Riemannian metrics on $M$. A conformal map $f : (M, [g]) \to (N, [h])$ is a smooth map $f : M \to N$ such that $f^* [h] = [g]$.
+\end{defn}
+
+\begin{defn}
+We say that an almost complex structure $I$ is \textit{compatible} with a metric $g$ if
+\[ g(I(v), I(u)) = g(v, u) \]
+that is $I \in \mathrm{O}(TM)$
+\end{defn}
+
+\begin{prop}
+Let $(X, g, I)$ be a Riemannian manifold with a compatible almost complex structue. Then $\omega(-,-) = g(I(-), -)$ is a 2-form called the fundamental form.
+\end{prop}
+
+\begin{proof}
+We need to show that $\omega$ is antisymmetric. Note,
+\[ \omega(v, u) = g(I(v), u) = g(I^2(v), I(u)) = - g(v, I(u)) = - g(I(u), v) = - \omega(u, v) \]
+\end{proof}
+
+\begin{prop}
+If $I$ is compatible with $g$ then 
+\end{prop}
+
+\begin{prop}
+Let $(X, I)$ be a (paracompact) smooth manifold with an almost complex structure. Then there exists a Riemannian metric $g$ on $X$ compatible with $I$.
+\end{prop}
+
+\begin{proof}
+First we show that there exsits a metric $g'$ on $X$. Choose charts $\{(U_i, \varphi_i)\}$ which we refine such that it is locally finite and choose a subordinate partition of unity $\chi_i$. The standard metric gives a metric $g_i$ on $U_i$. Now consider,
+\[ g = \sum \chi_i g_i \]
+then $g$ is symmetric and positive definite since $\chi_i \ge 0$ with at least one positive at each point and $g_i(v, v) > 0$ for $v \neq 0$ so $g(v, v) > 0$. 
+\bigskip\\
+Now consider,
+\[ g(v, w) = g'(v, w) + g'(I(v), I(w)) \]
+It is clear that $g$ is symmetric and positive definite because $g(v, v) = g'(v, v) + g'(I(v), I(v))$ is positive unless $v = 0$ so $g$ is a metric. Furthermore,
+\[ g(I(v), I(u)) = g'(I(v), I(u)) + g'(I^2(v), I^2(u)) = g'(v, u) + g'(I(v), I(u)) = g(v, u) \]
+\end{proof}
+
+\begin{defn}
+A \textit{pseudo-holomorphic} map $f : (X, I) \to (X', I')$ is a smooth map $f : X \to X'$ such that $\d{f} \circ I = I' \circ \d{f}$. 
+\end{defn}
+
+\begin{rmk}
+When $(X, I)$ and $(X', I')$ are integrable almost complex structues (i.e. are induced by complex structues on $X$ and $X'$) then pseudo-holomorphic maps are exactly holomorphic maps $f : X \to X'$.
+\end{rmk}
+
+\subsection{The Two Dimensional Case}
+
+
+\begin{lemma}
+Let $V$ be a oriented 2-dimensional $\R$-vectorspace. Let $J : V \to V$ be an endomorphism such that $v, J(v)$ is a positively ordered basis for each $v \neq 0$. Then $J \in \mathrm{GL}^{+}(V)$.
+\end{lemma}
+
+
+\begin{proof}
+The orientation induces a notion of positivity on $\bigwedge^2 V$. The form $q(v) = v \wedge J(v)$ is positive definite. Choosing a basis we write $J$ in a matrix form,
+\[ A = 
+\begin{pmatrix}
+a & b 
+\\
+c & d 
+\end{pmatrix} \]
+then $q(x) = x^\top B x$ where,
+\[ B = \tfrac{1}{2} (SA - A^\top S) \]
+where,
+\[ S = 
+\begin{pmatrix}
+0 & -1
+\\
+1 & 0
+\end{pmatrix} \]
+then,
+\[ B = 
+\begin{pmatrix}
+-c & \frac{a-d}{2}
+\\
+\frac{a-d}{2} & b 
+\end{pmatrix} \]
+Since $q$ is positive definite,
+\[ \det{B} = -cb - \left( \frac{a-d}{2} \right)^2 > 0 \]
+Therefore,
+\[ ad - bc > ad + \left( \frac{a-d}{2} \right)^2 = \left( \frac{a + d}{2} \right)^2 > 0 \]
+and thus $J \in \mathrm{GL}^{+}(V)$.
+\end{proof}
+
+\begin{lemma}
+Let $V$ be a 2-dimensional $\R$-vectorspace with an inner product $\inner{-}{-}$. Suppose that $J : V \to V$ is an endomorphism such that $\inner{v}{J(v)} = 0$ for all $v \in V$. Then $J^2 = - \lambda^2 \id$.
+\end{lemma}
+
+\begin{proof}
+Choose an orthonormal basis $\{ e_i \}$ then we write $I$ in a matrix form,
+\[ A = 
+\begin{pmatrix}
+a & b 
+\\
+c & d 
+\end{pmatrix} \]
+and $\inner{v}{J(v)} = x^\top A x$ where $v = x^i e_i$. Thus if the form is zero we must have $A^\top = -A$ and thus,
+\[ A = 
+\begin{pmatrix}
+0 & -\lambda 
+\\
+\lambda & 0
+\end{pmatrix} \]
+meaning that $A^2 = - \lambda^2 I$ and thus $J^2 = - \lambda^2 \id$.
+\end{proof}
+
+\begin{lemma}
+Let $V$ be a 2-dimension $\R$-vectorspace and $J : V \to V$ an endomorphism such that $J^2 = - \id$. Then $J \in \mathrm{SL}(V)$.
+\end{lemma}
+
+\begin{proof}
+We can choose a basis $v, J(v)$ for any $v \neq 0$ since if $J(v) = \lambda v$ then $\lambda^2 = -1$ which is not possible over $\R$. Thus $J(v \wedge J(v)) = J(v) \wedge J^2(v) = - J(v) \wedge v = v \wedge J(v)$ and thus $J$ preserves $\det{V}$ so $\det{J} = 1$ and thus $J \in \mathrm{SL}(V)$. 
+\end{proof}
+
+\begin{prop}
+Let $X$ be an oriented 2-manifold. Then the following data are equivalent,
+\begin{enumerate}
+\item an almost complex structure $(X, I)$ compatible with the orientation
+\item a conformal structure $(X, [g])$
+\end{enumerate}
+The graph of this correspondence is the set of compatible pairs $(I, [g])$.
+\end{prop}
+
+\begin{proof}
+Given a conformal class $[g]$ choose a representative $g$. For any vector field $\sigma$ consider the line bundle $L = \ker{g(\sigma, -)} \subset T X$ giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & L \arrow[r] & T X \arrow[r, "\iota_\sigma g"] & \underline{\R} \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+Therefore, we find,
+\[ \det{T X} \cong L \]
+An orientation of $X$ induces an orientation on $\det{T X}$ and thus on $L$ so $L$ has nonvanishing global sections. Then the fixed norm bundle $U_\sigma(L) = \{ (x, v) \in L \mid g(v, v) = g(\sigma, \sigma) \}$ has a unique positive section $\sigma^\perp \in \Gamma(X, U(L)) \subset \Gamma(X, TX)$ under the induced orientation. Then $\sigma \mapsto \sigma^\perp$ is $\C^{\infty}$-linear giving an endomorphism $I : TX \to TX$. Furthermore, $g(\sigma, I(\sigma)) = 0$ so, applying the previous lemmas, $I^2 = - \lambda^2 \id$ but $g(I(\sigma), I(\sigma)) = g(\sigma, \sigma)$ and thus $\lambda^2 = 1$ so $I^2 = -\id$. Finally, since $v \wedge I(v)$ is positive, we see $I$ induces a compatible orientation on $X$. Furthermore, clearly $I$ is the unique almost complex structure compatible with $g$ and orientation since $U_\sigma(L)$ has only two sections the other of which is oppositely oriented. 
+\bigskip\\
+Conversely, given a complex structure $(X, I)$ compatible with the orientation consider the set $c(I)$ of metrics on $X$ compatible with $I$. Suppose $g$ and $g'$ are two such metrics. At a point $x \in X$ choose some $v \neq 0$. We know $v, I(v)$ forms a basis $T_x X$ so $g_x$ and $g_x'$ are determined by their values on $v, I(v)$. Choose $\lambda_x > 0$ such that $g_x'(v, v) = \lambda_x^2 g_x(v, v)$. Furthermore,
+\[ g_x'(I(v), I(v)) = g_x'(v, v) = \lambda_x^2 g(v, v) = \lambda_x^2 g_x(I(v), I(v)) \]
+and $g_x'(v, I(v)) = 0$ and $g_x(v, I(v))$ so $g_x' = \lambda_x^2 g_x$. Then because $g$ and $g'$ are smooth and nonzero tensors we see that $\lambda$ is a smooth function so $g$ and $g'$ are conformally equivalent. 
+\end{proof}
+
+\begin{prop}
+Let $(X, I, [g])$ and $(X', I', [g'])$ be 2-manifolds with compatible conformal and almost complex structures. Let $f : X \to X'$ be a smooth map. Then the following are equivalent,
+\begin{enumerate}
+\item $f$ is conformal and orientation preserving
+\item $f$ is a pseudo-holomorphic local diffeomorphism.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+If $f : X \to X'$ is conformal then choosing a representative, $g'$ for the conformal class on $X'$ we see that $f^* g'$ is a metric i.e. positive definite. In particular, $(f^* g')(v, v) = g'(\d{f}(v), \d{f}(v))$ but if $\d{f}(v) = 0$ then $v = 0$ since $(f^* g')(v, v) = 0$. Thus $f$ is a local diffeomorphism and since $f^* g' \in [g]$, we see that $I$ is compatible with with $f^* g'$. Furthermore, $\tilde{I} = \d{f}^{-1} \circ I' \circ \d{f}$ is an almost complex structure on $X$ compatible with $f^* g'$ because,
+\begin{align*}
+(f^* g')(\tilde{I}(v), \tilde{I}(u)) & = g'(\d{f}(I(v)), \d{f}(I(u))) = g'(I'(\d{f}(v)), I'(\d{f}(u))) 
+\\
+& = g'(\d{f}(v), \d{f}(u)) = (f^* g')(v, u)
+\end{align*}
+Furthermore, if $f$ is orientation preserving then $\tilde{I}$ is compatible with the orientation. To see this, note that $\d{f}(v) \wedge I' \circ \d{f}(v)$ is positive (because $I'$ is compatible with the orientation on $X$) so applying $\d{f}^{-1}$ we see that $v \wedge \tilde{I}(v)$ is positive meaning that $\tilde{I}$ is compatible with the orientation on $X$. Thus $\tilde{I} = I$ because there is a unique almost complex structure compatible with the orientation and conformal structure so $f$ is pseudo-holomorphic.
+\bigskip\\
+Conversely, suppose that $f$ is pseudo-holomorphic and a local diffeomorphism. Choose a representative $g'$ for the conformal class. Then consider,
+\[ (f^* g')(I(v), I(u)) = g'(\d{f} \circ I(v), \d{f} \circ I(u)) = g'(I' \circ \d{f}(v), I' \circ \d{f}(u)) = g'(\d{f}(v), \d{f}(u)) = (f^* g')(v, u) \]
+because $I'$ is compatible with $g'$. Thus, $f^* g'$ is compatible with $I$. Because $f$ is a local diffeomorphism $f^* g'$ is a metric on $X$ and thus $f^* g' \in [g]$ because $f^* g'$ is compatible with $I$ and thus defines the same conformal class. Therefore, $f : (X, [g]) \to (X', [g'])$ is conformal. Furthermore, $v \wedge I(v)$ positive but $\d{f}(I(v)) = I'(\d{f}(v))$ so $\d{f}(v \wedge I(v)) = \d{f}(v) \wedge I'(\d{f}(v))$ which is positive because $I'$ is compatible with the orientation on $X'$.  
+\end{proof}
+
+
+\end{document}
+
+

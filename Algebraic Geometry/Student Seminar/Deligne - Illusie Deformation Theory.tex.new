@@ -1,0 +1,182 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Lifting and Extensions}
+
+\subsection{Smoothness}
+
+\begin{defn}
+We say that a map $T \to T'$ is an order $n$ infinitesimal thickening if it is a closed immersion whose defining ideal $\I$ satisfies $\I^{n+1} = 0$.
+\end{defn}
+
+\begin{rmk}
+Notice that a zeroth order infinitesimal thickening is an isomorphism. Furthermore, in the affine case, this corresponds to $A = A' / I$ for an ideal $I \subset A'$ with $I^{n+1} = 0$.
+\end{rmk}
+
+\begin{defn}
+Let $f : X \to Y$ be a morphisms of schemes. If for any diagram,
+\begin{center}
+\begin{tikzcd}
+T \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+T' \arrow[r] \arrow[ru, dashed] & Y
+\end{tikzcd}
+\end{center}
+with $T \to T'$ a first-order infinitesimal thickening of \textit{affine schemes} we say that $f$ is
+\begin{enumerate}
+\item \textit{formally smooth} if there exists at least one dashed arrow
+\item \textit{formally unramified} if there exists at most one dashed arrow
+\item \textit{formally \etale} if there exists exactly one dashed arrow.
+\end{enumerate}
+Furthermore, we say that $f$ is smooth (resp. unramified, resp. \etale) if $f$ is formally smooth (resp. unramified, resp. \etale) and locally of finite presentation.
+\end{defn}
+
+\begin{rmk}
+Notice that any order-$n$ infinitesimal thickening $T \to T'$ may be factored as,
+\begin{center}
+\begin{tikzcd}
+T = T_0 \arrow[r] & T_1 \arrow[r] & \cdots \arrow[r] & T_{n-1} \arrow[r] & T_n = T'
+\end{tikzcd}
+\end{center}
+where $T_i$ is the closed subscheme of $T'$ cut out by $I^{i+1}$. Therefore, $T_i \to T_{i+1}$ is a closed immersion cut out by $I^{i+1}/I^{i+2}$ which has zero square and thus is a first-order infinitesimal thickening. Therefore, by repeatedly applying the lifting criteria, we may replace ``first-order'' in the definition by $n^{\text{th}}$-order.
+\end{rmk}
+
+\begin{rmk}
+The definition given above appears in the Stacks project. The definition in our text refers to diagram of (possibly not affine) infinitesimal thickenings,
+\begin{center}
+\begin{tikzcd}
+T \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+T' \arrow[r] \arrow[ru, dashed] & Y
+\end{tikzcd}
+\end{center}
+and asks only about liftings $T' \to X$ \textit{Zariski-locally} on $T'$. Therefore, it is clear that Stacks project formal smoothness implies [I] formal smoothness. In fact, both definitions for all three properties agree. Indeed, if $f$ is formally \etale then the uniqueness of the lift on affines implies gluing so there exists a unique \textit{global} map $T' \to X$ for any infinitesimal thickening $T_0 \to T$. This contrasts the smooth case for which we will construct a global obstruction to the existence of a global lift $T' \to X$.
+\end{rmk}
+
+\subsection{Extensions}
+
+\begin{defn}
+Let $f : X \to Y$ be a morphism of schemes and $\I$ a quasi-coherent $\struct{X}$-module. A $Y$-\textit{extension of} $X$ by $\I$ is a $Y$-morphism $\iota : X \to X'$ which is a first-order infinitesimal thickening by an ideal isomorphic to $\I$ via the data of an $\struct{X'}$-module map $\varphi : \iota_* \I \to \struct{X'}$.
+\end{defn}
+
+\begin{rmk}
+If $\J \subset \struct{X'}$ is the sheaf of ideals corresponding to the thickening $\iota : X \to X'$ then $\J^2 = 0$ so $\J$ is naturally a $\struct{X} = \struct{X'}/\J$-module.
+\end{rmk}
+
+\begin{rmk}
+The situation to have in mind is a $R$-algebra $A$ and an $A$-module $I$. Then a first-order extension of $A$ by $I$ is a map of $R$-algebras $A' \onto A$ such that,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & A' \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact such that the image of $I \to A'$ is an ideal with $I^2 = 0$ in $A'$.
+\end{rmk}
+
+\begin{rmk}
+We now need a notion of when two extensions are equivalent or more generally the concept of a morphism between them.
+\end{rmk}
+
+\begin{defn}
+A morphism between two $Y$-extensions of $X$ by $\I$, namely $\iota_1 : X \to X'_1$ and $\iota_2 : X \to X'_2$ is an $X$-morphism $g : X'_1 \to X'_2$ meaning that
+\begin{center}
+\begin{tikzcd}
+X'_1 \arrow[rr, "g"]  & & X'_2 
+\\
+& X \arrow[lu, "\iota_1"] \arrow[ru, "\iota_2"']
+\end{tikzcd}
+\end{center}
+commutes and such that,
+\begin{center}
+\begin{tikzcd}
+\iota_1^{-1} \struct{X_1'} \arrow[rr, "g^\#"]  & & \iota_2^{-1} \struct{X_2'}
+\\
+& \I \arrow[lu, "\varphi_1"] \arrow[ru, "\varphi_2"']
+\end{tikzcd}
+\end{center}
+commutes as a diagram of abelian sheaves.
+\end{defn}
+
+\begin{rmk}
+In the affine case, this corresponds exactly to an $R$-algebra map $g : A'_1 \to A'_2$ giving a morphism of exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[d, equals] \arrow[r] & A'_1 \arrow[r] \arrow[d, "g"] & A \arrow[r] \arrow[d, equals] & 0
+\\
+0 \arrow[r] & I \arrow[r] & A'_2 \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Notice, by the 5-lemma, $g$ is an isomorphism so a morphism of lifts is always an isomorphism.
+\end{rmk}
+
+\begin{defn}
+We say that an extension $\iota : X \to X'$ is \textit{split} if there exists a section $s : X' \to X$ such that $s \circ \iota = \id_X$. In this case, the exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \iota^{-1} \struct{X'} \arrow[r] & \struct{X} \arrow[l, bend right, "s^\#"'] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is split meaning that,
+\[ \iota^{-1} \struct{X'} \cong \struct{X} \oplus \I \]
+with the unique $\struct{X}$-algebra structure such that $\I^2 = 0$. Therefore, there is a unique split extension up to isomorphism.
+\end{defn}
+
+\begin{rmk}
+The map $\iota^{-1} \struct{X'} \to \struct{X}$ is surjective because $\iota$ is a closed immersion and a homeomorphism so $\iota^{-1}$ and $\iota_*$ are inverse functors.
+\end{rmk}
+
+\begin{rmk}
+The split extension in the affine case is given by $B = A \oplus I$ with the unique $A$-algebra structure such that $I^2 = 0$.
+\end{rmk}
+
+\begin{defn}
+We denote the set of isomorphism classes of $Y$-extensions of $X$ by $I$ as,
+\[ \Ext{}{Y}{X}{\I} \]
+This is a group under ``Bayer sum'' with the split extension as the identity as we shall soon see.
+\end{defn}
+
+\begin{example}
+Let $X \to X_1 \to X \times_Y X$ be the first infinitesimal neighborhood of the diagonal i.e. if $\Delta_{X/Y} : X \to X \times_Y X$ is cut out by $\I$ then $X_1$ is cut out by $\I^2$. Then $\Delta_1 : X \to X_1$ is a first-order infinitesimal thickening with ideal $\I/\I^2 \cong \Omega^1_{X/Y}$. Then the two projections $p_1, p_2 : X_1 \to X$ split the extension giving two splittings of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{X/Y} \arrow[r] & \cP_{X/Y} \arrow[r] & \struct{X} \arrow[l, bend right, "j_1"'] \arrow[l, bend left, "j_2"] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cP_{X/Y} = \iota^{-1} \struct{X_1}$ is the sheaf of first principal parts. The two splittings correspond to two $\struct{X}$-module structures on $\cP$ and $\d_{X/Y} = j_2 - j_1$ is the universal derivation $\d_{X/Y} : \struct{X} \to \Omega_{X/Y}$.
+\end{example}
+
+\begin{rmk}
+For any extension $(\iota : X \to X', \varphi : \I \to \iota^{-1} \struct{X'})$ the map $\iota : X \to X'$ is a closed immersion. Therefore, there is an exact sequence of $\struct{X}$-modules,
+\begin{center}
+\begin{tikzcd}
+\I \arrow[r, "\varphi"] & \iota^* \Omega_{X'/Y} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+coming from the second fundamental sequence and the isomorphism $\varphi : \I \to \iota^{-1} \struct{X'}$ identifying $\I$ with the defining ideal such that $\I^2 = 0$. If $f : X \to Y$ is smooth then the sequence is also left-exact.
+\end{rmk}
+
+
+\begin{prop}
+If $f : X \to Y$ is smooth then the map,
+\[ \Ext{}{Y}{X}{\I} \to \Ext{1}{\struct{X}}{\Omega_{X/Y}}{\I} \]
+defined by sending an extension $(\iota : X \to X', \varphi : \I \to \iota^{-1} \struct{X'})$ to the extension class of the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r, "\varphi"] & \iota^* \Omega_{X'/Y} \arrow[r] & \Omega_{X/Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is a bijection sending the split extension to the trivial extension.
+\end{prop}
+
+\subsec

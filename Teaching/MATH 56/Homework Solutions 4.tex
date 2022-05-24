@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,graphicx,float}
+\usepackage{mdframed}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.15}
+\usepackage[labelsep=space]{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\theoremstyle{definition}
+	\newmdtheoremenv{prob}{Problem}
+\theoremstyle{definition}
+	\newtheorem*{soln}{Solution}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\let\i\relax
+\newcommand{\i}{\mathbf{i}}
+\let\j\relax
+\newcommand{\j}{\mathbf{j}}
+\newcommand{\T}{\mathbf{T}}
+\let\r\relax
+\newcommand{\r}{\mathbf{r}}
+\let\k\relax
+\newcommand{\k}{\mathbf{k}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\let\Im\relax
+\newcommand{\Im}{\operatorname{Im}}
+\newcommand{\Coker}{\operatorname{Coker}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Span}{\operatorname{span}}
+
+\begin{document}
+
+\title{Math 56: Proofs and Modern Mathematics\\ Homework 3 Solutions}
+\author{Naomi Kraushar}
+\maketitle
+
+
+
+\begin{prob}[Axler 2.B.4]
+\begin{enumerate}[label=(\roman*)]
+\item Let $U$ be the subspace of $\C^5$ defined by
+\[U=\{(z_1, z_2, z_3, z_4, z_5)\in\C^5: 6z_1=z_2, z_3+ 2z_4+ 3z_5= 0\}.\]
+Find a basis of $U$.
+
+\item Extend the basis in (i) to a basis of $\C^5$.
+
+\item Find a subspace $W$ of $\C^5$ such that $\C^5=U\oplus W$.
+\end{enumerate}
+\end{prob}
+
+\begin{soln}
+\begin{enumerate}[label=(\alph*)]
+\item Let $(z_1,z_2,z_3,z_4,z_5)$ be an element in $U$. The equations defining $U$ give us the relations $z_2=6z_1$, $z_3=-2z_4-3z_5$, so we can rewrite this as
+\[(z_1,6z_1,-2z_4-3z_5,z_4,z_5)=z_1(1,6,0,0,0)+z_4(0,0,-2,1,0)+z_5(0,0,-3,0,1).\]
+This shows that the vectors $u_1=(1,6,0,0,0),u_2=(0,0,-2,1,0),u_3=(0,0,-3,0,1)$ span $U$. Suppose that $a_1u_1+a_2u_2+a_3u_3=0$. This gives us the equations
+\begin{align*}
+a_1 &=0 \\
+6a_1 &= 0 \\
+-2a_2-3a_3 &= 0 \\ 
+a_2 &= 0 \\
+a_3 &= 0
+\end{align*}
+The first, fourth, and fifth equations give us $a_1=0$, $a_2=0$, and $a_3=0$. Hence $u_1,u_2,u_3$ are linearly independent, and so form a basis for $U$.
+
+\item To extend $u_1,u_2,u_3$ to a basis for $\C^5$, we need to add two additional vectors to the set while keeping it linearly independent. From Problem 1, if we add a vector $w_1$ that is not in $\Span(u_1,u_2,u_3)=U$, then $u_1,u_2,u_3,w_1$ is still linearly independent. Let us take $w_1=(1,0,0,0,0)$; this is not in $U$ since $z_2\neq 6z_1$, so $u_1,u_2,u_3,w_1$ is still linearly independent. However, $w_1$ does satisfy the second equation $z_3+2z_4+3z_5=0$, so every vector in $\Span(u_1,u_2,u_3,w_1)$ must satisfy $z_3+2z_4+3z_5=0$. With this in mind, we take $w_2=(0,0,1,0,0)$, which does not satisfy this equation, so $w_2\notin\Span(u_1,u_2,u_3,w_1)$, hence $u_1,u_2,u_3,w_1,w_2$ are linearly independent and form a basis for $\C^5$.
+
+\item We define $W=\Span(w_1,w_2)$. First, we note that $U,W$ are subspaces, since they are spans of a set of vectors. Second, given an arbitrary vector $v\in\C^5$, we have
+\[v=a_1u_a+a_2u_2+a_3u_3+b_1w_1+b_2w_2=u+w,\]
+where $u=a_1u_a+a_2u_2+a_3u_3$ is in $U$ and $w=b_1w_1+b_2w_2$ is in $W$. Hence $\C^5=U+W$. Finally, suppose that $v\in U\cap W$. Using the bases for $U$ and $W$, this means that we have scalars $a_1,a_2,a_3,b_1,b_2$ such that 
+\[v = a_1u_1+a_2u_2+a_3u_3 = b_1w_1+b_2w_2,\]
+which is equivalent to the equation
+\[a_1u_1+a_2u_2+a_3u_3-b_1w_1-b_2w_2=0.\]
+By linear independence of the basis, we have $a_1,a_2,a_3,b_1,b_2=0$. Hence $v=0$, so $U\cap W=0$, and $\C^5=U\oplus W$.
+\end{enumerate}
+\end{soln}
+
+\break
+
+\begin{prob}[Axler 2.B.6]
+Suppose that $v_1, v_2, v_3, v_4$ is a basis of $V$.  Prove that $v_1+v2, v_2+v_3, v_3+v_4, v_4$ is also a basis of $V$.
+\end{prob}
+
+\begin{soln}
+We need to prove that $v_1+v2, v_2+v_3, v_3+v_4, v_4$ are linearly independent and span $V$.
+
+\underline{Linearly independent:} Suppose that we have
+\[a_1(v_1+v_2)+a_2(v_2+v_3)+a_3(v_3+v_4)+a_4v_4=0.\]
+Rearranging, this gives 
+\[a_1v_1+(a_1+a_2)v_2+(a_2+a_3)v_3+(a_3+a_4)v_=0.\]
+Since $v_1,v_2,v_3,v_4$ are linearly independent, all these coefficients must be $0$, so we have the equations
+\begin{align*}
+a_1 &=0 \\
+a_1+a_2 &= 0 \\
+a_2+a_3 &= 0 \\
+a_3+a_4 &= 0
+\end{align*}
+The first equation gives us $a_1=0$. Plugging that into the second equation gives us $a_2=0$. Continuing to substitute, we get $a_3=0$ and $a_4=0$. Hence $v_1+v2, v_2+v_3, v_3+v_4, v_4$ are linearly independent.
+
+\underline{Span $V$:}
+Let $v$ be any vector in $V$. Since $v_1, v_2, v_3, v_4$ is a basis, we have $v=a_1v_1+a_2v_2+a_3v_3+a_4v_4$. We can rewrite this as
+\[v=a_1v_1+a_2v_2+a_3v_3+a_4v_4 = a_1(v_1+v_2)+(a_2-a_1)(v_2+v_3)+(a_3-a_2+a_1)(v_3+v_4)+(a_4-a_3+a_2-a_1)v_4.\]
+Hence every $v\in V$ can be written as a linear combination of $v_1+v2, v_2+v_3, v_3+v_4, v_4$, so $v_1+v2, v_2+v_3, v_3+v_4, v_4$ span $V$.
+
+Having proven that $v_1+v2, v_2+v_3, v_3+v_4, v_4$ are linearly independent and span $V$, we conclude that $v_1+v2, v_2+v_3, v_3+v_4, v_4$ is a basis.
+
+\textbf{Note:} if we make use of the fact that $\dim V=4$, we only need to prove one of the above properties.
+\end{soln}
+
+\begin{prob}[Axler 2.B.5]
+Prove or disprove: there exists a basis $p_0, p_1, p_2, p_3$ of $\mathcal{P}_3(\F)$ such that none of the polynomials $p_0, p_1, p_2, p_3$ has degree 2.
+\end{prob}
+
+\begin{soln}
+This is TRUE. One way we can find such a basis is using the previous problem. The standard basis for $\mathcal{P}_4(\F)$ is $1,x,x^2,x^3$. Let $v_1=x^2,v_2=x^3,v_3=1,v_4=x$. By the previous problem, $x^2+x^3,x^3+1,1+x,x$ is also a basis for $\mathcal{P}_3(\F)$, and none of these has degree 2.
+
+\textbf{Note:} this is not the only possible basis where none of the polynomials has degree 2, e.g. another possibility is $1,x,x^2+x^3,x^3$.
+\end{soln}
+
+\begin{prob}[Axler 2.B.8] Suppose $U$ and $W$ are subspaces of $V$ such that $V=U\oplus W$.  Suppose that $u_1,\dots,u_m$ is a basis of $U$ and $w_1,\dots,w_n$ is a basis of $W$. Prove that $u_1,\dots,u_m,w_1,\dots,w_n$ is a basis of $V$.
+\end{prob}
+
+\begin{soln}
+We need to prove that $u_1,\dots,u_m,w_1,\dots,w_n$ is linearly independent and spans $V$.
+
+\underline{Linearly independent:}
+Suppose that we have the equation
+\[a_1u_1+\dots+a_mu_m+b_1w_1+\dots+b_nw_n=0.\]
+We can rearrange this to get the equation
+\[a_1u_1+\dots+a_mu_m=-b_1w_1-\dots-b_nw_n.\]
+The left-hand side of this equation is in $U$ and the right-hand side is in $W$. Since $V=U\oplus W$, we have $U\cap W=0$, so both sides of the equation, being in both $U$ and $W$, must be $0$. This gives us the equations
+\begin{align*}
+a_1u_1+\dots+a_mu_m &= 0 \\
+b_1w_1+\dots+b_nw_n &=0
+\end{align*}
+Since $u_1,\dots,u_m$ is a basis of $U$ and $w_1,\dots,w_n$ is a basis of $W$, both sets are linearly independent, so all the coefficients must be $0$. Hence $u_1,\dots,u_m,w_1,\dots,w_n$ is linearly independent.
+
+\underline{Spans $V$:}
+Let $v$ be an arbitrary element of $V$. Since $V=U\oplus W$, there exist $u\in U$ and $w\in W$ such that $v=u+w$. Since $u_1,\dots,u_m$ is a basis of $U$ and $w_1,\dots,w_n$ is a basis of $W$, we have $u=a_1u_1+\dots+a_mu_m$, $w=b_1w_1+\dots+b_nw_n$ for some scalars $a_1,\dots,a_m$, $b_1,\dots,b_n$. Hence $v=a_1u_1+\dots+a_mu_m+b_1w_1+\dots+b_nw_n$, so that $u_1,\dots,u_m,w_1,\dots,w_n$ spans $V$.
+
+Hence $u_1,\dots,u_m,w_1,\dots,w_n$ is a basis for $V$.
+\end{soln}
+
+\begin{prob}[Axler 2.C.10]
+Suppose $p_0,\dots,p_m\in\mathcal{P}(\F)$ are such that each $p_j$ has degree $j$. Prove that $p_0,\dots,p_m$ is a basis of $\mathcal{P}_m(\F)$.
+\end{prob}
+
+\begin{soln}
+We need to prove that $p_0,\dots,p_m\in\mathcal{P}(\F)$ is linearly independent and spans $\mathcal{P}_m(\F)$.
+
+To make things easier, we'll define some notation at the start: let $p_j(x)=p_{j0}+p_{j1}x+p_{j2}x^2+\dots+p_{jj}x^j$, where $p_{jj}\neq 0$ since $p_j$ has degree $j$..
+
+\underline{Linearly independent:}
+Suppose that
+\[a_0p_0+\dots+a_mp_m=0.\]
+Consider the highest-degree term on the left-hand side of this equation: it's $a_mp_{mm}x^m$. This has to be zero, and $p_{mm}\neq 0$, so $a_m=0$. (Recall that if $xy=0$ in a field, either $x=0$ or $y=0$.) The new highest degree term is $a_{m-1}p_{m-1\quad m-1}x^{m-1}$, and in the same way, we must have $a_{m-1}=0$. Applying this reasoning repeatedly to remove the highest degree term, we ultimately find that $a_j=0$ for all $j$. Hence $p_0,\dots,p_m\in\mathcal{P}(\F)$ is linearly independent.
+
+\underline{Spans $\mathcal{P}_m(\F)$:} Given an arbitrary polynomial $f\in \mathcal{P}_m(\F)$, we want to show that $f=a_0p_0+\dots+a_mp_m$ for some scalars $a_0,\dots,a_m\in \F$. We can write $f(x)=f_0+f_1x+f_2x^2+\dots+f_mx^m$, so we want to solve
+\[f(x)=f_0+f_1x+f_2x^2+\dots+f_mx^m = a_0p_0+\dots+a_mp_m.\]
+As above, we first look at the term of highest degree: on the left-hand side, we have $f_mx^m$, and on the right-hand side, we have $a_mp_{mm}x^m$. Since $p_{mm}\neq 0$, we can divide to get $a_m=f_m/p_{mm}$. This means that the $x^m$ terms match on both sides, so if we subtract $a_mp_{mm}$ from both sides, we have
+\[f-a_mp_{mm} = a_0p_0+\dots+a_{m-1}p_{m-1\quad m-1}.\]
+We now do the same thing, but with the $x^{m-1}$ term, which is now the leading term on both sides, and this will give us $a_{m-1}$. Applying this repeatedly, we get each of $a_{m-2},\dots, a_0$ in turn. Hence $f=a_0p_0+\dots+a_mp_m$, so $p_0,\dots,p_m\in\mathcal{P}(\F)$ spans $\mathcal{P}_m(\F)$.
+
+\textbf{Note:} Arguments based on dimension will allow you to prove only one of the above properties.
+\end{soln}
+
+\break
+
+\begin{prob}
+Prove that if $X$ is a finite dimensional vector space and if $V,W$ are subspaces of $X$ with $V\subset W$ and $\dim V= \dim W$, then $V=W$.
+\end{prob}
+
+\begin{soln}
+Let $n=\dim V=\dim W$. Suppose we have a basis of $V$; by definition of dimension, this basis will have $\dim V=n$ elements in it. We can extend this to a basis of $W$, but it already has the correct number $n=\dim W$ of elements, and so the basis for $V$ must be the same as the basis for $W$. Hence $W$ is the span of a basis of $V$, so $W=V$.
+\end{soln}
+
+\end{document}

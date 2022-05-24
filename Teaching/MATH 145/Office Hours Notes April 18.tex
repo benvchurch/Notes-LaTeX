@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../../General/}{General_Includes}
+
+\newcommand{\A}{\mathbb{A}}
+\renewcommand{\Res}{\mathrm{Res}}
+
+
+\begin{document}
+
+\section{April 18}
+
+\subsection{Performing Elimination Theory}
+
+\begin{rmk}
+Here $k = \bar{k}$.
+\end{rmk}
+
+
+\subsubsection{One Equation}
+
+For one equation $V = Z(g) \subset \A^n$ we change variables such that $g$ is in Noether normal form for $\pi : \A^n \to \A^{n-1}$ (equivalently choose such a projection) then $\pi(V) = \A^{n-1}$ so we know that above each $a \in \A^{n-1}$ there is a set of solutions to $f(a_1, \dots, a_{n-1}, x_n) = 0$. However, since $f$ is in Noether normal form $f(a_1, \dots, a_{n-1}, x_n)$ has leading term $x_n^d$ and hence is nonzero so there is a finite (nonzero) number of solutions in the fiber $(a_1, \dots, a_{n-1}, a_n) \mapsto (a_1, \dots, a_{n-1})$. Actually this number is constant (counted with appropriate multiplicity) because it is the degree of the fiber. This constancy is very interesting and you should remember it (a shadow of the fact that $\pi : V \to \A^{n-1}$ is ``finite flat''.)
+
+
+\subsubsection{Two Equations}
+
+For two equations $V = Z(f,g) \subset \A^n$ we change variables such that $g$ is in Noether normal form for $\pi : \A^n \to \A^{n-1}$ (equivalently choose such a projection) then $\pi(V) = Z(\Res_{x_n}(f,g))$ which reduces to the single equation case. Therefore, we could change coordinates on $\A^{n-1}$ to put $\Res_{x_n}(f,g)$ into Noether normal form for $x_{n-1}$ and apply the previous argument. Again, I claim that the fibers of $\pi : V \to Z(\Res_{x_n}(f,g))$ are finite. To see this consider $a = (a_1, \dots, a_{n-1}) \in Z(\Res_{x_n}(f,g))$. I claim there are finitely many $a_n \in k$ such that $(a_1, \dots, a_{n-1}, a_n) \in V$. Indeed, since $a \in Z(\Res_{x_n}(f,g))$ we know that,
+\[ [\Res_{x_n}(f,g)](a_1, \dots, a_{n-1}) = \Res_{x_n}(f(a_1, \dots, a_{n-1},x_n), g(a_1, \dots, a_{n-1}, x_n)) = 0 \]
+which vanish when the single-variable polynomials $f(a_1, \dots, a_{n-1}, x_n), g(a_1, \dots, a_{n-1}, x_n)) \in k[x_n]$ share a common root. since $g$ is in Noether normal form $g(a_1, \dots, a_{n-1}, x_n)$ has leading term $x_n^d$ so it is not zero and hence there are finitely many (and nonzero since $k = \bar{k}$) common roots $a_n$ since these are exactly the $a_n$ such that $(a_1, \dots, a_{n-1}, a_n) \in V$ because $V = Z(f, g)$ so we are done.
+
+\begin{rmk}
+Think about if the fibers of each map (and hence the total map) produced in elimination theory $V \xrightarrow{\pi_1} \pi(V) = Z(\Res_{x_n}(f,g)) \xrightarrow{\pi_2} \A^{n-2}$ have constant number of elements in their fibers.
+\end{rmk}
+
+\subsubsection{Full Elimination Theory for Many Equations}
+
+To do ``full'' elimination theory to a variety $V = Z(f_1, \dots, f_m) \subset \A^n$ we do the following procedure. Apply Theorem 28 (main theorem of affine elimination theory for arbitrarily many equations) repeatedly. At each stage this amounts to choosing a projection $\pi : \A^n \to \A^{n-1}$ (equivalently do a linear change of variables so that $f_m$ is in Noether normal form) so that $\pi(V) \subset \A^{n-1}$ is closed and is set-theoretically defined by explicit equations,
+\[ g_1, \dots, g_r \in (f_1, \dots, f_m) \cap k[x_1, \dots, x_{n-1}] \]
+using the multivariate resultant trick. Now we just apply the same technique inductively: $\pi(V) = Z(g_1, \dots, g_r) \subset \A^{n-1}$ is a variety so we may choose a projection, i.e. do a linear change of coordinates such that $g_r$ is in Noether normal form, so that the image is closed in $\A^{n-2}$. When does this process terminate? At some point, $\pi : V \to \A^r$ is surjective at which point we have ``fully eliminated'' variables from $V$. This is important because $\pi : V \to \A^r$ will turn out to be finite. In particular, it has finite fibers which we can see from the fact that at each stage of elimination theory if $a \in Z(g_1, \dots, g_r)$ then,
+\begin{align*}
+[\mathrm{Res}_{x_n} & (f_m, u_1 f_1 + \cdots + u_{m-1} f_{m-1})](a_1, \dots, a_{n-1}) 
+\\
+& = \mathrm{Res}_{x_n}(f_m(a_1, \dots, a_{n-1}, x_n), u_1 f_1(a_1, \dots, a_{n-1}, x_n) + \cdots + u_{m-1} f_{m-1}(a_1, \dots, a_{n-1}, x_n)) = 0
+\end{align*}
+but since the $a_i \in k$ are fixed this is just the resultant of two polynomials in $k[x_n]$ so they have a common root but also there are finitely many such roots $a_n$ because $f_m(a_1, \dots, a_{n-1}, x_n)$ is nonzero since it is in Noether normal form so its leading term is $x_n^d$. These roots are exactly the fibers $(a_1, \dots, a_{n-1}, a_n) \mapsto (a_1, \dots, a_{n-1})$ so the fibers are finite. 
+
+\begin{rmk}
+For homework Q5, we are asking about the ``full elimination map'' $\pi : V \to \A^r$ constructed above. By what we said above, $\pi(V) = \A^r$ is trivially closed and you need to show that $\pi(W)$ is closed for any closed subvariety $W \subset V$. Hint: reinterpret $\pi(W)$ as an intermediate stage in the full elimination procedure applied to the variety $W \subset \A^n$.
+\end{rmk}
+
+\begin{rmk}
+Interestingly, in this case, although the fibers are all finite, they may not have a constant number of elements like in the single equation case. For example, 
+\[ V = Z(xw - yz, z^3 - yw^2, x z^2 - y^2 w, y^3 - x^2 z) \subset \A^4 \]
+Doing complete elimination theory (for a suitable random projection) gives the map $\pi : \A^4 \to \A^2$ sending $(x,y,z,w) \mapsto (u,v) = (x - z - w, y - \tfrac{1}{7} z - \tfrac{4}{3} w)$ so that $\pi : V \to \A^2$ is (universally) closed and surjective. However, I claim the fiber over $(u,v) = (0,0)$ has $5$ points (counted with multiplicity) but over $(u,v) = (1,0)$ there are only $4$ points. This is a tricky problem to think about. You can ask me how I found this example at office hours if you are interested.
+\end{rmk}
+
+\section{Noether Normalization Theorem}
+
+I promised you a proof of the Noether normalization theorem given the normalization lemma (assuming that $k$ is infinite).
+
+\begin{theorem}[Noether]
+Let $V \subset \A^n$ be a variety. There exists a linear projection $\pi : \A^n \to \A^d$ such that $\pi : V \to \A^d$ is surjective and finite in the sense that if $A$ is the coordinate ring of $V$ and $k[y_1, \dots, y_d]$ is the coordinate ring of $\A^d$ then,
+\[ k[y_1, \dots, y_d] \to A \]
+is an injective, module-finite inclusion of rings.
+\end{theorem}
+
+\begin{proof}
+Let $k[x_1, \dots, x_n]$ be the coordinate ring of $\A^n$ and write $V = (f_1, \dots, f_r)$ such that,
+\[ A = k[x_1, \dots, x_n]/(f_1, \dots, f_r) \]
+It suffices to show that there exists a linear change of variables $y_i = a_{ij} x_j$ for $1 \le i \le d$ such that,
+\[ k[y_1, \dots, y_d] \to A = k[x_1, \dots, x_n]/(f_1, \dots, f_r) \]
+is injective and finite. We show this by induction on $n$. For $n = 0$ there is nothing to show. If $x_1, \dots, x_n \in A$ do not satisfy any polynomial relations then set $y_i = x_i$ and we win. Otherwise, there is some polynomial $g \in k[x_1, \dots, x_n]$ such that,
+\[ g(\bar{x}_1, \dots, \bar{x}_n) = 0 \text{ in } A \text{ equivalently meaning } g \in I = (f_1, \dots, f_n) \]
+(I am using the convention that $\bar{x}_i$ and $\bar{y}_i$ represent the images in $A$).
+Using the lemma, we change coordinates $y_i = a_{ij} x_j$ for $1 \le i \le n-1$ such that $g(y_1, \dots, y_{n-1}, x_n)$ is in Noether normal form,
+\[ g(y_1, \dots, y_{n-1}, x_n) = x_n^d + \sum_{k = 0}^d x_n^k g_k(y_1, \dots, y_{n-1}) \]
+Then let $A' = k[\bar{y}_1, \dots, \bar{y}_{n-1}]$ be the subring of $A$ generated by $\bar{y}_1, \dots, \bar{y}_{n-1} \in A$ so $A = A'[x_n]$ is finite over $A'$ because $1, x_n, \dots, x_n^{d-1}$ is a generating set using the above relation. Since $A'$ is generated by $n-1$ elements, by the induction hypothesis there is a linear change of variables $z_i$ in terms of the $y_i$ such that $k[z_1, \dots, z_r] \to A'$ is injective and finite. Hence,
+\[ k[z_1, \dots, z_r] \to A' \subset A \]
+is injective and finite. 
+\end{proof}
+
+
+\end{document}
