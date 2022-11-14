@@ -1485,7 +1485,7 @@ The following is a $2$-pullback diagram,
 \end{proof}
 
 \begin{rmk}
-In particular, if $\Delta$ is a closed immersion then we require that $\Isom{\X}{a}{b} \to T$ is a closed immersion. Consider the case that $T = \Spec{k}$ then this says that all objects in $\X$ have only trivial automorphisms. In particular, if $\X$ is an algebraic-stack then it is an algebraic space (\chref{https://stacks.math.columbia.edu/tag/04SZ}{Tag 04SZ}). This is clearly not satisfactory.
+In particular, if $\Delta$ is a closed immersion then we require that $\Isom[\X]{a}{b} \to T$ is a closed immersion. Consider the case that $T = \Spec{k}$ then this says that all objects in $\X$ have only trivial automorphisms. In particular, if $\X$ is an algebraic-stack then it is an algebraic space (\chref{https://stacks.math.columbia.edu/tag/04SZ}{Tag 04SZ}). This is clearly not satisfactory.
 \end{rmk}
 
 \begin{rmk}
@@ -1848,5 +1848,82 @@ Therefore, except for these cases the maximal torus of $\Aut{X}$ is the maximal 
 and indeed for $n = 2$ we get $G/B = \P^1$ which is toric.  
 \bigskip\\
 This proves that projective bundles over toric varieties need not be toric. Indeed, $F_n = \PGL_n / B$ is an iterated projective bundle over $\Spec{k}$ and hence at some point a projective bundle must take a toric variety to a non-toric variety since $F_n$ is not toric for $n > 2$. For $n = 3$ we get a counter-example for the projectivization of a rank $2$ vector bundle on $\P^2$ in fact $F_3 = \P_{\P^2}(\mathcal{Q})$ where $\mathcal{Q} = \Omega_{\P^2}(1)$ is the canonical subbundle and $\P^2$ is toric but $F_3$ is not toric by the above discussion. 
+
+\section{May 27 Orders of Points on genus $1$ curves}
+
+\newcommand{\ind}{\operatorname{ind}}
+\newcommand{\radix}{\operatorname{radix}}
+\newcommand{\per}{\operatorname{per}}
+
+\begin{defn}
+Let $X \to \Spec{k}$ be a $k$-scheme. For a point $x \in X$, let $\deg(x) = [\kappa(x) : k]$ and,
+\begin{enumerate}
+\item $\radix{X} = \min \{ \deg{x} \mid x \in X \}$
+\item $\ind{X} = \gcd \{ \deg{x} \mid x \in X \}$.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+Let $G$ be a $k$-group and $T$ a $G$-torsor. Then $\ind{T}$ is the gcd of the degrees of all extensions such that $T$ becomes trivial.
+\end{prop}
+
+\begin{proof}
+$T_{k'}$ is trivial iff $T(k') \neq \empty$ proving the claim. 
+\end{proof}
+
+\begin{prop}
+If $T \in H^1(k, G)$ is torson, denote its order $\per{T}$, then $\per{T} \divides \ind{T}$.
+\end{prop}
+
+\begin{proof}
+It suffices to show that if $T_{k'}$ is trivial then $\per{T} \divides [k' : k]$. Indeed, using that,
+\[ H^1(k, G) \lmap{\mathrm{res}} H^1(k', G) \lmap{\mathrm{cor}} H^1(k, G) \]
+is multiplication by $n = [k' : k]$ we see that $T \in H^1(k, G)[n]$ and hence its order $\per{T} \divides n$.
+\end{proof}
+
+\begin{prop}
+Let $C$ be a genus $1$ curve over a field $k$. Then $\forall x \in C : \ind(C) \divides \deg{x}$ so in particular $\radix{C} = \ind{C}$.
+\end{prop}
+
+\begin{proof}
+Let $x \in C$ be a point achiving the minimum and $y \in C$ another point. Assume the theorem is false then $\gcd(\deg{x}, \deg{y}) < \deg{x}$. Therefore, there is a divisor,
+\[ D = p [x] + q [y] \]
+for $p,q \in \Z$ such that $0 < \deg{D} < \deg{x}$. Then by Riemann-Roch,
+\[ h^0(C, \struct{C}(D)) = \deg{D} > 0 \]
+meaning that $D$ is equivalent to an effective divisor proving there is some point with smaller degree than $x$. 
+\end{proof}
+
+\begin{prop}
+Let $k$ be a field and $E$ an elliptic curve over $k$ such that for every finite extension $k'/k$ and all sufficiently large primes $p \gg 0$ the abelian group $k'^\times / (k'^\times)^n$ is infinite and $E(k) / p E(k)$ is finite (e.g. $k$ is a number field and $E$ is any elliptic curve). Then for any $n > 0$ there is an $E$-torsor $C$ with $\ind{C} \ge n$.
+\end{prop}
+
+\begin{proof}
+It suffices to prove that for any sufficiently large prime $\ell$ there is a nontrivial $C \in H^1(k, E)[\ell]$ since then $\per{C} = \ell$ and thus $\ind{C} \ge \ell$. Choose $\ell$ large enough to be invertible in $k$ (i.e. not the characteristic) then consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E[n] \arrow[r] & E \arrow[r, "n"] & E \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+exact in the \etale topology. Thus we find an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E(k) / \ell E(k) \arrow[r] & H^1(k, E[\ell]) \arrow[r] & H^1(k, E)[\ell] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since the first term is finite, to show that $H^1(k, E)[\ell] \neq 0$ it suffices to show that $H^1(k, E[\ell])$ is infinite. Let $k'/k$ be a field extension such that $E[\ell]$ is split and $k'$ has all $\ell^{\text{th}}$-roots of unity. Then from the inflation-restriction sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(\Gal{k'/k}, E[\ell]^{G_{k'}}) \arrow[r] & H^1(k, E[\ell]) \arrow[r] & H^1(k', E[\ell]) \arrow[r] & H^2(\Gal{k'/k}, E[\ell]^{G_{k'}})
+\end{tikzcd}
+\end{center}
+However, $\Gal{k/'k}$ is finite and $E[\ell]^{G_{k'}}$ is a finite abelian group (equipped with the trivial action) so $H^1(\Gal{k'/k}, E[\ell]^{G_{k'}})$ and $H^2(\Gal{k'/k}, E[n]^{G_{k'}})$ are finite. Therefore, $H^1(k, E[\ell])$ is infinite iff $H^1(k', E[\ell]) = \Hom{}{G_{k'}}{E[\ell]}$ is infinite. However, $E[\ell]_{k'} \cong (\Z / \ell \Z)^2 \cong \mu_\ell^2$ and therefore from the Kummer sequence, 
+\[ H^1(k', \mu_\ell) = (k'^\times) / (k'^\times)^\ell \]
+is infinite proving that $H^1(k', E[\ell])$ is infinite.
+\end{proof}
+
+
+\begin{rmk}
+Can we strengthen the statement to $\ind{C} = n$?
+\end{rmk}
 
 \end{document}

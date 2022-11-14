@@ -1,0 +1,1260 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\DeclareMathOperator{\reg}{\mathrm{reg}}
+
+\begin{document}
+
+\section{Introduction}
+
+\subsection{References}
+
+\begin{enumerate}
+\item A sampling of vector bundle techniques, Lazarsfeld. 
+\end{enumerate}
+
+\subsection{Divisors}
+
+\begin{rmk}
+Let $X$ be a projective variety over $k = \bar{k}$.
+\end{rmk}
+
+A divisor is a formal sum,
+\[ D = \sum a_i D_i \]
+for $a_i \in \Z$ and $D_i$ is a codimension $1$ subvariety. We also will allow $a_i \in \Q$ or $\RR$. 
+
+\begin{defn}
+$N^1(X)_{\RR} = \{ \RR\text{-divisors} \} / \sim$ 
+where,
+\[ D_1 \sim D_2 \iff D_1 \cdot C = D_2 \cdot C \]
+for all integral curves $C \subset X$. 
+\end{defn}
+
+\begin{defn}[Ample]
+A Line bundle $\L$ is \textit{ample} if one of the following equivalent conditions hold,
+\begin{enumerate}
+\item $\L^{\ot m}$ (for some $m \ge 0$) is very ample meaning $\L$ defines an embedding $X \embed \P^N$
+\item for any coherent sheaf $\F$ there exists $n(\F)$ s.t. $m \ge n(\F)$ implies $\F \ot \L^{\ot m}$ is globally generated
+\item for any coherent sheaf $\F$ there exists $n(\F)$ s.t. $m \ge n(\F)$ implies $H^i(X, \F \ot \L^{\ot m}) = 0$ for all $i > 0$
+\item (over $\CC$) positive in the sense of admiting a positive hermitian connection.
+\end{enumerate}
+\end{defn}
+
+\begin{theorem}[Nakai-Moishezon]
+On $X$ a line bundle $\L$ is ample if and only if
+\[ (\L^{\dim{V}} \cdot V) > 0 \]
+for all subvarieties $V \subset X$.
+\end{theorem}
+
+\begin{defn}
+$\L$ is \text{nef (numerically effective)} if,
+\[ (\L \cdot C) \ge 0 \]
+for all curves $C \subset X$. 
+\end{defn}
+
+\begin{theorem}[Kleiman]
+If $\L$ is net then for any subvariety $V \subset X$,
+\[ \L^{\dim{V}} \cdot V \ge 0 \]
+\end{theorem}
+
+\begin{rmk}
+However, $\L \cdot C > 0$ does not imply that $\L$ is ample meaning it does not imply that the intersection against all subvarities is positive. 
+\end{rmk}
+
+\begin{prop}
+\begin{enumerate}
+\item non-negative linear combinations of nef divisors are nef.
+\item if $f : X \to Y$ is proper and $\L$ on $Y$ is nef then $f^* \L$ is nef.
+\item if $f : X \to Y$ is surjective and proper and $f^* \L$ is nef then $\L$ is nef. 
+\end{enumerate}
+\end{prop}
+
+\begin{cor}
+\begin{enumerate}
+\item Let $X$ be projective, $D$ is a nef $\RR$-divisor, and $H$ is any ample $\RR$-divisor. Then $D + \epsilon H$ is ample for all $\epsilon > 0$. 
+\item fix $\RR$-divisors $D$ and $H$, if $(D + \epsilon H)$ is ample for all small $\epsilon > 0$ then $D$ is nef. 
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+For (2) we have,
+\[ D \cdot C = \lim_{\epsilon \to 0} (D + \epsilon H) \cdot C \ge 0 \]
+For (1) we need to show that,
+\[ (D + \epsilon H)^{\dim{V}} \cdot V > 0 \]
+for any subvariety $V \subset X$. Now,
+\[ (D + \epsilon H)^{\dim{V}} = [D^{\dim{V}} + \cdots + (\epsilon H)^{\dim{V}} ] \cdot V \]
+Since $D$ is nef, all the intersections are $\ge 0$ and $\epsilon^{\dim{V}} H^{\dim{V}} \cdot V > 0$ because $\epsilon > 0$ and $H$ is ample and thus we conclude.
+\end{proof}
+
+\begin{prop}
+Let $f : X \to T$ be surjective, proper and $\L$ is a line bundle on $X$. Suppose for some $t_0 \in T$, that $L_{t_0}$ is nef on $X_{t_0}$. Then there exists a countable union of proper subvarities $B \subset T$ such that $L_t$ is nef on $X_t$ for all $t \notin B$. 
+\end{prop}
+
+\newcommand{\Amp}{\mathrm{Amp}}
+\newcommand{\Nef}{\mathrm{Nef}}
+
+\begin{defn}
+The ample cone is,
+\[ \Amp(X) = \{ D \in N^1(X)_{\RR} \mid D \text{ is ample} \} \subset N^1(X)_{\RR} \]
+and the nef cone,
+\[ \Nef(X) = \{ D \in N^1(X)_{\RR} \mid D \text{ is nef} \} \subset N^1(X)_{\RR} \]
+The corollaries tell us that $\Amp(X)$ is an open convex cone and $\overline{\Amp(X)} = \Nef(X)$.
+\end{defn}
+
+\begin{example}
+$X = \P^1 \times \P^1$. Then $N^1(X)_{\RR} = \RR \left< F_1, F_2 \right>$ with basis $F_i = [\pi_i^{-1}(\text{pt})]$. The $F_i$ are both nef but $F_i^2 = 0$ so they are not ample. The ample cone is the first quadrant and the nef cone is the first quadrant plus the positive axes. 
+\end{example}
+
+\begin{example}
+Let $E$ be an elliptic curve general in $\M_1$. Let $X = E \times E$. Then,
+\[ N^1(X)_{\RR} = \RR \left< F_1, F_2, \Delta \right> \]
+Claim: any effective class on $X = E \times E$ is nef. Indeed this is because we can freely move classes by translation until they intersect properly. 
+\end{example}
+
+\begin{lemma}
+Let $X = E \times E$ . A class $\alpha \in N^1(X)_{\RR}$ is nef iff $\alpha^2 \ge 0$ and $\alpha \cdot h \ge 0$ for some ample $h$.
+\end{lemma}
+
+\begin{prop}
+Let $X$ be a surface and $D$ an integral divisor s.t. $D^2 > 0$ and $(D \cdot H) > 0$ for some ample $H$, then $m D$ is effective for some $m > 0$. 
+\end{prop}
+
+\begin{proof}
+Consider,
+\[ \chi(X, mD) = \tfrac{1}{2} (m D) \cdot (mD - K_X) + \chi(\struct{X}) \]
+Now since $D^2 > 0$ we can make $\chi(X, mD) \to \infty$ as $m \to \infty$. Furthermore, $h^2(X, mD) = h^0(X, K_X - mD) = 0$ for large enough $m$ if $D \cdot H > 0$. Otherwise, there would be an effective $D' \sim K_X - mD$ and then $D' \cdot H > 0$ since $H$ is ample but $D' \cdot H = K_X \cdot H - m D \cdot H < 0$ for large enough $m$ since $D \cdot H > 0$. Therefore, we must have $h^0(X, mD) \to \infty$ as $m \to \infty$.
+\end{proof}
+
+\begin{rmk}
+This proves the previous lemma using that the nef cone is closed and that eny effective class is nef. 
+\end{rmk}
+
+\begin{rmk}
+Back to the example, let $\alpha = x F_1 + y F_2 + z \Delta$ and $h = F_1 + F_2 + \Delta$. Applying the lemma gives the inequalities of the nef cone,
+\[  x + y + z \ge 0 \quad xy + xz + y z \ge 0 \]
+This is a round cone. 
+\end{rmk}
+
+\subsection{Schedule}
+
+\begin{enumerate}
+\item Castelnuovo-Mumford regularity
+\item Introduction to Brill-Noether Theory
+\item Petri's condition and Brill-Noether Theory on K3 surfaces: 
+\[ \mu_0 : H^0(C, A) \ot H^0(C, \omega_C \ot A^\vee) \to H^0(C, \omega_C) \]
+ for a line bundle $A$ and a curve $C$ when is this injective?
+\item Lazarsfeld-Mukai bundles on K3 surfaces.
+\item Proof of the Brill-Noether-Petri.
+\item $\dim = 2$ case of Fujita's conjecture.
+\item Moduli of sheaves on K3s? Other topics?
+\end{enumerate}
+
+\section{Mumford-Castounovo Regularity}
+
+\begin{theorem}[Serre Vanishing]
+Let $X \to \Spec{A}$ be proper and $\L$ ample on $X$. Then for any $\F \in \Coh{X}$ there is some $n(\F)$ such that for all $n \ge n(\F)$ and $i > 0$,
+\[ H^i(X, \F \ot \L^{\ot n}) = 0 \]
+\end{theorem}
+
+\begin{rmk}
+Today we want to quantify how the minimal $n(\F)$ grows.
+\end{rmk}
+
+\begin{defn}
+Let $X = \P^n_k$. Let $\F \in \Coh{X}$ and $m \in \Z$. Then $\F$ is $m$-\textit{regular} if,
+\[ H^i(X, \F(m-i)) = 0 \]
+for all $i > 0$. Then \textit{the regularity} of $\F$ is,
+\[ \reg(\F) = \inf \{ m \in \Z \mid \F \text{ is } m\text{-regular} \} \]
+\end{defn}
+
+\begin{rmk}
+If $\F$ is supported on a finite set then $\reg(\F) = - \infty$. Otherwise $\reg{\F}$ is a finite number.
+\end{rmk}
+
+
+\begin{example}
+Consider $X = \P^1 \times \P^1$ and $\L = \struct{X}(-1,-3)$. Then,
+\[ H^i(X, \L) = 0 \]
+for all $i$ by Kunneth since $\struct{\P^1}(-1)$ has no cohomology. However,
+\[ \dim H^i(X, \L(1)) = 
+\begin{cases}
+0 & i \neq 1
+\\
+1 & i = 1
+\end{cases} \]
+because,
+\[ H^1(X, \L(1)) \cong H^0(\P^1, \struct{\P^1}) \ot H^1(\P^1, \struct{\P^1}(-2)) \]
+The cohomology can all vanish but can jump up after a \textit{positive} twist. However, $\reg(\L) = 3$ so after twisting three times the higher cohomology stays zero. 
+\end{example}
+
+\begin{example}
+$\F = \struct{\P^n}(a)$ is $(-a)$-regular. If $X \subset \P^n$ is a degree $d$-hypersurface then $\iota_* \struct{X}$ is $(d-1)$-regular. 
+\end{example}
+
+\begin{prop}
+Let $\F \in \Coh{X}$ be $m$-regular. Then for $k \ge 0$,
+\begin{enumerate}
+\item $\F$ is $(m+k)$-regular
+\item $\F(m + k)$ is generated by global sections
+\item the natural map,
+\[ H^0(X, \F(m)) \ot H^0(X, \struct{X}(k)) \onto H^0(X, \F(m+k)) \]
+is surjective.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+By flat base change, we can ssume that $k$ is algebraically closed. Then we do induction on $n = \dim{X}$. For $\F \in \Coh{X}$ the support $\Supp{}{\F}$ is a closed subscheme so it has finitely many components and hence there exists a hyperplane mising each generic point (using that $k$ is infinite). Therefore, we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F(-1) \arrow[r] & \F \arrow[r] & \G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with $\G = \iota_* (\F|_{H})$ supported on $H \cong \P^{n-1}$. When $n = 0$ the statements are obvious. By the sequence, if $\F$ is $m$-regular then $\G$ is $m$-regular. By the induction hypothesis, $\G$ is $(m+k)$-regular. Thus for $i > 0$ and $k \ge 0$ we have $H^i(X, \G(m+k-i)) = 0$ so if $H^i(X, \F(m+k-1-i)) = 0$ then $H^i(X, \F(m+k-i)) = 0$ so if $\F$ is $(m+(k-1))$-reglar then $\F$ is $(m+k)$-regular so by induction $\F$ is $(m+k)$-regular for all $k \ge 0$ proving (a). Now, consider the diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(\F(m+k-1)) \ot \struct{X} \arrow[d] \arrow[r] & H^0(\F(m+k)) \ot \struct{X} \arrow[d] \arrow[r] & H^0(\G(m+k)) \ot \struct{X} \arrow[d] \arrow[r] & 0
+\\
+0 \arrow[r] & \F(m+k-1) \arrow[r] & \F(m+k) \arrow[r] & \G(m+k) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Since $\F$ is $(m+k)$-regular $H^1(X, \F(m+k-1)) = 0$ so the top sequence is short exact. By the induction hypothesis, for all $k \ge 0$ the map $H^0(\G(m+k)) \ot \struct{X} \onto \G(m+k)$ is surjective (on $H$ this is the induction hypothesis and outside $H$ this hold because $\G$ vanishes). By Serre, there is some $k \gg 0$ such that $\F(m+k)$ is globally generated and thus by downward induction we see that $\F(m+k)$ is globally generated for all $k \ge 0$ proving (b). Then consider the diagram,
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d]
+\\
+H^0(X, \F(m)) \ot H^0(X, \struct{X}(k-1)) \arrow[d] \arrow[r] & H^0(X, \F(m+k-1)) \arrow[d]
+\\
+H^0(X, \F(m)) \ot H^0(X, \struct{X}(k)) \arrow[d, two heads] \arrow[r] & H^0(X, \F(m+k)) \arrow[d, two heads]
+\\
+H^0(\G(m)) \ot H^0(H, \struct{H}(k)) \arrow[r, two heads] & H^0(H, \G(m+k)) \arrow[d]
+\\
+& 0
+\end{tikzcd}
+\end{center}
+By induction on $n$ the bottom map is surjective. The bottom downward maps are surjective because $\F$ and $\G$ are $m$-regular so $H^1(X, \F(m-1)) = 0$ and likewise for $\G$. Now we use induction on $k$. The case $k = 0$ is clear so we can assume that the top map is surjective and thus the middle map is also surjective completing the induction step. Therefore, 
+\[ H^0(X, \F(m)) \ot H^0(X, \struct{X}(k)) \onto H^0(X, \F(m+k)) \]
+is surjective proving (c). 
+\end{proof}
+
+\begin{prop}
+Given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_1 \arrow[r] & \F_2 \arrow[r] & \F_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then,
+\begin{enumerate}
+\item if $\F_1$ and $\F_3$ are $m$-regular then $\F_2$ is $m$-regular
+\item if $\F_1$ is $(m+1)$-regular and $\F_2$ is $m$-regular then $\F_3$ is $m$-regular
+\item if $\F_2$ is $m$-regular and $\F_3$ is $(m-1)$-regular then $\F_1$ is $m$-regular
+\item $\reg(\F_1) \le \max \{ \reg(\F_2), \reg(\F_3) + 1 \}$
+\item $\reg(\F_2) \le \max \{ \reg(\F_1), \reg(\F_2) \}$
+\item $\reg(\F_3) \le \max \{ \reg(\F_1) - 1, \reg(\F_2) \}$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Consider the long exact sequence,
+\begin{center}
+\begin{tikzcd}
+H^i(X, \F_1(m-i)) \arrow[r] & H^i(X, \F_2(m-i)) \arrow[r] & H^i(X, \F_3(m-i)) \arrow[r] & H^{i+1}(X, \F_1(m-i))
+\end{tikzcd}
+\end{center}
+DO THIS
+\end{proof}
+
+\begin{prop}
+Consider a coherent resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_n \arrow[r, "\d_n"] & \F_{n-1} \arrow[r, "\d_{n-1}"] & \arrow[r] & \cdots \arrow[r] & \F_1 \arrow[r, "\d_1"] & \F_0 \arrow[r, "\d_0"] & \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with each $\F_j$ is $(m+j)$-regular. Then $\F$ is $m$-regular and $H^0(X, \F_0(m)) \onto H^0(\F(m))$. 
+\end{prop}
+
+\begin{proof}
+Given $H^i(X, \F_j(m + j - i)) = 0$ for all $i > 0$ and $j \ge 0$. We want to show that $H^i(X, \F(m-i)) = 0$. DO THIS
+\end{proof}
+
+\begin{prop}
+A coherent sheaf $\F \in \Coh{X}$ is $m$-regular iff there exists a resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-m-(n+1))^{\oplus a_{n+1}} \arrow[r] & \cdots \arrow[r] & \struct{X}(-m-1)^{\oplus a_1} \arrow[r] & \struct{X}(-m)^{\oplus a_0} \arrow[r] & \F \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{prop}
+Let $\F \in \Coh{X}$ and $\E$ a vector bundle. If $\F$ is $m$-regular and $\E$ is $\ell$-regular then $\F \ot \E$ is $(m+\ell)$-regular.
+\end{prop}
+
+\begin{proof}
+We apply the resultion property to $\F$ and then applying $- \ot \E$ gives a resultion of $\F \ot \E$ since $\E$ is flat. Then we apply the previous proposition. 
+\end{proof}
+
+\begin{cor}
+If $\E$ is a an $m$-regular vector bundle then,
+\begin{enumerate}
+\item $\E^{\ot r}$
+\item $\bigwedge^r \E$
+\item $S^r \E$ (for characteristic zero).
+\end{enumerate}
+all are $(rm)$-regular. 
+\end{cor}
+
+\begin{proof}
+Regularity of $\E^{\ot r}$ is immediate. Then consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & \E^{\ot r} \arrow[r] & \bigwedge^r \E \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which has a section (CHECK)
+\end{proof}
+
+\begin{defn}
+Let $X$ be a projective variety and $\L$ a globally generated line bundle. Then $\F$ is $m$-regular with respect to $\L$ if,
+\[ H^i(X, \F \ot \L^{\ot (m-i)}) = 0 \]
+for all $i > 0$.
+\end{defn}
+
+
+\begin{prop}[Green's Theorem]
+Let $W \subset H^0(X, \struct{X}(d))$ be a codimension $n$ basepoint-free linear system. Then for $k \ge c$,
+\[ \zeta_k : W \ot H^0(X, \struct{X}(k)) \onto H^0(X, \struct{X}(d+k)) \]
+is surjective. 
+\end{prop}
+
+\begin{proof}
+Consider $W \ot \struct{X}$ then there is a map,
+\[ W \ot \struct{X} \onto \struct{X}(d) \]
+which is surjective as a map of sheaves since $W$ is base-point free. Let $\M_W$ be its kernel. Then surjectivity is equivalent to $H^1(X, \M_W(k)) = 0$. Similarly, define,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \M_d \arrow[r] & H^0(X, \struct{X}(d)) \ot \struct{X} \arrow[r] & \struct{X}(d) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Wind that $\M_d$ is $1$-regular and $\bigwedge^k \M_d$ is $k$-regular. Since $\codim{W} = c$ we have,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \M_W \arrow[r] & \M_d \arrow[r] & \struct{X}^{\ot c} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Using the Egan-Northcott complex we have $\M_W$ is $(c+1)$-regular. If $k \ge c$ then $\M_W$ is $(k+1)$-regular and thus,
+\[ H^1(X, \M_W(k)) = H^1(X, \M_W(k+1-1)) = 0 \]
+\end{proof}
+
+\begin{conj}[Fujita]
+Let $X$ be a smooth projective varitety $\dim{X} = n$. Let $D$ be an ample divisor. Then,
+\begin{enumerate}
+\item $k \ge n+1$ implies that $K_X + k D$ is basepoint free
+\item $k \ge n+2$ implies that $K_X + k D$ is very ample.
+\end{enumerate}
+\end{conj}
+
+\begin{rmk}
+This is true for curves, surfaces, and projective spaces. 
+\end{rmk}
+
+\begin{rmk}
+$h^0$ can be hard to compute but $\chi$ is easier. If $H^i = 0$ for $i > 0$ then $\chi = h^0$.
+\end{rmk}
+
+\begin{example}
+Let $X \subset \P^r$. What is the dimension of quadtric supersurfaces containing $X$. Consider $h^0(\I_X(2))$. We have,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I_X(2) \arrow[r] & \struct{\P^r}(2) \arrow[r] & \struct{X}(2) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, we need vanishing $H^1(\I_X(2)) = 0$ to compute $h^0(\I_X(2))$. 
+\end{example}
+
+\begin{example}
+Let $\ell \subset \P^3$ be a line. What is the dimension of degree $d$ surfaces containing $\ell$. Since $\ell$ is a complete intersection $\ell = H_1 \cap H_2$ for two hyperplanes. We have a Kozul resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{}(-2) \arrow[r] & \struct{}(-1) \oplus \struct{}(-1) \arrow[r] & \struct{} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+By the previous result, $H^0(\struct{}) \onto H^0(\struct{\ell})$ is surjective and thus $H^1(\I_\ell(d)) = 0$. Alternatively, the resultion gives that $\I_{\ell}$ is $0$-regular.
+\end{example}
+
+\begin{example}
+Noether-Lefschetz: $\Pic{S_d} = \Z$ for very general hypersurface $S_d \subset \P^3$ of degree $d$. However, if $S_d \supset \ell$ then it is not very general. 
+\end{example}
+
+\begin{example}
+Let $H_1, \dots, H_e \subset \P$ be hypersurfaces with $\deg{H_i} = d_i$ and a complete intersection,
+\[ X = H_1 \cap \cdots \cap H_e \]
+Then,
+\[ \reg(\I_X) = d_1 + \cdots + d_e - e + 1 \]
+\end{example}
+
+\section{Andres: Moduli of Vector Bundles on Curves}
+
+Let $C$ be a curve a smooth projective curve over $k$. Vector bundles on $C$ vary in continuous families.
+
+\begin{example}
+If $C$ is an elliptic curve then there is a bijection between,
+\[ C(k) \iso \{ \text{rank 1 vector bundles of degree 1} \} \]
+via the map,
+\[ p \mapsto \struct{C}(p) \cong \I_p^\vee \]
+\end{example}
+
+Let $\Sigma_{n,d}$ be the set of all vector bundle s on $C$ of fixed rank $n$ and degree $d$. Assume that $(n,d) = 1$. We want that $\Sigma_{n,d}$ is the $k$-points of some projective variety.
+\bigskip\\
+Let $T$ be a varierty or a scheme, we can consider a vector bundle $\E$ on $T \times C$ this gives a map $T(k) \to \Sigma_{n,d}$ via $t \mapsto \E_{C_t} \in \Sigma_{n, d}$. Therefore, we use this as the functor of points of the desired variety.
+\bigskip\\
+Consider the finest topology on $\Sigma_{n,d}$ such that for all $T$ and all $\E$ on $C \times T$ the induced map $T(k) \to \Sigma_{n,d}$ is continuous. 
+
+\section{Brill-Noether Theory}
+
+Let $C$ be a smooth projective curve of genus $g$. Then we want to consider the space of line bundles $\L$ on $C$ with $V \subset H^0(C, \L)$ of dimension $r+1$ giving a map $C \rat \P^r$ of degree $d$. We get a moduli space $G^r_d(C)$. We ask the following questions:
+
+\begin{enumerate}
+\item when is $G^r_d(C)$ nonempty
+\item what is the dimension of $G^r_d(C)$
+\item how many components does $G^r_d(C)$ have and are they equidimensional?
+\end{enumerate}
+
+\begin{defn}
+The Brill-Noether number,
+\[ \rho = g - (r+1) (g - d + r) \]
+is the ``expected dimension'' of $G^r_d(C)$ for a general curve $C$.
+\end{defn}
+
+\begin{defn}
+There is a universal fibration $\G^r_d \to \M_g$ of the Brill-Noether moduli spaces. 
+\end{defn}
+
+\begin{theorem}[Brill-Noether]
+There is an open locus of $\M_g$ such that if,
+\begin{enumerate}
+\item $\rho < 0$ then $\G^r_d|_U$ is empty
+\item $\rho \ge 0$ then $\G^r_d |_U$ has constant fiber dimension $\rho$ and is smooth
+\item $\rho > 0$ then $\G^r_d$ has connected fibers (over all of $\M_g$).
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+If $\rho \ge 0$ then $G^r_d(C)$ is nonempty for all $C$ but need not be smooth or of the correct dimension. 
+\end{rmk}
+
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\Fitt}{\mathrm{Fitt}}
+
+\begin{example}
+Hyperelliptic curves have nontrivial $\g^1_2$ but
+\[ \rho = g - 2(g - 1) = 2 - g \]
+is negative for large $g$ . 
+\end{example}
+
+\begin{defn}
+Consider the space
+\[ W^r_d(C) = \{ \L \mid \L \text{ line bundle wth } \deg{\L} = d \text{ and } \dim{H^0(C, \L)} \ge r + 1 \} \]
+Then clearly there is a map $\beta : G^r_d(C) \to W^r_d(C)$.
+\end{defn}
+
+\subsection{Definition of Moduli Spaces}
+
+\newcommand{\rk}{\mathrm{rk}}
+\renewcommand{\Pic}{\mathrm{Pic}}
+
+\begin{defn}
+Let $F_1, F_2$ be free modules of finite rank over $R$ and consider,
+\begin{center}
+\begin{tikzcd}
+F_1 \arrow[r, "\varphi"] & F_2 \arrow[r] & M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then the $a^{\text{th}}$ fitting ideal $\Fitt_a(M)$ is the ideal generated by the $(\rk F_2 - a) \times (\rk F_@ - a)$ minors of the matrix representing $\varphi$. This is independent of the presentation.
+\end{defn}
+
+\begin{defn}
+Using the universal line bundle $\L$ on $C \times \Pic_C^d$ we define,
+\[ W^r_d(C) = \Fitt_{g - d + r  -1} (R^1 \nu_* \L) \]
+where $\nu : C \times \Pic_C^d \to \Pic_C^d$. 
+\end{defn}
+
+\begin{rmk}
+Notice that $R^1 \nu_* \L$ has fibers $H^1(C, L)$ over the point $[L]$ for $L$ of degree $d$. Choose high enough degree divisor $\Gamma$ on $C$ we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & L \arrow[r] & L(\Gamma) \arrow[r] & L(\Gamma) / L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then the long exact sequence gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(C, L) \arrow[r] & H^0(C, L(\Gamma)) \arrow[r, "\gamma"] & H^0(C, L(\Gamma)/L) \arrow[r] & H^1(C, L) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then by Riemann-Roch $h^0(C, L(\Gamma)) = d - g + 1 + m$ and $h^0(C, L(\Gamma)/L) = m$ where $\deg{\Gamma} = m$.
+Then we have,
+\[ |W^r_d(C)| = \{ L \in \Pic^d \mid \rank \gamma \le m - (g - d + r - 1) - 1 = m - g + d - r \} \]
+which is exactly the conditions of the fitting ideal. 
+\end{rmk}
+
+\begin{rmk}
+Naive dimension count for $W^r_d(C)$ is,
+\[ \dim{\Pic_C^d} - \# \{ \text{minors} \} = g - (m - (m - g + d - r))(d - g + 1 + m - (m - g + d - r)) = g - (r+1)(g-d+r) = \rho \] 
+\end{rmk}
+
+\subsection{Petri's Condition}
+
+Let $C$ be a smooth projective curve. We say that $C$ satisfies (P) if for all $\L \in \Pic{(C)}$,
+\[ \mu_{\L} : H^0(C, \L) \ot H^0(C, \omega_C \ot \L^{\ot -1}) \to H^0(C, \omega_C) \]
+is injective. 
+
+\begin{theorem}[Gieseker]
+Petri's condition holds for a general $C$. 
+\end{theorem}
+
+\begin{cor}
+\begin{enumerate}
+\item If $\rho < 0$, for a general $C$, then $G^r_d$ and $W^r_d$ are empty
+\item if $\rho \ge 0$, for a general $C$, then $G^r_d$ is smooth of diemension $\rho$ and $W^r_d$ is smooth away from $W^{r+1}_d$ and has dimension $\rho$
+\item if $\rho \ge 1$, for a general $C$, then $G^r_d$ and $W^r_d$ are irreducible. 
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+Consider infinitessimal deformation theory, given $(L, V) \in G^r_d(\CC)$ we consider,
+\[ T_{(L, V)} G^r_d = \{ (L', V') \mid L' \text{ extending } L \text{ and } V' \subset H^0(L') \text{ free restricting to } V \} \]
+The tangent space fits into a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T_{(L, V)} \beta^{-1}(L) \to T_{(L,V)} G^r_d \arrow[r, "\beta"] & T_{L} \Pic^d 
+\end{tikzcd}
+\end{center}
+and recall that $T_{L} \Pic^d \iso H^1(C, \struct{C})$.
+\bigskip\\
+When does $\phi \in T_L \Pic^d$ lie in the image of $T \beta$? We can represent $\phi$ by a Cech 1-cocycle $\phi_{\alpha \beta} \in \struct{C}(U_{\alpha \beta})$. For a given $[L] \in H^1(C, \struct{C}^\times)$ represented by a cocycle $\{ g_{\alpha \beta} \}$ then we can represent the lift with a given class by the cocycle $\{ g_{\alpha \beta}' = g_{\alpha \beta} (1 + \epsilon \phi_{\alpha \beta}) \}$. There needs to exist an extension $(L, s)$ to $(L', s')$ for $s \in W \subset H^0(L)$. For $s'$ to be an extension of $s$ we should have,
+\[ s'_\alpha = s_\alpha + \epsilon t_\alpha \]
+for $t_\alpha \in \struct{C}(U_\alpha)$ and we want $s'_\beta = g'_{\alpha \beta} s_\alpha'$. This gives,
+\[ - \phi_{\alpha \beta} s_\alpha = t_\alpha - g_{\beta \alpha} t_\beta \]
+Therefore we require that $- \phi \cdot s$ is zero in $H^1(L)$. 
+\bigskip\\
+Thus $\phi \in \im{T \beta}$ is zero prcisely when $\phi \cdot W \subset H^1(L)$ is zero. Therefore,
+\begin{align*}
+\im{T \beta} & = \{ \phi \in H^1(\struct{C}) \mid \phi \cdot W = 0 \} = \{ \phi \in H^1(\struct{C}) \mid \forall s : \left< \phi W, s \right> = 0 \}
+\\
+& = \{ \phi \in H^1(\struct{C}) \mid \forall s : \left< \phi, W \cdot s \right> = 0 \} 
+\\
+& = \{ \phi \in H^1(\struct{C}) \mid \left< \phi, t \right> = 0 \} 
+\end{align*}
+over all $t \in \im{(H^0(L) \ot H^0(\omega_C \ot L^{-1}) \to H^0(\omega_C))}$. Therefore,
+\[ \dim{T_{(L, W)} G^r_d} = \dim{\im{T \beta}} + (r+1) (h^0(L) - (r+1)) \]
+using that $\beta^{-1}(L)$ is a Grasmannian and thus,
+\[ T_{(L, V)} \beta^{-1}(L) = \Hom{}{W}{H^0(L)/W} \]
+Therefore,
+\begin{align*}
+\dim{T_{(L, W)} G^r_d} & = g - \dim{\im{\mu_L}} + (r + 1) (h^0(L) - (r+1))
+\\
+& = g - ((r+1) h^0(\omega_C \ot L^{-1}) - \ker{\mu_L}) + (r+1) (h^0(L) - (r+1))
+\\
+& = g + (r+1) (h^0(L) - h^0(\omega_C \ot L^{-1}) - (r+1)) + \ker{\mu_L}
+\\
+& = g + (r+1) (g - g - r) + \ker{\mu_L}
+\\
+& = \rho + \ker{\mu_L} 
+\end{align*}
+Therefore, $G^r_d$ has tangent space of the expected imension iff $\mu_L$ is injective. We already know $\dim{G^r_d} \ge \rho$ from the naive dimension count. Then $G^r_d$ is smooth at $(L, W)$ of dimension $\rho$ iff $\mu_L |_W$ is injective. 
+\bigskip\\
+Then $\beta : G^r_d \to W^r_d$ is an siomrophism away from $W^{r+1}_d$ and $W^r_d \sm W^{r+1}_d$ is dense in $W^r_d$. Furthermore, $\mu_L$ is injective implies that $W^r_d$ is smooth of $\dim = \rho$ away from $W_d^{r+1}$. 
+\end{proof}
+
+\subsection{Riemann-Roch in Geometric Terms}
+
+Let $D$ be an effective divisor. Then,
+\[ r(D) = h^0(D) - 1 \]
+is the number of independent relations between the canonical image $\phi(D)$ meaning under the canonical embedding $\phi : C \to \P^{g-1}$.
+
+\begin{example}
+If $C$ is hyperelliptic and $D$ is degree $d$ effective divisor with $r(D) = r$. Then,
+\[ D \sim r \g^1_2 + p_1 + \cdots + p_{d-2r} \]
+\end{example}
+
+\begin{example}
+If $g = 4$ and $d = 3$ and $r = 1$ then $\rho = 0$. If $C$ is hyperelliptic then,
+\[ D = \g^1_2 + p \]
+and therefore $W^1_3 \cong C$ is $1$-dimensional. If $C$ is not hyperelliptic then under the canonical embedding $C \embed \P^3$ we have $C = Q \cap S$ for a quadric $Q$ and a cubic $S$ surface. Then if $D$ is degree $3$ and $r(D) = 1$ then $\phi(D)$ should be colinear and hence the line is on $Q$. Therefore, $W^1_3$ is the set of linear equivalence classes of rullings on $Q$ so $\# W^1_3 = 1$ if $Q$ is a cone and $\# W^1_3 = 2$ if $Q$ is smooth. 
+\end{example}
+
+\section{Oct 11. Brill Noether Theory on K3 Surfaces, Lazarsfeld-Mukai bundles}
+
+\begin{defn}
+$X / \CC$ is a $K3$-surface if it is a smooth, projective variety of $\dim{X} = 2$ such that $K_X = \Omega^2_{X/K} \cong \struct{X}$ and $H^1(X, \struct{X}) = 0$. 
+\end{defn}
+
+\begin{example}
+Let $X \subset \P^3$ be a smooth quartic then $\omega_X = \omega_{\P^3} \ot \struct{X}(4) \cong \struct{X}$.
+\end{example}
+
+\begin{lemma}
+Let $X$ be a K3 surface then $\chi(X, \struct{X}) = 2$.
+\end{lemma}
+
+\begin{proof}
+$\chi = h^0 - h^1 + h^2 = 2 h^0 = 2$. 
+\end{proof}
+
+\begin{prop}
+Let $C \subset X$ be a smooth irreducible curve of genus $\ge 1$ then $|C|$ has no base points and defines a morphism $\phi : X \to \P^g$ such that $\phi |_C : X \to \P^{g-1}$ is the canonical one.
+\end{prop}
+
+\begin{proof}
+The sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X} \arrow[r] & \struct{X}(C) \arrow[r] & \struct{C}(C) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and use that $H^1(X, \struct{X}) = 0$ and thus,
+\[ H^0(X, \struct{X}(C)) \onto H^0(C, \struct{C}(C)) = H^0(C, \omega_C) \]
+\end{proof}
+
+\begin{lemma}
+Let $C \subset X$ be a smooth irreducible curve with $g \ge 1$ and $\L = \struct{X}(C)$. Then $c_1(\L)^2 = 2 g - 2$ and $h^0(X, \L) = g+1$. Also, if $\ell \ge 1$ then $h^0(X, \L^{\ell}) = (\ell^2/2) c_1(\L)^2 + 2 = (g - 1) \ell^2 + 2$. 
+\end{lemma}
+
+\begin{proof}
+Riemann-Roch gives,
+\[ 2 g - 2 = C \cdot (C + K_X) = \L^2 \]
+Then Riemann-Roch for surfaces gives,
+\[ \chi(X, \L) = \tfrac{1}{2} c_1(\L)^2 + 2 = g  +1 \]
+also $h^2(X, \L) = h^0(X, \L^\vee) = 0$. Therefore,
+\[ h^0(X, \L) \ge g + 1 \]
+Furthermore, $h^1(X, \L) = 0$ by Kodaira vanishing or something else. 
+\end{proof}
+
+\begin{theorem}
+Let $C \subset X$ be a smooth irreducible curve of genus $g \ge 2$. Suppose every divisor in $|C|$ is reduced and irreducible then,
+\begin{enumerate}
+\item for all $\L \in \Pic{(C)}$ the number $\rho(\L) = g(C) - h^0(\L) h^1(\L) \ge 0$ 
+\item Petri's condition holds for a general member $C' \in |C|$.
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+The assumption on the linear series is essential. For a counterexample, let $|C| = |n D|$ with $D \subset X$ a curve of genus $g \ge 2$ and $n \ge 2$. Let $\L = \struct{X}(D)|_D$. Claim that $\rho(\L) < 0$. Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(D-C) \arrow[r] & \struct{X}(D) \arrow[r] & \struct{C}(D) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\subsection{Lazarsfeld-Mukai Bundle}
+
+From now on, $X$ is a K3 surface and $C \subset X$ is a smooth irreducible curve. Recall that $V^r_d(C) \subset \Pic^d(C)$ is the open subset of $W^r_d(C)$ consisting of line bundles $\L$ such that,
+\begin{enumerate}
+\item $h^0(\L) = r + 1$ and $\deg{\L} = d$
+\item $\L$ and $\omega_C \ot \L^\vee$ are globally generated. 
+\end{enumerate}
+
+\begin{defn}
+Fix $\L \in V^r_d(C)$. Let $\iota : C \embed X$ be the inclusion. For each pair $(C, \L)$ define, $\F_{C,\L}$ as the kernel of,
+\[ \ev : H^0(\L) \ot_{\CC} \struct{X} \onto \iota_* \L \]
+\end{defn}
+
+\begin{lemma}
+Let $\E$ be a vector bundle on $X$ with a surjection $\varphi : \E |_C \onto \L$. Then consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \E \arrow[r] & \iota_* \L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then $\F$ is locally free.
+\end{lemma}
+
+\begin{proof}
+Work locally, assume $\L = \struct{X}$. Then there is alocally free resolution,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-C) \arrow[r] & \struct{X} \arrow[r] & \struct{C} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore the homological dimension of $\L$ is $\le 1$ and therefore the homological dimension of $\F$ is $0$ and thus $\F$ is locally free.
+\end{proof}
+
+\begin{cor}
+The Lazarsfeld-Mukai bundle $\F_{C,\L}$ is a vector bundle.
+\end{cor}
+
+\begin{proof}
+Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & H^0(\L) \ot_{\CC} \struct{X} \arrow[r] & \iota_* \L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and apply the previous lemma.
+\end{proof}
+
+\begin{lemma}
+Let $\F = \F_{C, \L}$. Then,
+\begin{enumerate}
+\item $\F^\vee$ is globally generated
+\item $c_1(\F) = -[C]$ and $c_2(\F) = \deg{\F} = d$
+\item $H^0(\F) = H^2(\F^\vee) = 0$ and $H^1(\F) = H^2(\F^\vee) = 0$ and,
+\[ h^0(\F^\vee) = h^0(\L) + h^1(\L) \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(\L)^\vee \ot \struct{X} \arrow[r] & \F^\vee \arrow[r] & \iota_*(\omega_C \ot \L^\vee) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+By assumption the third term is globally generated and $H^0(\F^\vee) \onto H^0(\m
+_C \ot \L^\vee)$ because $H^1(X, \struct{X}) = 0$. Therefore, $\F^\vee$ is globally generated.
+\bigskip\\
+In general we have a formula,
+\[ c_1(\iota_* \L) = [C] \quad c_2(\iota_* \L) = [C]^2 - \iota_* c_1(\L) = [C]^2 - (\deg{\L}) [pt] \]
+Then from the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & H^0(\L) \ot \struct{X} \arrow[r] & \iota_* \L \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+We get that,
+\[ c_1(\F) = - c_1(\L) = -[C] \quad c_2(\F) = -c_1(\iota_* \L) c_1(\F) - c_2(\iota_* \L) = [C]^2  - [C]^2 + (\deg{\L}) [pt] = (\deg{\L}) [pt] \]
+\end{proof}
+
+\begin{lemma}
+Let $\F = \F_{C, \L}$ then,
+\[ \chi(\F \ot \F^\vee)  = \]
+\end{lemma}
+
+\section{Oct 18}
+
+\subsection{Proof of (a)}
+
+\begin{theorem}[Main]
+Let $C \subset X$ be a smooth irreducible curve of genus $g \ge 2$ on the K3 surface $X$. Assume that every divisor in the linear series $|C|$ is reduced and irreducible. Then,
+\begin{enumerate}
+\item for each $\L \in \Pic{(C)}$ we have $\rho(\L) \ge 0$
+\item Petri's condition holds for a general element $C' \in |C|$.
+\end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+Let $\L \in \Pic{(C)}$ for a smooth proper curve $C$ with $\deg{\L} \in (0, 2g - 2)$. There is a line bundle $\L = \L'(D)$ such that $\L'$ and $\omega_C \ot \L'^\vee$ are globally generated and $\rho(\L') \le \rho(\L)$.
+\end{lemma}
+
+\begin{proof}
+Let $D_1$ be the divisor of base points of $\L$. Then $\L(-D_1)$ is globally generated because $|\L| = |\L(-D_1)| + D_1$. Let $D_2$ be the divisor of basepoints of $K_C - c_1(\L) + D_1$. Then $K_C - c_1(\L) + D_1 - D_2$ is base-point free. I claim that $\L(D_2 - D_1)$ is also globally generated. If $\L(D_2 - D_1 - P)$ does not drop dimension then by Riemann Roch $K_C - c_1(\L) + D_1 + P - D_2$ must increase dimension 
+\end{proof}
+
+\begin{proof}[Proof of (a)]
+Suppose that $\rho(\L) < 0$ (REPLACE WITH BPF)
+
+Let $\E = \F_{C, \L}^\vee$ which is a vector bundle since $\L \in V^r_d(C)$. We showed that,
+\[ 2 h^0(X, \F \ot \F^\vee) \ge \chi(\F, \F) = 2 - 2 \rho(\L) \ge 4 \]
+thus $\E$ has a nontrivial endomorphism $\varphi : \F \to \F$ meaning $\varphi \neq \lambda \id$. Choose a point $x \in X$ and let $\lambda$ be an eigenvalue of $\varphi(x)$. Then $\psi = \varphi - \lambda \id$ is nonzero but is not of full rank at $x$. Thus $\det{\psi} \in \Hom{X}{\det{\E}}{\det{\E}} = H^0(X, \struct{X})$ has a zero and hence is zero. Let $\E_1 = \im{\psi}$ and $\E_2 = \coker{\psi}$ so there is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_1 \arrow[r] & \E \arrow[r] & \E_2 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so we have $c_1(\E) = c_1(\E_1) + c_1(\E_2)$ and $c_1(\E) = [C]$. Then if $c_1(\E_1)$ and $c_1(\E_2)$ are represented by nonzero effective divisors. We showed last time that $\E$ is globally generated and $H^0(X, \E^\vee) = 0$.  Thus since $\E \onto \E_i$ we see that $\E_i$ are globally generated so $c_1(\E_i) = [C_i]$ for some effective class $C_i$. (SHOW BOTH CLASSES ARE NONTRIVIAL).
+Hence $C \sim C_1 + C_2$ contradicting the assumption on the linear system. 
+\end{proof}
+
+\subsection{Mukai's Theorem}
+
+\begin{defn}
+Let $X$ be a proper $k$-scheme. A vector bundle $\E$ on $X$ is \textit{simple} if,
+\[ \Hom{X}{\E}{\E} = k \]
+\end{defn}
+
+\begin{rmk}
+Simple vector bundles are indecomposable. If $X$ is geometrically irreducible then all line bundles are simple.
+\end{rmk}
+
+
+In this section, let $X$ be a (smooth projective) K3 surface over $\CC$. Therefore, all line bundles are simple.
+
+\begin{rmk}
+If $\E$ is simple, then by Serre duality using that $\omega_X \cong \struct{X}$,
+\[ \Ext{2}{X}{\E}{\E} \cong \Ext{2}{X}{\E \ot \E^\vee}{\omega_X} = H^0(X, \E \ot \E^\vee)^\vee = \Hom{X}{\E}{\E}^\vee = \CC \]
+\end{rmk}
+
+\begin{defn}
+Let $\M(X, r, c_1, c_2)$ be the moduli space of simple vector bundles on $X$ of rank $r$ and with Chern classes $c_1$ and $c_2$. 
+\end{defn}
+
+\begin{rmk}
+Because the objects of $\M$ are simple, the stabilzers groups are $\Gm$ and hence $\M \to M$ is a $\Gm$-torsor over a coarse space $M$. 
+\end{rmk}
+
+\begin{rmk}
+The moduli problem has tangent-obstruction theory at a point $\E \in \M$,
+\[ T^i = \Ext{i}{X}{\E}{\E} \]
+Therefore, since the fiber direction $B \Gm$ have trivial tangent direction we see that,
+\[ T_{[\E]} M = \Ext{1}{X}{\E}{\E} \]
+\end{rmk}
+
+\begin{rmk}
+The cup product gives a nondegenerate holomorphic $2$-form on $M$ defined by,
+\[ \Ext{1}{X}{\E}{\E} \times \Ext{1}{X}{\E}{\E} \to \Ext{2}{X}{\E}{\E} = \CC \]
+Therefore, $M$ gives an example of a holomorphic symplectic variety. When $\dim{M} = 2$ it turns out that $M$ is also a K3 surface.
+\end{rmk}
+
+\begin{theorem}[Mukai]
+The moduli space $M(X, r, c_1, c_2)$ is smooth.
+\end{theorem}
+
+\newcommand{\ob}{\mathrm{ob}}
+\newcommand{\Def}{\mathrm{Def}}
+
+\begin{proof}
+By descent along the flat map $\M \to M$ it suffices to show that $\M$ is smooth. Alternatively we can develop directly tangent-obstruction theory for $M$. Either way, it suffices to show that obstruction classes $\ob(E) \in \Ext{2}{X}{\E}{\E}$ vanish. Let $\E \in \M$ be a closed point (corresponding to a simple vector bundle $\E$ on $X$) and a small extension of Artin local $k$-algebras $A \subset B$,
+\begin{center}
+\begin{tikzcd}
+\Def_{\M}(B) \arrow[d, "\det"] \arrow[r] & \Def_{\M}(A) \arrow[r, "\ob"] \arrow[d, "\det"] & \Ext{2}{X}{\E}{\E} \arrow[d, "\tr"]
+\\
+\Def_{\Pic}(B) \arrow[r] & \Def_{\Pic}(A) \arrow[r, "\ob"] & \Ext{2}{X}{\struct{X}}{\struct{X}}
+\end{tikzcd}
+\end{center}
+but $\Pic_X$ is smooth so we see that $\tr \circ \ob = 0$. However, using Serre duality,
+\begin{center}
+\begin{tikzcd}
+\Ext{2}{X}{\E}{\E} \arrow[r, "\sim"] \arrow[d, "\tr"] & H^0(X, \E \ot \E^\vee) \arrow[d, "\tr"] \arrow[r, "\sim"] & \Hom{X}{\E}{\E} \arrow[d, "\tr"]
+\\
+\Ext{2}{X}{\struct{X}}{\struct{X}} \arrow[r, "\sim"] & H^0(X, \struct{X}) \arrow[r, equals] & H^0(X, \struct{X})
+\end{tikzcd}
+\end{center}
+but since $\E$ is simple the map $\tr : \Hom{X}{\E}{\E} \to H^0(X, \struct{X})$ is an isomorphism. Thus $\tr \circ \ob = 0$ implies that $\ob = 0$.
+\end{proof}
+
+\subsection{Proof of (b)}
+
+\newcommand{\cV}{\mathcal{V}}
+
+\begin{proof}[Sketch of Proof of (b)]
+Recall that for $\L \in V^r_d(C')$ we know that the tangent space of $V^r_d(C')$ and $G^r_d(C')$ are isomorphic and hence injectivity of $\mu_{\L}$ is equivalent to $V^r_d(C')$ being smooth of the expected dimension.
+Consider the variety,
+\[ \cV^r_d = \{ (C', \L) \mid C' \in |C| \text{ smooth curve and } \L \in V^r_d(C') \} \]
+and denote,
+\[ \pi^r_d : \cV^r_d \to |C| \]
+the natural map. By generic smoothness, to show that $V^r_d(C')$ is smooth (and hence $\mu_{\L}$ is injectve) for a generic $C'$ is suffices to show that $\cV^r_d$ is smooth.
+\bigskip\\
+Consider the fibration,
+\[ \pi : \G \to M = M(X, r+1, [C], d) \]
+where $\G$ is the space of pairs $(\E, V)$ for a simple vector bundle $\E$ of rank $r+1$ of $X$ with $c_1(\E) = [C]$ and $c_2(\E) = d$ and $V \subset H^0(X, \E)$ of dimension $r+1$. By Mukai's theorem $M$ is smooth and hence $\G$ is smooth since it is a Grassmannian bundle so we can compute the tangent space at the point $\E = \F_{C, \L}^\vee$ to get,
+\begin{align*}
+\dim{\G} & = \dim{M} + (r+1)(\dim{H^0(X, \E)} - r - 1) 
+\\
+& = \Ext{1}{X}{\E}{\E} + (r+1)(\dim{H^0(X, \E)} - r - 1) 
+\\
+& = 2 \rho(r,d,g) + (r+1) (g - d + r) = g + \rho(r, d, g) 
+\end{align*}
+using a lemma we proved last time. Thus it suffices to show that $\cV^r_d$ has an open embedding in $\G$.
+\bigskip\\
+Let $U \subset \G$ denote the open set consisting of pairs $(E, V)$ such that,
+\begin{enumerate}
+\item $E$ is globally generated and $H^1(X, E) = H^2(X, E) = 0$
+\item the natural map $\ev : V \ot_{\CC} \struct{X} \to \E$ drops rank on a smooth curve $C_V$ and $\coker{\ev}$ is a line bundle on $C_V$.
+\end{enumerate}
+Then we have exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E^\vee \arrow[r] & V^\vee \ot \struct{X} \arrow[r] & \L_V \arrow[r] & 0
+\\
+0 \arrow[r] & V \ot \struct{X} \arrow[r] & \E \arrow[r] & \omega_C \ot \L_V^\vee \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+(WHY) SHOW THE EQUAIVALENCE
+\end{proof}
+
+\section{Oct 25}
+
+\subsection{Setup}
+
+$X$ is a smooth projective surface over $\CC$ and $L$ a line bundle on $X$. Then we have the following two facts,
+\begin{enumerate}
+\item[adjunction] if $C \sub X$ is an effective curve then,
+\[ p_a(C) - 1 = \tfrac{1}{2} C \cdot (C + K_X) \]
+\item[Hodge index]
+if $D, H$ are divisors on $X$ with $H^2 \ge 0$ and $D \cdot H = 0$ then $D^2 \le 0$ and $D^2 = 0$ iff $D \sim 0$.
+\end{enumerate}
+
+\begin{rmk}
+If $C$ is integral then $p_a(C) \ge 0$.
+\end{rmk}
+
+\subsection{Linear Systems}
+
+\newcommand{\Bs}{\mathrm{Bs}}
+
+Let $V \subset H^0(X, L)$ be a linear system. Then the base locus is,
+\[ \Bs(V) = \{ p \in X \mid \forall s \in V : s(p) = 0 \in L(p) \} \]
+Note we use the notation $L(p) = L_p / \m_p L_p$. Consider the map,
+\[ \Phi_V : X \sm \Bs(V) \to \P(V) \]
+Note that $p \in \Bs(V)$ iff $H^0(X, L) \to H^0(Z, \L|_{Z})$ is zero. 
+
+\begin{prop}
+$\Bs(V) = \empty$ then $\Phi_V : X \to \P(V)$ is a closed embedding iff,
+\begin{enumerate}
+\item $V$ separates points meaning $\forall p,q \in X$ with $p \neq q$ there is $s \in V$ with $s(p) = 0$ and $s(q) \neq 0$ or vice versa
+\item $V$ separates tangent directions,
+\[ \{ s \in V \mid s_p \in \m_p L_p \} \]
+generates $\m_p L_p / \m_p^2 L_p$ as a vector space.
+\end{enumerate}
+\end{prop}
+
+\begin{rmk}
+We can reformulate the conditions as follows,
+\begin{enumerate}
+\item $p,q \in X$ with $p \neq q$ let $Z = \{ p,q \}$ redced thne,
+\[ H^0(X, L) \to H^0(Z, L|_Z) \]
+is surjective
+\item $p \in X$ and $t \in \m_p / \m_p^2$ and $Z$ is cut out by $\m_p^2 + (t)$ locally then,
+\[ H^0(X, L) \to H^0(Z, L|_Z) \]
+is surjective. 
+\end{enumerate}
+\end{rmk}
+
+\begin{theorem}[Reider]
+Let $L$ be a nef line bundle,
+\begin{enumerate}
+\item let $(L \cdot L) \ge 5$. Let $p$ be a base point of $|K_X + L|$. Then there is n effective divisor $D \subset X$ wuth $p \in D$ such that either,
+\begin{enumerate}
+\item $(L \cdot D) = 0$ and $D^2 = - 1$
+\item $(L \cdot D) = 1$ and $D^2 = 0$ 
+\end{enumerate}
+\item $(L \cdot L) \ge 10$. Let $p \in X$ and $q \in X$ with $p \neq q$ which are not separated by $|K_X + L|$ or $q \in \m_p / \m_p^2$ and $p,q$ not separated by $|K_X + L|$. Then there is an effective divisor $D \subset X$ with $Z_{p,q} \subset D$ such that one of the three conditions holds,
+\begin{enumerate}
+\item $(L \cdot D) = 0$ and $(D \cdot D) \in \{ -1, - 2 \}$ 
+\item $(L \cdot D) = 1$ and $(D \cdot D) \in \{ 0, -1 \}$
+\item $(L \cdot D) = 2$ and $(D \cdot D) = 0$.
+\end{enumerate}
+\end{enumerate}
+\end{theorem}
+
+\begin{example}
+Let $X = \P^2$ and $L = \struct{X}(2)$ then $(L \cdot L) = 4$ and $K_X = \struct{X}(-3)$ then $K_X + L = \struct{X}(-1)$ which has every point as a base point. Let $D \subset X$ and $D \in | k H|$ then $D^2 = k^2$ but $L \cdot D = 2k$ so these cannot satisfy the conclusion of the theorem. This shows that $(L \cdot L) \ge 5$ is strict in the theorem.
+\end{example}
+
+\subsection{Fujita's Conjecture}
+
+
+\begin{conj}[Fujita 1985]
+Let $X$ be a compact complex manifold of dimension $n$ and $L$ an ample line bundle.
+\begin{enumerate}
+\item $m \ge n + 1 \implies K_X \ot L^{\ot m}$ is base point free
+\item $m \ge n + 2 \implies K_X \ot L^{\ot m}$ is very ample.
+\end{enumerate}
+\end{conj}
+
+\begin{proof}[Proof in the $n = 2$ case]
+\begin{enumerate}
+\item We know $X$ is projective use Nkai-Moishecon. Let $(L \cdot L) \ge 1$ then $m L$ is nef if $m \ge 3$ then $(m L \cdot m L) \ge 3^2 \ge 5$. Then is $p$ is a base point of $|K_X + K|$ then there is an effective divisor $D \subset X$ with $p \in D$ such that $(m L \cdot D) = 0$ and $D^2 = 1$ or $(m L \cdot D) = 1$ which is not possible since $m > 1$ and hence we have $(L \cdot D) = 0$ and $D^2 = -1$. We write,
+\[ D = D_1 + \cdots + D_r \]
+But $L$ is ample so $(D_i \cdot L) > 0$ and $D$ must have some component since $p \in D$ and thus $(D \cdot L) > 0$ giving a contradiction. 
+
+\item Use the same sort of argument with the second part of Reider's theorem. 
+\end{enumerate}
+\end{proof}
+
+\subsection{Pluricanonical Mappings}
+
+Let $X$ be a surface of general type. Consider the pluricanonical maps,
+\[ \Phi_m : X \rat \P(H^0(m K_X)) \]
+defined by the complete linear system $|m K_X|$.
+
+\begin{prop}
+If $X$ is minimal then $K_X$ is nef and $K_X^2 \ge 1$.
+\end{prop}
+
+\begin{defn}
+A $(-2)$-curve on $X$ is a smooth rational curve $C \subset X$ with $C^2 = -2$.
+\end{defn}
+
+\begin{prop}
+If $X$ is minimal then $X$ has finitely many $-2$-curves. In fact, it is at most $\rho(X) - 1$. 
+\end{prop}
+
+\begin{theorem}[Bombieri]
+Let $X$ be a minimal surface of general type. Let,
+\[ F = \bigcup C \subset X \]
+be the union of the $-2$-curves.
+
+\begin{enumerate}
+\item if $m \ge 4$ or $m \ge 3$ and $K_X^2 \ge 2$ then $\Phi_m$ is a morphism
+
+\item if $m \ge 5$ or $m \ge 4$ and $K_X^2 \ge 2$ or $m \ge 3$ and $K_X^2 \ge 3$ then $\Phi_m$ is an embedding on $X \sm F$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $L = (m-1) K_X$ is nef then $L \cdot L \ge 5$. Apply Reider's theorem. Let $p$ be a base point of $|K_X + L| = |m K|$. Then there is an effective divisor $D \subset X$ with $p \in D$ such that $(L \cdot D) = 0$ and $D^2 = 1$ since $L \cdot D = 1$ is impossible. Then,
+\[ -1 = D^2 = D \cdot (D + K_X) = 2 p_a(D) - 2 \]
+which is a contradiction. 
+\end{proof}
+
+\subsection{Bogomolov's Theorem}
+
+\begin{theorem}[Bogomolov]
+Let $E$ be a vector bundle of rank $e$ on a surface $X$. If $c_1(E)^2 > \frac{2 e}{e-1} c_2(E)$ then $E$ is $H$-unstable with respect to every ample class $H$.
+\end{theorem}
+
+\begin{rmk}
+$c_2(E) \in H^4(X, \ZZ)$ so we view $c_2(E)$ as an integer under the canonical isomorphism $H^4(X, \ZZ) \iso \ZZ$ using that $X$ is oriented (as a complex manifold).
+\end{rmk}
+
+\subsubsection{Stability for Curves}
+
+Let $C$ be a smooth projective irreducible curve. Let $E$ be a vector bundle on $C$. 
+
+\begin{defn}
+The slope,
+\[ \mu(E) = \frac{\deg{E}}{\rank{E}} \]
+where $\deg{E} = \deg{\det{E}}$.
+\end{defn}
+
+\begin{example}
+Let $C = \P^1$ then $\mu(\struct{C}) = 0$ and $\mu(\struct{C}(1)) = 1$ and,
+\[ \mu(\struct{C}(a) \oplus \struct{C}(b)) = \frac{a + b}{2} \]
+\end{example}
+
+\begin{defn}
+Let $F \subset E$ be a coherent subsheaf. Then $F$ is locally free of constant rank almost everywhere. Then $c_1(F) := \det{F}^{\vee \vee}$ is a line bundle 
+\end{defn}
+
+\begin{defn}
+The slope of a torsion-free sheaf $F$ is,
+\[ \mu(F) = \frac{\deg{F}}{\rank{F}} \]
+\end{defn}
+
+\begin{defn}
+$E$ is \textit{stable} if, for every $F \subset E$ with,
+\[ 0 < \rank{F} < \rank{E} \]
+we have $\mu(F) < F(E)$ and \textit{semistable} if $\mu(F) \le \mu(E)$.
+\end{defn}
+
+\begin{rmk}
+It is trivial that line bundles are stable. 
+\end{rmk}
+
+\begin{example}
+Let $C = \P^1$ then $\struct{} \oplus \struct{}(1)$ is unstable because $\struct{}(1) \subset \struct{} \oplus \struct{}(1)$,
+\[ \mu(\struct{}(1)) > \mu(\struct{} \oplus \struct{}(1)) = \tfrac{1}{2} \]
+\end{example}
+
+\begin{theorem}
+Let $E$ be a vector bundle on $C$ and $L$ a line bundle on $C$,
+\begin{enumerate}
+\item $E$ is (semi)-stable iff $E \ot L$ is (semi)-stable
+
+\item $E$ is semistable, $\deg{E} < 0$ implies $H^0(C, E) = 0$ 
+
+\item if $E$ is semi-stable then $\Sym{n}{E}$ is semi-stable for $n \ge 1$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+The last statement is not true for stable instead of semi-stable or in positive characteristic. 
+\end{rmk}
+
+\subsubsection{Stability For Surfaces}
+
+Let $H$ be an ample divisor on a surface $X$.
+
+\begin{defn}
+The $H$-slope is defined,
+\[ \mu_H(E) := \frac{c_1(E) \cdot H}{\rank{E}} \]
+\end{defn}
+
+\begin{defn}
+For $F \subset E$ we have $c_1(F) = \det{F}^{\vee \vee}$ is a reflexive sheaf of rank $1$ and hence is a line bundle on a surface. Then we can set,
+\[ \mu_H(F) = \frac{c_1(F) \cdot H}{\rank{F}} \]
+\end{defn}
+
+\begin{defn}
+We say $E$ is $H$-stable if for every $F \subset E$ with,
+\[ 0 < \rank{F} < \rank{E} \]
+if $\mu_H(F) < \mu_H(E)$ and semi-stable if $\mu_H(F) \le \mu_H(E)$. 
+\end{defn}
+
+\section{Nov. 1 Bogomolov's Theorem}
+
+Let $(X, \L)$ be a polarized surface over $\CC$.
+
+\begin{defn}
+A sheaf $\F$ on $X$ is called torsion-free if for all $U \subset X$ open, the group $\F(U)$ is torsion-free module over $\struct{X}(U)$.
+\end{defn}
+
+\begin{rmk}
+Recall that $\F^\vee = \shHom{\struct{X}}{\F}{\struct{X}}$. There is a natural morphism $\F \to \F^{\vee \vee}$.
+\end{rmk}
+
+\begin{prop}
+$\F$ is torsion-free iff $\F \to \F^{\vee \vee}$ is injective.
+\end{prop}
+
+\begin{defn}
+We say that $\F$ is reflexive if $\F \to \F^{\vee \vee}$ is an isomorpism.
+\end{defn}
+
+\begin{prop}
+Any reflexive sheaf on a regular $\dim{X} \le 2$ scheme is locally free.
+\end{prop}
+
+\begin{example}
+Let $p \in |X|$ be a closed point and $\I_p \embed \struct{X}$ the sheaf of ideals. Then $\I_p$ is torsion-free but not locally-free. 
+\end{example}
+
+\begin{defn}
+The rank of a torsion-free sheaf $\F$ is defined to be,
+\[ \rank{\F} = \ell(\F_{\et}) \]
+where $\eta \in X$ is the generic point.
+\end{defn}
+
+\begin{defn}
+A sheaf $\F$ is called $\mu$-\textit{semistable} (with respect to $\L$) if $\F$ is torsion-free for all nontrivial proper subsheaves $\E \subset \F$ we have,
+\[ \frac{c_1(\E) \cdot c_1(\L)}{\rank{\E}} \le \frac{c_1(\L) \cdot c_1(\F)}{\rank{\F}} \]
+\end{defn}
+
+\begin{rmk}
+For the definition of $\mu$-stable you need nontrivial proper subsheaves with strictly smaller rank. To see why this is necessary, consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I_p \arrow[r] & \struct{X} \arrow[r] & k_p \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then we get $c_1(\I_p) = 0$ and hence we don't get a strict inequality,
+\[ \frac{c_1(\I_p) \cdot c_1(\L)}{\rank{\I_p}} \le \frac{c_1(\struct{X}) \cdot c_1(\L)}{\rank{\struct{X}}} \]
+\end{rmk}
+
+\begin{example}
+\begin{enumerate}
+\item if $\F$ has rank $1$ then $\F$ is $\mu$-semistable for all polarizatios
+\item if $\F$ is $\mu$-semistable and $\H \in \Pic{X}$ then $F \ot \H$ is $\mu$-semistable
+\item if $\F$ is $\mu$-semistable then $\F^{\vee \vee}$ is $\mu$-semistable. 
+\end{enumerate}
+\end{example}
+
+\begin{defn}
+Let $\F$ be torsion-free of rank $r$, then $\Delta(\F) = 2r c_2 - (r-1) c_1^2$.
+\end{defn}
+
+\begin{theorem}[Bogomolov]
+If $\F$ is $\mu$-semistable on $(X, \L)$ then $\Delta(\F) \ge 0$.
+\end{theorem}
+
+\begin{rmk}
+Since $\Delta(\F)$ is independent of the polarization, Bogomolov's theorem gives an obstruction to be $\mu$-semistable with respect to \textit{any} polarization.
+\end{rmk}
+
+\begin{prop}
+Recall,
+\[ \ch{\F} = \rank{\F} + c_1(\F) + \tfrac{1}{2}(c_1^2 - 2 c_2) \]
+Then we can compute with $r = \rank{\F}$,
+\[ \log{ \left( \frac{\ch{\F}}{r} \right)} = \log{(1 + \square)} = \left[ \frac{c_1}{r} + \frac{c_1^2 - 2 c_2}{2r} \right] - \frac{c_1^2}{2 r} = \frac{c_1}{r} + \frac{1}{2 r^2} \left( (r-1) c_1^2 - 2 r c_2 \right) \]
+Therefore,
+\[ \log{ \left( \frac{\ch{\F}}{r} \right)} = \frac{c_1}{r} + \frac{1}{2 r^2} \Delta(\F) \]
+Because $\log$ sends multiplication to addition, we have,
+\[ \frac{\Delta(\F \ot \G)}{(\rank{\F})^2 (\rank{\G})^2} = \frac{\Delta(\F)}{(\rank{\F})^2} + \frac{\Delta(\G)}{(\rank{\G})^2} \]
+\end{prop}
+
+\begin{prop}
+\begin{enumerate}
+\item if $\F$ is a line bundle then $\Delta(\F) = 0$
+\item if $\F$ is locally free then $\Delta(\F) = \Delta(\F^\vee)$ 
+\item for $\H \in \Pic{X}$ we have,
+\[ \frac{\Delta(\F \ot \H)}{(\rank{\F})^2 1^2} = \frac{\Delta(\F)}{(\rank{\F})^2} + 0 \implies \Delta(\F \ot \H) = \Delta(\F) \]
+\item if $\F$ is locally free, then $\Delta(\End{\F}) = 2 (\rank{\F})^2 \Delta(\F)$
+\item if $\F$ is torsion free, then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F \arrow[r] & \F^{\vee \vee} \arrow[r] & \mathcal{Q} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and then,
+\[ \Delta(\F^{\vee \vee}) = 2 r c_2(\F^{\vee \vee}) - (c-1) c_1(\F^{\vee \vee}) = 2 r (c_2(\F) + \ell(\mathcal{Q}))  - (r - 1) c_1(\F)^2 = \Delta(\F) + 2 r \ell(\mathcal{Q}) \]
+\end{enumerate}
+\end{prop}
+
+\begin{rmk}
+By the last property, since $\ell(\mathcal{Q}) \ge 0$ we see that if $\Delta(\F^{\vee \vee}) \le 0$ then $\Delta(\F) \le 0$. Therefore, it suffices to prove the theorem for reflexive and hence locally free $\F$,
+\end{rmk}
+
+\begin{proof}
+Proof reductions,
+\begin{enumerate}
+\item can assume $\F \cong \F^{\vee \vee}$ by above remark
+\item $\Delta(\End{\F}) = 2 r^2 \Delta(\F)$ so can assume that $\det{\F} = \struct{X}$.
+\end{enumerate}
+We need to show that $c_2(\F) \le 0$ for $\F$ such that,
+\begin{enumerate}
+\item $\F$ is a vector bundle
+\item $\det{\F} \cong \struct{X}$
+\item $\F$ is $\mu$-semistable for some $\L$.
+\end{enumerate}
+Consider,
+\[ \F_n = \Sym{nr}{\F} \]
+We use the following lemmas.
+\end{proof}
+
+\begin{lemma}
+\begin{enumerate}
+\item $\det{\F_n} \cong \struct{X}$
+\item there is a formula,
+\[ \chi(X, \F_n) = - \frac{\Delta(\F) n^{r+1} r^{r}}{2 (r+1)!} + O(n^r) \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Represent $\F$ as $[\xi] \in H^1(X, \SL_n)$ because $\det{\F} \cong \struct{X}$. Then $\SL_{r} \acts \Sym{nr}{\CC^r}$ gives an action $\SL_r \acts \det{\Sym{nr}{\CC^r}}$ which is a character of $\SL_r$ and hence is trival. Therefore, the map $H^1(X, \SL_r) \to H^1(X, \Gm)$ given by taking determinants is trivial. 
+\bigskip\\
+Consider, $\pi : \P_X(\F) \to X$. Look at $\struct{\P(\F)}(1)$. Then,
+\[ \chi(\P(\F), \struct{\P(\F)}(nr)) = \chi(X, R \pi_* \struct{\P(\F)}(nr)) = \chi(X, \Sym{nr}{\F}) = \chi(X, \F_n) \]
+Now, by Riemann-Roch we have,
+\[ \chi(\P(\F), \struct{\P(\F)}(nr)) = \frac{(nr)^{r+1} c_1(\struct{\P(\F)}(1))^{r+1}}{(r+1)!} + O(n^r) \]
+But by the projective bundle formula (or the Grothendieck definition of Chern classes), 
+\[ c_1(\struct{\P(\F)}(1))^{r} - \pi^* c_1(\F) c_1(\struct{\P(\F)}(1))^{r-1} + \pi^* c_2(\F) c_1(\struct{\P(\F)}(1))^{r-2} = 0 \]
+We assumed that $c_1(\F) = 0$. Therefore, 
+\[ c_1(\struct{\P(\F)}(1))^{r+1} = - \pi^* c_2(\F) c_1(\struct{\P(\F)}(1))^{r-1} \]
+Now we have,
+\[ \deg{(c_1(\struct{\P(\F)}(1))^{r+1})} = -\deg{\pi_*( \pi^* c_2(\F) c_1(\struct{\P(\F)}(1))^{r-1})} = - \deg{(c_2(\F) \cdot \pi_* [c_1(\struct{\P(\F)}(1)^{r-1})])} \]
+Now $\pi_* [c_1(\struct{\P(\F)}(1))^{r-1}] = [X]$ since on each fiber since this is $H^{r-1}$ on $\P^{r-1}$ where $H$ is the hyperplane class. Since $c_1(\F) = 0$ we have $\Delta(\F) = 2 r c_2(\F)$ and thus,
+\[ \chi(X, \F_n) = - \frac{\Delta(\F) n^{r+1} r^r}{2 (r+1) !} + O(n^r) \]
+\end{proof}
+
+\newcommand{\td}{\mathrm{td}}
+
+\begin{rmk}
+We explicitly complete the GRR calculaiton. Let $\wt{X} = \P_X(\F)$. By GRR,
+\[ \chi(\wt{X}, \G) = \deg{(\ch(\G) \cdot \td_{\wt{X}})} \]
+and because $R \pi_* \struct{\wt{X}}(nr) = \Sym{nr}{\F}[0]$ we have that,
+\[ \chi(X, \Sym{nr}{\F}) = \chi(X, R \pi_* \struct{\wt{X}}(nr)) = \chi(\wt{X}, \struct{\wt{X}}(nr)) = \deg{(\ch(\struct{\wt{X}}(nr)) \cdot \td_{\wt{X}})} \]
+Now let $\xi = c_1(\struct{\wt{X}}(1))$ then we see,
+\[ \chi(X, \Sym{nr}{\F}) = \deg{(e^{nr \xi} \cdot \td_{\wt{X}})} \]
+Let $d = \dim{\wt{X}} = r - 1 + \dim{X} = r + 1$. Then the leading term as a polynomial in $n$ gives,
+\[ \chi(X, \Sym{nr}{\F}) = \frac{(nr)^d \xi^d}{d!} \cdot 1 + O(n^{d-1}) \]
+because the first term of $\td_{\wt{X}}$ is $1$. This gives, 
+\end{rmk}
+
+\begin{proof}
+Now we complete the proof. From the lemma, to show that $\Delta(\F) \le 0$ it suffices to show that $\chi(X, \F_n) \le C n^r$ as $n \to \infty$. This will follow if we show that $H^0(X, \F_n) \le C_1 n^r$ as $n \to \infty$ and $H^2(X, \F_n) \le C_2 n^r$ as $n \to \infty$. 
+\end{proof}
+\end{document}

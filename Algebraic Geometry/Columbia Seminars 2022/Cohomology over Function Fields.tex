@@ -1,0 +1,162 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\newcommand{\tame}{\mathrm{tame}}
+\newcommand{\ur}{\mathrm{ur}}
+\newcommand{\Sw}{\mathrm{Sw}}
+
+\section{Week 2: The Swan Conductor and the Grothendieck-Odd-Shafarevich Formula}
+
+Review of ramification: Let $\struct{K}$ be the henselian DVR of characeristic $p > 0$. Let $K = \Frac{\struct{K}}$ and $\kappa = \struct{K} / \m$. We get a tower,
+\[ K^\sep \supset K^{\tame} \supset K^{\ur} \supset K \] 
+Then the Galois groups are,
+\[ \Gal{K^{\ur} / K} = \Gal{\kappa^\sep / \kappa} \quad \Gal{K^{\tame} / K} \cong \prod_{\ell \neq p} \Z_{\ell}(1) \]
+Then the inertia group is $I = \Gal{K^\sep / K^\ur}$ and the wild inertia group is $P = \Gal{K^\sep / K^\tame}$. From now on, we only care about ramification so assume that $K = K^{\ur}$. 
+\bigskip\\
+Let $L/K$ be finite Galois with Galois group $G$. 
+
+\begin{defn}
+The ramification filtration $G_i$ is a decreasing filtration given by,
+\[ G_i = \{ \sigma \in G \mid \sigma(\varpi_L) - \varpi_L \in (\varpi_L)^{i+1} \} \]
+Then $G_0 = I$ and $G_0 / G_1$ is the tame inertia. Then $G_1$ is the wild inertia.
+\end{defn}
+
+\begin{rmk}
+Let $X$ be a geometrically integral curve over $\kappa$ and $K = K(X)$. Let $j : U \embed X$ be a nonempty open subset. let $\FF$ be a finite field of characteristic $\ell \neq p$. Then let $\F$ be a $\FF$-local system on $U$ corresponding to a Galois representation $\rho : \Gal{K^\sep / K} \to \F_{\bar{\eta}}$. Then $I_x \acts \F_{\bar{\eta}}$ for each closed point $x \in X$. Then,
+\begin{enumerate}
+\item if $x \in U$ then $I_x \acts \F_{\bar{\eta}}$ is trivial
+\item if $x \notin U$ then $I_x \acts \F_{\bar{\eta}}$ is interesting and we get a Swan conductor $\Sw_x(\F)$.
+\end{enumerate}
+\end{rmk}
+
+\begin{defn}
+The Swan conductor $\Sw_x(\F)$ is defined as follows. Since $\F$ is a local system over a finite field $V = \F_{\bar{\eta}}$ is finite. Hence the action factors through a finite quotient $L/K$. Consider the ramification filtration $G_i$ of $G = \Gal{L/K}$. Then,
+\[ \Sw_x(\F) = \sum_{i \ge 1} \frac{\dim(V/V^{G_i})}{[G_0 : G_i]} \]
+which is actually a well-defined integer.
+\end{defn}
+
+\begin{prop}
+The following hold about the Swan conductor,
+\begin{enumerate}
+\item $\Sw_x(\F) = 0 \iff V$ is tamely ramified at $x$ menaing $P_x \acts V$ trivially
+\item For $\F$ tamely ramified at $x$ and some other local system $\G$ we have,
+\[ \Sw_x(\F \ot \G) = (\rank \F) \cdot \Sw_x(\G) \]
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+Let $\F$ be a free lisse $\struct{E}$-local system for some finite $E / \Q_\ell$. Define $\Sw_x(\F) := \Sw_x(\F / \varpi_E \F)$ where $\F / \varpi_E \F$ is a $\kappa_E$-local system.  
+\end{prop}
+
+\newcommand{\Qbar}{\overline{\Q}}
+
+\begin{example}
+\begin{enumerate}
+\item Kummer sheaf $\L(\chi)$. For $\chi : \FF_q^\times \to \Qbar_\ell^\times$ be a  multiplicative character. Consider the Kummer cover $\Gm \to \Gm$ via $x \mapsto x^{q-1}$ with Galois groip $\FF_q^\times$. Define $\L(\chi)$ to be the local system on $\Gm$ corresponding to $\pi_1(\Gm) \to \FF_q^\times \xrightarrow{\chi} \overline{\Q}_\ell^\times$. Then $\Gm \subset \P^1$ has boundary consisting of $\{ 0, \infty \}$ and the two Swan conductors are,
+\[ \Sw_0(\L(\chi)) = \Sw_\infty(\L(\chi)) = 0 \]
+since the group has order coprime to $p$ and thus has no wild ramification.
+
+\item Artin-Schrier sheaf $\L(\psi)$ for a nontrivial additive character $\psi : \FF_q \to \Qbar_\ell^\times$. We have the Artin-Schreier cover $\A^1 \to \A^1$ given by $x \mapsto x^q - x$ with Galois group $\FF_q$. Define $\L(\psi)$ to be the local system associated to $\pi_1(\A^1) \to \FF_q^\times \xrightarrow{\psi} \Qbar_\ell^\times$. Then for $\A^1 \subset \P^1$ and we have,
+\[ \Sw_\infty(\L(\psi)) = 1 \]
+To see this, consider the behavior at infinity. We have the equation $y^q - y = x$ let $y = u^{-1}$ and $x = v^{-1}$ so,
+\[ v = \frac{u^q}{1 - u^{q-1}} \]
+and the automorphisms act via $y \mapsto y + a$ so 
+\[ u \mapsto \frac{u}{1 + a u} = u - a u^2 + a^2 u^3 + \cdots \]
+which visibly lies in $G_1$ and not $G_2$ (for $a \neq 0$) so the entire Galois group is wild inertia of level $1$ (besides the trivial element of course). Therefore,
+\[ \Sw_\infty(\L(\psi)) = \sum_{i \ge 1} \frac{\dim{(V/V^{G_i})}}{[G : G_i]} = \frac{\dim{(V/V^{G_1})}}{[G : G_1]} = \dim{V} = 1 \]
+\end{enumerate}
+\end{example}
+
+\subsection{The Trace Formula}
+
+\begin{theorem}[Grothendieck-Ogg-Shafarevich]
+Let $\F$ be a $\Qbar_\ell$-local system on $U \subset X$. Then,
+\[ \chi_c(U, \F) = \chi_c(U, \Qbar_\ell) \cdot (\rank \F) - \sum_{x \in X \sm U} \Sw_x(\F) \]
+\end{theorem}
+
+\begin{rmk}
+Also we know that $\chi(U, \F) = \chi_c(U, \F)$.
+\end{rmk}
+
+\subsection{Applications}
+
+\begin{defn}
+Let $\chi : \FF_q^\times \to \Qbar_\ell^\times$ and $\psi : \FF_q \to \Qbar_\ell^\times$. Define the \textit{Gauss sum},
+\[ G(\chi, \psi) = \sum_{a \in \FF_q^\times} \chi(a) \psi(a) \]
+\end{defn}
+
+\newcommand{\Frob}{\mathrm{Frob}}
+
+\begin{rmk}
+Deligne noticed that,
+\[ G(\chi, \psi) = \sum_{a \in \Gm(\FF_q)} \tr (\Frob_a \mid \L(\chi)_a \ot \L(\psi)_a) \]
+By the Grothendieck-Lefschetz fixed-point formula,
+\[ G(\chi, \psi) = \sum_{i = 0}^2 (-1)^i \tr{(\Frob \mid H^i_c(\Gm, \L(\chi) \ot \L(\psi)))} \]
+Notice that,
+\[ H^0_c(\Gm, \L(\chi) \ot \L(\psi)) = 0 \quad H^2_c(\Gm, \L(\chi) \ot \L(\psi)) = H^0(\Gm, \L(\chi^{-1}) \ot \L(\psi^{-1}))^\vee = 0 \]
+since there are no global sections for nontrivial characters. Then we apply the GOS formula,
+\[ \chi_c(\L(\chi) \ot \L(\psi)) = - \Sw_0(\L(\chi) \ot \L(\psi)) - \Sw_\infty(\L(\chi) \ot \L(\psi)) \]
+but both are tamely ramified at $0$ and $\L(\chi)$ is tamely ramified at infinity and thus,
+\[ \chi_c(\L(\chi) \ot \L(\psi)) = - 1 \]
+and thus,
+\[ \dim H^1_c(\Gm, \L(\chi) \ot \L(\psi)) = 1 \]
+Therefore, we see that,
+\[ G(\chi, \psi) = - \tr{(\Frob \mid H_c^1(\Gm, \L(\chi) \ot \L(\psi)))} \]
+and is a $1$-dimensional space so there is a single eigenvalue. By Weil II we see that this eigenvalue has absolute value $q^{\frac{1}{2}}$ and thus,
+\[ |G(\chi, \psi)| = q^{\frac{1}{2}} \]
+\end{rmk}
+
+\begin{rmk}
+\[ |G(\chi, \psi)|^2 = \sum_{a,b} \chi(a) \overline{\chi}(b) \psi(a) \overline{\psi}(b) = \sum_{a,b} \chi(a - b) \psi(a) \overline{\psi}(b) \]
+\end{rmk}
+
+\subsection{Kloosterman Sums}
+
+Fix $\psi : \FF_q \to \Qbar_\ell^\times$. For $n \ge 1$ and $a \in \FF_q$ define the Kloosterman sum,
+\[ K_{n,a} = \sum_{x_1 \cdots x_n = a} \psi(x_1 + \dots + x_n) \]
+Trivial bound,
+\[ |K_{n,a}| \le q^{n-1} \]
+Deligne gives,
+\[ |K_{n,a}| \le n q^{\frac{n-1}{2}} \]
+Write the Kloosterman sums as sums of traces of Frobenius. Let,
+\[ V_a^{n-1} = \{ x_1 \cdots x_n = a \} \subset \A^n \]
+which is smooth for $a \neq 0$. Consider the maps $\sigma : \A^n \to \A$ and $\pi : \A^n \to \A$ taking the sum and product respectively. We use the sheaves $\F = \iota^* \sigma^* \L(\psi)$ where $\iota : V_a^{n-1} \subset \A^n$ is the inclusion. Then $\Frob_x \acts \F_{\bar{x}}$ via $\psi(x_1 + \cdots + x_n)$. Therefore, by the Grothendieck trace formula,
+\[ K_{n,a} = \sum_{i = 0}^{2n-2} (-1)^i \tr{(\Frob_x \mid H^i_c(V_a^{n-1}, \F))} \]
+Then Deligne showed the following.
+
+\begin{theorem}[Deligne]
+\begin{enumerate}
+\item $H^i_c(V_a^{n-1}, \F) = 0$ for $i \neq n - 1$
+\item $\dim H^i_c(V_a^{n-1}, \F) = n$.
+\end{enumerate}
+\end{theorem}
+
+\begin{cor}
+Then by Weil II we see that $|K_{n,a}| \le n q^{\frac{n-1}{2}}$. 
+\end{cor}
+
+\newcommand{\Kl}{\mathrm{Kl}}
+
+\begin{thm}[Deligne]
+\begin{enumerate}
+\item the Kloosterman sheaf $\Kl_n := R^{n-1} \pi_{!} \F)$ satisfies $\Kl_n |_{\Gm}$ is lisse of rank $n$
+\item direct image of $\Kl_n$ on $\P^1$ has stalk $0$ at $\infty$
+\item $\dim{(\Kl_n)_0} = 1$
+\item $\Sw_0(\Kl_n|_{\Gm}) = 0$ has unipotent monodrom with a single Jordan block
+\item $\Sw_0(\Kl_n|_{\Gm}) = 1$.
+\end{enumerate}
+\end{thm}
+\end{document}

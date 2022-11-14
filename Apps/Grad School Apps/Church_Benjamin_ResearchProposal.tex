@@ -1,0 +1,91 @@
+\documentclass[12pt]{amsart}
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\newtheorem*{defnn}{Definition}
+\newtheorem*{conj}{Conjecture}
+
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhead[LH]{\textbf{Benjamin Church}}
+\fancyhead[RH]{Research Proposal}
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{0.2in}
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\title{Investigating the Shioda Conjecture for Diagonal Weighted Projective Hypersurfaces}
+\maketitle
+
+\section*{Background}
+The emergence of quantum computing, at scale, threatens to provide an efficient method of attack for current classical cryptosystems based on ``trap door'' problems such as discrete logarithm. Quantum algorithms that efficiently solve the discrete log problem have been demonstrated theoretically and experimentally at small-scale \cite{ekeraa2017quantum, Monz1068}. The vulnerabilities of these cryptosystems to quantum cryptoanalytic attack poses a major threat to the security of information technology used both for commerce and national defense. Furthermore, standard cryptosystems based on elliptic curves suffer similar vulnerabilities to attack by a quantum computer \cite{proos2003shor}.
+
+Moving from cryptosystems based on pointwise logarithm problems on a single elliptic curve to protocols that instead utilize the isogeny graph between multiple elliptic curves thwarts quantum cryptoanalytic attack based on Shor's algorithm. A. Rostovtsev and A. Stolbunov constructed such a key-sharing isogeny-based protocol which was suggested to be resistant to attack by quantum cryptoanalysis \cite{rostovtsev2006public}. However, A. Childs, D. Jao, and V. Soukharev demonstrated (assuming the Generalized Riemann Hypothesis) a subexponential quantum attack against isogeny-based cryptosystems which employ ordinary elliptic curves \cite{childs2014constructing}. However, over finite fields, there exist so-called \textit{supersingular} elliptic curves whose endomorphism rings are noncommutative and thus resist the methods of Childs et al. Indeed, L. de Feo and J. Plut proposed Diffie-Hellman type key-exchange protocol based on finding isogenies between supersingular elliptic curves which is believed to be resistant to attack by quantum cryptoanalysis \cite{feo_supersingular_isogeny_crypto}.
+
+Supersingularity is the essential property that makes the algorithm of L. de Feo et al. resistant to quantum attack. Therefore, I propose to study the properties of supersingular varieties and their relationship to birationality classes. While supersingular elliptic curves are well understood, the situation for surfaces is far more complex with intriguing examples of supersingular surfaces outside of those abelian surfaces birational to a product of supersingular elliptic curves. Research in this area will provide a larger universe of examples of supersingular varieties and may elucidate possible vulnerabilities of supersingular isogeny-based protocols.
+
+
+\subsection*{The L\"{u}roth Problem}
+
+A central question in birational geometry is to determine the structure of \textit{rational} varieties, those birationally equivalent to $\P^n$. However, this notion is too restrictive to capture the behavior of important objects such as moduli spaces. More generally, we say a variety $X$ is \textit{unirational} if there exists a dominant rational map $\P^n \rat X$. J. L\"{u}roth showed \cite{Luroth} that the notions of rationality and unirationality coincide for algebraic curves. This observation sparked the L\"{u}roth problem asking if rationality and unirationality are equivalent for higher dimensional varieties. Intuitively, the L\"{u}roth problem asks: if $X$ can be parametrized almost everywhere by rational functions, can this parametrization be made (generically) one-to-one? 
+\par
+The answer is affirmative for surfaces over a field of characteristic zero. This follows from Castelnuovo's criterion using the fact that field extensions in characteristic zero are separable. Therefore unirational dominations are generically \etale which implies that any variety dominated by $\P^n$ must have vanishing canonical invariants and thus must be rational by Castelnuovo's theorem. However, in positive characteristic, this argument fails due to the existence of inseparable maps and, consequently, counterexamples to the L\"{u}roth problem exist. The best known are due to Zariski \cite{zariski1958}, defined  by equations of the form $z^p = f(x, y)$, and Shioda \cite{shioda1974}, for certain Fermat surfaces of the form $x^n + y^n = z^n$. However, unlike the case of rational surfaces in which Castelnuovo's criterion applies, there are no known numerical techniques for detecting unirationality.
+
+\subsection*{Supersingular Varieties}
+
+Supersingularity refers to multiple closely related\footnote{by various conjectures, for instance the Tate conjectures} cohomological phenomena which occur only in positive characteristic. Let $X_0$ be a smooth proper variety over the finite field $\mathbb{F}_q$ and $X = X_0 \times \overline{\mathbb{F}}_q$. For a prime $\ell \ndivides q$ we write $H^{i}(X_{\et}, \Q_\ell)$ for the $\ell$-adic \etale cohomology of $X$ in degree $i$. An even cohomology class $\alpha \in H^{2r}(X_{\et}, \Q_\ell)$ is \textit{an algebraic cycle} if $\alpha$ is a linear combination (with $\Q_\ell$ coefficients) of cycles $[Z]$ corresponding to codimension-$r$ subvarieties $Z \subset X$. The subspace of algebraic cycles is of great importance in contemporary algebraic geometry being the central object of the Hodge and Tate conjectures. For smooth proper surfaces, we need only consider algebraic cycles in $H^2(X_{\et}, \Q_\ell)$ which are linear combinations of divisors. This space corresponds to $\NS{X} \otimes_\Z \Q_\ell$ where $\NS{X}$ is the N\'{e}ron-Severi group defined as the group of line bundles up to algebraic equivalence. Thus even cohomology of $X$ is generated by algebraic cycles iff the Picard number $\rho(X) = \mathrm{rank}(\NS{X})$ equals the second betti number $b_2(X) := \dim_{\Q_\ell} H^2(X_{\et}, \Q_\ell)$ in which case we say that $X$ is \textit{Shioda supersingular}.
+Taking into account the Galois action, $[Z]$ is naturally an element of $H^{2r}_{\et}(X, \Q_\ell(r))$ where coefficients are twisted by the cyclotomic character. Therefore, the Galois group acts on algebraic cycles via multiplication by roots of unity. According to the Tate conjecture, this condition on the Galois action exactly characterizes algebraic cycles.
+\begin{defnn}
+A smooth proper variety over $\mathbb{F}_q$ is \textit{supersingular} if, for each $i$, the eigenvalues of Frobenius on $H^{i}(X_{\et}, \Q_\ell)$ are $q^{i/2}$ times a root of unity.
+\end{defnn}
+\noindent
+Assuming the Tate conjecture, we see that supersingularity and Shioda supersingularity coincide for smooth proper surfaces.
+However, the latter definition is more easily verified algorithmically. According to Grothendieck's proof of the Weil conjectures, the Zeta function is a rational function in terms of the Frobenius $F$ action on compactly supported \etale cohomology,
+\[ \zeta_X(t) := \exp{ \left( \sum_{k = 0}^\infty \# \left[ X(\mathbb{F}_{q^k}) \right] \frac{t^k}{k} \right)} = \prod_{i = 0}^{2n} \det{\left( \id - t F^* \mid H^{i}_c(X_{\et}, \Q_\ell) \right)}^{(-1)^{i + 1}} \]
+and thus $\zeta_X(t)$ has roots and poles of the form $(1 - \alpha t)$ with $\alpha$ the eigenvalues of Frobenius. In particular, since the zeta function $\zeta_X(s)$ may be computed explicitly, we can determine if $X$ is supersingular by inspecting its roots.
+
+\subsection*{The Conjecture of Shioda}
+
+We would like to find sufficient computable invariants to determine unirationality. Since the Frobenius action is preserved under rational domination, unirationality implies supersingularity. In important known cases the converse holds as well. For example, the converse is proven for K3 surfaces\footnote{A. J. de Jong has privately informed me that an error has been identified in Liedtke's proof, however, the result is still believed to hold.} \cite{liedtke}, Kummer surfaces \cite{shioda_some_results},  and Fermat surfaces \cite{shioda_on_fermat}. Due to these examples, Shioda formulated \cite{shioda_some_results} the following conjecture,
+\begin{conj}
+Let $X$ be a surface over $\mathbb{F}_q$ with $\pi_1^{\et}(X) = 0$. Then $X$ is unirational if and only if $X$ is Shioda supersingular.
+\end{conj}
+
+\section*{Research Plan}
+
+I plan to investigate the Shioda conjecture for diagonal weighted-projective hypersurfaces. Explicitly, these are hypersurfaces in $\P(q_0, q_1, q_2, q_3)$ cut out by an equation of the form,
+\[ a_0 X_0^{n_0} + a_1 X_1^{n_1} + a_2 X_2^{n_2} + a_3 X_3^{n_3} = 0 \]
+These surfaces are well-suited to studying the Shioda conjecture because, by a seminal result of Andr\'{e} Weil \cite{weil_counting}, their zeta functions may be efficiently computed in terms of Jacobi sums. I propose the following broad goals:
+\begin{enumerate}
+\item[(1)] employ a computer search to find new examples of supersingular hypersurfaces
+\item[(2)] classify these explicit examples into infinite families of supersingular examples
+\item[(3)] determine which of these examples are unirational.
+\end{enumerate}
+Of these goals, the third presents the biggest challenge since there are not good tools available to determine unirationality. It may be more tractable to determine the density of rational curves on a surface. We say a variety is rationally-connected if each pair of points lies on a rational curve. We expect unirational surfaces to be rationally connected and non-unirational surfaces to have finitely many rational curves. Therefore, investigating the families of rational curves on $X$ gives insight into this problem. I intend to continue my efforts on this related problem attempting to adapt the methods of \cite{lang} based on Bogomolov's finiteness results.
+
+One of the main reasons Shioda's conjecture remains mysterious is the dearth of known examples of supersingular or unirational surfaces. Completion of this work will either disprove Shioda's conjecture or provide new infinite families of positive examples. In either case, this will greatly improve our understanding of the phenomena of nonrational unirational surfaces in positive characteristic. Furthermore, diagonal hypersurfaces provide an underutilized source of examples and the proposed classification would elucidate these examples for future researchers and produce a large well-understood class of supersingular surfaces.
+
+\section*{Current Progress}
+
+In the Columbia 2018 REU \cite{REU}, my team and I successfully implemented Weil's method, completing goal (1), and gave a partial answer for (2). In particular, we discovered two infinite families of supersingular diagonal hypersurfaces which have the form $(n_0, n_1, n_2, n_3) = (p, q, ps, qs)$ for distinct primes $p,q$ such that $p,q \equiv 1 \mod s$ and of the form $(n_0, n_1, n_2, n_3) = (p, q, r, pqr)$ for distinct primes $pqr$. We proved that surfaces of these forms are supersingular when the characteristic satisfies an explicit numerical criterion. Because any surface dominated by a supersingular surface is again supersingular, classifying which diagonal surfaces whose exponents are combinations of a small number of primes are supersingular will provide information about a much wider class of diagonal surfaces.  
+\par
+From Shioda's work \cite{shioda_on_fermat}, we already know an infinite family of examples, namely, the Fermat surfaces such that $p^\nu \equiv - 1 \mod n$ and any diagonal surface which may be dominated by a Fermat surface of this form. However, these examples are already known to be unirational. Thus, the real success of our methods is the discovery of additional infinite families of supersingular surfaces which are not of the above form. Over the summer of 2020, I worked with Prof. Johan de Jong to determine if these new examples are unirational as the Shioda conjecture would imply. We have reduced the question of rational-connectedness to one about certain loci in the moduli space of cyclic $3$-covers of $\P^1$ which we hope to be more tractable. 
+
+
+
+%%
+%%(ADD CITATION AND EXPLAIN WHY THIS IS GOOD) %%(ADD MORE ON THIS BECAUSE THEY CARE ABOUT QUANTUM %% COMPUTING!!)
+
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+
+\end{document}

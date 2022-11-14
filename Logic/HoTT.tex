@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{LogicCommands}
+
+\begin{document}
+
+\newcommand{\rec}{\mathrm{rec}}
+\newcommand{\ind}{\mathrm{ind}}
+\renewcommand{\succ}{\mathrm{succ}}
+\newcommand{\pr}{\mathrm{pr}}
+
+\section{Chapter 1}
+
+\subsection{Exercises}
+
+\subsubsection{Exercise 1.9}
+
+\begin{exercise}
+Define the type family $\rm{Fin} : \N \to \U$ and dependent function $\rm{fmax} : \prod\limits_{n : \N} \rm{Fin}(\succ(n))$.
+\end{exercise}
+
+We use the recursive type constructor,
+\[ \rm{Fin} = \rec_{\N}(\U, \bf{0}, \lambda n. \lambda A. (A + \bf{1})) \]
+This satisfies,
+\[ \rm{Fin}(0) :\equiv \bf{0} \quad \rm{Fin}(\succ(n)) :\equiv \rm{Fin}(n) + \bf{1} \] 
+then the max function also has an inductive construction using the type family $\rm{Fin}$,
+\[ \rm{fmax} = \ind_{\N}(\rm{Fin} \circ \succ, \star, c_s) \]
+where,
+\[ c_s : \prod_{n : \N} \rm{Fin}(\succ(n)) \to \rm{Fin}(\succ(\succ(n))) \]
+is the function,
+\[ c_s(n, q) :\equiv \rm{inr}(\star) \]
+Which satisfies the properties,
+\[ \rm{fmax}(0) \equiv \star : \bf{1} \quad \rm{fmax}(\succ(n)) \equiv \rm{inr}(\star) : \rm{Fin}(\succ(n)) + \bf{1} \]
+
+\subsubsection{Exercise 1.10}
+
+\newcommand{\ack}{\mathrm{ack}}
+
+\begin{exercise}
+Show that the Ackermann function $\ack : \N \to \N \to \N$ is definable using only $\rec_{\N}$ satisfying the following equations:
+\begin{align*}
+\ack(0,n) & \equiv \succ(n)
+\\
+\ack(\succ(m), 0) & \equiv \ack(m, 1)
+\\
+\ack(\succ(m), \succ(n)) & \equiv \ack(m, \ack(\succ(m), n))
+\end{align*}
+\end{exercise}
+
+We define the following,
+\[ \ack :\equiv \rec_{\N}(\N \to \N, \succ, \lambda (m : \N) . \lambda (g : \N \to \N) . \lambda (n : \N) . c_s(n, g, m)) \]
+where,
+\[ c_s :\equiv \rec_{\N}((\N \to \N) \to (\N \to \N), \lambda (g : \N \to \N) . \lambda (m : \N) . g(1), u) \]
+where,
+\[ u :\equiv \lambda (n : \N) . \lambda (c : (\N \to \N) \to (\N \to \N)) . \lambda (g : \N \to \N) . \lambda (m : \N) . g (c(g,m)) \]
+Then we have the following,
+\[ c_s(0) \equiv \lambda (g : \N \to \N) . \lambda (m : \N) . g(1) \]
+and 
+\[ c_s(\succ(n)) \equiv u(n, c_s(n)) \equiv \lambda (g : \N \to \N) . \lambda (m : \N) . g(c_s(n, g, m)) \]
+Therefore,
+\[ \ack(0) \equiv \succ \quad \text{ meaning } \ack(0, n) \equiv \succ(n) \]
+and also,
+\[ \ack(\succ(m)) \equiv [\lambda (m : \N) . \lambda (g : \N \to \N) . \lambda (n : \N) . c_s(n, g, m)](m, \ack(m)) \equiv \lambda (n : \N) . c_s(n, \ack(m), m) \]
+This means that,
+\[ \ack(\succ(m), n) \equiv c_s(n, \ack(m), m) \]
+so in particular,
+\[ \ack(\succ(m), 0) \equiv c_s(0, \ack(m), m) \equiv \ack(m, 1) \]
+and also,
+\[ \ack(\succ(m), \succ(n)) \equiv c_s(\succ(n), \ack(m), m) \equiv \ack(m, c_s(n, \ack(m), m)) \equiv \ack(m, \ack(\succ(m), n)) \]
+
+
+\subsubsection{Exercise 1.11}
+
+\begin{exercise}
+Show that for any type $A$ we have $\neg \neg \neg A \to \neg A$. 
+\end{exercise}
+
+We need to show that the type $(((A \to \bf{0}) \to \bf{0}) \to \bf{0}) \to (A \to \bf{0})$ is inhabited. Indeed consider,
+\[ \lambda (f : \neg \neg \neg A) . \lambda (a : A) . f( \lambda (g : \neg A) . g(a) ) \]
+
+\subsubsection{Exercise 1.12}
+
+\begin{exercise}
+Using the propositions as types interpretation, derive the following tautologies,
+\begin{enumerate}
+\item If $A$ then (if $B$ then $A$).
+\item If $A$ then not (not $A$).
+\item If (not $A$ or not $B$) then not ($A$ and $B$).
+\end{enumerate}
+\end{exercise}
+
+\begin{enumerate}
+\item $(\lambda (a : A). \lambda (b : B). a) : (A \to B \to A)$
+\item $(\lambda (a : A) . \lambda (p : \neg A) . p(a)) : (A \to (A \to \bf{0}) \to \bf{0})$
+\item $\rec_{\neg A + \neg B}(\neg (A \times B), [\lambda (p : \neg A) . \lambda (f : A \times B) . p \circ \pr_1(f)], [\lambda (p : \neg B) . \lambda (f : A \times B) . p \circ \pr_2(f)]) : (\neg A + \neg B) \to \neg (A \times B)$
+\end{enumerate}
+
+\subsubsection{Exercise 1.15}
+
+\begin{exercise}
+Show that the indiscernibility of identicals follows from path induction.
+\end{exercise}
+
+We want to show show that for any family of types $C : A \to \U$ there is,
+\[ f : \prod_{x,y : A} \prod_{p : x =_A y} C(x) \to C(y) \]
+such that,
+\[ f(x, x, \refl_x) :\equiv \id_{C(x)} \]
+We apply path induction to the family of types,
+\[ D(x,y,p) : \equiv C(x) \to C(y) \]
+and our base case is,
+\[ \prod_{x : A} D(x,x,\refl_x) \equiv \prod_{x : A} C(x) \to C(x) \]
+which is inhabited by $\id_C$. Then we set,
+\[ f :\equiv \ind_{=_A}(D, \id_C) \]
+which satisfies,
+\[ f(x,x,\refl_x) :\equiv \id_{C(x)} \]
+
+\end{document}

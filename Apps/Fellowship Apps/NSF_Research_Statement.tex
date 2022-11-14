@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage{import}
+\usepackage[margin=1.01in]{geometry}
+
+\usepackage{hyperref}
+\usepackage{endnotes}
+\let\footnote=\endnote
+
+\usepackage{microtype}
+\usepackage{amsmath, amssymb, amsfonts}
+
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{unicode-math}
+% If using the built-in font:
+\setmathfont{[Cambria-Math.ttf]}
+
+% Math Packages
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot, graphicx}
+\usepackage{stmaryrd}
+\usepackage{relsize}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+
+% needed for correctly formatting words
+
+\usepackage{xspace}
+\newcommand{\et}{\text{\'{e}t}}
+\newcommand{\etale}{\'{e}tale\xspace}
+\newcommand{\cech}{\v{C}ech\xspace}
+
+% Shorthand
+
+\newcommand{\ot}{\otimes}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\F}{\mathcal{F}}
+
+
+% Number Theory Commands
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{NN}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\not \mid}
+\newcommand{\modeq}[3]{#1 \equiv #2 \quad (\mathrm{mod} \: {#3})}
+\DeclareMathOperator{\ch}{\mathrm{char}}
+
+% Important Schemes 
+
+\newcommand{\A}{\mathbb{A}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Ga}{\mathbb{G}_a}
+\newcommand{\Gm}{\mathbb{G}_m}
+
+% Operations on Schemes
+
+\newcommand{\Sing}[1]{\mathrm{Sing}\left( #1 \right)}
+\newcommand{\NS}[1]{\mathrm{NS}\left( #1 \right)}
+
+
+% Rational Maps
+
+\newcommand*{\DashedArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, dashed,#1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}%
+\newcommand*{\DashedBiArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, dashed, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex) node[midway, above] {$\sim$} ;}}
+\newcommand{\rat}{\DashedArrow[densely dashdotted]}
+\newcommand{\birat}{\DashedBiArrow[densely dashdotted]}
+\newcommand{\Dom}[1]{\mathrm{Dom}\left(#1 \right)}
+
+% Theorem Formats
+
+\newtheorem*{conj}{Conjecture}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{defn}{Definition}
+\newtheorem*{thm}{Theorem}
+
+% Bib Formatting
+
+\usepackage{blindtext}
+\usepackage[style=science, backend=bibtex8,
+            autocite=footnote, notetype=endonly, labeldateparts]{biblatex}
+
+\addbibresource{bibliography.bib}
+
+\begin{document}
+
+\pagestyle{empty}
+\fontsize{11.1}{12.1}\selectfont % weird lower limit set by grfp website.
+\noindent
+I am deeply interested in the ways algebraic geometry finds applications in number theory, topology, complex geometry, and modern physics. This leads me to have a long list of problems I am simultaneously pondering. The most rewarding moments are when two separate concepts I have been playing with fit together into an unexpected whole. For example, I had learned about Clifford modules through studying spin representations in quantum field theory but also knew their eight-periodicity in Morita equivalence was closely related to real Bott periodicity. Following M. Karoubi's proof of real Bott periodicity\footfullcite{karoubi}, I am working to define a new Bott periodicity homotopy equivalence between suitably defined algebraic classifying stacks of Clifford modules. Here I will focus on a single project I am currently pursuing where my study of unirational surfaces and interest in the conjectural boundedness of ranks of elliptic curves come together. 
+
+\textbf{Introduction:}
+An algebraic variety $X$ is \textit{unirational} if there exists a dominant rational map $\P^n \rat X$ and \textit{rational} if this map can be made an birational equivalence. In 1875, J. L\"{u}roth showed \footfullcite{Luroth} that rationality and unirationality coincide for algebraic curves. The classical L\"{u}roth problem asks if rationality and unirationality are equivalent for higher dimensional varieties. This question led to enormous progress in understanding algebraic surfaces, which culminated in the Enriques-Kodaira classification of algebraic surfaces.
+The answer is affirmative for surfaces over a field of characteristic zero by Castelnuovo's criterion and the fact that separable generically finite dominations are generically \etale. However, in positive characteristic, this argument fails due to the existence of inseparable maps and, consequently, unirational counterexamples exist. Moreover, there are no known computational techniques for detecting unirationality.
+\par
+Supersingularity refers to closely related cohomological phenomena. Let $X_0$ be a smooth proper variety over $\mathbb{F}_q$ and $X = X_0 \times \overline{\mathbb{F}}_q$. An even cohomology class $\alpha \in H^{2r}(X_{\et}, \Q_\ell)$ is an \textit{algebraic cycle} if $\alpha$ is a $\Q_\ell$-linear combination of cycles $[Z]$ corresponding to codimension-$r$ subvarieties $Z \subset X$. The group $H^2(X_{\et}, \Q_{\ell})$ is generated by algebraic cycles if the Picard number $\rho(X) = \mathrm{rank}(\NS{X})$ equals the second Betti number $b_2(X) := \dim_{\Q_\ell} H^2(X_{\et}, \Q_\ell)$ in which case we say that $X$ is \textit{Shioda-supersingular}. In terms of Galois actions, we say $X_0$ is \textit{supersingular} if the eigenvalues of Frobenius on $H^{i}(X_{\et}, \Q_\ell)$ are $q^{i/2}$ times a root of unity. Assuming the Tate conjecture, supersingularity and Shioda supersingularity coincide for simply connected surfaces.
+However, the second notion can be directly verified algorithmically by computing the zeta function $\zeta_X(s)$ and inspecting its roots.
+\par
+Unirationality directly implies supersingularity using the structure of $H^2(\P^2, \Q_\ell)$. In a series of papers showing that unirationality and supersingularity coincide for Fermat surfaces, T. Shioda conjectured \footfullcite{shioda_some_results} that the converse should hold more generally:
+\begin{conj}
+Let $X$ be a surface over $\overline{\mathbb{F}}_q$ with $\pi_1^{\et}(X) = 0$. Then $X$ is unirational iff $X$ is Shioda-supersingular.
+\end{conj}
+\noindent
+Thus, conjecturally, supersingularity is a complete invariant for detecting unirationality of surfaces.
+\vspace{0.5em}
+\newline
+\noindent
+\textbf{Research Plan:}
+A test bed for the Shioda conjecture are diagonal weighted-projective hypersurfaces. Explicitly, these are hypersurfaces in $\P(q_0, q_1, q_2, q_3)$ cut out by an equation:
+\begin{equation}
+a_0 X_0^{n_0} + a_1 X_1^{n_1} + a_2 X_2^{n_2} + a_3 X_3^{n_3} = 0
+\end{equation}
+These surfaces are well-suited to studying the Shioda conjecture because, by a seminal result of Andr\'{e} Weil \footfullcite{weil_counting}, their zeta functions may be efficiently computed in terms of Jacobi sums. Via this method, my collaborators and I discovered two infinite families of supersingular surfaces which are not known to be unirational. 
+\par
+If a surface is unirational it is automatically covered by rational curves of fixed degree. Using the Enriques-Kodaira-Mumford classification \footfullcite{Mumford_Kodaira_Enriques} of surfaces, I can show that the converse holds for simply connected surfaces.
+
+\begin{prop}
+Let $X$ be a smooth proper surface over $\overline{k}$ with $\pi_1^{\et}(X) = 0$. If $X$ is generically covered by rational curves of bounded degree then $X$ is unirational.
+\end{prop}
+
+The standard method for producing rational curves is Mori's ``bend and break'' theorem which utilizes curves of negative canonical degree. However, when $K_X$ is ample, no such curves exist. Inseparable alterations of $X$ can skirt this obstruction. A \textit{foliation} is a saturated subsheaf $\F \subset T_X$ which is \textit{involutive}, meaning $[\F, \F] \subset \F$, and \textit{p-closed}, meaning $\F^p \subset \F$. T. Ekedahl showed \footfullcite{ekedahl_foliations} there is a correspondence between foliations on $X$ and certain purely inseparable modifications of $X^{(p)}$. If we can find a sufficiently positive foliation, we can produce rational curves on the modification and hence on $X$ through the Frobenius map. \emph{I aim to employ this method to exploit instability of the tangent bundles of our new examples to produce rational curves and hence verify the Shioda conjecture in these new settings.}
+\newline
+\noindent
+\textbf{Intellectual Merit:}
+One reason Shioda's conjecture remains mysterious is the dearth of known examples of supersingular or unirational surfaces. Completion of this work will improve our understanding of the phenomena of unirational surfaces in positive characteristic and will further develop the usage of tools such as foliations for producing rational curves. These represent steps towards a complete classification and will vastly increase the availability of well-understood examples of supersingular surfaces for future researchers.
+\par
+An intriguing application of supersingular surfaces is to producing elliptic curves over function fields with large ranks. D. Ulmer constructed \footfullcite{ulmer} a sequence of non-isotrivial elliptic curves over $\FF_p(t)$ whose ranks are unbounded. The construction forms the corresponding elliptic surfaces over $\P^1_{\FF_p}$ as quotients of supersingular Fermat surfaces by finite group actions. By Shioda's work on Fermats, these elliptic surfaces then satisfy the Tate conjecture and hence BSD and their analytic ranks (and hence ranks) are computable in terms of the cohomology of the covering Fermat. In developing heuristics for the boundedness of ranks of elliptic curves \footfullcite{park2019heuristic}, Park et al observe that all known examples of unboundedness over $\FF_p(t)$ arise from elliptic curves defined over succeeding smaller subfields. They suggest that ranks of elliptic curves over any fixed global field $k$ \textit{not arising over a proper subfield} are bounded. 
+\par
+I plan to study the following special case: for $k = \FF_p(t)$ does boundedness hold for ranks of elliptic elliptic curves whose $j$-invariant $j(E) \in k$ generates $k$? Since we may fix the $j$-invariants up to an automorphism of $k$, the problem reduces to studying a single quadratic-twist family, 
+\begin{equation} \label{twist_family}
+\{ f y^2 = x^3 - t x + t \}_{f \in k^\times / (k^\times)^2} 
+\end{equation} 
+Certain elliptic surfaces of this form can arise as quotients of our new examples of supersingular surfaces. \emph{I aim to apply the methods in Ulmer's construction to our new supersingular surfaces to compute the ranks of certain elements of the twist family (\ref{twist_family}) in order to test the boundedness conjecture over function fields.}
+\newline
+\noindent
+\textbf{Broader Impact:}
+The Enriques-Kodaira classification of surfaces is one of the crowning achievements of early algebraic geometry. However, its positive-characteristic analog due to Mumford \footfullcite{Mumford_Kodaira_Enriques} does not distinguish the class of unirational surfaces. Developing such numerical or cohomological invariants would mark a major advancement in our understanding of algebraic surfaces and inseparable maps. Furthermore, these surfaces provide a way to construct and study geometrically large rank elliptic curves which are usually quite mysterious. Because unirational varieties satisfy the Tate conjecture, if we can produce rational curves on our new examples, elliptic surface quotients automatically satisfy BSD giving evidence for the conjecture in the extreme rank setting. Therefore this research area has the potential to elucidate major open questions about elliptic curves over function fields.  
+\par
+My goal is to become a professor which entails both a dedication to research and to teaching and mentorship. If awarded the GRFP, I intend to continue my mentorship role through the directed reading program for undergraduates and impact on the academic community through organizing seminars. These will further my aims to create excellent mathematics education beyond just the classroom setting.
+\vspace{-2.5em}
+\begingroup
+\let\enotesize\normalsize
+\renewcommand\notesname{\hrulefill \vspace{-0.9em}}
+\theendnotes
+\endgroup
+\end{document}

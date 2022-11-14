@@ -1,0 +1,220 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+\DeclareMathOperator{\argmin}{\mathrm{argmin}}
+\renewcommand{\E}{\mathbb{E}}
+
+\begin{document}
+
+\section{VC Dimension}
+
+\newcommand{\VC}{\mathrm{VC}}
+
+\begin{defn}
+Let $X$ be a space and $C \subset \cP(X)$ a set of subsets. Call these \textit{concepts} and $C$ a \textit{concept class}. Then for $S \subset X$ we say that $C$ \textit{shatters} $S$ if,
+\[ C \cap S := \{ c \cap S \mid c \in C \} = \cP(S) \]
+\end{defn}
+
+\begin{defn}
+If $C$ is a concept class. Then \textit{Vapnik–Chervonenkis} is,
+\[ \VC(C) = \sup \{ |S| \mid C \text{ shatters } S \} \]
+\end{defn}
+
+\begin{defn}
+For each $d \in \N$ we define the polynomial, $\Phi_d$ as follows,
+\begin{align*}
+\Phi_d(0) &= 1
+\\
+\Phi_d(m) &= \Phi_d(m-1) + \Phi_{d-1}(m-1) 
+\end{align*}
+\end{defn}
+
+\begin{defn}
+Let $C$ be a concept class. Then,
+\[ \Pi_C(m) = \sup \{ |S \cap C| \mid |S| = m \} \]
+\end{defn}
+
+\begin{rmk}
+By definition, $\Pi_C(m) \le 2^m$ and
+\[ \Pi_C(m) = 2^m \iff m \le \VC(C) \]
+We use the notation $C|_S := C \cap S$ and $c|_S := C \cap S$.
+\end{rmk}
+
+
+\begin{prop}
+Let $C$ be a concept class with $\VC(C) = d$ then $\Pi_C(m) \le \Phi_d(m)$.
+\end{prop}
+
+\begin{proof}
+We prove this by complete induciton on $m,d$. First, for the case $m = 0$ we have,
+\[ \Phi_C(m) \le 2^0 = 1 = \Phi_d(0) \]
+For the case $d = 0$, no nontrivial set can be shattered meaning that $C$ must contain only one concept so $\Phi_C(m) = 1$ and also $\Phi_0(m) = 1$.
+\bigskip\\
+Now we assume the theorem for all $d' \le d$ and $m' \le m$ with at least one strict. Let $S$ be a set with $|S| = m$ achieving $\Pi_C(m)$. Choose $x \in S$,
+\[ | (S \sm \{ x \}) \cap C| \le \Pi_C(m - 1) \le \Phi_d(m-1) \]
+We define a new concept class on $S$,
+\[ C' = \{ c \in C|_S \mid x \notin c \text{ and } \exists \tilde{c} \in C : x \in \tilde{c} \text{ and } c |_{S \sm \{ x \}} = \tilde{c} |_{S \sm \{ x \}} \} \]
+which is the class of concepts who have a modification on $x$ with the same restriction to $S \sm \{ x \}$. Then,
+\[ |C \cap S| = |C \cap (S \sm \{ x \})| + |C' \cap (S \sm \{ x \})| \]
+I claim $\VC(C') \le d - 1$. Indeed, for any $S' \subset S$ shattered by $C'$ notice that $x \notin S'$ since $x \notin c$ for all $c \in C'$. Thus $S' \subset S \sm \{ x \}$. Then, by definition $S' \sup \{ x \}$ is shattered by $C$ so $|S'| \le d-1$. Therefore,
+\[ |C \cap S| \le \Phi_d(m-1) + \Phi_{d-1}(m-1) = \Phi_d(m) \]
+proving the result by induction.
+\end{proof}
+
+
+\section{PAC Learning}
+
+\begin{defn}
+A \textit{learning context} is a triple $(X, C, \ell)$ where $X$ is a measurable space, $C$ a concept class on $X$, and $\ell : X \times C \to [0,1]$ is a loss function. For a probability measure $\mu$ on $X$ define the expected loss of $c \in C$,
+\[ L_\mu(c) := \E_\mu[\ell(-,c)] \]
+\end{defn}
+
+\begin{rmk}
+Having loss bounded will be important in the proofs of our main results so for convenience we restrict the loss to $[0,1]$.
+\end{rmk}
+
+\begin{defn}
+A learning context $(X, C, \ell)$ is \textit{(efficiently) PAC learnable} if there is a (Laurent polynomial) $m_C : (0,1)^2 \to \N$ and a learning algorithm $A$ such that for all $\epsilon, \delta \in (0,1)$ and all probability measures $\mu$ over $X$ let $S$ be a set of $m \ge m_C(\epsilon, \delta)$ i.i.d. samples from $(X, \mu)$ then $A(S) = c$ such that,
+\[ \P(L_\mu(c) \le \min_{c' \in C} L_\mu(c') + \epsilon) \ge 1 - \delta \]
+\end{defn}
+
+\subsection{No Free Lunch}
+
+\begin{theorem}
+Let $X$ be finite, $C = \cP(X)$, and $\ell : X \times C \to [0,1]$ be the zero-one loss defined by,
+\[ \ell(x, c) = 
+\begin{cases}
+1 & x \in c
+\\
+0 & x \notin c
+\end{cases} \]
+There exist universal fixed $\epsilon, \delta \in (0,1)$ such that if $A$ is any learning algorithm for $(X, C, \ell)$ and $m < |X|/2$ then there is a distribution $\mu$ on $X$ such that,
+\[ \P( \]
+\end{theorem}
+
+\subsection{How to Prove an Algorithm is PAC}
+
+
+\begin{rmk}
+We want to show under what conditions empirical risk minimization (ERM) is an (efficient) PAC learning algorithm. If the data is good enough to provide an accurate estimate of the expected loss then ERM will work.
+\end{rmk}
+
+\begin{defn}
+Data $D \subset X$ is called an $\epsilon$-representatvie for the learning context $(X, C, \ell)$ and probability measure $\mu$ if,
+\[ \forall c \in C : |L_D(c) - L_\mu(c)| \le \epsilon \]
+\end{defn}
+
+\begin{lemma}
+If $D$ is an $\epsilon/2$-representative. Then any output $c_D$ of ERM meaning $c_D \in \argmin\limits_{c \in C} L_D(c)$ satisfies,
+\[ L_\mu(c_D) \le \min_{c \in C} L_\mu(c) + \epsilon \]
+\end{lemma}
+
+\begin{proof}
+For any $c \in C$, we have $L_D(c_D) \le L_D(c)$  and,
+\[ |L_D(c) - L_\mu(c)| \le \epsilon \]
+therefore,
+\[ L_\mu(c_D) \le L_D(c_D) + \epsilon/2 \le L_D(c) + \epsilon/2 \le L_\mu(c) + \epsilon/2 + \epsilon/2 = L_\mu(c) + \epsilon \]
+\end{proof}
+
+\begin{defn}
+A learning context $(X, C, \ell)$ has the \textit{(efficient) uniform convergence property} if there is a (Laurent polynomial) $m^{\text{UC}}_C : (0,1)^2 \to \N$ such that for any probabilty measure $\mu$ on $X$ let $S$ be a set of $m \ge m_C^{\text{UC}}(\epsilon, \delta)$ i.i.d. samples from $(X, \mu)$ then $S$ is an $\epsilon$-representative with probability at least $1 - \delta$.
+\end{defn}
+
+\begin{cor}
+If $(X, C, \ell)$ has the (efficient) uniform convergence property then ERM is a PAC learning algorithim for $(X, C, \ell)$ with $m(\epsilon, \delta) = m^{\text{UC}}(\epsilon/2, \delta)$. 
+\end{cor}
+
+\subsection{Proving Uniform Convergence}
+
+
+\begin{prop}
+Consider the function,
+\[ f_C(n) = \frac{1 + \sqrt{\log{\Pi_C(2n)}}}{\sqrt{2n}} \]
+and for a set $S \subset X$, 
+\[ \Delta_{\mu,S}(c) = |L_\mu(c) - L_S(c)| \]
+For any probability distribution $\mu$ and $\delta \in (0,1)$ and $S \sim \mu^n$,
+\[ \P[\exists c \in C : \Delta_S(c) \ge \delta^{-1} f(\delta, n)] \le \delta \]
+\end{prop}
+
+\begin{proof}
+Consider,
+\[ \E[\sup_{c \in C} \Delta_{\mu, S}(c)] = \E \left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n (\ell(s_i, c) - L_\mu(c)) \right| \right] \]
+The idea is to bound the expectation in terms of an expectation over samples and then find a uniform bound regardless of the samples so that we only need to maximize over the finite set of concepts over the samples. 
+Since the empirical loss is unbiased for $S' \sim \mu^n$,
+\[ L_\mu(c) = \E_{S'}[L_{S'}(c)] \]
+we can introduce an independent sample to write,
+\begin{align*}
+\E[\sup_{c \in C} \Delta_{\mu, S}(c)] = \E \left[ \sup_{c \in C} \big| \E_{S'}[L_S(c) - L_{S'}(c)] \big| \right] & \le \E_{S,S'} \left[ \sup_{c \in C} \big|L_S(c) - L_{S'}(c) \big| \right] 
+\\
+& = \E_{S,S'} \left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n [\ell(s_i, c) - \ell(s_i', c)] \right| \right]
+\end{align*}
+Since $S \sim \mu^n$ and $S' \sim \mu^n$ are identically distributed, there is no difference in swapping each. So if we introduce $V_i$ uniformly distributed on $\{ \pm 1 \}$ then,
+\[ \E[\sup_{c \in C} \Delta_{\mu, S}(c)] \le \E_{S,S'} \E_{V \sim U^n} \left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n V_i [\ell(s_i, c) - \ell(s_i', c)] \right| \right] \]
+The point of introducing these new variables is to apply Hoeffding’s inequality for fixed data $S, S'$. Fixing the $S, S'$, the random variables,
+\[ W_{c, i} = V_i [\ell(s_i, c) - \ell(s_i', c)] \]
+are i.i.d and supported on $[-1,1]$ (using $\im{\ell} \subset [0,1]$) so by Hoeffding’s inequality, for any $\rho \ge 0$,
+\[ \P\left[ \frac{1}{n} \left| \sum_{i = 1}^n W_{c,i} \right| \ge \rho \right] \le 2 \exp{\left(- 2 n \rho^2 \right)} \]
+Therefore, let $Q = S \cup S'$ be the set of samples (rather that the list),
+\[ \P\left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n W_{c,i} \right| \ge \rho \right] = \P\left[ \sup_{c \in C|_Q} \frac{1}{n} \left| \sum_{i = 1}^n W_{c,i} \right| \ge \rho \right] \le 2 |C|_Q| \exp{\left(- 2 n \rho^2 \right)}  \]
+Then by Lemma \ref{lemma_A},
+\[  \E\left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n W_{c,i} \right| \right] = f_C(n) \]
+and therefore, 
+\[ \E[\sup_{c \in C} \Delta_{\mu, S}(c)] \le \E_{S,S'} \E_{V \sim U^n} \left[ \sup_{c \in C} \frac{1}{n} \left| \sum_{i = 1}^n V_i [\ell(s_i, c) - \ell(s_i', c)] \right| \right] \le f_C(n) \]
+Now, by Markov's inequality,
+\[ \P[\sup_{c \in C} \Delta_{\mu, S}(c) \ge \delta^{-1} f_C(\delta, n)] \le \delta \]
+\end{proof}
+
+\label{lemma_A}
+
+\begin{lemma}
+Let $X$ be a random variable, $a, b \in \RR$ with $a > 0$ and $b \ge e$ such that for all $t \ge 0$ we have $\P[|X| > t] \le 2 b e^{-t^2 / a^2}$. Then,
+\[ \E[|X|] \le a (1 + \sqrt{\log{b}}) \] 
+\end{lemma}
+
+\begin{proof}
+Recall,
+\[ \E[|X|] = \int |X| \d{\mu} = \int_0^\infty \P[|X| > t] \d{t} \le 2 b \int_0^\infty e^{-t^2/a^2} \d{t} \]
+Since the probability is bounded above by $1$, for $t < a \sqrt{\log{b}}$ we can replace our bound by $1$ to get,
+\[ \E[|X|] \le a \sqrt{\log{b}} + 2 b \int_{a \sqrt{\log{b}}}^\infty e^{-t^2/a^2} \d{t} \]
+Since $b \ge e$, in the integral,
+\[ t \ge a \sqrt{\log{b}} \ge a \]
+and hence,
+\[ \int_{a \sqrt{\log{b}}}^\infty e^{-t^2/a^2} \d{t} \le \int_{a \sqrt{\log{b}}}^\infty \frac{t}{a} e^{-t^2/a^2} \d{t} = a \int_{\sqrt{\log{b}}}^\infty u e^{-u^2} \d{u} = a \left[- \tfrac{1}{2} e^{-u^2} \right]_{\sqrt{\log{b}}}^\infty = \frac{a}{2b} \]
+Therefore,
+\[ \E[|X|] \le a(1 + \sqrt{\log{b}}) \]
+\end{proof}
+
+\begin{cor}
+If $\VC(C) = d$ then 
+\end{cor}
+
+\subsection{The Main Theorem}
+
+\begin{theorem}
+Let $(X, C, \ell)$ be a learning context. Then the following are equivalent,
+\begin{enumerate}
+\item $C$ has the uniform convergence property
+\item any ERM rule is a PAC learning algorithm for $(X, C, \ell)$
+\item $(X, C, \ell)$ is PAC learable
+\item $(X, C, \ell)$ is efficiently PAC learnable
+\item any ERM rule is an efficient PAC learning algorithm for $(X, C, \ell)$
+\item $\VC{C} < \infty$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\end{document}

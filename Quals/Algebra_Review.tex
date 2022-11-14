@@ -830,4 +830,131 @@ Any flat ring map $\varphi : A \to B$ satisfies going down.
 Going down is equivalent to surjectivity of $\Spec{B_\p} \to \Spec{A_{\varphi^{-1}(\p)}}$ for each prime $\p \subset B$ which follows because $A_{\varphi^{-1}(\p)} \to B_\p$ is a flat local map and hence faithfully flat. 
 \end{proof}
 
+\subsection{Vector Bundles}
+
+\begin{prop}
+Let $\varphi : A \to B$ be a flat local map of local rings. Let $M$ be a finitely presented $B$-module which is flat over $A$. Suppose that $M / \m_A M$ is a free $B / \m_A B$-module. Then $M$ is a free $M$-module. 
+\end{prop}
+
+\begin{proof}
+Choose an isomorphism,
+\[ (B / \m_A B)^n \iso M / \m_A M \]
+and choose a lift to a map $B^n \to M$ inducing a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B^n \arrow[r] & M \arrow[r] & C \arrow[]r & 0
+\end{tikzcd}
+\end{center}
+Since $M$ is finitely-presented, $K$ and $C$ are finite $B$-modules. From the exact sequence, $C / \m_A C = 0$ and thus,
+\[ C / \m_A C \onto C / \m_B C \]
+proves that $C = \m_B C$ and thus by Nakayama's lemma $C = 0$. Therefore, we have a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & B^n \arrow[r] & M \arrow[r] & 9
+\end{tikzcd}
+\end{center}
+Since $M$ is flat over $A$ this sequences remains exact after applying $- \ot_A (A/\m_A)$ and thus $K / \m_A K = 0$ and hence $K / \m_B K = 0$. Since $K$ is a finite $B$-module, by Nakayama, we see that $K = 0$ and hence $B^n \iso M$. 
+\end{proof}
+
+\begin{cor}
+Let $f : X \to Y$ be a flat map of schemes and $\F$ a coherent $\struct{X}$-module flat over $Y$. Suppose that $\F|_{X_y}$ is a vector bundle on $X_y$ for some $y$. Then there is an open neighborhood $U \subset X$ of $X_y$ such that $\F|_U$ is a vector bundle.
+\end{cor}
+
+\begin{proof}
+Since $\F$ is coherent, it suffices to show that $\F_x$ is a free $\stalk{X}{x}$-module for each $x \in X_y$ which follows immediately from the previous result.
+\end{proof}
+
+\begin{example}
+Consider $X = \A^3 \sm \{(0,0,0)\} \to \A^1 = \Spec{k[z]}$ and $\F = \wt{(x,y)}$. This sheaf is obviously flat but its fiber over $z = 0$ is a vector bundle since it is $\struct{X}$ away from $x = y = 0$. However, it is not a vector bundle on any other fiber. 
+\end{example}
+
+
+\begin{cor}
+Let $f : X \to Y$ be a flat and proper map of schemes and $\F$ a coherent $\struct{X}$-module flat over $Y$. Suppose that $\F|_{X_{y_0}}$ is a vector bundle on $X_{y_0}$ for some $y_0 \in Y$. Then there is an open $y_0 \in V \subset Y$ such that $\F|_{X_V}$ is a vector bundle. In particular for all $y \in V$ we have that $\F|_{X_{y}}$ is a vector bundle.
+\end{cor}
+
+\begin{proof}
+Using the previous result, it suffices to show that the set,
+\[ V = \{ y \in Y \mid \F|_{X_y} \text{ is a vector bundle} \} \]
+is poen. For any $y \in V$ there is an open neighborhood $X_y \subset U \subset X$ so that $\F|_U$ is a vector bundle and thus $y \in f(U^C)^C \subset V$ is open because $f$ is closed.
+\end{proof}
+
+\begin{example}
+Let $\pi_1 : X = \P^1 \times \P^1 \to \P^1 = S$ be the projection. Let $x = X$ be a point and $\I \subset \struct{X}$ the ideal sheaf of $x = (0,0) \in X$. For each fiber $X_t$ with $t \neq 0$ we have $\I|_{X_t} = \struct{X_t}$ is a vector bundle. However, $\I$ is not a vector bundle so we cannot have $\I|_{X_0}$ be a vector bundle by the above result. I claim that $\I$ is $\pi_1$-flat. This is clear on $X \sm \{ x \}$ so I we consider the local structure around $x$. On a dense open we have the following algebra problem,
+\[ A = k[x]_{(x)} \to k[x,y]_{(x,y)} = B \quad \text{ with the ideal } \quad I = \m_B = (x,y) \subset k[x,y]_{(x,y)} \]
+I claim that $I$ is flat over $A$. There is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & B \arrow[r, "(y \; -x)"] & B^2 \arrow[r, "(x \; y)"] & I \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then applying \href{https://stacks.math.columbia.edu/tag/00MK}{Tag 00MK} we just need to show that $B/\m_A B \to (B / \m_A B)^2$ is injective which is true because $y$ is a non zero-divisor on $B / \m_A B$. Thus $I$ is $A$-flat. Furthermore, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (B / \m_A B) \arrow[r, "(y \; 0)"] & (B / \m_A B)^2 \arrow[r, "(0 \; y)"] & I / \m_A I \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, we get the local structure,
+\[ I / \m_A I \cong k \oplus k[y]_{(y)} \]
+but its image in $B / \m_A B$ is just $(y)$ which is locally free. This we see that $\I|_{X_0} \cong \struct{X_0}(-1) \oplus \iota_* k$ which has degree zero as it must because $\I|_{X_t} \cong \struct{X_t}$ for $t \neq 0$ and degree is constant in flat families.
+\end{example}
+
+\begin{example}
+Consider a degeneration, 
+\[ f : X = \Proj{k[t][X,Y,Z]/(XY - t Z^2)} \to \Spec{k[t]} = S \]
+with $X$ smooth and $f$ flat and proper but $f$ has a singular fiber over $t = 0$. Then there is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & f^* \Omega^1_S \arrow[r] & \Omega_X \arrow[r] & \Omega_{X/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Now $\Omega_{X/S} |_{X_t} = \Omega_{X_t}$ is a vector bundle for the smooth fibers ($t \neq 0$). However, $\Omega_{X/S}|_{X_0} = \Omega_{X_0}$ is not a vector bundle since $X_0$ is singular. I claim that $\Omega_{X/S}$ is flat over $S$. We consider the local structure, on the chart $D_+(Z)$. Let $A = k[t]$ and $B = k[t][x,y]/(xy - t)$ then the above exact sequence becomes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & B \d{t} \arrow[r, "x \d{y} + y \d{x}"] & B \d{x} \oplus B \d{y} \arrow[r] & \Omega_{D_+(Z)/S} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore,
+\[ M = \Omega_{D_+(Z)/S} = (B \d{x} \oplus B \d{y})/(x \d{y} + x \d{y}) \]
+Thus the rank jumps at $\m = (x,y)$. However, I claim that $M$ is flat over $A$. Applying \href{https://stacks.math.columbia.edu/tag/00MK}{Tag 00MK} we just need to show that,
+\[ (B / t B)_{\m} \d{t} \to (B / t B)_\m \d{x} \oplus  (B / t B)_\m \d{y}  \]
+is injective. Indeed, if $f \d{t} \mapsto 0$ then $fx = 0$ and $fy = 0$ in $(B / t B)_\m = (k[x,y]/(xy))_{\m}$. Then $f \in \Ann{}{x} \cap \Ann{}{y} = (y) \cap (x) = (xy)$ so $f = 0$ in $(B / t B)_\m$. Thus the map is injective.
+\end{example}
+
+\begin{rmk}
+We saw in the first example that a smooth proper map can have a flat ideal sheaf fail to be a vector bundle. However, this does not happen if the closed subscheme is flat over the base.
+\end{rmk}
+
+\begin{prop}
+Let $f : X \to Y$ be a smooth proper map of schemes and $Z \subset X$ a closed subscheme flat over $Y$. Then the locus,
+\[ V = \{ y \in Y \mid Z_y \subset X_y \text{ is Cartier} \} \]
+is clopen.
+\end{prop}
+
+\begin{proof}
+Consider the ideal sheaf sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I \arrow[r] & \struct{X} \arrow[r] & \iota_* \struct{Z} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Because $Z \to Y$ is flat, $\I|_{X_y}$ is the ideal sheaf of $Z_y \subset X_y$. By the previous result, the locus where $\I|_{X_y}$ is a vector bundle (and hence a line bundle since it embedds in $\struct{X}$) is open. Thus we just need to prove closedness. It suffices to show that $V$ is stable under specialization. 
+(REDUCE TO THE DVR CASE, 1 NOETHERIAN, 2 BLOW UP, 3 NORMALIZE)
+Thus we can assume that $Y = \Spec{R}$ where $R$ is a DVR and $D_K \subset X_K$ is a Cartier divisor. We we need to show that $D_0 \subset X_0$ is Cartier. For each $x \in X_0$ let $A = \stalk{X}{x}$ and we have the following: a flat ring map $R \to A$ with $A$ regular, an ideal $I \subset A$ with $R \to A/I$ flat such that $I \ot_R K \subset A \ot_R K$ is principal. Since $R \to A/I$ is flat $A/I$ can only have associated  points in the generic fiber thus $A/I$ is unmixed since in the generic fiber $I$ is principal and $A$ is regular so $I$ has no embedded primes by the unmixedness theorem. Consider the primary decomposition, 
+\[ I = Q_1 \cap \cdots \cap Q_r \]
+where $Q_i$ is $\p_i$-primary where $\height{\p_i} = 1$ by unmixedness. Since $A$ is a UDF we have $\p_i = (p_i)$ are principal. Therefore, 
+\end{proof}
+
+\begin{rmk}
+The following example shows that smoothness really is necessary. 
+\end{rmk}
+
+\begin{example}
+Consider,
+\[ f : X = \Proj{k[t][X,Y,Z]/(X^3-Y^2Z)} \to S = \Spec{k[t]} \]
+and the divisor
+\[ D = \Proj{k[t][X,Y,Z]/(X^3 - Y^2 Z, X - t^2 Z, Y - t^3 Z)} \]
+which is the image of a section of $f$ and hence flat. For $t \neq 0$ we have $D_t \subset X_t$ a Cartier divisor but $D_0 \subset X_0$ is not a Cartier divisor. 
+\end{example}
+
 \end{document}

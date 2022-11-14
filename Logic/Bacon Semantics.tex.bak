@@ -1,0 +1,387 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{./}{LogicCommands}
+
+\newcommand{\red}{\triangleright}
+\newcommand{\aconv}{\equiv_{\alpha}}
+\newcommand{\bredo}{\red_{\beta,1}}
+\newcommand{\bred}{\red_{\beta}}
+\newcommand{\etared}{\red_{\eta}}
+\newcommand{\etaredo}{\red_{\eta,1}}
+\newcommand{\bered}{\red_{\beta\eta}}
+\newcommand{\beredo}{\red_{\beta\eta,1}}
+
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\cP}{\mathcal{P}}
+\usepackage{stmaryrd}
+
+\newcommand{\dbrack}[1]{\llbracket #1 \rrbracket}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\as}{\mathrm{a.s.}}
+
+\begin{document}
+
+\section{The Construction}
+
+Consider a probability space $X = (W, \Sigma, \P)$ where $W$ is a set of worlds, $\Sigma$ is a $\sigma$-algebra, $\P$ a probability function. We are going to define a lift to uncountably infinite sequences of worlds. 
+
+\begin{defn}
+The probability space is the product space,
+\[ X_{\infty} = \prod_{\alpha < \omega_1} X \]
+\end{defn}
+
+\subsection{Products of Measure Spaces}
+
+\begin{defn}
+The product of a (possibility infinite) collection of probability spaces $\{ X_i = (W_i, \Sigma_i, \P_i) \}_{i \in I}$ has the following components. The underlying set is,
+\[ W = \prod_{i \in I} W_i \]
+with a $\sigma$-algebra constructed from the following the basis sets,
+\[ \B = \left\{ \prod_{i \in I} S_i \, \middle| \, S_i \in \Sigma_i \text{ and } S_i = W_i \text{ for all but finitely many } i \right\} \]
+where we let $\Sigma = \overline{\B}$ be the smallest $\sigma$-algebra containing $\B$ meaning the closure of $\B$ under complements and countable unions. Finally, we define the probability measure $\P$ on the basis sets,
+\[ \P \left( \prod_{i \in I} S_i \right) = \prod_{i \in I} \P_i(S_i) \]
+which makes sense because $\P_i(S_i) = 1$ for all but finitely many $i \in I$. Then Caratheodory's theorem proves that $\P$ extends uniquely to $\Sigma$.
+\end{defn}
+
+\begin{rmk}
+It is worth explaining why the product $\sigma$-algebra has this strange finiteness condition. One reason is that otherwise we would not know that,
+\[ \prod_{i \in I} \P_i(S_i) \]
+is meaningful without worrying deeply about convergence issues. A more fundamental issue is the following. In general, product objects are distinguished by the following \textit{universal property}. For any test space $T$ the two sets of data are equivalent,
+\[ f : T > \prod_{i \in I} X_i \iff \{ f_i : T > X_i \}_{i \in I} \]
+Let's do an example to see why this requires some finiteness (really its a countability) restriction on the basis sets. Let $I$ be an uncountable set. The identity function $\id : \RR > \RR$ is of course measurable. So this condition should tell us that these glue together to give a measurable function,
+\[ f : \RR > \prod_{i \in I} \RR \quad \quad f(x) = (x,x,x,\dots) \]
+However, consider,
+\[ f^{-1} \left( \prod_{i \in I} S_i \right) = \{ x \in \RR \mid f(x) = (x,x, \dots) \in \prod_{i \in I} A_i \} = \bigcap_{i \in I} A_i \]
+However, the sets $A_i$ are arbitrary measurable sets so this can only be possibly if the intersection of arbitrarily many measurable sets is measurable. This is false (assuming the axiom of choice). Let $S \subset \RR$ be any non-measurable set and consider,
+\[ S = \bigcap_{x \in (\RR \sm S)} (\RR \sm \{ x \}) \]
+but clearly the sets $\RR \sm \{ x \}$ are measurable. 
+\end{rmk}
+
+\subsection{Bacon's Selection Function}
+
+Now that we have a probability space $X_{\infty} = (W_{\infty}, \Sigma_{\infty}, \P_{\infty})$ we can use the structure of $\omega_1$ to define a selection function.
+
+\begin{rmk}
+Here we equivocate between an ordinal $\alpha$ and its set representation as $\{ \beta \mid \beta < \alpha \}$. For example,
+\begin{align*}
+0 \iff & \{ \}
+\\
+1 \iff & \{ 0 \}
+\\
+2 \iff & \{ 0, 1 \}
+\\
+\vdots &
+\\
+\omega \iff & \{0, 1, 2, \dots \} = \N 
+\end{align*}
+\end{rmk}
+
+\begin{defn}
+For $\alpha < \omega_1$ and $x, y \in W_{\infty}$ we view $\alpha \subset \omega_1$ and say $x \sim_{\alpha} y$ iff $x|_{\alpha} = y|_{\alpha}$. Say that $A$ is $\alpha$-\textit{insensitive} if,
+\[ \forall x, y \in W_{\infty} : x \sim_{\alpha} y \implies (x \in A \iff y \in A) \]
+\end{defn}
+
+\begin{rmk}
+Explicitly,
+\begin{enumerate}
+\item $x \sim_0 y$ is vacuously true
+\item $x \sim_1 y \iff x(0) = y(0)$
+\item $x \sim_n y \iff x(m) = y(m)$ for all $m < n$
+\item $x \sim_{\omega} y \iff x(m) = y(m)$ for all $m \in \N$
+\item $x \sim_{\omega + 1} y \iff x(m) = y(m)$ for all $m \in \N$ and $x(\omega) = y(\omega)$.
+\end{enumerate}
+\end{rmk}
+
+\begin{defn}
+For $A \in \Sigma_{\infty}$ define the rank of $A$,
+\[ \rank(A) = \min \{ \alpha \mid A \text{ is } \omega^\alpha\text{-insensitive} \} \]
+\end{defn}
+
+\begin{prop}
+For any $A \in \Sigma_{\infty}$ the rank exists and $\rank{(A)} < \omega_1$.
+\end{prop}
+
+\begin{proof}
+Because any nonempty set of ordinals has a least element $\rank{(A)} < \omega_1$ is equivalent to: there is some $\alpha < \omega_1$ such that $A$ is $\alpha$-insensitive.
+\bigskip\\
+We will prove that the set $\Sigma_{\rank} \subset \cP(W_{\infty})$ of sets $A \subset W_{\infty}$ with $\rank(A) < \omega_1$ is a $\sigma$-algebra containing $\B$ This suffices because then $\Sigma_{\infty} \subset \Sigma_{\rank}$ as $\Sigma_{\infty}$ is the \textit{smallest} $\sigma$-algebra containing $\B$.
+\bigskip\\
+First, for any $A \in \B$ using the finiteness condition, take $\alpha < \omega_1$ to be the maximum of the nontrivial indices. If $A$ is $\alpha$-insensitive then $A^C$ is $\alpha$-insensitive so $A \in \Sigma_{\rank} \iff A^C \in \Sigma_{\rank}$. Finally, we need to show closure under countable unions. 
+\bigskip\\
+For any sequence $\{ A_i \}_{i \in I}$ if $A_i$ is $\alpha$-insensitive for each $i$ then $A = \bigcup_{i \in I} A_i$ is $\alpha$-insensitive therefore if $A_i$ is $\alpha_i$-insensitive then letting,
+\[ \alpha = \sup \{ \alpha_i \mid i \in I \} \]
+we see that each $A_i$ is $\alpha$-insensitive and hence $A$ is $\alpha$-insensitive the only issue is that $\alpha = \omega_1$ is possible. However, if $I$ is countable then $\alpha$ is a supremum of a countable set of countable ordinals and hence $\alpha < \omega_1$. Thus if $A_i \in \Sigma_{\rank}$ then $A \in \Sigma_{\rank}$ proving that $\Sigma_{\rank}$ is a $\sigma$-algebra.
+\end{proof}
+
+\begin{defn}
+For $\pi \in W_{\infty}$ define $\pi[\alpha]$ to be the sequence $\pi[\alpha](\beta) = \pi(\alpha + \beta)$. This is the same sequence ``forgetting the first $\alpha$ terms.'' 
+\end{defn}
+
+\begin{defn}
+We say that $\pi$ \textit{occurs} in $A$ if there is some integer $i \in \N$ such that $\pi[\omega^\alpha \cdot i] \in A$. If $\pi$ occurs in $A$ we call the minimal such value of $i$ the \textit{index} of $\pi$ with respect to $A$.
+\end{defn}
+
+\begin{defn}
+The selection function $f : \Sigma_{\infty} \times W_{\infty} > W_{\infty}$ is defined by,
+\[ f(A, \pi) = 
+\begin{cases}
+\perp & A = \empty 
+\\
+\pi[\omega^\alpha \cdot i] & \pi \text{ occurs in } A \text{ and } i \text{ is the index}
+\\
+\tau_A & \pi \text{ does no occur in } A
+\end{cases} \]
+where $\perp$ is the list of contradictory worlds 
+\end{defn}
+
+\begin{defn}
+Given $A, B \in \Sigma_{\infty}$ define the implicative,
+\[ (A \implies B) := \{ \pi \in W_{\infty} \mid f(A, \pi) \in B \} \] 
+\end{defn}
+
+\begin{thm}
+For any $A, B \in \Sigma_{\infty}$ we have $(A \implies B) \in \Sigma_{\infty}$ and if $\P(A) > 0$ then,
+\[ \P(A \implies B) = \P(B \mid A) = \frac{\P(A \cap B)}{\P(A)} \]
+\end{thm}
+
+\begin{proof}
+Let $\alpha = \rank(A)$. Then,
+\[ (A \implies B) = \left[ \bigcup_{i \in \N} \{ \pi \mid \pi[\omega^\alpha \cdot i] \in A \cap B \} \right] \cup \{ \pi \mid \text{not occurring in } A \text { and } \tau_A \in B \} \]
+Each $\{ \pi \mid \pi[\omega^\alpha \cdot i] \in A \cap B \} \in \Sigma_{\infty}$ because $\omega^\alpha \cdot i$ is countable. Thus the first term and the second, 
+\[ \{ \pi \mid \text{not occurring in } A \} = \bigcap_{i \in \N} \{ \pi \mid \pi[\omega^\alpha \cdot i] \notin A \} \]
+are both measurable. Now since $\rank(A) = \alpha$ the sets $S_i = \{ \pi \mid \pi[\omega^\alpha \cdot i] \notin A \}$ are independent with equal probability (they are each the set of $\pi$ when restricted to the range $\omega^\alpha \cdot i$ to $\omega^{\alpha} \cdot (i+1)$ lands in the interesting part of $A$) so,
+\[ \P(\{ \pi \mid \text{not occurring in } A \}) = \lim_{n > \infty} \P(A^C)^n = 0 \]
+because $P(A) > 0$. Likewise, we can expand the first term as a disjoint union,
+\[ \bigcup_{i \in \N} \{ \pi \mid \pi[\omega^\alpha \cdot i] \in A \cap B \} = \bigcup_{i \in \N} \bigcap_{j < i} S_j \cap \{ \pi \mid \pi[\omega^\alpha \cdot i] \in A \cap B \} \]
+The union is disjoint and the intersection is over independent sets so,
+\[ \P(A \implies B) = \sum_{i = 1}^\infty \P(S_0) \cdots \P(S_{i-1}) \P(A \cap B) = \sum_{i = 1}^{\infty} \P(A^C)^i \P(A \cap B) = \frac{\P(A \cap B)}{1 - \P(A^C)} = \frac{\P(A \cap B)}{\P(A)} \]
+\end{proof}
+
+\section{Triviality Results}
+
+\subsection{Probabalistic Triviality}
+
+\begin{defn}
+We say a probability space $X = (W, \Sigma, \P)$ is \textit{non-trivial} if there exist events $A, B \in \Sigma$ such that,
+\begin{enumerate}
+\item $\P(A) > 0$
+\item $\P(B) > 0$
+\item $\P(A \wedge B) = 0$
+\item $\P(A \vee B) < 1$
+\end{enumerate}
+otherwise we say that $X$ is \textit{trivial}.
+\end{defn}
+
+\begin{lemma}
+The following are equivalent,
+\begin{enumerate}
+\item $X$ is trivial
+\item $\P(B | A) = \P(B)$ for all $A, B \in \Sigma$ with $\P(A \wedge B) > 0$ and $\P(A \wedge \neg B) > 0$
+\item all $A, B \in \Sigma$ are independent or $\P(A \wedge B) = 0$ or $\P(A \wedge \neg B) = 0$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Suppose $X$ is trivial. If $\P(A \wedge B) > 0$ and $\P(A \wedge \neg B)$ then applying triviality $\P(A) = \P((A \wedge B) \vee (A \wedge \neg B)) = 1$. Hence, $\P(B|A) = \P(A \wedge B) = \P(B)$. Also (b) and (c) are equivalent since $\P(B|A) = \P(B)$ iff $\P(A \wedge B) = \P(A) \P(B)$ iff $A$ and $B$ are independent. Finally, assume (c) then we claim that $X$ is trivial. Indeed, if $A, B \in \Sigma$ with $\P(A) > 0$ and $\P(B) > 0$ and $\P(A \wedge B) = 0$ then let $C = A \vee B$. Then $\P(C \wedge A) = \P(A) > 0$ and $\P(C \wedge \neg A) = \P(B) > 0$ so by (c) $\P(C \wedge A) = \P(C) \P(A)$ but $\P(C \wedge A) = \P(A)$ and thus $\P(C) = 1$ proving triviality. 
+\end{proof}
+
+\begin{lemma}[Lewis]
+Let $0 < \P(B) < 1$. The following cannot all be true,
+\begin{enumerate}
+\item $\P(A > B | B) = 1$
+\item $\P(A > B | \neg B) = 0$
+\item $\P(A > B) \neq \P(B)$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Suppose (a) and (b) then the law of total probability gives,
+\[ \P(A > B) = \P(A > B | B) \P(B) + \P(A > B | \neg B) \P(\neg B) = \P(B) \]
+\end{proof}
+
+\begin{cor}
+If the following hold,
+\begin{enumerate}
+\item[(L1)] for all $A, B \in \Sigma$ with $\P(A \wedge B) > 0$ and $\P(A \wedge \neg B) > 0$ we have $\P(A > B | B) = 1$
+\item[(L2)] for all $A, B \in \Sigma$ with $\P(A \wedge B) > 0$ and $\P(A \wedge \neg B) > 0$ we have $\P(A > B | \neg B) = 0$
+\end{enumerate}
+then $X$ is trivial.
+\end{cor}
+
+\begin{cor}
+If for all $A, B, C \in \Sigma$ with $\P(A \wedge C) > 0$,
+\[  \P(A > B | C) = \P(B | A \wedge C) \]
+then $X$ is trivial.
+\end{cor}
+
+\begin{prop}[Lewis]
+The set of events for which the thesis holds for all conditionalized probability measures is trivial. 
+\end{prop}
+
+\begin{proof}
+We verify the property,
+\[ \P(A > B | C) = \P(B | A \wedge C) \]
+when $\P(A \wedge C) > 0$. Indeed,
+\[ \P_C(A > B) := \P(A > B | C) \]
+and since the thesis holds for $\P_C$ we have,
+\[ \P_C(A > B) = \P_C(B|A) = \frac{\P_C(B \wedge A)}{\P_C(A)} = \frac{\P(B \wedge A | C)}{\P(A|C)} = \frac{\P(B \wedge A \wedge C) \P(C)}{\P(A \wedge C) \P(C)} = \P(B | A \wedge C) \]
+\end{proof}
+
+\begin{rmk}
+Stalnaker claims that the above argument relies on the hidden assumption: ``metaphysical realism'' that the proposition expressed by a conditional sentence is independent of the probability function. This he claims is implicit in that the content of $A > B$ is the same in the contexts $\P(A > B)$ and $\P_C(A > B)$ which is needed in claiming that,
+\[ \P_C(A > B) = \P(A > B | C) \]
+The following argument of Fitelson avoids conditionalization and therefore removes this assumption as well as the assumption that the thesis need be preserved under conditionalization.
+\end{rmk}
+
+\begin{prop}[Fitelson] 
+The set of events $A, B \in \Sigma$ such that,
+\begin{enumerate}
+\item[(PIE)] $\P(A > (B > C)) = \P((A \wedge B) > C)$
+\item[(T)] $\P(A > B) = \P(B|A)$ for $\P(A) > 0$
+\end{enumerate}
+is trivial.
+\end{prop}
+
+\begin{proof}
+We verify the property,
+\[ \P(A > B | C) = \P(B | A \wedge C) \]
+as follows: using $\P(C) > 0$ the thesis says,
+\[ \P(A > B | C) = \P(C > (A > B)) \]
+using PIE,
+\[ \P(C > (A > B)) = \P((A \wedge C) > B) \]
+then because $\P(A \wedge C) > 0$ we can apply the thesis to conclude,
+\[ \P((A \wedge C) > B) = \P(B | A \wedge C) \]
+\end{proof}
+
+
+
+\begin{defn}
+Stalnaker's logic \textbf{C2} for the conditional is generted on the language $\L$ with signature $\sigma = \{ \wedge, \vee, \neg, \to,  > \}$ via the standard Hilbert-style calculus for the fragment $\{ \wedge, \vee, \neg, \to \}$ and additional axioms,
+\begin{enumerate}
+\item[LT] $A > \top$
+
+\item[ID] $A > A$
+
+\item[AND] $((A > B) \wedge (A > C)) \to (A > (B \wedge C))$
+
+\item[OR] $((A > C) \wedge (B > C)) \to ((A \vee B) > C)$
+
+\item[CCut] $((A > V) \wedge ((A \wedge B) > C)) \to (A > C)$
+
+\item[CMon] $((A > B) \wedge (A > C)) \to ((A \wedge B) > C)$
+
+\item[CSO] $((A > B) \wedge (B > A)) \to ((A > C) \equiv (B > C))$
+
+\item[SM] $(A > B) \to (A \to B)$
+
+\item[CS] $(A \wedge B) \to (A \to B)$
+
+\item[RMon] $((A \to B) \wedge \neg(A > \neg C)) \to ((A \wedge C) > B)$
+
+\item[CEM] $(A > B) \vee (A > \neg B)$
+\end{enumerate}
+along with additional rules of inference,
+\begin{enumerate}
+\item[LLE] $B \equiv C \proves (B > A) \equiv (C > A)$
+
+\item[RW] $(B \to C) \proves (A > B) \to (A > C)$
+
+\item[RCK] $(B_1 \wedge \dots \wedge B_n) \to C \proves (A > B_1) \wedge \dots \wedge (A > B_n) \to (A > C)$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Here, $\to$ is the material conditional so $A \to B :\equiv \neg A \vee B$.
+\end{rmk}
+
+\begin{defn}
+A \textit{credence-conditional space} $X = (W, \Sigma, \P, \implies)$ is a probability space $(W, \Sigma, \P)$ along with a binary operation $\implies$ on $\Sigma$. An \textit{interpretation function} is an assignment of propositional variables, $p \mapsto \dbrack{p} \in \Sigma$ extended to $\L$ via,
+\begin{enumerate}
+\item $\dbrack{A \wedge B} = \dbrack{A} \cap \dbrack{B}$
+\item $\dbrack{A \vee B} = \dbrack{A} \cup \dbrack{B}$
+\item $\dbrack{\neg A} = W \sm \dbrack{A}$
+\item $\dbrack{A > B} = \dbrack{A} \implies \dbrack{B}$.
+\end{enumerate}
+We say $X$ \textit{verifies almost surely} a sentence $A \in \L$ if $\P(\dbrack{A}) = 1$ for any interpretation function $\dbrack{\bullet}$ which we write as $X \entails_{\as} A$.
+\end{defn}
+
+\begin{defn}
+A credence-conditional space $X$ is a \textit{model} of a theory $\Gamma$ over $\sigma$ if $X \entails_{\as} \Gamma$.
+\end{defn}
+
+(WHAT IS THE CORRECT THING TO SAY ABOUT THE RULES OF INFERENCE OR CAN I MAKE THEM JUST AXIOMS?)
+
+\begin{theorem}[Stalnaker]
+Suppose that $X$ is a credence-conditional space such that,
+\begin{enumerate}
+\item $X$ is a model of \textbf{C2} meaning $X \entails_{\as} \textbf{C2}$
+\item $X$ verifies the thesis meaning $\P(A \implies B) = \P(B | A)$ for all $A, B \in \Sigma$ with $\P(A) > 0$.
+\end{enumerate}
+then $X$ is a trivial probability space. 
+\end{theorem}
+
+\begin{proof}
+WORK IN PROGRESS
+\end{proof}
+
+
+\begin{theorem}
+Bacon's Model $X_{\infty}$ satisfies,
+\begin{enumerate}
+\item $X_{\infty} \entails_{\as} \textbf{C2} \sm \text{CSO}$
+\item $X_{\infty}$ verifies the thesis: $\P_\infty(A \implies B) = \P(B | A)$ for $A, B \in \Sigma_{\infty}$ with $\P_\infty(A) > 0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+WORK IN PROGRESS
+\end{proof}
+
+\begin{cor}
+Bacon's model $X_{\infty}$ must violate \text{CSO}. 
+\end{cor}
+
+\newpage
+
+\section{Appendix: relation of my notation to Bacon's}
+
+In Bacon's paper, Stalnaker's Thesis in Context, he formulates the construction of his semantics in a somewhat different form. He writes $W_\alpha = W^{\omega^\alpha}$ which has the inductive form,
+\begin{enumerate}
+\item $W_0 = W$
+\item $W_{\alpha+1} \cong W_\alpha^\omega$
+\end{enumerate} 
+Then abusing notation to write $A \times W_{\infty}$ for $A \subset W_{\alpha}$ to mean the set of sequences starting $\pi$ such that $\pi|_{\omega^\alpha} \in A$ (with the remainder aribtrary), he defines inductively a filtered $\sigma$-algebra,
+\begin{enumerate}
+\item $\Sigma_0 = \{ A \times W_{\infty} \mid A \in \Sigma \}$
+\item $\Sigma_{\alpha + 1} = \overline{\{ A_0 \times \cdots \times A_n \times W_{\infty} \mid n \in \N \text{ and } A_i \times W_{\infty} \in \Sigma_{\alpha} \text{ for } 0 \le i \le n \}}$
+\item $\Sigma_{\gamma} = \overline{ \bigcup_{\alpha < \gamma} \Sigma_\alpha}$
+\end{enumerate}
+Then Bacon's definition of $\Sigma_{\infty}^{(B)}$ is the union of this filtered sequence of $\sigma$-algebras.
+
+\begin{prop}
+These definitions agree, meaning $\Sigma^{(B)}_{\infty} = \Sigma_{\infty}$ and moreover,
+\[ A \in \Sigma_{\alpha} \iff \rank(A) \le \alpha \]
+\end{prop}
+
+\begin{proof}
+We prove by transfinite induction that $\Sigma_{\alpha} \subset \Sigma_{\infty}$. It is clear that $\Sigma_0 \subset \Sigma_{\infty}$. If $\Sigma_{\alpha} \subset \Sigma_{\infty}$ then for $A_i \in \Sigma_\alpha$ the set $A_0 \times \cdots \times A_n \times W_{\infty}$ is a finite intersection of shifts of elements of $\Sigma_{\infty}$ and thus an element of $\Sigma_{\infty}$ so $\Sigma_{\alpha+1} \subset \Sigma_{\infty}$. Finally, the limit ordinal case is clear because if each $\Sigma_\alpha \subset \Sigma_{\infty}$ then the union and closure (since $\Sigma_{\infty}$ is a $\sigma$-algebra) also lies inside $\Sigma_{\infty}$ proving by transfinite induction that all $\Sigma_{\alpha} \subset \Sigma_{\infty}$ and hence $\Sigma_{\infty}^{(B)} \subset \Sigma_{\infty}$.
+\bigskip\\
+To prove that $\Sigma_{\infty}$ is exhausted by the $\Sigma_\alpha$ it suffices to prove the second claim since every $A \in \Sigma_{\infty}$ has some rank and hence would lie in some $\Sigma_{\alpha} \subset \Sigma_{\infty}^{(B)}$.
+\bigskip\\
+Now we prove,
+\[ A \in \Sigma_\alpha \iff \rank(A) \le \alpha \]
+by transfinite induction. Let $\Sigma_{\rank \le \alpha} = \{ A \in \Sigma_{\infty} \mid \rank(A) \le \alpha \}$. I claim that $\Sigma_{\rank \le \alpha}$ is the $\sigma$-algebra generated by $\B \cap \Sigma_{\rank \le \alpha}$. It is clear that $\B \cap \Sigma_{\rank \le \alpha} \subset \Sigma_{\alpha}$ so $\Sigma_{\rank \le \alpha} \subset \Sigma_{\alpha}$. Now, $A \in \Sigma_0 \iff \rank(A) = 0$ because both describe $1$-insensitive sets. Now we show the inductive steps.  Suppose $\Sigma_{\alpha} = \Sigma_{\rank \le \alpha}$. For any set of the form,
+\[ A = A_0 \times \cdots \times A_n \times W_{\infty} \]
+with $A_i \times W_{\infty} \in \Sigma_{\alpha}$ then by definition $\rank{(A)} \le \alpha + 1$. Since $\Sigma_{\alpha+1}$ is generated by sets of this form, $\Sigma_{\alpha+1} \subset \Sigma_{\rank \le \alpha + 1}$. Finally, we do the limit step. For $\alpha < \gamma$ we have $\Sigma_{\alpha} = \Sigma_{\rank \le \alpha} \subset \Sigma_{\rank \le \gamma}$ so $\Sigma_{\gamma} \subset \Sigma_{\rank \le \gamma}$.
+\end{proof}
+
+
+\end{document}

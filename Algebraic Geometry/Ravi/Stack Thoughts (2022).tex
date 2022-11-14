@@ -486,19 +486,31 @@ There is a surjective, flat locally finitely presented morphism $\Spec{k} \to \c
 
 \section{Gerbes}
 
+\newcommand{\fppf}{\mathrm{fppf}}
 \newcommand{\Y}{\mathscr{Y}}
 
+
 \begin{defn}
-A morphism $f : \X \to \Y$ of algebraic stacks over $\C$ is a \textit{relative gerbe} (we say $\X$ is a gerbe over $\Y$) if,
+Let $\S$ be a site. A morphism $f : \X \to \Y$ of stacks (in groupoids) over $\S$ is a \textit{relative gerbe} (we say $\X$ is a gerbe over $\Y$) if,
 \begin{enumerate}
-\item for each $y \in \Y$ lying over $U$ there is a covering $U_i \to U$ such that $f(x_i) \cong y|_{U_i}$ for some $x_i \in \X$ over $U_i$
-\item for $x,x' \in \X$ over $U$ and $b : f(x) \to f(x')$ in $\Y_U$ there is a covering $U_i \to U$ and morphisms $a_i : x|_{U_i} \to x'|_{U_i}$ with $f(a_i) = b|_{U_i}$. 
+\item for each $y \in \Y$ lying over $T \in \S$ there is a covering $T_i \to T$ such that $f(x_i) \cong y|_{T_i}$ for some $x_i \in \X$ over $T_i$
+\item for $x,x' \in \X$ over $U$ and $b : f(x) \to f(x')$ in $\Y_T$ there is a covering $T_i \to T$ and morphisms $a_i : x|_{T_i} \to x'|_{T_i}$ with $f(a_i) = b|_{T_i}$. 
 \end{enumerate}
 \end{defn}
 
 \begin{rmk}
-Informally this is saying that the fiber categories locally are nonempty and connected. 
+Informally this is saying that the fiber categories locally are nonempty and connected. In particular, if $\Y = \S$ we get the notion of a gerbe over $\S$ which is a stack in groupoids $f : \X \to \S$ such that,
+\begin{enumerate}
+\item for each $U \in \S$ there is a covering $\{ T_i \to T \}$ such that $\X(T_i)$ is nonempty
+\item for each $T \in \S$ and $x,y \in \X(T)$ there is a covering $\{ T_i \to T \}$ and isomorphisms $x|_{T_i} \iso y|_{T_i}$ in each $\X(T_i)$.
+\end{enumerate}
 \end{rmk}
+
+\subsection{Algebraic Gerbes}
+
+\begin{defn}
+A morphism of algebraic stacks $f : \X \to \Y$ is a \textit{relative gerbe} if it is a \textit{relative gerbe} of stacks (in groupoids) over the site $\C = (\mathrm{Sch}/S)_{\fppf}$ (it is interesting to look at $\et$ or smooth also). 
+\end{defn}
 
 \begin{defn}
 An algebraic stack $\X$ is a \textit{gerbe} if there exists an algebraic space $X$ and a morphism $f : \X \to X$ such that $\X$ is a gerbe over $X$.
@@ -518,6 +530,28 @@ is an algebraic space $X$ and $\X \to X$ is a relative gerbe.
 \chref{https://stacks.math.columbia.edu/tag/06QD}{Tag 06QD}.
 \end{proof}
 
+\begin{defn}
+We say a relative gerbe $f : \X \to \Y$ is \textit{split} if it admits a section.
+\end{defn}
+
+\newcommand{\B}{\mathbf{B}}
+
+\begin{example}
+Let $G \to S$ be a group algebraic space. Then $\B_S G = [S / G]$ is a split gerbe over $S$. Why, for any $T \to S$ there is always the trivial gerbe over $T$ giving a section $s : S \to \B_S G$ and proving axiom (a). Furthermore, a torsor is locally trivial proving axiom (b). Indeed, as we will now see, this is the only example.
+\end{example}
+
+\begin{prop}
+Let $\X$ be a split gerbe meaning $\pi : \X \to X$ is a gerbe over an algebraic space $X$ and $s : X \to \X$ is a section. Let $G = \mathrm{Isom}_{\X}(s,s)$ then,
+\begin{enumerate}
+\item there is a cnaonical equivalence $\B_X G \iso \X$
+\item $G \to X$ is flat and locally finitely presented
+\item $X \to \X$ is surjective, flat, and locally finitely presented.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Since $s$ is a section, $G = R$ where $R = X \times_{\X} X$. This gives a fully faithful map $[X/G] \to \X$ which we need to show is essentially surjective. Consider $X \to [X/G] \to \X$. Then for each $x \in \X(T)$ the gerbe property means that $x$ and $s(\pi(x))$ are locally isomorphic. 
+\end{proof}
 
 \begin{prop}
 Let $\pi : \X \to \Y$ be a morphism of algebraic stacks. The following are equivalent,
@@ -528,8 +562,120 @@ Let $\pi : \X \to \Y$ be a morphism of algebraic stacks. The following are equiv
 \end{prop}
 
 \begin{proof}
-\chref{https://stacks.math.columbia.edu/tag/06QH}{Tag 06QH}. 
+See \chref{https://stacks.math.columbia.edu/tag/06QH}{Tag 06QH}. 
 \end{proof}
+
+\begin{rmk}
+This is saying that every gerbe is flat-locally split. From now on, we restrict to smooth gerbes which will be smooth-locally split.
+\end{rmk}
+
+
+\subsection{Smooth Gerbes}
+
+\begin{prop}
+Let $\X \to \Y$ be a morphism of algebraic stacks. The following are equivalent,
+\begin{enumerate}
+\item there is a smooth presentation $V \to \Y$ such that $\X \times_{\Y} V \cong \B_V G$ for some smooth group algebraic space $G \to V$
+\item $\X \to \Y$ is a smooth relative \etale-gerbe (meaning $\X \to \Y$ is smooth and $\X$ is a gerbe over $\Y$ as stacks over $(\mathrm{Sch}/S)_{\et}$)
+\item $\X \to \Y$ is a smooth relative ($\fppf$)-gerbe (I THINK)
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We know that $\B_V G$ is a smooth \etale-gerbe because smooth maps have sections \etale-locally so torsors for smooth groups are \etale-locally trivial. By descent $\X \to \Y$ is smooth and a relative gerbe. Thus it suffices to show (c) implies (a).
+\bigskip\\
+Let $V \to \Y$ be a smooth presentation. By gerbe axiom (a) there is an \etale cover $V' \to V$ and a lift $V' \to \X$ of $V' \to V \to \Y$. Thus $\X_{V'}$ is split and hence $\X_{V'} \cong \B_{V'} G$ for $G = \Aut[V']{V' \to \X_{V'}}$ and $\X_{V'} \to V'$ is smooth so $R \to V'$ is smooth and $R = G$.
+\end{proof}
+
+\subsection{Residual Gerbes}
+
+The idea of a residual gerbe is to approximate the notion of a residue field of a scheme.
+
+\begin{example}
+There is no monomorphism $\Spec{k} \to \B (\Z / 2 \Z)$. Indeed, (HMMM)
+\end{example}
+
+
+\newcommand{\pre}{\mathrm{pre}}
+
+\begin{defn}
+Let $\X$ be an algebraic stack and $x \in |\X|$ a point. Choose a representative $\Spec{\kappa(u)} \to \X$ arising from a smooth presentation $(U, u) \to (\X, x)$. Then the \textit{residual gerbe} $\G_x$ at $x$ is the stackification of the full subcategory $\G^{\pre}_x$ consisting of objects $a \in \X(T)$ which factor as $T \to \Spec{\kappa(u)} \to \X$.
+\end{defn}
+
+\begin{rmk}
+This is modeled on the idea of the smallest substack containing the trivial families.
+\end{rmk}
+
+\begin{example}
+Let $\X = \M_{1,1}$ and choose an elliptic curve $x \in \M_{1,1}$ then $\G^{\pre}_x$ consists of the trivial families $E \times T$ and $\G_x$ consists of isotrivial families (TALK ABOUT CLOSEDNESS).
+\end{example}
+
+\begin{prop}
+The residual gerbe is independent of the choice of representative.
+\end{prop}
+
+\begin{prop}
+Let $\X$ be an algebraic stack and $x \in |\X|$ a point. Choose a smooth presentation $(U, u) \to (\X, x)$. Then,
+\begin{enumerate}
+\item There is a factorization $\Spec{\kappa(u)} \to \G_x \to \X$ where the first is an epimorphism and the second is a monomorphism.
+\item Given any other factorization $\Spec{\kappa(u)} \to \cZ \to \X$ into an epimorphism followed by a monomorphism there is a morphism $\cZ \to \G_x$ unique up to unique $2$-isomorphism and a $2$-commutative diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{\kappa(u)} \arrow[rd] \arrow[r] & \cZ \arrow[d] \arrow[r] & \X
+\\
+& \G_x \arrow[ru]
+\end{tikzcd}
+\end{center}
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+Let $\X$ be a noetherian algebraic stack and $x : \Spec{k} \to \X$. Suppose that $G_x$ is smooth and affine. Then,
+\begin{enumerate}
+\item there is a canonical morphism $\B_k G_x \to \X$
+\item if $\X$ is finite type over $\Spec{k}$ then $\B_k G_x \embed \X$ is a monomorphism giving an isomorphism $\B_k G_x \iso \G_x$ with the residual gerbe $\G_x \embed \X$ of $x \in |\X|$.
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+Let $\X$ be a noetherian algebraic stack and $x \in |\X|$ a finite type point with smooth and affine stabilizer. 
+\begin{enumerate}
+\item $\G_x$ is a gerbe over $\Spec{\kappa(x)}$ which we call the residue field of $x \in |\X|$
+\item If there exists a representative $\Spec{\kappa(x)} \to \X$ of $x$ then $\G_x \cong \B G_x$ is trivial.
+
+\item There is a finite separable extension $\kappa(x) \embed k$ with a representative $\bar{x} : \Spec{k} \to \X$, and a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+\B_k G_{\bar{x}} \arrow[d] \arrow[r] & \G_x \arrow[d] \arrow[r, hook] & \X
+\\
+\Spec{k} \arrow[ru, dashed] \arrow[r] & \Spec{\kappa(x)}
+\end{tikzcd}
+\end{center}
+\end{enumerate}
+\end{prop}
+
+\subsection{Applications}
+
+We will ask about factoring through residual gerbes because this will imply nice triviality results.
+
+\begin{lemma}
+Let $f : \X \to \Y$ be a morphism of algebraic stacks with $\X$ reduced and $\cZ \subset \Y$ is a closed substack. Then the following are equivalent,
+\begin{enumerate}
+\item $f(|\X|) \subset |\cZ|$
+\item $f$ factors through $\cZ \embed \X$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume $f(|\X|) \subset |\cZ|$. Consider the closed substack $\X \times_{\Y} \Z \embed \X$ which has full image by assumption. Therefore we reduce to showing that if $\cZ \subset \X$ is a substack of a reduced algebraic stack with $|\cZ| = |\X|$ then $\cZ = \X$. Indeed, let $U \to \X$ be a smooth cover then $Z = \cZ \times_{\X} U$ is a closed subscheme invariant under $R = U \times_{\X} U$ and $|Z| = |U|$ thus $Z = U$ since $U$ is reduced (LOOK THIS UP!!).
+\end{proof}
+
+\begin{cor}
+Let $f : \X \to \Y$ be a morphism of algebraic stacks with $\X$ reduced such that $f(|\X|) = y \in |\Y|$ for a closed point $u \in |\Y|$. Assume that the residual gerbe $\G_y$ exists and is a closed substack of $\Y$. Then $f$ factors as,
+\[ \X \to \G_y \to \Y \]
+\end{cor}
+
+\subsection{Gerbes Misc}
 
 \begin{prop}
 Let $\X$ be an algebraic stack. Then the followign are equivalent,
@@ -542,6 +688,19 @@ Let $\X$ be an algebraic stack. Then the followign are equivalent,
 \begin{proof}
 \chref{https://stacks.math.columbia.edu/tag/06QJ}{Tag 06QJ}.
 \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{TODO}
 

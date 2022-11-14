@@ -1,0 +1,506 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+
+\begin{document}
+
+\section{Week 1: Intro part of Chapter 2 in Bosch}
+
+$\Q$ has no analysis (not complete and totally disconnected so there are no non-constant paths). We can complete to get $\Q_p$ but still totally disconnected so we still don't get nice analysis. However, we can do rigid analytic geometry. 
+
+\subsection{Absolute Values}
+
+\begin{defn}
+Let $K$ be a field. A \textit{non-Archimedean absolute value} $| \bullet |$ is a function $| \bullet | : K \to \RR_{\ge 0}$ such that,
+\begin{enumerate}
+\item $|x| = 0 \iff x = 0$
+\item $|x y| = |x| \cdot |y|$
+\item $|x + y| \le \min \{ |x|, |y| \}$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+This is equivalent to a valuation $\nu$ on $K$ by $\nu(x) = - \log{|x|}$.
+\end{rmk}
+
+\begin{defn}
+An absolute value is,
+\begin{enumerate}
+\item \textit{trivial} if its image is $\{0,1\}$
+\item \textit{discrete} if $|K^\times|$ is discrete.
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+Let $K$ be a field with a NAAV, this gives rise to a distance function $d(x,y) = |x-y|$ which defines a topology on $K$. We say $K$ is \textit{complete} if every Cauchy sequence converges.
+\end{defn}
+
+\begin{prop}
+If $|a| \neq |b|$ then $|a+b| = \max\{ |a|, |b| \}$.
+\end{prop}
+
+\begin{proof}
+Assume $|b| < |a|$. If $|a+b| < |a|$ then $|a| = |a+b-b| \le \max \{ |a+b|, |b| \} < |a|$ which is a contradiction so we see $|a+b| \ge |a|$ and $|a+b| \le \max \{ |a|, |b| \} = |a|$ so we conclude.
+\end{proof}
+
+\begin{prop}
+Consider a sequence of partial sums,
+\[ b_n = \sum_{i = 0}^n a_i \]
+Then $b_n$ converges iff $\lim\limits_{n \to \infty} a_n = 0$.
+\end{prop}
+
+\begin{prop}
+In $K$,
+\begin{enumerate}
+\item all triangles are isosceles
+\item all points inside the disk are a center
+\item $K$ is totally disconnected.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Let,
+\[ D^-_r(x) = \{ z \in K \mid d(x, z) < r \} \quad \text{and} \quad D^+_r(x) = \{ z \in K \mid d(x, z) \le r \} \]
+Both will turn out to be clopen. Let $U = D^{\pm}_r(x)$ then for any $y,z \in D^{\pm}_r(x)$ we have $d(y,x) \le \max \{ d(x,y), d(x,z) \} < r$ and thus $D^{\pm}_r(y) \subset D^{\pm}_r(x)$ and converesly so they are equal. Furthermore $U$ is clopen because for any $y \in U^C$ we see that $D^{\pm}_r(y)$ is disjoint from $U$ since otherwise they would be the same disk. Therefore, $U^C$ is open. 
+\bigskip\\
+Even worse, $\partial D^+(x)$ is open since it is the difference of two clopen sets. Indeed, if $z \in D^{-}_r(x)$ then $d(y, z) = \max \{ d(x,y), d(x, z) \} = r$ since $d(x,y) = r$ and $d(x,z) < r$ so they are not equal. Thus $z \in \partial D^+_(x)$ so we see that it is open.
+\bigskip\\
+Let $S$ be a subsets and $x,y \in S$ with $x \neq y$. Let $\delta = \tfrac{1}{2} d(x,y)$ and $S_1 = S \cap D^{-}_r(x)$ and $S_2 = S \sm D^{-}_r(x)$ then $S = S_1 \sqcup S_2$ but these are both clopen in $S$ so $S$ is disconnected.
+\end{proof}
+
+\begin{defn}
+Call a function $f : U \to K$ for open $U \subset K$ \textit{locally analytic} if for each $x \in U$ there is a ball $D^{-}_r(x)$ on which $f$ is a convergent power series.
+\end{defn}
+
+\begin{example}
+Let $U = D^{\pm}_1(0)$ then as have seen,
+\[ U = \cup_{x \in U} D^{-}(x, 1) \]
+Therefore $U$ is a disjoint union of disks $D_i$. Given a convergent power series $f$ on $D_i$ consider $f : U \to K$. Then we can set $f |_{D_i} = f_i$ then $f$ is locally analytic for any choices of $f_i$. This is bad.
+\end{example}
+
+\begin{prop}
+If $V$ is a f.d. $K$-vectorspace we can define a norm $| \bullet |_{\text{max}}$ on $V$. Fix a basis $v_1, \dots, v_n$ then $|v|_{\text{max}} = \max \{ |\alpha_i| \}$ for $v = \alpha_1 v_1 + \cdots + \alpha_n v_n$. All bases give equivalent norms. Furthermore, all norms on $V$ are equivalent.
+\end{prop}
+
+\begin{cor}
+If $L/K$ is algebraic and $K$ is complete then all norms extending $| \bullet |_K$ are equal. 
+\end{cor}
+
+\begin{theorem}
+If $L/K$ is algebraic and $K$ is complete then there is a unique extension of $| \bullet |_K$ to $L$. 
+\end{theorem}
+
+\begin{proof}
+For $\alpha \in L$ let $F = K(\alpha)$ then define,
+\[ | \alpha |_{L} = | N_{K(\alpha)/K}(\alpha) |^{\frac{1}{\deg{\alpha}}} \]
+\end{proof}
+
+\begin{prop}
+For any field $K$ with a NAAV can form $\hat{K}$ a complete NAAV containing $K \embed \hat{K}$ as a dense subspace. Then we extend the absolute value from $\hat{K}$ to $\overline{\hat{K}}$. 
+\end{prop}
+
+\begin{rmk}
+If $L/K$ is algebraically closed then we get an embedding $L \embed \overline{\hat{K}}$ but this is not unique it depends on the embedding. Thus without completeness we cannot get the unique extension property.
+\end{rmk}
+
+\begin{rmk}
+$\overline{\hat{K}}$ my fail to be complete but $\widehat{\overline{\hat{K}}}$ is both complete and algebraically complete. 
+\end{rmk}
+
+\begin{prop}
+Let $K$ be a field with a nontrivial complete NAAV. Then $| \bullet |_K$ extends uniquely to $\overline{K}$ and all finite subextensions are complte. 
+\end{prop}
+
+\begin{defn}
+Let $B^n(\overline{k}) = \{ (x_1, \dots, x_n) \in \overline{K} \mid |x_i| \le 1 \}$ .
+\end{defn}
+
+\begin{lemma}
+A formal power series,
+\[ f(\zeta) = \sum_{\alpha \in \N^n} c_\alpha \zeta^\alpha \in K[[\zeta_1, \dots, \zeta_n]] \]
+converges on $B^n(\overline{K})$ iff
+\[ \lim_{|\alpha| \to \infty} | c_\alpha | = 0 \]
+\end{lemma}
+
+\begin{defn}
+The Tate algebra,
+\[ T_n = K \left< \zeta_1, \dots, \zeta_n \right> \]
+consists of all formal power series which are convergent on $B^n(\overline{K})$. 
+\end{defn}
+
+\begin{defn}
+The \textit{Gauss norm} on $T_n$ is defined setting for,
+\[ f = \sum_{\alpha \in \N^\alpha} c_\alpha \zeta^\alpha \]
+the norm,
+\[ |f| = \max \{ |c_{\alpha} | \} \]
+\end{defn}
+
+\begin{lemma}
+$|fg| = |f| \cdot |g|$. 
+\end{lemma}
+
+\begin{proof}
+It is clear from the non-Arch property that $|fg| \le |f| \cdot |g|$. Let $r = \{ x \in K \mid |x| \le 1 \}$ which is a local ring with maximal ideal $\m = \{ x \in K \mid |x| < 1 \}$. Let $\kappa = R / \m$. Let $S = R \left< \zeta_1, \dots, \zeta_n \right> \subset T_n$ be power series with coefficients in $R$. Equivalently, $f \in T_n$ such that $|f| \le 1$. The map $R \to \kappa$ extends to $\pi : R \left< \zeta_1, \dots, \zeta_n \right> \to \kappa[\zeta_1, \dots, \zeta_n]$ which lands in polynomials because $c_\alpha \to 0$ so eventually $c_\alpha \in \m$ for each $f \in R \left< \zeta_1, \dots, \zeta_n \right>$. Let $\pi(f) = \bar{f}$. Consider $f,g \in T_n$ with $|f| = |g| = 1$ then $f,g, fg \in S$. Then $\pi(fg) = \bar{f} \bar{g} \neq 0$ since norm $1$ means at least one coefficient is not in $\m$ so $\pi(f) \neq 0$ and $\pi(g) \neq 0$ and since $\kappa[\zeta_1, \dots, \zeta_n]$ is a domain either. Thus $|fg| \ge 1$ and hence $|fg| = 1$. Otherwise, we can just factor out the largest coefficient to reduce to the norm $1$ case. 
+\end{proof}
+
+\begin{prop}
+$T_n$ is complete. 
+\end{prop}
+
+\subsection{Schedule}
+
+\begin{enumerate}
+\item Week 2 : rest of chapter 2
+\item Week 3: 3.1 - 3.2 Ben 
+\item Week 4: 3.3
+\end{enumerate}
+
+
+\section{Affinoid algebras and Spaces}
+
+Let $K$ be a complete nonarch field. Let,
+\[ T_n = K \left< \zeta_1, \dots, \zeta_n \right> \]
+Then $\mSpec{T_n} = B^n(\overline{K}) / \sim$.
+
+\begin{defn}
+An \textit{affinoid} $K$-algebra is $T_n / I$ for some ideal $I \subset T_n$.
+\end{defn}
+
+\begin{prop}
+Affinoid algebras are,
+\begin{enumerate}
+\item Noetherian
+\item Jacobson
+\item satisfies Noether normalization meaning there is a finite injection $T_d \embed A$. 
+\end{enumerate}
+\end{prop}
+
+\begin{defn}
+Given $\alpha : T_n \onto A$ define the \textit{residue norm} 
+\[ |f|_{\alpha} = \inf_{f \in \alpha^{-1}(u)} |f| \]
+This is the quotient norm of the map of Banach spaces $\alpha : T_n \to A$. 
+\end{defn}
+
+\begin{prop}
+\begin{enumerate}
+\item $| \bullet |_{\alpha}$ is a complete $K$-algebra norm, $\alpha$ is continuous and open. 
+
+\item for each $u \in A$ there exists $f \in \alpha^{-1}(u)$ such that $|f| = |u|_{\alpha}$.
+\end{enumerate}
+\end{prop}
+
+\begin{defn}
+The \textit{supremum seminorm} is,
+\[ |f|_{\sup} = \sup_{x \in \mSpec{A}} |f(x)| \]
+\end{defn}
+
+\begin{rmk}
+$f$ is nilpotent iff $|f|_{\sup} = 0$.
+\end{rmk}
+
+\begin{prop}
+Let $\varphi : V \to A$ be a map of affinoid $K$-algebras then $|\varphi(b)|_{\sup} \le |b|_{\sup}$ for all $b$.
+\end{prop}
+
+\begin{proof}
+We have $\mSpec{A} \to \mSpec{B}$ by Nllstellensatz. View $\varphi(b)$ as the pullback of $b$ to $\mSpec{A}$. 
+\end{proof}
+
+\begin{prop}
+For $T_n$ the sup norm is the Gauss norm.
+\end{prop}
+
+\begin{proof}
+Use maximum principle: for all $f \in T_n$ there is $x \in B^n(\overline{K})$ s.t. $|f(x)| = |f|$.
+\end{proof}
+
+\begin{prop}
+Let $\alpha : T_n \onto A$ be a presentation. Then $|f|_{\sup} \le |f|_{\alpha}$ for all $f \in A$. Thus the sup norm is finite.
+\end{prop}
+
+\begin{proof}
+Pick $g \in \alpha^{-1}(f) \subset T_n$ such that $|g| = |f|_{\alpha}$. Then for each $x \in \mSpec{A}$,
+\[ |f(x)| = |g(x)| \le |g|_{\sup} = |g| = |f|_{\alpha} \]
+\end{proof}
+
+\begin{lemma}
+For a polynomial,
+\[ P(\zeta) = \zeta^r + c_1 \zeta^{r-1} + \cdots + c_r = \prod_{j = 1}^r (\zeta - \alpha_i) \]
+with $c_i \in K$ and $\alpha_i \in \overline{K}$ then $\max_j |\alpha_j| = \max_i |c_i|^{\frac{1}{i}}$. 
+\end{lemma}
+
+\begin{proof}
+Use elementary symmetric polynomials. 
+\end{proof}
+
+\subsection{Some Lemmas}
+
+\begin{lemma}[13]
+Let $T_d \embed A$ be a finite injection such that $A$ is torsion-free as a $T_d$-module. Fix $f \in A$ then,
+\begin{enumerate}
+\item there is a unique monic polynomial $p_f(\zeta) = \zeta^r + a_1 \zeta^{r-1} + \cdots + a_r \in T_d[\zeta]$ of minimal degree with $p_f(f) = 0$
+
+\item Fix $x \in \mSpec{T_d}$ and let $y_1, \dots, y_s \in \mSpec{A}$ be the preimages. Then $\max_j |f(y_j)| = \max_j |a_j(x)|^{\frac{1}{j}}$
+
+\item $|f|_{\sup} = \max_j |a_j|^{\frac{1}{j}}$.
+\end{enumerate}
+\end{lemma}
+
+
+\begin{lemma}[14]
+Let $\varphi : B \to A$ be finite. Then for $f \in A$ there exists a polynomial,
+\[ f^r + b_1 f^{r-1} + \cdots + b_r = 0 \]
+with $b_j \in B$ such that,
+\[ |f|_{\sup} = \max_j |b_j|^{\frac{1}{j}} \]
+\end{lemma}
+
+\begin{theorem}[Maximum Principle]
+For $f \in A$ there is $x \in \mSpec{A}$ such that $|f(x)| = |f|_{\sup}$.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}[Power Boundedness]
+Fix $\alpha : T_n \onto A$ and $f \in A$. The following are equivalent,
+\begin{enumerate}
+\item $|f|_{\sup} \le 1$
+\item there is an equation $f^r  + a_1 f^{r-1} + \cdots + a_R = 0$ with $|a_i|_{\alpha} \le 1$
+\item the sequence $|f^n|_{\alpha}$ is bounded. 
+\end{enumerate}
+\end{theorem}
+
+
+\begin{cor}
+The following are equivalent,
+\begin{enumerate}
+\item $|f|_{\sup} < 1$
+\item $|f^n|_{\alpha} \to 0$ (meaning $f$ is topologically nilpotnet).
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+If $|f|_{\sup} = 0$ then $f$ is nilpotent so $f$ is topologically nilpotent. If $0 < |f|_{\sup} < 1$ then by Lemma 14 there is some $r > 0$ and $c \in K^\times$ s.t. $|f^r|_{\sup} = |c|$ and thus $c^{-1} f^r$ has sup norm $1$ so by the theorem it is power bounded. Hence $|f^{nr}| \le M c^n \to 0$ since $|c| < 1$.  
+\end{proof}
+
+\section{Affinoid Subdomains}
+
+\begin{rmk}
+Let $A$ be an affinoid $K$-algebra and $X = \Sp{A}$ the associated affinoid $K$-space. The Zariski topology is the topology whose closed sets are generated by the zero locus of the functions $f \in A$ meaning the open sets are of the form,
+\[ D(f) = \{ x \in X \mid f(x) \neq 0 \} \]
+However, this topology is extremely coarse. For example, because our functions are analyic, in a one-dimensional domain, rigidity means that we can only remove finitely many points to get an open set. To go beyond algebraic geometry and get an analytic theory we include inequalities in the definition of our basic open sets.
+\end{rmk}
+
+\begin{defn}
+Let $X = \Sp{A}$ be an affinoid $K$-space. Let,
+\[ X(f ; \epsilon) = \{ x \in X \mid |f(x)| \le \epsilon \} \]
+For any $f \in A$ and $\epsilon \in \RR_{>0}$. The topology generated by these sets is called the \textit{canonical topology}. 
+\end{defn}
+
+\begin{rmk}
+This is the coarsest topology for which the functions $f : A \to \A^1_K$ and the absolute values $| \bullet | : \A^1_K \to \RR_{>0}$ are continuous (DO THIS)
+\end{rmk}
+
+\begin{prop}
+The canonical topology is generated by sets of the form $X(f ; 1)$.
+\end{prop}
+
+\begin{proof}
+It is clear we only need to produce sets of the form $X(f ; \epsilon_n)$ where $\epsilon_n \to 0$ is some sequence of real numbers. Choose a nonzero topologically nilpotent element $c$ and set $\epsilon_n = |c^n|$. Then $X(f, \epsilon_n) = X(f c^{-n} ; 1)$. 
+\end{proof}
+
+\begin{lemma}
+For an affinoid $K$-space $X = \Sp{A}$ consider an element $f \in A$ and a point $x \in \Sp{A}$ where $f(x) \neq 0$. Set $\epsilon = |f(x)| > 0$. Then there exists an element $g \in A$ such that $g(x) = 0$ and $X(g) \subset \{ y \in X \mid |f(y)| = \epsilon\}$.
+\end{lemma}
+
+\begin{proof}
+Let $\m_x \subset A$ be the corresponding maximal ideal. Let $P \in K[X]$ be the minimal polynomial of $f \in A / \m_x$ over $K$. Write,
+\[ P(\zeta) = \prod_{i = 1}^n (\zeta - \alpha_i) \]
+Since we can embed $A / \m_x \embed \overline{K}$ sending any of the roots $\alpha_i$ of $\bar{f}$ to any other and the uniqueness of the valuation we see that,
+\[ | \alpha_i | = | \bar{f} | = |f(x)| = \epsilon \]
+Consider $g = P(f) \in A$. Then $g(x) = P(f(x)) = 0$ and if $|g(y)| < \epsilon^n$ suppose that $|f(y)| \neq \epsilon$. Then,
+\[ |f(y) - \alpha_i | = \max \{ |f(y)| , |\alpha_i| \} \ge |\alpha_i| = \epsilon \]
+since these have distinct norm by assumption. Thus,
+\[ |g(y)| = |P(f(x))| = \prod_{i=1}^n |f(y) - \alpha_i| \ge \epsilon^n \]
+contradicting the choice of $y$. Therefore, choosing $c \in K^\times$ with $|c| < \epsilon^n$ we have $X(g c^{-1}) \subset \{ y \in X \mid |f(y)| < \epsilon \}$.
+\end{proof}
+
+\begin{cor}
+Let $\Sp{A}$ be an affinoid $K$-space. Then for $f \in A$ and $\epsilon > 0$ the following sets are open in the canonical topology,
+\begin{align*}
+& \{ x \in \Sp{A} \mid f(x) \neq 0 \}
+\\
+& \{ x \in \Sp{A} \mid |f(x)| \le \epsilon \}
+\\
+& \{ x \in \Sp{A} \mid |f(x)| = \epsilon \}
+\\
+& \{ x \in \Sp{A} \mid |f(x)| \ge \epsilon \}
+\end{align*}
+\end{cor}
+
+\begin{prop}
+Let $\varphi : \Sp{B} \to \Sp{A}$ be a morphis mof affinoid $K$-spaces with $\varphi^* : A \to B$ the associated morphism of $K$-algebras. Then for $f_1, \dots, f_r \in A$,
+\[ \varphi^{-1}(X(f_1, \dots, f_r)) = X(\varphi^*(f_1), \dots, \varphi^*(f_r)) \]
+And thus $\varphi$ is continuous in the canonical topology.
+\end{prop}
+
+\begin{proof}
+This is immediate from the fact that $\varphi^*(f)(x) = f(\varphi(x))$ under the canonical inclusion $A / \m_{\varphi(x)} \embed B / \m_x$ from the diagram,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "\varphi^*"] \arrow[d] & B \arrow[d]
+\\
+A / \m_{\varphi(x)} \arrow[r] & B / \m_x
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{defn}
+Let $X = \Sp{A}$ then,
+\begin{enumerate}
+\item $X(f_1, \dots, f_r) = \{ x \in X \mid |f_i(x)| \le 1 \}$ is called a Weierstrass domain
+\item $X(f_1, \dots, f_r, g_1^{-1}, \dots, g_s^{-1}) = \{ x \in X \mid |f_i(x)| \le 1, |g_j(x)| \ge 1 \}$
+is called a Laurent domain
+\item $X(f_1/f_0, \dots, f_r/f_0) = \{ x \in X \mid |f_j(x)| \le |f_0(x)| \}$ for $f_0, \dots, f_r \in A$ without common zeros is called a rational domain.
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+The above domains are all open in $X = \Sp{A}$ for the canonical topology. 
+\end{lemma}
+
+\begin{example}
+It is necessary to assume that $f_0, \dots, f_r \in A$ have no common zero. Indeed, for $X = \Sp{K \left< \zeta_1 \right>}$ and choose a constant $c \in K$ with $0 < |c| < 1$ then,
+\[ \{ x \in X \mid |\zeta_1(x)| \le |c\zeta_1(x)| \} \]
+consists of the single point where $\zeta_1(x) = 0$ which is not open.
+\end{example}
+
+
+\begin{defn}
+An \textit{affinoid subdomain} is a subset $U \subset X$ such that,
+\begin{enumerate}
+\item there is a morpism of affinoid $K$-spaces $\iota : X' \embed X$ such that $\iota(X') \subset U$
+\item $U$ is universal in the sense that for any $\iota' : Y \to X$ with $\iota'(Y) \subset U$ there is a unique factorization $f : Y \to X'$ such that $\iota' = \iota \circ f$.
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+For the embedding $\iota : X' \to X$ with $X = \Sp{A}$ and $X' = \Sp{A'}$ then,
+\begin{enumerate}
+\item $\iota$ is injective and $\iota(X') = U$ so it gives a bijection $\iota : X' \iso U$
+\item for any $x \in X'$ the map $\iota^*$ induces an isomorphism of affinoid $K$-algebras,
+\[ A / \m^n_{\iota(x)} \iso A' / \m_x^n \]
+\item for $x \in X'$ we have $\m_x = \m_{\iota(x)} A'$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The universal property applied to one-point spaces gives injectivity and surjectivity of $X' \iso U$. 
+\end{proof}
+
+\begin{prop}
+The Weierstrass, Laurent, and rational domains are examples of open affinoid subdomains. We call these \textit{special} affinoid subdomains. 
+\end{prop}
+
+\begin{proof}
+For $f_1, \dots, f_r \in A$ consider,
+\[ A\left< f_1, \dots, f_r \right> = A \left< \zeta_1, \dots, \zeta_r \right>  / (\zeta_i - f_i) \]
+is an affinoid $K$-algebra where we have ``forced'' power series in $\{ f_i \}$ with coefficients tending to zero to converge. This is equivalent to bounding $|f_i(x)| \le 1$ and thus the natural map $A \to A \left< f_1, \dots, f_r \right>$ gives $\Sp{A\left< f_1, \dots, f_r\right>} = X(f_1, \dots, f_r) \to X$. Indeed, 
+\[ |\varphi^*(f_i)(y)| = |f_i(\varphi(y))| \]
+We claim this is a universal presentation. 
+\end{proof}
+
+\begin{prop}
+Let $\varphi : Y \to X$ be a morphism of affinoid $K$-spaces and $X' \embed X$ an affinoid subdomain. Then $Y' = \varphi^{-1}(X')$ is an affinoid subdomain of $Y$ and the morphism restricts to,
+\begin{center}
+\begin{tikzcd}
+Y' \arrow[d, two heads] \arrow[r, "\varphi'"] & X' \arrow[d, two heads]
+\\
+Y \arrow[r, "\varphi"] & X
+\end{tikzcd}
+\end{center}
+if $X'$ is Weierstrass, Laurent or rational in $X$, so is $Y'$ in $Y$.
+\end{prop}
+
+\begin{prop}
+Let $X$ be an affinoid $K$-space and $U, V \subset X$ be affinoid subdomains. Then $U \cap V$ is an affinoid subdomain. If $U, V$ are Weierstrass, Laurent, or rational then the same is true of $U \cap V$.
+\end{prop}
+
+\begin{cor}
+Weierstrass domains are Laurent and Laurent domains are rational.
+\end{cor}
+
+\begin{proof}
+The first is clear. Laurent domains are intersections of rational domains $X(f/1)$ and $X(1/g)$ and hence rational.
+\end{proof}
+
+\begin{prop} 
+If $U \subset X$ is a rational subdomain. Then there is a Laurent domain $U' \subset X$ such that $U \subset U'$ as a Weierstrass domain.
+\end{prop}
+
+\begin{proof}
+Let $U = X(f_1/f_0, \dots, f_r/f_0)$ with no common zero $f_0, \dots, f_r \in A$. Since $f_0$ is nonzero on $U$, my the maximum principle we can choose $c \in K^\times$ such that $|c f_0(x)| \ge 1$ for all $x \in U$ so $U' = X((cf_0)^{-1})$.
+\end{proof}
+
+\begin{prop}
+Let $X$ be an affinoid $K$-space. If $V \subset X$ is a Weierstrass (resp. rational) domain and $U \subset V$ a Weierstrass (resp. rational) domain. Then $U \subset X$ is a Weierstrass (resp. rational) domain in $X$.
+\end{prop}
+
+\begin{rmk}
+Transitivity does not hold for Laurent domains. Otherwise every rational domain would be Laurent by the previous.
+\end{rmk}
+
+\begin{lemma}
+Let $\varphi : Y \to X$ be a morphism of affinoid $K$-spaces and $x \in X$ a point with associated maximal ideal $\m \subset A$. 
+\begin{enumerate}
+\item assume that $\varphi^* : A / \m \to B / \m B$ is surjective then there is a special affinoid subdomain $X' \embed X$ containing $x$ such that $\varphi' : Y' \to X'$ with $Y' = \varphi^{-1}(X')$ is a closed immersion (meaning the ring map is surjective). 
+
+\item Assume that $\varphi^*$ induces isomorphisms $A / \m^n \iso B / \m^n B$ for all $n$. Then there is a special affinoid subdomain $X' \embed X$ containing $x$ such that the resulting morphism $\varphi' : Y' \to X'$ is an isomorphism. 
+\end{enumerate}
+\end{lemma}
+
+\begin{cor}
+Let $U \to X$ be a morphism of $K$-spaces making $U$ an affinoid subdomain of $X$. Then $U$ is open in $X$ and the canonical topology of $X$ restricts to the canonical topology of $U$.
+\end{cor}
+
+\begin{proof}[Of Lemma]
+
+\end{proof}
+
+\begin{proof}
+We have showed that the morphism $U \to X$ satisfies the conditions of the above lemma. Then we use the fact that special affinoid subdomains generate the canonical topology. 
+\end{proof}
+
+\begin{theorem}[Gerritzen-Grauert]
+Let $X$ be an affinoid $K$-space and $U \subset X$ an affinoid subdomain. Then $U$ is a finite union of rational subdomains. 
+\end{theorem}
+
+\begin{rmk}
+Why don't we consider non-maximal ideals. One reason is $K_\p = \Frac{A/\p}$ is not an affinoid $K$-algebra (else it would be finite by Noetherian normalization) and it is not complete so we can't take affinoid $K_{\p}$-algebras. 
+\bigskip\\
+Even worse, non-maximal ideals do not behave well under restricting to affinoid subdomains. 
+\end{rmk}
+
+\begin{example}
+Let $X = \Sp{T_1}$ and consider the Weierstrass subdomain,
+\[ U = \{ x \in X \mid |\zeta(x) (\zeta(x) - 1)| \le \epsilon \} \subset X \]
+For some $\epsilon = |c| < 1$ with $c \in K$. Then $U$ is the disjoint union of the Weierstrasss subdomains,
+\[ U_1 = \{ x \in X \mid |\zeta(x)| \le \epsilon \} \quad \text{ and } \quad U_2 = \{ x \in X \mid |\zeta(x) - 1| \le \epsilon \} \]
+Then,
+\[ T_1 \left< c^{-1} \zeta(\zeta - 1) \right> \cong T_1 \left< c^{-1} \zeta \right> \times T_1 \left< c^{-1} (\zeta - 1) \right> \]
+Therefore, we see that the zero ideal of $T_1$ (the ``generic'' point of $X$) gives rise to two different points of $U$ namely the ``generic'' points of $U_1$ and $U_2$. The issue is basically that,
+\[ \Spec{ T_1 \left< c^{-1} \zeta(\zeta - 1) \right> } \to \Spec{T_1} \]
+is not an open immersion of schemes. 
+\end{example}
+\end{document}
