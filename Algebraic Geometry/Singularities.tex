@@ -1,0 +1,255 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Formal Singularities}
+
+\subsection{The Hilbert Samuel Function}
+
+In this section, let $A$ be a Noetherian semi-local ring\footnote{$A$ is \textit{semi-local} if $A / \Jac{A}$ is Artinian or equivalently $A$ has finitely many maximal ideals.} and $I$ an ideal of definition\footnote{An ideal $I \subset A$ is an \textit{ideal of definition} if $\sqrt{I} = \Jac{A}$ or equivalently $\Jac{A}^n \subset I \subset \Jac{A}$ for some $n$.}.
+
+\begin{defn}
+For a finite $A$-module $M$ we define the \textit{Hilbert-Samuel function},
+\[ \chi^{M}_{I}(n) = \ell(M / I^n M) \]
+When $(A, \m, \kappa)$ is a local ring we write $\chi^M := \chi^{M}_{\m}$.
+\end{defn}
+
+\begin{rmk}
+Consider the graded algebra (ring of the tangent cone),
+\[ \gr{I}{A} = \bigoplus_{n \ge 0} I^n / I^{n+1} \]
+and the graded $\gr{I}{A}$-module,
+\[ \gr{I}{M} = \bigoplus_{n \ge 0} I^n M / I^{n+1} M \] 
+Then we see that,
+\[ \chi^I_M(n) = \ell(M / I^n M) = \sum_{i = 0}^{n-1} \ell(I^i M / I^{i+1} M) = \sum_{i = 0}^{n-1} H_{\gr{I}{M}}(i) \]
+where $H_{\gr{I}{M}}$ is the Hilbert function\footnote{For a graded algebra $S = \bigoplus_{n \ge 0} S_n$ over an Artin ring $A$ and a graded $S$-module $M$ the Hilbert function $H_M$ is the map $n \mapsto \ell(M_n)$} function of the graded $\gr{I}{A}$-module $\gr{I}{M}$.
+\end{rmk}
+
+\begin{prop}
+For any finite a polynomial $P_{M,I} \in \Q[x]$ such that for all $n \gg 0$,
+\[ \chi^{M}_{I}(n) = P_{M,I}(n) \]
+and $\deg{P_{M,I}} = \dim{M} := \dim{(A / \Ann{A}{M})}$. Furthermore, this polynomial has the form,
+\[ P_{M,I}(n) = \sum_{i = 0}^d (-1)^i e_i \cdot { n + d - i \choose d - i} \]
+for integers $e_i \in \ZZ$.
+\end{prop}
+
+\begin{proof}
+This follows from properties of the Hilbert function of a finite module over a finitely-generated graded $A/I$-algebra since $A/I$ is Artinian. Indeed, if $x_1, \dots, x_r \in I$ generate then,
+\[ (A/I)[x_1, \dots, x_r] \onto \gr{I}{A} \]
+makes $\gr{I}{A}$ a finite type $A/I$-algebra and $\gr{I}{M} = M \ot_A \gr{I}{A}$ is a finite $\gr{I}{A}$-module.
+\end{proof}
+
+\begin{defn}
+The \textit{multiplicity} of $M$ is $e(M, I) = e_0$ and the \textit{dimension} is $d(M, I) = \deg{P_{M, I}}$.
+\end{defn}
+
+\begin{rmk}
+Therefore, the leading term of $P_{M,I}$ is $\frac{e(M,I)}{d!} n^d$ where $d = d(M, I)$. In particular,
+\[ e(M,I) = d! \cdot \lim_{n \to \infty} \frac{\chi^M_I(n)}{n^d} \]
+\end{rmk}
+
+\begin{prop}
+Consider an exact sequence of finte $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_1 \arrow[r] & M_2 \arrow[r] & M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then,
+\[ P_{I, M_2} = P_{I, M_1} + P_{I, M_3} - F \]
+where $F$ is a polynomial of degree $d < \deg{P_{I, M_1}}$ and with positive leading coefficient.
+\end{prop}
+
+\begin{proof}
+The exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (I^n M_2 \cap M_1)/I^n M_1  \arrow[r] & M_1 / I^n M_1 \arrow[r] & M_2 / I^n M_2 \arrow[r] & M_3 / I^n M_3 \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+shows that,
+\[ \chi^{M_1}_I(n) + \chi^{M_3}_I(n) - \chi^{M_2}_I(n) = \ell((I^n M_2 \cap M_1)/I^n M_1) \]
+By the Artin-Rees lemma, $I^n M_2 \cap M_1 \subset I^{n-k} M_1$ for $n \gg 0$ and thus for $n \gg 0$,
+\[ \ell((I^n M_2 \cap M_1)/I^n M_1) \le \ell(I^{n-k} M_1 / I^n M_1) = \chi^{M_1}_I(n) - \chi^{M_1}_I(n-k) = P_{M_1,I}(n) - P_{M_1,I}(n-k) = F(n) \]
+is a polynomial of degree strictly less than $d(M_1, I)$ with positive leading coefficient. Therefore,
+\[ P_{I, M_1}(n) + P_{I, M_3}(n) - P_{I, M_2}(n) = \chi^{M_1}_I(n) + \chi^{M_3}_I(n) - \chi^{M_2}_I(n) \le F(n) \]
+for all $n \ge 0$ and thus these are equal as polynomials.
+\end{proof}
+
+\begin{cor}
+Givne an exact sequence, $d(M_2, I) = \max \{ d(M_1, I), d(M_3, I) \}$ and,
+\begin{enumerate}
+\item if $d(M_1, I) = d(M_3, I)$ then $e(M_2, I) = e(M_1, I) + e(M_3, I)$ 
+\item if $d(M_1, I) > d(M_3, I)$ then $e(M_2, I) = e(M_1, I)$
+\item if $d(M_1, I) < d(M_3, I)$ then $e(M_2, I) = e(M_3, I)$.
+\end{enumerate} 
+\end{cor}
+
+\subsection{For Schemes}
+
+Let $X$ be a Noetherian scheme and $\F$ a coherent sheaf on $\F$. Then for $x \in X$ we define the Hilbert-Samuel polynomial $P_{\F, x} = P_{\F_x, \m_x}$ for the module $\F_x$ over the local ring $\stalk{X}{x}$ with respect to the maximal ideal $\m_x$. We define $e(\F, x) = e(\F_x, \m_x)$ and $d(\F, x) = d(\F_x, \m_x) = \dim{\F_x}$. We say the \textit{multiplicity} of a point $x \in X$ is $m_x := e(\struct{X}, x) = e(\stalk{X}{x}, \m_x)$.
+
+\subsection{Formal Germs}
+
+(GRADED RING IS AN INVARIANT AND THUS ALL HILBERT SAMUEL STUFF)
+
+\subsection{Embedding Dimension}
+
+(EMBEDDING DIMENSION ISO ON FORMAL RINGS)
+
+\section{Deformation Theory of Singularities}
+
+\section{Hypersurface Singularities}
+
+\subsection{Introduction}
+
+(INVARIANTS?)
+
+(BASIC RESULTS)
+
+\begin{prop}
+(MULTIPLICITY IN TERMS OF NORMAL FORM OF $f$!!)
+\end{prop}
+
+\subsection{Singular Hypersurfaces}
+
+\begin{defn}
+A \textit{hypersurface} $X \subset \P^{n+1}$ is a reduced subscheme of pure codimension $1$.
+\end{defn}
+
+\begin{prop}
+A hypersurface is a Cartier divisor and hence is defined by some,
+\[ F \in \Gamma(\P^2, \struct{\P^{n+1}}(d)) = k[X_0, \dots, X_{n+1}]_{(d)} \]
+where $d = \deg{X}$.
+\end{prop}
+
+\begin{proof}
+DO IT (HOW TO SHOW HEIGHT ONE IDEAL WITH NO EMBEDDED PRIMES IS PRINCIPLE?)
+\end{proof}
+
+\begin{prop}
+Let $S$ be a hypersurface singularity. Then there exists a hypersurface $X \subset \P^{n+1}$ and a point $p \in X$ such that $(X, p) \cong S$ at $X \sm \{ p \}$ is smooth.
+\end{prop}
+
+\begin{proof}
+DO THIS!!!
+\end{proof}
+
+\begin{prop}
+Let $X \subset \P^{n+1}$ be a hypersurface defined by $F$ and $p \in X$ a point. Then $m_p$ is the smallest integer $e$ such that $F \cdot \struct{\P^{n+1}}(-d)_p \subset \m_p^e$ or equivalently the smallest degree term of $F$ in local coordinates at $p$.
+\end{prop}
+
+\begin{proof}
+Choosing coordinates such that $p$ is the origin of $\A^{n+1} \subset \P^{n+1}$ we have $F$ dehomogenize to some polynomial $f \in A = k[x_1, \dots, x_{n+1}]$. Since $\m^e \subset (f)$ for $k \ge e$ (DO THIS!!!)
+\end{proof}
+
+\subsection{The Milnor Number}
+
+(DEF)
+
+(PROVE INVARIANCE)
+
+(GIVE TOP INTERP)
+
+\begin{prop}
+$\nu_p \ge 2 \delta_p - \gamma_p + 1$
+\end{prop}
+
+\begin{prop}
+Let $X \subset \P^{n+1}$ be a hypersurface of degree $d$ then every point $p \in X$ has,
+\[ \mu_p \le (d - 1)^{n+1} \]
+with equality iff (WHAT) $X$ is the union of $d$ hyperplanes at $p$. 
+\end{prop}
+
+\begin{proof}
+Up to automorphism assume $p = 0 \in \A^n$. Let $f \in k[x_0, \dots, x_n]$ be an equation for $X$ on $\A^n$. Then clearly $\nabla f$ is a list of polynomials of degree at most $(d-1)$ and therefore,
+\[ \mu_p = \dim_{k} \wh{\stalk{\P^{n+1}}{0}}/(\nabla f) \le (d - 1)^{n+1} \]
+(FINISH THIS)
+\end{proof}
+
+\subsection{Plane Curve Singularities}
+
+(LOOK AT LATEX AND IPAD NOTES FOR COHOMOLOGY ARGUMENTS) (GENUS DISCREPANCY and also (NOT RELEVANT) REDUCTION DISCREPANCY IN MISC)
+(DEF INVARIANTS)
+
+\begin{prop}
+Let $X$ be a curve and $\nu : X^\nu \to X$ the normalization. Then $m_p = \det{\nu}$.
+\end{prop}
+
+\begin{proof}
+Let $A = \stalk{X}{p}$ be the local ring and $\wt{A}$ its normalization. Consider the exact sequence of $A$-modules,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A \arrow[r] & \wt{A} \arrow[r] & Q \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+However, $Q \ot \Frac{A} = 0$ and thus $d(Q) = 0$ so we have $m_p = e(A) = e(\wt{A}) = \deg_p{\nu}$ because $\m_p \wt{A} = (\varpi_1^{e_1} \cdots \varpi_r^{e_r})$ where $\varpi_1, \dots, \varpi_r \in \wt{A}$ are the uniformizers of the points $\m_1, \dots, \m_r$ in the fiber over $p$. Thus,
+\[ \ell(\wt{A} / \m_p^n \wt{A}) = \dim_{\kappa} \wt{A} / \m_1^{n e_1} \cdots \m_r^{n e_r} = \sum_{i = 0}^r n e_i [\kappa(\m_i) : \kappa] = n \left( \sum_{i = 0}^r e_i [\kappa(\m_i) : \kappa] \right) = n \deg{\nu} \]
+\end{proof}
+
+\begin{prop}
+There is a relation between the curve singularity invariants,
+\[ \mu_p = 2 \delta_p - \gamma_p + 1 \]
+\end{prop}
+
+\begin{proof}
+DO THIS!!!
+\end{proof}
+
+\subsection{Singularities of Type $A_n$}
+
+
+(An singularities and COMPUTE)
+
+\subsection{Singularities of Plane Curves of Degree $d$}
+
+\begin{defn}
+A plane curve is a hypersurface $X \subset \P^2$. 
+\end{defn}
+
+\section{Surface Singularities}
+
+(ADE TYPE)
+
+\section{Rational Singularities}
+
+\section{Singularities in the Minimal Model Program}
+
+\section{Resolution of Singularities}
+
+\section{THAT PROBLEM, WRONG}
+
+Let $\overline{C}$ be any smooth genus $2$ curve over $\mathbb{C}$ and $C = \overline{C} \setminus \{ p \}$ be the affine curve obtained by removing the point $p \in \overline{C}$. I claim there is no immersion $C \to \mathbb{P}^2$. 
+
+This answers (1) (2) and (3) because if we choose $p \in \overline{C}$ to be a ramification point of the hyperelliptic cover $\overline{C} \to \mathbb{P}$ or equivalently a fixed point of the hyperelliptic involution. Then $\Omega_C$ is trivial showing that it cannot be the only immersion obstruction. 
+
+**The Proof**
+
+Suppose $\iota : C \to \mathbb{P}^2$ is an immersion. Let $X = \mathbb{P}^2$ and consider the closure $f : \overline{C} \to X$. Let $D \subset X$ be the image and $d$ the degree of $D$. If $f(p) \in \iota(C)$ then $D = \iota(C)$ meaning $\iota(C)$ is closed which would imply $C$ is compact which is false. Thus $f : \overline{C} \to D$ is a homeomorphism (it is a bijective closed continuous map) and is the normalization showing that the singularity $f(p) \in D$ is unibranch. 
+
+The log-Bogomolov-Miyaoka-Yau inequality (e.g. equation (3.8) of [this paper][1]) gives an upper bound on $d$. From the following inequality: for any smooth surface $X$ and divisor $D \subset X$ for each point $p \in D$ let $m_p$ be the multiplicity $\gamma_p$ the number of analytic branches, $\delta_p$ the discrepancy (change in arithmetic genus when singularity is resolved) and $\mu_p = 2 \delta_p - \gamma_p + 1$ the Milnor number. The log-BMY inequality says,
+$$ (K_X + D)^2 \le 3 (c_2(X) + (K_X + D) \cdot D) - \sum_{p \in D} \left(2 + \frac{1}{m_p} \right) \mu_p $$
+For our case, $K_X = -3 H$ and $D = d H$ and $c_2(X) = 3$ and $p \in D$ is the unique singular point so, 
+$$ \left( 2 + \frac{1}{m_p} \right) \mu_p \le 9 + 3 d (d-3) - (d-3)^2 = d(2d - 3) $$
+Now the Milnor number $\mu_p = 2 \delta_p - \gamma_p + 1 = 2 \delta_p = (d-1)(d-2) - 2g$ where $g$ is the geometric genus ($g = 2$ for us). Also $\mu_p \ge m_p(m_p - 1)$ so 
+$$ \frac{\mu_p}{m_p} \ge \frac{\mu_p}{\sqrt{\mu_p + \frac{1}{4}} + \frac{1}{2}} $$
+Thus,
+$$\frac{\mu_p}{\sqrt{\mu_p + \frac{1}{4}} + \frac{1}{2}} \le 3 d - 4 + 4 $$
+
+BUT BUT THIS DOESNT ACTUALLY GIVE A BOUND ON $d$ SHIT. NEED $K_X \ge 0$ FOR A BOUND.
+
+
+ALSO I'M NOT SURE log-BMY inequality actually works in this case because $K_{\hat{X}} + \hat{D}$ might not be $\Q$-effective.
+  [1]: https://arxiv.org/abs/2007.01735
+
+
+\end{document}

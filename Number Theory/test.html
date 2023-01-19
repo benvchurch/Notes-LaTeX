@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Benjamin Church" />
+  <title>\ell-adic Galois Representations</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title"><span><span class="math inline">ℓ</span>-adic Galois
+Representations</span></h1>
+<p class="author">Benjamin Church</p>
+</header>
+<h1 id="introduction">Introduction</h1>
+<p>Considering the importance of Galois groups in number theory and
+geometry, it is natural to study their representation theory. However,
+Galois groups have additional structure which makes the theory of their
+representations remarkably rich. They are profinite topological groups
+and using topological arguments is extremely fruitful in studying their
+general representation theory. We will see that the topology is too
+restrictive to admit interesting Galois representations over <span
+class="math inline">ℂ</span>. However, the profinite topology interacts
+much more favorably with <span class="math inline">ℓ</span>-adic numbers
+due to their profinite-like topology. Therefore, we will seek out vector
+spaces over <span class="math inline">ℚ<sub>ℓ</sub></span> on which the
+Galois group naturally acts. Furthermore, Galois groups act on algebraic
+fields and preserve certain polynomial equations meaning that Galois
+groups act naturally on algebraic varieties built from fields and
+polynomials. This action allows many Galois representations to be viewed
+as automorphisms of certain geometric objects giving a powerful link
+between the number theory of field extensions and the geometry of
+algebraic objects.</p>
+<div class="trivlist">
+<p>Let <span class="math inline"><em>G</em></span> be a profinite group
+and <span class="math inline"><em>F</em></span> a topological field. An
+<span class="math inline"><em>n</em></span>-dimensional representation
+of <span class="math inline"><em>G</em></span> is a continuous
+homomorphism, <span
+class="math display"><em>ρ</em> : <em>G</em> → GL<sub><em>n</em></sub>(<em>F</em>)</span>
+If <span class="math inline">$G = G_K = \mathrm{Gal} \small(\bar{K} / K
+\small)$</span>, the absolute Galois group of <span
+class="math inline"><em>K</em></span>, then we call such a
+representation a Galois representation and if <span
+class="math inline"><em>F</em></span> is algebraic over <span
+class="math inline">ℚ<sub>ℓ</sub></span> then we call it an <span
+class="math inline">ℓ</span>-adic Galois representation.</p>
+</div>
+<h1 id="machinery">Machinery</h1>
+<h2 id="projective-limits">Projective Limits</h2>
+<div class="trivlist">
+<p>A projective system is a family of objects indexed by a poset <span
+class="math inline">(<em>I</em>,≤)</span> with morphisms <span
+class="math inline"><em>f</em><sub><em>i</em><em>j</em></sub> : <em>A</em><sub><em>j</em></sub> → <em>A</em><sub><em>i</em></sub></span>
+when <span class="math inline"><em>i</em> ≤ <em>j</em></span> such
+that,</p>
+<ol>
+<li><p><span
+class="math inline"><em>f</em><sub><em>i</em><em>i</em></sub> = id<sub><em>A</em><sub><em>i</em></sub></sub></span></p></li>
+<li><p><span
+class="math inline"><em>f</em><sub><em>i</em><em>k</em></sub> = <em>f</em><sub><em>i</em><em>j</em></sub> ∘ <em>f</em><sub><em>j</em><em>k</em></sub></span>
+for all <span
+class="math inline"><em>i</em> ≤ <em>j</em> ≤ <em>k</em></span></p></li>
+<li><p><span class="math inline">(<em>I</em>,≤)</span> is directed
+meaning that for every <span
+class="math inline"><em>i</em>, <em>j</em> ∈ <em>I</em></span> there
+exists <span class="math inline"><em>k</em> ∈ <em>I</em></span> such
+that <span class="math inline"><em>i</em> ≤ <em>k</em></span> and <span
+class="math inline"><em>j</em> ≤ <em>k</em></span>. This means that for
+all <span class="math inline"><em>A</em><sub><em>i</em></sub></span> and
+<span class="math inline"><em>A</em><sub><em>j</em></sub></span> there
+is an object <span
+class="math inline"><em>A</em><sub><em>k</em></sub></span> such that
+there are maps <span
+class="math inline"><em>f</em><sub><em>i</em><em>k</em></sub> : <em>A</em><sub><em>k</em></sub> → <em>A</em><sub><em>i</em></sub></span>
+and <span
+class="math inline"><em>f</em><sub><em>j</em><em>k</em></sub> : <em>A</em><sub><em>k</em></sub> → <em>A</em><sub><em>j</em></sub></span>.</p></li>
+</ol>
+<p>we define the projective limit <span class="math inline">$\varprojlim
+A_n$</span> to be the categorical limit of this system. Concretely, for
+groups or modules, we can give the explicit construction of such an
+object, <span class="math display">$$\varprojlim A_i = \left\{ (a_i)_{I}
+\in \prod_{i \in I} A_i \: \bigg| \: \forall i \le j : f_{ij}(a_j) =
+a_{i}  \right\}$$</span> Therefore, the projective limit is the set of
+sequences which reduce compatibly under the maps <span
+class="math inline"><em>f</em></span>.</p>
+</div>
+<p>A very important special case is that of a leftward mapping sequence
+where <span class="math inline"><em>I</em> = ℕ</span> with the usual
+order.</p>
+<div class="trivlist">
+<p>Given a diagram,</p>
+<div class="center">
+
+</div>
+<p>we define the projective limit <span class="math inline">$\varprojlim
+A_n$</span> to be the categorical limit of the diagram. Concretely, for
+groups or modules, we can give the explicit construction of such an
+object, <span class="math display">$$\varprojlim A_n = \left\{ (a_n) \in
+\prod_n A_n \: \bigg| \: \forall n \in \mathbb{N}: f_n(a_n) =
+a_{n-1}  \right\}$$</span> Therefore, the projective limit is the set of
+sequences which reduce compatibly under the maps <span
+class="math inline"><em>f</em></span>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 1</em>. One should view the projective limit as the object
+which “naturally projects” compatibly with the maps onto each of the
+given objects. There are clear projection maps <span
+class="math inline">$\pi_i : \varprojlim A_n \to A_i$</span> given by
+<span
+class="math inline"><em>π</em><sub><em>i</em></sub>((<em>a</em><sub><em>n</em></sub>)) = <em>a</em><sub><em>i</em></sub></span>.
+Reversing all the maps, we can define the dual notion called the direct
+limit which is the objective into which each of the given objects
+include compatibly via maps <span class="math inline">$\iota_i : A_i \to
+\varinjlim A_n$</span>. When the given morphisms are inclusions the
+direct limit is simply the union.</p>
+</div>
+<div class="example">
+<p><strong>Example 1</strong>. Let <span
+class="math inline"><em>R</em></span> be a ring. The ring of formal
+power series on <span class="math inline"><em>R</em></span> is <span
+class="math display">$$R[[X]] \cong \varprojlim R[X] / X^n R[X]$$</span>
+with maps <span
+class="math inline"><em>R</em>[<em>X</em>]/<em>X</em><sup><em>n</em> + 1</sup><em>R</em>[<em>X</em>] → <em>R</em>[<em>X</em>]/<em>X</em><sup><em>n</em></sup><em>R</em>[<em>X</em>]</span>
+given by reduction modulo <span
+class="math inline"><em>X</em><sup><em>n</em></sup></span>. The
+sequences making up the projective limit give the partial sums of a
+formal power series.</p>
+</div>
+<h2 id="infinite-galois-theory">Infinite Galois Theory</h2>
+<div class="proposition">
+<p><strong>Proposition 1</strong>. Let <span
+class="math inline"><em>F</em>/<em>K</em></span> be Galois. Then there
+exists an isomorphism, <span class="math display">$$\mathrm{Gal}
+\small(F / K \small) \cong \varprojlim_{L/K} \mathrm{Gal} \small(L / K
+\small)$$</span> where <span class="math inline"><em>L</em></span> runs
+over all finite Galois extensions <span
+class="math inline"><em>K</em> ⊂ <em>L</em> ⊂ <em>F</em></span>. The
+projective system is given by the restriction maps <span
+class="math inline">$\mathrm{Gal} \small(L / K \small) \to \mathrm{Gal}
+\small(L' / K \small)$</span> when <span
+class="math inline"><em>L</em>′ ⊂ <em>L</em></span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Given <span class="math inline">$\sigma \in
+\mathrm{Gal} \small(F / K \small)$</span> we consider the restriction
+<span class="math inline"><em>σ</em>|<sub><em>L</em></sub></span> to
+each finite Galois extension <span
+class="math inline"><em>L</em>/<em>K</em></span> which are clearly
+compatible with restrictions between finite extensions. This gives a map
+to the projective limit. Since each <span
+class="math inline"><em>α</em> ∈ <em>F</em></span> is algebraic over
+<span class="math inline"><em>K</em></span> we know that <span
+class="math inline"><em>α</em></span> lies in a finite Galois extension
+of <span class="math inline"><em>K</em></span> so if <span
+class="math inline"><em>σ</em></span> is trivial on all finite Galois
+extensions then <span
+class="math inline"><em>σ</em>(<em>α</em>) = <em>α</em></span> so <span
+class="math inline"><em>σ</em> = id<sub><em>F</em></sub></span>. Thus
+the map is injective. Furthermore, an element of the projective limit
+induces an automorphism of <span
+class="math inline"><em>F</em>/<em>K</em></span> by mapping each <span
+class="math inline"><em>α</em> ∈ <em>F</em></span> to its image under
+the automorphism acting on any finite Galois extension containing <span
+class="math inline"><em>α</em></span>. Thus the mapping is
+surjective. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 2</em>. The above identification gives a natural profinite
+topology on <span class="math inline">$\mathrm{Gal} \small(F/ K
+\small)$</span> by making the projection maps <span
+class="math inline">$\mathrm{Gal} \small(F / K \small) \to \mathrm{Gal}
+\small(L / K \small)$</span> continuous for each finite Galois extension
+<span class="math inline"><em>L</em>/<em>K</em></span>. In particular,
+the kernels of these maps <span class="math inline">$\mathrm{Gal}
+\small(F / L \small)$</span> are open subgroups and form a neighborhood
+basis of <span class="math inline">id</span>.</p>
+</div>
+<div class="example">
+<p><strong>Example 2</strong>. The absolute Galois group of <span
+class="math inline">𝔽<sub><em>p</em></sub></span> is equal to the
+profinite completion of <span class="math inline">ℤ</span>, <span
+class="math display">$$\mathrm{Gal} \small(\overline{\mathbb{F}_{p}} /
+\mathbb{F}_{p} \small) \cong \hat{\mathbb{Z}} = \varprojlim \mathbb{Z}/
+n \mathbb{Z}$$</span></p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 2</strong> (Galois Correspondence). Let <span
+class="math inline"><em>F</em>/<em>K</em></span> be a Galois extension
+with <span class="math inline">$G = \mathrm{Gal} \small(F / K
+\small)$</span>. There is an inclusion reversing correspondence between
+<em>closed</em> subgroups <span
+class="math inline"><em>H</em> ⊂ <em>G</em></span> and subfields <span
+class="math inline"><em>K</em> ⊂ <em>L</em> ⊂ <em>F</em></span> given by
+<span
+class="math inline"><em>H</em> ↦ <em>F</em><sup><em>H</em></sup></span>
+and <span class="math inline">$L \mapsto \mathrm{Gal} \small(F / L
+\small)$</span>. Furthermore, finite extensions <span
+class="math inline"><em>K</em> ⊂ <em>L</em> ⊂ <em>F</em></span>
+correspond to open subgroups <span class="math inline">$\mathrm{Gal}
+\small(F / L \small) \subset G$</span> whose cosets correspond to
+embeddings of <span class="math inline"><em>L</em></span> into <span
+class="math inline"><em>F</em></span> fixing <span
+class="math inline"><em>K</em></span>. Galois extensions <span
+class="math inline"><em>K</em> ⊂ <em>L</em> ⊂ <em>F</em></span>
+correspond to closed normal subgroups.</p>
+</div>
+<h2 id="ell-adic-numbers"><span class="math inline">ℓ</span>-adic
+Numbers</h2>
+<div class="trivlist">
+<p>The <span class="math inline">ℓ</span>-adic integers are the
+projective limit, <span class="math display">$$\mathbb{Z}_{\ell} =
+\varprojlim \mathbb{Z}/ \ell^n \mathbb{Z}$$</span> under the maps <span
+class="math inline">ℤ/ℓ<sup><em>n</em> + 1</sup>ℤ → ℤ/ℓ<sup><em>n</em></sup>ℤ</span>
+given by reduction mod <span class="math inline">ℓ</span>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 3</em>. There is an inclusion <span
+class="math inline">ℤ ↪ ℤ<sub>ℓ</sub></span> given by reducing <span
+class="math inline"><em>a</em> ∈ ℤ</span> modulo each <span
+class="math inline">ℓ<sup><em>n</em></sup></span>. The sequences
+representing <span class="math inline">ℤ ⊂ ℤ<sub>ℓ</sub></span> are
+exactly those which are eventually constant after the largest power
+dividing the integer in question. Using the intuition gained from the
+ring of formal power series, we can write any <span
+class="math inline">ℓ</span>-adic integer as a formal “base-<span
+class="math inline">ℓ</span>” power series, <span
+class="math display"><em>z</em> = <em>a</em><sub>0</sub> + <em>a</em><sub>1</sub>ℓ + <em>a</em><sub>2</sub>ℓ<sup>2</sup> + <em>a</em><sub>3</sub>ℓ<sup>3</sup> + ⋯</span>
+which is the natural extension of how integers may be represented in
+base <span class="math inline">ℓ</span>. Although this expression is
+simply convenient and suggestive shorthand for the projective limit
+sequence of partial sums, <span
+class="math display"><em>z</em> = (<em>a</em><sub>0</sub>, <em>a</em><sub>0</sub>+<em>a</em><sub>1</sub>ℓ, <em>a</em><sub>0</sub>+<em>a</em><sub>1</sub>ℓ+<em>a</em><sub>2</sub>ℓ<sup>2</sup>, <em>a</em><sub>0</sub>+<em>a</em><sub>1</sub>ℓ+<em>a</em><sub>2</sub>ℓ<sup>2</sup>+<em>a</em><sub>3</sub>ℓ<sup>3</sup>, ⋯)</span>
+we can actually give meaning to this infinite sum by changing the
+standard definition of convergence. Define the <span
+class="math inline">ℓ</span>-adic valuation <span
+class="math inline"><em>v</em><sub>ℓ</sub> : ℤ<sub>ℓ</sub> → ℕ ∪ {∞}</span>
+by <span
+class="math inline"><em>v</em><sub>ℓ</sub>((<em>a</em><sub><em>i</em></sub>))</span>
+equals the index of the first nonzero term <span
+class="math inline"><em>a</em><sub><em>i</em></sub></span> and <span
+class="math inline"><em>v</em><sub>ℓ</sub>(0) = ∞</span>. All terms in
+the sequence past <span
+class="math inline"><em>v</em><sub>ℓ</sub>((<em>a</em><sub><em>i</em></sub>))</span>
+are nonzero because if <span
+class="math inline"><em>a</em><sub><em>i</em></sub> = 0</span> then
+<span
+class="math inline"><em>a</em><sub><em>i</em> − 1</sub> = <em>f</em><sub><em>i</em></sub>(<em>a</em><sub><em>i</em></sub>) = 0</span>.
+We can then define an absolute value, <span
+class="math inline">|<em>z</em>|<sub>ℓ</sub> = ℓ<sup>−<em>v</em><sub>ℓ</sub>(<em>z</em>)</sup></span>
+which gives a non-archimedean metric on <span
+class="math inline"><em>Z</em><sub>ℓ</sub></span>. Under this metric,
+the sequence of elements in <span
+class="math inline">ℤ ⊂ ℤ<sub>ℓ</sub></span> given by these the partial
+sums actually does converge to the <span
+class="math inline">ℓ</span>-adic number, <span
+class="math display"><em>z</em> = <em>a</em><sub>0</sub> + <em>a</em><sub>1</sub>ℓ + <em>a</em><sub>2</sub>ℓ<sup>2</sup> + <em>a</em><sub>3</sub>ℓ<sup>3</sup> + ⋯</span>
+because the element, <span class="math display">$$z - z_{N-1} = z -
+\sum_{i = 0}^{N-1} a_i \ell^n = a_N \ell^N + a_{N+1} \ell^{N+1} +
+a_{N+2} \ell^{N+2} + \cdots$$</span> has valuation <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em><sub><em>n</em></sub>) ≥ <em>N</em></span>
+because <span
+class="math inline"><em>z</em><sub><em>N</em></sub> = (0,⋯,<em>a</em><sub><em>N</em></sub>ℓ<sup><em>N</em></sup>,<em>a</em><sub><em>N</em> + 1</sub>ℓ<sup><em>N</em> + 1</sup>,⋯)</span>
+where the first <span class="math inline"><em>N</em> − 1</span> terms
+are <span class="math inline">0</span>. Therefore, <span
+class="math display">$$|z - z_n|_{\ell} \le \frac{1}{\ell^N} \to
+0$$</span> so the sequence converges <span
+class="math inline"><em>z</em><sub><em>n</em></sub> → <em>z</em></span>.</p>
+</div>
+<div class="trivlist">
+<p>The <span class="math inline">ℓ</span>-adic field is the field of
+fractions of <span class="math inline">ℤ<sub>ℓ</sub></span>, <span
+class="math display">ℚ<sub>ℓ</sub> = Frac(ℤ<sub>ℓ</sub>)</span> on which
+we extend the <span class="math inline">ℓ</span>-adic valuation to <span
+class="math inline"><em>v</em><sub>ℓ</sub> : ℚ<sub>ℓ</sub> → ℤ</span> by
+<span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>a</em>/<em>b</em>) = <em>v</em><sub>ℓ</sub>(<em>a</em>) − <em>v</em><sub>ℓ</sub>(<em>b</em>)</span>.</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 3</strong>. <span
+class="math inline">ℤ<sub>ℓ</sub><sup>×</sup> = {<em>z</em> ∈ ℤ<sub>ℓ</sub> ∣ |<em>z</em>|<sub>ℓ</sub> = 1}</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span
+class="math inline"><em>z</em> = (<em>a</em><sub><em>i</em></sub>) ∈ ℤ<sub>ℓ</sub></span>.
+If <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em>) &gt; 0</span>
+then <span class="math inline"><em>a</em><sub>0</sub> = 0</span> so for
+any <span
+class="math inline">(<em>b</em><sub><em>i</em></sub>) ∈ ℤ<sub>ℓ</sub></span>
+we have <span
+class="math inline"><em>a</em><sub>0</sub><em>b</em><sub>0</sub> = 0</span>
+so <span class="math inline"><em>z</em> ∉ ℤ<sub>ℓ</sub></span>. However,
+if <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em>) = 0</span> then
+choose <span
+class="math inline"><em>b</em><sub><em>n</em></sub> = <em>a</em><sub><em>n</em></sub><sup>−1</sup> ∈ ℤ/ℓ<sup><em>n</em></sup>ℤ</span>
+which exists because <span
+class="math inline"><em>a</em><sub><em>n</em></sub></span> is coprime to
+<span class="math inline">ℓ</span> since it projects down to <span
+class="math inline"><em>a</em><sub>0</sub> ≠ 0</span> in <span
+class="math inline">ℤ/ℓℤ</span>. Then we have, <span
+class="math display">(<em>a</em><sub><em>i</em></sub>) ⋅ (<em>b</em><sub><em>i</em></sub>) = (<em>a</em><sub><em>i</em></sub><em>b</em><sub><em>i</em></sub>) = (1)</span>
+so <span
+class="math inline"><em>z</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span>. ◻</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 4</strong>. Every element <span
+class="math inline"><em>z</em> ∈ ℚ<sub>ℓ</sub></span> can be written
+uniquely as <span
+class="math inline"><em>z</em> = ℓ<sup><em>n</em></sup><em>u</em></span>
+where <span
+class="math inline"><em>u</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span> and
+<span
+class="math inline"><em>n</em> = <em>v</em><sub>ℓ</sub>(<em>z</em>)</span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> First we will prove this for <span
+class="math inline"><em>z</em> = (<em>a</em><sub><em>i</em></sub>) ∈ ℤ<sub>ℓ</sub></span>.
+Take <span
+class="math inline"><em>n</em> = <em>v</em><sub>ℓ</sub>(<em>z</em>)</span>
+so we know that <span
+class="math inline"><em>f</em><sub><em>n</em> − 1, <em>k</em></sub>(<em>a</em><sub><em>k</em></sub>) = 0</span>
+so <span
+class="math inline">ℓ<sup><em>n</em></sup> ∣ <em>a</em><sub><em>k</em></sub></span>
+but <span class="math inline">ℓ<sup><em>n</em> + 1</sup></span> does
+not. Thus we can write <span
+class="math inline"><em>a</em><sub><em>k</em></sub> = ℓ<sup><em>n</em></sup><em>u</em><sub><em>k</em></sub></span>
+with <span
+class="math inline"><em>u</em><sub><em>k</em></sub> ∈ (ℤ/ℓ<sup><em>k</em></sup>ℤ)<sup>×</sup></span>.
+Take <span
+class="math inline"><em>u</em> = (<em>u</em><sub><em>k</em></sub>)</span>
+with <span
+class="math inline"><em>u</em><sub><em>k</em></sub> = <em>f</em><sub><em>k</em><em>n</em></sub>(<em>u</em><sub><em>n</em></sub>) ≠ 0</span>
+since <span class="math inline">$\ell \centernot \mid u_n$</span> for
+<span class="math inline"><em>k</em> &lt; <em>n</em></span> so clearly
+<span
+class="math inline"><em>z</em> = ℓ<sup><em>n</em></sup><em>u</em></span>
+and <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>u</em>) = 0</span>.
+Furthermore, if <span
+class="math inline"><em>z</em> ∈ ℚ<sub>ℓ</sub></span> then <span
+class="math inline">$z = \frac{a}{b}$</span> for <span
+class="math inline"><em>a</em>, <em>b</em> ∈ ℤ<sub>ℓ</sub></span> so we
+can write <span
+class="math inline"><em>a</em> = ℓ<sup><em>n</em></sup><em>u</em></span>
+and <span
+class="math inline"><em>b</em> = ℓ<sup><em>m</em></sup><em>v</em></span>
+with <span
+class="math inline"><em>u</em>, <em>v</em> ∈ ℤ<sup>×</sup></span>. Thus,
+<span class="math display">$$z = \frac{\ell^n u}{\ell^m v} = \ell^{n-m}
+u v^{-1}$$</span> with <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em>) = <em>v</em><sub>ℓ</sub>(<em>a</em>) − <em>v</em><sub>ℓ</sub>(<em>b</em>) = <em>n</em> − <em>m</em></span>
+an <span
+class="math inline"><em>u</em><em>v</em><sup>−1</sup> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span>. ◻</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 5</strong>. <span
+class="math display">$$\mathbb{Q}_{\ell} = \mathbb{Z}_{\ell}\left[
+\frac{1}{\ell} \right] = \bigcup_n \frac{1}{\ell^n}
+\mathbb{Z}_{\ell}$$</span> Therefore we may represent an element of
+<span class="math inline">ℚ<sub>ℓ</sub></span> as a power series, <span
+class="math display"><em>a</em><sub>−<em>N</em></sub>ℓ<sup>−<em>N</em></sup> + <em>a</em><sub>−<em>N</em> + 1</sub>ℓ<sup>−<em>N</em> + 1</sup> + ⋯ + <em>a</em><sub>0</sub> + <em>a</em><sub>1</sub>ℓ + <em>a</em><sub>2</sub>ℓ<sup>2</sup> + ⋯</span>
+with only finitely many negative exponent terms.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By the previous proposition we can write any element
+<span class="math inline"><em>z</em> ∈ ℚ<sub>ℓ</sub></span> as <span
+class="math inline">ℓ<sup><em>n</em></sup><em>u</em></span> for <span
+class="math inline"><em>u</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span> and
+<span class="math inline"><em>n</em> ∈ ℤ</span>. Therefore, we simply
+need to invert <span class="math inline">ℓ</span> to get negative powers
+of <span class="math inline">ℓ</span> to represent all of <span
+class="math inline">ℚ<sub>ℓ</sub></span> from <span
+class="math inline">ℤ<sub>ℓ</sub></span>. ◻</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 6</strong>. <span
+class="math inline">ℤ<sub>ℓ</sub></span> is a local PID (and thus a
+discrete valuation ring) with unique maximal ideal <span
+class="math inline">ℓℤ<sub>ℓ</sub></span> and residue field <span
+class="math inline">𝔽<sub>ℓ</sub></span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span
+class="math inline"><em>I</em> ⊂ ℤ<sub>ℓ</sub></span> be an ideal.
+Consider <span
+class="math inline"><em>n</em> = <em>v</em><sub>ℓ</sub>(<em>I</em>) = min {<em>v</em><sub>ℓ</sub>(<em>z</em>) ∈ ℕ ∣ <em>z</em> ∈ <em>I</em>}</span>
+where the minimum value exists by well ordering. Thus, there exists
+<span class="math inline"><em>z</em><sub>0</sub> ∈ <em>I</em></span>
+with <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em><sub>0</sub>) = <em>n</em></span>.
+I claim that <span
+class="math inline"><em>I</em> = (ℓ)<sup><em>n</em></sup></span>. We can
+write <span
+class="math inline"><em>z</em><sub>0</sub> = ℓ<sup><em>n</em></sup><em>u</em></span>
+for some <span
+class="math inline"><em>u</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span>.
+Therefore, <span
+class="math inline"><em>I</em> ⊂ (<em>z</em><sub>0</sub>) = (ℓ<sup><em>n</em></sup><em>u</em>) = (ℓ)<sup><em>n</em></sup></span>.
+Furthermore for any <span
+class="math inline"><em>z</em> ∈ <em>I</em></span> we have <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em>) = <em>m</em> ≥ <em>n</em></span>
+so <span class="math inline">ℓ<sup><em>n</em></sup> ∣ <em>z</em></span>
+since <span
+class="math inline"><em>z</em> = ℓ<sup><em>m</em></sup><em>v</em></span>
+for <span
+class="math inline"><em>v</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span> so
+<span
+class="math inline"><em>z</em> = ℓ<sup><em>m</em> − <em>n</em></sup><em>v</em>ℓ<sup><em>n</em></sup></span>
+with <span
+class="math inline">ℓ<sup><em>m</em> − <em>n</em></sup><em>v</em> ∈ ℤ<sub>ℓ</sub></span>
+and thus <span
+class="math inline"><em>z</em> ∈ (ℓ)<sup><em>n</em></sup></span>.
+Therefore, <span
+class="math inline"><em>I</em> = (ℓ)<sup><em>n</em></sup></span>.<br />
+Thus, all proper ideals are contained in <span
+class="math inline">(ℓ)</span> so <span
+class="math inline">𝔪 = (ℓ)</span> is the unique maximal ideal. Consider
+the map, <span
+class="math display"><em>ϕ</em> : ℤ → ℤ<sub>ℓ</sub>/ℓℤ</span> given by
+inclusion and then projection. Given <span
+class="math inline"><em>z</em> = (<em>a</em><sub><em>i</em></sub>) ∈ ℤ<sub>ℓ</sub></span>
+take <span class="math inline"><em>a</em> ∈ ℤ</span> such that <span
+class="math inline"><em>a</em> ≡ <em>a</em><sub><em>i</em></sub> mod ℓ</span>.
+Then <span
+class="math inline"><em>v</em><sub>ℓ</sub>(<em>z</em>−<em>a</em>) ≥ 1</span>
+so <span class="math inline">ℓ ∣ <em>z</em> − <em>a</em></span>.
+Therefore, <span class="math inline">[<em>a</em>] = [<em>z</em>]</span>
+in <span class="math inline">ℤ<sub>ℓ</sub>/ℓℤ<sub>ℓ</sub></span> so
+<span class="math inline"><em>ϕ</em></span> is surjective. Furthermore,
+<span class="math inline">ker <em>ϕ</em> = ℓℤ</span> since <span
+class="math inline">[<em>a</em>] = 0</span> exactly when <span
+class="math inline"><em>a</em> = (0,<em>a</em>,⋯)</span> i.e. <span
+class="math inline"><em>a</em> ≡ 0 mod ℓ</span>. Therefore, <span
+class="math display">ℤ/ℓℤ ≅ ℤ<sub>ℓ</sub>/ℓℤ</span> so the residue field
+is given by <span
+class="math inline">ℤ<sub>ℓ</sub>/𝔪 ≅ 𝔽<sub>ℓ</sub></span>. ◻</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 7</strong>. <span
+class="math inline">ℚ<sub>ℓ</sub>/ℤ<sub>ℓ</sub> ≅ ℚ/ℤ</span> and <span
+class="math inline">ℤ<sub>ℓ</sub>/ℓ<sup><em>n</em></sup>ℤ<sub>ℓ</sub> ≅ ℤ/ℓ<sup><em>n</em></sup>ℤ</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Quotienting by <span
+class="math inline">ℓ<sup><em>n</em></sup>ℤ<sub>ℓ</sub></span> is
+equivalent to ignoring all elements of the sequence with index greater
+than or equal to <span class="math inline"><em>n</em></span>. Therefore,
+we can choose a rational number (or integer) which reduces modulo <span
+class="math inline">ℓ<sup><em>n</em></sup>ℤ</span> to the required value
+which is consistently reduced by the reduction maps. ◻</p>
+</div>
+<div class="trivlist">
+<p>A complete non-archimedean field <span
+class="math inline"><em>K</em></span> is a topological field which is
+complete with respect to an absolute value satisfying the
+non-archimedean property or ultrametric inequality, <span
+class="math display">|<em>α</em>+<em>β</em>| ≤ max {|<em>α</em>|, |<em>β</em>|}</span>
+For example <span class="math inline">ℚ<sub>ℓ</sub></span> with the
+<span class="math inline">ℓ</span>-adic absolute value <span
+class="math inline">|⋅| : ℚ<sub>ℓ</sub> → ℤ</span>.</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 8</strong>. Let <span
+class="math inline"><em>K</em></span> be a complete non-archimedean
+field and <span class="math inline"><em>L</em>/<em>K</em></span> a
+separable extension. The absolute value on <span
+class="math inline"><em>K</em></span> extends uniquely to a
+non-archimedean absolute value on <span
+class="math inline"><em>L</em></span>. Furthermore, if <span
+class="math inline"><em>L</em>/<em>K</em></span> is finite then <span
+class="math inline"><em>L</em></span> is complete with respect to the
+extended absolute value.</p>
+</div>
+<div class="lemma">
+<p><strong>Lemma 9</strong> (Krasner). Let <span
+class="math inline"><em>K</em></span> be a complete non-archimedean
+field and <span
+class="math inline"><em>α</em>, <em>β</em> ∈ <em>K̄</em></span>. If <span
+class="math inline"><em>α</em></span> is strictly closer to <span
+class="math inline"><em>β</em></span> than to any conjugate of <span
+class="math inline"><em>α</em></span> then <span
+class="math inline"><em>K</em>(<em>α</em>) ⊂ <em>K</em>(<em>β</em>)</span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Consider an automorphism <span
+class="math inline">$\sigma \in \mathrm{Gal} \small(\bar{K} / K
+\small)$</span>. By assumption, <span
+class="math inline">|<em>α</em>−<em>β</em>| &lt; |<em>α</em>−<em>σ</em>(<em>α</em>)|</span>
+whenever <span
+class="math inline"><em>σ</em>(<em>α</em>) ≠ <em>α</em></span>. Suppose
+that <span
+class="math inline"><em>σ</em>(<em>β</em>) = <em>β</em></span> and
+consider the value, <span
+class="math display">|<em>α</em>−<em>σ</em>(<em>α</em>)| = |<em>α</em>−<em>β</em>+<em>β</em>−<em>σ</em>(<em>α</em>)| ≤ max {|<em>α</em>−<em>β</em>|,|<em>β</em>−<em>σ</em>(<em>α</em>)|}</span>
+We know that <span
+class="math inline">|<em>β</em>−<em>σ</em>(<em>α</em>)| = |<em>σ</em>(<em>β</em>−<em>α</em>)| = |<em>α</em>−<em>β</em>|</span>
+by uniqueness of the absolute value. Therefore, unless <span
+class="math inline"><em>σ</em>(<em>α</em>) = <em>α</em></span>, <span
+class="math display">|<em>α</em>−<em>σ</em>(<em>α</em>)| ≤ |<em>α</em>−<em>β</em>| &lt; |<em>α</em>−<em>σ</em>(<em>α</em>)|</span>
+which is a contradiction so <span
+class="math inline"><em>σ</em>(<em>α</em>) = <em>α</em></span>.
+Therefore, <span class="math inline">$\mathrm{Gal} \small(\bar{K} /
+K(\beta) \small) \subset \mathrm{Gal} \small(\bar{K} / K(\alpha)
+\small)$</span> and thus <span
+class="math inline"><em>K</em>(<em>α</em>) ⊂ <em>K</em>(<em>β</em>)</span>. ◻</p>
+</div>
+<div id="thm:algebraic_extensions_adics" class="theorem">
+<p><strong>Theorem 10</strong>. Let <span
+class="math inline"><em>K</em>/ℚ<sub>ℓ</sub></span> be finite. There
+exists <span class="math inline">$\alpha \in
+\overline{\mathbb{Q}}$</span> such that <span
+class="math inline"><em>K</em> = ℚ<sub>ℓ</sub>(<em>α</em>)</span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By the primitive element theorem, <span
+class="math inline"><em>K</em> = ℚ<sub>ℓ</sub>(<em>α</em>′)</span> for
+some <span class="math inline"><em>α</em>′</span> algebraic over <span
+class="math inline">ℚ<sub>ℓ</sub></span> with minimal polynomial <span
+class="math inline"><em>f</em> ∈ ℚ<sub>ℓ</sub>[<em>X</em>]</span>. Take
+<span class="math inline"><em>g</em> ∈ ℚ[<em>X</em>]</span> which is
+monic of the same degree. Write, <span class="math display">$$g(X) =
+\prod_{i = 0}^n (X - \alpha_i)$$</span> for roots <span
+class="math inline">$\alpha_i \in \overline{\mathbb{Q}}$</span>.
+Consider, <span class="math display">$$|(f - g)(\alpha')|_{\ell} =
+|g(\alpha')|_{\ell} = \prod_{i = 0}^n |\alpha' -
+\alpha_i|_{\ell}$$</span> by choosing <span
+class="math inline"><em>g</em></span> such that <span
+class="math inline"><em>f</em> − <em>g</em></span> is sufficiently small
+we can ensure that for any <span
+class="math inline"><em>ϵ</em> &gt; 0</span> there is some root <span
+class="math inline"><em>α</em></span> of <span
+class="math inline"><em>g</em></span> such that <span
+class="math inline">|<em>α</em>′−<em>α</em>| &lt; <em>ϵ</em></span>. In
+particular, for sufficiently small <span
+class="math inline"><em>ϵ</em></span> the root <span
+class="math inline"><em>α</em></span> will be strictly closer to <span
+class="math inline"><em>α</em>′</span> than any conjugate of <span
+class="math inline"><em>α</em>′</span>. Therefore, by Krasner’s Lemma,
+<span
+class="math display">ℚ<sub>ℓ</sub>(<em>α</em>′) ⊂ ℚ<sub>ℓ</sub>(<em>α</em>)</span>
+However because <span class="math inline"><em>f</em></span> is
+irreducible, <span
+class="math display">[ℚ<sub>ℓ</sub>(<em>α</em>):ℚ<sub>ℓ</sub>] ≤ deg <em>g</em> = deg <em>f</em> = [ℚ<sub>ℓ</sub>(<em>α</em>′):ℚ<sub>ℓ</sub>] ≤ [ℚ<sub>ℓ</sub>(<em>α</em>):ℚ<sub>ℓ</sub>]</span>
+forcing an equality. Therefore <span
+class="math inline">ℚ<sub>ℓ</sub>(<em>α</em>) = ℚ<sub>ℓ</sub>(<em>α</em>′) = <em>K</em></span>
+and furthermore <span class="math inline"><em>g</em></span> is
+irreducible in <span
+class="math inline">ℚ<sub>ℓ</sub>[<em>X</em>]</span> thus in <span
+class="math inline">ℚ[<em>X</em>]</span> so, <span
+class="math display">[ℚ(<em>α</em>):ℚ] = deg <em>g</em> = [ℚ<sub>ℓ</sub>(<em>α</em>):ℚ<sub>ℓ</sub>]</span> ◻</p>
+</div>
+<h1 id="galois-representations-over-mathbbc">Galois Representations over
+<span class="math inline">ℂ</span></h1>
+<div id="lem:no_subgroups_of_nbd" class="lemma">
+<p><strong>Lemma 11</strong>. There exists a neighborhood <span
+class="math inline"><em>V</em></span> of <span
+class="math inline"><em>I</em></span> in <span
+class="math inline">GL<sub><em>n</em></sub>(ℂ)</span> that contains no
+nontrivial subgroup.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Recall that <span
+class="math inline"><em>M</em><sub><em>n</em></sub>(ℂ)</span> is a
+metric space under the absolute value <span
+class="math inline">|<em>A</em>| = max |<em>A</em><sub><em>i</em><em>j</em></sub>|</span>.<br />
+Let <span
+class="math inline"><em>U</em><sub><em>r</em></sub> = {<em>A</em> ∈ <em>M</em><sub><em>n</em></sub>(ℂ) : |<em>A</em>−<em>I</em>| &lt; <em>r</em>
+and Tr (<em>A</em>) = 0}</span> and take <span
+class="math inline"><em>V</em><sub><em>r</em></sub> = exp (<em>U</em><sub><em>r</em></sub>)</span>
+an open neighborhood of <span
+class="math inline"><em>I</em> ∈ GL<sub><em>n</em></sub>(ℂ)</span> since
+<span
+class="math inline">det exp <em>A</em> = exp Tr (<em>A</em>) = 1</span>.
+Suppose that <span
+class="math inline"><em>H</em> ⊂ <em>V</em><sub><em>r</em></sub></span>
+is a subgroup. For <span
+class="math inline"><em>B</em> ∈ <em>H</em></span> we have <span
+class="math inline"><em>B</em> = exp <em>A</em></span> and thus <span
+class="math inline"><em>B</em><sup><em>k</em></sup> = (exp<em>A</em>)<sup><em>k</em></sup> = exp (<em>k</em><em>A</em>)</span>
+so <span
+class="math inline"><em>k</em><em>A</em> ∈ <em>U</em><sub><em>r</em></sub></span>.
+However, <span
+class="math inline">|<em>k</em><em>A</em>| = |<em>k</em>| ⋅ |<em>A</em>|</span>
+which, by the archimedean property, can be taken arbitrarily large if
+<span class="math inline">|<em>A</em>| &gt; 0</span>. Since all <span
+class="math inline"><em>A</em> ∈ <em>U</em><sub><em>r</em></sub></span>
+have <span class="math inline">|<em>A</em>| &lt; <em>r</em></span> this
+contradicts the fact that <span
+class="math inline"><em>k</em><em>A</em> ∈ <em>U</em><sub><em>r</em></sub></span>
+unless <span
+class="math inline">|<em>A</em>| = 0 ⟹ <em>A</em> = 0 ⟹ <em>B</em> = <em>I</em></span>.
+Thus, <span class="math inline"><em>H</em> = {<em>I</em>}</span>. ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 4</em>. The above proof depends crucially on the
+archimedean property.</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 12</strong>. Any continuous homomorphism <span
+class="math inline"><em>ρ</em> : <em>G</em><sub><em>K</em></sub> → GL<sub><em>n</em></sub>(ℂ)</span>
+factors through <span class="math inline">$\mathrm{Gal} \small(F/K
+\small)$</span> for some finite Galois extension <span
+class="math inline"><em>F</em>/<em>K</em></span>. Hence its image is
+finite.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By Lemma <a href="#lem:no_subgroups_of_nbd"
+data-reference-type="ref"
+data-reference="lem:no_subgroups_of_nbd">11</a>, let <span
+class="math inline"><em>V</em></span> be an neighborhood of <span
+class="math inline"><em>I</em></span> in <span
+class="math inline">GL<sub><em>n</em></sub>(ℂ)</span> which contains no
+non-trivial subgroups. Then <span
+class="math inline"><em>U</em> = <em>ρ</em><sup>−1</sup>(<em>V</em>)</span>
+is an open neighborhood of <span
+class="math inline">id ∈ <em>G</em><sub><em>K</em></sub></span> and thus
+contains a normal subgroup of the form <span
+class="math inline">$\mathrm{Gal} \small(\bar{K} / F \small)$</span> for
+some galois extension <span
+class="math inline"><em>F</em>/<em>K</em></span>. Since <span
+class="math inline"><em>ρ</em></span> is a homomorphism, the image of
+<span class="math inline">$\mathrm{Gal} \small(\bar{K} / F
+\small)$</span> is subgroup contained in <span
+class="math inline"><em>V</em></span>. But <span
+class="math inline"><em>V</em></span> does not have any nontrivial
+subgroup so <span class="math inline">$\mathrm{Gal} \small(\bar{K} /
+F  \small) \subset \ker{\rho}$</span> is actually in the kernel of <span
+class="math inline"><em>ρ</em></span>. Thus, <span
+class="math inline"><em>ρ</em></span> factors through the quotient,
+<span class="math display">$$\mathrm{Gal} \small(\bar{K} / K \small) /
+\mathrm{Gal} \small(\bar{K} / F \small) \cong \mathrm{Gal} \small(F / K
+\small)$$</span> which is finite. Hence <span
+class="math inline"><em>ρ</em></span> has finite image. ◻</p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 13</strong>. Every <span
+class="math inline">1</span>-dimensional Galois representation of <span
+class="math inline"><em>G</em><sub>ℚ</sub></span> over <span
+class="math inline">ℂ</span> is a Dirichlet character.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Any Galois representation <span
+class="math inline"><em>ρ</em> : <em>G</em><sub>ℚ</sub> → GL<sub>1</sub>(ℂ) ≅ ℂ<sup>×</sup></span>
+factors through the quotient, <span class="math display">$$\rho :
+\mathrm{Gal} \small(F / \mathbb{Q} \small) \to
+\mathbb{C}^\times$$</span> where <span
+class="math inline"><em>F</em></span> is a Galois number field. However,
+<span class="math inline">ℂ<sup>×</sup></span> is abelian so <span
+class="math inline"><em>ρ</em></span> descends to the abelianization.
+Let <span class="math inline">$C \triangleleft \mathrm{Gal} \small(F /
+\mathbb{Q} \small)$</span> be the commutator subgroup. By the Galois
+correspondence, <span
+class="math inline"><em>F</em><sup>ab</sup> = <em>F</em><sup><em>C</em></sup></span>
+is a Galois extension of <span class="math inline">ℚ</span> with Galois
+group, <span class="math display">$$\mathrm{Gal} \small(F^{\mathrm{ab}}
+/ \mathbb{Q} \small) \cong \mathrm{Gal} \small(F / \mathbb{Q} \small) /
+C = \mathrm{Gal} \small(F / \mathbb{Q} \small)^{\mathrm{ab}}$$</span> By
+the Kronecker-Weber theorem, every abelian extension of <span
+class="math inline">ℚ</span> lies inside some cyclotomic field. So <span
+class="math inline"><em>F</em><sup>ab</sup> ⊂ ℚ(<em>ζ</em><sub><em>N</em></sub>)</span>
+giving a restriction map on the Galois groups. This gives a commutative
+diagram,</p>
+<div class="center">
+
+</div>
+<p>Thus <span class="math inline"><em>ρ</em></span> factors through a
+Dirichlet character, <span class="math display">$$\chi : \mathrm{Gal}
+\small( \mathbb{Q}(\zeta_n) / \mathbb{Q} \small) \cong (\mathbb{Z}/ N
+\mathbb{Z})^\times \to \mathbb{C}^\times$$</span> ◻</p>
+</div>
+<h1 id="ell-adic-galois-representations"><span
+class="math inline">ℓ</span>-adic Galois Representations</h1>
+<p>The archimedean nature of <span class="math inline">ℂ</span> leading
+to Lemma <a href="#lem:no_subgroups_of_nbd" data-reference-type="ref"
+data-reference="lem:no_subgroups_of_nbd">11</a> made the theory of
+complex Galois representations fairly uninteresting. However, if we
+consider a non-archimedean field such as <span
+class="math inline">ℚ<sub>ℓ</sub></span>, this restriction is lifted. In
+fact,</p>
+<div class="proposition">
+<p><strong>Proposition 14</strong>. Every neighborhood of <span
+class="math inline">1 ∈ ℚ<sub>ℓ</sub><sup>×</sup></span> contains a
+nontrivial subgroup.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span class="math inline"><em>U</em></span> be an
+open neighborhood of <span
+class="math inline">1 ∈ ℚ<sub>ℓ</sub><sup>×</sup></span>, then there
+exists <span class="math inline"><em>n</em> ∈ ℤ<sup>+</sup></span> such
+that <span
+class="math display"><em>V</em>(<em>n</em>) = 1 + ℓ<sup><em>n</em></sup>ℤ<sub>ℓ</sub> ⊂ <em>U</em></span>
+However, <span class="math inline"><em>V</em>(<em>n</em>)</span> is a
+nontrivial subgroup of <span
+class="math inline">ℚ<sub>ℓ</sub><sup>×</sup></span> because <span
+class="math display">$$(1 + \ell^n z)^{-1} - 1 = \frac{ \ell^n z }{1 +
+\ell^n z} = \ell^n \frac{z}{1 + \ell^n z} \in \ell^n
+\mathbb{Z}_{\ell}$$</span> since <span
+class="math inline">1 + ℓ<sup><em>n</em></sup><em>z</em> ∈ ℤ<sub>ℓ</sub><sup>×</sup></span>. ◻</p>
+</div>
+<h2 id="one-dimensional-galois-representations">One-Dimensional Galois
+Representations</h2>
+<div class="trivlist">
+<p>Let <span class="math inline"><em>F</em>/ℚ</span> be Galois, <span
+class="math inline"><em>p</em> ∈ ℤ</span> be a prime, and <span
+class="math inline">𝔭</span> is a prime in <span
+class="math inline">𝒪<sub><em>F</em></sub></span> lying above <span
+class="math inline"><em>p</em></span>. Then <span
+class="math inline">$\mathrm{Frob}_{\mathfrak{p}}\in \mathrm{Gal}
+\small(F/\mathbb{Q} \small)$</span> is defined by <span
+class="math display">Frob<sub>𝔭</sub>(<em>x</em>) ≡ <em>x</em><sup><em>p</em></sup>  mod 𝔭</span>
+for <span
+class="math inline"><em>x</em> ∈ 𝒪<sub><em>F</em></sub></span>.</p>
+</div>
+<div class="lemma">
+<p><strong>Lemma 15</strong>. Let <span
+class="math inline"><em>F</em> = ℚ(<em>ζ</em><sub><em>N</em></sub>)</span>.
+Let <span class="math inline"><em>p</em></span> be a prime in <span
+class="math inline">ℤ</span> such that <span class="math inline">$p
+\centernot \mid N$</span>. Let <span class="math inline">𝔭</span> be a
+prime in <span class="math inline"><em>F</em></span> lying above <span
+class="math inline"><em>p</em></span>. Then <span
+class="math inline">𝔣<sub>𝔭</sub> = 𝒪<sub><em>F</em></sub>/𝔭 = 𝔽<sub><em>p</em></sub>[<em>ζ</em><sub><em>N</em></sub>]</span>.
+Let <span
+class="math inline"><em>x</em> ∈ 𝒪<sub><em>F</em></sub></span>, then we
+can describe the action of <span
+class="math inline">Frob<sub>𝔭</sub></span> by <span
+class="math display">$$\mathrm{Frob}_{\mathfrak{p}}\left( \sum_{i =
+0}^{N-1} a_i \zeta_N^i \right) \equiv \left( \sum_{i = 0}^{N-1} a_i
+\zeta_N^i \right)^p \equiv \sum_{i = 0}^{N-1} a_i \zeta_N^{ip} \: \:
+\mathrm{mod} \: \mathfrak{p}$$</span> That is to say, the action of
+<span class="math inline">Frob<sub>𝔭</sub></span> takes <span
+class="math inline"><em>ζ</em><sub><em>N</em></sub></span> to <span
+class="math inline"><em>ζ</em><sub><em>N</em></sub><sup><em>p</em></sup></span>.</p>
+</div>
+<div class="trivlist">
+<p>The <span class="math inline">ℓ</span>-adic cyclotomic character
+<span
+class="math inline"><em>χ</em><sub>ℓ</sub> : <em>G</em><sub>ℚ</sub> → ℚ<sub>ℓ</sub><sup>×</sup></span>
+of <span class="math inline"><em>G</em><sub>ℚ</sub></span> is defined
+by, <span
+class="math display"><em>σ</em> ↦ (<em>m</em><sub>1</sub>,<em>m</em><sub>2</sub>,<em>m</em><sub>3</sub>,…)
+where
+<em>σ</em>(<em>ζ</em><sub>ℓ<sup><em>n</em></sup></sub>) = <em>ζ</em><sub>ℓ<sup><em>n</em></sup></sub><sup><em>m</em><sub><em>n</em></sub></sup></span>
+is a <span class="math inline">1</span>-dimensional Galois
+representation since <span
+class="math inline"><em>m</em><sub><em>n</em></sub></span> is defined up
+to multiples of <span
+class="math inline">ℓ<sup><em>n</em></sup></span>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 5</em>. Notice that when <span
+class="math inline"><em>p</em> ≠ ℓ</span> we have, <span
+class="math display"><em>χ</em><sub>ℓ</sub>(Frob<sub>𝔭</sub>) = <em>p</em></span>
+In particular, the image of <span
+class="math inline"><em>χ</em><sub>ℓ</sub></span> is infinite.
+Therefore, <span class="math inline">ℓ</span>-adic Galois
+representations allow for richer structure than those over <span
+class="math inline">ℂ</span>.</p>
+</div>
+<div class="trivlist">
+<p>We write <span class="math inline">ℚ<sub>ℓ</sub>(1)</span> for the
+vectorspace <span class="math inline">ℚ<sub>ℓ</sub></span> with the
+cyclotomic character Galois rep <span
+class="math inline"><em>χ</em><sub>ℓ</sub> : <em>G</em><sub>ℚ</sub> → ℚ<sub>ℓ</sub><sup>×</sup> = GL<sub>1</sub>(ℚ<sub>ℓ</sub>)</span>
+acting on it. For any <span class="math inline">ℚ<sub>ℓ</sub></span>-rep
+of <span class="math inline"><em>G</em></span> we define the <span
+class="math inline"><em>m</em><sup>th</sup></span>-Tate twist via, <span
+class="math display"><em>V</em>(<em>m</em>) = <em>V</em>⊗<sub>ℚ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub>(1)<sup>⊗<em>m</em></sup> = <em>V</em>⊗<sub>ℚ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub>(<em>m</em>)</span>
+and we define, <span
+class="math display">ℚ<sub>ℓ</sub>(−1) = ℚ<sub>ℓ</sub>(1)<sup>⊗ − 1</sup> = ℚ<sub>ℓ</sub>(1)<sup>∨</sup></span>
+the dual representation.</p>
+</div>
+<div class="remark">
+<p><em>Remark 6</em>. Note that there is a more natural way to see the
+cyclotomic character arrise. The torsions points <span
+class="math inline">$\mu_{\ell^n}(\overline{\mathbb{Q}}) =
+\overline{\mathbb{Q}}[\ell^n]$</span> have a natural action of <span
+class="math inline"><em>G</em><sub>ℚ</sub></span> which is compatible
+with restriction maps. Then we define, <span
+class="math display">$$\mathbb{Z}_\ell(1) = \varprojlim_{n}
+\mu_{\ell^n}(\overline{\mathbb{Q}})$$</span> How does <span
+class="math inline"><em>G</em><sub>ℚ</sub></span> act on <span
+class="math inline">ℤ<sub>ℓ</sub>(1)</span>. Well, we take a sequence
+<span
+class="math inline">(<em>ζ</em><sub>ℓ</sub><sup><em>a</em><sub>1</sub></sup>,<em>ζ</em><sub>ℓ<sup>2</sup></sub><sup><em>a</em><sub>2</sub></sup>,<em>ζ</em><sub>ℓ<sup>3</sup></sub><sup><em>a</em><sub>3</sub></sup>,…)</span>
+and map it to, <span
+class="math display"><em>σ</em>(<em>ζ</em><sub>ℓ</sub><sup><em>a</em><sub>1</sub></sup>,<em>ζ</em><sub>ℓ<sup>2</sup></sub><sup><em>a</em><sub>2</sub></sup>,<em>ζ</em><sub>ℓ<sup>3</sup></sub><sup><em>a</em><sub>3</sub></sup>,…) = (<em>σ</em>(<em>ζ</em><sub>ℓ</sub><sup><em>a</em><sub>1</sub></sup>),<em>σ</em>(<em>ζ</em><sub>ℓ<sup>2</sup></sub><sup><em>a</em><sub>2</sub></sup>),<em>σ</em>(<em>ζ</em><sub>ℓ<sup>3</sup></sub><sup><em>a</em><sub>3</sub></sup>),…) = (<em>ζ</em><sub>ℓ</sub><sup><em>m</em><sub>1</sub><em>a</em><sub>1</sub></sup>), <em>ζ</em><sub>ℓ<sup>2</sup></sub><sup><em>m</em><sub>2</sub><em>a</em><sub>2</sub></sup>, <em>ζ</em><sub>ℓ<sup>3</sup></sub><sup><em>m</em><sub>3</sub><em>a</em><sub>3</sub></sup>, …)</span>
+so representing the sequence by its exponents, <span
+class="math inline"><em>σ</em> ∈ <em>G</em><sub>ℚ</sub></span> acts via
+multiplication by the sequence <span
+class="math inline">(<em>m</em><sub>1</sub>,<em>m</em><sub>2</sub>,<em>m</em><sub>3</sub>,…)</span>.
+Then we can define the Galois-rep <span
+class="math inline">ℚ<sub>ℓ</sub>(1)</span> as, <span
+class="math display">ℚ<sub>ℓ</sub>(1) = ℤ<sub>ℓ</sub>(1)⊗<sub>ℤ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub></span>
+where <span class="math inline">ℚ<sub>ℓ</sub></span> is the trivial
+<span class="math inline">ℓ</span>-adic <span
+class="math inline"><em>G</em></span>-rep and we take the tensor product
+as <span class="math inline"><em>G</em></span>-modules. We can do the
+same construction for all primes simultaneously to get, <span
+class="math display">$$\hat{\mathbb{Z}}(1) = \varprojlim_n
+\mu_n(\overline{\mathbb{Q}})$$</span> which has an analogous <span
+class="math inline"><em>G</em><sub>ℚ</sub></span>-action. In fact, by
+the Chinese Remainder Theorem, there is a canonical decomposition of
+<span class="math inline"><em>G</em><sub>ℚ</sub></span>-modules, <span
+class="math display">$$\hat{\mathbb{Z}}(1) = \prod_{\ell}
+\mathbb{Z}_\ell(1)$$</span> However, by the above product decomposition,
+<span class="math inline">$\hat{\mathbb{Z}}(1)$</span> is not a domain
+so we cannot make it into a field and discuss its corresponding
+representations which is why we content ourselves to work <span
+class="math inline">ℓ</span>-adically in each prime.</p>
+</div>
+<h2 id="higher-dimensional-galois-representations">Higher-Dimensional
+Galois Representations</h2>
+<div class="theorem">
+<p><strong>Theorem 16</strong>. Let <span
+class="math inline"><em>G</em></span> be profinite. Any continuous
+homomorphism <span class="math inline">$\rho : G \to
+\mathrm{GL}_{n}(\overline{\mathbb{Q}_{\ell}})$</span> has image <span
+class="math inline"><em>ρ</em>(<em>G</em>) ⊂ GL<sub><em>n</em></sub>(<em>K</em>)</span>
+where <span class="math inline"><em>K</em></span> is a finite extension
+of <span class="math inline">ℚ<sub>ℓ</sub></span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By Theorem <a href="#thm:algebraic_extensions_adics"
+data-reference-type="ref"
+data-reference="thm:algebraic_extensions_adics">10</a>, the finite
+extensions of <span class="math inline">ℚ<sub>ℓ</sub></span> are indexed
+by elements <span class="math inline">$\alpha \in
+\overline{\mathbb{Q}}$</span> and are thus countable. Write, <span
+class="math display">$$\overline{\mathbb{Q}_{\ell}} = \bigcup_{i \in I}
+E_i$$</span> where <span
+class="math inline"><em>E</em><sub><em>i</em></sub></span> are finite
+extensions of <span class="math inline">ℚ<sub>ℓ</sub></span> and <span
+class="math inline"><em>I</em></span> is countable. A topological space
+<span class="math inline"><em>X</em></span> is a <em>Baire space</em> if
+and only if given any countable collection of closed sets <span
+class="math inline"><em>F</em><sub><em>i</em></sub></span> in <span
+class="math inline"><em>X</em></span>, each with empty interior in <span
+class="math inline"><em>X</em></span>, their union also has empty
+interior. The image <span
+class="math inline"><em>ρ</em>(<em>G</em>)</span> is compact because
+<span class="math inline"><em>G</em></span> is compact and <span
+class="math inline"><em>ρ</em></span> is continuous. Therefore <span
+class="math inline"><em>ρ</em>(<em>G</em>)</span> is a complete metric
+space and thus Baire space by the Baire category theorem.<br />
+Let <span class="math inline"><em>F</em><sub><em>i</em></sub></span> be
+the closure of <span
+class="math inline">GL<sub><em>n</em></sub>(<em>E</em><sub><em>i</em></sub>) ∩ <em>ρ</em>(<em>G</em>)</span>
+in <span class="math inline"><em>ρ</em>(<em>G</em>)</span>. Then <span
+class="math display"><em>ρ</em>(<em>G</em>) = ⋃<sub><em>i</em> ∈ <em>I</em></sub><em>F</em><sub><em>i</em></sub></span>
+has nonempty interior in <span
+class="math inline"><em>ρ</em>(<em>G</em>)</span>. Therefore, there
+exists <span class="math inline"><em>i</em> ∈ <em>I</em></span> such
+that <span class="math inline"><em>F</em><sub><em>i</em></sub></span>
+contains a non-empty open subset <span
+class="math inline"><em>U</em> ⊂ <em>ρ</em>(<em>G</em>)</span>. After
+translating and shrinking <span class="math inline"><em>U</em></span>,
+we may assume it is an open subgroup of <span
+class="math inline"><em>ρ</em>(<em>G</em>)</span>. The quotient <span
+class="math inline"><em>ρ</em>(<em>G</em>)/<em>U</em></span> is covered
+by the sets <span
+class="math inline">GL<sub><em>n</em></sub>(<em>E</em><sub><em>j</em></sub>) ∩ <em>ρ</em>(<em>G</em>)</span>
+for each <span
+class="math inline"><em>E</em><sub><em>j</em></sub> ⊃ <em>E</em><sub><em>i</em></sub></span>.
+Since <span class="math inline"><em>ρ</em>(<em>G</em>)</span> is
+compact, the cover by open cosets must be finite because there do not
+exist any proper subcovers. Thus the quotient <span
+class="math inline"><em>ρ</em>(<em>G</em>)/<em>U</em></span> is finite
+so we need only a finite number of such <span
+class="math inline"><em>j</em></span>. The compositum <span
+class="math inline"><em>K</em></span> of the fields <span
+class="math inline"><em>E</em><sub><em>j</em></sub></span> is then a
+finite extension of <span class="math inline">ℚ<sub>ℓ</sub></span>.
+Furthermore, <span
+class="math inline"><em>ρ</em>(<em>G</em>) ⊂ GL<sub><em>n</em></sub>(<em>K</em>)</span>
+because it covers <span
+class="math inline"><em>ρ</em>(<em>G</em>)/<em>U</em></span> and <span
+class="math inline"><em>U</em> ⊂ GL<sub><em>n</em></sub>(<em>K</em>)</span>
+so each coset <span
+class="math inline"><em>g</em><em>U</em> ⊂ GL<sub><em>n</em></sub>(<em>K</em>)</span>. ◻</p>
+</div>
+<div class="corollary">
+<p><strong>Corollary 17</strong>. All <span
+class="math inline">ℓ</span>-adic Galois representations <span
+class="math inline">$\rho : \mathrm{Gal} \small(F / K \small) \to
+\mathrm{GL}_{n}(\overline{\mathbb{Q}_{\ell}})$</span> are of the form,
+<span class="math display">$$\rho : \mathrm{Gal} \small(F / K \small)
+\to \mathrm{GL}_{n}(\mathbb{Q}_{\ell}(\alpha))$$</span> where <span
+class="math inline">$\alpha \in \overline{\mathbb{Q}}$</span>.</p>
+</div>
+<h1 id="galois-representations-attached-to-elliptic-curves">Galois
+Representations Attached to Elliptic Curves</h1>
+<div class="trivlist">
+<p>An elliptic curve is a smooth, projective curve of genus one with a
+distinguished point <span class="math inline"><em>O</em></span>. More
+concretely, an elliptic curve <span
+class="math inline"><em>E</em></span> defined over a field <span
+class="math inline"><em>K</em></span> is a planar algebraic curve given
+by, <span
+class="math display">{(<em>x</em>,<em>y</em>)∈<em>K̄</em><sup>2</sup>∣<em>y</em><sup>2</sup>=<em>x</em><sup>3</sup>+<em>a</em><em>x</em><sup>2</sup>+<em>b</em><em>x</em>+<em>c</em>} ∪ {<em>O</em>} ⊂ <em>K̄</em><sup>2</sup></span>
+for constants <span
+class="math inline"><em>a</em>, <em>b</em>, <em>c</em> ∈ <em>K</em></span>
+such that the equation is non-singular. The distinguished point <span
+class="math inline"><em>O</em></span> is viewed as the “point at
+infinity.” For any <span
+class="math inline"><em>L</em>/<em>K</em></span>, the set of <span
+class="math inline"><em>L</em></span>-rational points of <span
+class="math inline"><em>E</em></span> is, <span
+class="math display"><em>E</em>(<em>L</em>) = {(<em>x</em>,<em>y</em>)∈<em>L</em><sup>2</sup>∣<em>y</em><sup>2</sup>=<em>x</em><sup>3</sup>+<em>a</em><em>x</em><sup>2</sup>+<em>b</em><em>x</em>+<em>c</em>} ∪ {<em>O</em>} ⊂ <em>L</em><sup>2</sup></span>
+When <span class="math inline"><em>L</em>/<em>K</em></span> is
+algebraic, that is, <span
+class="math inline"><em>K</em> ⊂ <em>L</em> ⊂ <em>K̄</em></span>, then
+<span
+class="math inline"><em>E</em>(<em>L</em>) = <em>E</em> ∩ <em>L</em></span>
+which is exactly the set of fixed points of <span
+class="math inline"><em>E</em></span> under the action of <span
+class="math inline">$\mathrm{Gal} \small(\bar{K}/L \small)$</span>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 7</em>. Elliptic curves are, remarkably, abelian varieties
+meaning there exists a map <span
+class="math inline"> +  : <em>E</em> × <em>E</em> → <em>E</em></span>
+expressed by rational functions which gives <span
+class="math inline"><em>E</em></span> the structure of an abelian group
+with identity <span class="math inline"><em>O</em></span>.</p>
+</div>
+<div class="trivlist">
+<p>Let <span class="math inline"><em>E</em></span> be an elliptic curve
+defined over <span class="math inline"><em>K</em></span>. For <span
+class="math inline"><em>n</em> ∈ ℤ</span>, define the <span
+class="math inline"><em>n</em></span>-torsion of <span
+class="math inline"><em>E</em></span>, denoted by <span
+class="math inline"><em>E</em>[<em>n</em>]</span>, to be the kernel of
+the map <span
+class="math inline"><em>x</em> ↦ <em>n</em><em>x</em></span>.</p>
+</div>
+<div class="proposition">
+<p><strong>Proposition 18</strong>. Let <span
+class="math inline"><em>E</em></span> be an elliptic curve defined over
+a number field <span class="math inline"><em>K</em></span> (in
+particular <span class="math inline">ℚ</span>) then <span
+class="math inline"><em>E</em>[<em>n</em>] ≅ (ℤ/<em>n</em>ℤ) ⊕ (ℤ/<em>n</em>ℤ)</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> I will give a sketch of the proof assuming some
+knowledge of Weierstrass elliptic functions. Associated to any elliptic
+curve <span class="math inline"><em>E</em></span> over <span
+class="math inline">ℂ</span> is a complex lattice <span
+class="math inline"><em>Λ</em> ⊂ ℂ</span> and a doubly periodic
+meromorphic function <span
+class="math inline">℘(<em>z</em>;<em>Λ</em>)</span> defined on <span
+class="math inline">ℂ</span> which is constant on translates by <span
+class="math inline"><em>Λ</em></span>. Therefore <span
+class="math inline">℘</span> descends to a function of quotient <span
+class="math inline">ℂ/<em>Λ</em> → ℂ</span>. It turns out that,
+magically, <span
+class="math inline">℘ : ℂ/<em>Λ</em> → <em>E</em></span> given by <span
+class="math inline"><em>z</em> ↦ (℘(<em>z</em>),℘′(<em>z</em>))</span>
+is an isomorphism of groups. In particular, <span
+class="math inline"><em>E</em></span> is topologically a torus. Let
+<span class="math inline"><em>Λ</em></span> be generated by two complex
+numbers <span
+class="math inline"><em>ω</em><sub>1</sub>, <em>ω</em><sub>2</sub></span>
+called the fundamental periods of the lattice. Then the <span
+class="math inline"><em>n</em></span>-torsion points in <span
+class="math inline">ℂ/<em>Λ</em></span> are exactly the points, <span
+class="math display">$$z = \frac{a}{n} \omega_1 + \frac{b}{n} \omega_2
+\text{ for } a,b \in \mathbb{Z}/ n \mathbb{Z}$$</span> such that <span
+class="math inline"><em>n</em><em>z</em> = <em>a</em><em>ω</em><sub>1</sub> + <em>b</em><em>ω</em><sub>2</sub> ∈ <em>Λ</em></span>
+is trivial in <span class="math inline">ℂ/<em>Λ</em></span>. Therefore,
+<span
+class="math inline"><em>E</em>[<em>n</em>] ≅ (ℤ/<em>n</em>ℤ) ⊕ (ℤ/<em>n</em>ℤ)</span>
+as abstract groups. ◻</p>
+</div>
+<h2 id="the-tate-module">The Tate Module</h2>
+<div class="proposition">
+<p><strong>Proposition 19</strong>. Let <span
+class="math inline"><em>E</em></span> be an elliptic curve defined over
+<span class="math inline"><em>K</em></span> then there is a natural
+action of the absolute Galois group, <span
+class="math display">$$\mathrm{Gal} \small(\bar{K} / K \small) \to
+\mathrm{Aut} \small(E \small)$$</span> which, because automorphism
+preserve <span class="math inline"><em>n</em></span>-torsion, reduces to
+an action, <span class="math display">$$\mathrm{Gal} \small(\bar{K} / K
+\small) \to \mathrm{Aut} \small(E[n] \small) \cong
+\mathrm{GL}_{2}(\mathbb{Z}/ n \mathbb{Z})$$</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span class="math inline">$\sigma \in
+\mathrm{Gal} \small(\bar{K} / K \small)$</span> act component-wise on
+<span class="math inline"><em>E</em></span> (and fix <span
+class="math inline"><em>O</em></span>). Because <span
+class="math inline"><em>σ</em></span> is a field automorphism fixing
+<span class="math inline"><em>K</em></span>, the action of <span
+class="math inline"><em>σ</em></span> preserves the defining equations
+of <span class="math inline"><em>E</em></span> so it gives a map <span
+class="math inline"><em>E</em> → <em>E</em></span>. Furthermore, since
+addition in <span class="math inline"><em>E</em></span> is given by
+rational functions with coefficients in <span
+class="math inline"><em>K</em></span>, the action of <span
+class="math inline"><em>σ</em></span> also preserves addition, that is,
+<span
+class="math display"><em>σ</em>(<em>P</em>+<em>Q</em>) = <em>σ</em>(<em>P</em>) + <em>σ</em>(<em>Q</em>)</span>
+and thus <span class="math inline"><em>σ</em></span>, being inevitable
+point-wise, is an automorphism of <span
+class="math inline"><em>E</em></span>. Finally, let <span
+class="math inline"><em>P</em><sub>1</sub>, <em>P</em><sub>2</sub></span>
+be a <span class="math inline">ℤ/<em>n</em>ℤ</span>-basis of <span
+class="math inline"><em>E</em>[<em>n</em>]</span> as a free <span
+class="math inline">ℤ/<em>n</em>ℤ</span>-module. Then there exist unique
+elements <span
+class="math inline"><em>a</em>, <em>b</em>, <em>c</em>, <em>d</em> ∈ ℤ/<em>n</em>ℤ</span>
+such that, <span
+class="math display"><em>σ</em>(<em>P</em><sub>1</sub>) = <em>a</em><em>P</em><sub>1</sub> + <em>c</em><em>P</em><sub>2</sub>
+and
+<em>σ</em>(<em>P</em><sub>2</sub>) = <em>b</em><em>P</em><sub>1</sub> + <em>d</em><em>P</em><sub>2</sub></span>
+Then the action of <span class="math inline"><em>σ</em></span> on any
+element <span
+class="math inline"><em>n</em><sub>1</sub><em>P</em><sub>1</sub> + <em>n</em><sub>2</sub><em>P</em><sub>2</sub></span>
+is given by, <span
+class="math display"><em>σ</em>(<em>n</em><sub>1</sub><em>P</em><sub>1</sub>+<em>n</em><sub>2</sub><em>P</em><sub>2</sub>) = <em>n</em><sub>1</sub><em>σ</em>(<em>P</em><sub>1</sub>) + <em>n</em><sub>2</sub><em>σ</em>(<em>P</em><sub>2</sub>) = (<em>a</em><em>n</em><sub>1</sub>+<em>b</em><em>n</em><sub>2</sub>)<em>P</em><sub>1</sub> + (<em>c</em><em>n</em><sub>1</sub>+<em>d</em><em>n</em><sub>2</sub>)<em>P</em><sub>2</sub> = <em>n</em><sub>1</sub>′<em>P</em><sub>1</sub> + <em>n</em><sub>2</sub>′<em>P</em><sub>2</sub></span>
+Which we may write suggestively as, <span
+class="math display">$$\begin{pmatrix}
+n_1'
+\\
+n_2'
+\end{pmatrix}
+=
+\begin{pmatrix}
+a &amp; b
+\\
+c &amp; d
+\end{pmatrix}
+\begin{pmatrix}
+n_1
+\\
+n_2
+\end{pmatrix}$$</span> explicitly showing the representation of <span
+class="math inline">$\mathrm{Gal} \small(\bar{K} / K \small)$</span> as
+matrices in <span
+class="math inline">GL<sub>2</sub>(ℤ/<em>n</em>ℤ)</span>. ◻</p>
+</div>
+<div class="trivlist">
+<p>The Tate module of an elliptic curve <span
+class="math inline"><em>E</em></span> is the group, <span
+class="math display">$$T_{\ell}(E) = \varprojlim E[\ell^n]$$</span>
+under the multiplication by <span class="math inline">ℓ</span> maps,</p>
+<div class="center">
+
+</div>
+<p>The Tate module <span
+class="math inline"><em>T</em><sub>ℓ</sub>(<em>E</em>)</span> can be
+given the structure of a <span class="math inline">ℤ<sub>ℓ</sub></span>
+module via the action, <span
+class="math inline">(<em>a</em><sub><em>n</em></sub>) ∈ ℤ<sub>ℓ</sub></span>
+acts on <span
+class="math inline">(<em>P</em><sub><em>n</em></sub>) ∈ <em>T</em><sub>ℓ</sub>(<em>E</em>)</span>
+via <span
+class="math inline">(<em>a</em><sub><em>n</em></sub>) ⋅ (<em>P</em><sub><em>n</em></sub>) = (<em>a</em><sub><em>n</em></sub>⋅<em>P</em><sub><em>n</em></sub>)</span>.
+This action is well defined because <span
+class="math inline"><em>P</em><sub><em>n</em></sub></span> has <span
+class="math inline">ℓ<sup><em>n</em></sup></span> torsion so <span
+class="math inline"><em>a</em><sub><em>n</em></sub></span> need only be
+defined up to multiples of <span
+class="math inline">ℓ<sup><em>n</em></sup></span>.</p>
+</div>
+<div id="thm:galois_rep_tate_module" class="theorem">
+<p><strong>Theorem 20</strong>. Let <span
+class="math inline"><em>E</em></span> be an elliptic curve over <span
+class="math inline"><em>K</em>/ℚ</span>. There exists an <span
+class="math inline">ℓ</span>-adic Galois representation <span
+class="math inline"><em>V</em><sub>ℓ</sub><em>E</em> = <em>T</em><sub>ℓ</sub>(<em>E</em>)⊗<sub>ℤ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub></span>
+with action, <span class="math display">$$\rho_{E,\ell} : \mathrm{Gal}
+\small(\bar{K}/K \small) \to \mathrm{Aut} \small(V_{\ell}E \small) \cong
+\mathrm{GL}_{2}(\mathbb{Q}_{\ell})$$</span> called the Galois
+representation attached to <span class="math inline"><em>E</em></span>
+at <span class="math inline">ℓ</span>.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For each <span
+class="math inline"><em>n</em> ∈ ℤ<sup>+</sup></span> we have an action
+of <span class="math inline">$\sigma \in \mathrm{Gal} \small(\bar{K} / K
+\small)$</span> on <span
+class="math inline"><em>P</em> ∈ <em>E</em>[ℓ<sup><em>n</em></sup>]</span>
+component-wise. However, <span
+class="math inline">ℓ ⋅ <em>σ</em>(<em>P</em>) = <em>σ</em>(ℓ⋅<em>P</em>)</span>
+because <span class="math inline"><em>σ</em></span> is a group
+homomorphism of <span class="math inline"><em>E</em></span> so <span
+class="math inline"><em>σ</em></span> is compatible with the restriction
+maps. Therefore, <span class="math inline"><em>σ</em></span> lifts to
+<span class="math inline"><em>σ̃</em></span> a unique automorphism of the
+Tate module <span
+class="math inline"><em>T</em><sub>ℓ</sub>(<em>E</em>)</span>. By
+choosing bases compatible with the multiplication by <span
+class="math inline">ℓ</span> maps gives an isomorphism, <span
+class="math display">$$T_{\ell}(E) \cong \varprojlim{(\mathbb{Z}/ \ell^n
+\mathbb{Z}) \oplus (\mathbb{Z}/ \ell^n \mathbb{Z})} \cong
+\mathbb{Z}_{\ell} \oplus \mathbb{Z}_{\ell}$$</span> The action on the
+Tate module induces a map, <span class="math display">$$\rho_T :
+\mathrm{Gal} \small(\bar{K}/K \small) \to \mathrm{Aut}
+\small(T_{\ell}(E) \small) \cong  \mathrm{Aut} \small(\mathbb{Z}_{\ell}
+\oplus \mathbb{Z}_{\ell} \small) = \mathrm{GL}_{2}(\mathbb{Z}_{\ell})
+\subset \mathrm{GL}_{2}(\mathbb{Q}_{\ell})$$</span> The desired map is
+given by taking the tensor product with the trivial <span
+class="math inline">ℓ</span>-adic representation <span
+class="math inline">(ℚ<sub>ℓ</sub>,<em>ρ</em><sub>0</sub>)</span>, <span
+class="math display">$$\rho_{E, \ell} = \rho_T \otimes \rho_0  :
+\mathrm{Gal} \small(\bar{K}/K \small) \to \mathrm{Aut} \small(T_{\ell}
+\otimes_{\mathbb{Z}_{\ell}} \mathbb{Q}_{\ell} \small) \cong \mathrm{Aut}
+\small(\mathbb{Q}_{\ell} \otimes \mathbb{Q}_{\ell} \small) =
+\mathrm{GL}_{2}(\mathbb{Q}_{\ell})$$</span> and we take the <span
+class="math inline">ℚ<sub>ℓ</sub></span> vector space, <span
+class="math display"><em>V</em><sub>ℓ</sub><em>E</em> = <em>T</em><sub>ℓ</sub>⊗<sub>ℤ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub> ≅ (ℤ<sub>ℓ</sub>⊕ℤ<sub>ℓ</sub>)⊗<sub>ℤ<sub>ℓ</sub></sub>ℚ<sub>ℓ</sub> = ℚ<sub>ℓ</sub> ⊕ ℚ<sub>ℓ</sub></span> ◻</p>
+</div>
+<div class="remark">
+<p><em>Remark 8</em>. We have seen here an interesting <span
+class="math inline">ℓ</span>-adic representation arising naturally from
+algebraic geometry. It is a truly remarkable fact that a very large
+class of all <span class="math inline">ℓ</span>-adic Galois
+representations arise from geometric objects.</p>
+</div>
+<h2 id="complex-multiplication">Complex Multiplication</h2>
+<p>We have discussed how <span class="math inline">ℓ</span>-adic
+representations can give information about the underlying geometry.
+Galois representations can also be used to determine algebraic
+properties of Galois groups from geometric structures.</p>
+<div class="trivlist">
+<p>An elliptic curve <span class="math inline"><em>E</em></span> has
+complex multiplication, is CM for short, if there exists an endomorphism
+of <span class="math inline"><em>E</em></span> which is not a
+multiplication by <span class="math inline"><em>n</em></span> map.</p>
+</div>
+<div class="remark">
+<p><em>Remark 9</em>. From the complex analytic viewpoint, such a map is
+multiplication by <span class="math inline"><em>c</em> ∈ ℂ</span> hence
+the name. Note, an endomorphism of an elliptic curve is required to be
+an isogeny i.e. given by rational functions over <span
+class="math inline"><em>K̄</em></span>.</p>
+</div>
+<div class="lemma">
+<p><strong>Lemma 21</strong>. Let <span
+class="math inline"><em>E</em></span> be an elliptic defined over <span
+class="math inline"><em>K</em></span> with complex multiplication and
+denote the exceptional endomorphism by <span
+class="math inline"><em>ϕ</em> : <em>E</em> → <em>E</em></span>. There
+exists a finite extension <span
+class="math inline"><em>K</em><sup>CM</sup>/<em>K</em></span> such that
+<span class="math inline">$\forall \sigma \in \mathrm{Gal}
+\small(\bar{K} / K^{\mathrm{CM}} \small) : \phi \circ \sigma = \sigma
+\circ \phi$</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Because <span class="math inline"><em>ϕ</em></span>
+is an isogeny, it is given by rational functions with coefficients in
+<span class="math inline"><em>K̄</em></span>. Let <span
+class="math inline"><em>K</em><sup>CM</sup> = <em>K</em>(<em>S</em>)</span>
+where <span class="math inline"><em>S</em></span> is the set of
+coefficients of <span class="math inline"><em>ϕ</em></span>. Then for
+any automorphism <span class="math inline">$\sigma \in \mathrm{Gal}
+\small(\bar{K} / K^{\mathrm{CM}} \small)$</span> we know that <span
+class="math inline"><em>σ</em></span> preserves the coefficients of
+<span class="math inline"><em>ϕ</em></span> and thus, because <span
+class="math inline"><em>σ</em></span> is a field homomorphism and <span
+class="math inline"><em>ϕ</em></span> is a rational function, <span
+class="math inline"><em>σ</em> ∘ <em>ϕ</em>(<em>P</em>) = <em>ϕ</em> ∘ <em>σ</em>(<em>P</em>)</span>
+for any point <span
+class="math inline"><em>P</em> ∈ <em>E</em></span>. ◻</p>
+</div>
+<div class="trivlist">
+<p>The field <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[<em>n</em>])</span>
+is the field extension of <span
+class="math inline"><em>K</em><sup>CM</sup></span> generated by the
+coordinates of all points in <span
+class="math inline"><em>E</em>[<em>n</em>]</span>. Furthermore define
+the <span class="math inline">ℓ<sup>∞</sup></span>-torsion, <span
+class="math display"><em>E</em>[ℓ<sup>∞</sup>] = ⋃<sub><em>n</em></sub><em>E</em>[ℓ<sup><em>n</em></sup>]</span>
+and the field, <span
+class="math display">$$K^{\mathrm{CM}}(E[\ell^\infty]) = \bigcup_{n}
+K^{\mathrm{CM}} (E[\ell^n]) = \varinjlim
+K^{\mathrm{CM}}(E[\ell^n])$$</span></p>
+</div>
+<div class="lemma">
+<p><strong>Lemma 22</strong>. For each <span
+class="math inline"><em>n</em> ∈ ℤ<sup>+</sup></span> the extension
+<span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])/<em>K</em><sup>CM</sup></span>
+is finite Galois and therefore <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup>∞</sup>])/<em>K</em><sup>CM</sup></span>
+is Galois.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Take <span class="math inline">$\sigma \in
+\mathrm{Gal} \small(\bar{K} / K^{\mathrm{CM}} \small)$</span> and
+consider <span
+class="math inline"><em>σ</em>(<em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>]))</span>.
+Since <span class="math inline"><em>σ</em></span> fixes <span
+class="math inline"><em>K</em><sup>CM</sup></span> the image of <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])</span>
+is entirely determined by where <span
+class="math inline"><em>σ</em></span> maps the generators which are
+coordinates of <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span>. However,
+we have shown that <span class="math inline"><em>σ</em></span> is an
+automorphism of <span class="math inline"><em>E</em></span> and thus
+must take <span
+class="math inline">ℓ<sup><em>n</em></sup></span>-torsion to <span
+class="math inline">ℓ<sup><em>n</em></sup></span>-torsion. Therefore,
+for each <span
+class="math inline"><em>P</em> ∈ <em>E</em>[ℓ<sup><em>n</em></sup>]</span>
+we have <span
+class="math inline"><em>σ</em>(<em>P</em>) ∈ <em>E</em>[ℓ<sup><em>n</em></sup>]</span>
+so <span class="math inline"><em>σ</em></span> must map coordinates of
+<span class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span> to
+coordinates of <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span>.
+Therefore, <span
+class="math inline"><em>σ</em>(<em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])) = <em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])</span>
+proving that <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])</span>
+is Galois over <span class="math inline"><em>K</em><sup>CM</sup></span>.
+Furthermore, since <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span> is finite,
+there are only finitely many possible permutations and thus finitely map
+automorphisms of <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])</span>
+proving the extension is finite. ◻</p>
+</div>
+<div class="theorem">
+<p><strong>Theorem 23</strong>. Let <span
+class="math inline"><em>E</em></span> be an elliptic curve defined over
+<span class="math inline"><em>K</em></span> with complex multiplication
+<span class="math inline"><em>ϕ</em> : <em>E</em> → <em>E</em></span>
+such that <span class="math inline"><em>ϕ</em></span> restricted to
+<span class="math inline"><em>E</em>[ℓ]</span> is not the multiplication
+by <span class="math inline"><em>n</em></span> map for any <span
+class="math inline"><em>n</em> ∈ ℤ</span>. Then the extension <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup>∞</sup>])/<em>K</em><sup>CM</sup></span>
+is abelian.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Restricting the map given in Theorem <a
+href="#thm:galois_rep_tate_module" data-reference-type="ref"
+data-reference="thm:galois_rep_tate_module">20</a> gives a
+representation, <span class="math display">$$\rho^{\mathrm{CM}}_{E,
+\ell} : \mathrm{Gal} \small(\bar{K} / K^{\mathrm{CM}} \small) \to
+\mathrm{Aut} \small(V_{\ell}E \small) \cong
+\mathrm{GL}_{2}(\mathbb{Q}_{\ell})$$</span> We have that <span
+class="math inline"><em>ρ</em><sub><em>E</em>, ℓ</sub><sup>CM</sup>(<em>σ</em>) = <em>I</em> ⇔ <em>σ</em> ⋅ (<em>P</em><sub><em>n</em></sub>) = (<em>σ</em>(<em>P</em><sub><em>n</em></sub>)) = (<em>P</em><sub><em>n</em></sub>)</span>
+for every <span
+class="math inline">(<em>P</em><sub><em>n</em></sub>) ∈ <em>T</em><sub>ℓ</sub>(<em>E</em>)</span>.
+Therefore, <span
+class="math inline"><em>σ</em> ∈ ker <em>ρ</em><sub><em>E</em>, ℓ</sub><sup>CM</sup></span>
+if and only if <span class="math inline"><em>σ</em></span> acts
+trivially on <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span> for each
+<span class="math inline"><em>n</em> ∈ ℤ<sup>+</sup></span> or
+equivalently, since <span class="math inline"><em>σ</em></span> acts
+coordinate-wise on <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span>, acting
+trivially on the coordinates of <span
+class="math inline"><em>E</em>[ℓ<sup><em>n</em></sup>]</span>. However,
+acting trivially on the generators is equivalent to fixing the field
+<span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup><em>n</em></sup>])</span>
+for all <span class="math inline"><em>n</em></span> or, equivalently,
+fixing the compositum <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup>∞</sup>])</span>.
+Therefore, <span
+class="math display">$$\ker{\rho^{\mathrm{CM}}_{E,\ell}} = \mathrm{Gal}
+\small(\bar{K} / K^{\mathrm{CM}}(E[\ell^\infty]) \small)$$</span>
+Furthermore, the kernel is closed (because the action is continuous) and
+normal so the quotient, <span class="math display">$$\mathrm{Gal}
+\small(\bar{K} / K^{\mathrm{CM}} \small) / \mathrm{Gal} \small(\bar{K} /
+K^{\mathrm{CM}}(E[\ell^\infty]) \small) \cong \mathrm{Gal}
+\small(K^{\mathrm{CM}}(E[\ell^\infty]) / K^{\mathrm{CM}}
+\small)$$</span> corresponds to the Galois extension <span
+class="math inline"><em>K</em><sup>CM</sup>(<em>E</em>[ℓ<sup>∞</sup>])/<em>K</em><sup>CM</sup></span>.
+The action then injectivly factors through the quotient as,</p>
+<div class="center">
+
+</div>
+<p>so the group <span class="math inline">$\mathrm{Gal}
+\small(K^{\mathrm{CM}}(E[\ell^\infty]) / K^{\mathrm{CM}} \small)$</span>
+is embedded in <span
+class="math inline">GL<sub>2</sub>(ℚ<sub>ℓ</sub>)</span>. However, <span
+class="math inline"><em>σ</em> ∘ <em>ϕ</em> = <em>ϕ</em> ∘ <em>σ</em></span>
+for all <span class="math inline">$\sigma \in \mathrm{Gal}
+\small(\bar{K} / K \small)$</span> and <span
+class="math inline"><em>ϕ</em></span> is not multiplication by <span
+class="math inline"><em>n</em></span> on <span
+class="math inline"><em>E</em>[ℓ]</span> so <span
+class="math inline">$\phi \in \mathrm{Aut} \small(V_{\ell}E \small)
+\cong \mathrm{GL}_{2}(\mathbb{Q}_{\ell})$</span> corresponds to a
+non-scalar matrix. However, all matrices in <span
+class="math inline">GL<sub>2</sub>(ℚ<sub>ℓ</sub>)</span> which commute
+with a fixed non-scalar matrix (which remains non-scalar in the
+reduction modulo <span class="math inline">ℓ</span>) commute with each
+other (technical exercise). Therefore, the image of <span
+class="math inline">$\mathrm{Gal} \small(K^{\mathrm{CM}}(E[\ell^\infty])
+/ K^{\mathrm{CM}} \small)$</span> in <span
+class="math inline">GL<sub>2</sub>(ℚ<sub>ℓ</sub>)</span> is abelian so
+by the embedding <span class="math inline">$\mathrm{Gal}
+\small(K^{\mathrm{CM}}(E[\ell^\infty]) / K^{\mathrm{CM}} \small)$</span>
+is abelian itself. ◻</p>
+</div>
+<div class="example">
+<p><strong>Example 3</strong>. Consider the elliptic curve over <span
+class="math inline">ℚ</span> defined by, <span
+class="math display"><em>E</em> : <em>y</em><sup>2</sup> = <em>x</em><sup>3</sup> + <em>x</em></span>
+which has an exceptional automorphism <span
+class="math inline"><em>ϕ</em> : <em>E</em> → <em>E</em></span> given
+by, <span
+class="math display"><em>ϕ</em>(<em>x</em>,<em>y</em>) = (−<em>x</em>,<em>i</em><em>y</em>)</span>
+which preserves the defining equation and the group law. Clearly, <span
+class="math inline"><em>K</em><sup>CM</sup> = ℚ(<em>i</em>)</span> since
+<span class="math inline"><em>i</em></span> is the only non-rational
+coefficient defining <span class="math inline"><em>ϕ</em></span>. One
+can easily check that <span class="math inline"><em>ϕ</em></span> is not
+multiplication by <span class="math inline"><em>n</em></span> on any
+torsion subgroup. Therefore, the extensions <span
+class="math display">ℚ(<em>i</em>)(<em>E</em>[ℓ<sup>∞</sup>])/ℚ(<em>i</em>)</span>
+given by adjoining <span
+class="math inline">ℓ<sup><em>n</em></sup></span>-torsion points of
+<span class="math inline"><em>E</em></span> are abelian for each <span
+class="math inline">ℓ</span>.</p>
+</div>
+<div class="remark">
+<p><em>Remark 10</em>. This is an example of Kronecker’s Jugendtraum or
+“Dream of Youth” which was to generate all abelian extensions of a
+number field <span class="math inline"><em>K</em></span> by adjoining
+special values of certain interesting functions. For example, the
+Kronecker-Weber theorem does this for <span
+class="math inline"><em>K</em> = ℚ</span> saying that the abelian
+extensions of <span class="math inline">ℚ</span> are exactly the
+subfields of <span
+class="math inline">$\mathbb{Q}(f(\tfrac{1}{n}))$</span> where <span
+class="math inline"><em>f</em>(<em>x</em>) = <em>e</em><sup>2<em>π</em><em>i</em><em>x</em></sup></span>
+is a very special analytic function. It turns out that, astonishingly,
+our above construction generated <em>all</em> the abelian extensions of
+<span class="math inline">ℚ(<em>i</em>)</span>. That is, the compositum
+over all primes <span class="math inline">ℓ</span> of <span
+class="math inline">ℚ(<em>i</em>)(<em>E</em>[ℓ<sup>∞</sup>])</span>
+gives the maximal abelian extension of <span
+class="math inline">ℚ(<em>i</em>)</span>. Equivalently, every finite
+abelian extension of <span class="math inline">ℚ(<em>i</em>)</span> is
+contained in <span class="math inline">ℚ(<em>i</em>)</span> adjoined
+some finite set of torsion points on the curve <span
+class="math inline"><em>E</em></span>. The theory of elliptic curves
+using Galois representations has now realized Kronecker’s dream for all
+imaginary quadratic fields. However, the general case remains a
+mystery.</p>
+</div>
+</body>
+</html>

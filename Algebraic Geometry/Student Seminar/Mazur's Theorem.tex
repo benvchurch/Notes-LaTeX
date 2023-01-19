@@ -1,0 +1,213 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{The Formal Immersion Step (the new hotness on tiktak)}
+
+\newcommand{\hatO}{\wh{\mathcal{O}}}
+\newcommand{\TT}{\mathbb{T}}
+\newcommand{\FFbar}{\overline{\mathbb{F}}}
+
+\begin{theorem}
+Let $N$ be a prime, either $11$ or $\ge 17$ (ensuring that $X_0(N)$ has genus $> 0$) then there are no elliptic curves over $\Q$ with a torsion point of order $N$. 
+\end{theorem}
+
+Kep points, 
+
+\begin{enumerate}
+\item if $E$ has good reduction at $3$ then $E[N](\Q) \embed \overline{E}(\FF_3)$ which has order at most $9$ by Hasse so $N < 9$.
+
+\item if $E$ has multiplicative reduction we can get crazy polygons so no control on $N$
+
+\item if $E$ has additive reduction: what can the special fiber of the minimal regular proper model be? From Kodaia classification, there are a bounded number of components and hence a bound on $\# \overline{E}(\FF_3) \le 12$.  
+\end{enumerate}
+ 
+Assume from now on that $N = 11$ or $N > 17$. 
+ 
+\begin{prop}
+If $(E, C)$ is a pair of an elliptic curve over $\Q$ and a cyclic subgroup scheme $C \subset E$ of order $N$. Then $E$ has potentially good reduction away from $2N$.
+\end{prop}
+
+\begin{rmk}
+This implies you can't have multiplicative reduction because potentially good reduction means the semistable reduction is good but multiplicative reduction is also semistable.
+\end{rmk}
+
+\begin{rmk}
+Recall that,
+\[ \text{good reduction} \iff T_\ell E \text{ is unramified} \]
+\[ \text{mult. reduction} \iff I \to \GL(V_\ell E) \text{ is (nontrivial) unipotent} \]
+\end{rmk}
+
+\begin{prop}
+Let $\cA$ be the Neron model over $\Z[1/2N]$ of the Eisenstein quotient $A$ of $J = \Jac{X_0(N)}$. Define,
+\begin{center}
+\begin{tikzcd}
+X_0(N)_{\Q} \arrow[r] & J \arrow[r] & A
+\end{tikzcd}
+\end{center}
+$f : X_0(N) \to \cA$ over $\Z[1/2N]$ sends $\infty \mapsto 0$.
+Then if $p \ndivides 2 N$ then $\infty \in X_0(N)(\Z_{(p)})$ is the only $\Z_{(p)}$-point of $X_0(N)$ mapping to $0 \in \cA(\ZZ_{(p)})$ which reduces to $\infty \in X_0(N)(\FF_p)$. 
+\end{prop}
+
+\begin{defn}
+Let $f : Y \to Z$ is lft and $Y,Z$ are locally noetherian. If $y\ in U$ say $f$ is a \textit{formal immersion at} $y$ if $\stalk{Z}{f(y)}^\wedge \onto \stalk{Y}{y}^\wedge$ is surjective.
+\end{defn}
+
+\begin{defn}
+$Y, Z$ are ft + sep over a locally noetherian base $S$. If $f$ is an $S$-morphism and $y \in Y(S)$ is a section then $f$ is a \textit{formal immersion along} $y$ if,
+\begin{enumerate}
+\item $f$ is a formal immersion along all points of $y$
+\item $f_s$ is a formal immersion at $y_s$ for all $s \in S$.  
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+This is supposed to be equivalent to $\wh{Y}_y \embed \wh{Z}_{f(y)}$. 
+\end{rmk}
+
+\begin{lemma}
+Let $A, B$ be complete noeth. local rings and $f : A \to B$ is a local map such that $f : A / \m_A \to B / \m_B$ and $f : \m_A / \m_A^2 \onto \m_B / \m_B^2$ is surjective. 
+\end{lemma}
+
+\begin{proof}
+Approximate. 
+\end{proof}
+
+\begin{prop}
+Let $Y$ be separated and $f : Y \to Z$ be a formal immersion at $y \in Y$. Let $T$ be an integral noetherian scheme with $p_1, p_@ \in Y(T)$ are s.t. $y = p_1(t) = p_2(t)$ at some $t \in T$ and $f \circ p_1 = f \circ p_2$ then $p_1 = p_2$. 
+\end{prop}
+
+\begin{lemma}
+Let $A, B$ be complete noetherian local rings flat over a dvr $(R, \pi)$ with a map $A \to B$ such that $A /\m_A \to B / \m_A$ is an isomorphism. Then $A \to B$ is surjective iff $A / \pi \to B / \pi$ is surjective.
+\end{lemma}
+
+\begin{proof}
+This follows from the fact that $\m_A / (\m_A^2 + \pi A) \onto \m_B / (\m_B^2 + \pi B)$ being surjective implies that it was surjective before moding by $\pi$.
+\end{proof}
+
+\begin{cor}
+We can check formal immersions at the special fiber of a DVR. 
+\end{cor}
+
+\begin{proof}[Proof of Proposition]
+$A = \{ x \in T  \mid p_1(x) = p_2(x) \}$ then $Y$ is separated implies $A \subset T$ closed and $T$ is integral so suffices to show $\Spec{\stalk{T}{t}} \to T$ factors through $A \embed T$. So assume $T$ is local with closed point $t$. Can assume $Y$ is local with closed point $y$. 
+\begin{center}
+\begin{tikzcd}
+\stalk{T}{t} \arrow[r, hook] & \hatO_{T,t}
+\\
+\stalk{Y}{y} \arrow[u, shift left] \arrow[u, shift right] \arrow[r] & \hatO_{Y, y} \arrow[u, shift left] \arrow[u, shift right] & \hatO_{Z, f(y)} \arrow[l] 
+\end{tikzcd}
+\end{center}
+thus the maps must agree on the local rings since they agree after composing with the surjection. 
+\end{proof}
+
+Goal show that if $T_\Q \onto A$ is any surjection of abelian varities with connected kernel (what we call an optimal quotient) then $X_0(N) \to J \to \cA$ over $\Z[1/2N]$ is a formal immerison. 
+\bigskip\\
+Setup $N$ is prime $ >2$ and $S = \Spec{\Z[1/2N]}$ and $X = X_0(N)$ then $J = J_0(N)$ and $\TT \embed \End{J}$ the Hecke algebra. 
+
+\begin{rmk}
+all optimal quotients of $J$ are of the form $J / IJ$ where $I \sub \TT$ is a \textit{saturated} ideal $(\TT / I$ is torsion-free). Then $J_\Q = J_0(N)^{\text{new}}_{\Q}$ so everything in Daniel's talk applies. In particular,
+\[ J_{\Q} \sim \prod_{f \in C} A_f \]
+with $C$ Galois orbits of cusp forms. Also,
+\[ \End[\Q]{A_f} = K_f = \im{\TT} \]
+with $[ K_f : \Q ] = \dim{A_f}$. Then any optimal quotient of $J_{\Q}$ is $\prod_{g \in C'} A_g$ with $C' \subset C$. 
+\end{rmk}
+
+\begin{theorem}
+The tangent space $T_0(F)$ is a free $\T_{\Z[1/2N]}$-module of rank $1$ generated by $\deriv{}{q} |_0$. 
+\end{theorem}
+
+\begin{rmk}
+This is saying,
+\[ S_2(N)_R \cong H^0(J_R, \Omega^1_{J_R/R}) = T^*_0(J_R) \]
+for any ring $R$. This is because level $N$ cusp $2$-forms are exactly given by forms on $X_0(N)$ and these are the same as forms on its Jacobian. 
+\end{rmk}
+
+\begin{cor}
+If $A$ is an optimal quotient of $J$ then $X \to \cA$ sending $\infty \mapsto 0$ is a formal immersion over $S$.
+\end{cor}
+
+\begin{proof}
+It suffices to show that $T_\infty X \embed T_0 \cA$ over each prime. Then in the a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & B \arrow[r] & J \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+since $J$ and $A$ have good reduction so does $B$ by Neron-Ogg-Shafarevich. Then Raynaud's theorem gives an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & T_0(\mathcal{B}) \arrow[r] & T_0(J) \arrow[r] & T_0(\cA) \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+(HMMM)
+\end{proof}
+
+Reduction, $M' = T_0(T) / (\TT_{\Z[1/2N]} \deriv{}{q})$. But $T_0(J)$ is finite over $\Z[1/2N]$ hence also $\TT_{\Z[1/2N]}$. Suffices to show that $M' / \m M' = 0$ for all $\m \subset \TT_{\Z[1/2N]}$ i.e. $\deriv{}{q}$ generated $T_0(T) / \m T_0(J)$. 
+
+\begin{lemma}
+$S_2(N)_{\Q}^{\text{new}}$ is a free $\TT_\Q$-module of rank  $1$ generated by $\deriv{}{q}|_0$.
+\end{lemma}
+
+\begin{lemma}
+For $\m \subset \TT_{\Z[1/2N]}$ and $T_0(J) / \m T_0(J) = 0$. 
+\end{lemma}
+
+\begin{proof}
+Finiteness of $T_0(J)$ and NAK and $T_0(J) \ot_{\Z} \Q \neq 0$.
+\end{proof}
+
+\begin{lemma}
+For $\m \subset \TT_{\Z[1/2N]}$ then $\deriv{}{q}$ has nonzero image in $T_0(J) / \m T_0(J)$.
+\end{lemma}
+
+\begin{proof}
+If $f \in S_2(N)_{\FFbar_\ell}$ has a $q$-expansion,
+\[ f = \sum_{n = 1}^\infty a_n q^n \]
+then $\deriv{}{q}(f) = a_1$ and we win by showing that if $f$ is an eigenform with $a_1 = 0$ then $f = 0$. This is because $\deriv{}{q} (T_n f) = a_n$ so if $T_n f = \lambda f$ for $\lambda \neq 0$ then we also have all $a_n = 0$. 
+\bigskip\\
+Let's do this in more detail. Let $\ell$ be the characteristic of $F = (\TT \ot \Z[1/2N]) / \m$ and $R = (\TT \ot \ZZ[1/2N]) \ot_{\ZZ} \FFbar_\ell$. And let $M = T_0(J) \ot_{\ZZ} \FFbar_\ell$. Then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\m \ot_{\ZZ} \FFbar_\ell \arrow[r] & R \arrow[r] & F \ot_{\ZZ} \FFbar_\ell \arrow[d, equals] \arrow[r] & 0
+\\
+& & \prod_{i \in I} \FFbar_\ell \arrow[d, two heads]
+\\
+0 \arrow[r] & \m R \arrow[r] & R \arrow[r] & \FFbar_\ell \arrow[r] & 0
+\\
+& & & F \arrow[u, hook]
+\end{tikzcd}
+\end{center} 
+by tensoring the inclusion $F \embed \FFbar_\ell$ we get $T_0(J) / \m T_0(J) \embed M / \m M$. As $R$-modules,
+\[ (M / \m M)^\vee \cong M^\vee[\m] \cong H^0(X_{\FFbar_\ell}, \Omega^1_{X/ \FFbar_\ell})[\m] \]
+\end{proof}
+
+\begin{theorem}
+if $f : X \to S$ is a smooth proper relative curve then $R^i f_* \Omega_{X/S}$ commutes with all base change.
+\end{theorem}
+
+\begin{proof}
+If $S$ is reduced this comes from Grauert. Otherwise use cohomology and base change.
+\end{proof}
+
+In particular: if $f \in S_2(N)_{\FFbar_\ell}[\m]$ is nonzero can lift to char $0$ and then $\deriv{}{q} (T_n f) = a_n(f)$ follows from analysis. 
+
+\begin{lemma}
+For every $\m \subset \TT_{\Z[1/2N]}$. Then $T_0(J) / \m T_0(J)$ is free over $\TT_{\Z[1/2N]} / \m$ generated by $\deriv{}{q}$. 
+\end{lemma}
+
+\begin{proof}
+$\dim_F T_0(J) / \m T_0(J) = \dim_{\FFbar_\ell} M^\vee[\m]$ then let $a_n$ be the image of $T_n$ in $R / \m = \FFbar_\ell$ then if $f \in S_2(N)_{\FFbar_\ell}[\m]$ and $T_n(f) = a_n(F)$ so $f$ is a multiple of $q + a_2 q^2 + \cdots$. 
+\end{proof}
+\end{document}
+

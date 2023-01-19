@@ -3,10 +3,12 @@
 \import{./}{AlgGeoCommands}
 \renewcommand{\U}{\mathfrak{U}}
 
+\DeclareMathOperator{\fib}{\mathrm{fib}}
 \DeclareMathOperator{\cofib}{\mathrm{cofib}}
 \newcommand{\sq}{\mathrm{sq}}
 \DeclareMathOperator{\dlog}{\mathrm{dlog}}
 \newcommand{\st}{\mathrm{st}}
+\newcommand{\Bl}{\mathrm{Bl}}
 
 \begin{document}
 
@@ -1187,7 +1189,7 @@ The closed complement of $\Hilb_d(\A^n)$ in $\cV_d(\A^n)$ has codimension at lea
 \begin{proof}
 Let $k$ be a field and $S = \Spec{R}$ for a finite $k$-scheme of degree $d$. We need to show that the closed cimplement of $\mathrm{Emb}_k(S, \A^n_k)$ in $\Hom{k}{S}{\A^n_k} \cong \A^{nd}_k$ has codimension at least $n - d + 2$. A $k$-morphism $S \to \A^n_k$ can be viewed as a $k$-algebra map,
 \[ k[x_1, \dots, x_n] \to R \]
-which is an embedding iff it is surjective. It suffices for the images of $x_1, \dots, x_n$ to generate $R / (k \cdot 1)$ as a $k$-module. This is the open set characterized by where a map $k^n \to k^{r}$ (with $r = d-1$) is surjective whose codimension (in the space of matrices) is $n - r + 1 = n - d + 2$. Indeed, being nonsurjective is equivalent to having its image lie in some hyperplane $H \in \P^{r-1}$ so has dimension $n(r-1) + (r-1) = nr - (n - r + 1)$ corresponding to a surjective map $k^n \to H$ and a choice of $H$.
+which is an embedding iff it is surjective. It suffices for the images of $x_1, \dots, x_n$ to generate $R / (k \cdot 1)$ as a $k$-module. This is the open set characterized by where a map $k^n \to k^{r}$ (with $r = d-1$) is surjective whose codimension (in the space of matrices) is $n - r + 1 = n - d + 2$. Indeed, being nonsurjective is equivalent to having its image lie in some hyperplane $H \in \P^{r-1}$ so has dimension \[ n(r-1) + (r-1) = nr - (n - r + 1) \] corresponding to a surjective map $k^n \to H$ and a choice of $H$.
 \end{proof}
 
 \begin{rmk}
@@ -1208,6 +1210,10 @@ Let $k$ be a perfect field and $X \in \PSh(\Sm_k)$ a presheaf. Let $V \to X$ a v
 By Lemma 8.8, it suffices to show that $\Sigma \cofib(U \to X)$ is $\Aconn{r}$. Colimits of pointed objects preserve connectivity (WHY), hence $\A^1$-connectivity by the $\A^1$-connectivity theorem, so we are reduced by universality of colimits to the case $X \in \Sm_k$ since every object is a colimit of representables. Since $V \to X$ is an $\A^1$-equivalence (because it is a vector bundle) and $V \sm U$ has codimension $\ge r$ in $V$ the result follows from Lemma 8.9. 
 \end{proof}
 
+\begin{lemma}
+Let $X \in \PSh(\Sm_S)$ 
+\end{lemma}
+
 \begin{lemma}[8.11]
 Let $k$ be a field and $n \ge d - 1 \ge 0$. Then $\Hilb_d(\A^n_k)$ is $\A^1$-connected.
 \end{lemma}
@@ -1221,7 +1227,7 @@ is a surjection so we consider the $F[t]$-algebra map $\rho : F[x_1, \dots, x_n,
 \bigskip\\
 Now we use the Rees algebra,
 \[ \Rees(F) := F \oplus t A[t] \subset A[t] \]
-which is finite locally free over $F[t]$. Define an $F[t]$-algebra map $\tilde{\pi} : F[x_1, \dots, x_n, t] \to \Rees(F)$ by $\tilde{\pi}(x_i) = t \pi(x_i)$ for all $i$. Since we can assume $1, x_1, \dots, x_{d-1}$ span $A$ as an $F$-module, te image of $\tilde{\pi}$ contains $t$ and $t A$ and so is surjective. Geometrically $\tilde{\pi}$ corresponds to the morphism 
+which is finithe locally free over $F[t]$. Define an $F[t]$-algebra map $\tilde{\pi} : F[x_1, \dots, x_n, t] \to \Rees(F)$ by $\tilde{\pi}(x_i) = t \pi(x_i)$ for all $i$. Since we can assume $1, x_1, \dots, x_{d-1}$ span $A$ as an $F$-module, the image of $\tilde{\pi}$ contains $t$ and $t A$ and so is surjective. Geometrically $\tilde{\pi}$ corresponds to the morphism 
 \[ \tilde{\pi} : \A^1_F \to \Hilb_d(\A^n) \]
 that links $[A] = \tilde{\pi}(1)$ with $\tilde{\pi}(0)$ and $\Rees(F)/(t) = F \oplus F^{d-1}$ is the square-zero extension equppied with the canonical map $\tilde{\pi}(0) : F[x_1, \dots, x_n] \to \Rees(F)/(t)$ given by sending $x_1, \dots, x_{d-1}$ to the standard basis of $F^{d-1}$ and $x_j \mapsto 0$ for $j \ge d$. This is independent of $[A]$ so we conclude that all points are chain connected.
 \end{proof}
@@ -1239,5 +1245,259 @@ Note that the assumptions of Prop 8.7 and 8.10 are preserved by any base change 
 \end{rmk}
 
 (REMARKS, BLAKERS-MASSY DO BETTER, REWRITE LAST TWO PAGES)
+
+\section{Dec 2}
+
+
+Let $\E = \Sh(\C)$ sheaves of spaces on a site (not necessarily hypersheaves) we want to define the homotopy sheaves $\pi_n(X)$ of $X \in \Sh(\C)$. We have some options,
+\begin{enumerate}
+\item define the homotopy presheaves $\pi_n \circ X$ sending $U \mapsto \pi_n(X(U))$ and then sheafify
+\item have a inclusion $\Sh_{\Set}(\C) \embed \E$ of discrete sheaves and $\pi_0$ is a left adjoint. If $X$ is a pointed sheaf then we can define $\pi_n(X) = \pi_0(\Omega^n X)$
+\end{enumerate}
+
+These agree because they agree on $\pi_0$ and then $\Omega$ behaves well with sheafification. 
+
+\begin{defn}
+a pointed sheaf $X$ is $n$-connected if $\pi_k(X) = 0$ for $k \le n$.
+\end{defn}
+
+\begin{rmk}
+The condition $\pi_k(X) = 0$ means, for any $c \in \C$ and map $\alpha : S^k \to X(c)$ there a cover $\{ c_i \to c \}$ such that $S^k \to X(c) \to X(c_i)$ are nullhomotopic. 
+\end{rmk}
+
+\begin{rmk}
+The problem is that $X$ may not have very many points since points correspond to global sections. Therefore we need a better notion. If the topos has enough points then we can check connectedness stalkwise. We need to choose a base point of each stalk but this is much more general than choosing a global point.
+\end{rmk}
+
+\begin{rmk}
+Sheaves are not determined by maps from a point (unlike spaces). Therefore, to talk about $n$-connectedness of an unpointed sheaf, we don't expect it to suffice to check all basepoints. 
+\end{rmk}
+
+We have some solutions,
+\begin{enumerate}
+\item stalks
+\item if $X$ is connected then $\pi_n(X, x) = 0 \iff \pi_n(X) = 0$ the second being Lurie's version but still its not clear that $X$ has any global point.
+\end{enumerate}
+
+\begin{rmk}
+The reason for the second is that if $X$ is connected then $* \to X$ is an effective epimorphism. 
+\end{rmk}
+
+\begin{rmk}
+Lurie $\pi_n(X) = 0 \iff \forall c \in C$ and $S^n \to X(c)$ there is a cover $\{ c_i \to c \}$ s.t. the composite $S^n \to X(c) \to X(c_i)$ are nullhomotopic (not based!). 
+\end{rmk}
+
+
+\begin{example}
+\begin{enumerate}
+\item if $X$ is a scheme then $\pi_0(X) = X$ and $\pi_n(X) = 0$ for $n > 0$ since it is a discrete sheaf (but its motivicification will not be)
+\item if $G$ is a sheaf of groups then $\pi_0(*/G) = 0$ and $\pi_1(*/G) = G$
+\item $\pi_k(\L_{\mot} \P^1)$ consider the Nisnevich square,
+\begin{center}
+\begin{tikzcd}
+\Gm \arrow[r] \arrow[d] & \A^1 \arrow[d]
+\\
+\A^1 \arrow[r] & \P^1
+\end{tikzcd}
+\end{center}
+is a pushout in the category of Nis sheaves since every Nis sheaf takes it to a pullback. Therefore $\L_{\mot} \P^1 \cong \L_{\mot} \Sigma \Gm$. If $X$ is pointed then $X \to *$ is an effective epi and thus $* \to \Sigma X$ is an effective epi because the diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & * \arrow[d]
+\\
+* \arrow[r] & \pushout \Sigma X
+\end{tikzcd}
+\end{center}
+is a pushout
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+Taking stalks and homotopy groups commutes. 
+\end{rmk}
+
+
+Long exact sequence: if $f : (X, x) \to (Y, y)$ is a pointed map then consider the homotopy fiber $(F, x) \to (X, x) \to (Y, y)$. Then we get a LES of pointed homotopy sheaves.
+\bigskip\\
+Connectedness of a map: $f : (X, x) \to (Y, y)$ is $n$-connected iff the homotopy fiber is $n$-connected. By LES this is equivalent to $\pi_k(X, x) \to \pi_k(Y, y)$ is an equivalence for $k \le n$ and an effective epi for $k = n +1$. 
+\bigskip\\
+To get the HTT version for unpointed sheaves either use stalks or only consider connected $X$. 
+
+\begin{prop}
+\begin{enumerate}
+\item $\pi_n$ preserves products
+\item a map of presheaves $X \to Y$ is $n$-connected implies its sheafification is also $n$-connected. 
+\end{enumerate}
+\end{prop}
+
+\begin{prop}[Blakers-Massey]
+Consider the pushout diagram,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] \arrow[d] & B \arrow[d]
+\\
+A \arrow[r] & \pushout X 
+\end{tikzcd}
+\end{center}
+and $U \to B$ is $n$-connected and $U \to A$ is $m$-connected then $U \to A \times_X B$ is $(m+n)$-connected.
+\end{prop}
+
+\begin{cor}[Freudenthal Suspension]
+When $A = B = *$ then get that $U \to \Omega \Sigma U$ is $2n$-connected 
+\end{cor}
+
+\begin{cor}
+In the case that $B = *$ and $X = \cofib{f}$ we find that $X \to \fib{(Y \to \cofib{X})}$ is $(m+n)$-connected where $f$ is $n$-connected and $X$ is $m$-connected. In particular, take the fiber over a point in $Y$ gives $\fib(f) \to \Omega \cofib{f}$ is $(m+n)$-connected.
+\end{cor}
+
+\section{Vector Bundles}
+
+In topology, if $Z \embed Z$ is a clsoed embedding I always have an open neighborhood of $Z$ in $M$ given by the normal bundle,
+\begin{center}
+\begin{tikzcd}
+H_Z(M) \arrow[d, equals] \arrow[r, equals] & H_Z(N_{Z/M}) \arrow[d, equals] 
+\\
+\wt{H}(M/M \sm Z) & \wt{H}(\Th_Z(N_{Z/M}))  
+\end{tikzcd}
+\end{center}
+
+
+
+Can give a similar description of the map induced by the inclusion,
+\[ \mathrm{RFun}(\Spc_S^\op, \C) \to \Fun(\Sm_S^\op, \C) \]
+RHS is limit preserving functors. Given such a $H : \Sm_S^\op \to \C$ and a closed immersion $Z \to X$ define $H_Z(X)$ as the fiber of $H(X) \to H(X \sm Z)$. We interpret exxcision given $Z \to X$ is $U$ is a neighborhood of $Z$ in $X$ then ...
+
+
+Then see, if $V$ is a vector bundle on $X$ then,
+\[ \Th_X(V) = \P(V \oplus \struct{X}) / \P(V) \]
+We also see,
+\[ \Th_X(V) = \Sigma (\A(V) \sm 0) = \A(V) / \A(V) \sm 0 \]
+Indeed we see that $\Th_X$ is the pushout,
+\begin{center}
+\begin{tikzcd}
+\A(V) \sm 0 \arrow[r] \arrow[d] & \A(V)
+\\
+* \arrow[r] & \pushout \Th_X(V)
+\end{tikzcd}
+\end{center}
+
+\subsection{Deformation to the Normal COne}
+
+Given a closed immersion $Z \to X$ then define,
+\[ D(X, Z) = \Bl_{Z \times 0} (X \times \A^1) \sm \Bl_{Z \times 0} (X \times 0) \]
+Then the map,
+\begin{center}
+\begin{tikzcd}
+Z \times \A^1 \arrow[rr] \arrow[rd] & & D(X, Z) \arrow[ld]
+\\
+& \A^1
+\end{tikzcd}
+\end{center}
+The fiver over $0$ is,
+\[ Z \embed \P(\cN_{Z / X} \oplus \struct{Z}) \sm \P(\cN_{Z/X}) = \A(\cN_{Z/X}) \]
+Fibers away from $0$ are $Z \embed X$. 
+
+\begin{defn}
+Category of smooth pairs in $\Sm_S$ is the category of closed immersions and cartesian squares.
+\end{defn}
+
+\begin{defn}
+$(X, Z) \to (X', Z')$ is \textit{weakly excisive} if,
+\[ \L_{\mot} (X / (X \sm Z) \to X'/(X'/\sm Z')) \]
+is an equivalence. 
+\end{defn}
+
+\begin{defn}
+We say that $U \to X$ is an \etale neighborhood of $Z \to X$ if $U \times_X Z \to Z$ is an isomorphism. 
+\end{defn}
+
+\begin{rmk}
+If $U \to X$ is an \etale neighborhood of $Z \to X$ then $U / (U \sm Z) \to X / (X \sm Z)$ is an equivalence by Nisnevich excision and thus $(U, U \cap Z) \to (X, Z)$ is weakly excisive. 
+\end{rmk}
+
+
+\begin{prop}
+For any $t : \A^0 \to \A^1$ we have,
+\[ (D_t(X, Z), Z) = t^* (D(X, Z), Z \times \A^1) \to (D(X, Z), Z \times \A^1) \]
+is weakly excisive. 
+\end{prop}
+
+\begin{rmk}
+if $S$ is qcqs then any smooth pair $(X, Z)$ in $\Sm_S$ satisfies the following: Zarisik-locally on $X$ there is a Cartesian square,
+\begin{center}
+\begin{tikzcd}
+Z \arrow[d, "\et"] \arrow[r, hook] & X \arrow[d, "\et"]
+\\
+\A^m \arrow[r, hook] & \A^n
+\end{tikzcd}
+\end{center}
+in $\Sm_S$. 
+\end{rmk}
+
+\begin{lemma}
+Suppose that $P$ is a property of smooth pairs over qcqs $S$ such that,
+\begin{enumerate}
+\item $P$ has excision: if $U \to X$ is an \etale neighborhood of $Z \to X$ then $P(U, Z) \iff P(X, Z)$
+
+\item $P$ has descent: if $U_0 \to X$ is a Zariski cover and $(X, Z)$ is a smooth pair then write $(U_\bullet, Z_\bullet)$ for the induced Cech nerve and if $P(U_n, Z_n)$ for all $n$ then $P(X, Z)$
+
+\item $P$ holds for all pairs $(Z \times \A^c, Z \times \{ 0 \})$ for any $Z \in \Sm_S$ 
+\end{enumerate}
+then $P$ holds for all smooth pairs $(X, Z)$. 
+\end{lemma}
+
+\begin{rmk}
+We're going to apply this lemma to the property $P(X, Z)$ holds if for any $t : \A^0 \to \A^1$ the map $(D_t(X, Z), Z) \to (D(X, Z), Z \times \A^1)$ is weakly excisive. Descent follows from the fact that being weakly excisive is Zariski local on the target. 
+\bigskip\\
+If $U' \to X'$ is an \etale neighborhood of $Z'$ write $U \to Z$ for the induced \etale neighborhood of $Z$. So we obtain a diagram,
+\begin{center}
+\begin{tikzcd}
+(U, Z) \arrow[r] \arrow[d] & (X, Z) \arrow[d]
+\\
+(U', Z') \arrow[r] & (X', Z') 
+\end{tikzcd}
+\end{center} 
+so $(U, Z) \to (U', Z')$ is weakly excisive iff $(X, Z') \to (X', Z')$ is weakly excisive. 
+\end{rmk}
+
+\begin{rmk}
+Use descent to reduce to showing that have \etale $(X, Z) \to (B \times \A^1, B)$ we have $P(X, Z)$.
+\[ Z \times_B Z \embed X \times_{B \times \A^1} (Z \times \A^1) \]
+closed immersion. Then $Z \to B$ is \etale implies $Z \to Z \times_B Z$ is open immersion. Call its component $K$ call the complement,
+\[ U := (X \times_{B \times \A^c} (Z \times \A^c)) \sm K \]
+Then $U$ is an \etale neighborhood of $Z \to Z \times_B Z \to X \times_{B \times \A^c} (Z \times \A^c)$ 
+then we have that,
+\[ U \to X \times_{B \times \A^c} (Z \times \A^c) \to X \]
+and with the last map to $Z \times \A^c$ are \etale. So $U \to X$ is an \etale neighbrohood of $Z$ and $U \to Z \times \A^c$ is an \etale neighborhood of $Z$. Thus $P(Z \times \A^1, Z) \implies P(U, Z) \implies P(X, Z)$,
+\begin{center}
+\begin{tikzcd}
+& Z \arrow[r] & X 
+\\
+Z \arrow[ru, equals] \arrow[rd, equals] \arrow[r] & Z \times_B Z \arrow[u] \arrow[d] \arrow[r] \arrow[d] & X \times_{B \times \A^c} (Z \times \A^c) \arrow[d] \arrow[u]
+\\
+& Z \arrow[r] & Z \times \A^c
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{defn}
+$[X, Y] = \pi_0(\Hom{\Spc{S}}{\L_{\mot} X}{\L_{\mot} Y)}$
+\end{defn}
+
+\begin{theorem}
+If $S$ is qcqs, $X \in \Sm_S$ is noetherian, $\dim{S} \le d$. If $Y \to Y'$ is a $d$-connected map in $\Spc_S$ then,
+\[ [X, Y]_{\mot} \to [X, Y']_{\mot} \]
+is bijective.
+\end{theorem}
+
+\begin{theorem}
+If $X$ is a smooth affine scheme of $\dim{X} = d$ then any vector bundle $\E$ with $\rank{\E} > d$ has a trivial summand. 
+\end{theorem}
+
+\newcommand{\B}{\mathbf{B}}
+
+\begin{rmk}
+This follows from the connectivity of the map $\B \GL_n \to \B \GL_{n+1}$.
+\end{rmk}
 
 \end{document}

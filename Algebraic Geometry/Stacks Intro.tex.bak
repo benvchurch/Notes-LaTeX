@@ -1,0 +1,573 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+
+\usepackage{dutchcal}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+
+\newcommand{\fppf}{\mathrm{fppf}}
+\newcommand{\Set}{\mathrm{Set}}
+\newcommand{\Def}{\mathrm{Def}}
+\newcommand{\cDef}{\mathcal{Def}}
+\newcommand{\Inf}{\mathrm{Inf}}
+\renewcommand{\X}{\pazocal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Spf}[1]{\mathrm{Spf} \! \left(#1 \right)}
+\renewcommand{\F}{\mathcal{F}}
+\renewcommand{\G}{\mathcal{G}}
+\newcommand{\cZ}{\pazocal{Z}}
+
+\begin{document}
+
+\title{Artin's Axioms and Formal Deformation Theory}
+\author{Stanford-Berkeley Number Theory Learning Seminar}
+\maketitle
+
+\section{Definitions}
+
+
+\begin{defn}
+An \textit{algebraic space} is a functor $X : (\Sch_S)_{\fppf}^{\op} \to \Set$ such that,
+\begin{enumerate}
+\item $F$ is a sheaf in the $\fppf$ topology
+\item the diagonal $\Delta_{X/S} : X \to X \times_S X$ is representable by schemes
+\item there is a scheme $U$ and an \etale surjection $U \onto X$.
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+An \textit{algebraic stack} is a category fibered in groupoids $\X \to (\Sch_S)_{\fppf}$ such that,
+\begin{enumerate}
+\item $\X$ is a stack in the $\fppf$ topology
+\item $\Delta_{\X / S} : \X \to \X \times_S \X$ is representable by algebraic spaces 
+\item there is an algebraic space $U$ and an \etale surjection $U \onto \X$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The map $U \to \X$ is only necessarily representable by algebraic spaces so to express the property of being an \etale surjection consider any map from a scheme $T \to \X$ and an \etale cover from a scheme $V \to U \times_{\X} T$ in the diagram,
+\begin{center}
+\begin{tikzcd}
+V \arrow[r] \arrow[rr, bend left, "\et \text{ surj}"] & U \times_{\X} T \arrow[d] \arrow[r] & T \arrow[d]
+\\
+& U \arrow[r] & \X  
+\end{tikzcd}
+\end{center}
+This property is independent of the choice of \etale cover $V \to U \times_{\X} T$ by \etale descent for \etale surjective morphisms.
+\end{rmk}
+
+\begin{rmk}
+Why do we only require that $\X$ be smooth locally an algebraic space and its diagonal be representable by only algebraic spaces? The diagonal is closely related to the automorphism groups of objects $\X$ parametrizes. When $\pi : X \to S$ a proper finitely presented map of schemes, $\Hilb_{X/S}$ is representable by an algebraic space but not generally by a scheme unless $\pi$ is projective. This shows that $\mathrm{Isom}_S(X, Y)$ between two proper $S$-schemes is usually only representable by an algebraic space. Therefore, we want to allow for $\Delta$ to be representable by algebraic spaces not just schemes to capture moduli of proper non-projective objects. 
+\end{rmk}
+
+\begin{defn}
+Consider $f : \X \to \cZ$ and $g : \Y \to \cZ$ morphisms of categories fibered in groupoids. Then the $2$-fiber product $\X \times_{\cZ} \Y$ is defined as the category fibered in groupoids,
+\begin{enumerate}
+\item objects are $(x,y,\gamma)$ with $p(x) = p(y)$ and $\gamma : f(x) \to g(y)$ a morphism over $\id$
+\item morphisms are $\varphi : (x,y,\gamma) \to (x',y', \gamma')$ are given by pairs $(\varphi_x : x \to x', \varphi_y : y \to y')$ such that the diagram,
+\begin{center}
+\begin{tikzcd}
+f(x) \arrow[r, "\gamma"] \arrow[d, "\varphi_x"] & g(x) \arrow[d, "\varphi_y"]
+\\
+f(x') \arrow[r, "\gamma'"] & g(x')
+\end{tikzcd}
+\end{center}
+commutes.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+For any objects $x,y \in \X(U)$. There is a $2$-fiber product diagram,
+\begin{center}
+\begin{tikzcd}
+\mathrm{Isom}(x,y) \arrow[r] \arrow[d] & U \arrow[d, "y"]
+\\
+U \arrow[r, "x"'] & \X
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{defn}
+The \textit{inertia stack} of $\X$ is the category fibered in groupoids $\I_{\X} = \X \times_{\X \times \X} \X$.
+\end{defn}
+
+\begin{prop}
+For any $x \in \X(U)$ there is a $2$-fiber product diagram,
+\begin{center}
+\begin{tikzcd}
+\mathrm{Isom}(x,x) \pullback \arrow[d] \arrow[r] & \I_X \arrow[d]
+\\
+U \arrow[r, "x"] & \X
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\section{Presentations}
+
+\begin{prop}
+Let $X$ be an algebraic space over $S$ and $f : U \onto X$ an \etale surjection from a scheme $U$. Set $R = U \times_X U$ in the pullback diagram,
+\begin{center}
+\begin{tikzcd}
+R \arrow[d] \arrow[r] & U \arrow[d]
+\\
+U \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+then we have,
+\begin{enumerate}
+\item $j : R \to U \times_S U$ is a monomorphism and $R(T) \subset U(T) \times U(T)$ is an equivalence relation for all $T \to S$
+\item the projections $s,t : R \to U$ are \etale
+\item the diagram,
+\begin{center}
+\begin{tikzcd}
+R \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & U \arrow[r] & X
+\end{tikzcd}
+\end{center}
+is a coequalizer in $\mathrm{Sh}((\Sch_S)_{\fppf})$. 
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The first two are immediate The last holds in any category of sheaves given that $U \to X$ is surjective. 
+\end{proof}
+
+\begin{defn}
+Let $(U, R, s, t, c)$ be a groupoid in algebraic spaces over $S$. The quotient stack,
+\[ p : [U/R] \to (\Sch_S)_{\fppf} \]
+is the stackification of the category fibered in groupoids,
+\[ (T \to S) \mapsto (U(T), R(T), s, t, c) \]
+\end{defn}
+
+\begin{prop}[\chref{https://stacks.math.columbia.edu/tag/04T5}{04T5}]
+Given an algebraic stack $\X$ there is a smooth morphism $U \to \X$ from a scheme. We recover the groupoid presenation by taking the $2$-fiber product,
+\begin{center}
+\begin{tikzcd}
+R \pullback \arrow[r] \arrow[d] \pullback & U \arrow[d]
+\\
+U \arrow[r] & \X 
+\end{tikzcd}
+\end{center}
+and $R$ is an algebraic space because we assumed that $\Delta_{\X}$ is representable by algebraic spaces. Then there is a natural equivalence $[U/R] \iso \X$.
+\end{prop}
+
+\section{Infinitesimal Deformation Theory}
+
+\begin{rmk}
+First we recall how to apply infinitessimal deformation theory in the relative setting. In the basic case, we want to probe properties of a morphisms of schemes $f : X \to S$ near a finite type point $x : \Spec{k} \to S$. There is some affine open $\Spec{\Lambda} \subset X$ containing $x$. Then we need to consider Artinian local rings $A$ and diagrams,
+\begin{center}
+\begin{tikzcd}
+& & & X \arrow[d, "f"]
+\\
+\Spec{k} \arrow[r] & \Spec{A} \arrow[r] \arrow[rru, dashed] & \Spec{\Lambda} \arrow[r, hook] & S 
+\end{tikzcd}
+\end{center}
+and consider the set of dashed arrows. This means our base category should be the category of local Artinian $\Lambda$-algebras with residue field $k$.
+\end{rmk}
+
+\begin{defn}
+Let $\Lambda$ be a Noetherian ring and $\Lambda \to k$ a finite ring map with $k$ a field. Let $\C_\Lambda$ be the category of,
+\begin{enumerate}
+\item $(A, \varphi)$ where $A$ is an Artinian local $\Lambda$-algebra and $\varphi : A / \m_A \to k$ a $\Lambda$-algebra isomorphism
+\item morphisms $f : (B, \psi) \to (A, \varphi)$ are local $\Lambda$-algebra maps such that $\varphi \circ (f \text{ mod } \m_A) = \psi$
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+As in the absolute case (which corresponds to $\Lambda = k$) we can factor any extension $B \onto A$ into \textit{small} extensions $\varphi : B' \onto A$ where $\ker{\varphi}$ is principal and annihilated by $\m_B$.
+\end{rmk}
+
+\begin{defn}
+Let $\Lambda$ be a Noetherian ring and let $\Lambda \to k$ be a finite ring map where $k$ is a field. Define the category $\widehat{\C}_\Lambda$ of,
+\begin{enumerate}
+\item pairs $(R, \varphi)$ where $R$ is a Noetherian complete local $\Lambda$-algebra and $\varphi : R / \m_R \to k$ is a $\Lambda$-algebra isomorphism,
+\item morphisms $f : (S, \psi) \to (R, \varphi)$ are local $\Lambda$-algebra map such that $\varphi \circ (f \text{ mod } \m_S) = \psi$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Then $\C_{\Lambda} \subset \widehat{\C}_{\Lambda}$ is naturally a full subcategory. 
+\end{rmk}
+
+\subsection{Deformation Functors}
+
+\begin{defn}
+A \textit{predeformation functor} is a functor $F : \C_{\Lambda} \to \Set$ such that $F(k) = \{ * \}$.
+\end{defn}
+
+\begin{rmk}
+The condition $F(k) = \{ * \}$ corresponds to choosing a fixed base object for the deformations.
+\end{rmk}
+
+\begin{defn}
+Given a predeformation functor $F : \C_{\Lambda} \to \Set$ we extend it to $\wh{F} : \wh{\C}_{\Lambda} \to \Set$ via,
+\[ \wh{F}(R) = \varprojlim_n F(R/\m_R^n) \]
+A functor $F$ is \textit{pro-representable} if $\wh{F}$ is representable.
+\end{defn}
+
+\begin{defn}
+We say a morphism $\varphi : F \to G$ of functors on $\C_\Lambda$ is \textit{smooth} the map,
+\[ F(B) \to F(A) \times_{G(A)} G(B) \]
+induced by an extension $B \onto A$ is surjective.
+\end{defn}
+
+\begin{defn}
+Let $F : \C_\Lambda \to \Set$ be a predeformation functor. The \textit{tangent space} of $F$ is the set $T F = F(k[\epsilon])$. We will see under some assumptions this set is naturally a $k$-vectorspace.
+\end{defn}
+
+\begin{defn}
+Let $F : \C_\Lambda \to \Set$ be a predeformation functor. A \textit{hull}\footnote{Some authors use the terminology \textit{miniversal} formal object. However, in the deformation category setting, a minimal versal object may not induce an isomorphism of the tangent space so we reserve the term \textit{miniversal} for a minimal versal object see \chref{https://stacks.math.columbia.edu/tag/06T0}{Tag 06T0}.} for $F$ is a pair $(R, \eta)$ where $R \in \wh{\C}_{\Lambda}$ and $\eta \in \wh{F}(R)$ such that $h_R \to F$ is formally smooth and bijective on tangent spaces.
+\end{defn}
+
+\begin{rmk}
+Let $k[\epsilon]$ be the ring $k[\epsilon]/(\epsilon^2)$ with the trivial $\Lambda$-algebra structure. 
+\end{rmk}
+
+\begin{defn}
+Let $F : \C_\Lambda \to \Set$ be a predeformation functor. If $A' \to A$ and $A'' \to A$ are morphisms in $\C_\Lambda$ there is a natural map,
+\[ (*) \quad F(A' \times_A A'') \to F(A') \times_{F(A)} F(A'') \]
+Then Schlessinger's conditions are as follows,
+\begin{enumerate}
+\item[(H1)] if $A'' \onto A$ is a small thickening then $(*)$ is surjective
+\item[(H2)] if $A = k$ and $A'' = k[\epsilon]$ then $(*)$ is bijective
+\item[(H3)] $T F = F(k[\epsilon])$ is finite-dimensional
+\item[(H4)] if $A'' = A'$ and $A' \onto A$ is a small thickening, then $(*)$ is bijective.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+$T F = F(k[\epsilon])$ has a canonical vectorspace structure when $F$ satisfies (H2) since we get,
+\[ F(k[\epsilon]) \times F(k[\epsilon]) \iso F(k[\epsilon_1, \epsilon_2]) \to F(k[\epsilon]) \]
+using the map $k[\epsilon_1, \epsilon_2] \to k[\epsilon]$ via $\epsilon_1 \mapsto \epsilon$ and $\epsilon_2 \mapsto \epsilon$. The scalar multiplication is defined by $F(k[\epsilon]) \to F(k[\epsilon])$ induced by the map $\epsilon \mapsto c \epsilon$. 
+\bigskip\\
+We cannot give $T F$ a vectorspace structure without (H2) so it is more correct to group the Schlessinger conditions into pairs (H1) + (H2) and (H3) + (H4) as we do in the sequel.
+\end{rmk}
+
+\begin{defn}
+A pre-deformation functor $F : \C_{\Lambda} \to \Set$ is a \textit{deformation functor} if it satisfies (H1) and (H2).
+\end{defn}
+
+\begin{theorem}[Schlessinger]
+Let $F : \C_{\Lambda} \to \Set$ be a deformation functor. Then,
+\begin{enumerate}
+\item $F$ admits a hull if and only if it satisfies (H3)
+\item $F$ is prorepresentable if and only if it satisfies (H3) and (H4).
+\end{enumerate}
+\end{theorem}
+
+\begin{example}
+Let $X$ be a $k$-scheme, the functor $\Def_X : \C_k \to \Set$ defined by,
+\[ \Def_X : A \mapsto \{ (X', \psi) \mid X' \text{ flat } A\text{-scheme with } \psi : X' \ot_A k' \iso X \} / \cong \]
+is a deformation functor. 
+\end{example}
+
+\begin{example}
+Let $X = \Spec{k[x,y]/(xy)}$ and $F = \Def_X$. If $A$ is a finite type $k$-algebra and $P \onto A$ is a presentation from a polynomial ring with kernel $K$ then [H, Ex. 9.8] shows that,
+\begin{center}
+\begin{tikzcd}
+\Hom{A}{\Omega_{P/k} \ot_k A}{A} \arrow[r] & \Hom{A}{J/J^2}{A} \arrow[r] & T \Def_A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+arising from the conormal exact sequence,
+\begin{center}
+\begin{tikzcd}
+J/J^2 \arrow[r] & \Omega_{P/k} \ot_P A \arrow[r] & \Omega_{A/k} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+In our case, let $P = k[x,y]$ and $J = (xy)$. Then we have,
+\begin{center}
+\begin{tikzcd}
+A \partial_x \oplus A \partial_y \arrow[r] & A \arrow[r] & T \Def_A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore $T \Def_A = A/(x,y) = k$. Thus $\Def_X$ satisfies (H3) so it should have a hull. Indeed,
+\[ (k\dbrac{t}, \, \Spf{k\dbrac{t}[x,y]/(xy - t)}) \]
+is a hull (note the formal object is effective). Let's first understand why this hull is not a pro-representing object. For any map, $\varphi : k\dbrac{t} \to A$ the induced object,
+\[ \varphi_*(\Spf{k\dbrac{t}[x,y]/(xy - t)}) = \Spec{A[x,y]/(xy - \varphi(t))} \]
+is unchanged (in isomorphism class) if we replace $\varphi$ buy $\varphi' = u \varphi$ for any unit $u \in A$ since then we can scale $x$ or $y$ to remove $u$. However, recall that a deformation $X'$ is equipped with a distinguished isomorphism $\varphi : X' \ot_A k \iso X$ with which isomorphisms of deformations must be compatible. Therefore, $\varphi' = u \varphi$ and $\varphi$ define the same deformation if $u \in A^\times$ is a unit and $u \equiv 1 \mod \m_A$. Therefore, the map, $h_R \to \Def_X$ is not injective for general $A$ but is injective for $A = k[\epsilon]$ (since $(1 +  a \epsilon) \cdot \epsilon = \epsilon$ so multiplication by such $a$ does nothing) as must be true for a hull.  
+\bigskip\\
+However $\Def_X$ is not pro-representable since it does not satisfy (H4). Indeed, consider $A = k[\epsilon]/(\epsilon^3)$ and consider,
+\[ \Def_X(A \times_k A) \to \Def_X(A) \times \Def_X(A) \]
+I claim this is not injective. Indeed, $t = \epsilon_1 + \epsilon_2$ and $t = \epsilon_1 + \epsilon_2 + \epsilon_1 \epsilon_2$ map to the same pair of deformations but I claim they are not related by such a unit. Write,
+\[ u = 1 + a \epsilon_1 + b \epsilon_2 + O(\epsilon^2) \]
+then,
+\[ u (\epsilon_1 + \epsilon_2) = \epsilon_1 + \epsilon_2 + a \epsilon_1^2 + (a + b) \epsilon_1 \epsilon_2 + b \epsilon_2^2 + O(\epsilon^3) \] 
+and we cannot have $a = b = 0$ but $a + b = 1$.
+\end{example}
+
+\begin{rmk}
+The above illustrates why it is necessary to define deformations of a scheme as equipped with a distinguished isomorphism $\varphi : X' \ot_A k \iso X$ otherwise $\Def_X$ will not be a deformation functor. Indeed, let $\Def'_X$ be the pre-deformation functor,
+\[ \Def'_X : A \mapsto \{ X' \mid X' \text{ flat } A\text{-schemes such that } X' \ot_A k' \cong X \} / \cong \]
+but forgetting the isomorphism. Then for $X = \Spec{k[x,y]/(xy)}$
+\[ \Def_X'(k[\epsilon_1, \epsilon_2]) \to \Def'_X(k[\epsilon]) \times \Def'_X(k[\epsilon]) \]
+is not injective. Indeed,  
+\[ \Spec{k[\epsilon_1, \epsilon_2][x,y]/(xy + \epsilon_1 + \epsilon_2} \quad \text{and} \quad \Spec{k[\epsilon_1, \epsilon_2][x,y]/(xy + \epsilon_1 + 2 \epsilon_2)} \]  
+have the same image but are not isomorphic. 
+\end{rmk}
+
+
+\subsection{Deformation Categories}
+
+\begin{defn}
+A \textit{predeformation category} is a category cofibered in groupoids $\F \to \C_{\Lambda}$ such that $\F(k)$ is equivalent to the trivial category. 
+\end{defn}
+
+\begin{rmk}
+Let $\F$ be a predeformation category and $x_0 \in \F(k)$. Then for any $x \in \F$ over $A$ let $q : A \to k$ then there is a pushforward $x \to q_* x$ and $q_* x \in \F(k)$ so there is a unique isomorphism $q_* x \iso x_0$ and hence there is a canonical morphism $x \to x_0$ in $\F$. 
+\end{rmk}
+
+\begin{rmk}
+If $F : \C_\Lambda \to \Set$ is a predeformation functor then the associated cofibered set $\F_F \to \C_{\Lambda}$ is a predeformation category. Likewise, if $\F \to \C_\Lambda$ is a predeformation category then the functor of isomorphism classes $\overline{\F} : \C_{\Lambda} \to \Set$ is a predeformation functor. 
+\end{rmk}
+
+\begin{defn}
+Let $\F \to \C_\Lambda$ be a category cofibered in groupoids. The \textit{category of formal objects of} $\wh{\F}$ is the category of,
+\begin{enumerate}
+\item formal objects $(R, \xi_n, f_n)$ consists of an object $R \in \wh{\C}_\Lambda$, and objects $\xi_n \in \F(R/\m_R^n)$ and morphisms $f_n : \xi_{n+1} \to \xi_n$ over the projection $R / \m_R^{n+1} \to R / \m_R^n$
+
+\item morphisms $a : (R, \xi_n, f_n) \to (S, \eta_n, g_n)$ consists of a map $a_0 : R \to S$ in $\wh{\C}_\Lambda$ and a collection $a_n : \xi_n \to \eta_n$ of morphisms in $\F$ lying over $R / \m_R^n \to S / \m_S^n$ such that the diagrams,
+\begin{center}
+\begin{tikzcd}
+\xi_{n+1} \arrow[d, "a_{n+1}"] \arrow[r, "f_n"] & \xi_n \arrow[d, "a_n"]
+\\
+\eta_{n+1} \arrow[r, "g_n"] & \eta_n
+\end{tikzcd}
+\end{center} 
+commute for each $n \in \N$.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}[\chref{https://stacks.math.columbia.edu/tag/06H4}{06H4}]
+The formal objects forms a category cofibered in groupoids $\hat{p} : \wh{\F} \to \wh{\C}_\Lambda$.
+\end{prop}
+
+\begin{defn}
+Let $p : \F \to \C_\Lambda$ be a category cofibered in groupoids. We say that $\F$ satisfies the \textit{Rim-Schlessinger (RS) condition} if for all $A_1 \to A$ and $A_2 \to A$ in $\C_\Lambda$ with $A_2 \onto A$ surjective,
+\[ \F(A_1 \times_A A_2) \to \F(A_1) \times_{\F(A)} \F(A_2) \]
+is an equivalence. A \textit{deformation category} is a predeformation category $\F$ satisfying (RS).
+\end{defn}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/06J5}{06J5}]
+Condition (RS) is equivalent to: for every diagram in $\F$,
+\begin{center}
+\begin{tikzcd}
+& x_2 \arrow[d]
+\\
+x_1 \arrow[r] & x
+\end{tikzcd}
+\quad \text{lying over} \quad
+\begin{tikzcd}
+& A_2 \arrow[d]
+\\
+A_1 \arrow[r] & A
+\end{tikzcd}
+\end{center}
+in $\C_\Lambda$ with $A_2 \to A$ surjective, there exists a fiber product $x_1 \times_x x_2$ in $\F$ such that the diagram,
+\begin{center}
+\begin{tikzcd}
+x_1 \times_x x_2 \arrow[r] \arrow[d] & x_2 \arrow[d]
+\\
+x_1 \arrow[r] & x
+\end{tikzcd}
+\quad \text{lying over} \quad
+\begin{tikzcd}
+A_1 \times_A A_2 \arrow[r] \arrow[d] & A_2 \arrow[d]
+\\
+A_1 \arrow[r] & A
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/07WQ}{07WQ}]
+If $\X \to S$ is an algebraic stack then for any $\Spec{k} \to S$ and $x_0 \in \X(k)$ the deformation category $\F_{\X, k, x_0}$ satisfies (RS). 
+\end{lemma}
+
+\begin{rmk}
+By Schlessinger's theorem, this is telling us that a deformation functor $F = D_{X,x_0}$ represented by some pointed finite-type quasi-separated\footnote{I don't know if these are the \textit{right} conditions but they make the discussion work.} algebraic space $x_0 \in X$ over a noetherian scheme $S$ is pro-representable. So even though $X$ does not have a canonical local ring it does have a formal local ring $\wh{\stalk{X}{x_0}}$. We can calculate it from the formal local ring of any \etale cover $U \to X$. This is well-defined because for two \etale covers $U_1 \to X$ and $U_2 \to X$ we have $U_1 \times_X U_2$ is an \etale cover of both and these maps identify the formal local rings. There is a subtly here about the residue field of the preimage of $x_0$ in these \etale covers meaning that the complete local rings will not be isomorphic until after a field extension. The technical assumptions ensure that $X$ is decent and then the discussion of \chref{https://stacks.math.columbia.edu/tag/0EMV}{Tag 0EMV} applies.
+\end{rmk}
+
+\subsection{Versality}
+
+\begin{rmk}
+A versal object is a universal object without the ``uni'' i.e. without the uniqueness. 
+\end{rmk}
+
+\begin{defn}
+A morphism $\varphi : \F \to \G$ of categories cofibered in groupoids over $\C_\Lambda$ is \textit{smooth} if for every extension $B \onto A$ in $\C_{\Lambda}$ the map,
+\[ \F(B) \to \F(A) \times_{\G(A)} \F(B) \]
+is essentially surjective.
+\end{defn}
+
+\begin{rmk}
+This is basically the formal lifting criterion for formal smoothness. Indeed, if these deformation categories are induced by the representable functors for a morphism of schemes $f : X \to Y$ then we get that,
+\[ X(B) \to X(A) \times_{Y(A)} Y(B) \]
+is surjective which is equivalent to there existing a dashed arrow in each lifting diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{A} \arrow[d, hook] \arrow[r] & X \arrow[d, "f"]
+\\
+\Spec{B} \arrow[r]  \arrow[ru, dashed] & Y
+\end{tikzcd}
+\end{center} 
+\end{rmk}
+
+\begin{lemma}
+Smoothness of $\varphi : \F \to \G$ is equivalent to the following explicit condition. For every surjection $B \onto A$ in $\C_{\Lambda}$ and $y \in \G(B)$ and $x \in \F(A)$ equipped with a map $y \to \varphi(x)$ over $B \onto A$ there is $x' \in \F(B)$ and a morphism $x' \to x$ over $B \onto A$ and a morphism $\varphi(x') \to y$ over $\id : B \to V$ such that,
+\begin{center}
+\begin{tikzcd}
+\varphi(x') \arrow[r] \arrow[rd] & y \arrow[d]
+\\
+& \varphi(x)
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+\begin{defn}
+Let $R \in \wh{\C}_{\Lambda}$. We say $\xi \in \wh{\F}(R)$ is \textit{versal} if the morphism $\xi : \underline{R}|_{\C_\Lambda} \to \F$ defined by $\xi$ is smooth.
+\end{defn}
+
+\begin{rmk}
+The morphism is defined as follows. For any $A \in \C_{\Lambda}$ and map $\varphi : R \to A$ it will factor as $\varphi_n : R / \m^n \to A$ we send $(A, \varphi) \mapsto (\varphi_n)_* \xi_n$. The compatibility isomorphisms of the formal object $\xi$ make this well-defined. 
+\end{rmk}
+
+\begin{rmk}
+Let $\xi$ be a formal object of $\F$. Versality of $\xi$ is equivalent to: the existence of a dashed arrow for any diagram,
+\begin{center}
+\begin{tikzcd}
+& y \arrow[d]
+\\
+\xi \arrow[ru, dashed] \arrow[r] & x
+\end{tikzcd}
+\end{center}
+in $\wh{\F}$ such that $y \to x$ lies over a surjective map $B \onto A$ of Artinian rings. 
+\end{rmk}
+
+\begin{theorem}[Rim-Schlessinger]
+A deformation category $\F$ such that $T \F = \overline{\F}(k[\epsilon])$ is finite dimensional admits a versal formal object.
+\end{theorem}
+
+\begin{example}
+Let $X$ be a $k$-scheme. The cofibered category of deformations $\cDef_X \to \C_{k}$ is a deformation category. If $X$ is finite type and either proper or affine then $T \cDef_X = T \Def_X$ is finite dimensional so $X$ admits a versal formal deformation $\X \to \Spf{R}$.
+\end{example}
+
+\begin{defn}
+Given a category fibered in groupoids,
+\[ p : \X \to (\Sch_S)_{\fppf} \]
+and a finite tpye point $\Spec{k} \to S$ and $x_0 \in \X(k)$. First factor $\Spec{k} \to \Spec{\Lambda} \embed S$ through some affine open such that $\Lambda \to k$ is finite. The category $\C_\Lambda$, up to canonical equivalence, does not depend of the choice of affine open $\Spec{\Lambda} \subset S$. Note that $\C_{\Lambda}$ is equivalent to the opposite category of factorizations,
+\[ \Spec{k} \to \Spec{A} \to S \]
+such that $A$ is Artin local and $A \to k$ identifies $k$ with the residue field. Now let $\F_{\X, k, x_0}$ be the category of,
+\begin{enumerate}
+\item morphisms $x_0 \to x$ of $\X$ over $\Spec{k} \to \Spec{A}$ as $S$-map in $\C_{\Lambda}$,
+\item morphisms $(x_0 \to x) \to (x_0 \to x')$ are diagrams,
+\begin{center}
+\begin{tikzcd}
+x \arrow[from=rr] & & x' 
+\\
+& x_0 \arrow[ru] \arrow[ul]
+\end{tikzcd}
+\end{center}
+in $\X$ (notice the reversal of arrows). 
+\end{enumerate}
+Then $p : \F_{\X, k, x_0} \to \C_{\Lambda}$ is a predeformation category. We say that a formal object $\xi = (R, \xi_n, f_n)$ of $\X$ is \textit{versal} if $\xi$ is versal as a formal object of $\F_{\X, k, x_0}$ with $k = R / \m_R$ and $x_0 = \xi_1$. We say that $x \in \X(U)$ is versal at a finite type point $u_0 \in U$ if $\hat{x} \in \wh{\F}_{\X, \kappa(u_0), x_0}$ is versal where $x_0 : \Spec{k} \to U \to \X$ is the image. 
+\end{defn}
+
+\begin{defn}
+Let $S$ be a locally noetherian scheme and $p : \X \to (\Sch_S)_{\fppf}$ a category fibered in groupoids. We say $\X$ satisfies \textit{opennes of versality} if given a scheme $U$ locally of finite type over $S$, an object $x \in \X(U)$, and a finite type point $u_0 \in U$ such that $x$ is versal at $u_0$ then there is exists an open neiborhood $u_0 \in U' \subset U$ such that $x$ is versal at every finite type point of $U'$.
+\end{defn}
+
+\subsection{Effectivity}
+
+\begin{defn}
+A formal object $\xi = (R, \xi_n, f_n) \in \wh{\F}_{\X, k, x_0}$ is \textit{effective} if it arises from $\tilde{\xi} \in \X(R)$.
+\end{defn}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/07X3}{07X3}]
+If $\X \to S$ is an algebraic stack over a locally noetherian scheme $S$ then every formal object is effective.
+\end{lemma}
+
+\begin{proof}
+First, if $X$ is a scheme then for all local rings $R$ factoring $\Spec{k} \to X$ the map corresponds to $\Spec{R} \to \Spec{\stalk{X}{x}} \to X$ so if $R$ is complete,
+\[ X(R) = \Hom{\text{loc}}{\stalk{X}{x}}{R} = \varprojlim_{n} \Hom{\text{loc}}{\stalk{X}{x}}{R/\m_R^n} = \varprojlim_n X(R/\m_R^n) \]
+The general case follows from an intricate descent argument.
+\end{proof}
+
+\section{Artin's Axioms}
+
+\begin{theorem}[Artin Approximation]
+Let $S$ be a locally noetherian scheme and a category fibered in groupoids $p : \X \to (\Sch_S)_{\fppf}$. Let $R$ be a Noetherian complete local ring with redicue field $k$ with $\Spec{R} \to S$ finite type and $x \in \X(R)$. Let $s \in S$ be the image of $\Spec{k} \to \Spec{R} \to S$. Assume that,
+\begin{enumerate}
+\item $\stalk{S}{s}$ is a $G$-ring
+\item $p$ is limit-preserving on objects.
+\end{enumerate}
+Then for every $N \ge 1$ there exist,
+\begin{enumerate}
+\item a finite type $S$-algebra $A$
+\item a maximal ideal $\m_A \subset A$
+\item an object $x_A \in \X(A)$
+\item an $S$-isomorphism $R / \m_R^N \iso A / \m_A^N$
+\item an isomorphism $x|_{R/\m_R^N} \iso x_A |_{A / \m_A^N}$ over the previous map
+\item an isomorphism $\gr{\m_R}{R} \iso \gr{\m_A}{A}$ of graded $k$-algebras.
+\end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+Let $S$ be a locally noetherian scheme and $p : \X \to (\Sch_S)_{\fppf}$ a category fibered in groupoids. Let $\xi$ be a formal object of $\X$ with $x_0 = \xi_1$ lying over $\Spec{k} \to S$ with image $s \in S$ such that,
+\begin{enumerate}
+\item $\xi$ is versal
+\item $\xi$ is effective
+\item $\stalk{S}{s}$ is a $G$-ring 
+\item $p : \X \to (\Sch_S)_{\fppf}$ is limit-preserving
+\end{enumerate}
+then there exists a finite type morphism $U \to S$, a finite type point $u_0 \in U$ with residue field $k$ and $x \in \X(U)$ such that $x : U \to \X$ is versal at $u_0$ and $x|_{\Spec{\stalk{U}{u_0}}}$ induces $\xi$. 
+\end{lemma}
+
+\begin{proof}
+Choose an object $x_R \in \X(R)$ whose completion is $\xi$. Apply Artin approximation with $N = 2$ to obtain $A, \m_A, x_A \in \X(A)$ apprxoimating $\xi$. Let $\eta$ be the formal object completing $x_A |_{\Spec{\hat{A}}}$ (the completion of $A$ at $\m_A$). Then a lift for the diagram in $\wh{\F}_{\X, k, x_0}$,
+\begin{center}
+\begin{tikzcd}
+& \eta \arrow[d]
+\\
+\xi \arrow[r] \arrow[ru, dashed] & \xi_2 = \eta_2 
+\end{tikzcd}
+\quad \text{lying over} \quad
+\begin{tikzcd}
+& \hat{A} \arrow[d]
+\\
+R \arrow[r] \arrow[ru, dashed] & R / \m_R^2 = A / \m_A^2
+\end{tikzcd}
+\end{center}
+exists because $\xi$ is versal. Since the map $R \to \hat{A}$ induces an isomorphism on tangent spaces and by construction $\dim_k \m_R^n / \m_R^{n+1} = \dim_k \m_A^n / \m_A^{n+1}$ we conclude that $R \to \hat{A}$ is an isomorphism. Hence $\eta \cong \xi$ is versal so the map $x_A : \Spec{A} \to \X$ is versal at $\wh{x_A|_{\Spec{\hat{A}}}}  = \eta$. 
+\end{proof}
+
+\begin{theorem}
+Let $S$ be a locally Noetherian base scheme and consider a category cofibered in groupoids,
+\[ p : \X \to (\Sch_S)_{\fppf} \]
+For each finite type morphism $\Spec{k} \to S$ with $k$ a field and $x_0 \in \X(\Spec{k})$  assume that,
+\begin{enumerate}
+\item $\X$ is a stack for the \etale topology
+\item $\Delta_{\X / S} : \X \to \X \times_S \X$ is representable by algebraic spaces
+\item $\X$ is limit preserving (preserves filtered colimits)
+\item $\X$ satisfies the Rim-Schlessinger condition (RS)
+\item $T \F_{\X, k, x_0}$ is finite dimensional for all $k$ and all $x_0 \in \F(k)$
+\item every formal object of $\X$ is effective
+\item $\X$ satisfies opennes of versality
+\item $\stalk{S}{s}$ is a $G$-ring for all finite type points $s \in S$ 
+\item a set theoretic condition
+\end{enumerate}
+then $\X$ is an algebraic stack. 
+\end{theorem}
+
+\begin{proof}
+It suffices to show that for each finite type $\Spec{k} \to S$ and $x_0 \in \X(k)$ there is a finite type morphism $U \to S$ and a smooth map $U \to \X$ such that there is a finite type point $u_0 : \Spec{k} \to U$ such that $x|_{u_0} \cong x_0$.
+\bigskip\\
+By Rim-Schelssinger $\F_{\X, k, x_0}$ admits a versal formal object $\xi$ which is then effective. Artin approximation allows us to approximate an effective formal object by a finite type object $U \to \X$ which is versal at $u_0 \in U$. By openness of versality, we can shrink $U$ such that $U \to \X$ is versal at every finite type point.  
+\bigskip\\
+Finally, prove that a representable morphism $f : \X \to \Y$ of limit preserving categories fibered in groupoids which is smooth on deformation categories is smooth (Tag \chref{https://stacks.math.columbia.edu/tag/07XX}{07XX}). Indeed, for $T \to \Y$ the condition says that $f : \X_T \to T$ is a formally smooth map of algebraic spaces\footnote{There is a subtily here with changing fields that requires the full strength of (RS) where as proving that a versal object exists only requires (S1) and (S2) and finite-dimensionality of tangent spaces} and the limit-preserving condition gives finitely presented. 
+\end{proof}
+
+\begin{rmk}
+Ususally most difficult to prove openness of versality. There a number of deformation-theoretic techniques for proving this but require effectivity of formal objects over more general formal schemes. There are also tangent-obstruction theory methods for proving openness of versality.
+\end{rmk}
+
+\end{document}

@@ -1,0 +1,361 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+\newcommand{\Frob}{\mathrm{Frob}}
+
+\newcommand{\st}{\mathrm{st}}
+
+\begin{document}
+
+\section{Math 245B Topics in algebraic geometry: Deligne-Lustzig Theory}
+
+Note: no class week of Jan 29th and zoom the week after. 
+
+The course is about $\CC$-rep theory of finite groups of Lie type e.g. $\GL_3(\FF_8)$ or $\Sp_8(\FF_{27})$ or $\SO_5(\FF_3)$. The goal is to construct all the (irreducible) representations. 
+
+\begin{example}
+Consider $G = \SL_2(\FF_q)$ for $p > 2$. Then $T(\FF_q) \subset B(\FF_q) \subset \SL_2(\FF_q)$ be the torus and upper-triangular Borel. Given a character $\theta : T(\FF_q) \to \CC^\times$ consider the map $B \to T$ quotienting by the unipotent part then get a $G$-rep $\Ind{G}{B(\FF_q)} \theta$. If $\theta$ is trivial then $\Ind{G}{B(\FF_q)}{\theta} = \mathrm{Fun}(\P^1(\FF_q), \CC)$ with the standard $\SL_2(\FF_q)$-action. This has a subrep of the constant functions giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \CC \arrow[r] & \Ind{G}{B(\FF_q)}{1} \arrow[r] & \text{st} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\text{st}$ is the Steinberg. This is irreducible (exercise). Does this proceedure give all representations? No. 
+\end{example}
+
+\begin{example}
+If $\theta^2 \neq 1$ then $\Ind{G}{B(\FF_q)}{\theta} = \Ind{G}{B(\FF_q)}{\theta^{-1}}$ so we get fewer representations. If $p > 2$ and $q = p^r$ then we get $\frac{q+5}{2}$ irreps of $\SL_2(\FF_q)$ from this proceedure. However, there are $q + 4$ conjugacy classes and thus irreps. 
+\end{example}
+
+The other half of the reps must come from a different construction. Frobenius was able to write these down in the 1890s but we want a general proceedure for all groups of Lie type. Macdonald conjectured that these are related to characters of $T^1(\FF_q) \subset \SL_@(\FF_q)$ which is the nonsplit torus $\FF_{q^2}^\times \subset \GL_2(\FF_q)$ intersected with $\SL_2$. Problem, is there is no $\FF_q$-stable Borel containing this. Drinfeld gives us the solution. Consider the curve,
+\[ C = \{ xy^q - yx^q = 1 \} \subset \A^2_{\FF_q} \]
+which has commuting actions of $\SL_2(\FF_q)$ are $\mu_{q+1}$ given by,
+\[ \begin{pmatrix}
+a & b
+\\
+c & d
+\end{pmatrix} 
+\cdot (x,y) \mapsto (ax + by, cx + d y) \]
+and
+\[ \zeta \cdot (x,y) \mapsto (\zeta x, \zeta y) \]
+Then for $\theta : \mu_{q+1} \to \overline{\Q_{\ell}}$ (which is abstractly isomorphic to $\CC$) then we get a representation,
+\[ \SL_2(\FF_q) \acts H^1_{\et}(C_{\overline{\FF}_q}, \overline{\Q_\ell})[\theta] \]
+where this is the part where $\mu_{q+1}$ acts by $\theta$. These give the remaining representations. 
+
+\begin{rmk}
+Notice that $C$ is a $\mu_{q+1}$-cver of $\P^1_{\FF_q} \sm \P^1(\FF_q)$. 
+\end{rmk}
+
+\section{Representation Theory of Finite Groups}
+
+\newcommand{\Vect}{\mathrm{Vect}}
+
+\begin{defn}
+Let $G$ be a finite group and $k$ a field. A $k$-representation of $G$ is a pair $(V, \pi)$ where $V$ is a finite-dimensional $k$-vectorspace and $\pi : G \times V \to V$ is a $k$-linear action of $G$. A morphism of representations $f : (V, \pi) \to (V', \pi')$ is a linear map $f : V \to V'$ such that,
+\begin{center}
+\begin{tikzcd}
+G \times V \arrow[d, "\pi"] \arrow[r, "\id \times f"] & G \times V' \arrow[d, "\pi'"]
+\\
+V \arrow[r, "f"] & V' 
+\end{tikzcd}
+\end{center}
+This category is called $\Rep{k}{G}$.
+\end{defn}
+
+\begin{prop}
+$\Rep{k}{G}$ is abelian and $F : \Rep{k}{G} \to \Vect_k$ commutes with all limits and colimits. Furthermore, $\Rep{k}{G}$ is monoidal and $F$ is a monoidal functor with the usual $\otimes$ on $\Vect_k$. 
+\end{prop}
+
+\begin{prop}[Maschke]
+If $\# G \in k^\times$ then $\Rep{k}{G}$ is semisimple.
+\end{prop}
+
+\begin{defn}
+Given $(V, \pi, \rho)$ there is a function $\chi_V : G \to k$ via $g \mapsto \tr{\rho(g)}$ called the \textit{character}. 
+\end{defn}
+
+\begin{theorem}[Orthogonality]
+If $\# G = k^\times$ and $V, V'$ are $G$-reps then,
+\[ \frac{1}{\# G} \sum_{g \in G} \chi_V(g) \chi_{V'}(g^{-1}) = \dim \Hom{G}{V}{V'} \]
+inside $k$.
+\end{theorem}
+
+\begin{proof}
+The LHS is,
+\[ \frac{1}{\# G} \sum_{g \in G} \tr{\left( g | \Hom{}{V}{V'} \right)} \]
+and for any $w \in \Rep{k}{G}$ we have,
+\[ \frac{1}{\# G} \sum_{g \in G} \tr{\left( g | W \right)} = \dim{W^G} \]
+\end{proof}
+
+\begin{prop}
+Let $\# G \in k^\times$ and $k = \bar{k}$. Then $\{ \chi_V \}$ for $V$ irreps span the space of conjugation invariant functions $G \to k$. 
+\end{prop}
+
+\section{Jan 11}
+
+Fix a finite group $G$ and a field $k$ s.t. $\# G \in k^\times$ and $k = \bar{k}$. If $H \subset G$ is a subgroup, then there is a functor,
+\[ \Res{G}{H}{-} : \Rep{k}{G} \to \Rep{k}{H} \]
+which has both a left and a right adjoint given by 
+\[ \Ind{G}{H}{-} : \Rep{k}{H} \to \Rep{k}{G} \]
+which is defined by,
+\[ V \mapsto \{ f : G \to V \mid \forall h \in H, g \in G : f(h g) = \rho_V(h) f(g) \} \]
+
+\begin{rmk}
+$\dim \Ind{G}{H}{V} = [G : H] \dim{V}$.
+\end{rmk} 
+
+\begin{rmk}
+A goal of Mackey theory is to understand when induced representations are irreducible.
+\end{rmk}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\begin{defn}
+We notate the induced character,
+\[ \chi^G_V = \chi_{\Ind{G}{H}{V}} \]
+so therefore Frobenius reciprocity (the adjunction) is given by the corresponding statement for pairing characters,
+\[ \inner{\chi_V^G}{\chi_V^G}_G = \inner{\chi_V}{\chi^G_V|_H}_H \]
+Recall, by character theory $\Ind{G}{H}{V}$ is absolutely irreducible iff the above pairing is $1$.
+For $g \in G$ we write $H^g$ for $g H g^{-1} \subset G$ and $\rho : H \to \GL(V)$ I write $\rho^g : g H g^{-1} \to \GL(V)$ with $g h g^{-1} \mapsto \rho(h)$. Note that $H \cap H^g$ only depends, up to isomorphism, on $[g] \in H \backslash G / H$.
+\end{defn}
+
+\begin{thm}
+\[ \Res{G}{H}{\Ind{G}{H}{\rho}} = \bigoplus_{[g] \in H \backslash G / H} \Ind{H}{H \cap H^g}{\Res{H^g}{H \cap H^g}{\rho^g}} \]
+\end{thm}
+
+\begin{cor}
+$\Ind{G}{V}{V}$ is irreducible iff $V$ is irreducble and $\Res{H^g}{H^g \cap H}{\chi}$ and $\Res{H^g}{H^g \cap H}{\rho^g}$ share no common irreducible factors (other than $g = 1$).
+\end{cor}
+
+\begin{proof}
+\begin{align*}
+\inner{\chi_V^G}{\chi_V^G}_G & = \inner{\chi_V}{(\chi_V^G)_H}_H = \sum_{g \in H \backslash G / H} \inner{\chi_V}{\chi_{\Ind{H}{H \cap H^g}{\Res{H^g}{H \cap H^g}{\rho^g}}}} 
+\\
+& = \sum_{g \in H \backslash G / H}\inner{\Res{H}{H \cap H^g}{\chi}}{\Res{H^g}{H \cap H^g}{\chi^g}}
+\end{align*}
+Each term in the sum is a positive integer so we must have exactly one of them is equal to $1$. 
+\end{proof}
+
+\begin{example}
+Apply this to $G = \SL_2(\FF_q)$ and $H = B(\FF_q)$. Let,
+\[ s = \begin{pmatrix}
+0 & - 1
+\\
+1 & 0
+\end{pmatrix} \]
+then,
+\[ s 
+\begin{pmatrix}
+a & b
+\\
+c & d
+\end{pmatrix}
+s^{-1} = 
+\begin{pmatrix}
+d & -c
+\\
+-b & a
+\end{pmatrix} \]
+Conjugation by $s$ preserves $T(\FF_q)$ and axts as inversion on it. Then $B(\FF_q) \cap s B(\FF_q) s^{-1} = T(\FF_q)$. 
+\end{example}
+
+\begin{lemma}
+$\SL_2(\FF_q) = B(\FF_q) \cup B(\FF_q) s B(\FF_q)$ is the Bruhat decomposition. 
+\end{lemma}
+
+If we start with $\theta_1, \theta_2 : T(\FF_q) \to \CC^\times$ and consider them as representations of $B(\FF_q) \to T(\FF_q)$ then,
+\[ \inner{\Ind{SL_2(\FF_q)}{B(\FF_q)}{\theta_1}}{\Ind{\SL_2(\FF_q)}{B(\FF_q)}{\theta_2}}_G = \inner{\theta_1}{\theta_2}_T + \inner{\theta_1}{\theta_2^s}_T \]
+
+\begin{cor}
+If $\theta_1 = \theta_2$ we find $\Ind{\SL_2(\FF_q)}{B(\FF_q)}{\theta}$ is irred if $\theta_1 \neq \theta_1^{-1}$. If $\theta_1 \in \{ \theta_2, \theta_2^{-1} \}$ then $\Ind{-}{-}{\theta_1}$ and $\Ind{-}{-}{\theta_2}$ shrea no common factors. 
+\end{cor}
+
+If $p > 2$ then there are $q - 3$ characters $\theta$ with $\theta \neq \theta^{-1}$ and therefore $\frac{q-3}{2}$ irreps of $\SL_2(\FF_q)$. Then,
+\[ \Ind{-}{-}{1} = 1 + \text{st} \]
+and for $\alpha \neq 1$ with $\alpha^2 = 1$
+\[ \Ind{-}{-}{\alpha} = R(\alpha)_+ + R(\alpha)_+ \]
+with $R(\alpha)_+$ and $R(\alpha)_-$ are nonisomorphic representations of the same dimension. Therefore we have found,
+\[ \frac{q - 3}{2} + 4 = \frac{q + 5}{2} \]
+representations.
+
+\begin{defn}
+A representation of $\SL_2(\FF_q)$ that does not contain any of the previous representation as a summand is called \textit{cuspidal}. 
+\end{defn}
+
+\begin{example}
+Consider $\SL_2(\ZZ_p) \embed \SL_2(\QQ_p)$ and $\SL_2(\ZZ_p) \to \SL_2(\FF_p)$ and let $\SL_2(\ZZ_p)$ act on $V$ via a cuspidal rep of $\SL_2(\FF_p)$ then c-Ind to $\Q_p$ is cuspidal. 
+\end{example}
+
+\section{$\ell$-adic Cohomology}
+
+Let $X$ be a smooth projective $\FF_q$-variety. Then can define,
+\[ \zeta_X(T) = \exp{ \left( \sum_{n \ge 1} \# X(\FF_{q^n}) \frac{T^n}{n} \right)} \in \Q\dbrac{T} \]
+ 
+\begin{example}
+$X = \Spec{\FF_q}$ then, 
+\[ \zeta_X(T) = \frac{1}{1 - T} \]
+If $X = \P^1_{\FF_q}$ then,
+\[ \zeta_X(T) = \frac{1}{(1 - T)(1 - q T)} \]
+If $X = E$ is an elliptic curve over $\FF_q$ then,
+\[ \zeta_X(T) = \frac{(1 - \alpha T)(1 - \beta T)}{(1 - T)(1 - q T)} \]
+\end{example}
+
+\begin{conj}[Weil]
+$\zeta_X$ is a rational function. 
+\end{conj}
+
+\begin{proof}
+Weil's idea: we are counting fixed points of $\Frob^r_q$ on $X_{\overline{\FF}_q}$. Now, if $M$ is a compact oriented manifold and $\psi : M \to M$ continuous with isolated fixed points then,
+\[ \# \mathrm{fix}(\psi) = \sum_{i} (-1)^i \tr{( \psi_* | H^i_{\text{sing}}(M, \RR))} \]
+This implies that the exponential generating function for $\# \mathrm{fix}(\psi^n)$ is a rational function. 
+\end{proof}
+
+Is there an ``algebraic definition'' of singular cohomology for $X$ smooth projective over $\CC$. Then $H^0_{\text{sing}}(X(\CC), \Z) = \pi_1(X(\CC))^\ab$ but $\CC^\times$ has a $\ZZ$-cover $\exp : \CC \to \CC^\times$ which is not algebraic. However, Riemann existence proves that all \textit{finite} covering spaces \textit{are} algebraic. Therefore, $H^1_{\text{sing}}(X(\CC), \Z / n \Z)$ has an algebraic definnition. 
+\bigskip\\
+Serre gives a simple argument that shows there cannot exist a cohomology theory for smooth projective $\FF_q$-varities which is valued in $\Q$-vectorspaces such that $H^1(E, \Q)$ is a two-dimensional $\Q$-vectorspace. This is because $\End{E}$ is a quaternion algebra and this cannot act on $\Q^2$ in the necessary way. 
+\bigskip\\
+So we could hope to define a cohomology theory with values in $\Z / \ell^n \Z$ for $\ell \neq p$ this gives a theorey with values in $\varprojlim \ZZ / \ell^n \ZZ = \ZZ_\ell$ and thus in $\ZZ_\ell[\ell^{-1}] = \QQ_\ell$.
+
+\begin{theorem}[Grothendieck-Deligne-Artin] 
+Yes this is possible. There is a functor \[ H^i_{\et}(-, \QQ_\ell) : \{ \text{sm proj varities over }^\op \overline{\FF}_p \} \to \{ \text{fin dim } \QQ_{\ell}\text{-vector spaces} \} \] 
+such that,
+\begin{enumerate}
+\item $H_{\et}^i(X, \Q_\ell) = 0$ unless $0 \le i \le 2 \dim{X}$
+\item $H^0_{\et}(X, \Q_\ell) = \Q_\ell[\pi_0(X)]$
+
+\item If $X$ lift to $\wt{X}$ over $\CC$ then,
+\[ H^i_{\text{sing}}(\wt{X}(\CC), \Q_\ell) = H^i_{\et}(X, \Q_\ell) \]
+
+\item $H^i_{\et}(X, \Q_\ell) = H^{2 d - i}(X, \Q_\ell)^\vee$ if $X$ is equidimensional of dimension $d$
+
+\item if $\psi : X \to X$ has isolated fixed points then,
+\[ \# \text{fix}(\psi) = \sum_i (-1)^i \tr{( \psi_* | H^i_{\et}(X, \Q_\ell))} \]
+
+\item if $X$ is over $\FF_q$ then,
+\[ \# X(\FF_{q^n}) = \sum_{i} (-1)^i \tr{( \Frob_{q}^n | H^i_{\et}(X_{\overline{\FF}_{q}}, \Q_\ell))} \]
+\end{enumerate}
+\end{theorem}
+
+
+
+\begin{theorem}
+There are also functors,
+\[ H^i_{c}(-, \QQ_\ell) : \{ \text{varities over }^\op \overline{\FF}_p \text{ with proper maps} \} \to \{ \text{fin dim } \QQ_{\ell}\text{-vector spaces} \} \] 
+such that,
+\begin{enumerate}
+\item $H_c^i(X, \Q_\ell) = H^iX, \Q_\ell)$ if $X$ is proper / projective
+\item $H_{c}^i(X, \Q_\ell) = 0$ unless $0 \le i \le 2 \dim{X}$
+
+\item If $X$ is smooth and affine then $H^i_c(X, \Q_\ell) = 0$ for $0 \le i \le \dim{X}$
+
+\item If $Z \subset X$ is closed then is the a LES,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^i_c(U, \Q_\ell) \arrow[r] & H^i_c(X, \Q_\ell) \arrow[r] & H^i_c(Z, \Q_\ell) \arrow[r] & H^{i+1}_c(U, \Q_\ell) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+
+\item if $\psi : X \to X$ has isolated fixed points then,
+\[ \# \text{fix}(\psi) = \sum_i (-1)^i \tr{( \psi_* | H^i_{c}(X, \Q_\ell))} \]
+
+\item if $X$ is over $\FF_q$ then,
+\[ \# X(\FF_{q^n}) = \sum_{i} (-1)^i \tr{( \Frob_{q}^n | H^i_{c}(X_{\overline{\FF}_{q}}, \Q_\ell))} \]
+\end{enumerate}
+\end{theorem}
+
+Let $C$ be the Drinfeld curve over $\FF_q$ equipped with actions of $\SL_2(\FF_q)$ and $\mu_{q+1}$. Let $\theta$ be a character of $\mu_{q+1}$ with values in $\Q_\ell$. 
+
+\begin{defn}[Deligne-Lustzig induction]
+Let $[\theta]$ denote $\Hom{\mu_{p+1}}{\theta}{-}$ then let,
+\[ R(\theta) = H^0_c(C_{\overline{\FF}_p}, \Q_\ell) [ \theta] - H^1_c(C_{\overline{\FF}_p}, \Q_\ell)[\theta] + H^2_c(C_{\overline{\FF}_p}, \Q_\ell)[\theta] \]
+in the grothendieck group of representations. 
+\end{defn}
+
+\section{Jan. 18}
+
+\newcommand{\FFbar}{\overline{\FF}}
+\newcommand{\lbar}[1]{\overline{#1}}
+\newcommand{\Qbar}{\lbar{\QQ}}
+
+Recall the Drinfeld curve $C$ (for fixed $q = p^r$) given by,
+\[ \{ X Y^q - Y X^q = 1 \} \subset \A^2_{\FF_q} \]
+This has an action of $\SL_2(\FF_q)$ given by,
+\[ \begin{pmatrix}
+a & b
+\\
+c & d
+\end{pmatrix}
+\cdot (x, y) = (a x + by, c x + d y) \]
+and by $\mu_{q + 1}$ given by,
+\[ \zeta \cdot (x, y) = (\zeta x, \zeta y) \]
+Observation: $C(\FF_q) = \empty$. For some character, 
+\[ \theta : \mu_{q + 1} \to \Qbar_\ell^\times \]
+we define the virtual representation,
+\[ R'(\theta) = H^2_c(C_{\overline{\FF}_q}, \Qbar_\ell)[\theta] - H^1_c(C_{\overline{\FF}_q}, \Qbar_\ell)[\theta] \]
+Here for $W \in \Rep{\mu_{q+1}}$ we write,
+\[ W[\theta] = \{ w \in W \mid \zeta \cdot w = \theta(\zeta) \cdot w \} \]
+We start by computing,
+\[ R'(1) = H^i_c(C_{\FFbar_q}, \Qbar_\ell)^{\mu_{q+1}} = H^i_c(C_{\FFbar_{q}} / \mu_{q+1}, \Qbar_\ell) \]
+
+\begin{lemma}
+The map $C \to \P^1_{\FF_q} \sm \P^1_{\FF_q}(\FF_q)$ is a quotient map by the $\mu_{q+1}$-action. 
+\end{lemma}
+
+\begin{proof}
+Since $[\zeta \cdot X, \zeta \cdot Y] = [X, Y]$ the map is $\mu_{q+1}$-invariant.
+\bigskip\\
+The action is clearly free since $(0, 0)$ is not on the curve.
+\bigskip\\
+Claim that the map is surjective. Indeed, given $[1 : T] \in \P^1(\FFbar_q) \sm \P^1(\FF_q)$. We want to find some $\lambda \in \FFbar_q^\times$ such that $[ \lambda : \lambda T]$ is on the curve:
+\[ \lambda^{q+1} (T^q - T) = 1 \]
+which solvable since $T^q \neq T$ and $\FFbar_q^\times$ has all $(q+1)$-roots. 
+\bigskip\\
+If $(\lambda, \lambda T)$ and $(\lambda', \lambda' T)$ are two different solutions then $\lambda = \zeta \lambda'$ for $\zeta \in \mu_{q+1}$ which is true because the solutions are exactly the $(q+1)$-roots of $(T^q - T)^{-1}$. 
+\bigskip\\
+Therefore, $C(\FFbar_q) / \mu_{q+1} = \P^1(\FFbar_q) \sm \P^1(\FF_q)$. In fact, this is an isomorphism of schemes. 
+\end{proof}
+
+Now we compute! Let $U = \P^1_{\FF_q} \sm \P^1(\FF_q)$. Take the long-exact sequence,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0_c(U_{\FFbar_q}, \Qbar_\ell) \arrow[r] & H^0(\P^1, \Qbar_\ell) \arrow[d, equals] \arrow[r] & H^0(Z_{\FFbar_q}, \Qbar_\ell) \arrow[d, equals] \arrow[r] & H^1_c(U_{\FFbar_q}, \Qbar_\ell) \arrow[r] & H^1(\P^1, \Qbar_\ell) \arrow[d, equals] \arrow[r] & 0
+\\
+& & \Qbar_\ell & 1 \oplus \text{st} & & 0
+\end{tikzcd}
+\end{center} 
+and furthermore $H^2_c(U_{\FFbar_q}, \Qbar_\ell) = H^2(\P^1, \Qbar_\ell) = \Qbar_\ell(-1)$. The map $H^0(\P^1) \to H^0(Z)$ is injective so we see that,
+\[ H^0_c(U_{\FFbar_q}, \Qbar_\ell) = 0 \quad \text{ and } \quad H^1_c(U_{\FFbar_q}, \Qbar_\ell) = \text{st} \]
+Therefore,
+\[ R'(1) = \st - 1 \]
+Because there are no $\mu_{q+1}$-fixed points, the trace formula tells us that,
+\[ \tr{(\zeta | H^2_c(C))} - \tr{(\zeta | H^1_c(C))} = 0 \]
+This characterizes the regular representation of $\mu_{q+1}$. So the character of the virtual representation, $H^1_c(C) - H^2_c(C)$ is a multiple of the regular representation of $\mu_{q+1}$.
+\bigskip\\
+If we then apply $[\theta]$ for $\theta \neq 1$ we get an actual representation since $H^2_c(C)$ is trivial as an $\SL_2(\FF_q)$-representation. The degree of $H^1_c(C)[\theta]$ us then the same as the degree of $H^1_c(C)[1] - H^2_c(C)[1] = \st - 1$ which has dimension $q-1$. This argument works because this virtual character is the same as the regular representation and thus contains every irrep with equal degree. 
+
+\begin{theorem}
+If $\theta \neq 1$ then $H^1_c(C_{\FFbar_q}, \Qbar_\ell)[\theta]$ is cuspidal. 
+\end{theorem}
+
+\begin{proof}
+Consider,
+\[ U = \left< 
+\begin{pmatrix}
+1 & b
+\\
+0 & 1 
+\end{pmatrix} \right> \subset \SL_2(\FF_q) \]
+Then,
+\[ \Rep_{\Qbar_\ell}{T} \to \Rep_{\Qbar_\ell}{B} \to \Rep{\Qbar_\ell}{\SL(\FF_q)} \]
+where the first map is given by quotienting by $U$ and the second by induction. To show that our given representation is orthogonal to the image, it suffices to show it restricted to $B$ is orthogonal to $\Rep{\Qbar_\ell}{T}$. Therefore, it suffices to show that,
+\[ (H^1_c(C)[\theta])_U = (H^1_c(C)[\theta])^U = 0 \]
+So we need to understand $H^1_c(C/U, \Qbar_\ell)$ with the action on $\mu_{q+1}$. What is the quotient by $U$. Notice that,
+\[ \begin{pmatrix}
+1 & b 
+\\
+0 & 1 
+\end{pmatrix} \cdot (x, y) = (x + b y, y) \]
+so we expect that $C \to \Gm$ sending $(x,y) \mapsto y$ is the quotient map with fiber $\FF_q$.
+\end{proof}
+\end{document}
