@@ -1,0 +1,175 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Examples of stable $\infty$-cagtegories}
+
+\subsection{dg-Categories}
+
+Review, let $\cA$ be an abelian cagtegory with enough projectives. Then there is a category $D^-(\cA)$ the derived category of bounded-above.
+
+
+$\Ch(\cA)$ is naturally a dg-Category meaning it is enriched in $\Ch(\Ab)$. Indeed, if $A, B \in \Ch(\cA)$ then we define,
+\[ \Hom{}{A_\bullet}{B_\bullet}_n = \prod_{k} \Hom{}{A_k}{B_{k-n}} \]
+with differential,
+\[ (\d f)_k = f_{k+1} \circ \d_B + (-1)^{n+1} \d_B \circ f_k \]
+
+Then we check that,
+\[ H^0(\Hom{}{A}{B}_\bullet) = \Hom{\Ch(\cA)}{A}{B} \]
+
+\subsection{Program}
+
+Given a dg-category, we get a simplicially enriched category by truncating and then applying Dold-Kan and then apply the homotopy-coherent nerve. 
+\bigskip\\
+However, this requires checking many steps. We can instead go directly with the following construction. 
+
+\subsection{Construction}
+
+\newcommand{\dg}{\mathrm{dg}}
+
+\begin{defn}
+A \textit{dg-category} is a category enriched in $\Ch(\cA)$. This includes the requirement that,
+\[ \d{(g \circ f)} = \d{g} \circ f + (-1)^{\deg{g}} g \circ \d{f} \]
+which arises from needing to preserve the monoidal structure on $\Ch(\cA)$ given by graded tensor $A \ot B$. 
+\end{defn}
+
+We will define a dg-Nerve which goes directly from dg-categories to $\infty$-categories which does not require passing through simplically-enriched categories.
+
+\begin{defn}
+Let $C$ be a dg-category. Then the \textit{dg-Nerve} is the simplicial set $N_{\dg}(C)$ where $N_{\dg}(C)_n$ is the set of objects $X_i$ for $i \in \{ 0, \dots, n \}$ and for each ordered set $I = \{ i_- < i_m < \cdots < i_1 < i_+ \}$ for $m \ge 0$ of elements in $\{ 0, \dots, n \}$ we have map,
+\[ f_I \in \Map{X_{i_-}}{X_{i_+}} \]
+such that,
+\[ \d{f_I} = \sum_{1 \le j \le m} (-1)^i (f_{I \sm \{ i_j \}} - f_{\{i_j < \cdots < i_+ \}} \circ f_{\{ i_- < \cdots < i_j \}}) \]
+and the maps work as follow. If $\alpha : [m] \to [n]$ is monotone. Then the induced map $\alpha^*$ is given by,
+\[ \alpha^* (\{ X_i \}, \{ f_I \}) = (\{ X_{\alpha(i)} \}, \{ g_I \}) \]
+where,
+\[ 
+g_J = 
+\begin{cases}
+f_{\alpha(J)} & \alpha|_J \text{ injective} 
+\\
+\id_{X_i} & J = \{ j, j'\} \text{ and } \alpha(j) = j'
+\\
+0 & \text{ else}
+\end{cases} \]
+\end{defn}
+
+\begin{prop}
+For any dg-category $C$ the dg-Nerve $N_{\dg}(C)$ is an $\infty$-category. 
+\end{prop}
+
+\begin{proof}
+We need to show that inner horns can be filled. However, $\Lambda^n_i \to N_{\dg}(C)$ this is the same data as specifying $\Delta^n \to N_{\dg}(C)$ except we haven't specified all the maps $f_I$. In fact, this has specified the maps for all $I$ except for $I = [n]$ and $I = [n] \sm \{ i \}$. Then we set $f_{[n]} = 0$ and,
+\[ f_{[n] \sm \{ i \}} = \sum_{0 < p < n} (-1)^{p-i} f_{\{ p, \dots, n \}} \circ f_{\{0, \dots, p\}} - \sum_{p < p < n, p \neq i} (-1)^{p-i} f_{[n] \sm \{ 0 \}} \]
+\end{proof}
+
+\begin{rmk}
+$\Hom{N_{\dg}(C)}{X}{Y} = \DK(\tau_{\ge 0} \Map{C}{X}{Y})$ which is the same result we would have gotten from the program applying Dold-Kan to the simplicially-enriched category.
+\end{rmk}
+
+\begin{rmk}
+Under what conditions do we get a stable $\infty$-category from $N_{\dg}(C)$?
+\end{rmk}
+
+\begin{defn}
+Let $\cA$ be an abelian category with enough projectives,
+$D^+(\cA) = N_{\dg}((\Ch(\cA_{\text{proj}})_{\ge 0})$.
+\end{defn}
+
+\begin{prop}[Prop 1.3.2.10]
+$D^{-}(\cA)$ is stable. 
+\end{prop}
+
+\begin{defn}
+We say that $\cA$ is a \textit{Grothendieck abelian category} if $A$ has a generator and small filtered colimits of monomorphisms are monomorphisms.
+\end{defn}
+
+\begin{example}
+The category of $R$-modules is Grothendieck.
+\end{example}
+
+\begin{theorem}
+Let $\cA$ be Grothendieck. Then $\Ch(\cA)$ has a model structure where,
+\begin{enumerate}
+\item cofibrations $M \to N$ are those morphisms which are injective termwise
+\item equivalences $M \to N$ are quasi-isomorphisms
+\item fibrations are those satisfying the right lifting property wrt the acyclic cofibrations.
+\end{enumerate}
+\end{theorem}
+
+\begin{prop}[1.3.5.6]
+\begin{enumerate}
+\item If $M_n$ is injective for all $n$ and $M_n \cong 0$ for $n \gg 0$ then $M_\bullet$ is fibrant.
+\item If $M_\bullet$ is fibrant then each $M_n$ is injective. 
+\end{enumerate}
+\end{prop}
+
+If $M \cA$ and $M' = M[0]$ then there is a fibrant replacement $M[0] \to Q$ where the map is a trivial cofibration this proves enough injectives.
+
+\begin{defn}
+Let $\Ch(\cA)^\circ$ be the full subcategory of fibrat objects. Let $D(A) = N_{\dg}(\Ch(\cA)^\circ)$.
+\end{defn}
+
+\begin{prop}
+$D(\cA)$ is stable and is the $\infty$ unbounded derived category. 
+\end{prop}
+
+\newcommand{\dlim}{\varinjlim}
+\newcommand{\ilim}{\varprojlim}
+\newcommand{\plim}{\varprojlim}
+
+\subsection{Spectra}
+
+\begin{defn}
+We say an $\infty$-category is \textit{pointed} if it admits a zero object. 
+\end{defn}
+
+Motivation: stable maps,
+\[ [X, Y]_s : = \varinjlim_n [\Sigma^n X, \Sigma^n Y] \]
+There is a category of topological spaces with stable maps. This gives a triangulated category with $\Sigma$ acting via shift. Constructing this category ``formally'' we have some options,
+\begin{enumerate}
+\item objects are $(X, n)$ with $X \in \Top$ and $n \in \ZZ$ and morphisms are,
+\[ \Hom{}{(X, n)}{(Y, m)} = \dlim_k [\Sigma^{k+n} X, \Sigma^{k+m} Y] \]
+which works even for negative $n, m$ becasuse we can choose $k$ large enough. This ``formally inverts'' suspension by giving elemens like $(X, -1)$ which is the de-suspension of $X$
+
+\item construting inifinte loop spaces: a sequence $E_n$ with maps $E_n \iso \Omega E_{n+1}$ so these are progressive deloopings. These are also giving inverses of $\Sigma$.
+\end{enumerate}
+
+\begin{defn}
+Let $F : C \to D$ be a functor of $\infty$-categories then,
+\begin{enumerate}
+\item $F$ is \textit{excisive} if psuhout diagrams map to pullback diagrams
+\item $F$ is \textit{reduced} if $F(*) = *$. 
+\end{enumerate}
+\end{defn}
+
+\begin{defn}
+Let $C$ admit finite limits. A \textit{spectrum object} is a reduced excisive functor,
+\[ F : S^\fin_* \to C \]
+The $\infty$-category of spectra is,
+\[ \Sp(C) = \Fun{}{S^\fin_*}{C}_{\text{exc, red}} \subset \Fun{}{S^\fin_*}{C} \]
+where $S^\fin_*$ is the pointed category of finite spaces (full subcategory of $\infty$-category of pointed spaces). 
+\end{defn}
+
+\begin{prop}[1.4.2.11]
+Let $C$ be a pointed $\infty$-category with finite limits and colimits then $\Omega : C \to C$ is an equivalence then $C$ is stable. 
+\end{prop}
+
+\begin{prop}
+If $C$ is a pointed $\infty$-category with finite limits and colimts then $\Sp(C)$ is stable. 
+\end{prop}
+
+\begin{prop}
+Let $C$ be a pointed $\infty$-category with finite limits then there is a tower of $\infty$-categories,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & C \arrow[r, "\Omega"] & C \arrow[r, "\Omega"] & C
+\end{tikzcd}
+\end{center}
+and $\Sp(C)$ is the homotopy limit. 
+\end{prop}
+
+Let $\cA$ be an abelian group. Then the Eilenberg-Maclain spaces satisfy $K(A, n-1) \cong \Omega K(A, n)$ and hence defines a spectrum. 
+\end{document}
