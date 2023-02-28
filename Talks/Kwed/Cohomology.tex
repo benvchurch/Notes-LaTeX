@@ -1,0 +1,338 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../../Algebraic Geometry/"}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Introduction}
+
+Cohomology (or homology) is about things that are locally consistent but globally are not. Precisely, cohomology classes measure the degree to which something which is locally consistent fails to be globally consistent.
+
+\subsection{References}
+
+Some good lists of ideas:
+\begin{enumerate}
+\item \chref{https://ncatlab.org/davidcorfield/show/intuitions+about+cohomology}{Intuitions about Cohomology}.
+
+\item \chref{https://mathoverflow.net/questions/153302/teaching-homology-via-everyday-examples}{Teaching homology through examples}.
+
+\item \chref{https://golem.ph.utexas.edu/category/2012/06/cohomology_in_everyday_life.html}{Cohomology in Everyday Life}.
+
+\item \chref{https://mathoverflow.net/questions/60108/occurrences-of-cohomology-in-other-disciplines-and-or-nature/}{Occurrences of (co)homology in other disciplines and/or nature}.
+\end{enumerate}
+
+\subsection{Impossible Figures}
+
+Reference: \chref{https://muse.jhu.edu/article/607084/pdf}{On the Cohomology of Impossible Figures}.
+\bigskip\\ 
+Escher staircase: nonzero Cech class with values in the sheaf of ``height functions''.
+
+
+
+
+(FIGURE THIS OUR FOR REAL)
+
+A Penrose triangle (an "impossible figure") can be viewed as a Čech 1-cycle associated to an open covering of the image plane, taking values in the sheaf of positive functions under pointwise multiplication.
+
+In more detail, place your eye at the origin of Cartesian space, let P be a region in some plane (the screen) not through the origin, and let $C = P \times (0, \infty)$ (for cone) be the union of open rays from your eye to a point of P.
+
+A spatial scene in C is rendered in the plane region P by radial projection, discarding depth (distance) information. Recovering a spatial scene from its rendering on paper amounts to assigning a depth to each point of $P$ i.e., to choosing a section of the projection $C \to P$.
+
+Roger Penrose's three-page article On the Cohomology of Impossible Figures describes in detail (copiously illustrated with Penrose's inimitable drawings) how a two-dimensional picture can be "locally consistent" (each sufficiently small piece is the projection of a visually-plausible spatial object) yet "globally inconsistent" (the entire picture has no visually-plausible interpretation as a projection of a spatial object).
+
+For example, each corner of a Penrose triangle has a standard interpretation as a plane projection of an L-shaped object with square cross-section, but the resulting local depth data cannot be merged consistently in a way conforming to visual expectations.
+
+Of course, the depth data can be merged consistently (from a carefully-selected origin!) by circumventing visual expectations. There are at least two "natural" approaches: use curved sides, or break one vertex.
+
+
+
+PUT IN SLIDES!!
+
+\subsection{Failure of a Directed Graph to Be a Poset}
+
+Playing rock paper scisors makes you keenly aware that some directed graphs are not posets. How can you tell, there are not consistent strategies in the sense that: given your opponents move, there is an optimal choice but this move is not consitstent with the optimal choice of the opponent. There is a local preference but not a global preference.  
+\bigskip\\
+The $2$-simplex has a natural orientation. Given a graph $G$ we form a simplicial complex as follows. For each oriented $1$-simplex in $G$, meaning consistent with the orientation, we glue a $1$-simplex to $G$ giving a complex $\Delta$. Then $H^1(\Delta)$ or equivalently $\pi_1(\Delta)$ is an obstruction to $G$ admiting a partial order.
+\bigskip\\
+What about higher cohomology? Well this simplicial complex equals its $2$-skeleton so we could have $H^2(\Delta)$ be nonzero but not higher cohomology groups. What is $H^2(\Delta) = ?$.
+
+(THINK ABOUT THIS!!)
+
+\subsection{Arbitrage}
+
+Warning: this is not how currencies work or were created (except kind of in madagascar)!
+\bigskip\\
+Suppose you have a bunch of provinces who can trade directly with their neighbors. They each have their own primary commodity which they produce which can be exchanged along their boarders are some rate set by the whims of the merchants who live there. Unfortunately, this web of trade mades it completely illegible to the bureaucrats how much these merchants owe the empire in taxes somthing the tax office very very much likes knowing. Therefore, the emperor has set you the tast of imposing a national currency on the unwilling merhants who were perfectly happying doing tax evasion. Since the hostile merchants are each trying to pretend their goods are as worthless as possible to lower their tax obligations, the burden falls on you to determine how to fix prices and impose monetary relations upon the unwilling populace. 
+\bigskip\\
+Represent the provinces as a graph $G$. On each edge $e$ there is a rate of exchange $r_e$. Consider, 
+\[ C^0 \xrightarrow{\d} C^1 \xrightarrow{\d} C^2 \]
+where $C^0$ is the space of maps $V \to \RR$ and $C^1$ is the space of maps $E^+ \to \RR$ where $E^+$ is the set of oriented edges. Finally, $C^2$ is the space of maps $T \to \RR$ on oriented triangles (alowing degenerate triangles, we will put a trivial edge at each vertex) in the graph. Given $f \in C^0$ we define $\d{f}$ via,
+\[ e \mapsto f(e(0)) - f(e(1)) \]
+where $e_0$ and $e_1$ are the (oriented) endpoints. Likewise given $g \in C^1$ we define $\d{g}$ via,
+\[ \delta \mapsto \sum_i (-1)^i g(\delta|_{\hat{i}}) \]
+with the orientation. This is exactly a segment of the singular cochains of the space $\Delta$ (which is sort of a nerve of the graph) without considering the orientation. Now because we don't consider the orientation, every triangle gets filled in so $H^1(\Delta) = 0$. Therefore, we see,
+\[ g = \d{f} \iff \d{g} = 0 \]
+Apply this to the exchange rates by setting $g = \log{r}$. We see that there exists a global currency $c = \exp{f}$ such that $c(v)$ is the price of goods in region $v$ consistent with the condition that $c(v)/c(v') = r(e)$ for $e : v \sim v'$ if and only if $\d{g} = 0$ meaning that in every triangle $\delta$ consisiting of edges $e_1, e_2, e_3$ (oriented in the standard way) we have,
+\[ r(e_1) r(e_3) = r(e_2) \]
+This is a no arbitrage condition. For degenerate edges it also specifies $r(\id_v) = 1$ (using $e_1 = e_2 = e_3 = v_\id$) and $r(v) r(\bar{v}) = 1$ (using $e_1 = v, e_2 = \bar{v}, e_3 = \id_{v(0)}$) as the rates certainly should satisfy. It is also interesting to think about what the interpretation might be for this construction applied to a directed graph.
+\bigskip\\
+Much to our bureaucrat's chagrin, he finds explict violations of this condition in most of the provinces he surveys. Annoyed by this inconsistency with no clear solution to the question of ``what is the value of each good'' and disgruntled by the lack of cooperation from local merchants, our tax collector realizes that what seemed like an inconsistency in the market pricing is actually an arbitrage opportunity! So he ugh, deregulates the banking sector or ugh -- staying on theme -- legalizes usury -- and lets lose the arbitragues to financialize away the cohomology classes. 
+
+\subsection{Voting}
+
+Moving on from capitalism to our other favorite: democracy and the discontents of aggregating preferences and votes.
+
+\subsection{Condorcet's Paradox}
+
+Given a set of transitively ranked preferences, the aggregate may be non-transitive (what people often call ``irrational''). Specifically, there is no way to form a total order with the property that whenever a majority prefers $a$ to $b$ the aggregate preference prefers $a$ to $b$.
+
+\begin{example}
+Suppose there are three candiates $A,B,C$ and people have the following preferences,
+\begin{center}
+\begin{tabular}{c | c}
+\text{Voter} & \text{Preference}
+\\
+\hline
+1 & $A > B > C$
+\\
+2 & $B > C > A$
+\\
+3 & $C > A > B$
+\end{tabular}
+\end{center}
+Notice that the majority prefers $A$ to $B$ and the majority prefers $B$ to $C$ and the majority prevers $C$ to $A$ violating transitivity. 
+\end{example}
+
+This failure is measured by a cohomology class. 
+
+(DO COHOMOLOGY!!)
+
+If someone wants to waste an afternoon and calculate the obstruction class of the American electorate, please let me know. 
+
+\subsection{Arrow's Theorem}
+
+A voting system is a function which takes in, for each voter, the complete transitive preferences over some set of candidates or polices $V$ and outputs a complete and transitive aggregate preference. We have seen that trying to construct aggregate preferences by looking at binary sub-elections can lead to failure of transitivity.
+There are some reasonable properties one would want a voting system to satisfy.
+
+\begin{rmk}
+It might seem like removing the requirement that the aggregate has complete preferences and only requiring that it outputs a ``best choice'' could mitigate the problem. This does not help. Once the best option is selected, we can remove it from the preferences and run the process again to get a second best etc. This gives a complete set of preferences. Indeed, in Condorcet's paradoxical example there is no number one option.
+\end{rmk} 
+
+\begin{defn}
+Let $P$ be the set of possible preferences. A function $f : P^n \to P$ satisfies
+\begin{enumerate}
+\item \textit{unanimity} if when $a >_{v_i} b$ for each $v_i \in P$ then $a >_{f(\{v_i\})} b$ 
+\item \textit{independence of irrelevant alternatives} (IIA) if for each $a,b$ and preferences $v_i$ and modifications $v_i'$ such that the order of $a,b$ is the same in $v_i$ and $v_i'$ then $a,b$ have the same order in $f(v_i)$ and $f(v_i')$. 
+\end{enumerate}
+\end{defn}
+
+\begin{theorem}[Arrow]
+If $f$ satisfies unanimity and IIA then there exists a dictator meaning $f : P^n \to P$ is projection onto some coordinate. 
+\end{theorem}
+
+\begin{rmk}
+I assumed that that there were a finite number of people $n$. However, it is possible to construct infinite aggregation functions satisfying the required conditions using non-principal ultrafilters. So I guess democracy is only possible in the limit of future galactic civilization. However, the ultrafilter construction does mean of course that no finite group of people have any influence over the outcomes of the elections. Ultrafilters are an effective tool for combating election fraud. For example, \chref{https://www.sciencedirect.com/science/article/pii/0022053170900153}{Arrow's impossibility theorem: Concise proof and infinite voters} was published in an actual economics journal.
+\end{rmk}
+
+\subsubsection{Real Voting Methods}
+
+In reality, there are two main classes of voting methods,
+\begin{enumerate}
+\item Scoring (positional) rules: choose a monotonic scoring function $s : V \to \RR$. For each voter, assign a score $s \circ \sigma$ where $\sigma$ is a permutation ordering their choices. Then add up the scores and select a policy with the maximal score.
+
+\begin{enumerate}
+\item Bora count: let $s : V \to \RR$ be given by $s(i) = i$.
+
+\item Vote for top $r$,
+\[ s(i) = \begin{cases}
+1 & i \ge n - r
+\\
+0 & i < n - r
+\end{cases} \] 
+\end{enumerate}
+
+\item Pairwise rules. Choose preferences via pairwise comparisions.
+
+\begin{enumerate}
+\item Plurality: the option with the most first-place votes wins.
+
+\item Condorcet-type runoff systems. 
+\end{enumerate}  
+\end{enumerate}
+
+\newcommand{\grad}{\mathrm{grad}}
+\newcommand{\curl}{\mathrm{curl}}
+
+\subsubsection{Applied Hodge Theory}
+
+We now extend our discussion to \textit{voting profiles} where we alow voters to score their choices. We view these as distributions on $S_n$ meaning functions $P = \{ S_n \to \RR \}$. Each voter $v$ gives a score $s^v_i$. We define the discrepancy,
+\[ Y^v_{ij} = s^v_i - s^v_j \]
+We are trying to find a global score $s_i$ which matches each individual score as closely as possible. One possibility, the Borda Count (with profiles), to just let $s_i$ be the average. Alternatively, Borda count computes,
+\[ \argmin_{s} \sum_{v, i,j} (s_i - s_j - Y_{ij}^v)^2 \]
+We are trying to find a global difference $Y_{ij} = s_i - s_j$ which is as close as possible to the local differences $Y_{ij}^v$. Alternatively, we could choose a scheme for aggregating the $Y_{ij}^v$ into a global antisymmetric $Y_{ij}$. However, for Condercet reasons we might expect that,
+\[ Y_{ij} + Y_{jk} + Y_{ki} \neq 0 \]
+We think of what we're doing as trying to find $s$ such that $Y_{ij} = s_i - s_j$ in other words we want to know if $Y_{ij}$ is in the image of,
+\[ \Omega^0 \xrightarrow{\grad} \Omega^1 \]
+where $C^0$ is distributions on $S^n$ and $\Omgeta^1$ is antisymmetric maps $(S^n)^2 \to \RR$. This is very suggestively labeled as gradient. Even more suggestively, lets consider $\Omega^2$ the space of fully antisymmetric maps $\{ (S^n)^3 \to \RR \}$ and there is a sequence,
+\[ \Omega^0 \xrightarrow{\grad} \Omega^1 \xrightarrow{\curl} \Omega^2 \]
+where,
+\[ \mathrm{curl}(X)_{ijk} = X_{ij} + X_{jk} + X_{ki} \]
+And yes, now we're going to do Hodge theory. Introduce a metric, 
+\[ \inner{X}{Y} = \sum_{i,j} X_{ij} Y_{ij} \]
+and then $\Omega^1$ admits an othogonal decomposition,
+\[ \Omega^1 = \im{\grad} \oplus \H \oplus \im{\curl^*} \]
+and the space of Harmonic functions is,
+\[ \H = (\im{\grad})^\perp \cap (\im{\curl^*})^\perp = \ker{\div} \cap \ker{\curl} \]
+where $\div = \grad^*$.
+Therefore, for any aggregated comparison we may decompose,
+\[ Y = - \grad(s) + H + \curl^*(\Phi) \]
+where $\grad(s)$ is the gradient which minimizes,
+\[ || Y + \grad(s) || \]
+and $\curl(H) = 0$ so $H$ contains no triangle inconsistencies. Finally, $\curl(Y) = \curl(\curl^*(\Phi))$ so $\Phi$ contains all the information about triangle inconsistencies in the rankings. 
+\bigskip\\
+In the context of voting, we call $\grad(s)$ the Borda component and $\curl^*(\Phi)$ the Condorcet part. If we only alow our voters to rank pairs connected by edges in some interesting graph then the harmonic space is interesting and represents a first homology group. This indeed happens for ranking algorthims as in \chref{https://web.stanford.edu/~yyye/hodgeRank2011.pdf}{Statistical ranking and combinatorial Hodge theory}.
+
+\subsubsection{Topological Arrow's Theorem}
+
+We say that a function $f : W^n \to W$
+\begin{enumerate}
+\item \textit{respects unanimity} if $f(x, \dots, x) = x$
+\item is \textit{anonymous} if $f$ is $S_n$ invariant.
+\end{enumerate}
+Suppose there are $d+1$ candiates which people are allowed to rank with a real number score. To compare everyone's scores they are normalized in $L^2$ meaning that preferences are norm $1$ linear functionals on $\RR^{d+1}$ in other words they are represented by elements of $W = S^{d}$. 
+
+\begin{theorem}[Chichilnisky]
+If $n > 1$ there is no aggregation function $f : W^n \to W$ which is,
+\begin{enumerate}
+\item continuous
+\item respects unanimity
+\item is anonymous.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+
+And suppose our aggregation function $f : W^k \to W$ is continuous. We require that $f$ respects unanimity so $f$ meaning $f \circ \Delta = \id$. Therefore on homology, $f_* \circ \Delta_* = \id$ on $H_{d}(W) \to H_{d}(W)$. Furthermore, $\Delta_* : H_{d}(W) \to H_{d}(W)$ sends,
+\[ [W] \mapsto \sum_{i = 1}^k [W_i] \]
+using the Kunneth formula. Therefore, we see that,
+\[ f_* \left( \sum_{i = 1}^k [W_i] \right) = \sum_{i = 1}^n f_*([W_i]) = [W] \]
+However, by anonymity, $f_* [W_i]$ is independent of $i$ and thus,
+\[ n f_* [W_i] = [W] \]
+which is impossible in $H_d(W) = \Z \cdot [W]$ for $n > 1$. 
+\end{proof}
+
+\begin{rmk}
+According to a paper of Baryshinkov you can sup up this result to prove Arrow's impossibility theorem in a more conceptual way.
+\end{rmk}
+
+References:
+
+\begin{enumerate}
+\item \chref{https://www.sciencedirect.com/science/article/pii/0165176584901368}{A reformulation of Chichilnisky's impossibility theorem}
+
+\item \chref{https://www.diva-portal.org/smash/get/diva2:1222329/FULLTEXT01.pdf}{https://www.diva-portal.org/smash/get/diva2:1222329/FULLTEXT01.pdf}
+
+\item \chref{https://www.sciencedirect.com/science/article/pii/S0196885883710201}{Unifying Impossibility Theorems: A Topological Approach}.
+\end{enumerate}
+
+\subsection{Circuts}
+
+\subsection{Addition}
+
+Reference: \chref{https://www.jstor.org/stable/3072368}{A Cohomological Viewpoint on Elementary School Arithmetic}
+
+Group cohomology (HOW IS IT SPATIAL)
+
+
+The map $\delta : (\Z / 10 \Z) \times (\Z / 10) \to (\Z / 10)$ giving carrying is a cocycle $[\delta] \in H^2(\Z/10, \Z/10)$. This represents the cohomology class of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & (\Z / 10) \arrow[r] & (\Z / 100) \arrow[r] & (\Z / 10) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+
+\section{Quantum Mechanics}
+
+\newcommand{\fU}{\mathfrak{U}}
+
+\subsection{Contextuality}
+
+\begin{enumerate}
+\item Measurments: a discrete space $X$
+
+\item Contexts: $\fU$ a finite cover of $X$
+\item Outcomes: $O$ a set
+
+\item Events: a sheaf $\E$ defined by $\E(U) = O^U$
+\end{enumerate}
+
+\begin{example}
+
+\end{example}
+
+\subsection{Gelfand Spectra and Quantum Mechanics}
+
+Recall that quantum mechanics is really done in terms of unitary or Hermitian operators on Hilbert spaces. The eigenvalues correspond to states with definite values of the observables. Commuting operators are the ones which can be ``measured simultaneously'' -- or more accurately ``measured consistently'' via simultaneous diagonalization. 
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\Set}{\mathbf{Set}}
+\renewcommand{\H}{\mathcal{H}}
+
+\begin{defn}
+Let $\H$ be a Hilbert space and $\B(\H)$ the bounded linear operators on $\H$. Let $\cA \subset \B(\H)$ be some set of operators. Then we define the \textit{commutant},
+\[ \cA' = \{ B \in \B(\H) \mid \forall A \in \cA : [A, B] = 0 \} \]
+\end{defn}
+
+\begin{prop}
+If $\cA$ is $*$-closed and contains the identity then the double commutant $\cA''$ is a von Neumann algebra. 
+\end{prop}
+
+\begin{rmk}
+Every von Neumann algebra arises from the previous construction.
+\end{rmk}
+
+\begin{rmk}
+If $\cA$ consists entirely of commuting operators then $\cA''$ is a commutative von Neumann algebra.
+\end{rmk}
+
+\begin{prop}
+Every commutative von Neumann algebra is isomorphic to $L^\infty(X)$ for some $\sigma$-finite measure space $(X, \F, \mu)$. 
+\end{prop}
+
+\begin{defn}
+Let $\cN \subset \B(\H)$ be the von Neumann algebra describing a quantum system. Then a \textit{context} is a commutative von Neumann subalgebra $\cA \subset \cN$. We denote the poset of contexts by $\cV(\cN)$.
+\end{defn}
+
+\begin{defn}
+Let $\cA$ be a commutative $C^*$-algebra. The \textit{Gelfand spectrum} $\Sigma_{\cA}$ is the set of algebra homomorphisms $\lambda : \cA \to \CC$ equipped with the weak-$*$ topology.   
+\end{defn}
+
+\begin{rmk}
+There is a more general notion of a state space: the space of positve linear functionals of norm $1$. The Gelfand spectrum is the subspace fo multiplicative states. 
+\end{rmk}
+
+\begin{rmk}
+We think of an element of the Gelfand spectrum as an assigment of operators to values of the physical properties they represent in a coherent way. 
+\end{rmk}
+
+\begin{theorem}[Gelfand]
+Let $C(\Sigma_{\cA})$ be the $C^*$-algebra of continuous complex-valued functions on $\Sigma_{\cA}$. The map $\cA \to C(\Sigma_{\cA})$ sending $A \mapsto \overline{A}$ where $\overline{A}$ is the Gelfand transform: 
+\[ \overline{A}(\lambda) := \lambda(A) \quad \lambda \in \Sigma_{\cA} \]
+is an isomorphism of $C^*$-algebras.
+\end{theorem}
+
+\begin{rmk}
+The Gelfand spectrum $\Sigma_V$ of a context $V$ is the ``classical state space locally at $V$. To see the global structure, we have to patch these together. 
+\end{rmk}
+
+\begin{defn}
+The \textit{spectral presheaf} $\underline{\Sigma} : \cV(\H) \to \Top$ is the presheaf,
+\[ V \mapsto \Sigma_V \] 
+\end{defn}
+
+\begin{rmk}
+The category $\Set^{\cV(\H)^\op}$ is a topos and it has a non-Boolean intuitionistic internal logic. This is a candiate for distributive quantum logic unlike the non-distributive logic of Birkoff-von Neumann. 
+\end{rmk}
+\end{document}

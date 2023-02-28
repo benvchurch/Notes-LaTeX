@@ -100,7 +100,10 @@ Functions have a built-in way of expressing natural numbers, namely counting the
 where $f^n$ means the expression $(f \; (f \; (f \; \cdots)))$ iterated $n$ times. We think of $n$ as expressing the function which takes in a function $f$ and returns its $n^{\text{th}}$ iterate. We can use this to define sucessor,
 \[ \text{succ} \equiv \lambda n . (\lambda f . \lambda x. f \, (n \; f \; x)) \]
 and addition,
-\[ \text{plus} \equiv \lambda m . \lambda n. \lambda f. \lambda x . m \; f \; (n \; f \; x) \]
+\[ \text{plus} \equiv \lambda m . \lambda n. \lambda f. \lambda x . m \; f \; (n \; f \; x) \equiv \lambda m . \lambda n . \lambda f . (m \; \text{succ}) \; n\]
+which is just composition of the two iterations or equivalently $(m \; \text{succ})$ which is the function that applies the sucessor function $m$ times applied to $n$. However, it is multiplication which shows the true flexibility of the system. We define,
+\[ \text{mult} \equiv \lambda m . \lambda n . \lambda f . \lambda x . (m \; (n \; f) \; x) \equiv \lambda m . \lambda n . (m \; (\text{plus} \; n)) \]
+which applies $m$ the ``apply its input $m$ times'' function to $(n \; f)$ which is the function $f^n$ so we get $mn$ iterates of $f$. Equivalently we can iterate $(\text{plus} \; n)$ the ``add $n$'' function $m$ times. 
 Likewise, boolean values are naturally represented by their corresponding branching behavior, true should take in two functions and return the first while false should take in two functions and do the latter such that applying a boolean executes an if-then statment. Thus,
 \[ \text{true} \equiv \lambda p . \lambda q . p \quad \text{and} \quad \text{false} \equiv \lambda p . \lambda q . q \]
 I will leave it as an exercise to produce $\lambda$-terms expressing the basic logical operations. 
@@ -384,5 +387,15 @@ where $X$ is such that $X \bullet d = x \bullet (y \bullet y)$. Then by definiti
 \subsection{Models}
 
 \subsection{Curry-Howard}
+
+\section{References}
+
+\begin{enumerate}
+\item https://www.youtube.com/watch?v=7cPtCpyBPNI
+
+\item http://www.cs.nott.ac.uk/~pszgmh/dom4.pdf
+
+\item  https://en.wikipedia.org/wiki/Kleene_fixed-point_theorem
+\end{enumerate}
 
 \end{document}

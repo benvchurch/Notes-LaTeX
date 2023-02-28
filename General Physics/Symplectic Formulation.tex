@@ -118,6 +118,8 @@ Locally, a symplectic form $\omega$ is a nondegenerate anti-symmetric bilinear f
 since $\det{S} \neq 0$ we must have $(-1)^n = 1$ i.e. $n$ is even.
 \end{proof}
 
+\subsection{Symplectic Vector Fields}
+
 \begin{definition}
 We say that a vector field $X$ on $(M, \omega)$ is symplectic if $\L_X \omega = 0$.
 \end{definition}
@@ -191,11 +193,97 @@ We have $\L_X \d{\omega} = \d{(\L_X \omega)}$ because $\d$ is a natural transfor
 \begin{prop}
 Let $(M, \omega)$ be a symplectic manifold. Then,
 \[ H^1_{\dR}(M) \cong \sym / \ham \]
+Indeed, there are exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0_{\dR}(M) \arrow[r] & C^\infty(M) \arrow[r, "f \mapsto X_f"] & \ham \arrow[r] & 0
+\\
+0 \arrow[r] & \ham \arrow[r] & \sym \arrow[r, "X \mapsto \iota_X \omega"] & H^1_{\dR}(M) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
 \end{prop}
 
 \begin{proof}
 Obvious from the correspondences between $\sym$ and closed forms and $\ham$ and exact forms.
 \end{proof}
+
+
+\subsection{Coisotropic Bundles}
+
+\begin{defn}
+Let $(V, \omega)$ be a symplectic vector space. Let $W \subset V$ be a subspace. Then the \textit{symplectic dual} of $W$ is,
+\[ W^\omega = \{ v \in V \mid \forall w \in W : \omega(v, w) = 0 \} \]
+We say a subspace $W \subset V$ is,
+\begin{enumerate}
+\item \textit{isotropic} if $W \subset W^\omega$ or equivalently $\omega|_W = 0$
+\item \textit{Lagrangian} if $W = W^\omega$ 
+\item \textit{coisotropic} if $W \supset W^\omega$
+\item \textit{symplectic} if $W \cap W^\omega = 0$ or equivalently $\omega|_W$ is nondegenerate. 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+In what follows, let $(V, \omega)$ be a fixed symplectic vector space.
+\end{rmk}
+
+\begin{prop}
+For any $W \subset V$ we have,
+\[ \dim{W} + \dim{W^\omega} = \dim{V} \]
+Therefore, if $\dim{V} = 2n$ then,
+\begin{enumerate}
+\item if $W$ is isotropic then $\dim{W} \le n$
+\item if $W$ is Lagrangian then $\dim{W} = n$
+\item if $W$ is coisotropic then $\dim{W} \ge n$
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Consider the map $\varphi : V \to V^* \to W^*$ given by $v \mapsto \omega(v, -)|_W$. By definition $W^\omega = \ker{\varphi}$. Furthermore, $\varphi$ is surjective because each map $V \to V^* \to W^*$ is surjective since $\omega$ is nondegenerate. Therefore, by the rank-nullity theorem,
+\[ \dim{V} = \dim{W^*} + \dim{W^\omega} = \dim{W} + \dim{W^\omega} \]
+Then the rest follows immediately. 
+\end{proof}
+
+\begin{prop}
+We have the following properties,
+\begin{enumerate}
+\item if $W_1 \subset W_2 \subset V$ then $W_2^\omega \subset W_1^\omega$
+
+\item if $W \subset V$ then $(W^\omega)^\omega = W$
+
+\item $W$ is isotropic $\iff W^\omega$ is coisotropic
+
+\item $W$ is symplectic $\iff W^\omega$ is symplectic
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The first is clear since if $v \in W_2^\omega$ then for any $w \in W_1 \subset W_2$ we have $\omega(v, w) = 0$ so $v \in W_1^\omega$. If $w \in W$ and $v \in W^\omega$ then by definition $\omega(w, v) = 0$ so $W \subset (W^\omega)^\omega$. Furthermore, they have the same dimension by the previous result so we conclude $W = (W^\omega)^\omega$. From this the next two properties are obvious.
+\end{proof}
+
+\begin{defn}
+Let $\tau \in \{ \text{isotropic}, \text{Lagrangian}, \text{coisotropic}, \text{symplectic} \}$ be a property. Then define,
+\begin{enumerate}
+\item let $(E, \omega)$ be a symplectic vector bundle on an a manifold $M$. We say that a subbundle $E' \subset E$ has $\tau$ if each $E_x' \subset E_x$ in the symplectic vector space $(E_x, \omega_x)$ has $\tau$ for all $x \in M$
+
+\item if $(M, \omega)$ is a symplectic manifold, a $\tau$ vector bundle is a subbundle $E \subset TM$ which has $\tau$ with respect to the symplectic structure $(TM, \omega)$,
+
+\item Let $N \subset M$ be a submanifold. We say that $N$ is $\tau$ if $TN \subset TM|_N$ has $\tau$ with respect to the symplectic structure $(TM|_N, \omega)$. 
+\end{enumerate} 
+\end{defn}
+
+\begin{prop}
+Let $(M, \omega)$ be a symplectic manifold and $N \subset M$ a coisotropic submanifold. Then $(T N)^\omega$ is an integrable foliation on $N$ whose leaves are isotropic submanifolds of $M$.
+\end{prop} 
+
+\begin{proof}
+We need to show that $(T N)^\omega$ is involutive to apply Forbenius' theorem. If $X, Y \in \Gamma(N, (T N)^\omega)$ then we want to show that $[X, Y] \in \Gamma(N, (T N)^\omega)$. This is equivalent to showing that for any $Z \in \Gamma(N, T N)$ we have $\omega([X, Y], Z) = 0$. Indeed, 
+\[ \d\omega(X,Y,Z) = X(\omega(Y,Z)) - Y(\omega(X, Z)) + Z(\omega(X,Y)) - \omega([X,Y], Z) + \omega([X, Z], Y) - \omega([Y, Z], X) \]
+However, $X, Y$ are sections of $(T N)^\omega \subset T N$ and $Z$ is a section of $TN$ so $\omega(X, Z) = \omega(Y, Z) = \omega(X, Y) = 0$. Furthermore, since $N$ is coisotropic $(T N)^\omega \subset TN$ and $TN$ is involutive so $\omega([X, Z], Y) = \omega([Y, Z], X) = 0$ because $[X, Z], [Y, Z]$ are sections of $T N$ and $X, Y$ are sections of $(T N)^\omega$. Therefore,
+\[ \d \omega(X, Y, Z) = \omega([X, Y], Z) \]
+but $\d \omega = 0$ so we see that $[X, Y] \in \Gamma(N, (T N)^\omega)$. Now let $L \subset N$ be a leaf of the foliation. This means that $T L = (T N)^\omega|_L$. We need to show this is isotropic inside $(TM|_L, \omega)$. However, $(T N)|_L \subset (T M)|_L$ is coisotropic so its dual is isotropic completing the proof.
+\end{proof}
+
+\subsection{Poisson Bracket}
 
 \begin{definition}
 Let $f, g : M \to \R$ be functions and let $X_f = \omega^{-1}(\d{f})$ and $X_g = \omega^{-1}(\d{g})$ be the associated Hamiltonian vector fields. Then we define the \textit{Poisson bracket} via,
@@ -242,7 +330,7 @@ since the commutator of vector fields is their comutator as differential operato
 \end{proof}
 
 \begin{proposition}
-The map $f \mapsto -X_f = -\omega^{-1}(\d{f})$ is a homomorphism of Lie algebras $\varphi : C^{\infty}(M) \to \ham$ from smooth functions to Hamiltonian vector fields.
+The map $\varphi : C^\infty(M) \to \ham$ defined by $f \mapsto -X_f = -\omega^{-1}(\d{f})$ is a morphism of Lie algebras.
 \end{proposition}
 
 \begin{proof}
@@ -252,8 +340,46 @@ Immediate from $-X_{\{f, g\}} = [X_f, X_g] = [- X_f, - X_g]$.
 \newcommand{\X}{\mathfrak{X}}
 
 \begin{rmk}
-Unfortunately the physicists convention for Hamilton's equations plus the definition of the Poisson bracket (mathematicians might have defined the Poisson bracket with a minus sign to agree with the convention of Lie brackets $[X, Y] = \L_X Y$ where as $\{f, g \} = \d{f}(X_g) = \L_{X_g} f$ explaining the sign difference between the two brackets) do not permit the map $f \mapsto X_f$ to be a Lie algebra homomorphism. One might attempt to remedy this by replacing $X_f$ by $-X_f$ however this messes up the form of Hamilton's equation unless simultaneously $\omega$ is replaced by $-\omega$ which then messes up the sign of $\{ -, - \}$. Thus the only true remedy is reversing either the Poisson bracket or the Lie bracket. However, $\X(M)$ is sometimes given the opposite Lie algebra structue, remedying our conundrum, because this is the induced Lie bracket on $\X(M) = \mathrm{Lie}(\mathrm{Diff}(M))$.
+Unfortunately the physicists convention for Hamilton's equations plus the definition of the Poisson bracket (mathematicians might have defined the Poisson bracket with a minus sign to agree with the convention of Lie brackets $[X, Y] = \L_X Y$ where as $\{f, g \} = \d{f}(X_g) = \L_{X_g} f$ explaining the sign difference between the two brackets) do not permit the map $f \mapsto X_f$ to be a Lie algebra homomorphism. One might attempt to remedy this by replacing $X_f$ by $-X_f$ however this messes up the form of Hamilton's equations unless simultaneously $\omega$ is replaced by $-\omega$ which then messes up the sign of $\{ -, - \}$. Thus the only true remedy is reversing either the Poisson bracket or the Lie bracket. However, $\X(M)$ is sometimes given the opposite Lie algebra structue, remedying our conundrum, because this is the induced Lie bracket on $\X(M) = \mathrm{Lie}(\mathrm{Diff}(M))$. Here we will take the opposite convention
 \end{rmk}
+
+\subsection{Conserved Quantities}
+
+
+\renewcommand{\t}{\mathfrak{t}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\h}{\mathfrak{h}}
+
+
+Suppose we have a symplectic manifold $(M, \omega)$ and a time-dependent function $H_{-} : M \times \RR \to \RR$. This represents a dynamical system generated by the Hamiltonian vector field $X_t = X_{H_t}$. Then a function $f : M \to \RR$ is a \textit{conserved quantity} if $\{ f, H_t \} = 0$ for all $t$. This is because,
+\[ \L_{X_{H_t}} f = \d{f}(X_{H_t}) = \omega(X_f, X_{H_t}) = \{ f, H_t \} = 0 \]
+meaning that $f$ is preserved along the flow generated by $H_t$. However, we can turn this around and say that,
+\[ \L_{X_f} H_t = \d{H_t}(X_f) = \omega(X_{H_t}, X_f) = \{ H_t, f \} = 0 \]
+so conserved quantities are equivalently functions which generate transformations (flows defined infinitesimally by the vector field $X_f$) which preserve $H_t$ meaning $H_t$ is symmetric under the flow $X_f$. Finding conserved quantities is what makes the dynamical system \textit{integrable}. The best conserved quantities are those which Poisson commute. A fully integrable system will be one that admitts a ``full'' set of commuting conserved quantities. We will see that if $\dim{M} = 2n$ there can be at most $n$ independent conserved quantities (where $H_t$ is included in the set). This full set of quantities determines the trajectory to lie in some Lagrangian leaves. 
+
+\begin{prop}
+Let $f : M \to \RR^k$ be a smooth map with $f = (f_1, \dots, f_k)$ such that $\{ f_i, f_j \} = 0$. Let $N$ be a regular level set of $f$. Then $N$ is coisotropic and the $X_{f_i}$ span its isotropic distribution. 
+\end{prop}
+
+\begin{proof}
+A vector field $X \in \Gamma(N, TM|_N)$ is a section of $TN$ iff $\d{f_i}(X) = 0$ for each $i$. This is equivalent to $\omega(X_{f_i}, X) = 0$ for all $i$. In partcular,
+\[ \d{f_i}(X_{f_j}) = \omega(X_{f_i}, X_{f_j}) = \{ f_i, f_j \} = 0 \]
+and therefore $X_{f_j}$ are sections of $T N$ so are parallel to $N$. Thus, if $X$ is a section of $(T N)^\omega$ then,
+\[ \d{f_j}(X) = \omega(X_{f_j}, X) = 0 \]
+so $X$ is a section of $T N$ so $(T N)^\omega \subset TN$ proving that $N$ is coisotropic. Furthermore, every section $X$ of $T N$ satisfies,
+\[ \omega(X_{f_i}, X) = \d{f_i}(X) = 0 \]
+and thus the $X_{f_i}$ are sections of $(T N)^\omega$ so lie in the isotropic foliation. Furthermore, $N$ is a regular level set so the $\d{f_i}$ are everywhere independent in $(T^* M)|_N$ and thus since $\omega^\# : T M \to T^* M$ is an isomrophism the $X_{f_i}$ are independent. Since,
+\[ \rank{(T N)^\omega} = \dim{M} - \rank{T N} = \dim{M} - (\dim{M} - k) = k \]
+and the $X_{f_j}$ are sections of $(T N)^\omega$ which are everywhere independent on $N$ so these span the isotropic distribution which comprises the tangent spaces of the leaves of its isotropic foliation. 
+\end{proof}
+
+\begin{cor}
+If $f : M \to \RR^k$ are generically independent Poisson commuting functions, meaning $f$ has a regular value, (in particular if $f$ is a submersion) then $k \le \tfrac{1}{2} \dim{M}$.
+\end{cor}
+
+\begin{proof}
+Indeed, $\rank{ (T N)^\omega } = k$ and $(T N)^\omega \subset (T M)|_N$ is an isotropic subspace so $k \le \tfrac{1}{2} \dim{M}$. 
+\end{proof}
 
 \section{Hamiltonian Actions}
 
@@ -315,7 +441,15 @@ Therefore, it suffices to show that $G$-equivariance of $\tilde{\mu}$ correspond
 \[ \tilde{\mu}([\xi, \eta]) = -\rho(\xi) (\tilde{\mu}(\eta)) = -\omega^{-1}(\d{\tilde{\mu}(\xi)})(\tilde{\mu}(\eta)) = - X_{\tilde{\mu}(\xi)}(\tilde{\mu}(\eta)) = \{ \tilde{\mu}(\xi), \tilde{\mu}(\eta) \}  \]
 Alternatively, if $\tilde{\mu}$ is a map of Lie algebras we need to integrate to find the $G$-action. Explicitly, we have shown that the derivative of,
 \[ \tilde{\mu}(\Ad_g \cdot \xi) - g \cdot \tilde{\mu}(\xi) \]
-is zero at $g = e$ and thus at every point by noticing                                          
+is zero at $g = e$ this suffices by the following lemma.
+\end{proof}
+
+\begin{lemma}
+Let $G$ be a connected Lie group with actions $G \acts M_1$ and $G \acts M_2$. Suppose that $f : M_1 \to M_2$ is a smooth map such that $\d{f}(\rho_1(\xi)) = \rho_2(\xi) \circ f$ for all $\xi \in \g$. Then $f$ is equivariant.
+\end{lemma}
+
+\begin{proof}
+Since $G$ is connected, it is generated by the image of $\exp : \g \to G$. Therefore, it suffices to show that $f(\exp{(t X)} \cdot m) = \exp{(t X)} \cdot f(m)$. However, $\exp{(t X)} \cdot m$ and $\exp{(t X)} \cdot f(m)$ is given by the flows along the vector fields $\rho_1(X)$ and $\rho_2(X)$ to time $t$. Then $f(\exp{(t X)} \cdot m)$ is an integral curve at $f(m)$ to the field $\d{f}(\rho_1(X)) = \rho_2(X) \circ f$ and this integral curve is unique. 
 \end{proof}
 
 \begin{lemma}
@@ -334,12 +468,16 @@ Let $G \acts M$ be a symplectic action. Then consider the pullback of Lie algebr
 \begin{tikzcd}
 \tilde{\g} \pullback \arrow[d] \arrow[r] & C^{\infty}(M) \arrow[d, "\varphi"]
 \\
-\g \arrow[r, "\rho"'] & \sym
+\g \arrow[r, "\rho"'] & \sym^\op
 \end{tikzcd}
 \end{center}
 Explicitly,
-\[ \tilde{\g} = \{(\xi, f) \in \g \oplus C^{\infty}(M) \mid \rho(\xi) = - X_f \} \]
+\[ \tilde{\g} = \{(\xi, f) \in \g \oplus C^{\infty}(M) \mid \rho(\xi) = X_f \} \]
 \end{defn}
+
+\begin{rmk}
+The flipped bracket on $\sym^\op$ is necessary to make both maps Lie algebra maps. We have discussed why $f \mapsto X_f$ requires flipping the bracket. However, $\rho : \g \to \mathfrak{X}(M)$ \textit{also} requires a bracket flip in our conventions. This is because $[-,-]$ on $\g$ is defined in terms of \textit{left}-invariant vector fields to be consitent with the commutator on $\mathfrak{gl}_n$. However, for a left action, say $\ell : G \to G$, the vector fields $\rho_*(\ell)$ are naturally \textit{right}-invariant and hence have the opposite Lie bracket. In general if $\rho : G \times M \to M$ is a right action then $\rho_* : \g \to \mathfrak{X}(M)^\op$ is a map of Lie algebras.
+\end{rmk}
 
 \begin{rmk}
 I claim that the map $\varphi : C^\infty(M) \to \sym$ is $G$-equivariant. Consider $\varphi(g \cdot f) = - X_{g \cdot f}$. First,
@@ -371,43 +509,56 @@ However, $\omega(X_f, -) = \d{f}$ and thus $\d{f} = 0$ so $f$ is locally constan
 \end{proof}
 
 \begin{prop}
-Let $G \acts M$ be a symplectic action such that $\rho(\xi) \in \ham$. Then moment maps $\mu : M \to \g^*$ correspond to splitngs of,
+Let $G \acts M$ be a symplectic action such that $\rho(\xi) \in \ham$. Then moment maps $\mu : M \to \g^*$ correspond to splittings in the category of $G$-representations of,
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & \R^{\pi_0(M)} \arrow[r] & \tilde{\g} \arrow[r] & \g \arrow[r] & 0
 \end{tikzcd}
-\end{center}
-as $G$-representations.
+\end{center} 
+giving an obstruction class $\delta \in \Ext{1}{\R[G]}{\g}{\R}^{\pi_0(M)} = H^1(G, \g^*)^{\pi_0(M)}$ to the action being Hamiltonian. 
 \end{prop}
 
 \begin{proof}
-There is a canonical map $\tilde{\mu} : M \to \tilde{\g}^*$ defined by $\inner{\tilde{\mu}(x)}{(\xi, f)} = -f(x)$ which is $G$-equivariant because,
+There is a canonical map $\tilde{\mu} : M \to \tilde{\g}^*$ defined by $\inner{\tilde{\mu}(x)}{(\xi, f)} = f(x)$ which is $G$-equivariant because,
 \begin{align*}
-\inner{\tilde{\mu}(g \cdot x)}{(\xi, f)} & = -f(g \cdot x) = \inner{\tilde{\mu}(x)}{(\Ad(g^{-1}) \cdot \xi, g^{-1} \cdot f)} 
+\inner{\tilde{\mu}(g \cdot x)}{(\xi, f)} & = f(g \cdot x) = \inner{\tilde{\mu}(x)}{(\Ad(g^{-1}) \cdot \xi, g^{-1} \cdot f)} 
 \end{align*}
-and thus $\tilde{\mu}(g \cdot x) = g \cdot \tilde{\mu}(x)$. Therefore,
-\[ \d{\inner{\tilde{\mu}}{(\xi, f)}} = -\d{f} = -\iota_{X_f} \omega \]
+and thus $\tilde{\mu}(g \cdot x) = g \cdot \tilde{\mu}(x)$ for the dual of the (coadjoint, translation) action on $\tilde{\g}$. Therefore,
+\[ \d{\inner{\tilde{\mu}}{(\xi, f)}} = \d{f} = \iota_{X_f} \omega = \iota_{\rho(\xi)} \omega \]
 Then suppose that $s : \g \to \tilde{\g}$ is a section. Then consider $\mu = s^* \circ \tilde{\mu}$. Then,
 \[ \d{\inner{\mu}{\xi}} = \d{\inner{s^* \circ \tilde{\mu}}{\xi}} = \d{\inner{\tilde{\mu}}{s(\xi)}} = \iota_{\rho(\xi)} \omega \]
-because $s(\xi) = (\xi, f)$ for some $f$ such that $X_f = - \rho(\xi)$. Therefore, since $s^* \circ \tilde{\mu}$ is $G$-equivariant, $s^* \circ \tilde{\mu}$ is a moment map. Conversely, given a moment map $\mu : M \to \g^*$ then $q : \xi \mapsto -\inner{\mu}{\xi}$ gives a $G$-equivariant map $\g \to C^{\infty}(M)$ such that the diagram of $G$-representations,
+because $s(\xi) = (\xi, f)$ for some $f$ such that $X_f = \rho(\xi)$. Therefore, since $s^* \circ \tilde{\mu}$ is $G$-equivariant, $s^* \circ \tilde{\mu}$ is a moment map. Conversely, given a moment map $\mu : M \to \g^*$ then $q : \xi \mapsto \inner{\mu}{\xi}$ gives a $G$-equivariant map $\g \to C^{\infty}(M)$ such that the diagram of $G$-representations,
 \begin{center}
 \begin{tikzcd}
-\g \arrow[d, equals] \arrow[r] & C^{\infty}(M) \arrow[d, "\varphi"]
+ & C^{\infty}(M) \arrow[d, "\varphi"]
 \\
-\g \arrow[r, "\rho"] & \sym
+\g \arrow[ru, "q"] \arrow[r, "\rho"'] & \sym^\op
 \end{tikzcd}
 \end{center}
-commutes, and therefore we get a $G$-section $s : \g \to \tilde{\g}$ such that $s^* \circ \tilde{\mu} = \mu$ because,
+commutes because $\d{\inner{\mu}{\xi}} = \iota_{\rho(\xi)} \omega$ so $\varphi(\inner{\mu}{\xi}) = \rho(\xi)$ and is $G$-invariant since 
+\[ (g \cdot \inner{\mu}{\xi})(x) = \inner{\mu(g^{-1} \cdot x)}{\xi} = \inner{\Ad_{g^{-1}}^* \mu}{\xi} = \inner{\mu}{\Ad_g \xi} \]
+and therefore we get a $G$-section $s : \g \to \tilde{\g}$ such that $s^* \circ \tilde{\mu} = \mu$ because,
 \[ \inner{s^* \circ \tilde{\mu}}{\xi} = \inner{\tilde{\mu}}{(\xi, q(\xi)} = q(\xi) = \inner{\mu}{\xi} \]
-Finally, given a $G$-section $s : \g \to \tilde{\g}$ or equivalently a $G$-map $q : \g \to C^{\infty}(M)$ then for the moment map $\mu = s^* \circ \tilde{\mu}$ consider $q'(\xi) = - \inner{s^* \circ \tilde{\mu}}{\xi} = - \inner{\tilde{\mu}}{(\xi, q(\xi))} = q(\xi)$ and thus our proceedure produces the section $s$ so this is a bijective correspondence.
+Finally, given a $G$-section $s : \g \to \tilde{\g}$ or equivalently a $G$-map $q : \g \to C^{\infty}(M)$ then for the moment map $\mu = s^* \circ \tilde{\mu}$ consider $q'(\xi) = \inner{s^* \circ \tilde{\mu}}{\xi} = - \inner{\tilde{\mu}}{(\xi, q(\xi))} = q(\xi)$ and thus our proceedure recovers the section $s$ so this is a bijective correspondence.
 \end{proof}
 
+
 \begin{rmk}
-Therefore, if $G$ is compact, then the category of $G$-representations is semi-simple and thus all exact sequences split. Thus, every symplectic action $G \acts M$ such that $\rho(\xi) \in \ham$ for all $g \in G$ then $G \acts M$ is Hamiltonian.
+If $G$ is compact, the category of $G$-representations is semi-simple so any exact sequence splits. Thus, any symplectic action $G \acts M$ such that $\rho(\xi) \in \ham$ for all $g \in G$ is Hamiltonian.
+\end{rmk}
+
+\begin{rmk}
+If $G$ is noncompact we have to be careful with this extension. For example, if $G = \R^{2n}$ acting on itself by translation, then $\g = \R^{2n}$ with the trivial action but $\tilde{\g}$ is the space of affine-linear maps $\R^{2n} \to \R$ i.e. functions of the form $f(\vec{x}) = \vec{x} \cdot \vec{y} + a$ for fixed $\vec{y}$ and $a$. The action of $G$ is by translation $(\vec{v} \cdot f)(\vec{x}) = f(\vec{x} - \vec{v}) = \vec{x} \cdot \vec{y} + (a - \vec{v} \cdot \vec{y})$ which for nonzero $\vec{y}$ modifies $f(0)$. In fact, $\tilde{\g}$ is the Heisenberg algebra $\h_{2n + 1}$ with the conjugation action by $\R^{2n} \subset H_{2n+1}$. Therefore, $\tilde{\g}$ is a nontrivial $G$-representation but fits in an extension,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \R \arrow[r] & \tilde{\g} \arrow[r] & \R^{2n} \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+of trivial representations. In particular, the sequence is non-split. Indeed, we have seen that this action by Hamiltonian vector fields is \textit{not} Hamiltonian. 
 \end{rmk}
 
 \begin{cor}
-If one exists, the space of moment maps is isomorphic to $\Hom{G}{\g}{\R^{\pi_0(M)}}$ which are $\pi_0(M)$ choices of $G$-invariant elements of $\g^*$ representing an additive constant shift for $\mu : M \to \g^*$ on each connected component of $M$.
+If one exists, the space of moment maps is isomorphic to $\Hom{G}{\g}{\R}^{\pi_0(M)}$ which are $\pi_0(M)$ choices of $G$-invariant elements of $\g^*$ representing an additive constant shift for $\mu : M \to \g^*$ on each connected component of $M$.
 \end{cor}
 
 \begin{proof}
@@ -417,11 +568,11 @@ This follows directly from the correspondence between moment maps and splittings
 0 \arrow[r] & \R^{\pi_0(M)} \arrow[r] & \tilde{\g} \arrow[r] & \g \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-as $G$-representations which form a $\Hom{G}{\g}{\R^{\pi_0(M)}}$-torsor.
+as $G$-representations which form a $\Hom{G}{\g}{\R}^{\pi_0(M)}$-torsor.
 \end{proof}
 
 \begin{prop}
-If $G$ is reductive then any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$ is hamiltonian. Additionally, if $Z(G)$ is trivial then the moment map is unique.
+If $G$ is reductive then any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$ is hamiltonian. Additionally, if $Z(\g^*)$ is trivial then the moment map is unique.
 \end{prop}
 
 \begin{proof}
@@ -429,11 +580,11 @@ The category of representations of a reductive group is semi-simple. Therefore, 
 \end{proof}
 
 \begin{cor}
-Let $T^n = (S^1)^n$ be the torus group and $(M, \omega)$ a simply-connected symplectic manifold. Then any symplectic action $T^n \acts M$ is hamiltonian and the space of moment maps is affine space over $\g \cong \R^n$.
+Let $\T^n = (S^1)^n$ be the torus group and $(M, \omega)$ a simply-connected symplectic manifold. Then any symplectic action $\T^n \acts M$ is Hamiltonian and the space of moment maps is affine over $\t^* \cong \R^n$.
 \end{cor}
 
 \begin{proof}
-
+Since $H^1_{\dR}(M) = 0$ we see that $\sym = \ham$ so $\T^n$ acts via Hamiltonian vector fields. Since $\T^n$ is abelian $\wt{\t} \to \t$ has the trivial action so it is split and the space of splittings is affine over $\t^* = \Hom{\RR}{\t}{\RR}$ since $\pi_0(M) = *$.
 \end{proof}
 
 \begin{example}
@@ -441,7 +592,7 @@ In the above corollary, $M$ being simply-connected is necessary. For example con
 \end{example}
 
 \begin{prop}
-Let $G$ be a Lie group acting smoothly on a manifold $G \acts Q$. Then there is an induced action $G \acts T^* Q$ which is automati  cally Hamiltonian for the standard symplectic structure on $T^* Q$.
+Let $G$ be a Lie group acting smoothly on a manifold $G \acts Q$. Then there is an induced action $G \acts T^* Q$ which is automatically Hamiltonian for the standard symplectic structure on $T^* Q$. The moment map is (FINISH)
 \end{prop}
 
 \begin{proof}
@@ -454,38 +605,157 @@ We define $\mu = \iota_{\rho(-)} \theta$.
 (FINISH THIS!!)
 \end{proof}
 
-(FROM HERE ON NOT CORRECT!!!)
+\begin{cor}
+If $G$ is semi-simple then there exists a unique moment map for any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$.
+\end{cor}
+
+\begin{proof}
+Uniqueness follows from the fact that $\g$ is semi-simple and thus has a trivial center. Furthermore, since the category of representations of a semi-simple Lie group is semi-simple, the sequence is split uniquely giving a unique choice of moment map. 
+\end{proof}
+
+\subsection{Studying the Extension Class}
 
 \begin{prop}
 Any $G$-equivariant section $\g \to \tilde{\g}$ is automatically a Lie algebra map. If $G$ is connected, Lie algebra sections and $G$-equivariant sections coincide.
 \end{prop}
 
 \begin{proof}
-DO THIS!!!
+By the following lemmas, it suffices to show that any section is compatible in the sense of the following definition. We need to show that if $s : \g \to \tilde{\g}$ is a section then $\ad_{s(\xi)} = \rho_*(\xi)$ for the action $G \acts \tilde{\g}$. Indeed,
+\[ [ s(\xi), (\eta, f)] = ([\xi, \eta], \{ s(\xi), f \}) \]
+and by definition of the section $\varphi(s(\xi)) = X_{s(\xi)} = \rho_M(\xi)$. Thus,
+\[ \{ s(\xi), f \} = - \d{f}(X_{s(\xi)}) = - \d{f}(\rho_M(\xi)) = - \rho_M(\xi)(f) \]
+proving the claim since $\rho_*(\xi)$ acts on $\tilde{\g}$ via $([\xi, -], -\rho_M(\xi)(-))$
 \end{proof}
 
-\begin{cor}
-If $G$ is semi-simple then there exists a unique moment map for any symplectic action $G \acts M$ with $\rho(\xi) \in \ham$.
-\end{cor}
-
-\begin{proof}
-Uniqueness follows from the fact that $\g$ is semi-simple and thus has a trivial center. However, a $G$-equivariant map $\g \to \R$ must be a Lie algebra map because differentiating the action of $G$ gives 
-Since $G$ is connected, it suffices to show that 
-\end{proof}
-
-\newcommand{\h}{\mathfrak{h}}
 
 \begin{defn}
-Let $G$ be a Lie group and $\g = \mathrm{Lie}(G)$. We say a $G$-action $\rho : G \to \Aut{\h}$ and a linear map $\varphi : \g \to \h$ are compatible if $\rho_*(\xi) = [\varphi(\xi), -]$ for all $\xi \in \g$.
+Let $G$ be a Lie group and $\g = \mathrm{Lie}(G)$. We say a $G$-action $\rho : G \to \Aut{\h}$ and a linear map $\varphi : \g \to \h$ are compatible if $\rho_*(\xi) = \ad_{\varphi(\xi)}$ for all $\xi \in \g$.
 \end{defn}
 
+\begin{rmk}
+We equip $\g$ with the adjoint action and consider when the map $\varphi : \g \to \h$ is $G$-equivariant. 
+\end{rmk}
+
 \begin{lemma}
-Given a compatible action an linear map $\varphi : \g \to \h$ the map $\varphi$ is automatically a Lie algebra map and, if $G$ is connected, a $G$-equivariant map.
+If $\varphi : \g \to \h$ is compatible with a $G$-action on $\h$ then,
+\begin{enumerate}
+\item if $\varphi$ is $G$-equivariant then $\varphi$ is a Lie algebra map
+\item if $\varphi$ is a Lie algebra map and $G$ is connected then $\varphi$ is $G$-equivariant.
+\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-
+$\varphi$ being a Lie algebra map is equivalent to $\varphi \circ \ad_{\xi} = \ad_{\varphi(\xi)} \circ \varphi$. Since $\ad_{\varphi(\xi)} = \rho_*(\xi)$ the condition of being a Lie algebra map is equivalent to,
+\[ \varphi \circ \ad_{\xi} = \rho_*(\xi) \circ \varphi \]
+This is the derivative of the $G$-equivariance condition giving the first statement. Then we have shown that if $G$ is connected, preserving the flow implies $G$-equivariance giving the second.
 \end{proof}
+
+\begin{cor}
+Let $G \acts M$ via Hamiltonian vector fields. Then there exists an obstruction class $\delta \in H^2(\g, \RR)^{\pi_0(M)}$ to the existence of a moment map.
+\end{cor}
+
+\subsection{Obsolete Lemmas}
+
+\begin{lemma}
+Given a linear map $\varphi : \g \to \h$ with a compatible action and $Z(\h) = 0$ then $\varphi$ is automatically a Lie algebra map and, if $G$ is connected, a $G$-equivariant map.
+\end{lemma}
+
+\begin{proof}
+It is clear that,
+\[ \ad_{\varphi([\xi, \eta])} = [\varphi([\xi, \eta]), -] = \rho_*([\xi, \eta]) = [\rho_*(\xi), \rho_*(\eta)] = [\ad_{\varphi(\xi)}, \ad_{\varphi(\eta)}] \]
+Therefore $\varphi$ is a Lie algebra map by the previous lemma. Furthermore, if $G$ is connected then to show that $\varphi$ is $G$-equivariant it suffices to show that $\varphi$ is compatible with the vector fields induced by the $G$-action i.e.
+\[ \varphi \circ \ad_{\xi} = \ad_{\varphi(\xi)} \circ \varphi \]
+which is nothing other than a restatement of the fact that $\varphi$ is a Lie algebra map,
+\[ \varphi([\xi, -]) = [\varphi(\xi), \varphi(-)] \]
+\end{proof}
+
+\begin{lemma}
+Let $\varphi : \g \to \h$ be a linear map between Lie algebras such that,
+\[ \ad_{\varphi([\xi, \eta])} = [\ad_{\varphi(\xi)}, \ad_{\varphi(\eta)}] \]
+If $Z(\h) = 0$ then $\varphi$ is a Lie algebra homomorphism. 
+\end{lemma}
+
+\begin{proof}
+By assumption $X = \varphi([\xi, \eta]) - [\varphi(\xi), \varphi(\eta)]$ has $\ad_X = 0$ so $X \in Z(\h)$ so $X = 0$.
+\end{proof}
+
+\begin{rmk}
+The assumption that $Z(\h) = 0$ is necessary. Indeed consider any linear isomorphism $\mathfrak{sl}_2 \iso \RR^3$ this cannot be a map of Lie algebras since $\mathfrak{sl}_2$ is nontrivial. However, $\RR^3$ is abelian so the adjoint condition is trivially satisfied.
+\end{rmk}
+
+\subsection{Full Examples}
+
+\newcommand{\SL}{\mathrm{SL}}
+\renewcommand{\sl}{\mathfrak{sl}}
+
+\begin{example}
+Consider the standard action $\SL_2 \acts \RR^2$ where $\RR^2$ is equipped with the invariant symplectic form,
+\[ \omega = \d{x} \wedge \d{y} \]
+Our results show this action is Hamiltonian with a unique moment map. Consider the generators of $\sl_2$,
+\begin{align*} 
+h &= 
+\begin{pmatrix}
+1 & 0
+\\
+0 & -1
+\end{pmatrix}
+\\
+e & = \begin{pmatrix}
+0 & 1
+\\
+0 & 0
+\end{pmatrix}
+\\
+f & =
+\begin{pmatrix}
+0 & 0 
+\\
+1 & 0
+\end{pmatrix} 
+\end{align*}
+where we have,
+\begin{align*}
+[e,f] & = h
+\\
+[h, e] &= 2e
+\\
+[h, f] &= -2f
+\end{align*}
+and the map $\rho_*$ is,
+\begin{align*}
+h & \mapsto x \pderiv{}{x} - y \pderiv{}{y}
+\\
+e & \mapsto y \pderiv{}{x}
+\\
+f & \mapsto x \pderiv{}{y}
+\end{align*}
+notice that this reverses the Lie bracket. These vector fields are Hamiltonian. Indeed, consider the corresponding functions,
+\begin{align*}
+H(x,y) & = xy
+\\
+E(x,y) & = \tfrac{1}{2} y^2
+\\
+F(x,y) & = - \tfrac{1}{2} x^2
+\end{align*}
+then we have,
+\begin{align*}
+\omega(\rho(h), -) & = x \d{y} + y \d{x} = \d{H}
+\\
+\omega(\rho(e), -) & = y \d{y} = \d{E}
+\\
+\omega(\rho(f), -) & = - x \d{x} = \d{F}
+\end{align*}
+Then we compute the Poisson brackets,
+\begin{align*}
+\{ E, F \} & = H
+\\
+\{ H, E \} & = 2 E
+\\
+\{ H, F \} & = -2 F
+\end{align*}
+which has the same Lie algebra structure as the generators of $\sl_2$. These are the only choices of $H,E,F$ that work since other choices must differ by a constant but these constants will not be preserved by the Poisson bracket. Therefore $\tilde{\g} \to \g$ is a trivial central extension by $\tilde{\RR}$ and is canonically split as expected. 
+\end{example}
+
 
 \section{Connections on Principal Bundles}
 
@@ -643,7 +913,7 @@ A $G_{\H}$-structure does not in general admit globally defined almost complex s
 \end{rmk}
 
 
-\newcommand{\C}{\mathbb{C}}
+\renewcommand{\C}{\mathbb{C}}
 
 \begin{rmk}
 Let's unwind this story for almost complex structures. An almost complex structure is a choice of $I \in \Gamma(M, \End{}{TM})$ such that $I^2 = - \id$. This is the same as an algebra subbundle $C \subset \End{}{TM}$ along with a global trivialization $\varphi : M \times \C \iso C$ (remember that $\End{}{TM}$ comes equiped with a canonical section $\id$ so $\id, I$ gives a global frame of $C$).

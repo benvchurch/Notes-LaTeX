@@ -14,8 +14,6 @@
 
 \section{Introduction}
 
-\renewcommand{\or}{\mathrm{or}}
-
 Assume that $X$ is a connected $n$-dimensional smooth manifold. And $A, B \subset X$ oriented closed submanifolds with $\dim{A} + \dim{B} = \dim{X}$. Assume that $A, B$ intersect transversally menaing,
 \[ \forall x \in A \cap B : T_x X = T_x A \oplus T_x B \]
 Then we can consider,
@@ -23,11 +21,11 @@ Then we can consider,
 and
 \[ [B] \in H_b(B) \to H_b(X) \to H^{n-b}(X) \]
 then,
-\[ \deg{([A] \smile [B])} = \sum_{x \in A \cap B} \or_x(x, A, B) \]
+\[ \deg{([A] \smile [B])} = \sum_{x \in A \cap B} \mathrm{or}_x(x, A, B) \]
 This requires the orientations. 
 \bigskip\\
 If $V$ is a $\CC$-vectorspace then $V$ has a canonical orientation. Therefore if $X$ is a complex manifold and $A, B$ are complex submanifolds then,
-\[ \or_x(X, A, B) =  1 \]
+\[ \mathrm{or}_x(X, A, B) =  1 \]
 Therefore, intersection numbers are allways positive. This is very useful. For example:
 
 \begin{prop}
@@ -46,6 +44,8 @@ Let $X$ be smooth and $Y \subset X$ is smooth and $Z \subset X$ is CM and $Y \ca
 where $C \subset Y \cap Z$ are components and $a_C > 0$. 
 \end{prop}
 
+
+
 \subsection{Main Theorems}
 
 Let $X$ be a variety (not necessarily smooth) over $k$ (not necessarily $k = \bar{k}$). Then we define Chow,
@@ -57,5 +57,509 @@ Gysin map for an lci map $X \embed Y$ (e.g. a smooth variety embedding in a smoo
 In particular, if $X$ is smooth then applying this to the diagonal $\Delta : X \embed X \times X$ this gives,
 \[ A(X) \ot A(X) \to A(X \times X) \xrightarrow{i^!} A(X) \]
 which is the intersection product.
+
+\section{Feb. 8}
+
+Agenda 
+
+\begin{enumerate}
+\item Definition of Chow groups
+\item proper pushforward
+\item flat pullback 
+\end{enumerate}
+
+\begin{defn}
+Let $X / k$ be a scheme over $k$. Define the group,
+\[ Z_q(X) := \Z [ \{ Z \subset X \mid \text{integral subschemes of dim } q \}] \]
+\end{defn}
+
+\subsection{Length}
+
+\begin{prop}
+Let $A$ be a ring and $M$ a finite $A$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $M$ has finite length
+\item $\Supp{A}{M}$ consists of finitely many maximal ideals 
+\item there exists a filtration,
+\[ 0 = M_0 \subsetneq M_1 \subsetneq \cdots \subsetneq M_n = M \]
+such that $M_{i} / M_{i-1} \cong A / \m_i$ for some maximal ideal $\m_i$ (equivalently $M_i / M_{i-1}$ is simple). An in this case $\ell_A(M) = n$.
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+Length satisfies,
+\begin{enumerate}
+\item additive in exact sequences
+\item computed in terms of localization,
+\[ \ell_A(M) = \sum_{\m} \ell_{A_\m}(M_\m) \]
+\item if $A \to B$ is a local map of local rings and $B$ is an $M$-module then,
+\[ \ell_A(M) = [\kappa(B) : \kappa(A)] \ell_B(M) \]
+\end{enumerate}
+\end{prop}
+
+\subsection{Orders of Vanishing}
+
+Let $X$ be a variety and $V \subset X$ a codimension $1$ subvariety and $f \in K(X)^\times$ then we can define an order of vanishing. Let $\xi \in V$ be the generic point. Then we write $f = \frac{a}{b}$ for $a,b \in \stalk{X}{\xi}$ and define,
+\[ \ord_V(f) = \ord_V(a) - \ord_V(b) \]
+where,
+\[ \ord_V(a) = \ell_A(A / a A) \]
+
+\begin{rmk}
+If $V$ is generically regular then $\stalk{X}{\xi}$ is a DVR and $\ord_V(a) = \nu_V(a)$. 
+\end{rmk}
+
+\begin{defn}
+For $f \in K(X)^\times$ define,
+\[ \div{f} = \sum_{V} [V] \ord_V(f) \]
+\end{defn}
+
+\begin{defn}
+Then the Chow group,
+\[ A_q(X) = Z_q(X) / \left< \div{f} \mid f \in K(Z)^\times \quad Z \subset X \text{ of dim } q + 1 \right> \]
+\end{defn}
+
+\subsection{Proper Pushforward}
+
+Let $f : X \to Y$ be proper and $V \subset X$ a subvariety of $X$ then $f(V) \subset Y$ is also a subvariety. Let $W = f(V)$. The map $f : V \to W$ is dominant so we get a map $K(V) \to K(X)$.
+
+\begin{defn}
+We say the degree of $f : V \to W$ is,
+\[ \deg{(V/W)} = \begin{cases}
+0 & \dim{W} < \dim{V}
+\\
+[K(V) : K(W)] & \dim{V} = \dim{W} 
+\end{cases} \]
+We then define the pushforward map,
+\[ f_* : Z_q(X) \to Z_q(Y) \]
+via the formula,
+\[ f_* [V] \mapsto \deg{(V / f(V))} [f(V)] \]
+\end{defn}
+
+\begin{theorem}
+This descends to a map $f_* : A_q(X) \to A_q(Y)$.
+\end{theorem}
+
+\begin{proof}
+Reduce to $q = \dim{X} - 1$ and $Y$ is a variety. Suppose that $\alpha = \div{r}$ with $r \in K(V)^\times$ we need to show that $f_* \alpha = \div{r'}$ for $r' \in K(Y)^\times$. We reduce to $f : X \to Y$ proper surjective morphism of varieties and we show,
+\begin{enumerate}
+\item if $\dim{Y} < \dim{X}$ then $f_* \div{r} = 0$
+\item if $\dim{Y} = \dim{X}$ then $f_* \div{r} = \div{\mathrm{N}_{K(X)/K(Y)}(r)}$. 
+\end{enumerate}
+
+Consider $Y = \Spec{k}$ and $X = \P^1_k$. Then 
+
+
+
+
+
+Next $f : X \to Y$ finite. Assume that $X,Y$ are normal. Then we get a map $\stalk{Y}{f(\xi)} \to \stalk{X}{\xi}$ which is the standard norm map for DVRs. Then we finish the proof. For each $\xi \in Y$ height one
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a domain and $M$ an $A$-module with $r = \rank_A(M)$. Then there exists a free submodule $N \subset M$ of rank $r$.
+\end{lemma}
+
+\begin{proof}
+Choose $x_1, \dots, x_r \in M$ which form a $K$-basis of $M \ot_A K$ and consider $\varphi : A^r \to M$. Since localization is exact, $\ker{\varphi} \ot_A K = 0$ so $\ker{\varphi}$ is torsion. However, $\ker{\varphi} \subset A^r$ is torsion-free so $\ker{\varphi} = 0$. 
+\end{proof}
+
+\begin{lemma}
+Let $A$ be a Noetherian domain with $K = \Frac{A}$ and $\dim{A} = 1$. Let $M$ be a finite torsion-free $A$-module. Then for any $a \in A$,
+\[ \ell_A(M/aM) = \ell_A(A/aA) \cdot \rank_A M \]
+\end{lemma}
+
+\begin{proof}
+Choose $x_1, \dots, x_r \in M$ which form a $K$-basis of $M \ot_A K$ and consider the submodule (by above) $A^r \embed M$ giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A^r \arrow[r] & M \arrow[r] & Q \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+$A^r \to M$ is an isomorphism after tensoring with $K$ we have $Q \ot_A K = 0$ and thus $Q$ is torsion. Since $M$ is a finite $A$-module so is $Q$ so there is some nonzero $t \in A$ such that $t Q = 0$. By Noetherianity, there is a filtration of $Q$ whose quotients are $A / \p_i$ and thus $t \in \p_i$ so because $\dim{A} = 1$ the primes $\p_i$ are maximal so this filtration are composition series proving that $Q$ has finite length. Applying $- \ot_A (A / a^n)$ we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Tor{A}{1}{Q}{A/a^n} \arrow[r] & (A / a^n)^r \arrow[r] & M / a^n M \arrow[r] & Q / a^n Q \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore,
+\[ \ell_A(M / a^n M) - r \ell_A(A / a^n) = \ell_A(Q / a^n Q) - \ell_A(\Tor{A}{1}{Q}{A/a^n}) \]
+Furthermore,
+\[ \Tor{A}{1}{Q}{A/a^n} = \ker{(Q \xrightarrow{a^n} Q)} \subset Q \]
+so $\ell_A(\Tor{A}{1}{Q}{A/a^n}) \le \ell_A(Q)$ and likewise $\ell_A(Q/a^n Q) \le \ell_A(Q)$. Thus,
+\[ |\ell_A(M / a^n M) - r \ell_A(A / a^n)| \le \ell_A(Q) \]
+Now, notice that $a^n A / a^{n+1} A \cong A / a$ since $A$ is a domain and $a^n M / a^{n+1} M \cong M / a M$ because $M$ is torsion-free. Indeed the kernel of $M \to a^n M / a^{n+1} M$ are elements $m$ such that $a^n m \in a^{n+1} M$ so $a^n m = a^{n+1} m'$ so $a^n (m - a m')$ so by torsion-freeness $m = a m'$ proving that the kernel is $a M$. Therefore by induction we have,
+\[ \ell_A(A/a^n) = n \ell_A(A/a) \quad \text{and} \quad \ell_A(M / a^n M) = n \ell(M / a M) \]
+and thus,
+\[ | \ell_A(M / a M) - r \ell_A(A / a) | \le \frac{\ell_A(Q)}{n} \]
+Taking the limit as $n \to \infty$ proves the claim.
+\end{proof}
+
+\begin{cor}
+Let $A, B$ be $\dim = 1$, noetherian, domains. Let $A \to \tilde{A}$ be the normalization in $K = \Frac{A}$. Then,
+\[ \ell_A(A / r A) = \ell_{A}(B / r B) \]
+\end{cor}
+
+
+
+\subsection{Cycles of Subschemes}
+
+Let $X$ be a scheme, $X_i$ is irreducible components. Let,
+\[ [X] = \sum_i m_i [X_i] \quad m_i = \ell_{\stalk{X}{x}} (\stalk{X}{x}) \]
+For a subscheme $V \subset X$ we make the same definition. 
+
+\subsection{Flat Pullback}
+
+If $f : X \to Y$ is flat then $f$ is equidimensional. Then we will define,
+\[ A_k(Y) \to A_{n+k}(X) \]
+where $n$ is the relative dimension. Then we define,
+\[ f^* [V] = [f^{-1}(V)] \]
+where $f^{-1}(V)$ is not necessarily a variety so we need to use the previous construction to form the cycle $[f^{-1}(V)]$. Then extending linearly we have the following.
+
+\begin{lemma}
+For any subscheme $Z \subset X$ then,
+\[ f^* [Z] = [f^{-1}(Z)] \]
+\end{lemma}
+
+\begin{proof}
+Let $W$ be an irreducible component of $f^{-1}(Z)$. Then $\overline{f(W)}$ is a component of $Z$
+\end{proof}
+
+\begin{theorem}
+flat pullback is compatible with rational equivalence.
+\end{theorem}
+
+\begin{proof}
+Let $X \rat \P^1$ consider $V \subset X \times \P^1$ the closure of its graph which is a subvariety. 
+\begin{center}
+\begin{tikzcd}
+X \times \P^1 \arrow[r] \arrow[d] & Y \times \P^1 \arrow[d]
+\\
+X \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+with rightward maps flat and downward map proper. 
+\end{proof}
+
+\begin{prop}
+If $\iota : Y \embed X$ is closed subscheme $U = X \sm Y$ then there exists a right exact sequence,
+\begin{center}
+\begin{tikzcd}
+A_q(Y) \arrow[r, "\iota_*"] & A_q(X) \arrow[r, "j^*"] & A_q(U) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+We just need to show that if $\alpha \in A_q(X)$ has $j^* \alpha = 0$ then it is in the image of $\iota_*$. Indeed, suppose $j^* \alpha = \div{r}$ with $r \in K(U)^\times$. If $X$ is a variety then $K(X) = K(U)$. Then,
+\[ j^* (\alpha - \div{r}) = 0 \]
+identically in $Z_q$ so it arises as $\iota_*$ of a cycle from $Z_q(Y)$ and thus from $A_q(Y)$ so we win.
+\end{proof}
+
+\begin{theorem}
+Let $E \to X$ be an affine bundle then $A_q(X) \to A_{q+n}(E)$ is surjective.
+\end{theorem}
+
+\begin{proof}
+First, reduce to the trivial bundle. Suppose that $E|_U$ is trivial. Then we consider,
+\begin{center}
+\begin{tikzcd}
+A_{q+n}(Y) \arrow[r] & A_{q+n}(E) \arrow[r] & A_{q + n}(E|_U) \arrow[r] & 0
+\\
+A_q(Y) \arrow[u] \arrow[r] & A_q(X) \arrow[u] \arrow[r] & A_q(U) \arrow[u] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and use noetherian induction. 
+WLOG $E \to X$ is trivial. 
+\end{proof}
+
+
+\subsection{Exterior Product}
+
+$[V] \times [W] = [V \times W]$ is well-defined for rational equivalence. 
+
+\section{Feb. 15 Intersecting with Divisors}
+
+Let time we defined for $X / k$ a scheme the groups,
+\[ A_k(X) = Z_k(X) / \sim_{\text{rat}} \]
+and we showed that these have nice functorial properties. We want to define an intersection product on these rings. This is hard but we will be able to define things for divisors and then use blowups to reduce to the divisor case.
+
+\subsection{Divisors and Pseudodivisors}
+
+\begin{defn}
+Let $X$ be an $n$-dimensional variety, a \textit{Weil divisor} is an element of $Z_{n-1}(X)$ and a \textit{Cartier divisor} is a global section of $K^\times / \struct{X}^\times$. Write,
+\[ \Div(X) = H^0(X, K^\times / \struct{X}^\times) \]
+\end{defn}
+ 
+\begin{prop}
+There exsits a group map,
+\[ \Div(X) \to Z_{n-1}(X) \]
+given by,
+\[ r \mapsto \sum_{Z \subset X} [Z] \ord_Z(r) \]
+\end{prop}
+
+\begin{rmk}
+This is neither surjective or injective in general. If $X$ is normal it is an injection, if $X$ is locally factorial it is an isomorphism. 
+\end{rmk}
+
+\begin{rmk}
+We will define an intersection product agains elements of $\Div(X)$. 
+\end{rmk}
+
+\begin{rmk}
+This map naturally descends to a map,
+\begin{center}
+\begin{tikzcd}
+\Div{X} \arrow[d] \arrow[r] & Z_{n-1}(X) \arrow[d]
+\\
+\Pic{X} \arrow[r, dashed] & A_{n-1}(X)
+\end{tikzcd}
+\end{center}
+Notice that $\ker{(\Div{X} \to \Pic{X})} \to \ker{(Z_{n-1}(X) \to A_{n-1}(X))}$ is not necessarily a bijection.
+\end{rmk}
+
+\begin{defn}
+A \textit{pseudo-divisor} is a triple $(\L, Z, s)$ where $\L$ is a line bundle $Z \subset X$ is a closed subset and,
+\[ s \in \Gamma(X \sm Z, \L) \]
+is nowhere vanishing.  
+\end{defn}
+
+\begin{lemma}
+For any pseudo-divisor $(\L, Z, s)$ there exists a Cartier divisor $D$ with,
+\[ \L \cong \struct{X}(D) \quad Z \supset |D| \]
+such that $s$ corresponds to $s_D |_{X \sm Z}$. Moreover $D$ is uniquely determined if $Z \neq X$. 
+\end{lemma}
+
+\begin{proof}
+Choose some $D'$ such that $\L \cong \struct{X}(D')$. Then $s : \struct{X} \to \L$ gives an isomorphism on $X \sm Z$ therefore its kernel ... (FINISH) 
+\end{proof}
+
+\begin{defn}
+For $D = (\L, Z, s)$ write $Z = |D|$ then,
+\[ [D] \in A_{n-1}(|D|) \]
+defined as follows. If $\dim{X} = n$ then we set,
+\[ [D] = 
+\begin{cases}
+[D'] & \dim{|D|} = n - 1 \text{ using previous construction to get divisor } D'
+\\
+c_1(\L) & \dim{|D|} = n
+\\
+0 & \text{else}
+\end{cases} \]
+\end{defn}
+
+\begin{defn}
+$D + D' = (\L \ot \L', Z \cup Z', s \ot s')$ and $-D = (\L^\vee, Z, s^\vee)$ and for $f : X \to Y$,
+\[ f^* D = (f^* \L, f^{-1}(Z), f^* s) \]
+for any $f$ not necessarily flat.
+\end{defn}
+
+\subsection{Intersecting with pseudo-divisors}
+
+\begin{defn}
+For $V \subset X$ subvariety of dimension $k$, 
+\[ D \cdot [V] := [\iota^* D] \in A_{k-1}(V \cap |D|) \]
+For $\alpha \in Z_k(X)$ can define,
+\[ D \cdot \alpha \in A_{n-1}(|D| \cap |\alpha|) \]
+\end{defn}
+
+\begin{rmk}
+There is no moving lemma because we actually have a line bundle which can be pulled back unambiguously along the map $\iota : V \embed X$.
+\end{rmk}
+
+\begin{prop}
+\begin{enumerate}
+\item $D \cdot (\alpha + \alpha') = D \cdot \alpha + D \cdot \alpha' \in A_{k-1}(|D| \cap (|\alpha| \cup |\alpha'|))$
+
+\item $(D + D') \cdot \alpha = D \cdot \alpha + D' \cdot \alpha \in A_{k-1}((|D| \cup |D'|) \cap |\alpha|)$
+
+\item if $f : X' \to X$ is proper and $\alpha \in Z_k(X')$ then,
+\[ f_* (f^* D \cdot \alpha) = D \cdot f_* \alpha \in A_{k-1}(|D| \cap f(|\alpha|)) \]
+
+\item If $f : X' \to X$ is flat relative dimension $n$ then,
+\[ f^* D \cdot f^* \alpha = f^* (D \cdot \alpha) \in A_{n(k-1)}(f^{-1}(|D| \cap |\alpha|))$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+These are all formal from the definition except for (c). Reduce to $\alpha = [V]$ then reduce to $X' = V$ and reduce to $X = f(V)$ and then reduce to $D$ is a Cartier divisor. Want to show,
+\[ f_* [f^* D] = \deg(X'/X) \cdot [D] \]
+at the level of cycles. This is local, so $X = \Spec{A}$ and $D = \div{r}$ for $r \in K(A)^\times$ them,
+\[ f_* (f^* [\div(r)]) = [\div(N(r))] = [\div(r^{\deg{X'/X}})] = \deg{(X'/X)} \cdot [\div{r}] \]
+\end{proof}
+
+\begin{theorem}
+If $X$ is a variety of dimension $n$ and, $D, D'$ are pseudo-divisors, then,
+\[ D \cdot [D'] = D' \cdot [D] \in A_{n-2}(|D| \cap |D'|) \]
+\end{theorem}
+
+\begin{proof}
+Can assume that $D, D'$ are Cartier divisors. Assume $D, D'$ are effective and intersect properly meaning $\dim{(|D| \cap |D'|)} = n-2$. We're comparing intersection multiplicity for a codim $2$ subset $W \subset X$ so look at the local ring,
+\[ A = \stalk{X}{W} \]
+of dimesnion $2$. Then $D, D'$ correspond to $a,a' \in A$. Then multiplicity for $D \cdot [D']$ is,
+\[ [D'] = \sum_{\ht{\p} = 1} \ell_{A_\p}(A_\p / a' A_\p) [A/\p] \]
+and therefore,
+\[ (D \cdot [D])_W = \sum_{\ht{\p} = 1} \ell_{A_\p}(A_\p / a' A_\p) \cdot \ell_{A_\p}(A / (\p + a A)) \]
+Claim this number is the alternating sum of lengths of the cohomologies of,
+\[ (A / a A) \ot^{\LL}_A (A / a' A) \]
+Indeed, cosndier a filtration,
+\[ 0 = M_0 \subsetneq M_1 \subsetneq \cdots \subsetneq M_{x-1} \subsetneq M_x = A / a A \]
+for each $M_i / M_{i-1} \cong A / \p_i$. Therefore, for $\ht{\p} = 1$,
+\[ \ell_{A_\p}(A_\p / a' A_\p) = \# \{ i \mid \p = \p_i \} \]
+Consider each sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M_{i-1} \arrow[r] & M_i \arrow[r] & M_i / M_{i-1} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+therefore,
+\begin{center}
+\begin{tikzcd}
+\[ \chi((M_i / M_{i-1}) \ot_A^{\LL} A / a A) + \chi(M_{i-1} \ot_A^{\LL} A / a A) = \chi(M_i \ot_A^{\LL} A / a A) \]
+If $\ht{\p} = 2$ then,
+\[ (A / \p \ot_A^{\LL} A / a A) = [ A / \p \xrightarrow{a} A / \p] \]
+and therefore $\chi = 1 - 1 = 0$. If $\ht{\p} = 1$ then,
+\[ A / \p \otimes^{\LL}_A A / a A = [A / (\p + a A)][0] \] 
+because $a$ is nonzero in $A / \p$ using proper intersection (EXPLAIN THIS BETTER). 
+
+Step 2, $D, D'$ are effective and not necessarily intersecting properly. Idea: ``reduce number of non-properly intersecting stuff by blowups''. Take $D \cap D'$ and blow up $X$ at $D \cap D'$ giving,
+\begin{center}
+\begin{tizkcd}
+E \arrow[r, hook] \arrow[d] & \wt{X} \arrow[d, "\pi"]
+\\
+D \cap D' \arrow[r] & X
+\end{tikzcd}
+\end{center}
+so can write $\pi^* D = E + C$ and $\pi^* = D' = E + C'$ for effective Cartier divisors $C, C' \subset \wt{X}$. We claim that $C, C'$ is simplier. Indeed, define,
+\[ \varepsilon(D, D') = \max \{ \ord_V(D) \cdot \ord_V(D') \} \]
+so that $\varepsilon(D, D') = 0 \iff D$ and $D'$ intersect properly.
+\bigskip\\
+We claim that $C$ and $C'$ are disjoint. If $\varepsilon(D, D') > 0$ then $\varepsilon(C, E), \varepsilon(E, C') < \varepsilon(D, D')$. This follows from just the structure of the blowup. 
+\bigskip\\
+If we know the result holds for $\pi^* D = B + C$ and $\pi^* D' = B' + C'$ and know the theorem for each pair then we know it for $(D, D')$. Therefore, we finish step $2$ by induction. 
+\bigskip\\
+Step 3, if $D$ is not effective then define $\I$ to be the ``sheaf of ideals of denominators'' then blowup at $\I$ and $\pi^* D + E$ is effective. 
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{cor}
+For $Y \subset X$ then we get a map,
+\[ D \cdot (-) : A_k(Y) \to A_{k-1}(Y \cap |D|) \]
+\end{cor}
+
+\begin{rmk}
+If $[D] = [D'] \in A_{n-1}(X)$ then $D \cdot (-) = D' \cdot (-)$. 
+\end{rmk}
+
+\section{Feb 22}
+
+\begin{cor}
+Let $D$ be a pseudo-divisor on $X$ and $\alpha \in A_k(X)$ and $\alpha \sim 0$ then $D \cdot \alpha = 0$ in $A_{kn}(\Supp{D})$. 
+\end{cor}
+
+\begin{proof}
+If $\alpha = \div{r}$ then $D \cdot [\div(r)] = \div(r) [D] = \div(r|_\infty) = 0$.
+\end{proof}
+
+\begin{def}
+Let $X$ be a variety and $A^k(X) = \{ \textit{collection pf $
+Then $A^\bullet(X)$ is a graded ring wrt composition.
+\end{defn}
+
+\begin{defn}
+Let $X$ be a variety and $\L$ a line bundle then $c_1(\L) \in A^1(X)$ is the intersection with pseudo-divisor $(\L, X, 0)$.
+\end{defn}
+
+\begin{prop}
+
+\end{prop}
+
+\begin{example}
+Let $H_1, \dots, H_n$ be hypersurfaces in $\P^n$ of degrees $d_1, \dots, d_k$. Then,
+\[ H_1 \cdots H_k = (d_1 \dots d_k) [*] \]
+This is because of symmetry and intersection with divisors working as intended. 
+\end{example}
+
+\subsection{Segre Classes}
+
+\begin{defn}
+Let $X$ be a variety and $\E / X$ a vector bundle of rank $e + 1$. Let $P = \P(\E) = \Proj{\Sym{\bullet}{\E^\vee}}$ be the corresponding projective bundle. Then there is a canonical subline bundle $\gamma \subset \pi^* \E$ which is the dual of $\struct{\P}(1)$. Then the \textit{Segre classes} are,
+\[ s_i \in A^i(X) \]
+defined by,
+\[ s_i(\E) \alpha = \pi_* (c_1(\struct{}(1)))^{\ell + i} \cdot \pi^* \alpha) \]
+\end{defn}
+
+\begin{prop}
+Properties of the Segre classes,
+\begin{enumerate}
+\item $S_i(\E) = 0$ for $i < 0$
+
+\item if $f$ is proper then $f_* (s_i(f^* \E) \cdot \alpha) = s_i(\E) \cdot f_* \alpha$
+
+\item if $f$ is flat then $s_i(f^* \E) \cdot f^* \alpha = f^* (s_i(\E) \cdot \alpha)$
+
+\item If $\L \in \Pic(X)$ then $s_1(\L) = - c_1(\L)$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\P(f^* \E) \arrow[d] \arrow[r] & \P(\E) \arrow[d]
+
+X \arrow[r, "f"] & Y
+\end{tikzcd}
+\end{center}
+which is Cartesian and linear meaning $f^* \struct{}(1) = \struct{}(1)$ or equivalently it is given by a graded map ``downstairs''. 
+\end{proof}
+
+\subsection{}
+
+$c_1(\struct{}(1))$ acts on $A_\bullet(P)$ induces an action of,
+\[ \Z[ c_1(\struct{}(1)) ] / (P(c_1(\struct{}(1))) \]
+
+\begin{theorem}
+There exists an isomorphism,
+\[ \Z[c_1(\struct{}(1))] / P \ot_\Z A_\bullet(X) \to A_\bullet(P) \]
+sending,
+\[ \sum m_i c_1(\struct{}(1))^i \ot \alpha_i \mapsto \sum_i c_1(\struct{}(1))^i \pi^* \alpha \]
+\end{theorem}
+
+\begin{proof}
+We call this map $\theta$. Consider,
+\[ \beta = \sum_{i = 0}^e c_1(\struct{}(1))^i \pi^* \alpha_i = 0 \]
+let $\ell$ be minimal st $\alpha_\ell \neq 0$. 
+(INJECTIVITY)
+
+Now for surjectivity we consider an open $U \subset X$ such that $\E$ is trivial. Then consider,
+\begin{center}
+\begin{tikzcd}
+A_\bullet(P|_U) \arrow[r] \arrow[d] & A_\bullet(P) \arrow[d] \arrow[r] & A_\bullet(P_{X \sm X}) \arrow[d] \arrow[r] & 0
+\\
+A_\bullet(U) \arrow[r] & A_\bullet(X) \arrow[r] & A_\bullet(X \sm U) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+\end{proof}
+
+\begin{cor}
+$A_k(X) \to A_{k+n}(X, \A^n)$ is an isomorphism. 
+\end{cor}
+
+\begin{proof}
+If $\alpha \neq 0$ then $\pi^* \alpha = 0$ then $j^* \rho^* \alpha = 0$ (WHAT) but them
+\[ \rho^* \alpha = i_k (\sum \]
+\end{proof}
+
+\begin{defn}
+Let $X$ be a variety and $\E$ a vector bundle of rank $r$. Let $E = \V_X(\E)$ be the total space $E = \rSpec{X}{\Sym{\bullet}{\E^\vee}}$. Let $s : X \to E$ be th e zero section. Define the Gysin map $s^! : A_k(E) \to A_{k-r}(X)$ via $s^!(\beta) = (\pi^*)^{-1}(\beta)$.
+\end{defn}
+
+\begin{rmk}
+In topology, the Gysin map is defined in terms of intersection theory. We will invert the logic and use the Gysin map to define intersections. Indeed, if $\iota : Y \embed X$ is a closed embedding then $[Y] \cdot \alpha = i^! (\alpha)$ for $s : Y \to N_{X/Y}$. 
+\end{rmk}
+
+
 
 \end{document}

@@ -1,0 +1,155 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Splitting Types of Finite Monodromy Vector Bundles}
+
+Q: Let $C$ be a general genus $g$ curve. Does there exists a smooth nonisotrivial curve of relative genus $h$ over $C$.
+\bigskip\\
+Let $H$ be a finite group, $\# H = d$. Consider a cover of curves $f : X \to \P^1$ with Galois group $H$. What is the splitting type of,
+\[ f_* \struct{X} = \bigoplus_{i = 1}^d \struct{\P^1}(a_i) \]
+where we require $a_1 \ge a_2 \ge \cdots \ge a_d$. What can we say about the numbers $a_i$? 
+\bigskip\\
+First Naive guess 1: maybe the $a_i$ are equal? This is impossible from,
+\[ H^i(\P^1, f_* \struct{X}) = H^i(X, \struct{X}) \]
+Therefore,
+\[ \deg{f_* \struct{X}} = \sum_i a_i \]
+Naive guess 2: maybe they all differ by $1$. 
+
+\begin{rmk}
+$a_1 = 0$ meaning there is a copy of $\struct{\P^1}$. Indeed,
+\[ h^0(\P^1, f_*  \struct{X}) = h^0(X, \struct{X}) = 1 \]
+But $\struct{\P^1}$ is the only line bundle $\L$ on $\P^1$ with $h^0(\P^1, \L) = 1$. Therefore, $a_i < 0$ for $i > 1$. 
+\end{rmk}
+
+\begin{rmk}
+Observe, guess 2 is also wrong because,
+\[ \sum a_i = 1 - d - g \]
+so some $a_i < -1$ when $g > 0$ but $a_0 = 0$ and thus guess $2$ is wrong. 
+\end{rmk}
+
+\subsection{Decomposition}
+
+\[ f_* \struct{X} = \bigoplus_{\rho} E_\rho^{\oplus \dim{\rho}} \]
+where we sum over irreps of $H$. This is because $H$ acts on the fiber via the regular representation. 
+\bigskip\\
+Next guess: maybe for fixed $\rho$ the $E_\rho$ is balanced. 
+
+\begin{example}
+If $H = S_m$ choose a finite cover $f : X \to \P^1$ then $E_\text{std}$ is called the Tschirhousen bundle. Coskun-Larson-Vogt showed $E_\rho$ is balanced after deforming the cover. 
+\end{example}
+
+\begin{example}
+Let $H = S_5$ and $\rho = \text{std}$ choose $f : X \to \P^1$ such that,
+\[ E_\rho = \struct{}(-1)^{\oplus 2} \oplus \struct{}(-2)^{\oplus 2} \]
+balanced. Then if $f$ is the galois cover of a simply branched can show,
+\[ E_{\wedge^2 \rho} \cong \wedge^2 (E_\rho) \]
+Given,
+\begin{center}
+\begin{tikzcd}
+& X \arrow[ld] \arrow[dd, "f"]
+\\
+Z \arrow[rd, "h"]
+\\
+& \P^1
+\end{tikzcd}
+\end{center}
+where $\deg{h} = 5$ simply branched and $f$ is an $S_4$ which is its Galois cover. Then concretely,
+\[ E_\rho = h_* \struct{Z} / \struct{\P^1} \]
+However, then,
+\[ E_{\wedge^2 \rho} \cong \struct{}(-2) \oplus \struct{}(-3)^{\oplus 3} \oplus \struct{}(-4) \]
+\end{example}
+
+\begin{theorem}[L-Litt]
+For a general $f : X \to \P^1$ if we decompose,
+\[ E_\rho = \bigoplus_{i = 1}^r \struct{}(b_i) \]
+then $|b_i - b_{i+1}| \le 1$ so the $b_i$ are consecutive. 
+\end{theorem}
+
+\begin{defn}
+If $E$ is a vector bundle on a curve $Y$, the \textit{slope} of $E$ is,
+\[ \mu(E) = \frac{\deg{E}}{\rank{E}} \]
+we say that,
+\begin{enumerate}
+\item $E$ is \textit{semi-stable} if for all subbundles $F \subset E$ then,
+\[ \mu(F) \le \mu(E) \]
+\item $E$ is \textit{stable} if for all subbundles $0 \subsetneq F \subsetneq E$
+\[ \mu(F) < \mu(E) \] 
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+If $V$ is semistable on $\P^1$ then,
+\[ V \cong \struct{}(a)^{\oplus b} \]
+\end{example}
+
+\begin{theorem}
+Any $E$ on $Y$ has a filtration,
+\[ 0 \subsetneq E_1 \subsetneq E_2 \subsetneq \cdots \subsetneq E_k = E \]
+where $E_i / E_{i+1}$ is semistalbe and,
+\[ \mu(E_i / E_{i-1}) > \mu(E_{i+1} / E_i) \]
+called the Harder-Narishiman filtration.
+\end{theorem}
+
+\begin{example}
+If $Y = \P^1$ then,
+\[ E \cong \struct{}(3)^{\oplus 2} \oplus \struct{}(5)^{\oplus 7} \]
+then the HN filtration is,
+\[ 0 \subset \struct{}(5)^{\oplus 7} \subset E \]
+\end{example}
+
+\begin{theorem}[L-Litt]
+If $f : X \to Y$ is an $H$-cover general. Then,
+\[ f_* \struct{X} \cong \bigoplus_{\rho} E_\rho^{\oplus \dim{\rho}} \]
+then,
+\begin{enumerate}
+\item the slopes of consecutive HN graded parts of $E_\rho$ differ by $\le 1$
+
+\item if $\rank{\rho} < 2 \sqrt{g+1}$ then $E_\rho$ is semistable. 
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+Riemann-Hilbert gives,
+\[ \{ \rho : \pi_1 \to \GL_r \text{ with finite image} \} \iff \{ E_\rho \subset f_* \struct{X} \mid f \text{ unramified} \} \]
+\end{theorem}
+
+\begin{theorem}
+Given irrep $\rho : \pi_1(Y) \to \GL_r(\CC)$ after deforming the complex structure on $Y$ we can arrange that $E_\rho$ satisfies,
+\begin{enumerate}
+\item the slopes of consecutive HN graded parts of $E_\rho$ differ by $\le 1$
+
+\item if $\rank{\rho} < 2 \sqrt{g+1}$ then $E_\rho$ is semistable. 
+\end{enumerate}
+\end{theorem}
+
+\begin{defn}
+A local system $\L$ on $Y$ is \textit{of geometric origin} if there is a dense Zariski open $U \subset Y$ and smooth proper $f : Z \to U$ such that $\L|_U \subset R^j f_* \C$. 
+\end{defn}
+
+\begin{theorem}[L-Litt]
+If $\rank{\L} < 2 \sqrt{g+1}$ and $Y$ is a general curve of genus $g$ and $\L$ is of geometric origin then $\L$ has finite monodromy. 
+\end{theorem}
+
+\begin{proof}
+Idea: have compact image as reps by some correspondence. Then finite is compact and discrete and the discreteness comes from integral structure on cohomology.
+\end{proof}
+
+\begin{theorem}[L-Litt]
+There is no family in the question if $h < \sqrt{g+1}$. 
+\end{theorem}
+
+\begin{proof}
+Suppose we had $f : S \to C$ nonisotrivial. Then we get $\L = R^1 f_* \C$ gives a local system on $C$ which is of genometric origin. So by the theorem it has finite monodromy. However, this implies that the family is isotrivial, is trivialized by a finite cover trivializing $\L$.
+\end{proof}
+
+\begin{thm}
+If $(C, x_1, \dots, x_n)$ are general in $\M_{g,n}$ then there are no nonisotrivial smooth families $S \to C \sm \{ x_1, \dots, x_n\}$ for $h < \sqrt{g+1}$.
+\end{thm}
+
+\begin{rmk}
+However, there are smooth covers of relative genus $h \sim e^g$. Therefore, we don't really know if these bounds are sharp. 
+\end{rmk}
+\end{document}

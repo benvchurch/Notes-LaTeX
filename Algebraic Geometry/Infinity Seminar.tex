@@ -8,6 +8,15 @@
 
 \subsection{dg-Categories}
 
+\newcommand{\DK}{\mathrm{DK}}
+\newcommand{\fin}{\mathrm{fin}}
+\newcommand{\Fun}[3]{\mathrm{Fun}_{#1}\left(#2, #3\right)}
+\newcommand{\Map}[3]{\mathrm{Map}_{#1}\left(#2, #3\right)}
+\newcommand{\Mult}[3]{\mathrm{Mult}_{#1}\left(#2, #3\right)}
+\newcommand{\Fin}{\mathrm{Fin}}
+\newcommand{\Ob}{\mathrm{Ob}}
+\renewcommand{\O}{\mathcal{O}}
+
 Review, let $\cA$ be an abelian cagtegory with enough projectives. Then there is a category $D^-(\cA)$ the derived category of bounded-above.
 
 
@@ -17,7 +26,7 @@ with differential,
 \[ (\d f)_k = f_{k+1} \circ \d_B + (-1)^{n+1} \d_B \circ f_k \]
 
 Then we check that,
-\[ H^0(\Hom{}{A}{B}_\bullet) = \Hom{\Ch(\cA)}{A}{B} \]
+\[ H^0(\Hom{}{A}{B}_\bullet) = \Hom{\Ch{\cA}}{A}{B} \]
 
 \subsection{Program}
 
@@ -39,7 +48,7 @@ We will define a dg-Nerve which goes directly from dg-categories to $\infty$-cat
 
 \begin{defn}
 Let $C$ be a dg-category. Then the \textit{dg-Nerve} is the simplicial set $N_{\dg}(C)$ where $N_{\dg}(C)_n$ is the set of objects $X_i$ for $i \in \{ 0, \dots, n \}$ and for each ordered set $I = \{ i_- < i_m < \cdots < i_1 < i_+ \}$ for $m \ge 0$ of elements in $\{ 0, \dots, n \}$ we have map,
-\[ f_I \in \Map{X_{i_-}}{X_{i_+}} \]
+\[ f_I \in \Map{}{X_{i_-}}{X_{i_+}} \]
 such that,
 \[ \d{f_I} = \sum_{1 \le j \le m} (-1)^i (f_{I \sm \{ i_j \}} - f_{\{i_j < \cdots < i_+ \}} \circ f_{\{ i_- < \cdots < i_j \}}) \]
 and the maps work as follow. If $\alpha : [m] \to [n]$ is monotone. Then the induced map $\alpha^*$ is given by,
@@ -146,30 +155,767 @@ Let $F : C \to D$ be a functor of $\infty$-categories then,
 \end{defn}
 
 \begin{defn}
-Let $C$ admit finite limits. A \textit{spectrum object} is a reduced excisive functor,
-\[ F : S^\fin_* \to C \]
+Let $\C$ admit finite limits. A \textit{spectrum object} is a reduced excisive functor,
+\[ F : S^\fin_* \to \C \]
 The $\infty$-category of spectra is,
-\[ \Sp(C) = \Fun{}{S^\fin_*}{C}_{\text{exc, red}} \subset \Fun{}{S^\fin_*}{C} \]
+\[ \Sp(\C) = \Fun{}{S^\fin_*}{\C}_{\text{exc, red}} \subset \Fun{}{S^\fin_*}{\C} \]
 where $S^\fin_*$ is the pointed category of finite spaces (full subcategory of $\infty$-category of pointed spaces). 
 \end{defn}
 
 \begin{prop}[1.4.2.11]
-Let $C$ be a pointed $\infty$-category with finite limits and colimits then $\Omega : C \to C$ is an equivalence then $C$ is stable. 
+Let $C$ be a pointed $\infty$-category with finite limits and colimits then $\Omega : \C \to \C$ is an equivalence then $\C$ is stable. 
 \end{prop}
 
 \begin{prop}
-If $C$ is a pointed $\infty$-category with finite limits and colimts then $\Sp(C)$ is stable. 
+If $\C$ is a pointed $\infty$-category with finite limits and colimts then $\Sp(\C)$ is stable. 
 \end{prop}
 
 \begin{prop}
-Let $C$ be a pointed $\infty$-category with finite limits then there is a tower of $\infty$-categories,
+Let $\C$ be a pointed $\infty$-category with finite limits then there is a tower of $\infty$-categories,
 \begin{center}
 \begin{tikzcd}
 \cdots \arrow[r] & C \arrow[r, "\Omega"] & C \arrow[r, "\Omega"] & C
 \end{tikzcd}
 \end{center}
-and $\Sp(C)$ is the homotopy limit. 
+and $\Sp(\C)$ is the homotopy limit. 
 \end{prop}
 
 Let $\cA$ be an abelian group. Then the Eilenberg-Maclain spaces satisfy $K(A, n-1) \cong \Omega K(A, n)$ and hence defines a spectrum. 
+
+\begin{prop}
+Let $\C$ be an $\infty$-category which admits finite limits. The following are equivalent,
+\begin{enumerate}
+\item $\C$ is a stable $\infty$-category
+\item the functor $\Omega^\infty : \Sp(\C) \to \C$ is an equivalence of $\infty$-categories
+\end{enumerate}
+where $\Omega^\infty$ is the map sending $F \mapsto F(S^0)$ where $S^0 = * \coprod *$.
+\end{prop}
+
+\section{$\infty$-operads}
+
+References: Higher Algebra
+
+\subsection{Motivations}
+
+Want the symmetric monoidal category in the $\infty$-setting. 
+\bigskip\\
+Recall that the definition of a symmetric monidal category is annoying:
+
+\begin{defn}
+A symmetric monidal category $(\C, \ot, 1, \alpha, \nu, \beta)$ is,
+\begin{enumerate}
+\item a $1$-category $\C$
+\item a functor $\otimes : \C \times \C \to \C$
+\item a natural isomorphism,
+\[ \alpha_{X,Y,Z} : X \ot (Y \ot Z) \iso (X \ot Y) \ot Z \]
+\item a unit object $1$ with a fixed isomorphism $1 \ot 1 \iso 1$
+\item a natural isomorphsim,
+\[ \beta_{X,Y} : X \ot Y \iso Y \ot X \]
+\end{enumerate}
+(this is the easy part, now the bad part) satisfying,
+\begin{enumerate}
+\item $A \mapsto 1 \ot A$ and $A \mapsto A \ot 1$ are equivalences of categories (then from $A \ot 1 \iso A \ot (1 \ot 1) \iso (A \ot 1) \ot 1$ we see that $A \iso A \ot 1$ by equivalence) 
+\item unit should be compatible with associativity,
+\begin{center}
+\begin{tikzcd}
+X \ot (1 \ot Y) \arrow[rr, "\alpha_{1,Y}"] \arrow[rd] & & (X \ot 1) \ot Y \arrow[ld] 
+\\
+& X \ot Y
+\end{tikzcd}
+\end{center}
+
+\item some huge nasty diagram making associativity compatible for 4-fold products
+\end{enumerate}
+\end{defn}
+
+\subsection{Construction}
+
+Let $(\C, \ot)$ be a symmetric monoidal category. Then we can construct a new category $C^{\ot}$ whose objects are $\{ [C_1, \dots, C_n] \}_{C_i \in \C}$ with $n \ge 0$. And the morphisms,
+\[ [C_1, \dots, C_n] \xrightarrow{(S, \alpha, f)} [C_1', \dots, C_m'] \]
+for $S \subset \{ 1, \dots, n \}$ and $\alpha : S \to \{ 1, \dots, m \}$ and maps $\{ f_j \}^m_{j = 1}$ which are maps $f_j : \ot_{i \in \alpha^{-1}(j)} C_i \to C_j$. The composition law is given by $(S, \alpha, f) \circ (S', \alpha', f')$ in the only reasonable way (WRITE DOWN). 
+
+\begin{rmk}
+Notice that the ordering of the object $[C_1, \dots, C_n]$ does not matter. 
+\end{rmk}
+
+\begin{defn}
+New category $\Fin_*$ whose objects are $\left< n \right> := \{ 1, \dots, n \} \sqcup \{ * \}$ and the morphisms are $\left< n \right> \to \left< m \right>$ with $* \mapsto *$. This is just the category of finite sets with a disjoint basepoint added and the maps must be basepoint preserving. 
+\end{defn}
+
+\begin{rmk}
+$\Fin_*$ is the category of pointed finite sets and basepoint preserving maps. 
+\end{rmk}
+
+\begin{defn}
+We have special maps $\rho^i : \left< n \right> \to \left< 1 \right>$ which sends $i \mapsto 1$ and $k \mapsto *$ for $k \neq i$. Then we write $\left< n \right>^\circ = \{1, \dots, n\} = \left< n \right> \sm \{ * \}$.
+\end{defn}
+
+\begin{rmk}
+The data of a symmetric monoidal category is equivalent to a functor $\C^\ot \to \Fin_*$ given by $[C_1, \dots, C_n] \mapsto \left< n \right>$ satisfying some properties. 
+\end{rmk}
+
+\subsection{Colored Operads}
+
+\begin{defn}
+A symmetric monoidal $\infty$-category should be a cocartesian fibration $p : \C^\ot \to N(\Fin_*)$ satisfying $\forall n \ge 0$ the collection of $\{ \rho^i \}$ induces $\rho^i_* : \C_{\left< n \right>}^{\ot} \to C^{\ot}_{\left< 1 \right>}$ determining $\C^{\ot}_{\left< n \right>} \cong (\C_{\left< 1 \right>}^{\ot})^{\oplus n}$.
+\end{defn}
+
+\begin{rmk}
+We will come back and motivate this definition. First we discuss operads which are like categories where we have hom spaces have arbitrary arity, they are not just 2-adic.
+\end{rmk}
+
+\begin{defn}
+A \textit{colored operad} $\O$ is the following data,
+\begin{enumerate}
+\item a collection of objects $\Ob(\O)$
+\item Hom spaces: given any finite set $I$ and a list of objects $(\{ X_i \}_{i \in I}, Y)$ we get a space $\Mult{\O}{\{ X_i \}_{i \in I}}{Y}$ if $I = \empty$ we get a set $\Mult{\O}{}{Y}$ which is a unit (or something)
+\item a composition law, for any map $I \to J$ we get,
+\[ \prod_{j \in J} \Mult{\O}{\{ X_i \}_{i \in I_j}}{Y_j} \times \Mult{\O}{\{ Y_j \}_{j \in J}}{Z} \to \Mult{\O}{ \{X_i \}_{i \in J}}{Z} \]
+\item $\id_Y \in \Mult{\O}{\{Y \}}{Y}$
+\item associativity (DO THIS)
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+We use the terminology $\mathrm{Mult}$ because in the case of a symmetric monoidal category we will get an operad with,
+\[ \Mult{\O}{\{ X_i \}_{i \in I}}{Y} = \Hom{}{\bigotimes_{i \in I} X_i}{Y} \]
+\end{rmk}
+
+\begin{rmk}
+From $\O$ we get a $1$-category $\C$ with Objects $\Ob(\C) = \Ob(\O)$ and $\Hom{}{X}{Y} = \Mult{\O}{ \{ X \}}{Y}$.
+\end{rmk}
+
+\begin{example}
+Given any $1$-category $\C$ we can produce an operad $\O$ on the same objects with,
+\[ \Mult{\O}{ \{ X_i \}_{i \in I} }{Y} = 
+\begin{cases}
+\empty & \# I \neq 1
+\\
+\Hom{\C}{X}{Y} & \# = 1
+\end{cases} \]
+This is left-adjoint to the ``underlying category'' functor.
+\end{example}
+
+\begin{example}
+Given a symmetric monoidal category $(\C, \ot)$ we get an operad on the same objects with,
+\[ \Mult{\O}{ \{X_i \}_{i \in I}}{Y} = \Hom{\C}{ \bigotimes_{i \in I} X_i}{Y} \]
+\end{example}
+
+\begin{example}
+Given a colored operad $\O$, we get a new category $\O^{\ot}$ whose objects are $\{ X_i \}_{i \in I}$ and whose mapping sets are,
+\[ \Hom{\O^{\ot}}{ \{ X_i \}_{i \in I} }{ \{Y_j \}_{j \in J} } = \prod_{j \in J} \Mult{\O}{ \{ X_i \}_{i \in I} }{Y_j} \]
+In fact, $\O$ is equivalent to the data of the fibration,
+\[ \pi : \O^{\ot} \to \Fin_* \]
+with some requirements on $\pi$. Indeed we can recover, $\O = \pi^{-1}(\left< 1 \right>)$ and we get $\Mult{\O}{ \{ X_i \}_{i \in I} }{Y}$ by considering maps in $\O^{\ot}$ between the object $\{ X_i \}_{i \in I} \in \pi^{-1}(\left< n \right>)$ and $Y \in \pi^{-1}9\left< 1 \right>)$. 
+\end{example}
+
+
+\subsection{Cocartesian morphisms}
+
+\begin{defn}
+Let $p : \C \to \D$ be a functor of $1$-categories. Then $g : X \to Y$ in $\C$ is cocartesian if for all $Z$,
+\begin{center}
+\begin{tikzcd}
+\Hom{\C}{Y}{Z} \arrow[r] \arrow[d] & \Hom{\C}{X}{Z} \arrow[d]
+\\
+\Hom{\D}{p(Y)}{p(Z)} \arrow[r] & \Hom{\D}{p(X)}{p(Z)}
+\end{tikzcd}
+\end{center}
+is a pullback. 
+\end{defn}
+
+\begin{defn}
+Let $p : \C \to \D$ be a functor of $\infty$-categories. Then a morpism $g : X \to Y$ in $\C$ is cocartesian if $p$ is an inner fibration and (WHAT)
+\end{defn}
+
+
+\subsection{$\infty$-Operads}
+
+\begin{defn}
+$f : \left< m \right> \to \left< n \right>$ in $\Fin_*$ is \textit{inertia} if for $i \in \left< n \right>^\circ$ then $f^{-1}(i)$ consists of \textit{exactly} one element. This means that two elements can only be mapped to the same place if their image is $*$ and also the map is surjective.
+\end{defn}
+
+\begin{defn}
+An $\infty$-operad is a functor $p : \O^\ot \to N(\Fin_*)$ from an $\infty$-category $\O^\ot$ where we write $\O^{\ot}_{\left< n \right>} = \pi^{-1}(\left< n \right>)$ such that,
+\begin{enumerate}
+\item if $f : \left< m \right> \to \left< n \right>$ is inertia then every object $C \in \O^{\ot}_{\left< m \right>}$ there exists a $p$-cocartesian morphism $\bar{f} : \C \to \C'$ lifting $f$
+
+\item for $C \in \C^{\ot}_{\left< n \right>}$ and $C' \in \C^{\ot}_{\left< m \right>}$ and $f : \left< m \right> \to \left< n \right>$ in $\Fin_*$ then,
+\[ \Map{f}{C}{C'} := (\Map{}{C}{C'})^\circ \]
+is the connected component lying over $f$ then,
+\[ \Map{f}{C}{C'} \cong \prod_{1 \le i \le n}^f \Map{\rho_i \circ f}{C}{C'} \]
+\item $\forall n \ge 0$ the maps $\{ \rho^i_! : \O_{\left< n \right>} \to \O_{\left< 1 \right>}$ induces an equivaence of $\infty$-categories,
+\[ \O_{\left< n \right>}^{\ot} \iso \left( \O_{\left< 1 \right>}^\ot \right)^{\oplus n} \]
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+We write $\O := \O^{\ot}_{\left< 1 \right>}$ which is called the underlying $\infty$-category of $\O^{\ot}$. 
+\end{rmk}
+
+\begin{rmk}
+If $\O$ is a colored ($1$-categorical) operad then $N(\O^{\ot}) \to N(\Fin_*)$ is an $\infty$-operad. 
+\end{rmk}
+
+\begin{example}
+The trivial operad is on the trivial category,
+\[ \underline{\mathrm{Triv}} \subset \Fin_* \]
+which is the full subcategory on the inertia maps. Then the inclusion map,
+\[ N(\underline{\mathrm{Triv}}) \to N(\Fin_*) \]
+is an $\infty$-operad. 
+\end{example}
+
+\subsection{The Associative Operad}
+
+Let $\E_0^\ot$ be the operad whose objects are $\left< n \right>$ and whose morphism $f : \left< m \right> \to \left< n \right>$ such that $\# f^{-1}(i) \le 1$ for $1 \le i \le n$ (weaker than inertia since it does not have to be surjective). This is the first of our associative operads. 
+\bigskip\\
+The commutative operad is supposed to be $N(\Fin_*) \to N(\Fin_*)$.
+
+\begin{defn}
+A morphism $F : \O_1 \to \O_2$ of operads is a functor $F : \O_1^\ot \to \O_2^\ot$ of $\infty$-categories and a homotopy making the diagram,
+\begin{center}
+\begin{tikzcd}
+\O^\ot_1 \arrow[rr, "F"] \arrow[rd] & & \O^{\ot}_2 \arrow[ld]
+\\
+& N(\Fin_*)
+\end{tikzcd}
+\end{center}
+\end{defn}
+
+\section{Algebras and Modules}
+
+\subsection{Operad Review}
+
+
+Perspectives on operads:
+\begin{enumerate}
+\item Categories with ``many-to-one'' structure: meaning there are higher airity maps $Mult( \{ X_i \}, Y)$
+
+\item For every operad $\O$ get $\O$-monoidal category 
+
+\item For every operad $\O$ get $\O$-algebra object in a symmetric monoidal category
+
+\item for $\O' \to \O$ a map of operads get $\O'$-algebras in $\O$-monoidal categories.
+\end{enumerate}
+
+Motivation: $(\Ab, \ot_\Z)$ be the symmetric monoidal category of abelian groups with tensor. A commutative ring is $A \in \Ab$ equipped with maps,
+\begin{enumerate}
+\item $e : \Z \to A$
+\item $m : A \ot A \to A$
+\end{enumerate}
+such that some diagrams commute,
+\begin{center}
+\begin{tikzcd}
+A \ot A \to A \arrow[r] \arrow[d] & A \ot A \arrow[d]
+\\
+A \ot A \arrow[r] & A
+\end{tikzcd}
+\end{center}
+etc. We can package all these together into the following construction.
+
+\begin{defn}
+A \textit{unital commutative ring} is,
+\begin{enumerate}
+\item an object $A \in \Ab$
+\item for each finite set $I$ a map $m_I : A^{\ot I} \to A$
+\end{enumerate}
+such that,
+\begin{enumerate}
+\item if $\# I = 1$ then $m_I = \id$
+\item for $\varphi : I \to J$ then $m_I$ is the composition,
+\[ A^{\ot I} = \bigotimes_{i \in J} A^{\ot \varphi^{-1}(j)} \xrightarrow{\bigotimes_{j \in J} \m_{\varphi^{-1}(j)}} A^{\ot J} \xrightarrow{m_J} A \]
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Commutativity arrises from the swapping map $\varphi : \{ 1, 2\} \to \{ 1, 2 \}$.
+\end{rmk}
+
+\newcommand{\comb}{\mathrm{comb}}
+\newcommand{\comp}{\mathrm{comp}}
+
+\begin{defn}
+$\ord(I)$ is the set of linear orders on $I$. There is a ``combine orderings'' map,
+\[ \comb : \ord(J) \times \prod_{j \in J} \ord(\varphi^{-1}(j)) \to \ord(I) \]
+given $\varphi : I \to J$.
+\end{defn}
+
+\begin{defn}
+A \textit{unital associative ring} is,
+\begin{enumerate}
+\item an object $A \in \Ab$
+\item for each finite set $I$ and $o \in \ord(I)$ a map $m_{I,o} : A^{\ot I} \to A$
+\end{enumerate}
+such that,
+\begin{enumerate}
+\item if $\# I = 1$ then $m_I = \id$
+\item for $\varphi : I \to J$ then $m_{I, \comb(o, o_j)}$ is the composition,
+\[ A^{\ot I} = \bigotimes_{i \in J} A^{\ot \varphi^{-1}(j)} \xrightarrow{\bigotimes_{j \in J} \m_{\varphi^{-1}(j)}, o_j} A^{\ot J} \xrightarrow{m_J, o} A \]
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+What if we want to define a \textit{non-unital} associative ring? In this case we just require our sets $I$ to be nonempty. Or alternatively, let,
+\[ \ord'(I) = 
+\begin{cases}
+\ord(I) & I \neq \empty 
+\\
+\empty & I = \empty 
+\end{cases}\]
+Replacing $\ord$ by $\ord'$ gives the definition of a non-unital associative ring. 
+\end{rmk}
+
+\begin{defn}
+For a colored operad $\O^{\ot}$ which consists of,
+\begin{enumerate}
+\item a set of colors $\O$ 
+\item for each collection $\{ X_i \}_{i \in i}$ and $Y$ of colors there is a set,
+\[ \Mult{\O}{ \{ X_i \}_{i \in I}}{Y} \]
+satisfying some associativity and unital relations. 
+\end{enumerate} 
+and a symmetric monoidal category $(\C, \ot)$ an \underline{$\O$-algebra object} in $(\C, \ot)$ is the data of,
+\begin{enumerate}
+\item for each $X \in \O$ an object $A_X \in \C$
+\item for each $m : \{ X_i \}_{i \in I} \to Y$ a morphism,
+\[ f_m : \bigotimes_{i \in I} A_{X_i} \to A_Y \]
+\end{enumerate}
+satisfying,
+\begin{enumerate}
+\item if $m = \id_X \in \Mult{\O}{ \{ X \} }{X}$ then $f_m = \id_{A_X}$
+
+\item if $\varphi : I \to J$ and $m \in \Mult{\O}{ \{ Y_j \}_{j \in J}}{Z}$ and $m_j \in \Mult{\O}{ \{ X_i \}_{i \in \varphi^{-1}(j)}}{Y_j}$ then $f_{\comp(m, \{ m_j \})}$ equals the composition,
+\[ \bigotimes_{i \in I} A_{X_i} \xrightarrow{\otimes_{j \in J} f_{m_j}} \bigoplus_{j \in J} A_{Y_j} \xrightarrow{f_m} A_Z \]
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+An $\O$-algebra object in $\C$ is the same as a map of operads $\O^\ot \to \C^\ot$. 
+\end{rmk}
+
+\begin{rmk}
+There is a notion of maps of operads,
+\[ \{ \text{symmetric monoidal cat} \} \embed \{ \text{operads} \} \]
+An $\O^\ot$-algebra object of $\C^\ot$ is a map of operads $\O^\ot \to \C^\ot$. Maps of operads are diagrams,
+\begin{center}
+\begin{tikzcd}
+\O^\ot \arrow[r] \arrow[d] & \O^{\ot'} \arrow[d]
+\\
+N(\Fin_*) \arrow[r, equals] & N(\Fin_*)
+\end{tikzcd}
+\end{center}
+that takes cotartesian lifts of inert maps to cocartesian lifts. 
+\end{rmk}
+
+\subsection{Little Cubes Operad}
+
+\renewcommand{\E}{\mathbb{E}}
+
+For $n \ge 0$ construct an $\infty$-operad $\E_n^{\ot}$. Consider $D^n \subset \RR^n$ unit disk. There is a unique color $* \in \O$ and then define (writing $I$ for $\{ * \}_I$),
+\[ \Mult{}{I}{*} = \{ \text{embeddings } \coprod_{i \in I} D^n \to D^n \text{ arising from scaling and translation} \} \]
+There is a composition map, for $\varphi : I \to J$,
+\[ \Mult{}{J}{*} \times \prod_{j \in J} \Mult{}{\varphi^{-1}(j)}{*} \to \Mult{}{I}{*} \]
+which is continuous. Then we can take the topological nerve to get an $\infty$-operad $\E_n^{\ot}$. 
+
+\begin{rmk}
+$\E_1^\ot$ is discrete and $\E^{\ot}_1 \cong \mathrm{Assoc}^\ot$ (defining unital associative algebra) which is the operad of finite sets with orderings. 
+\bigskip\\
+Then $\E_0^{\ot}$ is trivial which just imposes the existence of an object $u : \Z \to A$ so we get pointed objects.
+\end{rmk}
+
+\begin{defn}
+$\E^\ot_{\infty} = [N(\Fin_*) \to N(\Fin_*)]$ as an operad. Meaning $\Mult{\E_\infty^{\ot}}{I}{*} = \{ * \}$. This is because as we take the limit of $n$ for the morphism sets of $\E_n^{\ot}$ with fixed $I$ the spaces become weakly contractible.
+\end{defn}
+
+There are maps of operads $\E_0^{\ot} \to \E_1^{\ot} \to \E_2^{\ot} \to \cdots \to \E^{\ot}_{\infty}$. Therefore, I can always restrict an $\E_n^\ot$-algebra to a lower-order algebra. 
+
+\newcommand{\Alg}{\mathrm{Alg}}
+\newcommand{\gp}{\mathrm{gp}}
+
+\begin{rmk}
+Recall that $\S$ is the $\infty$-category of spaces.
+\end{rmk}
+
+\begin{theorem}[May]
+Inside the monoidal category $(\S, \times)$. Then there is a functor,
+\[ \S_* \xrightarrow{\Omega^n} \Alg_{\E^\ot_n}(\S) \] 
+This induces an equivalence for $n \ge 1$,
+\[ \S_{*, \ge n} \iso \Alg_{\E^\ot_n}^{\gp}(\S) \]
+where $\S_{*, \ge n}$ is the $\infty$-category of $n$-connected pointed spaces and $\Alg_{\E^\ot_n}^{\gp}(\S)$ is the $\infty$-category of grouplike $\E_n^{\ot}$-algebras in spaces where we say that an algebra $A$ is grouplike if $\pi_0(A)$ with its induced monoid structure is a group. Furthermore, there is an equivalence,
+\[ \Sp(\S_*)_{\ge 0} \iso \Alg_{\E_\infty^\ot}(\S) \]
+between connective spectra and $\E_\infty^\ot$-algebras. 
+\end{theorem}
+
+\subsection{Limits and Colimits}
+
+\begin{theorem}
+If $\C$ has all small limits then $\Alg_{\O}(\C)$ also has all small limits and limits are computed ``objectwise''. 
+\end{theorem}
+
+\begin{theorem}
+If $\C$ has all small colimits and $X \ot -$ preserves them then $\Alg_{\E^\ot_{\infty}}(\C)$ has small colimits. 
+\end{theorem}
+
+\subsection{Modules}
+
+\newcommand{\CAlg}{\mathrm{CAlg}}
+
+If $A \in \CAlg(\C)$ then there is a category $\Mod{A}{\C}$.
+
+\begin{rmk}
+$\Mod{A}{\C}$ does \textit{not} have a symmetric monoidal structure but only an operad structure. 
+\end{rmk}
+
+\begin{theorem}
+If $A \in \CAlg(\C)$ then,
+\[ \CAlg(\Mod{A}{(\C)}) \cong \CAlg(\C)_{A / } \]
+If $B$ is an algebra over $\Mod{A}{(\C)}$ corresponding to some $\\overline{B} \in \CAlg(\C)_{A / }$ then,
+\[ \Mod{B}{(\Mod{A}{(\C)})} \cong \Mod{\overline{B}}{(\C)} \]
+\end{theorem}
+
+\begin{theorem}
+\begin{enumerate}
+\item Limits in $\Mod{A}{(\C)}$ can be computed in $\C$
+\item of $\C$ is presentable and $X \ot -$ preserves al l small colimits then $\Mod{A}{(\C)}$ is symmetric monoidal, presentable, and $\ot$ commutes with colimits. 
+\end{enumerate}
+\end{theorem}
+
+\section{Ring Spectra}
+
+Recalll a spectrum object in $S_*$ os an $\infty$-functor,
+\[ F : S_*^\fin \to S_* \]
+such that,
+\begin{enumerate}
+\item $F$ sends homotopy pushouts to pullbacks
+\item $F(*) = *$.
+\end{enumerate}
+
+\begin{rmk}
+For each $n$ there is a pushout square,
+\begin{center}
+\begin{tikzcd}
+S^n \arrow[r] \arrow[d] & * \arrow[d]
+\\
+* \arrow[r] & S^{n+1}
+\end{tikzcd}
+\end{center}
+which gives a pullback square,
+\begin{center}
+\begin{tikzcd}
+F(S^n) \arrow[r] \arrow[d] & * \arrow[d]
+\\
+* \arrow[r] & F(S^{n+1})
+\end{tikzcd}
+\end{center}
+and thus $F(S^n) = \Omega F(S^{n+1})$. Since every object of $S_*^{\fin}$ is a finite colimit of spheres therefore the data of $F$ is equivalent up to homotopy to the sequence $\{ F(S^n) \}$ along with the data of equvalenes $F(S^n) \iso \Omega F(S^{n+1})$. This is classically what is known as an $\Omega$-spectrum.
+\end{rmk}
+
+\begin{defn}
+A \textit{spectrum} is a sequence of pointed spaces $\{ X _n \}_{n \ge 0}$ along with maps $\Sigma X_n \to X_{n+1}$ (equivalently $X_n \to \Omega X_{n+1}$).
+\end{defn}
+
+\begin{example}
+Some spectra,
+\begin{enumerate}
+\item $\S = \{ S^n \}_{n \ge 0}$ is not an $\Omega$-spectrum
+\item for $A \in \Ab$ we have $H A = \{ K(A, n) \}_{h \ge 0}$ is an $\Omega$-spectrum
+
+\item of $\{ Y_n \}_{n \ge 0}$ is any sequence of spaces then define $X_0 = Y_0$ and $X_{n+1} = \Sigma X_n \vee Y_{n+1}$ and this defines a spectrum.
+\end{enumerate}
+\end{example}
+
+How do we make this into a category of specta? If $X, Y$ are $\Omega$-spectra then,
+\[ \Hom{\mathrm{hSp}}{X}{Y} = \left\{ f_n : X_n \to Y_n \middle| 
+\begin{tikzcd}
+X_n \arrow[r, "f_n"] \arrow[d] & Y_n \arrow[d]
+\\
+\Omega X_{n+1} \arrow[r, "\Omega f_{n+1}"] & \Omega Y_{n+1} 
+\end{tikzcd} \right\} \]
+
+If $X, Y$ are \textit{not} $\Omega$-spectra then,
+\[ \Hom{\text{hSp}}{X}{Y} = \dlim_{X' \subset X} \Hom{}{X'}{X} \]
+where $X' \subset X$ is a weak homotopy equivalence where we define weak homotopy equivalence using the following notion of homotopy groups.
+
+\begin{defn}
+if $X$ is spectrum $n \in \ZZ$ then define,
+\[ \pi_n(X) = \dlim_k \pi_{n+k}(X_k) \]
+\end{defn}
+
+\begin{example}
+$\pi_n(\S) = \pi_n^s(\S) = \pi_{2n + 2}(S^{n+2}$ by Freudenthal suspension.
+\end{example}
+
+\begin{example}
+\[ \pi_n(HA) = 
+\begin{cases}
+A & n = 0
+\\
+0
+\end{cases} \]
+\end{example}
+
+\begin{example}
+Homotopy groups may be supported in negative degrees. Indeed consider,
+\[ X_n = S^n \vee S^{n-1} \vee \cdots \vee S^1 \]
+then $\pi_k(X_n) \neq 0$ for all $k \in \Z$ using Hilton-Milnor theorem. 
+\end{example}
+
+\begin{prop}
+The inclusion $N(\Ab) \to \Sp$ sending $A \mapsto HA$ is fully faithful.
+\end{prop}
+
+\begin{proof}
+Let's just check this $\mathrm{hSp}$. Point is to compute $[K(A, n), K(B, n)]$. This is,
+\[ [K(A, n), K(B, n)] = H^n(K(A, n), B) = \Hom{}{H_n(A, n), \Z}{B} = \Hom{}{\pi_n(K(A, n))}{B} = \Hom{}{A}{B} \]
+using Hurewicz's theorem. 
+\end{proof}
+
+\begin{defn}
+There is a natural $t$-structure on $\Sp$ which is $\Sp^{\ge 0} = \{ X \mid \pi_n(X) = 0 \quad n < 0 \}$ with $\Sp^{\le 0}$ defined similarly. 
+\end{defn}
+
+\newcommand{\heart}{\heartsuit}
+\newcommand{\EE}{\mathbb{E}}
+
+\begin{prop}
+$(\Sp^{\ge 0}, \Sp^{\le 0})$ is a $t$-structure and its heart $\Sp^{\heart} = N(\Ab)$ meaning $X \in \Sp^{\heart}$ satisfies $X \cong H \pi_0(X)$.
+\end{prop}
+
+\begin{proof}
+This is just because its heart is objects with trivial higher homotopy groups (setlike). 
+\end{proof}
+
+\subsection{Smash Product}
+
+For $X, Y \in \Top_*$ then $X \wedge Y = (X \times Y) / (X \vee Y)$.
+
+\begin{example}
+$S^0 \wedge X \cong X$ and $S^1 \wedge X \cong \Sigma X$ (by definition). Then $S^m \wedge S^n \cong S^{m+n}$ because $(\RR^m)_{\infty} \wedge (\RR^n)_{\infty} \cong (\RR^{m+n})_{\infty}$.
+\end{example}
+
+\begin{example}
+There is a weird sign,
+\begin{center}
+\begin{tikzcd}
+S^1 \wedge S^1 \arrow[d] \arrow[r, "\text{flip}"] & S^1 \wedge S^1 \arrow[d]
+\\
+S^2 \arrow[r, "-1"] & S^2
+\end{tikzcd}
+\end{center}
+because it is orientation reversing. 
+\end{example}
+
+\begin{prop}
+Some properties,
+\begin{enumerate}
+\item \[ \Hom{\Top_*}{X \wedge Y}{Z} \cong \Hom{\Top_*}{X}{\Hom{\Top_*}{Y}{Z}} \]
+
+\item $X \wedge Y \cong Y \wedge X$
+
+\item $(X \wedge Y) \wedge Z \cong X \wedge (Y \wedge Z)$. 
+\end{enumerate}
+\end{prop}
+
+
+\begin{theorem}[HA, 4.8.2.19]
+There exists a symmetric monoidal structure $\ot : \Sp \times \Sp \to \Sp$ with unit $\S$ which commutes with small colimits in both variables. If $\C$ is a symmetric monoidal $\infty$-cat, stable and presentable and $\ot : \C \times \C \to \C$ preserves small colimits in each variable then there exists a unique up to homotopy symmetric monoidal functor $F : \Sp^\ot \to \C^\ot$ such that the underlying $\Sp \to \C$ preserves small colimts. 
+\end{theorem}
+
+\begin{rmk}
+Note that $H A \ot H B \not\cong H(A \ot B)$ this acts more like a derived tensor product.
+\end{rmk}
+
+\begin{example}
+$\S \wedge \S \to \S$ is an isomorphism and gives the trivial ring spectrum. 
+\end{example}
+
+If $R$ is an $\EE_1$-ring then,
+\[ \pi_* R = \bigoplus_{n \in \ZZ} \pi_* R \]
+is a graded ring. Then $\pi_n R = [\S[n], R]$ with $\S[n]_k = \S_{n+k}$ and we have,
+\[ [\S[n], R] \times [\S[m], R] \to [\S[n] \ot \S[m], R \ot R] \to [\S[n+m], R] = \pi_{n+m}(R) \]
+a multiplication map. 
+
+\begin{rmk}
+Note that if $R$ is an $\EE_\infty$-ring then $\pi_* R$ is graded commutative from the fact that $\S[n] \ot \S[m]$ is antisymmetric. 
+\end{rmk}
+
+Notions of left (right) module. All certain algebra objects in $\Sp$. The left-module operad $\underline{\text{LM}}$ has two colors $A, M$ and,
+\[ \Mult{\text{LM}}{ \{ X_i \}_{i \in I}}{A} = 
+\begin{cases}
+\ord(I) & X_i = A \text{ for all } i
+\\
+\empty & \text{else} 
+\end{cases} \]
+and likewise,
+\[ \Mult{\text{LM}}{\{X_i\}_{i \in I}}{M} = 
+\begin{cases}
+\ord(I) & M \text{ is largest if all but exactly one are } M
+\\
+\empty & \text{else}
+\end{cases} \]
+
+A left module is an $\text{LM}$-algebra object of $\Sp$,
+\begin{center}
+\begin{tikzcd}
+\LMod_R \arrow[r] \arrow[d] & \LMod \arrow[d]
+\\
+\{ R \} \arrow[r, hook] & \Alg_{\EE_1}(\Sp) 
+\end{tikzcd}
+\end{center}
+
+\begin{prop}
+We have,
+\begin{enumerate}
+\item $\LMod_R$ is stable
+\item natural $t$-structure (connective and anti-connected)
+\item if $\pi_n R = 0$ for $n \neq 0$ then $\LMod_R \cong \D(\Mod_{\pi_0(R)})$ preserving $t$-structures.
+\end{enumerate}
+\end{prop}
+
+Let $R$ be a discrete commutative ring then $\Alg^{\dg}(R)$ has a model structure with,
+\begin{enumerate}
+\item weak equivalences are quasi-isomorphisms
+\item fibrations are levelwise surjective 
+\end{enumerate}
+
+\begin{prop}
+$N(\Alg^{\dg}(R)^c][W^{-1}] \cong \Alg_{\EE_1}(R)$ where $c$ means the category of cofibrant objects. If $\Q \subset R$ then,
+\[ N(\CAlg^{\ad}(R)^c)[W^{-1}] \cong \Alg_{\EE_\infty}(R) \]
+with graded commutative on the left.
+\end{prop}
+
+\section{Feb. 23}
+
+\begin{defn}
+Let $R$ be connecteive then $P \in \LMod_R^\cn$ is \textit{projective} if $\Hom{}{P}{-} : \LMod_R^\cn \to \S$ preserve gemoetric realization.
+\end{defn}
+
+\begin{rmk}
+\begin{enumerate}
+\item in classical setting geometric realization is coequalizer so this recoveres the usual definition of preserving colimits
+
+\item $\LMod_R$ of all not necessarily connective objects has no nonzero projective objects. 
+\end{enumerate}
+\end{rmk}
+
+\begin{prop}
+The following are equivalent,
+\begin{enumerate}
+\item $P$ is projective
+
+\item for all $Q \in \LMod_R^\cn$ and $i > 0$ we have $\Ext{i}{R}{P}{Q} := \pi_0(\Hom{}{P}{Q[i]}) = 0$
+
+\item Given fiber sequence,
+\[ N' \to N \to N'' \]
+the map $\Ext{0}{R}{P}{N} \to \Ext{0}{R}{P}{N''}$ is surjective.
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+TFAE:
+\begin{enumerate}
+\item $P$ is projective
+
+\item there exists a free module $R$-module $M$ with $P$ a retract of $M$ meaning $P \to M \to P$ with $P \to P$ an equivalence. 
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+First show (a) $\implies$ (b). There exists $R^{\oplus I} \to P$ such that $\pi_0(R^{\oplus n}) \onto \pi_0(P)$ is a surjection. Consider the fiber sequence,
+\[ N \to R^{\oplus I} \to P \]
+then $N$ is connective by the surjection of $\pi_0$. Consider $\Hom{R}{P}{-}$ applied to the fiber sequence, by surjection on $\Ext{0}{R}{P}{-}$ we get $P \to R^{\oplus I}$ satisfying the required properties. 
+\bigskip\\
+For (b) $\implies$ (a) we have projectivity is preserved by retract. For,
+\[ P \to S \to P \]
+then $\Ext{i}{R}{P}{Q}$ is a retract of $\Ext{i}{R}{S}{Q}$ then STP free module are projective.  
+\end{proof}
+
+\begin{rmk}
+What are the examples of ring spectra:
+\begin{enumerate}
+\item $K(A)$ for $A$ a discrete ring
+\item $\S$
+\item simplicial commutative rings.
+\end{enumerate}
+\end{rmk}
+
+\begin{rmk}
+In the followign definition we don't need any connectivity assumptions.
+\end{rmk}
+
+\begin{defn}
+$M$ is flat over $R$ if,
+\begin{enumerate}
+\item $\pi_0(M)$ is a flat $\pi_0(N)$-module
+\item $\pi_m(R) \ot_{\pi_0(R)} \pi_0(M) \iso \pi_n(M)$ for all $n$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Flatness is closed under coproduct, retract, filtered colimits. If $R$ is connective then projective implies flat. 
+\end{rmk}
+
+\begin{prop}
+Let $N, R$ be connective. The following are equivalent,
+\begin{enumerate}
+\item $N$ is flat
+\item if $M$ is a discrete right $R$-module then $M \ot_R N$ is discrete.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Spectral sequence,
+\[ \Tor{\pi_* R}{p}{\pi_* M}{\pi_* N}_q = \pi_{p+q}(M \ot_R N) \]
+Then (a) $\implies$ (b) because LHS = 0 if $p \neq 0$ and thus,
+\[ \pi_p(M \ot_R N) = (\pi_* M \ot_{\pi_* R} \pi_* N)_p = \cong (\pi_* M \ot_{\pi_0(R)} \pi_0(N))_p \]
+For (b) $\implies$ (a) we use $- \ot_R N : \RMod_R \to \S$ and that $\RMod_R^{\heart} = \Mod_{\pi_0(R)}$. Then (b) says that we restrict to,
+\[ - \ot_R N : \Mod_{\pi_0(R)} \to \Set \]
+which in particular is a map to $\Set$. However, $-\ot_R N$ is exact (preserves fiber sequences) and hence is exact on the heart. Then $- \ot_R N = - \ot_{\pi_0(R)} \pi_0(N)$ (using the spectral sequence and the fact that $M \ot_R N$ is discrete for $M$ discrete) and thus is exact meaning $\pi_0(N)$ is flat over $\pi_0(R)$. The rest uses the spectral sequence. 
+\end{proof}
+
+\begin{lemma}
+A map $f : M \to N$ of flat $R$-modules is an equivalence iff $\pi_0(f) : \pi_0(M) \to \pi_0(N)$ is an isomorphism.
+\end{lemma}
+
+\begin{prop}
+Let $R$ be connective and $M / R$ is flat then,
+\[ M \text{ is projective} \iff \pi_0(M) \text{ is projective over } \pi_0(R) \]
+\end{prop}
+
+\begin{proof}
+We show a weaker version. If $\pi_0(M)$ is free over $\pi_0(R)$ then can find a free module $R^{\oplus n} \to M$ which is an isomorphism on $\pi_0$. Then apply lemma to conclude. 
+\end{proof}
+
+\subsection{Localization}
+
+Let $R$ be an $\EE_\infty$-ring then $\pi_*(R)$ is graded-commutative. Consider $S \subset \pi_*(R)$ set of homog. elements closed under multiplication and containing $1$. Then,
+\begin{enumerate}
+\item $M$ is $S$-nilp if all $x \in \pi_m(M)$ are killed by some $s \in S$
+
+\item $M$ is $S$-local if for each $s \in S$ the map $\pi_* M \xrightarrow{s} \pi_* M$ is an isomorphism (not necessarily a graded map)
+\end{enumerate}
+This produces two subcategories $\LMod_R^{\text{S-nilp}}$ and $\LMod_R^{\text{S-Loc}}$. We want some adjoints which will be localizations.
+\begin{enumerate}
+\item $\LMod_R^{\text{S-nilp}}$ is stable $\infty$-category, closed under small colimits generated under colimits by $R / Rs [n]$ for $s \in S$. If $s \in \pi_d(R)$ then this arises from,
+\[ R[d] \xrightarrow{s} R \to R / R s \]
+
+\item $M \in \LMod_R^{\text{S-loc}} \iff $ for all $s \in S$ and $n \in \ZZ$ then $\Hom{}{R/R_s[n]}{N}$ is contactible iff $\forall M \in \LMod^{\text{S-nilp}}$ we have $\Hom{R}{M}{N}$ contractible.
+\end{enumerate}
+
+(1) gives a right adjoint $G : \LMod_R \to \LMod_R^{\text{S-nilp}}$ to the inclusion. Then we take a fiber sequence,
+\[ G(M) \to M \to S^{-1} M \]
+defining $S^{-1} M$ and,
+\[ \Hom{}{N}{G(M)} \iso \Hom{}{N}{M} \to \Hom{}{N}{S^{-1} M} \]
+so the last term is contractible proving that $S^{-1} M \in \Mod_R^{\text{S-loc}}$. 
+
+\begin{rmk}
+The functor $S^{-1}(-)$ gives a left adjoint to the inclusion. 
+\end{rmk}
+
+\begin{prop}
+$(\LMod_R^{\text{S-nilp}, \LMod_R^{\text{S-loc}})$ gives a $t$-structure on $\LMod_R$ with trivial heart. 
+\end{prop}
+
+\begin{rmk}
+$\pi_*(S^{-1} M) = S^{-1} \pi_*(M)$. 
+\end{rmk}
 \end{document}
