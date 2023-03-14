@@ -918,4 +918,240 @@ $(\LMod_R^{\text{S-nilp}, \LMod_R^{\text{S-loc}})$ gives a $t$-structure on $\LM
 \begin{rmk}
 $\pi_*(S^{-1} M) = S^{-1} \pi_*(M)$. 
 \end{rmk}
+
+\section{Higher Algebraic Geometry}
+
+\subsection{Other Flavors of higher AG}
+
+We need a notion of what a ``higher ring'' is to define higher affine schemes.
+
+\begin{defn}
+Fix a discrete commutative ring $R$. Then consider the following types of higher $R$-algebras,
+\begin{enumerate}
+\item simplicial $R$-algebras (a simplicial object in $R$-Alg)
+\item commutative dg-algebras over $R$
+\item $\EE_\infty$-algebras over $R$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+de-algebras over a ring $R$ which does not contain $\QQ$ is ``bad'' according to Lurie. When $\QQ \subset R$ then it is equivalent to $\EE_\infty$-algebras over $R$. Therefore, the only purpose, in the modern perspective, of considering the dg-algebras is to give concrete models for everything in the case $\QQ \subset R$, the theory works less nicely in general. 
+\end{rmk}
+
+\begin{defn}
+Fix $R \in \CAlg^\heart$ write $\Poly_R$ for the $1$-category of $R$-algebras isomorphic to $R[x_1, \dots, x_n]$. Define the full subcategory, $\CAlg_R^\Delta$ of functors,
+\[ \Poly^\op_R \to \Space \]
+preserving finite products. 
+\end{defn}
+
+\begin{rmk}
+Given $F : \Poly_R^\op \to \Space$ consider $A = F(R[x])$. Then pulling back along $R[x] \to R[y,z]$ sending $x \mapsto yz$ gives a map $A \times A \to A$ making $A$ into a ring space. Moreover the other maps make $A$ an $R$-module in spaces.
+\end{rmk}
+
+\begin{rmk}
+For the simplicial model structure on the simplicial category of $R$-algebras when you take nerve of the fibrant-cofibrant objects you get $\CAlg_R^\Delta$. 
+\end{rmk}
+
+\begin{theorem}[SAG, 25.1.2.2]
+There is a functor $\theta : \CAlg_R^\Delta \to (\CAlg_R^\cn)_{R/}$ preserving all limits and colimits. Moreover, $\theta$ detects isomorphisms and is an equivalence if $R \supset \Q$.
+\end{theorem}
+
+\begin{rmk}
+Given $x \in A$ for $\CAlg_R^\Delta$ there is a canonical way of getting a squaring map from pulling back along $R[x] \to R[x]$ mapping $x \mapsto x^2$. However, for $\CAlg_R$ there is $B \Sigma_2$ ways of squaring because you have to choose a set with two elements to define the map. 
+\end{rmk}
+
+\subsection{Spectral Schemes}
+
+\begin{defn}
+A \textit{spectrally ringed space} $(X, \struct{X})$ is a topological space $X$ and an $\infty$-sheaf of $\EE_\infty$-ringed spectra 
+\end{defn}
+
+\begin{defn}
+An $\infty$-sheaf is a presheaf $\F$ on $X$ valued in an $\infty$-category $\C$ with $U = \bigcup U_\alpha$ then,
+\[ \F(U) = \ilim_{\substack{V \susbet U_\alpha \\ \text{ for some \alpha}}} \F(V) \]
+or equivalently,
+\[ \F(U) = \lim \left( \prod \F(U_\alpha) \to \prod \F(U_\alpha \cap U_\beta) \to \cdots \right) \] 
+\end{defn}
+
+\begin{prop}
+Let $A \in \CAlg_R$. There is a (hyper) sheaf $\struct{}$ valued in $\CAlg$ on $| \Spec{\pi_0(A)} |$ such that,
+\[ \struct{}(|\Spec{(\pi_0 A)[f^{-1}]|) = A[f^{-1}] \]
+for all $f \in \pi_0(A)$. 
+\end{prop}
+
+\begin{proof}
+There is a fact in HTT that it suffices to check the sheaf condition on the basis for the topology if the base satisfies that the intersection of two sets in the base is in the base (in the $\infty$-setting this is actually important for some reason). Therefore, it suffices to check that,
+\[ A = \lim \left( \prod A[f_i^{-1}] \to \prod A[f_i^{-1} f_j^{-1}] \to \cdots \right) \]
+Note that,
+\[ A \to \prod A[f_i^{-1}] \]
+is flat and faithfully flat on $\pi_0$. Therefore, it suffices to show equivalence after base change by $A \to A[f_i^{-1}]$ but this is clear after we base change. 
+\end{proof}
+
+\begin{rmk}
+Even in $A \in \CAlg^\heart$ then $\struct{\Spec{A}}$ is not discrete. Indeed,
+\[ \pi_n(\struct{\Spec{A}}(U)) = H^{-n}(U, (\pi_0(\struct{X})|_U) \]
+but the ``classical sheafification'' is zero. 
+\end{rmk}
+
+\begin{rmk}
+This is because usual sheaves are not $\infty$-sheaves. We have to sheafify and when we do this the sheaf of rings stops being discrete. 
+\end{rmk}
+
+\begin{defn}
+A \textit{non-connective spectral scheme} is a spectrally ringed space $(X, \struct{X})$ that locally isomorphic to $(\Spec{A}, \struct{\Spec{A}})$. A morphism is a locally spectral morphism of spectrally ringed spaces.
+\end{defn}
+
+\begin{example}
+If we take $\P^1 \to \P^2$ a line and take $\P^1 \times_{\P^2} \P^1$ in the category of spectral schemes this is non-classical.  Consider,
+\begin{center}
+\begin{tikzcd}
+k[x,y] \arrow[r] \arrow[d] & k[x] \arrow[d]
+\\
+k[x] \arrow[r] & A
+\end{tikzcd}
+\end{center}
+then $\pi_0(A) = k[x]$ and $\pi_1(A) = \Tor{k[x,y]}{1}{k[x]}{k[x]} = k[x]$. This comes from the (spectral) spectral sequence,
+\[ E^2_{p,q} = \Tor{\pi_*(A)}{p}{\pi_* B}{\pi_* C}_q \implies \pi_* (B \ot_A C) \]
+\end{example}
+
+\begin{defn}
+$A \to B$ is \etale if it is flat and $\pi_0(A) \to \pi_0(B)$ is \etale. 
+\end{defn}
+
+\begin{theorem}[HA, 7.5.0.6]
+The functor $\pi_0 : \CAlg_{A/}^{\et} \to (\CAlg^\heart)^{\et}_{\pi_0(A) /}$ is an equivalence. This is the map taking \etale $A$-algebras to \etale $\pi_0(A)$-algebras. 
+\end{theorem}
+
+\begin{defn}
+A \textit{spectrally ringed topos} is a pair $(\X, \struct{\X})$ where $\X$ is an $\infty$-topos and $\struct{\X}$ is a sheaf on $\X$ valued in $\CAlg$.  A sheaf on $\X$ is a functor $\X^\op \to \CAlg$ preserving all small limits. 
+\end{defn}
+
+\newcommand{\Spet}{\mathrm{Sp}\et}
+
+\begin{defn}
+For $A \in \CAlg$ define $\Spet{A}$ to be $\Space$-valued sheaves on the small \etale site with the forgetful map $R / A \mapsto R$. 
+\end{defn}
+
+\begin{defn}
+A \textit{non-connective spectral Deligne-Mumford stack} is a sepctrally ringed topos that locally is isomorphic to $\Spet{A}$. 
+\end{defn}
+
+\begin{defn}
+\textit{Locally} in a topos means there exist elements $U_i \in \X$ such that $\coprod U_i \to 1_\X$ is an effective epi and $(\X_{/U_i}, \struct{}|_{\X_{/U_i}})$ are isomorphic to $\Spet{A}$. 
+\end{defn}
+
+\begin{rmk}
+$\Sch \embed \Sp\Sch \embed \Sp\Sch^\nc \embed \Sp\DM^\nc$.
+\end{rmk}
+
+\section{Cotangent Complex}
+
+\begin{defn}
+Let $R$ be a ring (a classical ring i.e. in $\CAlg^\heart$. For each polynomial ring $A = R[x_1, \dots, x_n]$ define $\LL_{A/R} = A \left< \d{x_1}, \dots, \d{x_n} \right>$. Then then extend this to,
+\[ \L_{(-)/R} : \CAlg_R^\Delta = P_\Sigma(\Poly_R) \to \Mod_R \]
+\end{defn}
+
+\begin{rmk}
+The category $\CAlg_R^\Delta$ is functors $\Poly_R^\op \to \S$ preserving finite products. In particular, for any $R$-algebra, the Yoneda functor gives such an example. Therefore, there is a fully-faithful embedding $\CAlg_R^\heart \embed \CAlg_R^\Delta$.
+\end{rmk}
+
+\begin{rmk}
+This construction is a bit unnatural, it goes essentially through polynomial rings. From the perspective of higher algebra, the cotangent complex should represent something.
+\end{rmk}
+
+\begin{rmk}
+Why is $\Omega_{B/A}$ bad? It is defined via,
+\[ \Der{A}{B}{M} \cong \Hom{B}{\Omega_{B/A}}{M} \]
+but we're testing against discrete $B$-modules $M$ so there's no hope for seeing `higher information''. However, if we allow for nondiscrete $M$ (say complexes) then the representing object will be $\LL_{B/A}$.
+\end{rmk}
+
+\subsection{Relative Adjunction}
+
+Motivation: if $M$ is a $B$-module, define $B \oplus M$ as a $B$-algebras that is a square-zero thickening of $B$ meaning the multiplication is,
+\[ (b, m) \cdot (b', m') = (bb', bm' + b' m) \]
+Then, $\Der{A}{B}{M}$ is the set of $A$-algebra sections of $B \oplus M \to B$.
+
+\begin{rmk}
+Therefore, the strategry is to forget about derivations and instead understand these extensions $B \oplus M \to B$.
+\end{rmk}
+
+\begin{defn}
+Define the category, 
+\[ \CAlg^{\heart+} = \{ (A, M) \mid A \in \CAlg^\heart, M \text{ is an } A\text{-module} \} \]
+where the maps are,
+\[ \Hom{}{(A, M)}{(B, B)} = \{ (f : A \to B, g : M \to N) \} \]
+where we require that $g$ is linear over $f$. Then we get a functor,
+\[ G : \CAlg^{\heart+} \to \Fun{}{\Delta^1}{\CAlg^\heart} \]
+given by sending,
+\[ (A, M) \mapsto (A \oplus M \to A) \]
+Then the fiber of $\ev_1 : \Fun{}{\Delta^1}{\CAlg^\heart} \to \CAlg^\heart$ composed with $G$ over $A$ is the category of $A$-modules. 
+\end{defn}
+
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\CAlg^{\heart +} \arrow[rd]  \arrow[rr, "G"] & & \Fun{}{\Delta^1}{\CAlg} \arrow[ld, "\ev_1"]
+\\
+& \CAlg^{\heart}
+\end{tikzcd}
+\end{center}
+
+\begin{prop}
+Then $G$ has a left adjoint given by $(A \to B) \mapsto (B, B \ot_A \Omega_{A/\Z})$.
+\end{prop}
+
+\begin{rmk}
+This uses the following proposition.
+\end{rmk}
+
+\begin{prop}[HA, 3.2.6]
+If we have a diagram,
+\begin{center}
+\begin{tikzcd}
+\cD \arrow[rr, "G"] \arrow[rd, "p"] & & \E \arrow[ld, "q"]
+\\
+& \cC 
+\end{tikzcd}
+\end{center}
+such that,
+\begin{enumerate}
+\item $p,q$ are coCartesian
+\item $G$ carries coCartesian edges to coCartesian edges
+\item each fiber $\cD_C \to \E_C$ for $C \in \cC$ has a left adjoint 
+\end{enumerate}
+then $G$ has a left adjoint living over $\C$ restricting to left adjoints of the fibers. 
+\end{prop}
+
+Now we can define $F : \Fun{}{\Delta1}{\CAlg^\heart} \to \CAlg^{\heart+}$ the left adjoint of $G$ and,
+\[ \Omega_{-/\Z} : \CAlg^\heart \xrightarrow{\Delta} \Fun{}{\Delta^1}{\CAlg^\heart} \xrightarrow{F} \CAlg^{\heart +} \]
+
+\section{The Tangent Bundle}
+
+How do we construt $\CAlg^+$ in the $\infty$-setting? 
+
+\begin{theorem}[HA, 7.3.4.14]
+For $\EE_{\infty}$-ring $A$ there is a canonical equivalence,
+\[ \Sp(\CAlg_{/A}) \cong \Mod_A \]
+\end{theorem}
+
+\begin{rmk}
+The above map is the analog of $M \mapsto (A \oplus M \to A)$. Indeed, a diagram of this sort can be delooped infinitely many times since,
+\begin{center}
+\begin{tikzcd}
+A \oplus M \pullback \arrow[r] \arrow[d] & A \arrow[d]
+\\
+A \arrow[r] & A \oplus M[1] 
+\end{tikzcd}
+\end{center}
+The inverse should be given by taking the kernel of the evaluation on $S^0$. From the standard sequence $* \to S^0 \to *$ we see that the extensions we get are always split, there are maps $A \to A \oplus M \to A$ composing to the identity.
+\end{rmk}
+
+Idea: take the ``relative stabilization'' of $\ev_1 : \Fun{}{\Delta^1}{\CAlg} \to \CAlg$. 
+
+\begin{defn}
+For $C$ a presentable category, define,
+\[ T_{\C} \subset \Fun{}{\S_*^{\text{fin}}}{\C} \]
+sending the full sub of excisive functors (i.e. pushout maps to pullbacks). 
+\end{defn}
+
 \end{document}
