@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+\DeclareMathOperator{\argmin}{\mathrm{argmin}}
+\renewcommand{\E}{\mathbb{E}}
+
+\begin{document}
+
+\section{April 4}
+
+These are models, they give insight but are not exactly what financial professionals are actually doing when they implement HFT algorithms.
+\bigskip\\
+Bid-ask spread and order-books (chapter 1 of book). These requirng a match-maker (market maker). Limit order book.
+\bigskip\\
+Algorithms give much higher rate of updating the order books.
+
+Jean-Philip Houseau, very sucessful physicist ENS professor. Working for Capital Fund Management (most sucessful fund in europe). Only one mathematician works at his fund (biased against mathematicians) and he left and went to Dubai. He has a fear of mathematicians (they tend to be slow in adjusting but are really good when they adjust but are slow to adjust in real time).
+
+\subsection{Avellaued - Stokes}
+
+Let $S_t$ be a price of a risky asset. $\d{S_t} = \sigma \d{B_t}$ a brownian motion. A trader in limit order has a portfolio: 
+\begin{enumerate}
+\item $X_t$ cash on hand
+\item $Q_t$ quantity (integer valued) of asset $S$ (we assume limit orders are not divisible)
+\end{enumerate}
+
+Then we set,
+\[ Q_t = Q^b_t - Q^a_t + \varphi_0 \]
+Basic cash flow equation:
+\[ \d{X_t} = P^a_t \d{Q^a-t} \]
+\[ \d{Q_t} = \d{Q^b}_t - \d{Q^a}_t \]
+The Orenstein-Ulembeck process is,
+\[ \d{S_t} = \alpha (\mu - S_t) d{t} + \sigma \d{B_t}) \]
+This has mean $\mu$ with mean-reversion time $\alpha$ and standard-deviation $\sigma / \sqrt{2 \alpha}$. Assume perfect liquidity -> trading process does not affect price (This is FALSE, trading absolutely does affect the price). However, if we assume that the price is god-given 
+
+\section{April 6}
+
+Consider $K = k(X)$ and $\iota : X_K \to X \times X$ which is flat. For any $\Gamma \subset X \times X$ we get a class $z_\Gamma = \iota^* [\Gamma] \in \CH_0(X_K)$. Want to consider the composition of graphs in $\CH_0(X_K)$. 
+\bigskip\\
+Avellaueda-shbikov limit order trading model. Poisson processes. 
+
+Order flows: $Q^a_t$ and $A^b_t$ Poisson proceesses flow of ask (sell) orders and flow of bid (buy) orders. Total order flow,
+\[ Q_t = Q_t^b - Q_t^a + q \]
+Note that orders change by $\pm 1$ when an order closes. Then the cash flow $X_t$ and,
+\[ \d{X_t} = P^a_t \d{Q_t^a} - P^b_t \d{Q_t^b} \]
+Spreads:
+\[ \delta_t^b = S_t - P_t^b \quad \text{and} \quad \delta_t^a = P_t^a - S_t \]
+where $S_t$ is the reference price. We expect these spreads to be positive. We assume that,
+\[ S_t = S_0 + \sigma W_t \]
+where $W_t$ is standard Brownian motion. Assumptions so far,
+\begin{enumerate}
+\item order flow changes by $\pm 1$ meaning it is in fixed units
+
+\item Reference price is observable by the traders and is purely random (and normal i.e. brownian motion) i.e. not affected by trading activities. 
+\end{enumerate}
+
+\section{The Hawkes Process}
+
+Algorithmic trading model above based on huge idealizations. The orders are all of the same size etc. Order flow is controlled by the spread is a major assumption. Order flow is also affected by the volume of orders coming in. The mere fact of orders coming in and being exceuted will generate more orders. This is what the Hawkes process models. He was a geophysicist, indeed point processes were first applied to modeling seismic events. However, seismic events are not Poisson, between large events there is approximately exponential probability of wait times. However, there are aftershocks after large events which we want to capture. We make the density of events $\lambda$ dynamic. We consider,
+\[ \d{\lambda} = a( \mu - \lambda(t)) \d{t} + \beta N(t) \]
+where $N$ is the jump process controlled by the Poisson process $\lambda$ so there is a feedback effect. 
+
+\end{document}

@@ -157,7 +157,7 @@ A \textit{meromorphic} function on $\C$ is a holomorphic function $f : \C \to \h
 \end{definition}
 \noindent
 This corresponds to our previous notion that whenever $f$ is undefined (i.e. is sent to $\infty$) then $f$
-must “blow up” nearby. This corresponds to the fact that for a continuous function $f : \C \to \hat{\C}$ to hit $\infty$ it must, nearby, pass through arbitrarily large values in $\C \subset \hat{\C}$. Thus we can’t have a function which is nice and bounded and suddently jumps up to $\infty$ since this corresponds to a discontinuity
+must “blow up” nearby. This corresponds to the fact that for a continuous function $f : \C \to \hat{\C}$ to hit $\infty$ it must, nearby, pass through arbitrarily large values in $\C \subset \hat{\C}$. Thus we can’t have a function which is nice and bounded and suddenly jumps up to $\infty$ since this corresponds to a discontinuity
 viewed as a map $\C \to \hat{\C}$. Now let’s try to prove that these definitions agree.
 
 \begin{theorem}
@@ -170,7 +170,7 @@ Let $f : \C \setminus P \to \C$ be a holomorphic function where $P \subset \C$ i
 \end{enumerate}
 \end{theorem}
 
-\section{The Weirestrass $\wp$ Function}
+\section{The Weierstrass $\wp$ Function}
 
 Our plan to find a holomorphic doubly periodic (elliptic) function has been thwarted as soon as it
 was devised. Since we cannot find interesting holomorphic examples of elliptic functions we now ask
@@ -188,4 +188,80 @@ which is doubly periodic because if $\omega \in \Lambda$ then,
 However, this definition has one major flaw. That sum still does not converge! This is because,
 \[ f(z) = \sum_{n,m \in \Z} \frac{1}{(z + n \omega_1 + m \omega_2)^2} \sim \sum_{r \in \Z^{+}} \frac{2 \pi r}{(z + r)^2} \sim 2 \pi \sum_{r \in \Z^{+}} \frac{r}{r^2} \to \infty \]
 where I have reordered the sum to sum over circles with radius $r$ in the $\Z^2$ plane each circle having approximately $2 \pi r$ lattice points. To fix this, we use a clever subtraction to remove the divergent part of the sum and arrive at the following definition by Weierstrass.
+
+
+\begin{theorem}
+Let $\Lambda \subset \C$ be a Lattice. The Weierstrass $\wp$-function, defined as,
+\[ \wp(z) = \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times } \left[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} \right] \]
+is a well-defined meromorphic function $\wp : \C / \Lambda \to \C$ with double poles on $\Lambda$. 
+\end{theorem}
+
+\begin{proof}
+We can write,
+\begin{align*} 
+\frac{1}{(z + \omega)^2} & = - \deriv{}{z} \left( \frac{1}{z + \omega} \right) = - \frac{1}{\omega} \deriv{}{z} \left[ \sum_{n = 0}^\infty \left( - \frac{z}{\omega} \right)^n \right] = - \frac{1}{\omega} \sum_{n = 0}^\infty \left[ \frac{ (-1)^n n z^{n-1}}{\omega^{n}} \right] 
+\\
+& = \frac{1}{\omega^2} \left[ \sum_{n = 0}^\infty (-1)^n (n + 1) \frac{z^n}{\omega^n} \right]  
+\end{align*}
+and this series is uniformly convergent for $|z| < |\omega|$. Thus,
+\[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} = \frac{1}{\omega^2} \sum_{n=1}^\infty (-1)^n (n+1) \frac{z^n}{\omega^n} \]
+and therefore, 
+\[ \wp(z) = \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times} \left[ \frac{1}{(z + \omega)^2} - \frac{1}{\omega^2} \right] \]
+converges uniformly. Furthermore, 
+\[ \wp'(z) = - \frac{2}{z^3} + \sum_{\omega \in \Lambda^\times} \left( - \frac{2}{(z + \omega)^3} \right) = - 2 \sum_{\omega \in \Lambda} \frac{1}{(z + \omega)^3} \]
+Thus, $\wp'(z)$ is doubly periodic with periods $\omega_1$ and $\omega_2$. Thus, $\wp(z + \omega_1) = \wp(z) + c_1$ so $\wp(-\tfrac{1}{2} z_1) = \wp(\tfrac{1}{2} z) + c_1$ but $\wp$ is even so $c_1 = 0$. The same for $\omega_2$. Thus, $\wp(z + \omega_1) = \wp(z)$ and $\wp(z + \omega_2) = \wp(z)$. 
+\end{proof}
+
+
+\subsection{The Defining Differential Equation for $\wp$}
+
+We need to work out he expansion for $\wp(z)$ near $0$. We have,
+\[ \frac{1}{(z - \omega)^2} = \frac{1}{\omega^2} \cdot \frac{1}{(1 - \frac{z}{\omega})^2} = \frac{1}{\omega^2} \sum_{n = 0}^\infty (m + 1) \left( \frac{z}{\omega} \right)^m \]
+Therefore,
+\begin{align*}
+\wp(z) &= \frac{1}{z^2} + \sum_{\omega \in \Lambda^\times} \sum_{m = 1}^\infty (m + 1) \frac{z^{m}}{\omega^{m + 2}} 
+\\
+& = \frac{1}{z^2} + \sum_{m = 1}^\infty (m + 1) z^m \left( \sum_{\omega \in \Lambda^\times} \frac{1}{\omega^{m+2}} \right) 
+\\
+& = \frac{1}{z^2} + \sum_{k = 1}^\infty (2 k + 1) z^{2k} G_{k+1}(\Lambda) 
+\end{align*}
+where we have defined,
+\[ G_{k}(\Lambda) = \sum_{\omega \in \Lambda^\times} \frac{1}{\omega^{2k}} \] 
+The odd terms vanish because if we sum an odd function over the lattice then we get zero. 
+Explicitly,
+\begin{align*}
+\wp(z) = \frac{1}{z^2} + 3 G_2(\Lambda) z^2 + 5 G_3(\Lambda) z^4 + O(z^6) 
+\end{align*}
+Next,
+\[ \wp'(z) = - \frac{2}{z^3} + \sum_{k = 1}^\infty (2 k + 1) (2k) G_{k+1}(\Lambda) z^{2k - 1} \]
+which we sum as,
+\[ \wp'(z) = - \frac{2}{z^3} + 6 G_2(\Lambda) z + 20 G_3(\Lambda) z^3 + O(z^5) \]
+Thus, compute,
+\begin{align*}
+\wp'(z)^2 & = \left(  - \frac{2}{z^3} + 6 G_2(\Lambda) z + 20 G_3(\Lambda) z^3 + O(z^5) \right)^2 
+\\
+& = \frac{4}{z^6} - 24 G_2(\Lambda) \frac{1}{z^2} - 80 G_3(\Lambda) + O(z^2) 
+\end{align*}
+Similarly, compute,
+\begin{align*}
+\wp(z)^3 & = \left( \frac{1}{z^2} + 3 G_2(\Lambda) z^2 + 5 G_3(\Lambda) z^4 + O(z^6) \right)^3
+\\
+& = \frac{1}{z^6} + 9 G_2(\Lambda) \frac{1}{z^2} + 15 G_3(\Lambda) + O(z^2) 
+\end{align*}
+Therefore,
+\begin{align*}
+\wp'(z)^2 - 4 \wp(z)^3 & = - 24 G_2(\Lambda) \frac{1}{z^2} - 36 G_2(\Lambda) \frac{1}{z^2} - 80 G_3(\Lambda) - 60 G_3(\Lambda) + O(z^2) 
+\\
+& = - 60 G_2(\Lambda) \frac{1}{z^2} - 140 G_3(\Lambda) + O(z^2)
+\end{align*}
+Which implies that,
+\begin{align*}
+\wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda) = O(z^2)
+\end{align*}
+Therefore the function,
+\[ \wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda) \]
+is holomorphic on $\C$ and is doubly periodic and thus constant. However, it vanishes at $z = 0$ and thus must be the zero function. Therefore, we have the differential equation,
+\[ \wp'(z)^2 - 4 \wp(z)^3 + 60 G_2(\Lambda) \wp(z) + 140 G_3(\Lambda)  = 0 \]
+We can interpret this differential equation as telling us that the image of the elliptic Weierstrass $\wp$-function lies on a special type of object called an elliptic curve.  
+
 \end{document}

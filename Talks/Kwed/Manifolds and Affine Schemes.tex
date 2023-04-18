@@ -1,0 +1,335 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../../Algebraic Geometry/"}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Introduction}
+
+An affine scheme is the basic object of algebraic geometry. Associated to any ring $A$ there is a scheme $\Spec{A}$. If you haven't seen this before you should just think of it as a gadget which has the following data,
+\begin{enumerate}
+\item a topological space (also called $\Spec{A}$ with the Zariski topology) whose points are prime ideal $\p \subset A$ and whose closed sets are of the form,
+\[ V(I) = \{ \p \subset A \mid \p \supset I \} \]
+where $I \subset A$ is an ideal of $A$. Equivalently, a basis of open sets is given by,
+\[ D(f) = \{ \p \subset A \mid f \notin \p \] 
+where $f \in A$ ranges over elements of $A$
+
+\item which remembers the ring $A$ thought of as the collection of ``algebraic functions'' on the topological space $\Spec{A}$. We think of $a \in A$ as the function whose ``value'' at a point $\p \in \Spec{A}$ is the element $\bar{a} \in \kappa(\p) = A_\p / \p A_\p$ which is a field. 
+\end{enumerate}
+The most important property of affine schemes is that they are determined by their ring of global functions.
+
+
+
+\begin{defn}
+If $A$ is a $k$-algebra then the set of $k$-\textit{points} of $\Spec{A}$ is the set of points $\p \in \Spec{A}$ such that the natural map $k \to \kappa(\p)$ is an isomorphism. 
+\end{defn}
+
+\begin{example}
+$\A^2 = \Spec{\CC[x,y]}$ is the affine plane. The points are prime ideal $\p \subset \CC[x,y]$ the $\CC$-points correspond to the maximal ideal which are of the form $\p = (x-a,y-b)$. Therefore, the set of $\CC$-points is $\CC^2$. We can describe the Zariski topology as the topology whose closed sets are the vanishing locus of polynomials on $\CC^2$. 
+\end{example}
+
+
+\section{Smooth Manifolds}
+
+\newcommand{\aff}{\mathrm{aff}}
+
+Associated to a smooth manifold $M$ is a natural ring, the ring of smooth functions $C^{\infty}(M)$. We will show that $M$ is an affine scheme in the sense that it can be recovered from the ring $C^{\infty}(M)$ of smooth functions. However, the correspondence goes far deeper. Indeed, $M$ as a topological space is the set of $\RR$-points of $\Spec{C^{\infty}(M)}$ with the Zariski topology. We will see even more is true. 
+
+\begin{lemma}
+$M$ has the Zariski topology, meaning that every closed set $Z \subset M$ is the zero locus of a smooth function.
+\end{lemma}
+
+\begin{proof}
+Since $M$ is separable, there exists a countable open cover $\{ U_k \}$ of $M \sm Z$ by balls so there are smooth functions $\rho_k : M \to \RR$ such that $0 \le \rho_k(x) \le 1$ and $\rho_k^{-1}(0) = M \sm U_k$. Then consider,
+\[ f(x) = \sum_{k \in 1}^\infty 2^{-k} \rho_k(x) \]
+Since $| 2^{-k} \rho_k | < 2^{-k}$ the series converges uniformly and absolutely so $f$ is smooth. Furthermore,
+\[ f(x) = 0 \iff \forall k : \rho_k(x) = 0 \iff \forall k : x \notin U_k \iff x Z \]
+\end{proof}
+
+\begin{rmk}
+Some related mathoverflow posts,
+\begin{enumerate}
+\item \chref{https://math.stackexchange.com/questions/98577/infinitely-differentiable-function-with-given-zero-set}{smooth function with given zero set}
+
+\item \chref{https://math.stackexchange.com/questions/1333695/smooth-function-which-separates-between-a-closed-and-a-open-set}{separating open and closed set}
+
+\item \chref{https://mathoverflow.net/questions/24034/can-cantor-set-be-the-zero-set-of-a-continuous-function}{function whose zero set is the Cantor set}
+
+\item \chref{https://math.stackexchange.com/questions/1509666/is-every-closed-set-the-set-of-zeroes-resp-critical-points-of-some-smooth-re}{closed set is set of zeros}
+
+\item \chref{https://math.stackexchange.com/questions/2598624/manifold-as-zero-locus-of-smooth-functions}{manifold as zero locus}
+\end{enumerate}
+\end{rmk}
+
+\subsection{Comparison map between $M$ and $\Spec{C^{\infty}(M)}$}
+
+Let $X$ be a topological space and $A \subset C^0(X)$ be a subring of the continuous (real valued) functions. Consider the map $\varphi : X \to X^{\aff} = \Spec{A}$ given by sending $x \mapsto \m_x$ where,
+\[ \m_x = \{ f \in A \mid f(x) = 0 \} \]
+which is a maximal ideal since it is the kernel of the evaluation map $\ev_x : A \to \RR$. We will later specialize to $A$ being the ring of smooth functions but really all we will use about $A$ is,
+\begin{enumerate}
+\item $A$ separates points meaning for all $x, y \in A$ with $x \neq y$ there exists $f_x \in A$ with $f_x(x) = 1$ and $f_x(y) = 0$
+
+\item $A$ generates the topology of $M$ meaning for every closed set $Z \subset M$ there is $f_Z \in A$ with $z = f_Z^{-1}(0)$
+
+\item if $f \in A$ and $f > 0$ then $\sqrt{f} \in A$ and $\frac{1}{f} \in A$
+\end{enumerate}
+
+\begin{prop}
+The map $\Phi : X \to X^{\aff}$ is continuous and injective if $A$ separates points.
+\end{prop}
+
+\begin{proof}
+We need to show that $\Phi^{-1}(D(f))$ is open and note that,
+\[ \Phi(x) \in D(f) \iff f \notin \m_x \iff f(x) \neq 0 \]
+which is open since $f$ is continuous. Since $A$ separates points, $\m_x \neq \m_y$ for $x \neq y$ so $\Phi$ is injective.
+\end{proof}
+
+\begin{rmk}
+This affinification is really a much more general construction. For any locally-ringed space $X$ there is an affinification $X^{\aff} = \Spec{\Gamma(X, \struct{X})}$ which is left-adjoint to the inclusion $\mathbf{AffSch} \embed \mathbf{LRS}$. Then the unit $X \to X^{\aff}$ is a morphism of locally-ringed spaces and therefore is a continuous map. 
+\end{rmk}
+ 
+
+\begin{rmk}
+First let's make some comments about the ring $C = C^{\infty}(M)$.
+\begin{enumerate}
+\item First, there is a unique ring map $\RR \to C$. Indeed, there is a unique map $\QQ \to C$ since the nonzero images of the unique map $\Z \to C$ are invertible
+
+\item we define a partial order on $C$ where $f \le g$ iff there exists $h \in A$ such that $f + h^2 = g$. Consider the set of functions $r$ with the property that for any $\epsilon > 0$ there exists $p,q \in \Q$ such that $|p - q | \le \epsilon$ and $p \le r \le q$. This recovers precisely the copy of $\RR$ inside $C$.
+
+\item Since any elements in the image of a map $\varphi : \RR \to C$ satisfies this property so there is a unique map $\varphi : \RR \to C$. Indeed if $x \in \RR$ then for all $\epsilon > 0$ there are $p,q \in \Q$ with $|p - q| < \epsilon$ and $p \le x \le q$. Thus $p \le \varphi(x) \le q$ because $x \le y$ meaning $x + z^2 = y$ for some $z \in \RR$ and thus $\varphi(x) + \varphi(z)^2 = \varphi(y)$ meaning $\varphi(x) \le \varphi(y)$.
+\end{enumerate} 
+Furthermore, the ring $C$ knows the sup norm. Indeed let,
+\[ \sigma(f) = \{ \lambda \in \RR \mid f - \lambda \text{ is not invertible} \} \]
+then $\sigma(f) = \im{f}$ (but we didn't need to know that $f$ represented a function) and hence the spectral norm,
+\[ || f || = \sup_{\lambda \in \sigma(f)} |\lambda| \]
+which recovers the sup norm since $\sigma(f) = \im{f}$. Therefore, we recover $C^{\infty}(M)$ as a normed $\RR$-vectorspace. 
+\end{rmk}
+
+
+\begin{rmk}
+The $\RR$-points of $M^{\aff}$ correspond to ring maps $\varphi : C^{\varphi}(M) \to \RR$. Note that such maps are automatically $\RR$-algebra morphisms since there is a unique ring map $\RR \to C^{\infty}(M)$ and the composition $\RR \to \RR$ must be the identity since there is a unique ring map. We now want to classify these $\RR$-algebra maps $\varphi : C^{\infty}(M) \to \RR$. 
+\bigskip\\
+Notice that if $f > 0$ then $f$ is invertible so $\varphi(f) \neq 0$. Furthermore, $\sqrt{f}$ is smooth so $\varphi(f) = \varphi(\sqrt{f})^2 \ge 0$ and therefore $\varphi(f) > 0$. 
+\end{rmk}
+
+
+
+
+Now we return to the map, $\Phi : M \to M^{\aff} = \Spec{C^{\infty}(M)}$ given by sending $x \mapsto \m_x$ where,
+\[ \m_x = \{ f \in C^{\infty}(M) \mid f(x) = 0 \} \]
+
+
+\begin{prop}
+$\varphi : M \to M^{\aff}$ is continuous, and is an isomorphism onto the $\RR$-points of $M^\aff$. 
+\end{prop}
+
+\begin{proof}
+We have seen that $\Phi$ is continuous and injective into $M^{\aff}(\RR)$. We need to show that $\Phi : M \to M^{\aff}(\RR)$ is surjective and closed. 
+\bigskip\\
+Let $\varphi : C^{\infty}(M) \to \RR$ be a ring map (hence an $\RR$-algebra map) and consider,
+\[ Z(\varphi) = \bigcap_{f \in \ker{\varphi}} Z(f) = \{ x \in M \mid \ker{\varphi} \subset \m_x \} \]
+Since $\varphi$ is surjective $\ker{\varphi}$ is maximal and since the map $x \mapsto \m_x$ is injective $\ker{\varphi}$ is contained in at most one $\m_x$ so $Z(\varphi)$ has at most one point.
+\bigskip\\
+Thus it suffices to show that $Z \neq \empty$. Otherwise for each $x \in M$ we could find $f_x$ such that $f_x \in \ker{\varphi}$ and $f_x(x) = 1$. Replacing $f_x$ by $f_x^2$ we assume $f_x \ge 0$. The open sets $U_x = f_x^{-1}((0, \infty))$ are neighborhoods of $x$. Hence for any compact $K$ we can find a finite set $x_1, \dots, x_n$ such that the $U_{x_i}$ cover $K$. Then consider,
+\[ f_K = f_{x_1} + \cdots + f_{x_n} \]
+and we see that $f_K > 0$ on $K$ but $\varphi(f_K) = 0$. If $K = M$ we would be done by the remark that $f_K$ is invertible. Otherwise, choose a positive exhaustion function $f : M \to \RR$ meaning that $f^{-1}([0, c])$ is compact for all $c \in \RR$. Let $\lambda = \varphi(f)$ and $K = f^{-1}([0, 2\lambda])$. Then we get $f_K$ and there is some $\epsilon > 0$ with $f_K > \epsilon$ on $K$. Then consider,
+\[ h = f + \epsilon^{-1} \lambda f_K - \lambda \]
+we see that $h > 0$ because for $x \notin K$ we have $f(x) > 2 \lambda$ and for $x \in K$ we have $f_K > \epsilon$ and $f \ge 0$. Therefore $h$ is invertible but,
+\[ \varphi(h) = \varphi(f) - \lambda = 0 \]
+giving a contradiction. Therefore $Z(\varphi) = \{ x \}$ for some $x \in M$ and thus $\ker{\varphi} \subset \m_x$ but $\ker{\varphi}$ is maximal so $\ker{\varphi} = \m_x$.
+\bigskip\\
+Finally, $\Phi$ is closed since if $Z \subset M$ is a closed set there exists $f \in C^\infty(M)$ with $f^{-1}(0) = Z$ and then,
+\[ \Phi(Z) = \{ \m_x \mid x \in Z \} \]
+however,
+\[ x \in Z \iff f(x) = 0 \iff f \in \m_x \]
+and therefore,
+\[ \varphi(Z) = \{ \m_x \mid f \in \m_x \} = V(f) \cap M^\aff(\RR) \] 
+is the closed in the subspace topology and is the ``vanishing locus'' of the ideal $(f) \subset C^\infty(M)$.
+\end{proof}
+
+\begin{rmk}
+Notice that if $M$ is compact, the proof that $Z(\varphi) \neq \empty$ did not use anything about the target field. Therefore, we have also shown that if $M$ is compact then every map $\varphi : C^{\infty}(M) \to K$ for a field $K$ must have $Z(\varphi) \neq \empty$. 
+\end{rmk}
+
+\section{What are the other points?}
+
+\newcommand{\cU}{\mathcal{U}}
+
+\begin{prop}
+$M^{\aff}_{\text{closed}}$ is larger than $M^{\aff}(\RR)$ if and only if $M$ is non-compact in which case it contains ``hyperreal valuations''.
+\end{prop}
+
+\begin{proof}
+Consider a sequence $s = \{ z_i \in M \}_{i \in I}$ then we get a map,
+\[ \ev_s : C^{\infty}(M) \to \prod_{i \in I} \RR \]
+by evaluating at the sequence. Choosing an ultrafilter $\cU$ on $I$ we get,
+\[ \ev_{s, \cU} : C^{\infty}(M) \to \prod_{i \in I} \RR \to \left( \prod_{i \in I} \RR \right) / \cU  = \RR^{\cU} \]
+which is the field of hyperreal numbers (if $\cU$ is non-principal). If $\cU$ is principal on the index $i$ then $\ev_{\cU} = \ev_{z_i}$ is just ordinary evaluation at a point. Likewise, if the sequence is constant at $z$ then we get \[ C^{\infty}(M) \xrightarrow{\ev_z} \RR \embed \RR^{\cU} \]
+via the constant embedding which does not give a new point. However, otherwise we can get new interesting points. 
+\bigskip\\
+Let $z_i \to z$ be a convergent sequence. Then if $\ev_{s, \cU}(f) = 0$ we see that $\{ i \in I \mid f(z_i) = 0 \} \in \cU$ and is, in particular, infinite. Thus by continuity $f(z) = 0$. Therefore, $\ker{\ev_{s, \cU}} \subsetneq \m_x$ so we find nontrivial prime ideals inside $\m_x$. These are not closed points.
+\bigskip\\
+If $M$ is not compact then we can choose a sequence $s = \{ z_i \}_{i \in I}$ with no limit points. Then I claim that $\ev_{s, \cU}$ is surjective meaning $\ker{\ev_{s, \cU}}$ is a new maximal ideal. Indeed, there is a countable cover $\{ U_i \}_{i \in I}$ such that $z_i \in U_i$ is the only element of the sequence. We may refine this cover so that it is locally finite and use a partition of unity to construct a function $f$ having any specified sequence of values $(a_i)_{i \in I}$ at the points $z_i$ and thus $\ev_{s}$ is already surjective.
+\bigskip\\
+The most interesting case is when $M$ is compact. We have seen that any map $\varphi : C^{\infty}(M) \onto K$ satisfies $\ker{\varphi} = \m_x$ for some $x$ since both are maximal ideal. Why does the previous construction not work? Any ultrafilter $\cU$ on $I$ pushes forward to $M$ and has a unique limit point $\cU \to z$. This is the extension from the Stone-Cech compactification,
+\begin{center}
+\begin{tikzcd}
+I \arrow[rd] \arrow[r] & \beta I \arrow[d, dashed]
+\\
+& M
+\end{tikzcd}
+\end{center}
+By definition we say that $\cU \to z$ if every neighborhood of $z$ contains an element of $\cU$. Suppose that $f \in \ker{\ev_{s, \cU}}$ then for every neighborhood $V$ of $z$ there is an infinite index set $J \in \cU$ so that $z_i \in V$ thus $f(z_i) = 0$ for some element of $V$ so by continuity $f(z) = 0$. Hence $\ker{\ev_{s, \cU}} \subset \m_{\lim \cU}$ so these do not contribute new closed points.
+\end{proof}
+
+\section{Recovering the Smooth Structure}
+
+The smooth structure on a manifold is determined by its ring of smooth functions (as these determine the sheaf of smooth functions). Therefore, we can see that the topological space $M^{\aff}(\RR)$ inherits a natural smooth structure from the ring $C^{\infty}(M)$ which is the ring of ``algebraic functions'' on this scheme. Furthermore, this is not just an abstract ring, its elements are canonically functions on $M^{\aff}(\RR)$ in the following way. For any $x \in M^{\aff}(\RR)$ this corresponds to an ideal $\m_x$ and a function $\varphi_x : C^{\infty}(\RR) \to \RR$ which we call evaluation at $x$. Then $f$ becomes a function where $f(x) = \varphi_x(f)$. 
+\bigskip\\
+Using this definition, the map $M \to M^{\aff}(\RR)$ is a diffeomorphism. Indeed, it is a homeomorphism and is an isomorphism on rings of smooth functions. This is a general fact, for any locally-ringed space, the map $X \to X^{\aff}$ is an isomorphism on global functions by definition.
+
+\begin{prop}
+The functor $M \mapsto M^{\aff}$ gives a fully faithful embedding $\mathrm{SmMfd} \embed \mathrm{AffSch}$.
+\end{prop}
+
+\begin{proof}
+Concretely this means the map,
+\[ \{ \text{smooth map } f : M \to N \} \to \{ \text{ring maps } C^{\infty}(N) \to C^{\infty}(M) \} \] 
+via sending,
+\[ f \mapsto f^* \text{ where } f^* : \varphi \mapsto \varphi \circ f \]
+is a bijection. This is well-known but here we can give a slick proof. The inverse is given as follows. A ring map $g : C^{\infty}(N) \to C^{\infty}(M)$ gives a morphism of schemes $g : M^{\aff} \to N^{\aff}$ and therefore we get a continuous map,
+\begin{center}
+\begin{tikzcd}
+M^{\aff}(\RR) \arrow[r, "g"] & N^{\aff}(\RR)
+\\
+M \arrow[r, dashed] \arrow[u, "\sim"] & N \arrow[u, "\sim"]
+\end{tikzcd}
+\end{center}
+giving a continuous map $f : M \to N$ such that $\m_{f(x)} = g^{-1}(\m_x)$ therefore, $\varphi_{f(x)} = \varphi_x \circ g$ (because any ring map $g$ is an $\RR$-algebra map since there is a unique map $\RR \to C^{\infty}(M)$) meaning for any $h \in C^{\infty}(N)$ then,
+\[ (f^* h)(x) = h(f(x)) = \varphi_{f(x)}(h) = \varphi_x(g(h)) = (g(h))(x) \]
+and therefore $g = f^*$. 
+\end{proof}
+
+\section{Kahler Differentials}
+
+\begin{rmk}
+In this section we critically use that $A = C^{\infty}(M)$.
+\end{rmk}
+
+There is an algebraic description of the differential forms of an $\RR$-algebra (or any ring) called the Kahler differentials. Defined by choosing a surjection $\RR[S] \onto A$ from a free algebra. Then let $J$ be the kernel and define,
+\[ \Omega_{A/\RR} := \left( \bigoplus_{s \in S} A \d{s} \right) / \left( \sum_{s \in S} \pderiv{f}{s} \d{s} \right)_{f \in J} \]
+This satisfies the universal property, for any $A$-module $M$,
+\[ \Der[\RR]{A}{M} = \Hom{A}{\Omega_{A/\RR}}{M} \]
+Therefore the universal derivation $\d : C^{\infty}(M) \to \Omega^1(M)$ to global $1$-forms defines a comparison morphism,
+\[ a : \Omega^1_{C^{\infty}(M)/\RR} \to \Omega^1(M) \]
+I claim that $a$ is surjective but not injective. Surjectivity is clear from the construction of Kahler differentials. 
+
+\begin{prop}
+The map $a : \Omega^1_{\C^{\infty}(M)/\RR} \to \Omega^1(M)$ is not injective.
+\end{prop}
+
+\begin{proof}
+Consider a map,
+\[ C^{\infty}(M) \xrightarrow{\pi} C^{\infty}(I) \xrightarrow{q} \RR[[t]] \] 
+where the first map is restriction to some interval $I$ in a coordinate chart of $M$ and $q$ is the map taking a smooth function on $I$ to its Taylor series at $0$. Note that an amazing theorem is that $q$ is surjective. Now I claim that in $\Omega_{\RR[[t]]/\RR}$ we have $\d{e^x} \neq e^x \d{x}$. Indeed, consider the map,
+\[ \Omega_{\RR[[t]]/\RR} \to \Omega_{\RR((t))/\RR} \]
+then we see that if $L/K$ is a field extension of characteristic zero fields and $\alpha, \beta \in L$ are transcendentally independent over $K$ then $\d{\alpha}, \d{\beta} \in \Omega_{L/K}$ are $L$-independent. Then if $A$ is a $K$-algebra domain and $\alpha, \beta \in A$ transcendentally independent then there are derivations,
+\[ A \to L \to L \]
+which send $\alpha \mapsto 0$ or $\beta \mapsto 0$. In particular we apply this to $A = \RR[[t]]$ with $t, e^t$. Suppose these satisfy a polynomial relation $f \in \RR[X,Y]$ so $f(t, e^t) = 0$ but since $f \neq 0$ there is some integer $n$ such that $f(n, Y)$ is a nonzero polynomial and $f(n, e^n) = 0$ contradicting the transcendence of $e$.
+\end{proof}
+
+The problem, as seen from the definition, is that Kahler differentials are a very ``free'' construction. It captures all derivations not just the ``smooth'' ones we want to consider. Really, $C^{\infty}(M)$ is a topological ring and we should consider the topology in the set of differentials. This makes us consider the category of smooth algebras also called $C^{\infty}$-rings. However, what is really interesting is that when we take the dual, we get the right thing. The following is standard but is very surprising from this perspective.
+
+\begin{prop}
+Let $A = C^{\infty}(M)$ then the natural map,
+\[ \X(M) = \Hom{A}{\Omega^1(M)}{A} \to \Hom{A}{\Omega_{A/\RR}}{A} = \Der[\RR]{A}{A} \]
+is an isomorphism.
+\end{prop} 
+
+\begin{proof}
+This is the dual of a surjective map and therefore injective. Thus it suffices to prove that any derivation $D : A \to A$ arises from a smooth vector field. We do this for $M = \RR^n$ first. Using the Hadamard lemma, for any $f \in A$ and $p \in \RR^n$ we write,
+\[ f(x) = f(p) + \sum_{i = 1}^n (x^i - p^i) h_i(x) \]
+where $h_i$ is a function such that $h_i(p) = \deriv{f}{x_i} \bigg|_{x = p}$. Then applying the derivation,
+\[ D(f) = \sum_{i = 1}^n D((x^i - p^i)) h_i(x) + \sum_{i = 1}^n (x^i - p^i) D(h_i) \]
+then evaluating the output at $x = p$ show that,
+\[ D(f)(p) = \sum_{i = 1}^n v^i \deriv{f}{x_i} \bigg|_{x = p} \]
+where $v^i(p) = D(x^i)(p)$ is a smooth function of $p$. Doing this for all $p$, we see that,
+\[ D = \sum_{i = 1}^n v^i \deriv{}{x_i} \]
+which exactly means that $D$ is a smooth vector field. We can apply the same argument to $M$ using partitions of unity.
+\end{proof}
+
+
+\section{Vector Bundles}
+
+\begin{theorem}[Serre-Swan]
+Let $M$ be a smooth manifold. There is an equivalence of categories,
+\[ \{ \text{vector bundles on } M \} \iso \{ \text{finite projective } C^{\infty}(M)\text{-modules} \} \]
+given by,
+\[ E \mapsto \Gamma(M, E) \]
+\end{theorem}
+
+\begin{rmk}
+There is a similar result for any compact Hausdorff space $X$ with the ring $C^0(X, \RR)$ of continuous real functions.
+\end{rmk}
+
+This amazing theorem tells us that $M \mapsto M^{\aff}$ induces an equivalence of categories between smooth vector bundles on $M$ and algebraic vector bundles (locally-free coherent $\struct{M^{\aff}}$-modules) on $M^{\aff}$.
+
+\begin{cor}
+We can recover a smooth manifold $M$ from its category $\mathbf{Vect}(M)$ of smooth vector bundles.
+\end{cor}
+
+\begin{proof}
+By Serre-Swan $\mathbf{Vect}(M)$ is equivalent to $\Mod{C^{\infty}(M)}$. If $R$ is any commutative ring then $R \cong \End{\id_{\mathrm{Proj}_R^{\text{fin}}}}$ so we recover $C^{\infty}(M)$ as a commutative ring. From $C^{\infty}(M)$ we have seen we can recover $M$.
+\end{proof}
+
+Even more amazingly this theorem can be applied to produce interesting commutative algebra examples leveraging our knowledge of topology.
+
+\begin{rmk}
+A finite projective modules $P$ admit a finite projective complement $Q$ such that $P \oplus Q$ is free. However, it is tricky to find a nontrivial projective which is \textit{stably-free} meaning that we can take $Q$ to be free. The following example shows a remarkable application of Serre-Swan. 
+\end{rmk}
+
+\begin{cor}
+Let $A = \RR[x_0, \dots, x_n] / (x_0^2 + \cdots + x_n^2 - 1)$. Let $P$ be the $A$-module with generators $s_0, \dots, s_n$ and relation,
+\[ \sum_i x_i s_i = 0 \]
+Then $P \oplus A$ is free but $P$ is not free for $n \neq 1,3,7$ and indecomposable if $n$ is even.
+\end{cor}
+
+\begin{proof}
+The $n \neq 1,3,7$ should make you immediately suspicious. Consider $A \subset C^{\infty}(S^n)$ as the subring of polynomial functions. Then $P \ot_A C^{\infty}(S^n) \cong \Gamma(T S^n)$ which is trivial if and only if $n = 1, 3, 7$ by Adam's theorem and indecomposable if $n$ is even. Therefore, $P$ is not free if $n \neq 1,3,7$ and indecomposable if $n$ is even. Furthermore, we know $T S^n$ is stably trivial. This does not immediately descent to $A$-module results (we could tensor a non-free module and have it become free) but we can easily deduce the rest algebraically.
+\bigskip\\
+It remains to show that $P$ is projective and stably trivial. Indeed, let $F = A^{\oplus n}$ be a free module with basis $s_0, \dots, s_n$ and consider the map,
+\[ g : F \to F \]
+via,
+\[ g(s_i) = x_i \sum_{j} x_j s_j \]
+Then notice,
+\[ g^2(s_i) = x_i \sum_j x_j^2 \sum_k x_k s_k = x_i \sum_k x_k s_k \]
+and thus $g$ is idempotent. Thus $g$ splits $F$ (consider $1-g$),
+\[ F \cong \ker{g} \oplus \im{g} \]
+so both $\ker{g}$ and $\im{g}$ are projective. Moreover,
+\[ g \left( \sum_i x_i s_i \right) = \sum_i x_i^2 \sum_j x_j s_j = \sum_j x_j s_j \]
+which clearly generates $\im{g}$ so $\im{g} \cong A$. Then $P = F / \im{g}$ so via the splitting,
+\[ \ker{g} \cong P \]
+and hence $P$ is projective and stably free. 
+\end{proof}
+
+References:
+
+\begin{enumerate}
+\item The above example and more can be found in Swan's \chref{http://alpha.math.uga.edu/~pete/Swan62.pdf}{original paper}.
+
+\item \chref{https://math.stackexchange.com/questions/1764947/can-we-recover-a-compact-smooth-manifold-from-its-ring-of-smooth-functions}{can we recover a compact manifold from its rings of functions}
+
+\item \chref{https://math.stackexchange.com/questions/1577985/smooth-manifold-m-is-completely-determined-by-the-ring-f?rq=1}{smooth manifold determined by ring}
+
+\item \chref{https://math.stackexchange.com/questions/1459801/can-we-recover-a-space-from-its-continuous-functions}{can we recover a space from its continuous functions}
+
+\item \chref{https://www.math.purdue.edu/~arapura/preprints/crashcourse.pdf}{manifolds from sheaves}
+
+\item \chref{https://math.stackexchange.com/questions/1764947/can-we-recover-a-compact-smooth-manifold-from-its-ring-of-smooth-functions/1765040}{recover a compact smooth manifold from its ring of smooth functions}
+
+\item \chref{https://mathoverflow.net/questions/431642/do-rings-of-smooth-functions-differ-from-rings-of-continuous-functions}{ring of smooth functions vs continuous functions}
+
+\item
+\end{enumerate}
+
+\end{document}

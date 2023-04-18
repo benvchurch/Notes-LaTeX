@@ -1,0 +1,255 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{diagbox}
+\usepackage{tablefootnote}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\DeclareMathOperator{\torsion}{\mathrm{Tor}}
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{defn}
+A smooth projective variety is \textit{Fano} if $\omega_X^\vee$ is ample.
+\end{defn}
+
+Recall the main rationality properties:
+
+\begin{center}
+\begin{tikzcd}
+& \text{rational} \arrow[d] \arrow[rrdd]
+\\
+& \text{stably-rational} \arrow[d]
+\\
+\text{decomposition of } \Delta \arrow[dd] & \arrow[l] \text{retract-rational}\arrow[d] & & \text{ruled} \arrow[ddd]  
+\\
+& \text{unirational} \arrow[d] 
+\\
+\text{universally } \mathrm{CH}_0\text{-trivial}  \arrow[d] & \text{rationally connected} \arrow[d] & \text{Fano} \arrow[l]
+\\
+\mathrm{CH}_0\text{-trivial} & \arrow[l] \text{rationally chain connected} \arrow[rr] & & \text{uniruled}
+\end{tikzcd}
+\end{center}
+
+No arrow is expected to be reversible (except rationally connected to chain connected for smooth varities). No methods for obstructing unirationality for rationally connected varities.
+\bigskip\\
+What we are actually going to show is that general Fano hypersurfaces are not universally $\mathrm{CH}_0$-trivial which in particular shows that they are not rational.
+
+\subsection{Some Examples}
+
+Hypersurfaces $X_d \subset \P^{N+1}$ are Fano when $d \le N+2$. We write the best property known to hold for the very general $X_d$. We put a star where Schrader's results rule out stable rationality. Note that unirationality has not been ruled out in any Fano case.
+\bigskip\\
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\diagbox{dim}{deg} & 2 & 3 & 4 & 5 & 6 \\
+\hline
+2 & \text{rational} & \text{rational} & \text{K3} & \text{gen-type} & \text{gen-type} \\
+\hline
+3 & \text{rational} & \text{unirational}\tablefootnote{known to be irrational by Clemens and Griffiths} & \text{RC}* & \text{CY} & \text{gen-type} \\
+\hline
+4 & \text{rational} & \text{??}\tablefootnote{general quartic $3$-folds are not even known to be irrational} & \text{RC}* & \text{RC}* & \text{CY} \\
+\hline
+5 & \text{rational} & \text{??} & \text{??} & \text{RC}* & \text{RC}* \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+The cases marked $??$ are known to be RC and are probably expected to be not rational or unirational but little is known about them. 
+
+\subsection{The Main Theorem I}
+
+Let $k$ be an uncountable algebraically closed field of characteristic not $2$.
+
+\begin{theorem}[Schreieder I]
+A very general hypersurface $X \subset \P^{N+1}_k$ of degree $d \ge \log_{2}(N) + 2$ and dimension $N \ge 3$ is not stably rational. 
+\end{theorem}
+
+\subsection{Decompositions of the Diagonal}
+
+There are a number of ways to detect / obstruct rationality for curves. One way is to look at Chow groups. We could ask if $\mathrm{CH}_0(C)$ is finitely generated but this is usually very hard to check and doesn't generalize well (as we will see shortly for Fanos). Another thing we might notice is that $X = \P^1$ is the only curve for which for some point $z \in X$,
+\[ [\Delta_X] = [X \times z] + [z \times X] \in \CH_1(X \times X) \]
+This is the sort of thing we call a decomposition of the diagonal and it generalizes well to higher dimensional varities. The following examples show how we should generalize this.
+
+\begin{example}
+Let $X = \P^2$ then we can check that,
+\[ [\Delta_X] = [X \times z] + [z \times X] + [\ell \times \ell] \in \CH_2(X \times X) \]
+where $[\ell]$ is the class of a line. The last term we need to deal with.
+\end{example}
+
+\begin{example}
+Let $X = \Bl_{x}(\P^2)$. Then we can check,
+\[ [\Delta_X] = [X \times z] + [z \times X] + [\ell \times \ell] - [E \times E] \in \CH_2(X \times X) \]
+where $[\ell]$ is the class of a line and $[E]$ is the class of the exceptional. This notion will only be birationally invariant if we kill off these extra terms somehow. This leads to the following definition.
+\end{example}
+
+\begin{defn}
+A scheme $X$ finite type over a field $k$ of oure dimension $n$ admits a \textit{decomposition of the diagonal} if,
+\[ [\Delta_X] = [X \times z] + Z \in \CH_{n}(X \times_k X) \]
+where $\Delta_X \subset X \times_k X$ is the diagonal and $Z_X$ is a cycle on $X \times_k X$ which does not dominate any component of the first factor meaning it is supported on $D \times_k X$ for a divisor $D \subsetneq X$.
+\end{defn}
+
+\subsection{Torsion-Orders}
+
+It will be more convenient to use the following trick to kill off the additional cycles $K$.
+
+\begin{lemma}
+A variety over a field $k$ admits a decomposition of the diagonal if and only if there is a $0$-cycle $z \in Z_0(X)$ on $X$ such that,
+\[ [\delta_X] = [z_K] \in \CH_0(X_K) \]
+where $K = k(X)$ and,
+\[ \delta_X : \Spec{K} \to \Spec{K} \times_k X \to X \times_k X \]
+is induced by the diagonal.
+\end{lemma}
+
+\begin{proof}
+Let $n = \dim{X}$. There is a natural isomorphism,
+\[ \dlim_{\substack{U \subset X \\ U \neq \empty \text{ open}}} \CH_n(U \times_k X) \iso \CH_0(X_K) \]
+Therefore, $[\delta_X] = [z_K]$ is exactly saying that,
+\[ [\Delta_X] = [X \times z] + Z \]
+for $Z$ supported on some $D \times_k X$.
+\end{proof}
+
+This perspective will alow us to more cleanly reason about decompositions without lugging around the cycle $Z$. But now, something amazing happens.
+
+\begin{lemma}
+If $X$ is a rationally chain connected variety over an algebraically closed field $\bar{k}$ then,
+\[ \deg : \CH_0(X) \iso \Z \]
+is an isomorphism.
+\end{lemma} 
+
+\begin{proof}
+For any two closed points $x, y \in X$ there exists a chain of rational curves connecting $x, y$. Since $k = \bar{k}$ the intersection points of these rational curves are defined over $k$. Thus $[x] = [y] \in \CH_0(X)$. Furthermore, since $k = \bar{k}$, $X$ admits a point of degree $1$.
+\end{proof}
+
+\begin{cor}
+Let $X$ be a rationally chain connected variety over a field $k$. Then for any extension of fields $K / k$ the group,
+\[ A_0(X_K) = \ker{(\CH_0(X_K) \to \Z)} \]
+is torsion.
+\end{cor}
+
+\begin{proof}
+For any cycle $\alpha \in A_0(X_K)$ then $\alpha_{\bar{K}} = 0$ since $A_0(X_{\bar{K}}) = 0$ and $\CH_0(X) \to \Z$ is natural. Therefore, there exists a finite extension $L / K$ such that $\alpha_{L} = 0$. Since the natural composition,
+\[ \CH_0(X_K) \to \CH_0(X_{L}) \to \CH_0(X_K) \]
+is $\deg{(L/K)}$ we find that $\deg{(L/K)} \cdot \alpha = 0$.
+\end{proof}
+
+\begin{cor}
+In particular, taking $K = k(X)$ and $z \in X(k)$ a degree $n$ point, we see that $n \cdot [\delta_X] - [z_K]$ is torsion so there is some $N$ such that $N \cdot [\delta_X] = [z'_K] \in \CH_0(X_K)$.
+\end{cor}
+
+\begin{defn}
+Let $X$ be a proper variety over a field $k$ and $[\delta_X] \in \CH_0(X_K)$ induced by the diagonal. Then the \textit{torsion order} $\torsion(X) \in \Z_{+} \cup \{ \infty \}$ of $X$ is the smallest positive integer such that as $0$-cycles,
+\[ \torsion(X) \cdot [\delta_X] = [z_K] \in \CH_0(X_K) \]
+for some $0$-cycle $z \in \CH_0(X)$. 
+\end{defn}
+
+\begin{cor}
+If $X$ is rationally connected then $\torsion(X) < \infty$.
+\end{cor}
+
+\begin{lemma}
+A variety $X$ admits a decomposition of the diagonal (over $k$) if and only if $\torsion(X) = 1$. Furthermore, the cycle $e \cdot [\Delta_X]$ admits a decomposition if and only if $\torsion(X) \divides e$.
+\end{lemma}
+
+
+This is very interesting and it is true that $\torsion(X)$ is a birational invariant, but why should we actually care about this number $\torsion(X)$ and not just if it is $1$ or not.
+
+\begin{lemma}
+Let $f : X \to Y$ be a proper dominant morphism between proper $k$-varities. Then,
+\[ \torsion(Y) \divides \deg{(f)} \cdot \torsion(X) \] 
+\end{lemma}
+
+\begin{proof}
+Consider the proper morphism,
+\[ f \times f : X \times X \to Y \times Y \]
+Then $(f \times f)|_{\Delta_X} : \Delta_X \to \Delta_Y$ equals $f$ so it has degree $\deg{f}$. Therefore, using the proper map $f' : X_{k(X)} \to Y_{k(Y)}$ we see that for some $z \in \CH_0(X)$,
+\[ 0 = f'_* (\torsion(X) \cdot \delta_X - z_{k(X)}) = \deg{(f)} \cdot \torsion(X) \cdot \delta_Y - \deg{(f)} \cdot (f_* z)_{k(Y)} \in \CH_0(Y_{k(Y)}) \]
+and therefore,
+\[ \torsion(Y) \divides \deg{(f)} \cdot \torsion(X) \] 
+\end{proof}
+
+\begin{cor}
+Let $Y$ be a proper $k$-variety of dimension $n$ and $f : \P^n_k \rat Y$ a dominant rational map. Then $\torsion(Y) \divides \deg{f}$.
+\end{cor}
+
+\begin{proof}
+Resolving the map via the graph $X \subset \P^n_k \times Y$ yields a rational variety $X$ and a dominant morphism $f : X \to Y$. Thus by the previous lemmas $\torsion(X) = 1$ and so $\torsion(Y) \divides \deg{f}$.
+\end{proof}
+
+\begin{rmk}
+This is one of the only know ways to obstruct maps $\P^n_k \rat Y$ of a given degree. 
+\end{rmk}
+
+\subsection{Unramified Cohomology}
+
+But how do we actually obstruct a decomposition of the diagonal? One way is to use pairing on \etale cohomology classes:
+\[ \CH_{\dim{X}}(X \times X) \times H_{\et}^i(X, \mu) \to H_{\et}^i(X, \mu) \]
+defined by,
+\[ \inner{\Gamma}{\alpha} = \pi_{1*}(\gamma(\Gamma) \smile \pi_2^* \alpha) \]
+
+(HOW PAIRING WORKS)
+
+
+\section{The Main Theorem II}
+
+\begin{theorem}[Schreieder II]
+A very general Fano hypersurface $X_d \subset \P^{N+1}_k$ has torsion order $\torsion(X) \sim d!$. 
+\end{theorem}
+
+\begin{rmk}
+When we prove the theorem we will understand the exact numerics and see that II $\implies$ I.
+\end{rmk}
+
+\begin{proof}
+\begin{enumerate}
+\item find a cleverly chosen degeneration $X \spto X_0$ such that $X_0$ admits an unramified cohomology class $\alpha$ of order $m$
+
+\item if $N \cdot [\Delta] = 0$ in $\CH_0(X_K)$ this specializes to $\torsion(X_0) \divides N$ and therefore $m \divides N$
+\end{enumerate}
+\end{proof}
+
+\section{Unramified Cohomology I}
+
+Give primer on etale cohomology of function fields. Define unramified cohomology and prove basic properties (PAGES). How do we build unramified classes.
+
+\section{Unramified Cohomology II}
+
+Prove the pairing between Chow groups and unramified cohomology (PAGES). 
+
+\section{Torsion-Orders of Fanos}
+
+Prove basic properties of torsion-orders (PAGES)
+\begin{enumerate}
+\item prove that retract-rational varities have decompositions of the diagonal (Schreieder: Slopes, Lemma 2.4) (Schreieder: Unramified Cohomology, Lemma 7.5).
+
+\item torsion of the diagonal = universal exponent of torsion in $\CH_0(X)$ (Voisin, Prop 2.9).
+
+\item 
+\end{enumerate}
+Prove that for $X_d \subset \P^{N+1}_k$ we have the upper bound $\torsion(X) \divides d!$. The lower bound will occupy the rest of our time.
+
+\section{Constructing Unramified Classes I}
+
+(PAGES)
+
+\section{Constructing Unramified Classes II}
+
+(PAGES)
+
+\section{Degeneration Methods}
+
+(PAGES)
+
+\end{document}

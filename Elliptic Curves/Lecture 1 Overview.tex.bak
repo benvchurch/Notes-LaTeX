@@ -1,0 +1,215 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+
+\begin{document}
+
+\title{Lecture 1}
+
+\maketitle
+
+\section{Holomorphic Functions}
+
+\begin{definition}
+We say that a complex function $f : \C \to \C$ is \textit{holomorphic} at $z \in \C$ if the limit,
+\[ f'(z) = \lim_{w \to 0} \frac{f(z + w) - f(z)}{w} \]
+exists in which case we call its value $f'(z)$ the \textit{complex derivative} of $f$ at $z$.
+\end{definition}
+
+\begin{remark}
+Notice that the limit here means that $|h| \to 0$ so $h$ can go to zero from any direction.
+\end{remark}
+
+\begin{example}
+Consider $f = z^2$. Then,
+\[ f'(z) = \lim_{w \to 0} \frac{(z + w)^2 - z^2}{w} = \lim_{w \to 0} \frac{z^2 + 2 zw + w^2 - z^2}{w} = \lim_{w \to 0} \frac{2zw + w^2}{w} = \lim_{w \to 0} (2 z + w) = 2 z \]
+as expected.
+\end{example}
+
+\begin{example}
+Consider $f(z) = \overline{z}$. Then,
+\[ f'(z) = \lim_{w \to 0} \frac{\overline{z + w} - \overline{z}}{w} =  \lim_{w \to 0}  \frac{\overline{z} + \overline{w} - \overline{z}}{w} =  \lim_{w \to 0} \frac{\overline{w}}{w} \]
+However, suppose we send $w$ to zero along the real axis i.e. $w = t$ for $t \in \R$ and take,
+\[ f'(z) = \lim_{t \to 0} \frac{\overline{t}}{t} = \lim_{t \to 0} \frac{t}{t} = 1 \]
+However, if we send $w$ to zero along the imaginary axis i.e. $w = it$ $t \in \R$ and take,
+\[ f'(z) = \lim_{t \to 0} \frac{\overline{i t}}{t} = \lim_{t \to 0} \frac{-it}{it} = -1 \]
+Oh no. These do not agree so the limit cannot exist. Therefore $f(z) = \overline{z}$ is not holomorphic anywhere.
+\end{example}
+
+\begin{theorem}[Cauchy]
+Let $\gamma : [0, 1] \to \C$ be a closed curve ($\gamma(0) = \gamma(1)$) in the complex plane and $f : \C \to \C$ be holomorphic everywhere on the region bounded by $\gamma$. Then,
+\[ \oint_\gamma f(z) \d{z} = 0 \]
+\end{theorem}
+
+\begin{proof}
+Look up the proof of Green's theorem and the Cauchy-Riemann equations. It is a good exercise to try and prove Cauchy's theorem from these facts.
+\end{proof}
+
+\begin{remark}
+The integral,
+\[ \oint_\gamma f(z) \d{z}  \]
+can be defined as follows. Parametrize the loop as $\gamma(t)$ for $t \in [0, 1]$ and take ``by the chain rule'',
+\[ \oint \gamma f(z) \d{z} = \int_0^1 f(\gamma(t)) \gamma'(t) \d{t} \]
+this may serve as a definition of the loop integral.
+\end{remark}
+
+\begin{example}
+Let's take $f(z) = z^2$ and consider a loop tracing out a circle of radius $r$ around the origin. Explicitly,
+\[ \gamma(t) = r e^{2 \pi i t} \]
+Then we can compute,
+\[ \oint_\gamma f(z) \d{z} = \int_0^1 (r e^{2 \pi i})^2 (r e^{2 \pi i t}) \cdot (2 \pi i) \d{t} = (2 \pi i) r^3  \int_0^1 e^{3 \cdot (2 \pi i t)} \d{t} = 0 \]
+Think about why this integral is zero!  
+\end{example}
+
+\section{Meromorphic Functions}
+
+\begin{example}
+Consider the function $f(z) = \frac{1}{z}$. It is not difficult to show that $f$ is holomorphic everywhere except at $z = 0$ where it blows up. We say $f$ has a pole at $z = 0$. Let's compute the loop integral for the same circular path $\gamma$,
+\[ \oint_{\gamma} f(z) \d{z} = \int_0^1 \frac{1}{r e^{2 \pi i t}} (r e^{2 \pi i t} (2 \pi i) \d{t} = \int_0^1 (2 \pi i) \d{t} = 2 \pi i \]
+Interesting! We might hypothesize that each pole in the interior of $\gamma$ contributes a factor of $2 \pi i$ to the loop integral. Indeed this is true if we include the ``residue'' at the pole.
+\end{example}
+
+\begin{definition}
+We say a function $f : \C \to \C$ has a \textit{pole} of order $n$ at $z_0$ if close to $z_0$ we can write $f = (z - z_0)^{-n} u(z)$ where $u(z)$ is some nonvanishing holomorphic function near $z_0$.
+\end{definition}
+
+\begin{remark}
+We say the pole is \textit{simple} if its order is $1$. For example,
+\[ f(z) = \frac{1}{z} \]
+has a simple pole at $z = 0$.
+\end{remark}
+
+\newcommand{\res}{\mathrm{res}}
+
+\begin{definition}
+Let $f$ have a simple pole at $z_0$. Then the residue of $f$ at $z_0$ is,
+\[ \res_{z_0}(f) = \lim_{z \to z_0} (z - z_0) f(z) \]
+Since, by definition, closed to $z_0$ we can write,
+\[ f(z) = (z - z_0)^{-1} u(z) \]
+and $u$ is holomorphic (hence continuous in the complex plane) we see that,
+\[ \res_{z_0}(f) = \lim_{z \to z_0} (z - z_0) (z - z_0) u(z) = \lim_{z \to z_0} u(z) = u(z_0) \]
+\end{definition}
+
+\begin{definition}
+We say a function $f : \Omega \to \C$ for $\Omega \subset \C$ is \textit{meromorphic} if there is a set of isolated poles $P \subset \Omega$ such that $f$ is holomorphic on $\Omega \setminus P$ and $f$ has a pole at each point $p \in P$.
+\end{definition}
+
+\begin{remark}
+It is equivalent to say that a meromorphic function $f$ is a ratio of two holomorphic functions $g,h$ i.e.
+\[ f(z) = \frac{g(z)}{h(z)} \]
+Think about how you would prove this?
+\end{remark}
+
+\begin{theorem}[Residue]
+Let $\gamma : [0,1] \to \C$ be a closed curve bouding a region $D \subset \C$ and let $f$ be meromorphic on $D$. Then,
+\[ \oint_{\gamma} f(z) \d{z} = 2 \pi i \sum_{p \in D} \res_p(f) \]
+\end{theorem}
+
+\end{document}

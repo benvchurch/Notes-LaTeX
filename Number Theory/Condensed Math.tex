@@ -1,0 +1,897 @@
+ \documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{NumberTheoryCommands}
+
+\newcommand{\proet}{\text{pro\'{e}t}}
+\renewcommand{\cont}{\text{cont}}
+\newcommand{\cond}{\text{cond}}
+\newcommand{\disc}{\text{disc}}
+\newcommand{\sing}{\text{sing}}
+\newcommand{\sheaf}{\text{sheaf}}
+\newcommand{\la}{\mathrm{la}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Cond}{\mathrm{Cond}}
+\newcommand{\Shv}{\mathrm{Shv}}
+\newcommand{\Pre}{\mathrm{Pre}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\cf}{\mathrm{cf}}
+
+\newcommand{\cC}{\mathcal{C}}
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\DK}{\mathrm{DK}}
+\renewcommand{\Cech}{\text{\v{C}ech}\xspace}
+
+
+\newcommand{\TT}{\mathbb{T}}
+\newcommand{\Simp}{\mathrm{Simp}}
+
+\DeclareMathOperator{\sk}{\mathrm{sk}}
+\DeclareMathOperator{\cosk}{\mathrm{cosk}}
+\DeclareMathOperator{\bfsk}{\mathbf{sk}}
+\DeclareMathOperator{\bfcosk}{\mathbf{cosk}}
+
+\begin{document}
+\section{April 4: Pol}
+
+\subsection{Motivation}
+
+Topologcial homological algebra is bad, we want to make it good. It is clunky and painful to do in the standard way. The theme is to give a modern approach to doing topological homological algebra.
+
+\begin{example}
+$\RR_{\text{disc}} \to \RR$ is a map of topological abelian groups with trivial kernel and cokernel but it is not an isomorphism. Doing a little more work (to see what kernels and cokernels in this category should be) this shows that the category of topological abelian groups is not an abelian category. 
+\end{example}
+
+\begin{example}
+Let $X$ be a vareity of a number field $E$. Then we might want to consider $H^i_{\et}(X, \QQ_\ell)$ (abosolute \etale cohomology). With $\Z/\ell^n \Z$-coefficients it is clear what this means,
+\[ H^i_{\et}(X, \ZZ_\ell) := R^i \Gamma(X_{\et}, \underline{\ZZ / \ell^n \ZZ)} \]
+and there is a Grothendieck spectral sequence,
+\[ E_2^{p,q} = H^p(\Gal(\bar{E}/E), H^q_{\et}(X_{\bar{E}}, \Z / \ell^n \Z)) \implies H^{p+q}_\et(X, \Z / \ell^n \Z) \]
+But this is much more painful with $\QQ_\ell$-coefficients. But what is even the definition with $\QQ_\ell$-coefficients. We could set,
+\[ H^i_{\et}(X, \QQ_\ell) := \ilim H^i_{\et}(X, \Z / \ell^n \Z) \]
+or we could do,
+\[ R^i \ilim H^0_{\et}(X, \Z / \ell^n \Z) \]
+but these do not agree!
+\end{example}
+
+Problems:
+\begin{enumerate}
+\item continuous Galois cohomology is \textit{not} defined as a derived functor
+
+\item $H^i_{\et}(X, \QQ_\ell)$ is \textit{not} defined as a derived functor.
+\end{enumerate}
+These problems are solved by Bhatt-Scholze at the same time. They introduced a site $X_{\proet}$ of a scheme $X$ (finite type over $E$) and a sheaf $\underline{\QQ_\ell}$ such that,
+\[ H^i_{\et}(X_{\bar{E}}, \Q_\ell) := \ilim H^i_{\et}(X, \Z / \ell^n \Z) = H^i_{\proet}(X_{\bar{E}}, \underline{\Q_\ell}) \]
+so \etale cohomology is now a derived functor. Moreover, continuous representations of $\Gal(\bar{E}/E)$ on topological $\QQ_\ell$-vector sapces, give sheaf of $\underline{\QQ}_\ell$-modules on $\Spec{E}_{\proet}$, and for reasonable (such as $\QQ_\ell$-banach spaces) topological vector spaces we have,
+\[ H^i_{\cont}(\Gal(\bar{E}/E), V) = H^i(\Spec{E}_{\proet}, \underline{V}) \]
+This combines to give a Grothendiec spectral sequence,
+\[ E^{p,q}_2 = H^p(\Spec{E}_{\proet}, H^q_{\et}(X_{\bar{E}}, \QQ_\ell) \implies H^{p+q}_{\proet}(X, \underline{\QQ_\ell}) \]
+which converges to proetale cohomology which is equal to Jensen's continuous cohomology. 
+
+\subsection{Condensed Sets}
+
+Condensed sets are sheaves on $\Spec{\bar{E}}_{\proet}$. This sounds dumb since sheaves on $\Spec{\bar{E}}_{\et}$ is just sets. However, this will give rise to a good theory of topological algebra. Already in Bhatt-Scholze, this is used to redefine continuous cohomology of topological groups. Define a site-theoretic analog of continuous cohomology and show it agrees with Tate's definition say for compactly generated coefficient groups (e.g. $\QQ_\ell$). 
+
+\subsection{Motivation 2}
+
+Fix a prime $p$. Let $G$ be a connected reductive group over $\QQ_p$. Equip $G(\QQ_p)$ with the $p$-adic topology by taking an embedding $G \embed \GL_n$ and giving $G(\QQ_p)$ the subspace topology of $\GL_n(\QQ_p)$. Continuous representations of $G(\QQ_p)$ on ``nice'' topological $\QQ_p$-vectorspaces usually do not form an abelian category. 
+
+\begin{example}
+Let $n \ge 3$ coprime to $p$, consider the tower of modular curves $Y(N p^m) \to Y(N p^{m-1})$ with full level $N p^m$ over $\Qbar$ (moduli of $(E, \alpha)$ with $\alpha : E[N p^m] \iso (\Z / N p^m \Z)^{\oplus 2})$. Then $\GL_2(\ZZ_p)$-acts on the inverse limit $Y(N p^\infty)$ and in fact $\GL(\QQ_p)$ also acts on the inverse system. 
+\[ \left( \ilim_n \dlim_m H^1_{\et}(Y(N p^m), \Z / p^n \Z) \right) [p^{-1}] \] 
+gives an example of a representation on a $\QQ_p$-banach space.
+\end{example}
+
+One wants to derive certain functors on the category of continuous $\GL_2(\QQ_p)$-reps. For example,
+\[ V \mapsto V_{\la} \]
+(locally analytic) here $V_{\la} \subset V$ is the subspace of those vectors where the orbit map is ``locally analytic'' (can make sense of locally analytic maps $G(\QQ_p) \to V$). This functor is left-exact but not right-exact so I want to be able to consider $R^i (-)_{\la}$. These play an important role in recent work of Lue Pan. Recent breakthrough works of Rodriguez-Camargo relies on lots of condensed math and ``solid locally analytic representations''. He proves the Caligarai-Emerton conjectures about completed cohomology of (all!) Shimura varieties and ``compares'' completed cohomology to Higher Coleman theory. 
+
+\subsection{Motivation 3}
+
+Quasi-coherent sheaves on analytic spaces (over $\CC$ or $\QQ_p$). There was a good theory of coherent sheaves but there was no good theory for quasi-coherent sheaves. This is a curiosity ... for now. 
+
+\section{April 4: Part II, Category Theory}
+
+\begin{defn}
+Let $\cC$ be a small category. Then a Grothendeick pretopology on $\cC$ consists of the data: for all $x \in \cC$, a set $\tau(X)$ consisting of collections $\{ U_\alpha \to X \}_{\alpha \in A}$, with $A$ a set, $U_\alpha \in \cC$, satisfying,
+\begin{enumerate}
+\item if $f : Y \to X$ is an isomorphism then $\{ f : Y \to X \} \in \tau(X)$
+
+\item if $\{ U_\alpha \to X \}_{\alpha \in A} \in \tau(X)$ and for each $\alpha \in A : \{ V_{\alpha \beta} \to U_\alpha \}_{\beta \in B_\alpha} \in \tau(U_\alpha)$ then $\{ V_{\alpha \beta} \to X \}_{\alpha \in A, \beta \in B_\alpha} \in \tau(X)$
+
+\item if $f : Y \to X$ in $\cC$ and $\{ U_\alpha \to X \}_{\alpha \in A}$ then $Y \times_X U_\alpha$ exists an $\{ Y \times_X U_\alpha \to Y \}_{\alpha \in A}$ is a cover. 
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+Let $X$ be a topologcial space and $\struct{}(X)$ be the poset of opens in $X$. Then $X$ considered as a category is a Grothendieck pre-topology and the axioms correspond to,
+\begin{enumerate}
+\item triviality
+\item coverings of coverings
+\item intersections of coverings.
+\end{enumerate}
+\end{example}
+
+\begin{example}
+Let $(*)_{\proet}$ be the category,
+\begin{enumerate}
+\item objects are profinite sets
+
+\item morphisms are continuous maps
+
+\item coverings are \textit{finite} jointly surjective families (meaning finite number of morphisms in the covering)
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+This is a BIG category: BAD. Don't want to consider sheaves on big categories. To fix this, fix an uncountable \textit{strong limit cardinal} $\kappa$ (these exist under ZFC). This means, if $\lambda < \kappa$ then $2^\lambda < \kappa$. Thn we take $(*)_{\proet}^\kappa$ to be the category of $\kappa$-small profinite sets (meaning cardinality strictly less than $\kappa$). 
+\end{rmk}
+
+\subsection{Sheaves}
+
+\begin{defn}
+Let $\cC$ be a site. Then a sheaf $F$ on $\cC$ is a contravariant funtor: $F : \cC \to \Set$ such that $\forall X \in \cC$ and all covering families $\{ U_\alpha \to X \}_{\alpha \in A} \in \tau(X)$ the following diagram is an equalizer,
+\[ F(X) \to \prod_{\alpha \in A} F(U_\alpha) \rightrightarrows \prod_{\beta, \gamma} F(U_\beta \times X U_\gamma) \]
+Morphisms of sheaves are just morphisms of functors.
+\end{defn}
+
+\begin{prop}
+$\Shv(\cC) \embed \Pre(\cC)$ has a left adjoint, called sheafification. 
+\end{prop}
+
+\begin{rmk}
+Sheafification requires that $\cC$ is a small category such that $\Shv(\cC)$ is locally-small and we also need to take colimits. 
+\end{rmk}
+
+\begin{defn}
+A $\kappa$-\textit{small condensed set} is a sheaf on the site of $\kappa$-small profinite sets.  
+\end{defn}
+
+\begin{rmk}
+The sheaf condition in this case is easier because the covers are all finite. Therefore, the sheaf condition is equivalent to,
+\begin{enumerate}
+\item \[ T(A \sqcup B) \iso T(A) \times T(B) \]
+\item if $S' \onto S$ is a surjection of $\kappa$-small profinite sets then,
+\[ T(S) = \{ x \in T(S') \mid p_1^*(x) = p_2^*(x) \} \]
+where $p_i^* : T(S') \to T(S' \times_S S')$ are the two natural maps.
+\end{enumerate}
+\end{rmk}
+
+\begin{example}
+For a ($\kappa$-small) profinite set $S$, we have $\underline{S}(S') = \Hom{\text{cts}}{S'}{S}$. This is a sheaf because surjections of profinite sets are quotient maps. Therefore, by Yoneda we get all profinite sets in the category of condensed sets.
+\end{example}
+
+\begin{example}
+For a topological space $X$, we have $\underline{X}(S) = \Hom{\text{cts}}{S}{X}$ which is a sheaf for the same reason. How much of $X$ does $\underline{X}$ remember? 
+\end{example}
+
+\begin{example}
+How can we map profinite sets to $\RR$ or $[0,1]$? Well consider,
+\[ \prod_{i = 1}^\infty \{ 0, 1, \dots, 9 \} \to [0,1] \]
+sending,
+\[ (a_i) \mapsto \sum_{i} 10^{-i} a_i \]
+The LHS is profinite and the map is continuous and surjective so this is a quotient map. More generally, any $\kappa$-small compact Hausdorff topological space is \textit{canonically} the quotient of a profinite set. 
+\[ \beta(X_{\disc}) \to X \]
+where $\beta$ is the Stone-\Cech compactification (it is the adjoint of the inclusion of compact-hausdorff into all topological spaces). For a discrete space $Y$, the compactification $\beta Y$ is the space of ultrafilters on $Y$ with the ultrafilter topology. This is $\Spec{B_Y}$ where $B_Y$ is the complete boolean ring on subsets of $Y$. Since every element of $B_Y$ is idempotent then $\Spec{B_Y}$ is equal to its set of connected components which is a profinite set. 
+\end{example}
+
+\begin{defn}
+A topological space $X$ is $\kappa$-\textit{compactly generated} if $U \subset X$ is open iff for all $\kappa$-small compact Hausdorff (equivalently profinite), $f : S \to X$ we have $f^{-1}(U) \subset S$ is open. 
+\end{defn}
+
+\begin{rmk}
+Equivalently for any $Y$ and a map $f : X \to Y$ it is continuous iff for all $\kappa$-small $S \to X$ we have $S \to X \to Y$ continuous. 
+\end{rmk}
+
+\begin{rmk}
+Equivalently, $X$ has the quotient topology,
+\[ \bigsqcup_{\substack{f : S \to X \\ S \, \kappa\text{-small}}} S \onto X \]
+\end{rmk}
+
+\begin{prop}
+$\{ \kappa\text{-compactly generated} \} \subset \Top$ has a left adjoint $X \mapsto X^{\kappa\text{c.g.}}$ given by the quotient topolgy under,
+\[ \bigsqcup_{\substack{f : S \to X \\ S \, \kappa\text{-small}}} S \onto X \]
+\end{prop}
+
+\begin{prop}
+The functor $\Top \to \{ \kappa\text{-small condensed sets}\}$ given by $X \mapsto \underline{X}$ is faithful, and fully faithful on $\kappa$-compactly generated $X$.
+\end{prop}
+
+\begin{rmk}
+Indeed, there is an adjoint,
+\[ T \mapsto T(*)_{\top} \]
+where the topology on $T(*)_{\top}$ is given by the quotient from,
+\[ \bigsqcup_{\substack{\underline{S} \to T \\ S \, \kappa\text{-small}}} \underline{S}(*) \onto X \]
+This topology was cooked up so that,
+\[ \Hom{}{T}{\underline{X}} \to \Hom{}{T(*)_{\top}}{X} \]
+exists since we can check if $T(*)_\top \to X$ is continuous via composition with a profinite cover $S \to T(*)_{\top} \to X$.
+\end{rmk}
+
+\begin{rmk}
+To check fully faithfullness comes down to the counit being an iosmorphism. Indeed, the unit is $\ul{X}(*)_\top \to X$ any by definition this is an isomorphism iff $X$ is $\kappa$-compactly generated. 
+\end{rmk}
+
+
+\begin{rmk}
+The one-point compactification of a cardinal larger than $\kappa$ is probably not $\kappa$-compactly generated. 
+\end{rmk}
+
+\begin{example}
+Take the cokernel $Q$ of the map,
+\[ \underline{\RR_{\disc}} \to \underline{\RR} \]
+of condensed abelian groups. Then $Q(*) = 0$ but $Q \neq 0$ since $\RR_{\disc} \to \RR$ is not an isomorphism and both are $\kappa$-compactly generated. The claim is that $Q$ is the sheafification of,
+\[ S \mapsto \frac{ \{ \text{continuous maps } S \to \RR \} }{ \{ \text{loc. constant maps } S \to \RR  \}} \]
+\end{example}
+
+\subsection{The site of profinite sets}
+
+Let us single out a nice class of $\kappa$-small condensed sets.
+
+\begin{prop}[08YN] If $X$ is compact Hausdorff, then TFAE,
+\begin{enumerate}
+\item the closure of any open subset of $X$ is open
+
+\item any continuous surjection $X' \to X$ with $X'$ compact Hausdorff, splits
+
+\item for any diagram,
+\begin{center}
+\begin{tikzcd}
+& Y \arrow[d, two heads, "f"]
+\\
+X \arrow[r] \arrow[ru, dashed] & Z
+\end{tikzcd}
+\end{center}
+where $Y, Z$ are compact Hausdorff and $f : Y \onto Z$ is surjective. 
+\end{enumerate}
+\end{prop}
+
+\begin{defn}
+$X$ satisfying the above conditions is called \textit{extremally disconnected}.
+\end{defn}
+
+\begin{example}
+Let $Y$ be discrete, then $\beta(Y)$ is extremally disconnected. Indeed,
+given $X' \onto \beta Y$ there is obviously a set-theoretic section $Y \to X'$ which hence extends to $\beta Y \to X'$ by the universal property hence this proves (b) so $\beta Y$ is extremally disconnected.
+\end{example}
+
+\begin{prop}
+The restriction functor from sheaves\footnote{The restriction of the pre-topology on $(*)_{\proet}$ to extremally disconnected sets is not a pre-topology because fiber products of covers are not correct. We can just define a sheaf on this category with respect to disjoint union covers and it gives the right sheaves. Therefore, a sheaf is just a functor $T$ such that $T(A \sqcup B) = T(A) \times T(B)$.} on $\kappa$-small profinite sets to $\kappa$-small extremally disconnected sets is an equivalence. 
+\end{prop}
+
+\begin{proof}
+Given a sheaf $T$ on $\kappa$-small extremally disconnected spaces, and $S$ a $\kappa$-small profinite set define $T'$ on all $\kappa$-small profinite sets as follows. Then define $S' = \beta S_{\disc}$ and $S'' = \beta(\beta S_{\disc} \times_S \beta S_{\disc})_{\disc}$ then,
+\[ T'(S) = \eq \left( T(S') \rightrightarrows T(S'') \right) \]
+This gives an inverse.
+\end{proof}
+
+\subsection{Consequences}
+
+$\kappa$-condensed sets have compact projective generates and satisfy \textit{all} the AB axioms except $AB6^*$. On extremally disconnected sets you can compute limits pointwise and therefore you can reduce the AB axioms to category of abelian groups since filtered limits commute with points or something.
+
+
+\begin{example}
+You can show that, for extremally disconnected $S$,
+\[ Q(S) = \frac{ \{ \text{continuous maps } S \to \RR \} }{ \{ \text{loc. constant maps } S \to \RR  \}} \]
+\end{example}
+
+\section{Condensed Abelian Groups}
+
+\subsection{$\kappa$-condensed abelian groups}
+
+Recall Grothendieck's AB axioms for abelian category,
+\begin{enumerate}
+\item[AB3] small colimits exist
+\item[AB4] direct sum exact
+\item[AB5] filtered colimits exact
+\item[AB6] let $J$ be an index set and $I_j$ for $j \in J$ is a directed set. Then,
+\[ \dlim_{(j, i_j)} \prod_J M_{i_j} \iso \prod_{j \in J} \dlim_{i_j \in I_j} M_{i_j} \]
+\end{enumerate}
+
+\begin{rmk}
+In the category of abelian sheaves, $AB5^*$ is false but the rest are false.
+\end{rmk}
+
+\begin{theorem}
+In $\mathbf{Ab}$, AB3, AB3*, AB4, AB4*, AB5, AB6 are all true. 
+\end{theorem}
+
+\begin{rmk}
+But not AB5* or AB6* 
+\end{rmk}
+
+\begin{theorem}
+The same is true for $\kappa$-small abelian groups. Notation $\kappa$-Set and $\kappa$-Ab. Also $\kappa$-Ab has a small set of compact projective generators.
+\end{theorem}
+
+\begin{defn}
+$X$ is compact if $\Hom{}{X}{-}$ preserves \textit{filtered} colimits. 
+\end{defn}
+
+\subsection{Review}
+
+\begin{prop}
+If $C$ is a site and $B$ is a basis then there exists an equivalence $\mathrm{Sh}(C) \to \mathrm{Sh}(B)$. Then,
+\[ F(V) = \ilim_{\substack{U \in B \\ U \to V}} F(V) \]
+\end{prop}
+
+\begin{rmk}
+EGA I, 0.3.2 for proof. 
+\end{rmk}
+
+\begin{rmk}
+A base is a full subcategory containing a cofinal system of covers.
+\end{rmk}
+
+\begin{prop}
+There exists an equivalence,
+\[ \Sh(\kappa\text{-small compact Hausdorff spaces}) \to \Sh(\kappa\text{-small profinite sets}) \]
+\end{prop}
+
+\begin{proof}
+$X$ compact Hausdorff, then $\beta(X_{\disc}) \to X$ is a cover from a profinite space so these give a profinite system of covers. 
+\end{proof}
+
+\begin{defn}
+A space $X$ is \textit{extremally disconnected} (ED) if the closure of $U \subset X$ open is clopen. Equivalently, $X$ is a projective object in the category of compact Hausdorff spaces. 
+\end{defn}
+
+\begin{rmk}
+For $X$ discrete, $\beta(X)$ is ED because if $Y \into Z$ is surjective and I have a map $\beta X \to Z$ then I can lift $X \to Y$ which extends to $\beta X \to Y$ since $Y$ is compact Hausdorff. 
+\end{rmk}
+
+\begin{cor}
+$\Sh(\kappa\text{-small profinite}) \to \Sh(\kappa\text{-small ED sets})$.
+\end{cor}
+
+\begin{rmk}
+This is useful because then we have a site of only projective objects so all the covers split into a disjoint union. Therefore sheaves on ED sets just need to satisfy compatibility with disjoint unions.
+\end{rmk}
+
+\begin{prop}
+$F : \{ \kappa\text{-small ED sets} \}^\op \to \Set$ is a sheaf if and only if,
+\[ F(A \sqcup B) = F(A) \times F(B) \] 
+\end{prop}
+
+\begin{proof}
+If $S' \onto S$ is a surjection of ED sets then it splits in the sense that there is a section $S \to S'$. Then the sheaf condition is automatically satisfied via pulling back along the section.
+\end{proof}
+
+\begin{theorem}
+$\kappa$-Ab has the right AB properties.
+\end{theorem}
+
+\begin{proof}
+We can view $\kappa$-Ab as functors $\{ \kappa\text{-small ED sets} \}^\op \to \mathrm{Ab}$ respecting disjoint unions. Therefore, it suffices to show that limits and colimits are formed pointwise since we then reduce all our statements to those about the category of abelian groups. Since sheaves are a full subcategory of sheaves, then if a (co)limit in presheaves is in sheaves then it is a (co)limit. Therefore, we just need to show, that the functor,
+\[ (\ilim T_i)(S) = \ilim T_i(S) \]
+is compatible with disjoint unions. This works because in $\Ab$ finite direct sums commute with all limits and colimits because they are biproducts. Indeed,
+\[ (\ilim T_i)(S_1 \sqcup S_2) = \ilim (T_i(S_1 \sqcup S_2)) = \ilim (T_i(S_1) \times T_i(S_2)) = (\ilim T_i(S_1)) \times (\ilim T_i(S_2)) = (\ilim T_i)(S_1) \times (\ilim T_i)(S_2) \]
+the exact same argument is true with colimits. Therefore, every property about existence and commutation of (co)limits which holds in Ab also holds in $\kappa$-Ab.
+\bigskip\\
+Now we want to show that $\kappa$-Ab is generated by a small (in fact size $\kappa$) family of compact projectives. Meaning there is an epimorphism $\bigoplus X_i \to X$ to any $X$ where the $X_i$ are amoung the set of generators. 
+\bigskip\\
+Consider the forgetful functor $U : \kappa\text{-Ab} \to \kappa\text{-Set}$ then there is a left-adjoint $L : \kappa\text{-Set} \to \kappa\text{-Ab}$ then,
+\[ T \mapsto L(T) = \Z[T] \]
+where $\Z[T]$ is the sheafification of the functor $S \mapsto \Z[T(S)]$ on profinite sets (this probably does not the sheafification on ED sets). By the adjunction,
+\[ \Hom{}{\Z[\underline{S}]}{M} = \Hom{}{\underline{S}}{U(M)} = M(S) \]
+if $S$ is profinite. Then, if $S$ is ED, the functor
+\[ M \mapsto M(S) \]
+preserves all limits and colimits because limits and colimits are computed pointwise. Therefore, $\Z[S]$ are compact and projective. If $M' \subsetneq M$ is a subobject and suppose we have a surjection,
+\[ \bigoplus \Z[S_i] \onto M' \]
+then we can extend via a map $\Z[S'] \to M/M'$ because some $(M/M')(S')$ is nonzero and it lifts via projectivity to a map $\Z[S'] \to M$ which does not land in $M'$. Thus by Zorn we can make this a surjection.
+\end{proof}
+
+\subsection{Set-Theoretic Issues}
+
+Goal: define the limit of $\kappa$-Ab over all strong limit cardinals. Let $R : \kappa'\text{-Set} \to \kappa\text{-Set}$ for $\kappa < \kappa'$ be the restriction. We will define a left-adjoint.
+
+\begin{defn}
+Let $\kappa$ be a cardinal, $\cf{\kappa}$ is the least cardinality of a cofinal subset.
+\end{defn}
+
+\begin{example}
+$\cf(\aleph_\omega) = \omega$.
+\end{example}
+
+\begin{prop}
+Let $T \mapsto T_{\kappa'}$ be the left-adjoint $L : \kappa\text{-Set} \to \kappa'\text{-Set}$ defined by,
+\[ T_{\kappa'}(S') = \dlim_{S' \to S} T(S) \]
+with $S$ ranging over $\kappa$-small ED sets with $S'$ a $\kappa'$-small ED set. Then $L$ is,
+\begin{enumerate}
+\item fully faithful
+\item commutes with colimits
+\item commutes with limits over diagrams of size less than $\cf{\kappa}$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For (b), left adjoints commute with colimits. For (1), if $S'$ is $\kappa$-small then,
+\[ \dlim_{S' \to S} T(S) = T(S') \]
+since $S'$ is amoung the $S$ because $S'$ is already $\kappa$-small.
+Thus $R(R(T) \cong T$ canonically which implies that $L$ is fully faithful.
+\bigskip\\
+For (c), we use $\lambda$-small limits commute with $\lambda$-filtered colimits where $\lambda$-filtered means a diagram such that any colllection of arrows of size $< \lambda$ has a cone in the diagram. A $\lambda$-small limit is a limit over a diagram of size $< \lambda$. Question: when is the map,
+\[ \prod_{j \in J} \dlim_{i \in I} M_{i,j} \leftarrow \dlim_{i \in I} \prod_{j \in J} M_{i,j} \]
+an isomorphism in $\mathrm{Set}$. This is true if $I$ is $|J|^+$-filtered (meaning we must also be filtered at size $|J|$ not just sizes less than $|J|$). The LHS consists of $(a_j)_{j \in J}$ with $a_j$ a limit but by the filtering condition we can assume that all $a_j$ arise in the colimit at the same level meaning they come from the RHS. 
+\bigskip\\
+Given this discussion, we need to show that the system $\{ S' \to S \}$ is $\lambda$-filtered where $\lambda = \cf(\kappa)$. Let $|I| < \lambda$ and $S_i$ are $\kappa$-small for $i \in I$ with $S' \to S_i$. Then the claim is that,
+\[ \left| \ilim_{i \in I} S_i \right| \le \left| \prod_{i \in I} S_i \right| < \kappa \]
+because $|I| < \lambda$ so there is a cardinal $\mu < \kappa$ such that $|S_i| \le \mu$ by definition of the cofinality. Therefore,
+\[ \left| \prod_{i \in I} S_i \right| \le \mu^\lambda \le 2^{\mu \times \lambda} < \kappa \]
+since $\mu, \lambda < \kappa$ and $\kappa$ is a strong limit cardinal.
+Then let $S''$ be some $\kappa$-small ED set such that,
+\begin{center}
+\begin{tikzcd}
+S' \arrow[r, dashed] \arrow[rd] & S' \arrow[d]
+\\
+& \prod_{i \in I} S_i
+\end{tikzcd}
+\end{center}
+since $S'$ is ED. Therefore we see that the diagram is $\lambda$-filtered as desired. 
+\end{proof}
+
+\begin{defn}
+Con-Set is the filtered colimit of $\kappa$-Set w.r.t. $T \mapsto T_{\kappa'}$ on $\kappa\text{-Set} \to \kappa'\text{-Set}$.
+\end{defn}
+
+\begin{rmk}
+Con-Set has all small limits and colimits by arguing that limits work well at each order (FIX THIS!!)
+\end{rmk}
+
+\begin{example}
+Let $S = \{ s, \eta \}$ with an open point and a closed point. Consider $\Hom{}{-}{S}$ which is the closed set functor. Check that $\underline{S} = \Hom{}{-}{S}$ is NOT a condensed set. If it were a condensed set it would be a condensed set at some $\kappa$. Indeed, 
+\end{example}
+
+
+Recall from Pol's talk that ... 
+
+
+The right condition is being $T_1$.
+
+\begin{prop}
+If $X$ is $T_1$ (points are closed) then $\underline{X}$ is condensed, and all maps $\underline{*} \to \underline{X}$ are quasi-compact. Conversely, if $T$ is a condensed set such that all $\underline{*} \to \underline{X}$ are quasi-compact then $T(*)_{\text{top}}$ is $T_1$.
+\end{prop}
+
+\begin{defn}
+$X$ is \textit{weak hausdorff} if for all $S \to X$ with $S$ compact Hausdorff then the image of $S$ is Hausdorff. 
+\end{defn}
+
+\begin{rmk}
+This means there is an equivalence between compact Hausdorff abelian groups and qcqs condensed abelian groups. This makes sense because compact Hausdorff abelian groups form an abelian category already since they are dual to discrete abelian groups by Pontryiagin duality. 
+\end{rmk}
+
+\begin{theorem}
+We have an equivalence:
+\[ \{ \text{compact Hausdorff space} \} \iso \{ \text{qcqs condensed set} \} \]
+and also there is a functor,
+\[ \{ \text{weak hausdorff space} \} \to \{ \text{quasi-separated condensed set} \} \]
+\end{theorem}
+
+\section{Cohomology}
+
+We have passed from the category of nice topological spaces to condensed sets. We want to see if we can recover invariants of these spaces such as cohomology from the corresponding condensed set in a natural way. The invariants we are interested in are,
+\begin{enumerate}
+\item singular cohomology $H^i_{\sing}(S, \Z)$ for this we need the complex $C^\bullet(S) = \Hom{}{C_\bullet(S)}{\Z}$ where $C_i(S)$ is the free abelian group on the set of maps $\sigma : \Delta^i : S$
+
+\item The \Cech cohomology groups $\check{H}^i(S, \Z)$ defined as,
+\[ \check{H}^i(S, \Z) = \dlim_{\mathfrak{U}} \check{H}^i(\mathfrak{U}, \Z) \]
+over open covers $\mathfrak{U}$ 
+
+\item the sheaf cohomology groups $H^i(S, \underline{\Z})$ defined as derived functors on the category of sheaves of abelian groups.
+\end{enumerate}
+
+First we discuss some comparisons between these. There is a natural map,
+\label{check_to_derived_comparision}
+\begin{equation}
+\check{H}^i(S, \Z) \to H^i(S, \underline{\Z})
+\end{equation}
+
+\begin{prop}[God73, Thm 5.10.1]
+The map \ref{check_to_derived_comparision} is an isomorphism if $S$ is paracompact Hausdorff.
+\end{prop}
+
+There is also a natural map,
+\label{derived_to_singular_comparision}
+\begin{equation}
+H^i(S, \underline{\Z}) \to H^i_{\sing}(S, \Z)
+\end{equation}
+
+\begin{prop}
+If $S$ is homotopy equivalent to a CW complex then the map \ref{derived_to_singular_comparision} is an isomorphism.
+\end{prop}
+
+However, for profinite $S$ this isomorphism is usually not an isomorphism. Indeed, in this case, all cohomology vanishes for $i > 0$. For singular cohomology, this is clear because any map $\Delta^i \to S$ is constant since $\Delta^i$ is connected and $S$ is totally disconnected. Then $H^0(S, \underline{\Z})$ is the group of continuous functions $S \to \Z$ whereas $H^0_{\sing}(S, \Z)$ is the group of all functions $S \to \Z$ (since the set of path components is $S_{\disc}$). We see that singular cohomology treats $S$ and $S_{\disc}$ the same way so it is not an a very good invariant on the spaces in question.
+
+
+\begin{prop}
+Let $\TT = \RR / \ZZ$ be the circle. Then $\check{H}^1(\TT, \ZZ) = \ZZ$ so there is a map induced by pullback to the factors,
+\[ \bigoplus_{I} \ZZ \to \check{H}^1(\prod_I \TT, \ZZ) \]
+is an isomorphism and the cup product induces isomorphisms,
+\[ \bigwedge^i \left( \bigoplus_I \ZZ \right) = \bigwedge^i \check{H}^i(\prod_I \TT, \ZZ) \iso \check{H}^i(\prod_I \TT, \ZZ) \]
+\end{prop}
+
+\begin{proof}
+If $I$ is finite, this is just the Kunneth formula. The case $I$ infinite follows from the following more general fact: if $\{ S_j \}_{j \in J}$ is a cofiltered system of compact Hausdorff spaces with limit $S = \ilim_j S_j$ then the natural map,
+\[ \dlim_{j} \check{H}^i(S_j, \Z) \to \check{H}^ii(S, \Z) \]
+is an isomorphism for $i \ge 0$ [ES52, Chapter X, Thm 3.1]. 
+\end{proof}
+
+What we want instead is to take the cohomology internally in the topos of condensed sets.
+
+\begin{defn}
+Let $T$ be a condensed set. Then we define, 
+\[ H^i_{\cond}(T, \Z) := \Ext{i}{\Cond(\Ab)}{\Z[T]}{\Z} \]
+\end{defn}
+
+\begin{rmk}
+When we choose resolutions we fix a $\kappa$ large enough so that $\Z[T]$ and $\Z$ both appear and then take resultions in the category of $\kappa$-condensed abelian groups.
+\end{rmk}
+
+How do we ``concretely'' compute condensed cohomology. We need a projective resolution of $\Z[\underline{S}]$. However, remember we have explicit compact projective objects $\Z[\underline{S}']$ where $S'$ is extremally disconnected. 
+\bigskip\\
+We want to take a cover $S_0 \onto S$ from an extremally disconnected set but then $S_0 \times_S S_0$ may not be extremally disconnected so we need to cover this product as well. We formalize this idea with the notion of a simplicial hypercover.
+
+\subsection{Simplicial Hypercovers}
+
+\begin{defn}
+The category of simplicial objects in a category $\cC$ is the category $\Simp(\cC) := \cC^{\Delta}$ of functors $F : \Delta^\op \to \cC$.
+\end{defn}
+
+\begin{defn}
+Consider the full subcategory $\Delta_{\le n} \embed \Delta$ of objects $[0], [1], \dots, [n]$. This gives a truncation functor,
+\[ \tr_n : \Simp(\cC) \to \Simp_{\le n}(\cC) \]
+via restriction where $\Simp_{\le n}(\cC) := \cC^{\Delta_{\le n}^\op}$. The adjoints (if they exist) are called skeleton and coskeleton,
+\[ \sk_n \dashv \tr_n \dashv \cosk_n \]
+then write the bold-faced functors,
+\[ \bfsk_n := \sk_n \circ \tr_n : \Simp(\cC) \to \Simp(\cC) \]
+and
+\[ \bfcosk_n := \cosk_n \circ \tr_n : \Simp(\cC) \to \Simp(\cC) \]
+\end{defn}
+
+\begin{rmk}
+The functor $\sk_n$ is given by removing all the non-degenerate simplices for $k > n$ and $\cosk_n$ is given by adding all simplicies for $k > n$ filling in all compatible edges.
+\end{rmk}
+
+\begin{prop}
+Let $\cC$ be a category. If $\cC$ has finite limits then $\cosk_n$ exists and is computed,
+\[ (\cosk_n X_\bullet)_m = \ilim_{\substack{[k] \to [m] \\ k \le n}} X_k \]
+If $\cC$ has finite colimits then $\sk_n$ exists and is computed,
+\[ (\sk_n X_\bullet)_m = \dlim_{\substack{[m] \to [k] \\ k \le n}} X_k \]
+\end{prop}
+
+\begin{example}
+Here we will usually consider the slice category over some base object $S$. I will supress the maps to $S$. 
+\begin{enumerate}
+\item $X_1 \to (\bfcosk_0(X_\bullet))_{1}$ is the map,
+\[ X_1 \to X_0 \times X_0 \]
+along the two maps $[0] \to [1]$ since the limit is over the diagram of maps $[0] \to [1]$ which is just two points
+\item $X_2 \to (\bfcosk_1(X_\bullet))_{2}$ is computed over the diagram,
+\begin{center}
+\begin{tikzcd}
+& X_2 \arrow[ld] \arrow[d] \arrow[rd]
+\\
+X_1 \arrow[d] & X_1 \arrow[ld] \arrow[rd] & X_1 \arrow[d] \arrow[ld, crossing over]
+\\
+X_0 & X_0 \arrow[from=lu, crossing over] & X_0
+\end{tikzcd}
+\end{center}
+so it is the map,
+\[ X_2 \to (X_1 \times X_1 \times X_1) \times_{(X_0 \times X_0 \times X_0)^2} (X_0 \times X_0 \times X_0)  \]
+\end{enumerate}
+Notice that if we included $X_2$ in the diagram then the limit is just $X_2$. Indeed, for this reason it is clear if $m \le n$ then the diagram computing $(\bfcosk_n(X_\bullet))_m$ has an initial object and thus the map,
+\[ X_m \to (\bfcosk_n(X_\bullet))_m \]
+is a canonical identification. 
+\end{example}
+
+\begin{defn}
+Let $\C$ be a site. A \textit{hypercover} of an object $X \in \C$ is a simplicial object $U_\bullet \in \Simp(\C_{/X})$ such that the maps $U_0 \to X$ and for all $n \ge 0$ the natural maps induced by adjunction,
+\[ U_{n+1} \to (\bfcosk_n(U_\bullet))_{n+1} \]
+are covering maps in $\C$.
+\end{defn}
+
+\begin{example}
+The basic example of a hypercover is the \textit{\Cech nerve} generated by an ordinary cover $U \to X$. Viewing $U$ as a $0$-truncated simplicial cover $U_0 \in \Simp_{\le 0}(\C_{/X})$ we define,
+\[ U_\bullet = \cosk_0(U_0) \]
+Then indeed all the morphisms,
+\[ U_{n+1} \to (\bfcosk_{n}(U_\bullet))_{n+1} \]
+are isomorphism. From the definition, $(\cosk_0(U_\bullet))_{n}$ is a limit over the diagram generated by the $n+1$ maps $[0] \to [n]$ so therefore,
+\[ U_n = U \times_X \cdots \times_X U \]
+with $n+1$ copies of $U$ as expected.  
+\end{example}
+
+Motivated by the case of \Cech covers we define \Cech cohomology for hypercovers.
+
+\begin{defn}
+Let $\C$ be a site, $X \in \C$ an object and $U_\bullet \to X$ a hypercover. Let $\F$ be an abelian sheaf on $\C$. Then evaluation gives a cosimplicial abelian group $\F(U_\bullet)$. Then define,
+\[ \check{H}^i(S_\bullet, \F) := H^i(\DK(\F(U_\bullet)) \]
+where $\DK$ is the Dold-Kan functor.
+\end{defn}
+
+\begin{rmk}
+There are three natural candiates for a chain complex associated to a cosimplicial abelian group $A$ (each of which is sometimes called the Moore complex for extra confusion), the \textit{alternating face complex} $(C A)^\bullet$,
+\[ (C A)^n := A^n \quad \text{with} \quad \d^n = \sum_{i = 0}^n (-1)^i \, \delta^{n+1}_i : (C A)^n \to (C A)^{n+1} \]
+the \textit{normalized complex} $(N A)^{\bullet}$,
+\[ (N A)^n := \coker{\left( \bigoplus_{i = 1}^{n} A^{n-1} \xrightarrow{\delta^n_i} A^n \right)} \quad \text{with} \quad \d^n = \delta^{n+1}_0 : (N A)^n \to (N A)^{n+1} \]
+and the \textit{non-degenerate complex} $(S A)^{\bullet}$,
+\[ (S A)^n := \ker{ \left( A^n \xrightarrow{\sigma^{n-1}_j} \bigoplus_{j = 0}^{n-1} A^{n-1} \right) } \quad \text{with} \quad \d^n = \sum_{i = 0}^n (-1)^i \, \delta^n_i : (S A)^n \to (S A)^n \]
+When we write $\DK$ we usually mean $(N A)^\bullet$ because this gives an equivalence of categories,
+\[ \mathrm{CoSimp}(\mathrm{Ab}) \to \mathrm{Ch}^{\ge 0}(\mathrm{Ab}) \]
+on the nose. The others only give an equivalence up to homotopy since the natural maps,
+\[ (S A)^\bullet \embed (C A)^\bullet \onto (N A)^\bullet \]
+are chain homotopy equivalences so the choice is irrelevant from the perspective of computing cohomology.
+However, in the context of \Cech cohomology on an arbitrary site, it is customary to use $C^\bullet(A)$ whenever we need an explicit model for the complex. However, for explicit computations in \Cech cohomology, other homotopic models may be more useful\footnote{Caveat: the normalized and non-degenerate complexes are not the alternating or ordered complexes which appear in \Cech calculations for covers of a topological space since those complexes do not compute the right thing on an arbitrary site where as $(C A)^\bullet$, $(N A)^\bullet$, and $(S A)^\bullet$ always compute the right thing.}
+\end{rmk}
+
+\begin{example}
+Indeed, if the hypercover $U_\bullet \to X$ is the \Cech nerve of a cover $U$ then (using the alternating face complex) we recover the ordinary \Cech complex,
+\[ \DK(\F(U_\bullet)) = \left[ 0 \to \F(U) \to \F(U \times_X U) \to \F(U \times_X U \times_X U) \to \cdots \right] \]
+\end{example}
+
+\subsection{Cohomology and Hypercovers}
+
+Much like ordinary \Cech cohomology, we can define an absolute hypercover version by taking a direct limit.
+
+\begin{defn}
+The absolute \Cech cohomology on a sheaf $\F$ on a site $\C$ is,
+\[ \check{H}^i_{\text{HC}}(X, \F) := \dlim_{U_\bullet \to X} \check{H}^i(U_\bullet, \F) \]
+over the directed diagram of hypercovers of $X$.
+\end{defn}
+
+Unlike the case when we restrict to only considering \Cech nerves, this actually will compute derived functor cohomology in an arbitrary site.
+
+\begin{thm}[\chref{https://stacks.math.columbia.edu/tag/01GZ}{Tag 01GZ}]
+Let $\C$ be a site, $X \in \C$ and object. Then the natural transformation of functors $\Ab(\C) \to \Ab$,
+\[ \check{H}^i_{\text{HC}}(X, -) \to H^i(X, -) \]
+is an isomorphism.
+\end{thm}
+
+A more useful fact computationally is a \Cech-to-derived comparison spectral sequence.
+
+\begin{prop}
+Let $\C$ be a site and $X \in \C$ and object. Let $U_\bullet \to X$ be a hypercover and $\F$ a sheaf of abelian groups on $\C$. Then there is a map,
+\[ \DK(\F(U_\bullet)) \to R \Gamma(X, \F) \]
+in $D^+(\Ab)$ functorial in $\F$ which induces natural transformations,
+\[ \check{H}^i(U_\bullet, -) \to H^i(X, -) \]
+Moreover, there is a functorial spectral sequence,
+\[ E^{p,q}_2 = \check{H}^p(U_\bullet, \underline{H}^q(\F)) \implies H^{p+q}(X, \F) \]
+\end{prop}
+
+\begin{proof}
+As with ordinary \Cech cohomology, the main computation is,
+\[ \check{H}^i(U_\bullet, \I) = 
+\begin{cases}
+\I(X) & p = 0
+\\
+0 & p > 0
+\end{cases} \]
+where $\I$ is an injective sheaf. (DO THIS!!!!)
+\end{proof}
+
+\subsection{Cohomology Internal to a Topos}
+
+\begin{defn}
+Let $\E$ be a topos. Then there is a unique geometric morphism $\gamma : \E \to \S$ such that,
+\[ \gamma^*(S) = \sum_{s \in S} 1 \quad \text{ and } \quad \gamma^*(E) = \Hom{\E}{1}{E} \]
+We usually write $\Delta$ for $\gamma^*$ and $\Gamma$ for $\gamma_*$.
+\end{defn}
+
+\begin{rmk}
+In a sheaf topos, this recovers the notions of constant sheaf and global sections.
+\end{rmk}
+
+\begin{defn}
+Let $\E$ be a topos, write $\Ab(\E)$ for the abelian category of abelian group objects in $\E$. Then the global sections functor induces a left-exact (since it admits a left-adjoint $\Delta$) functor,
+\[ \Gamma : \Ab(\E) \to \Ab \]
+Define the cohomology groups as the right-derived functors,
+\[ H^n(\E, A) = R^n \Gamma(A) \]
+For any object $B \in \E$, we can define cohomology in the slice topos,
+\[ H^n_{\E}(B, A) := H^n(\E_{/B}, B^*(A)) \]
+where $B^* : \Ab(\E) \to \Ab(\E_{/B})$ is the base change functor $E \mapsto (E \times B \to B)$. 
+\end{defn}
+
+\begin{prop}
+We have,
+\[ \Ext{n}{\E}{B}{-} := R^n \Hom{\E}{B}{-} = R^n \Hom{\Ab(\E)}{\Z[B]}{-} = \Ext{n}{\Ab(\E)}{\Z[B]}{-} \]
+Then,
+\[ \Ext{n}{\E}{B}{-} = H^n(B, -) \]
+\end{prop}
+
+\begin{proof}
+This is because,
+\[ \Gamma(\E_{/B}, B^*(-)) = \Hom{\E_{/B}}{B}{B^*(-)} = \Hom{\E}{B}{-} \]
+since $B$ is the terminal object of $\E_{/B}$. Where,
+\[ \Z[B] = \bigoplus_{n \in \ZZ} B \]
+in $\Ab(\E)$ is left-adjoint to $\Ab(\E) \embed \E$.
+\end{proof}
+
+\begin{example}
+In a sheaf topos $\E$ on a site $\C$, the cohomology of a representable object $h^X$ is,
+\[ H^n(h^X, A) = R^n \Hom{\E}{h^X, A} = R^n \Gamma(X, A) = H^n(X, A) \]
+is cohomology of $X$ in the usual sense of derived functors of $\Gamma(X, -)$. 
+\end{example}
+
+\begin{rmk}
+However, there are sites $\C$ without a terminal object. In these sites, there isn't a representable ``global sections'' however, the topos $\E = \Sh(\C)$ has a global sections functor,
+\[ \Gamma(\C, -) := \Hom{\E}{1}{-} \]
+\end{rmk}
+
+\begin{example}
+The \etale or Zariski site of a nontrivial stack usually does not have a terminal object. For example, let $G$ be finite \etale group scheme over a base $S$. Then consider the stack $BG$ of $G$-tosors. The \etale site $(BG)_{\et}$ of $BG$ is the site of \etale maps $U \to BG$ from $k$-schemes equiped with \etale covers. Concretely, this is the category of pairs $(U, P)$ where $P$ is a $G$-torsor over $U$ and $U$ is an \etale $k$-scheme (the map $U \to BG$ being \etale is equivalent to $P \to S$ being \etale or equivalently $U \to S$ being \etale). The morphisms $(U, P) \to (U', P')$ are equivariant diagrams,
+\begin{center}
+\begin{tikzcd}
+P \arrow[r] \arrow[d] & P' \arrow[d]
+\\
+U \arrow[r] & U'
+\end{tikzcd}
+\end{center}
+These automatically make $P \iso U \times_{U'} P'$. There is no terminal object since there is no scheme with a universal $G$-torsor. This is why we needed to define the stack! Therefore, we need to define global sections as,
+\[ \Gamma((BG)_{\et}, -) = \Hom{\Sh{(BG)_{\et}}}{1}{-} \]
+meaning compatible choices of a section on every object of $(BG)_{\et}$. Let's compute,
+\[ H^i((BG)_{\et}, \Z) \] 
+(DO EXAMPLE!!!)
+\end{example}
+
+Now we want to define hypercovers internal to the topos. (DO THIS DEFINITION!!) Verdier!
+
+\begin{proof}
+
+\end{proof}
+
+
+\subsection{Condensed Cohomology}
+
+\newcommand{\CHaus}{\mathbf{CHaus}}
+
+\begin{defn}
+The \textit{condensed cohomology} is cohomology internal to the topos of condensed sets,
+\[ H^n_{\cond}(T, -) := H^n(\Cond_{/T}, -) = \Ext{i}{\Cond(\Ab)}{\Z[T]}{-} : \Cond(\Ab) \to \Ab \]
+\end{defn}
+
+
+\begin{defn}
+We say a simplicial extremally disconnected set $S_\bullet$ equipped with a morphism $S_\bullet \to S$ of simplicial sets (where $S$ is given the constant simplicial set structure) is a \textit{hypercover} if the map $S_0 \to S$ and for all $n \ge 0$ the natural adjunction maps,
+\[ X_\bullet \to \bfcosk_n(X_\bullet) \]
+induces a surjection $X_{n+1} \to (\bfcosk_n(X_\bullet))_{n+1}$. 
+\end{defn}
+
+\begin{rmk}
+The advantage of hypercovers is to package together the idea of refining the higher intersections of a cover so that the objects have nicer properties. This is useful for us because products of extremally disconnected spaces are not extremally disconnected so it is useful to use hypercoverings to refine each level all at once.
+\end{rmk}
+
+(IS THIS ACTUALLY A RESOLUTION, WHY EXACT)
+(DONT USE THIS!!)
+Then if $S_\bullet \to S$ is a simplicial hypercovering then we get a projective resolution via $\DK(\Z[S_\bullet])$,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & \Z[\underline{S_2}] \arrow[r] & \Z[\underline{S_1}] \arrow[r] & \Z[\underline{S_0}] \arrow[r] & \Z[\underline{S}] \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+Therefore, we have the following result.
+
+\begin{prop}
+Let $S$ be a compact Hausdorff space and $S_\bullet \to S$ a simplicial hypercovering by extremally disconnected sets. Then $H^{\bullet}_{\cond}(S, \Z)$ is the cohomology of the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S_0, \Z) \arrow[r] & \Gamma(S_1, \Z) \arrow[r] & \Gamma(S_2, \Z) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+If $S$ is extremely disconnected, 
+\[ H^\bullet_{\cond}(S, \Z) = \Ext{n}{\Cond(\Ab)}{\Z[\underline{S}]}{\Z} = 0\]
+for $n > 0$ since $\Z[\underline{S}]$ is projective. Thus the \Cech-to-derived spectral sequence for the hypercover $S_\bullet \to S$ degenerates giving,
+\[ H^n_{\cond}(S, 
+\end{proof}
+
+\begin{defn}
+Let $\CHaus$ be the site of compact Hausdorff spaces with finite families of jointly surjective maps.
+\end{defn}
+
+\begin{prop}
+For any compact Hausdorff space $S$, there are natural isomorphisms,
+\[ H^n_{\cond}(S, \Z) \iso H^n_{\CHaus}(S, \Z) \]
+\end{prop}
+
+\begin{proof}
+Let $S_\bullet \to S$ be a hypercover by extremally disconnected sets. The claim is that $\DK(\Gamma(S_\bullet, \Z))$ computes both sides. We have shows this for the RHS so we just need to show this for the LHS. We use the \Cech-to-derived spectral sequence,
+\[ E^{p,q}_2 = \check{H}^p(S_\bullet, \underline{H}_{\CHaus}^q(\Z)) \implies H^{p+q}_{\CHaus}(S, \Z) \]
+However, if $S'$ is extremally disconnected then $H^i_{\CHaus}(S', \Z) = 0$ for all $i > 0$. This is because if $A \onto B$ is a surjection of abelian sheaves then any $\beta \in \Gamma(S', B)$ lies in the image after a cover $\pi : S'' \onto S'$ meaning $\Gamma(S'', A) \to \Gamma(S'', B)$ hits $\beta$. But $\pi$ has a section $s : S' \to S''$ so pulling back by $s^*$ shows that $\beta$ is in the image. Therefore, the spectral sequence degenerates,
+\[ H^n_{\CHaus}(S, \Z) = \check{H}^n(S_\bullet, \Z) = H^n(\DK(\Gamma(S_\bullet, \Z))) \]
+\end{proof}
+
+\subsection{Comparisons}
+
+\begin{theorem}
+There are natural isomorphism,
+\[ H^i_{\sheaf}(S, \Z) \iso H^i_{\cond}(S, \Z) \]
+\end{theorem}
+
+\begin{proof}
+First we construct a map. There is a map of topoi, 
+\[ \alpha : \Cond_{/S} \to \Sh(S) \]
+given by,
+\[ (\alpha_* \F)(U) = \Hom{\Cond_{/S}}{\underline{U}}{\F} \]
+and there is a natural map $R \alpha_* \Z \to \Z$ in $D^+(\Ab(\Sh(S)))$ which gives a map,
+\[ H^i_{\sheaf}(S, \Z) \to H^i_{\cond}(S, R \alpha_* \Z) \to H^i_{\cond}(S, \Z) \]
+We first prove this is an isomorphism if $S$ is profinite. Write,
+\[ S = \ilim_j S_j \]
+for a cofiltered diagram of finite sets $S_j$. Then $H^i_{\sheaf}(S, \Z) = 0$ for $i > 0$ and $i = 0$ it is the group of continuous functions $S \to \Z$ i.e.,
+\[ H^0_{\sheaf}(S, \Z) = \dlim_j \Gamma(S_j, \Z) \]
+Furthermore,
+\[ H^0_{\cond}(S, \Z) = \Hom{\Cond(\Ab)}{\Z[\underline{S}]}{\Z} = \Hom{}{\underline{S}}{\Z} = \Z(S) \]
+which is also the continuous maps $S \to \Z$. Then it suffices to check that $H^i_{\cond}(S, \Z) = 0$ for $i > 0$. By the comparision to \Cech cohomology, it suffices to check that for any hypercover $S_\bullet \onto S$ of extremally disconnected sets, the \Cech complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S, \Z) \arrow[r] & \Gamma(S_0, \Z) \arrow[r] & \Gamma(S_1, \Z) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+is exact. We write $S_\bullet \to S$ as a cofiltered limit of hypercovers $(S_\bullet \to S_j)_j$ of inite set, and pass to the filtered colimit of the exact sequences,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S_j, \Z) \arrow[r] & \Gamma(S_{0,j}, \Z) \arrow[r] & \Gamma(S_{1,j} \times_{S_j} S_{2,j}, \Z) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+These sequences are exact because $S_{\bullet, j} \onto S_j$ has a section (these are just finite set). (EXPLAIN) (IS SCHOLZE PROOF HERE WITH JUST A PROFINITE SURJECTION CORRECT?)
+Then using that,
+\[ \Gamma(S, \Z) = \dlim_j \Gamma(S_j, \Z) \]
+and thus we see that the Cech complex is a filtered colimit of exact sequences and hence exact (this this applying AB5).
+\bigskip\\
+Now we prove the theorem in general. It suffices to prove in the derived category of abelian sheaves on $S$ that $R \alpha_* \Z \to \Z$ is an isomorphism. We check this on stalks $s \in S$. Then open neighborhoods $U$ are cofinal with the closed neighborhods $V$ of $s$ (by definition) and visa versa using that $S$ is compact Hausdorff. Therefore,
+\[ (R \alpha_* \Z)_s = \dlim_{s \in U} R \Gamma(U, R \alpha_* \Z) = \dlim_{s \in U} R \Gamma_{\cond}(U, \Z) = \dlim_{s \in V} R \Gamma_{\cond}(V, \Z) \]
+Choose a simplicial hypercover $S_\bullet \to S$ by profinite sets. Then $R \Gamma_{\cond}(S, \Z)$ is computed by the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S_0, \Z) \arrow[r] & \Gamma(S_1, \Z) \arrow[r] & \Gamma(S_2, \Z) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+because the objects $S_i$ are acyclic by the previous part of the proof. Similarly, if $V \subset S$ is closed then we get a simplicial cover $S_\bullet \times_S V$ so we can compute $R \Gamma(V, \Z)$ from the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S_0 \times_S V, \Z) \arrow[r] & \Gamma(S_1 \times_S V, \Z) \arrow[r] & \Gamma(S_2 \times_S V, \Z) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Passing to the filterd colimit (WHY CAN WE) over all closed neighborhoods $V$ of $s$ we get the complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gamma(S_0 \times_S \{ s \}, \Z) \arrow[r] & \Gamma(S_1 \times_S \{ s \}, \Z) \arrow[r] & \Gamma(S_2 \times_S \{ s \}, \Z) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+(WHY DOES THIS WORK)
+which computes $\R\Gamma(\{ s \}, \Z) = \Z$ and thus,
+\[ (R \alpha_* \Z)_s = \dlim_{s \in V} R \Gamma_{\cond}(V, \Z) = \Z \]
+as desired.
+\end{proof}
+
+\begin{rmk}
+Recall that $H^i_{\sheaf}(S, \F) = 0$ for $i > 0$ and any sheaf $\F$ if $S$ is profinite. Therefore, $H^i_{\cond}(S, \Z) = H^i_{\CHaus}(S, \Z) = 0$ with $S$ profinite so it seems to me that you can compute everything with profinite hypercovers as well and in particular with a profinite \Cech nerve (since products of profinite sets are profinite) thus seemingly negating the need for hypercovers. IS THIS RIGHT? Yes, any hypercover by profinite sets works.
+\end{rmk}
+
+\begin{rmk}
+From now on, we will simply write $H^i(S, \Z)$ to denote any of $\check{H}^i(S, \Z)$, $H^i_{\sheaf}(S, \Z)$, and $H^i_{\cond}(S, \Z)$.
+\end{rmk}
+
+
+\begin{theorem}
+For any compact Hausdorff space $S$ one has,
+\[ H^i_{\cond}(S, \$R) = 0 \]
+for $i > 0$ and $H^0_{\cond}(S, \RR) = C^0(S, \RR)$.
+\end{theorem}
+
+\begin{rmk}
+Remember, this is cohomology with $\underline{\RR}$ coefficients where $\RR$ is endowed with the ordinary topology (c.f. sheaf cohomology with coefficients in the ring of continuous functions $U \to \RR$) not the discrete topology which would recover something potentially nonzero.
+\end{rmk}
+
+\begin{proof}
+We will prove the following. If $S_\bullet \to S$ is a simplicial hypercover by profinite sets then the complex of Banach spaces (endowed with the sup norm),
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & C^0(S, \RR) \arrow[r] & C^0(S_0, \RR) \arrow[r] & C^0(S_1, \RR) \arrow[r] & C^0(S_2, \RR) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+is exact with the explicit estimate if $f \in C^0(S_j, \RR)$ with $\d{f} = 0$ then for any $\epsilon > 0$ there exists $g \in C^0(S_{j-1}, \RR)$ such that $\d{g} = f$ and $||g|| \le (1 + \epsilon) || f ||$.
+\bigskip\\
+We first do the case that all $S_i$ are finite. Then the hypercover splits 
+\end{proof}
+
+
+\end{document}

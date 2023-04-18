@@ -1,0 +1,191 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Elliptic Curves, Complex Tori, Modular Forms, and $\ell$-adic Galois Representations}
+\author{Benjamin Church}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{float}
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot}
+
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Aut}[1]{\mathrm{Aut} \small(#1 \small)}
+\newcommand{\SL}[0]{\mathrm{SL}}
+\newcommand{\End}[0]{\mathrm{End}}
+\newcommand{\GL}[2]{\mathrm{GL}_{#1}\left(#2\right)}
+\newcommand{\SO}[0]{\mathrm{SO}}
+\newcommand{\Rept}[0]{\mathrm{Re}}
+\newcommand{\Impt}[0]{\mathrm{Im}}
+\newcommand{\dv}[0]{\mathrm{div}}
+\newcommand{\Dv}[0]{\mathrm{Div}}
+\newcommand{\Og}[0]{\mathit{\Omega}}
+\newcommand{\og}[0]{\mathit{\omega}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+ 
+\renewcommand\qedsymbol{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\colim}[1]{\mathrm{colim}(#1)}
+\newcommand{\Ob}[1]{\mathrm{Ob}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[2]{\mathrm{Hom}\left( #1, #2 \right)}
+\newcommand{\catHom}[3]{\mathrm{Hom}_{#1}\left( #2, #3 \right)}
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\pTop}{\mathbf{Top}_{\bullet}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\pSet}{\mathbf{Set}_\bullet}
+\newcommand{\hTop}{\mathbf{hTop}}
+\newcommand{\phTop}{\mathbf{hTop}_{\bullet}}
+\renewcommand{\Im}[1]{\mathrm{Im}(#1)}
+\newcommand{\homspace}[2]{\left< #1, #2 \right>}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\coker}[1]{\mathrm{coker}\: #1}
+
+\renewcommand{\d}[1]{\: \mathrm{d}#1 \:}
+\newcommand{\dn}[2]{\: \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3^2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\Imt}[0]{\mathrm{Im}}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{exercise}{Exercise}
+
+\newenvironment{definition}[1][Definition:]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+\newenvironment{lproof}{\begin{proof} \renewcommand{\qedsymbol}{}}{\end{proof}}
+\renewcommand{\mod}[3]{\: #1 \equiv #2 \: mod \: #3 \:}
+\newcommand{\nmod}[3]{\: #1 \centernot \equiv #2 \: mod \: #3 \:}
+\newcommand{\ndiv}{\hspace{-4pt}\not \divides \hspace{2pt}}
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+\tikzset{
+    labl/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\Class}[2]{\mathcal{C}^{#1} \left( #2 \right)}
+\newcommand{\Res}[2]{\mathrm{Res}_{#1} \: #2}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\finfield}[1]{\mathbb{F}_{#1}}
+
+\renewcommand{\S}[1]{\mathcal{S}_{#1}}
+\newcommand{\M}[1]{\mathcal{M}_{#1}}
+\newcommand{\E}[1]{\mathcal{E}_{#1}}
+
+\renewcommand{\P}[2]{\mathbb{P}^{#1} \left( #2 \right)}
+
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\MG}{\SL_2(\Z)}
+\newcommand{\res}{\mathrm{res}}
+
+\begin{document}
+
+\title{Lecture 3}
+
+\maketitle
+
+\section{Meromorphic Functions: a reprise}
+
+There was some confusion about meromorphic functions. Here I hope to clear up some of the
+confusion. The definition we have previously was:
+
+\begin{definition}
+We say a function $f : \Omega \to \C$ for $\Omega \subset \C$ is meromorphic if there is a set of isolated
+poles $P \subset \Omega$ such that $f$ is holomorphic on $\Omega \setminus P$ and $f$ has a pole at each point $p \in P$.
+\end{definition}
+\noindent
+where having a pole means the quite specific statement defined as follows.
+
+\begin{definition}
+We say that a function $f : \C \to \C$ has a \textit{pole} of order $n$ at $z_0$ if near $z_0$ we can write,
+\[ f(z) = (z - z_0)^{-n} u(z) \]
+where $u(z)$ is a nonvanishing holomorphic function.
+\end{definition}
+
+\begin{definition}
+We say a function $f : \Omega \to \C$ for $\Omega \subset \C$ is \textit{meromorphic} if there is a set of isolated poles $P \subset \Omega$ such that $f$ is holomorphic on $\Omega \setminus P$ and $f$ has a pole at each point $p \in P$.
+\end{definition}
+\noindent
+We see that a function with a jump discontinuity cannot be meromorphic because, in that case, near
+the jump, the function would not blow up like $\sim \frac{1}{z^n}$. We can give an alternative definition which may be more intuitive.
+
+\begin{definition}
+A function $f$ is \textit{meromorphic} if it is a ratio of two holomorphic functions $g,h$ i.e.
+\[ f(z) = \frac{g(z)}{h(z)} \]
+where $h$ is not identically zero i.e. $h \neq 0$ ($h$ is not the constant zero function).
+\end{definition}
+\noindent
+Perhaps a more sophisticated definition of a meromorphic functions involves the Riemann sphere
+$\hat{\C} = \C \cup \{ \infty \}$ which is the complex plane closed into a sphere with the point at infinity. We will think about this space much more when we talk about projective space. Then we could make the
+following definition.
+
+\begin{definition}
+A \textit{meromorphic} function on $\C$ is a holomorphic function $f : \C \to \hat{\C}$.
+\end{definition}
+\noindent
+This corresponds to our previous notion that whenever $f$ is undefined (i.e. is sent to $\infty$) then $f$
+must “blow up” nearby. This corresponds to the fact that for a continuous function $f : \C \to \hat{\C}$ to hit $\infty$ it must, nearby, pass through arbitrarily large values in $\C \subset \hat{\C}$. Thus we can’t have a function which is nice and bounded and suddently jumps up to $\infty$ since this corresponds to a discontinuity
+viewed as a map $\C \to \hat{\C}$. Now let’s try to prove that these definitions agree.
+
+\begin{theorem}
+Let $f : \C \setminus P \to \C$ be a holomorphic function where $P \subset \C$ is an isolated set of points. Then the following are equivalent:
+\begin{enumerate}
+\item near each $p \in P$ we can write $f(z) = (z - p)^{-n} u(z)$ where $u(z)$ is holomorphic and nonvanishing near $p$.
+\item $f = \frac{g}{h}$ where $g,h : \C \to \C$ are entire functions and $h$ is nonvanishing outside of $P$.
+\item there exists a holomorphic map $\tilde{f} : \C \to \hat{\C}$ extending $f$ i.e. $\tilde{f}$ restricts to $f$ when $\tilde{f}(z) \neq \infty$, 
+\[ \tilde{f} |_{\C \setminus P} = f \text{ viewed as a map } \C \setminus P \to \C = \hat{\C} \setminus \{ \infty \} \subset \hat{\C} \]
+\end{enumerate}
+\end{theorem}
+
+\section{The Weierstrass $\wp$ Function}
+
+Our plan to find a holomorphic doubly periodic (elliptic) function has been thwarted as soon as it
+was devised. Since we cannot find interesting holomorphic examples of elliptic functions we now ask
+for the next best thing. We want to consider elliptic meromorphic functions. That is, meromorphic
+functions $f : \C/\Lambda \to \C$. It turns out that now were are in luck. Notice the following fact. If
+$f : \C \to \C$ is any function then,
+\[ g(z) = \sum_{\omega \in \Lambda} f(z + \omega) \]
+is invariant under shifts by any $\omega \in \Lambda$ since this simply reorders the summation. However, in general there is no reason such a function should converge. In fact. using Liouville’s theorem, we know that if $f$ is any holomorphic function that $g$ cannot be a convergent holomorphic function. Thus we
+should try with a simple meromorphic $f$ instead. In order for the sum to converge, we need that $f$
+goes to zero sufficiently quickly (faster that $1/z$ because harmonic series do not converge). Therefore,
+we might try the meromorphic function is $z^{-2}$ and try,
+\[ f(z) = \sum_{\omega \in \Lambda} \frac{1}{(z + \omega)^2} \]
+which is doubly periodic because if $\omega \in \Lambda$ then,
+\[ f(z + \omega) = \sum_{\omega' \in \Lambda} \frac{1}{(z + \omega + \omega')^2} = \sum_{\omega'' \in \Lambda} \frac{1}{(z + \omega'')^2} = f(z) \]
+However, this definition has one major flaw. That sum still does not converge! This is because,
+\[ f(z) = \sum_{n,m \in \Z} \frac{1}{(z + n \omega_1 + m \omega_2)^2} \sim \sum_{r \in \Z^{+}} \frac{2 \pi r}{(z + r)^2} \sim 2 \pi \sum_{r \in \Z^{+}} \frac{r}{r^2} \to \infty \]
+where I have reordered the sum to sum over circles with radius $r$ in the $\Z^2$ plane each circle having approximately $2 \pi r$ lattice points. To fix this, we use a clever subtraction to remove the divergent part of the sum and arrive at the following definition by Weierstrass.
+\end{document}

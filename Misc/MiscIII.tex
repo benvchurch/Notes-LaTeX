@@ -2059,4 +2059,194 @@ Therefore, if $m$ is even we must have $\chi(F) = 0$. Okay this is not so helpfu
 Let's actually go back to the fibration homotopy exact sequence. Notice that the map $\pi_k(M) \to \pi_k(S^m)$ is always zero for $m > 1$. This is somehow supposed to imply that the homotopy fiber $F$ is (rationally) homotopy equivalent to $M \times \Omega S^m$ (I'm not sure why) but the homology of this is not finite support and thus $F$ cannot be homotopic to a manifold meaning $M \to S^m$ cannot be a submersion. 
 \bigskip\\
 Maybe we can see this from the Wang sequence. For large $i$ we have $H^i(M) = 0$ so we get $H^{i}(F) \iso H^{i+1-m}(F)$ which shifts up dimension infinitely if we can get it nonzero in the range $i > \dim{M}$. Therefore, we should consider $i = \dim{M} = n$. Then $H^n(M) \neq 0$ but if we assume $H^n(F) = 0$ (it is a lower dimensional submanifold) so indeed we have $H^{n-m}(F) \onto H^n(M)$ is an isomorphism (fundamental classes) so HMMM seems hard !!!
+
+\section{Orientation-Reversing Maps}
+
+The rational Pontryagin classes are topological invariants in the following sense. If $f : X \to Y$ is a diffeomorphism then $f^* p_i(Y) = p_i(X)$ using the map $f^* : H^{4i}(Y, \Q) \to H^{4i}(X, \Q)$. However, notice that this does not exactly mean that Pontryagin numbers are preserved because of orientation issues. If $f : X \to X$ is orientation reversing then it reverses the Pontryagin numbers. 
+\bigskip\\
+Indeed, $p_1 = c_1(X)^2 - 2 c_2(X)$. Say $X$ is a $2$-dimensional complex manifold. Then $p_1 \in H^4(X, \Q)$ so there is a canonical $\deg{p_1} \in \ZZ$ which is given the orientation on $X$. Hovever, there exist orientation-reversing homeomorphisms $f : X \to X$ which means $f^* p_1 = -p_1$. This means that if we transport the complex structure along $f$ we get a complex manifold $X'$ such that $p_1(X') = -p_1(X)$. Since $c_2(X) = \chi(X)$ is a topological invariant we see that,
+\begin{enumerate}
+\item $c_2(X') = c_2(X)$
+\item $c_1^2(X') = 4 c_2(X) - c_1^2(X)$
+\end{enumerate}
+such that $p_1(X') = - p_1(X)$. Indeed, this is theorem 9 of ``TOPOLOGICALLY INVARIANT CHERN NUMBERS OF PROJECTIVE VARIETIES''. 
+
+\section{fpqc sheaf that does not sheafify}
+
+\newcommand{\Set}{\mathrm{Set}}
+
+\begin{rmk}
+A reference for this is: BASICALLY BOUNDED FUNCTORS AND FLAT SHEAVES by WILLIAM C. WATERHOUSE.
+\end{rmk}
+
+The fpqc site has the problem that given a scheme $X$, there is no cofinal \textit{set} of fpqc covers of $X$.
+\bigskip\\
+Indeed, consider $X = \Spec{k}$. Then let $X_I = \Spec{k(t_i)_{i \in I}}$ for any index set. Then consider,
+\[ \{ X_I \to X \}_{I \in \Set} \]
+raning over all sets which is an fpqc cover. Any refinement of this cover $\{ V_j \to X \}_{j \in J}$ by a set $J$ must have for each $I$ there is some $j$ such that $V_j \to X_I \to X$ factors $V_j \to X$ but then $\Spec{k(t_i)_{i \in I}} \to V_j$ menaing that $V_j$ has a point with residue field $\# \kappa(x) \ge \# I$ and thus the residue fields of the schemes $V_j$ must have unbounded cardinality. This is impossible if $J$ is a set since each scheme has a set of residue fields.
+
+\begin{defn}
+Consider the presheaf $F : \mathrm{Sch}_{\text{fpqc}} \to \Set$ defined as follows,
+\[ F(X) \to \{ \text{locally constant } f : X \to \mathrm{Card} \mid f(x) \le \# \kappa(x) \} \]
+where $\mathrm{Card}$ is the proper class of all cardinals. If $f : X \to Y$ is a map then $\kappa(f(x)) \embed \kappa(x)$ so the pullback $F(Y) \to F(X)$ is well-defined.
+\end{defn}
+
+\begin{rmk}
+It is not immediately apparent that $F$ is set (rather than proper class) valued. Indeed, since the scheme $X$ has a set of points and hence $\# \kappa(x)$ for $x \in X$ is bounded by some cardinal $\lambda$ and then,
+\[ F(X) = \{ \text{locally constant } f : X \to \lambda \mid f(x) \le \# \kappa(x) \} \]
+which is a set.
+\end{rmk}
+
+\begin{prop}
+$F$ has no fpqc-sheafification.
+\end{prop}
+
+\begin{proof}
+Suppose there was a sheaf $G$ and a universal morphism $\varphi : F \to G$. Furthermore, for any cardinal $\lambda$ consider the presheaf,
+\[ L_\lambda(X) = \{ \text{locally constant } f : X \to \lambda \} \]
+Sending cardinals less than $\lambda$ to themselves and others to zero we get a map,
+\[ F \to L_\lambda \]
+For each $X$ we have argued that $F(X) \to L_\lambda(X)$ is injective. Now $L_\lambda$ is a sheaf. Indeed, it is represented by $\lambda$-copies of $\Spec{\Z}$. By the universal property we get,
+\begin{center}
+\begin{tikzcd}
+F \arrow[rr] \arrow[rd] & & F_\lambda
+\\
+& G \arrow[ru, dashed] 
+\end{tikzcd}
+\end{center}
+and $F(X) \embed F_\lambda(X)$ is injective for some $\lambda$ and thus $F \embed G$ is an injection. 
+\bigskip\\
+Let $f : U \to X$ be an fpqc cover. Then by the sheaf condition,
+\begin{center}
+\begin{tikzcd}
+G(X) \arrow[r] & G(U) \arrow[r] & G(U \times_X U)
+\\
+F(X) \arrow[u, hook] \arrow[r] & F(U) \arrow[u, hook] \arrow[r] & F(U \times_X U) \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+where the top row is an equalizer. Now suppose that $X, U$ are fields. Then $\Spec{U}$ is a single point so the sets maps $U \times_X U \to U$ are set-theoretically the same. Thus $F(U)$ is the equalizer of the two maps $F(U) \to F(U \times_X U)$ and therefore $F(U) \to G(U)$ factors through $G(X) \to G(U)$ hence $F(U) \embed G(X)$. However, for a field $U = \Spec{K}$ we have $\# F(U) \ge \# K$ so for a fixed field $X$ we can take arbitrarily large cardinalities for $K$ and $F(U) \embed G(X)$ which contradicts that $G(X)$ is a set. 
+\end{proof}
+
+\begin{rmk}
+How does this work if we had universes? The sheafification is basically a universe-sized colimit and so we would get that $G$ is universe-sized so if we changed the universe $G$ would increase unboundedly. Indeed, for a fixed cardinality $\lambda$ which is a universe, we just get that $G = F_\lambda$ since all schemes have residue fields bounded by $\lambda$ and alternatively we can always cover a scheme such that its residue fields are arbitrarily large. 
+\end{rmk}
+
+\section{$h$-Cobordism}
+
+\begin{defn}
+An $h$-cobordism between $n$-manifolds $M, N$ is a cobordism $W$ such that both inclusions $M \embed W$ and $N \embed W$ are homotopy equivalences. 
+\end{defn}
+
+\begin{rmk}
+In particular, $M$ and $N$ are homotopy equivalent.
+\end{rmk}
+
+\begin{rmk}
+Unlike other types of cobordisms, $h$-cobordism classes don't usually form a group. For oriented manifolds, there is a coboridsm $M \sqcup \overline{M}$ to $\empty$ by using a tube $M \times [0,1]$ with both boundary components thought of as the source of the cobordism. However, this is not an $h$-coborhism unless $M$ is contractible. 
+\end{rmk}
+
+\begin{theorem}[Smale]
+Let $n \ge 5$ and $W$ a compact $(n+1)$-dimensional $h$-cobordism between $M$ and $N$ in $C = \mathbf{Diff}, \mathbf{PL}, \mathbf{Top}$ such that $W, M, N$ are simply-connected, then $W$ is $C$-trivial meaning isomorphic in $C$ to $M \times [0,1]$ rel boundary. In particular, $M$ and $N$ are isomorphic in $C$. 
+\end{theorem}
+
+\section{Spectral Norm}
+
+Let $A$ be an $\RR$-algebra. Then we define the spectrum of $f \in A$ via,
+\[ \sigma(f) = \{ \lambda \in \RR \mid f - \lambda \text{ is not invertible} \} \]
+
+\begin{example}
+If $A = C^{\infty}(M)$ then $\sigma(f) = \im{f}$. Indeed, $f - \lambda$ is invertible iff it is nonzero iff $\lambda \notin \im{f}$. 
+\end{example}
+
+\begin{example}
+If $A$ is the ring of linear endomorphisms of a vectorspace $V$. Then $\sigma(\varphi)$ for $\varphi \in A$ is the set of eigenvectors. Indeed, $\varphi - \lambda$ is not invertible iff $\det{(\varphi - \lambda)} = 0$. 
+\end{example}
+
+\begin{example}
+If $A$ is the ring of bounded linear endomorphism of a Banach space $V$ then $\sigma(T)$ is the spectrum which is a closed set. For a compact operator $T$ this is the closure of the set of eigenvalues.
+\end{example}
+
+\begin{defn}
+The \textit{spectral norm} $|| f ||$ of an element $f \in A$ is defined as,
+\[ || f || = \sup_{\lambda \in \sigma(f)} | \lambda | \]
+\end{defn}
+
+\section{Closed Points of Stacks}
+
+Consider the stack $[\A^1 / \Gm]$. This has two points, an open point and a closed point with stabilizer $\Gm$. This means that any $\Spec{\CC} \to \A^1 \to [\A^1 / \Gm]$ which does not map through zero hits the open point. Weird!
+
+What happens to the generic point. Well, it also maps to the open point. Indeed, we can see that $\Spec{K} \to \A^1 \to [\A^1 / \Gm]$ determines a map $(\Gm)_K \to \A^1$ given by the base change of the action to the generic point. This is isomorphic as a $K$-torsor with a map to $\A^1$ to the base change of the standard inclusion $\Gm \to \A^1$. Indeed, these two maps correspond to $k[t] \to K[t, t^{-1}]$ via either $t \mapsto 1 \ot t$ or $t \mapsto t \ot t$. However, these two maps are isomorphic over $K$ by just sending $1 \ot t$ to $t \ot t$, this is fine its just multiplying my an element of the field.
+\bigskip\\
+This sort of thing shows that in the stack of polarized varities there are many nonclosed $\CC$-points. For example, a conic degenerates to two lines but all conics are equal. This means the pair $(\P^1, \struct{}(2))$ is not closed. However, I think $(\P^1, \struct{}(1))$ is closed since it forms a closed orbit of the Hilbert scheme. I think the closed orbits of the $\PGL$-action on the Hilbert scheme will correspond to the closed points of the stack. Certainly, the open orbits correspond to open points since the map from the Hilbert scheme is a $\PGL$-torsor hence smooth so it is open. 
+\bigskip\\
+However, this does not endanger our argument that if we have an integral ft $k$-scheme $S$ with a map $f : S \to \X$ to a stack such that all closed points map to a single point $x \in |\X|$ then $f(|S|) = \{ x \}$. Indeed, it follows from the following lemma.
+
+\begin{lemma}
+Let $f : X \to Y$ a continuous map and $x_0 \rightsquigarrow x_1$ then $f(x_0) \rightsquigarrow f(x_1)$.
+\end{lemma}
+
+\begin{proof}
+$x_1 \in \overline{ \{ x_0 \} }$ and thus $f(x_1) \in f(\overline{ \{ x_0 \}}) \subset \overline{\{ f(x_0) \}}$.
+\end{proof}
+
+Therefore, for any $s \in S$ we see that $f(x) \rightsquigarrow x$. However, also in $S$ the closed points are dense so $f(S) \subset \overline{f(S_{\text{closed}})} = \overline{ \{ x \} }$. However, if $\X$ is quasi-separated then $|\X|$ is sober (\chref{https://stacks.math.columbia.edu/tag/0DQQ}{Tag 0DQQ}) meaning that $x$ is the unique generic point of $\overline{ \{ x \} }$ and thus $f(s) = x$. This seems to not need Chevalley's theorem at all. 
+\bigskip\\
+Indeed, the stack of polarized schemes is quasi-separated by \chref{https://stacks.math.columbia.edu/tag/0DPU}{Tag 0DPU}. However, this does allow all but one closed points to map to $x$ and then the remaining closed point to map to $x'$ s.t. $x \spto x'$. In this case the generic points will still map to $x$. This is what happens when an isotrivial family degenerates for example.
+\bigskip\\
+The philosophy is that the open points have larger dimension since the points with large stabilizers have very negative dimension. In this sense, the closed special objects should be the ones with exceptionally large automorphism groups. For example, in polarized schemes, the locus with Hilbert polynomial $2 t + 1$ in $\P^2$ corresponds to $[\P^5 / \PGL_3]$. Now the orbits of $\PGL_3 \acts \P^5$ are,
+\begin{enumerate}
+\item a $5$-dimensional open corresponding to the smooth conics: $B \PGL_2$ with residual stabilizer $\PGL_2$ 
+
+\item a $4$-dimensional locally closed corresponding to the union of two lines: $B (B_2 \times B_2)$ where $B_2 \subset \PGL_2$ is a borel 
+
+\item a $2$-dimensional closed orbit corresponding to double lines: $B G$ where $G$ is the $6$-dimensional stabilizer group of a line in $\P^2$ under the $\PGL_3$-action which is an extension of $\PGL_2$ by an extension of $\Gm$ by $\A^2$ corresponding to the extra automorphisms arising automorphisms of the nilpotents. 
+\end{enumerate}
+
+\begin{rmk}
+Let $X \subset \P^2$ be a double line. Then $\I_{X} = \struct{}(-2)$ and $\I_{X_{\red}} = \struct{}(-1)$ so the nilpotent sequence is,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X_{\red}}(-1) \arrow[r] & \struct{X} \arrow[r] & \struct{X_{\red}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+giving $H^0(X, \struct{X}) = k$ as expected from the ideal sheaf sequence on $\P^2$. However, there are more automorphisms that just $\PGL_2$ since the isomorphism $f^* \struct{X} \to \struct{X}$ is just a morphism of sheaves of $\CC$-algebras not of $\struct{X}$-modules. Since $f^* \struct{X} \cong \strut{X}$ abstractly and nilpotents must map to nilpotents we need to consider morphisms of diagrams,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X_{\red}}(-1) \arrow[d] \arrow[r] & \struct{X} \arrow[d] \arrow[r] & \struct{X_{\red}} \arrow[d, equals] \arrow[r] & 0
+\\
+0 \arrow[r] & \struct{X_{\red}}(-1) \arrow[r] & \struct{X} \arrow[r] & \struct{X_{\red}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so the inner morphism is an isomorphism but it is not determined by the outer morphisms. We see that,
+\[ \Hom{\text{Rings}}{\struct{X}}{\struct{X}} = \Hom{\struct{X}}{\Omega_{X}}{\struct{X_{\red}}(-1)} \]
+and the conormal sequence gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X_{\red}}(-1) \arrow[r] & \Omega_{X} \arrow[r] & \Omega_{X_{\red}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+therefore we get a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(\struct{X_{\red}}(1)) \arrow[r] & \Hom{\struct{X}}{\Omega_X}{\struct{X_{\red}}(-1)} \arrow[r] & H^1(\struct{X_{\red}}) \arrow[r] & \Ext{1}{\struct{X}}{\Omega_{X_{\red}}}{\struct{X_{\red}}(-1)}
+\end{tikzcd}
+\end{center}
+and there is a base-change spectral sequence,
+\[ E_2^{p,q} = \Ext{p}{\struct{X_{\red}}}{\Omega_{X_{\red}}}{\shExt{q}{\struct{X}}{\struct{X_{\red}}}{\F}} \implies \Ext{p+q}{\struct{X}}{\Omega_{X_{\red}}}{\F} \]
+and we see that,
+\[ \Ext{1}{\struct{X_{\red}}}{\Omega_{X_{\red}}}{\struct{X_{\red}}(-1)} = H^1(X_{\red}(1)) = 0 \]
+and likewise,
+\[ \shExt{1}{\struct{X}}{\struct{X_{\red}}}{\struct{X_{\red}}(-1)} = 0 \]
+because the extension class of $\struct{X}$ is trivial so from the exact sequence,
+\begin{center}
+\begin{tikzcd}
+\shExt{0}{\struct{X}}{\struct{X}}{\struct{X_{\red}}} \arrow[r, "\sim"] &  \shExt{0}{\struct{X}}{\struct{X_{\red}}(-1)}{\struct{X_{\red}}(-1)} \arrow[r] & \shExt{1}{\struct{X}}{\struct{X_{\red}}}{\struct{X_{\red}}(-1)} \arrow[r] & \shExt{1}{\struct{X}}{\struct{X}}{\struct{X_{\red}}(-1)}
+\end{tikzcd}
+\end{center}
+and the last term is zero since $\struct{X}$ is locally free. Therefore, 
+\[ \Ext{1}{\struct{X}}{\Omega_{X_{\red}}}{\struct{X_{\red}}(-1)} = 0 \]
+which implies that,
+\[ \dim \Hom{\struct{X}}{\Omega_X}{\struct{X_{\red}}(-1)} = \dim{H^1(\struct{X_{\red}}(1))} + \dim{H^1(\struct{X_{\red}})} = 3 \]
+as expected. Therefore, there are $3 + 3 = 6$ dimensions of automorphism of $X$. 
+\end{rmk}
 \end{document}
