@@ -2249,4 +2249,214 @@ which implies that,
 \[ \dim \Hom{\struct{X}}{\Omega_X}{\struct{X_{\red}}(-1)} = \dim{H^1(\struct{X_{\red}}(1))} + \dim{H^1(\struct{X_{\red}})} = 3 \]
 as expected. Therefore, there are $3 + 3 = 6$ dimensions of automorphism of $X$. 
 \end{rmk}
+
+\section{Some Topos Theory}
+
+\subsection{Preliminaries}
+
+\subsection{Cohomology}
+
+\begin{defn}
+Let $\E$ be a topos. Then there is a unique geometric morphism $\gamma : \E \to \S$ such that,
+\[ \gamma^*(S) = \sum_{s \in S} 1 \quad \text{ and } \quad \gamma^*(E) = \Hom{\E}{1}{E} \]
+We usually write $\Delta$ for $\gamma^*$ and $\Gamma$ for $\gamma_*$.
+\end{defn}
+
+\begin{rmk}
+In a sheaf topos, this recovers the notions of constant sheaf and global sections.
+\end{rmk}
+
+\begin{defn}
+Let $\E$ be a topos, write $\Ab(\E)$ for the abelian category of abelian group objects in $\E$. Then the global sections functor induces a left-exact (since it admits a left-adjoint $\Delta$) functor,
+\[ \Gamma : \Ab(\E) \to \Ab \]
+Define the cohomology groups as the right-derived functors,
+\[ H^n(\E, A) = R^n \Gamma(A) \]
+For any object $B \in \E$, we can define cohomology in the slice topos,
+\[ H^n_{\E}(B, A) := H^n(\E_{/B}, B^*(A)) \]
+where $B^* : \Ab(\E) \to \Ab(\E_{/B})$ is the base change functor $E \mapsto (E \times B \to B)$. 
+\end{defn}
+
+\begin{prop}
+We have,
+\[ \Ext{n}{\E}{B}{-} := R^n \Hom{\E}{B}{-} = R^n \Hom{\Ab(\E)}{\Z[B]}{-} = \Ext{n}{\Ab(\E)}{\Z[B]}{-} \]
+Then,
+\[ \Ext{n}{\E}{B}{-} = H^n(B, -) \]
+\end{prop}
+
+\begin{proof}
+This is because,
+\[ \Gamma(\E_{/B}, B^*(-)) = \Hom{\E_{/B}}{B}{B^*(-)} = \Hom{\E}{B}{-} \]
+since $B$ is the terminal object of $\E_{/B}$. Where,
+\[ \Z[B] = \bigoplus_{n \in \ZZ} B \]
+in $\Ab(\E)$ is left-adjoint to $\Ab(\E) \embed \E$.
+\end{proof}
+
+\begin{example}
+In a sheaf topos $\E$ on a site $\C$, the cohomology of a representable object $h^X$ is,
+\[ H^n(h^X, A) = R^n \Hom{\E}{h^X, A} = R^n \Gamma(X, A) = H^n(X, A) \]
+is cohomology of $X$ in the usual sense of derived functors of $\Gamma(X, -)$. 
+\end{example}
+
+\begin{rmk}
+However, there are sites $\C$ without a terminal object. In these sites, there isn't a representable ``global sections'' however, the topos $\E = \Sh(\C)$ has a global sections functor,
+\[ \Gamma(\C, -) := \Hom{\E}{1}{-} \]
+\end{rmk}
+
+\begin{example}
+The \etale or Zariski site of a nontrivial stack usually does not have a terminal object. For example, let $G$ be finite \etale group scheme over a base $S$. Then consider the stack $BG$ of $G$-tosors. The \etale site $(BG)_{\et}$ of $BG$ is the site of \etale maps $U \to BG$ from $k$-schemes equiped with \etale covers. Concretely, this is the category of pairs $(U, P)$ where $P$ is a $G$-torsor over $U$ and $U$ is an \etale $k$-scheme (the map $U \to BG$ being \etale is equivalent to $P \to S$ being \etale or equivalently $U \to S$ being \etale). The morphisms $(U, P) \to (U', P')$ are equivariant diagrams,
+\begin{center}
+\begin{tikzcd}
+P \arrow[r] \arrow[d] & P' \arrow[d]
+\\
+U \arrow[r] & U'
+\end{tikzcd}
+\end{center}
+These automatically make $P \iso U \times_{U'} P'$. There is no terminal object since there is no scheme with a universal $G$-torsor. This is why we needed to define the stack! Therefore, we need to define global sections as,
+\[ \Gamma((BG)_{\et}, -) = \Hom{\Sh{(BG)_{\et}}}{1}{-} \]
+meaning compatible choices of a section on every object of $(BG)_{\et}$. Let's compute,
+\[ H^i((BG)_{\et}, \Z) \] 
+(DO EXAMPLE!!!)
+\end{example}
+
+
+\subsection{Covers}
+
+\begin{defn}
+Let $f : \F \to \G$ be a morphism in a topos $\E$. Then $f$ is a \textit{cover} if $f$ is an epimorphism. We say that a family $\{ \F_\alpha to \G \}$ is a cover if $\sqcup \F_\alpha \to \G$ is.
+\end{defn}
+
+\begin{defn}
+A set $\{ X_\alpha \}$ of objects $X_\alpha \in \E$ is a \textit{cover} of $\E$ if the canonical maps $\{ X_\alpha \to 1 \}$ is a covering family.  
+\end{defn}
+
+\begin{prop}
+The collection of covers forms a Grothendieck topology on any topos $\E$.
+\end{prop}
+
+\begin{proof}
+We need to check the following axioms:
+\begin{enumerate}
+\item if $f : \G' \to \G$ is any morphism and $\{ \F_\alpha \to \G \}$ is a covering family then,
+\begin{center}
+\begin{tikzcd}
+\F_\alpha' \arrow[r] \arrow[d] \arrow[d] \pullback & \F_\alpha \arrow[d]
+\\
+\G' \arrow[r] & \G
+\end{tikzcd}
+\end{center}
+is a covering family. Indeed, pullbacks commute with coproducts (pullback is a left-adjoint by the existence of Power objects and hence preserves colimits) and preserve epimorphisms [SGL, Prop. 7.3]
+
+\item if $\{ \F_\alpha \to \G \}$ is a covering family and $\{ \F_{\alpha \beta} \to \F_\alpha \}$ are covering families then $\{ \F_{\alpha \beta} \to \G \}$ is a covering family. This is just compatibility reindexing coproducts and that compositions of epis are epis
+
+\item If $f : \F \to \G$ is an isomrophism then $f$ is an epi and hence a cover.
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+Let $\E = \Sh(\C)$ where $\C$ is a site. Then if $f : Y \to X$ is a morphism in $\C$ then,
+\[ f : h^Y \to h^X \text{ is a cover } \iff f : Y \to X \text{ is refined by a cover } \]
+\end{prop}
+
+\begin{proof}
+Suppose $f : h^Y \to h^X$ is an epimorphism. Then, for $\id \in h^X(X)$ there is a covering family $\{ U_\alpha \to X \}$ such that $\id|_{U_\alpha}$ which is $(U_\alpha \to X) \in h^X(U_\alpha)$ is in the image of $h^Y(U_\alpha) \to h^X(U_\alpha)$. Explicitly, this means there are maps,
+\begin{center}
+\begin{tikzcd}
+& Y \arrow[d]
+\\
+U_\alpha \arrow[r] \arrow[ru] & X
+\end{tikzcd}
+\end{center}
+so $X' \to X$ is refined by a cover. 
+\bigskip\\
+Conversely, if $f : X' \to X$ is refined by a cover then for any $T \to X$ we can base change to $T_{\alpha} \to U_\alpha$ so we get a cover $\{ T_\alpha \to T \}$ such that $T_\alpha \to T \to X$ factors through $T_\alpha \to U_\alpha \to Y$ meaning $h^Y \to h^X$ is an epimorphism. 
+\end{proof}
+
+\begin{rmk}
+It may seem like this is enlarging the covering families too much. However, this is not true because the following lemma says we do not restrict our category of sheaves.
+\end{rmk}
+
+\begin{lemma}
+Let $f : Y \to X$ be refined by a cover. Then any sheaf $\F$ on $\C$ satisfies the sheaf condition for $f$.
+\end{lemma}
+
+\begin{proof}
+This is standard, see Stacks (2022) notes.
+\end{proof}
+
+\subsection{Hypercovers}
+
+
+Now we want to define hypercovers internal to the topos. (DO THIS DEFINITION!!) Verdier!
+
+\begin{proof}
+
+\end{proof}
+
+\subsection{Quasi-Coherent Sheaves}
+
+\begin{defn}
+Let $(\E, \struct{\E})$ be a ringed topos. Then we say a $\struct{\E}$-module $\F \in \E$ is \textit{quasi-coherent} if there exists a cover $\{ U_i \}$ of $\E$.
+\end{defn}
+
+\section{Small Contractions}
+
+We want to study the structure of birational maps $f : X \to Y$. From experience with smooth varities we expect the exceptional locus to be a divisor. First, we define the exceptional locus.
+
+\newcommand{\Ex}[1]{\mathrm{Ex}\left(#1 \right)}
+
+\begin{defn}
+Let $f : X \to Y$ be a birational map of varieties. Then there exists a largest open $U \subset Y$ such that $f : f^{-1}(U) \to U$ is an isomorphism. Then the \textit{exceptional locus} if the closed subscheme,
+\[ \Ex{f} = X \sm f^{-1}(U) \]
+\end{defn}
+
+\begin{prop}[Kollar-Mori, Cor. 2.63]
+If $f : X \to Y$ is birational where $X$ is projective and $Y$ is $\Q$-factorial then $\Ex{f}$ is pure codimension $1$.
+\end{prop}
+
+\begin{proof}
+Heuristically, $f$ is projective hence is a blowup at some ideal $\I \subset \struct{Y}$. Using the methods [Hartshorne, Ex. 7.11] (which only requires that $Y$ has $\Q$-factorial singularities) we modify $\I$ such that it has support equal to $Y \sm U$ where $U$ is the largest open over which $f$ is an isomorphism. Therefore, $\Ex{f}$ is the total transform of $V(\I)$ which is a Cartier divisor by the definition of blowing up.
+\end{proof}
+
+\begin{example}
+Let $Y = \Spec{k[x,y,z,w]/(xy - zw)}$ be the affine cone over a the quadric surface $Q = \Proj{k[x,y,z,w]/(xy - zw)}$. Thus $Y$ which has an isolated singularity at the origin which is not $\Q$-factorial. Indeed, consider the prime divisor,
+\[ D = V(x,z) \]
+Then I claim that $n D$ is never Cartier for $n \neq 0$. Indeed, the vanishing of each coordinate function $x,y,z,w$ contains components.
+\bigskip\\
+Set $\wt{X} = \Bl_0 Y$ which has exceptional fiber $Q$. We can blow down along the two rulings to get two smooth $3$-folds,
+\begin{center}
+\begin{tikzcd}
+& \wt{X} \arrow[ld] \arrow[rd]
+\\
+X \arrow[rd] & & X^+ \arrow[ld]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+These can be described as the blowups along $I = (x,z)$ and $I^+ = (x,w)$. Since the exceptional of $\wt{X} \to Q$ is codimension $1$ then by contracting $Q$ to a curve on $X$ and $X^+$ we see that these blowups $X \to Y$ and $X^+ \to Y$ has codimension $2$ exceptional divisors.
+\bigskip\\
+Let's compute this in coordinates. By symmetry, it suffices to consider $X \to Y$ which is the blowup of $I = (x, z)$. Then,
+\[ \Bl_I(A) = A[u,v]/(uz - vx, uy - vw) \]
+Then we get two charts for $X$,
+\begin{align*}
+U_0 &= \Spec{A[\tfrac{u}{v}]/(\tfrac{u}{v} z - x, \tfrac{u}{v} y - w)} = \Spec{k[y,z,\tfrac{u}{v}]} \\
+U_1 &= \Spec{A[\tfrac{v}{u}]/(z - \tfrac{v}{u} x, y - \tfrac{v}{u} w)} = \Spec{k[x,w,\tfrac{v}{u}]}
+\end{align*}
+so we indeed see that $X$ is smooth (in fact it is locally affine space). The fiber over $I$ is,
+\[ f^{-1}(V(I)) = \Proj{k[y,w][u,v]/(uy - vw)} \]
+However, this is \textit{not} the exceptional locus since $I$ is invertible on $Y \sm \{ 0 \}$. Indeed, the exceptional locus is exactly over the origin since these are blowdowns of $\wt{X}$. Then the exceptional locus is,
+\[ E = \Proj{\Bl_I(A) / \m \Bl_I(A)} = \Proj{k[u,v]} \]
+which is a copy of $\P^1$. 
+\end{example}
+
+\begin{defn}
+A \textit{small contraction} is a birational map $f : X \to Y$ with $\codim{\Ex{f}, X} \ge 2$.
+\end{defn}
+
+\begin{rmk}
+We have seen if $Y$ is not $\Q$-Cartier there are often small contractions. However, this does not always happen. For example, if $Y$ is the projective cone over a degree $d$ plane curve, this is normal and projective but not $\Q$-factorial. However, there is no small contraction over $Y$. Indeed, since $\dim{Y} = 2$, such a small contraction would have zero dimensional exceptional locus. However, $Y$ is normal so any birational map has connected fibers. Thus, we see that small contractions are a dimension $\ge 3$ phenomenon. 
+\end{rmk}
+
+
+
+
 \end{document}

@@ -13,7 +13,6 @@
 \newcommand{\Cond}{\mathrm{Cond}}
 \newcommand{\Shv}{\mathrm{Shv}}
 \newcommand{\Pre}{\mathrm{Pre}}
-\newcommand{\ul}[1]{\underline{#1}}
 \newcommand{\cf}{\mathrm{cf}}
 
 \newcommand{\cC}{\mathcal{C}}
@@ -21,14 +20,10 @@
 \newcommand{\DK}{\mathrm{DK}}
 \renewcommand{\Cech}{\text{\v{C}ech}\xspace}
 
-
 \newcommand{\TT}{\mathbb{T}}
 \newcommand{\Simp}{\mathrm{Simp}}
 
-\DeclareMathOperator{\sk}{\mathrm{sk}}
-\DeclareMathOperator{\cosk}{\mathrm{cosk}}
-\DeclareMathOperator{\bfsk}{\mathbf{sk}}
-\DeclareMathOperator{\bfcosk}{\mathbf{cosk}}
+\newcommand{\sol}{\square}
 
 \begin{document}
 \section{April 4: Pol}
@@ -625,6 +620,35 @@ Indeed, if the hypercover $U_\bullet \to X$ is the \Cech nerve of a cover $U$ th
 \[ \DK(\F(U_\bullet)) = \left[ 0 \to \F(U) \to \F(U \times_X U) \to \F(U \times_X U \times_X U) \to \cdots \right] \]
 \end{example}
 
+\subsection{Hypercovers, Acyclicity, and Homology}
+
+Let $\C$ be a site and $\F$ a sheaf. We write $\Z[\F]$ for the sheaf of free abelian groups on $\F$ i.e. the sheafification of,
+\[ X \mapsto \Z[\F(X)] \]
+We can define a \textit{hypercover} of simplicialsheaves $\K_\bullet \to \G$ exactly as above with ``cover'' replaced by epimorphism of sheaves. 
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/01GE}{Tag 01GE}]
+Let $\K_\bullet \to \G$ be a hypercover of sheaves on $\C$. Then the natural map of complexes,
+\[ \DK(\Z[\K_\bullet]) \to \Z[\G] \]
+is a quasi-isomorphism. Explicitly, setting,
+\[ H_i(\K_\bullet) := H_i(\DK(\Z[\K_\bullet])) \]
+Then,
+\[ H_i(\K_\bullet) = 
+\begin{cases}
+\Z[\G] & i = 0
+\\
+0 & i > 0
+\end{cases} \]
+\end{lemma}
+
+\begin{rmk}
+We think of this as the homology of a simplicial object $\K_\bullet$ since if $S_\bullet$ is the simplicial set formed by the singular simplices of a topological space $X$ then by definition,
+\[ H_i(S_\bullet) = H_i(\DK(\Z[S_\bullet])) = H_{\sing}^i(X, \Z) \]
+\end{rmk}
+
+\begin{proof}
+The idea is to directly verify that $\K_\bullet(U) \to \G(U)$ is a trivial Kan fibration. (DRAW PICTURE)
+\end{proof}
+
 \subsection{Cohomology and Hypercovers}
 
 Much like ordinary \Cech cohomology, we can define an absolute hypercover version by taking a direct limit.
@@ -665,7 +689,7 @@ As with ordinary \Cech cohomology, the main computation is,
 where $\I$ is an injective sheaf. (DO THIS!!!!)
 \end{proof}
 
-\subsection{Cohomology Internal to a Topos}
+\subsection{Cohomology Internal to a Topos (SKIP THIS!!)}
 
 \begin{defn}
 Let $\E$ be a topos. Then there is a unique geometric morphism $\gamma : \E \to \S$ such that,
@@ -756,8 +780,6 @@ induces a surjection $X_{n+1} \to (\bfcosk_n(X_\bullet))_{n+1}$.
 The advantage of hypercovers is to package together the idea of refining the higher intersections of a cover so that the objects have nicer properties. This is useful for us because products of extremally disconnected spaces are not extremally disconnected so it is useful to use hypercoverings to refine each level all at once.
 \end{rmk}
 
-(IS THIS ACTUALLY A RESOLUTION, WHY EXACT)
-(DONT USE THIS!!)
 Then if $S_\bullet \to S$ is a simplicial hypercovering then we get a projective resolution via $\DK(\Z[S_\bullet])$,
 \begin{center}
 \begin{tikzcd}
@@ -777,10 +799,8 @@ Let $S$ be a compact Hausdorff space and $S_\bullet \to S$ a simplicial hypercov
 \end{prop}
 
 \begin{proof}
-If $S$ is extremely disconnected, 
-\[ H^\bullet_{\cond}(S, \Z) = \Ext{n}{\Cond(\Ab)}{\Z[\underline{S}]}{\Z} = 0\]
-for $n > 0$ since $\Z[\underline{S}]$ is projective. Thus the \Cech-to-derived spectral sequence for the hypercover $S_\bullet \to S$ degenerates giving,
-\[ H^n_{\cond}(S, 
+Using the projective resolution we compute,
+\[ H^n_{\cond}(S, \Z) = \Ext{n}{\Cond(\Ab)}{\Z[\underline{S}]}{\Z} = H^n(\Hom{\Cond(\Ab)}{\Z[\underline{S_\bullet}]}{\Z} = H^n(\Gamma(S_\bullet, \Z)) \]
 \end{proof}
 
 \begin{defn}
@@ -873,7 +893,7 @@ From now on, we will simply write $H^i(S, \Z)$ to denote any of $\check{H}^i(S, 
 
 \begin{theorem}
 For any compact Hausdorff space $S$ one has,
-\[ H^i_{\cond}(S, \$R) = 0 \]
+\[ H^i_{\cond}(S, \RR) = 0 \]
 for $i > 0$ and $H^0_{\cond}(S, \RR) = C^0(S, \RR)$.
 \end{theorem}
 
@@ -893,5 +913,647 @@ is exact with the explicit estimate if $f \in C^0(S_j, \RR)$ with $\d{f} = 0$ th
 We first do the case that all $S_i$ are finite. Then the hypercover splits 
 \end{proof}
 
+\section{April 25 Locally Compact Abelian Groups}
+
+Recall: $\Cond(\Ab)$ has a tensor product $M \ot N$ which is the sheafification of,
+\[ S \mapsto M(S) \ot N(S) \]
+There is an internal hom,
+\[ \uHom{}{M}{N}(S) = \Hom{}{\Z[S] \ot M}{N} \]
+which is what it has to be such that tensor-hom adjunction holds. This is the same as ordinary sheaf hom since they both satisfy the adjunction.
+
+\begin{prop}
+Let $A, B$ be Hausdorff top. abelain group, $A$ locally compact. Then,
+\[ \uHom{}{\underline{A}}{\ul{B}} = \ul{\Hom{}{A}{B}} \]
+\end{prop}
+
+\begin{proof}
+Indeed, 
+\[ \uHom{}{A}{B}(S) = \Hom{}{\ul{A} \ot \Z[S]}{\ul{B}} \]
+and likewise,
+\[ \ul{\Hom{}{A}{B}}(S) = C(S, \Hom{}{A}{B}) = C(S \times A, B) \]
+
+Then consider,
+\[ \Z[\u{A} \times \u{A}] \to \Z[\u{A}] \to \u{A} \to 0 \]
+where the first map is,
+\[ [a_1, a_2] \mapsto [a_1 + a_2] - [a_1] - [a_2] \]
+Then we get,
+\[ \Z[\u{A} \times \u{A} \times S] \to \Z[\u{A} \times S] \to A \ot \Z[S] \to 0 \]
+(DO IT !!)
+\end{proof}
+
+\renewcommand{\u}{\underline}
+\newcommand{\Fun}{\mathrm{Fun}}
+
+Goal: compute $\Ext{\bullet}{}{\u{A}}{\u{B}}$. Idea is reduce to,
+\[ H^\bullet_{\cond}(X, \u{B}) = \Ext{\bullet}{}{\Z[X]}{\u{B}} \]
+We will do this with Brelu-Deligne resolutions.
+
+\begin{theorem}
+There exists a functorial resolution of an abelian group $A$ of the form,
+\[ \cdots \to \bigoplus_{i = 1}^{n_k} \Z[A^{r_ik}] \to \cdots \to \Z[A^2] \to \Z[A] \to A \to 0 \]
+with universal numbers $n_k$ and $r_{ik}$.
+\end{theorem}
+
+If $A \in \Cond(\Ab)$ then $A(S)$ is an ordinary group. We can form this resolution functorially so we get a resolution of $A(S)$ functorially in $S$ and thus it is a resolution of $A$. Hence we can resolve $\u{A} \ot \Z[S]$ by objects of the form.
+\[ \bigoplus_{i = 1}^{n_{ij}} \Z[A^{r_{ij}} \times S] \]
+
+\begin{rmk}
+What is a BD-resolution a resolution of? Take $\C = \Fun(\Ab, \Ab)$. Then consider the functors $\id : \C$ and $F_n \in \C$ which takes $F_n(A) = \Z[A^n]$. Then a BD-resolution is a resolution of $\id$ by finite direct sums of the $F_n$. 
+\end{rmk}
+
+\begin{cor}
+For condensed abelian grousp $A,M$ and any ED set $S$, there is a spectral sequence,
+\[ E^{p,q}_1 = \prod_{i = 1}^{n_p} H^q_{\cond}(A^{r_{i, p}} \times S, M) \implies \Ext{p+q}{\Cond(\Ab)}{A}{M}(S) \]
+\end{cor}
+
+
+\begin{prop}
+Let $A$ be a locally compact abelian group, then there is an isomorphism,
+\[ A \cong \R^n \times A' \] 
+where $A'$ has an open compact subgroup. Furthermore, then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A_c \arrow[r] & A' \arrow[r] & A_d \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $A_c$ is compact and $A_d$ is discrete. 
+\end{prop}
+
+\begin{rmk}
+Since $A_d$ is a discrete group then there is a presenation,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z^{\oplus J} \arrow[r] & \Z^{\oplus I} \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+dually, since $A_c$ is compact then there is a copresentation,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A_c \arrow[r] & (\SS^1)^{I} \arrow[r] & (\SS^1)^{J} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+Therefore, it suffices to compute $\Ext{i}{}{A}{B}$ for $A, B \in \{ \Z, \RR, \SS^1 \}$.
+
+\begin{example}
+We have $\Z_p^\vee = \Z[p^{-1}]/\Z$ and therefore a resolution
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z^{\N} \arrow[r] & \Z^{\N} \arrow[r] & \Z_p^\vee \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+gives a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z_p \arrow[r] & (\SS^1)^{\N} \arrow[r] & (\SS^1)^{\N} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{example}
+
+\begin{theorem}
+\begin{enumerate}
+\item $\RHom{}{\R}{M} = 0$ for $M$ discrete
+
+\item $\RHom{}{(\SS^1)^I}{M} = \bigoplus_I M[-1]$
+
+\item $\RHom{}{(\SS^1)^I}{\RR} = 0$
+
+\item $\RHom{}{\RR}{\RR} = \RR$
+
+\item $\RHom{}{\RR}{(\SS^1)^I} = \RR^I$
+\end{enumerate}
+\end{theorem}
+
+\renewcommand{\cond}{\mathrm{cond}}
+\begin{proof}
+Suffices to prove that $H^i_{\cond}(\RR^r \times S, M) \to H^i_{\cond}(S, M)$ is an isomorphism. Then, this shows $\RHom{}{\RR}{M} = 0$.
+\bigskip\\
+Indeed,
+\begin{align*}
+H^i_{\cond}(\RR^r \times S, M) &= \ilim H^i_{\cond}([-n,n]^r \times S, M) 
+\\
+& = \ilim H^i_{\sheaf}([-n,n]^r \times S, M) \iso H^i_{\sheaf}(S, M) = H^i_{\cond}(S, M) 
+\end{align*}
+Now we want to show,
+\[ \RHom{}{(\S^1)^I}{M} = \bigoplus_I M[-1] \]
+for $M$ discrete. For $I$ finite then,
+\[ 0 \to \Z^I \to \RR^I \to (\SS^1)^I \to 0 \]
+then apply $\Hom{}{-}{M}$ and we get,
+\[ 0 \to \Hom{}{\Z^I}{M} \iso \Ext{1}{}{(\SS^1)^I}{M} \to 0 \]
+Now for $I$ infnite, we need that,
+\[ \dlim_{I_0 \subset I} \Ext{\bullet}{}{(\SS^1)^I}{\RR} \iso \Ext{\bullet}{}{(\SS^1)^I}{\RR} \]
+
+
+Next: we need to compute,
+\[ \RHom{}{(\SS^1)^I}{\RR} = 0 \]
+Recall, or all compact Hausdorff spaces $S$, we saw,
+\[ H^i_{\cond}(S, \RR) = 0 \]
+for $i > 0$ and hence $\Z[S]$ are acyclic for $\Hom{}{-}{\RR}$ and so $\Ext{i}{(\SS^1)^I}{\RR}(S)$ is computed by, taking a BD-resolution of $(\SS^1)^I$ with terms sums of $\Z[(\SS^1)^{I \times r}]$ and then applying $\Hom{}{-}{\RR}$ gives a complex of Banach spaces (with the sup norm),
+\[ \cdots \to \bigoplus_{i = 1}^{n_j} C((\SS^1)^{I \times r_j} \times S, \RR) \to \cdots \]
+Observation: let $F^\bullet(A)$ be a BD-resolution. Then for all $A$ maps $n : F^\bullet(A) \to F^\bullet(B)$ and $[n]^* : F^\bullet(A) \to F^\bullet(B)$ are chain homotopic. This is because in the category of functors $\Fun(\text{Latt}, \Ab)$ then $F_n$ is a set of compact projective generators. Therefore, the BD-resolution is a projective resolution in this category. Therefore $2$ and $[2]$ are both endomorphisms of a projectie resolution which are the same on the first term and hence are chain homotopic.
+\bigskip
+Let $h_i : F^i(A) \to F^{i+1}(A)$ be a chain homotopy witnessing this. Let,
+\[ f \in \bigoplus_{i = 1}^{n_r} C((\SS^!)^{I \times n_j}, \RR) \]
+be such that $\d{f} = 0$ we want to show that $f = \d{g}$. Then,
+\[ 2 f = [2]^* f + d{(h^*_{i-1}(f))} \]
+then,
+\[ f = \tfrac{1}{2} [2]^* f + \tfrac{1}{2} \d{(h^*_{i-1}(f))} \]
+However, since $h$ is a map of underlying topological abelian groups thus $h^*$ is a bounded map of Banach spaces (in fact a short map) in the $L^{\infty}$-norm. Therefore, iterating we see that,
+\[ f = \d{ \left( \tfrac{1}{2} h_{i-1}^*(f) + \tfrac{1}{4} h^*_{i-1}([2]^* f) + \cdots \right)} \]
+taking limits so the complex is exact.
+\bigskip\\
+Now we want to show $\RHom{}{\RR}{\RR} = \RR$. Indeed consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ZZ \arrow[r] & \RR \arrow[r] & \SS^1 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then applying $\Hom{}{-}{\RR}$ we get,
+\[ 0 \to \Ext{1}{}{\SS^1}{\RR} \to \Ext{1}{}{\RR}{\RR} \to \Ext{1}{}{\ZZ}{\RR} \to 0 \]
+then the first and last terms vanish by what we have already showed. Indeed,
+\[ \Ext{1}{}{\ZZ}{\RR} = H^1_{\cond}(pt, \RR) = 0 \]
+Now we want to compute,
+\[ \RHom{}{\RR}{(\SS^1)^I} \]
+Choose a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z^n \arrow[r] & \RR^n \arrow[r] & (\SS^1)^n \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then applying $\Hom{}{\RR}{-}$ we get,
+\begin{center}
+\begin{tikzcd}
+\Ext{1}{}{\RR}{\ZZ^n} \arrow[r] & \Ext{1}{}{\RR}{\RR^n} \arrow[r] & \Ext{1}{}{\RR}{(\SS^1)^I} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and the first two are zero from what we have seen so we conclude that the third term is also zero. Therefore,
+\[ \RHom{}{\RR}{(\SS^1)^I} = \Hom{}{\RR}{(\SS^1)^I} = \RR^I \]
+which the product topology viewed as a condensed abelian group. 
+\end{proof}
+
+Now we connect this to the older notion of Ext between locally compact abelian groups.
+
+\begin{defn}
+Let $\E$ be an additive category. A map $f : E \to F$ is \textit{strict} if $\coim{f} \to \im{f}$ is an isomorphism. We say $\E$ is \textit{quasi-abelian} if strict epis are stable under pullback and strict monos are stable under pushout. 
+\end{defn}
+
+The homotopy category $K(\E)$ makes sense for any additive category. If $\E$ is quasi-abelian then strictly exact complexes form a thick subcategory (closed under isomorphisms and extensions).
+
+\begin{defn}
+A short exact sequence is \textit{strict} if it is composed of a strict mono and a strict epi. An exact sequence is \textit{strict} if its decomposition into short exact sequences gives strict short exact sequences.
+\end{defn}  
+
+Then we define $D^b(\text{LCA}) = K(\text{LCA}) / \text{strict-exact}$. 
+\\
+Locally compact abelian groups form a quasiabelian category. We get a map,
+\[ D^b(\text{LCA}) \to D^b(\Cond(\Ab)) \]
+
+\begin{rmk}
+We need some boundedness to get $\RHom{}{-}{-}$ well-defined internally. 
+\end{rmk}
+
+Hoffman, Spitweck, Hom algerba with locally compact abelian groups will imply the following:
+
+\begin{cor}
+$D^b(\text{LCA}) \to D^b(\Cond(\Ab))$ is fully faithful.
+\end{cor}
+
+\begin{proof}
+If $0 \to A \to B \to C \to 0$ is a strictly exact sequence of LCA and $D$ is a LCA and we know  that $\text{LCA} \to \Cond(\Ab)$ gives an isomorphism on $\RHom{}{A}{D}$ and $\RHom{}{C}{D}$ then it gives an isomorphism on $\RHom{}{B}{D}$.
+\bigskip\\
+Therefore,  if $A$ fits into,
+\[ 0 \to A_c \to A \to A_d \to 0 \]
+so it suffices to assume that $A$ is either compact or discrete. Thus we reduce to $A$ either compact, discrete or $\R$. If $A$ is discrete then we get a resolution by $\Z^{\oplus I}$ so we reduce to $A = \Z$. If $A$ is compact then we get a coresolution by powers of $\SS^1$ so it suffices to consider for $A = (\SS^1)^I$. Thus we reduce to our computation and checking this is the same as in Hoffmann's paper. 
+\end{proof}
+
+\section{Solid Abelian Groups}
+
+The tensor product is weird. What is $\Z_\ell \ot \RR$. To fix this, we ``solifigy'' which is like ``non-archimedian completion''. 
+
+\begin{rmk}
+solidification of $\RR$ will be zero.
+\end{rmk}
+
+\begin{defn}
+\begin{enumerate}
+\item if $S = \ilim_i S_i$ is profinite. Then define,
+\[ \Z[S]^{\square} = \ilim_i \Z[S_i] \]
+Notice there is a map,
+\[ S = \ilim_i S_i \to \ilim_i \Z[S_i] = \Z[S_i]^{\square} \]
+and therefore we get a map,
+\[ \Z[S] \to \Z[S]^{\square} \]
+
+\item a \textit{solid abelian group} is a condensed abelian group $A$ such that for all profinite $S$ and $f : S \to A$ there exists $\wt{f} : \Z[S]^{\sol} \to A$ extending $f$
+
+\item a complex $C \in D(\Cond(\Ab))$ is \textit{solid} if for all $S$, 
+\[ \RHom{}{\Z[S]^{\square}}{C} \iso \RHom{}{\Z[S]}{C} \]
+is an isomorphism.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+$A \in \Cond(\Ab)$ is solid as an abelian group iff the complex $A[0]$ is solid. Moreover, $C \in D(\Cond(\Ab))$ is solid iff $H^i(C)$ is solid for all $i$. Also Hom can be replaced by internal hom everywhere.
+\end{prop}
+
+\begin{example}
+The following are solid,
+\begin{enumerate}
+\item discrete abelian groups
+
+\item profinite groups
+
+\item $p$-adic Frechet spaces 
+\end{enumerate}
+\end{example}
+
+\[ \Z[S]^{\sol} = \ilim_i \Z[S_i] = \ilim_i \uHom{}{C(S_i, \Z)}{\Z} = \uHom{}{C(S, \Z)}{\Z} \]
+therefore we should understand,
+\[ C(S, Z) = \{ \text{continuous } f : S \to \Z \} \]
+
+\begin{theorem}
+If $S$ is a profinite set, then $C(S, \Z)$ is a free abelian group. 
+\end{theorem}
+
+\begin{proof}
+Note that $S \embed \prod_I \{ 0, 1 \}$ for some $I$. Indeed write $S = \ilim_j S_j$ for $S_j$ finite then take $I_j$ such that,
+\[ S_j \embed \prod_{I_j} \{ 0, 1 \} \]
+and then setting $I = \coprod_j I_j$ we get,
+\[ S \embed \prod_I \{ 0, 1 \} \]
+Choose a well-ordering on $I$ so $I = \lambda$ for some ordinal $\lambda$ and elements of $I$ are identified with $\mu < \lambda$. Then $\mu < \lambda$ corresponds to an idempotent $e_\mu \in C(S, \Z)$ which is projection onto $\mu$ component. Then order the products $e_{\mu_1}, \dots, e_{\mu_r}$ for $\mu_1 > \cdots > \mu_r$ lexocographically and,
+\[ E = \{ e_{\mu_1} \cdots e_{\mu_r} \text{ which cannot be written as a linear comination of smaller \} \]
+Claim, $E$ is a basis for $C(S, \Z)$. We prove this by induction on $\lambda$. The case $\lambda = 0$ is trivial. For $\mu < \lambda$ let $S_\mu$ be the image of $S$ in $\prod_{\mu' < \mu} \{0,1\}$. If $\lambda$ is a limit ordinal then,
+\[ C(S, \Z) = \dlim_{\mu < \lambda}(S_\mu, \Z) \]
+since $S = \ilim_{\mu < \lambda} S_\mu$ and $\Z$ is discrete so continuous maps have open kernel hence factors through some stage. Then $E = \bigcup_{\mu < \lambda} E_\mu$ so the result follows by induction. Finally, assume $\lambda = \rho + 1$ and let $\ol{S} = S_\rho$ we have $S \embed \ol{S} \times \{ 0, 1 \}$. Let $S_i = S \cap (\ol{S} \times \{ i \} )$ and then,
+\[ S_i \to \ol{S}_i \to \ol{S} \]
+notice $\ol{S} = \ol{S}_0 \cup \ol{S}_1$. Let $\ol{S}' = \ol{S}_1 \cap \ol{S}_2$. We get,
+\[ 0 \to C(\ol{S}, \Z) \to C(S, \Z) \to C(\ol{S}', \Z) \to 0 \]
+which takes the difference,
+\[ f \mapsto f|_{\ol{S}' \times \{ 0 \}} - f|_{\ol{S}' \times \{ 1 \}} \]
+which is exact. By indcution, the elements of $E$ not beginning with $E_\rho$ form a basis of $C(\ol{S}, \Z)$. Also, the elements of $E$ starting with $e_\rho$ form a basis of $C(\ol{S}', \Z)$ by unduction again.
+
+
+\end{proof}
+
+\begin{cor}
+for any profinite set $S$, there is a set $I$ with $|I| \le 2^{|S|}$ and an iso of condensed ab groups $\Z[S]^\sol \cong \prod_I \underline{\Z}$.
+\end{cor}
+
+\begin{proof}
+This is because $C(S, \Z) \cong \bigoplus_I \Z$ and thus,
+\[ \Z[S]^\sol \cong \uHom{}{\bigoplus_I \Z, \Z) \cong \prod_I \Z \]
+\end{proof}
+
+We want to say that $\Z[S]^\sol$ is the ``free solid abelian group''. To do this we better show that $\Z[S]^\sol$ is solid! (both as a module and as a complex). 
+
+\begin{rmk}
+In the definition of solidity, it's enough to only consider ED sets.
+\end{rmk}
+
+\begin{prop}
+if $S_\bullet \to S$ is a hypercover consisting of profinite sets then there is a corresponding complex,
+\[ \cdots \to \Z[S_1]^\sol \to \Z[S_0]^\sol \to \Z[S]^\sol \to 0 \]
+which is exact.
+\end{prop}
+
+\begin{proof}
+Since $H^i(S, \Z) = 0$ for $i > 0$ and cohomology can be computed by any hypercover of profinite sets. Therefore,
+\[ 0 \to C(S, \Z) \to C(S_0, \Z) \to C(S_1, \Z) \to \cdots \]
+is exact and then apply $\RHom{}{-}{\Z}$ noting that the terms of this complex are free abelian. Then,
+\[ \Z[S]^\sol = \Hom{}{C(S, \Z)}{\Z} \]
+so we win.
+\end{proof}
+
+\begin{prop}
+For any profinite $S$, then $\Z[S]^\sol$ is solid both as a module and as a complex.
+\end{prop}
+
+\begin{proof}
+The goal is to show thati f $T$ is profinite then,
+\[ \RHom{}{\Z[T]}{\prod_I \Z} \cong \RHom{\Z[T]^\sol}{\prod_I \Z} \]
+Suffices to assume $I = \{ * \}$. Now, note that,
+\[ \Ext{i}{}{\Z[T]}{\Z} = H^i(T, \Z) = 0 \text{ for } i > 0 \]
+Moreover,
+\[ \Hom{}{\Z[T]}{\Z} = C(T, \Z) \cong \bigoplus_J \Z \]
+Therefore,
+\[ \Z[T]^\sol \cong \prod_J \Z \]
+Then consdier the following short exact sequence,
+\[ 0 \to \prod_J \Z \to \prod_J \RR \to \prod_J \RR / \ZZ \to 0 \]
+Note that $\prod_J \RR$ is a module over $\underline{\RR}$ and therefore,
+\[ \RHom{}{\prod_J \RR}{\ZZ} = \RHom{\RR}{\prod_I \RR}{\RHom{}{\RR}{\ZZ}} = 0 \]
+since $\RHom{}{\RR}{\ZZ} = 0$.
+Similarly,
+\[ \RHom{}{\prod_J \RR / \ZZ}{\ZZ} \cong_J \Z[-1] \]
+therefore,
+\[ \RHom{}{\prod_J \ZZ}{\ZZ} \cong \bigoplus_J \ZZ = C(S, \ZZ) = \Hom{}{\Z[T]}{\Z} \]
+\end{proof}
+
+The following theorem will be proved next time,
+\newcommand{\Solid}{\mathrm{Solid}}
+\begin{theorem}
+\begin{enumerate}
+\item the full subcategory $\Solid \subset \Cond(\Ab)$ consisting of solid abelian groups is an abelian subcategory stable under all limits, colimits, and extensions. 
+
+\item The objects $\prod_I \Z \in \Solid$ where $I$ is any set, form a family of compact projective generators. 
+
+\item The inclusion $\Solid \subset \Cond(\Ab)$ admits a left adjoint,
+\[ M \mapsto M^\sol : \Cond(\Ab) \to \Solid \]
+which is the unqiue colimit preserving extension of $\Z[S] \mapso \Z[S]^\sol$.
+
+\item the functor $D(\Solid) \to D(\Cond(\Ab))$ is fully faithful and its essential image consists precisely of the solid objects of $D(\Cond(\Ab))$ 
+
+\item An object $C \in D(\Cond(\Ab))$ is solid if and only if all $H^i(C) \in \Solid$.
+
+\item The inclusion $D(\Solid) \to D(\Cond(\Ab))$ admits a left adjoint,
+\[ C \mapsto C^{\LL \sol} : D(\Cond(\Ab)) \to D(\Solid) \]
+which is the left-derived functor of solidification. 
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+Solidity is a notion of completeness that does not include separatedness. Indeed, in the exact sequence,
+\[ 0 \to \bigoplus_I \Z \to \prod_I \Z \to Q \to 0 \]
+then $Q$ is solid. This is not a filtered colimit but $Q$ is solid. 
+\end{rmk}
+
+\newcommand{\uExt}[4]{\underline{\mathrm{Ext}}^{#1}_{#2}\left( #3, #4 \right)} 
+
+\begin{cor}
+\begin{enumerate}
+\item any discrete abelian group is solid
+
+\item any $p$-adic Banach space is solid
+
+\item $S^1$ is not solid
+
+\item (Whitehead's problem) If $A \in \Ab$ is s.t. $\uExt{1}{\Cond(\Ab)}{A}{\Z} = 0$ then $A$ is free abelian.
+\end{enumerate}
+\end{cor}
+
+\begin{rmk}
+Whithead's problem asks whether $\Ext{1}{\Z}{A}{\Z} = 0$ implies $A$ is free abelian. Answer (Shelah): independent of ZFC. 
+\end{rmk}
+
+\begin{proof}
+\begin{enumerate}
+\item if $A \in Ab$ is a discrete abelian group, then there exists a resolution,
+\[ 0 \to \bigoplus_J \Z \to \bigoplus_I \Z \to A \to 0 \]
+Solid is stable under colimits and $\Z \in \Solid$ so $A \in \Solid$.
+
+\item Let $V$ be a $p$-adic Banach space and $\Lambda \subset B$ be the unit ball. Note,
+\[ V = \dlim_n p^{-n} \Lambda \]
+so by stability of Solid under colimits we reduce to showing $\Lambda$ is solid. Since $\underline{-}$ is a right-adjoint it is not obvious that $\underline{V}$ is the direct limit of $\underline{p^{-n} \Lambda}$. We need to use the remark. Therefore, 
+\[ \ul{\Lambda} = \dlim_n \ul{\Lambda / p^n \Lambda} \]
+and so we conclude from stability under limits and that discrete groups are solid.
+
+\item Granting that $\RR$ is not solid we have,
+\[ 0 \to \ZZ \to \RR \to S^1 \to 0 \]
+so if $S^1$ were solid we would have $S^1$ is also solid by compatibility under extensions.
+
+\item Let $A \in \Ab$ s.t. $\uExt{1}{\Cond(\Ab)}{A}{\Z} = 0$. We want to show that $A$ is free. Consider a presentation,
+\[ 0 \to \bigoplus_J \to \bigoplus_I \Z \to A \to 0 \]
+then $\RHom{}{-}{\Z}$ gives,
+\[ 0 \to \uHom{}{A}{\Z} \to \prod_J \Z \to \prod_I \Z \to 0 \]
+Theorem implies $\prod_J \Z$ is projective so there is a splitting. Therefore $\uHom{}{A}{\Z}$ is a direct summand of $\prod_J \Z$. Then apply $\RHom{}{-}{\Z}$ again to get,
+\[ 0 \to \bigoplus_I \to \bigoplus_J \Z \to \uHom{}{\uHom{}{A}{\Z}}{\Z} \to 0 \]
+since the higher Ext again vanish
+and $\uHom{}{\uHom{}{A}{\Z}}{\Z} \cong A$ for discrete $A$. However, since the first sequence is split we see that this sequence is split meaning that $A$ is free. 
+\end{enumerate}
+\end{proof}
+
+\begin{rmk}
+If $\{ X_i \}_{i \in \N}$ is a filtered system of $T_1$ topological spaces with transition maps which are closed embeddings, then,
+\[ \dlim_i \ul{X_i} \cong \ul{\dlim_i X_i} \]
+\end{rmk}
+
+\begin{proof}
+If $S$ is a compact Hausdorff space, then,
+\[ \Hom{}{S}{\dlim_i X_i} = \dlim_i \Hom{}{S}{X_i} \]
+By the assumptions on the $X_i$, the map $X_j \to \dlim_i X_i$ is a closed embedding so if $f : X \to \dlim_i X_i$ then $f^{-1}(X_i) \subset S$ is closed for all $i$ and $\bigcup_i f^{-1}(X_i) = S$. Baire category theorem implies some $f^{-1}(X_i)$ has nonempty interior. Removing the interior and applying the same argument to the complement gives an open cover. Iterate, using the compactness of $S$. 
+\end{proof}
+
+\begin{lemma}
+Let $\cA$ be an abelian category with all colimits whuch admits a subcategory $\cA_0 \subset \cA$ of compact projective generators. Assume $F : \cA_0 \to \cA$ is a functo equipped with a natural transformation $\id \to F$ with the following property (*),
+\begin{center}
+For any $X \in \cA_0$ and any $Y,Z \in \cA$ that can be written of direct sums of objects in the image of $F$, and any map $f : Y \to Z$ with kernel $K \in \cA$ the map,
+\[ \RHom{}{F(X)}{K} \to \RHom{}{X}{K} \]
+is an isomorphism.
+\end{center}
+Let $\cA_F \subset \cA$ be the full subcategory of all $Y \in \cA$ s.t. for all $X \in \cA_0$, the map,
+\[ \Hom{}{F(X)}{Y} \to \Hom{}{X}{Y} \]
+is an isomorphismm and let $D_F(\cA) \subset D(\cA)$ be the full subcategory of all $C \in D(\cB)$ s.t. for all $X \in \cA_0$ the map,
+\[ \RHom{}{F(X)}{C} \to \RHom{}{X}{C} \]
+is an isomorphism. The following properties hold:
+\begin{enumerate}
+\item The category $\cA_F \subset \cA$ is an abelian subcategory stable under all limits, colimits, and extensions, and the onjects $F(X)$ for $X \in \cA_0$ form a collection of compact projective generators.
+
+\item The inclusion $\cA_F \subset \cA$ admits a left adjoint $L : \cA \to \cA_F$ which is the unique colimit-preserving extension of $F : \cA_0 \to \cA_F$
+
+\item the functor $D(\cA_F) \to D(\cA)$ is fully faithful and identifies $D(\cA_F)$ with $D_F(\cA)$. A complex $C \in D(\cA)$ lies in $D_F(\cA)$ iff all $H^i(C) \in \cA$ lie in $\cA_F$. 
+
+\item The inclusion $D(\cA_F) = D_F(\cA) \to D(\cA)$ admits a left ajoint which is the left derived functor of $L$.
+\end{enumerate}
+\end{lemma}
+
+\begin{rmk}
+Therefore, pure category theory reduces us to a single statement. If we take,
+\begin{enumerate}
+\item $\cA = \Cond(\Ab)$
+
+\item $\cA_0 = \{ \Z[S] \mid S \text{ ED } \}$
+
+\item $\cA_0 \to \cA$ sends $\Z[S] \to \Z[S]^\sol$
+
+\item $\cA_F = \Solid$
+
+\item $D_F(\cA) = \{ \text{solid complexes in } D(\Cond(\Ab))$.
+\end{enumerate}
+Then we get the theorem if we can prove,
+\begin{center}
+For any ED $S_i, S_j'$ any any map,
+\[ f : \bigoplus_{i \in I} \Z[S_i]^\sol \to \bigoplus_{j \in J} \Z[S_j']^\sol \]
+has kernel which is solid as a complex. 
+\end{center}
+\end{rmk}
+
+\begin{lemma}
+Let $\cA, \cA_0, F$ be as before Suppose they satsify the following condition,
+\begin{center}
+For all $X \in \cA_0$ and any complex,
+\[ \cdots \to C_1 \to C_0 \to 0 \]
+where all $C_i$ are direct sums of objects in the image of $F$, the map,
+\[ \RHom{}{F(X)}{C} \to \RHom{}{X}{C} \]
+is an isomorphism. 
+\end{center}
+Then (*) holds.
+\end{lemma}
+
+\begin{rmk}
+For $\Cond(\Ab)$ this is saying that any complex of the form,
+\[ \cdots \to \bigoplus_{j \in J_1} \Z[S_j^{(1)}]^\sol \to \bigoplus_{j \in J_0} \Z[S_j^{(0)}]^\sol \to 0 \]
+is solid where the $S_j^{(i)}$ are extremelly disconnected.
+\end{rmk}
+
+\begin{proof}
+For $f : Y \to Z$ where $Y$ and $Z$ are direct sums of onjects in the image of $F$. Let $K = \ker{f}$. Choose a resolution,
+\[ \cdots \to B_1 \to B_0 \to K \to 0 \]
+where $B_i = \bigoplus_{j \in J_i} X_{i,j}$ for $X_{i,j} \in \cA$. Let $B$ be the non-augmented complex,
+\[ \cdots \to B_1 \to B_0 \to 0 \]
+and let $C = F(B)$. So we have $B \to C$. By (**) we have,
+\[ \RHom{}{B}{Y} = \RHom{}{C}{Y} \]
+and that,
+\[ \RHom{}{B}{Z} = \RHom{}{C}{Z} \]
+and therefore it follows that the map $B \to K$ extends to $C \to K$,
+\begin{center}
+\begin{tikzcd}
+& C \arrow[d, dashed[ \arrow[rrd, "0"] \arrow[rd]
+\\
+B \arrow[ru] \arrow[r] & K \arrow[r, hook] & Y \arrow[r] & K
+\end{tikzcd}
+\end{center}
+So $B$ is a retract of $C$ in $D(\cA)$. By hypothesis,
+\[ \RHom{}{F(X)}{C} \cong \RHom{}{X}{C} \]
+and thus,
+\[ \RHom{}{F(X)}{K} \cong \RHom{F(X)}{B} \cong \RHom{}{X}{B} \cong \RHom{}{X}{K} \]
+which gives (*). 
+\end{proof}
+
+\section{May 9}
+
+\subsection{Solid Abelian Groups II}
+
+Recall for $C \in D(\Cond(\Ab))$ say that $C$ is solid if for any profinite set $S$ (equivalent for $S$ ED) the map,
+\[ \RHom{}{\Z[S]^{\sol}}{C} \to \RHom{}{\Z[S]}{C} = R \Gamma(S, C) \]
+is an isomorphism where,
+\[ \Z[S]^{\sol} = \uHom{}{\uHom{}{\Z[S]}{\Z}}{\Z} \]
+so there is a natural map,
+\[ \Z[S] t\o \Z[S]^{\sol} \]
+Abstractly there is an isomorphism,
+\[ \Z[S]^{\sol} \cong \prod_I \Z \]
+where $I = |S|$.
+
+\begin{theorem}
+Let $C$ be a bounded above complex,
+\[ C = ( \cdots \to C_{-2} \to C_{-1} \to C_0 ) \]
+where,
+\[ C_i = \bigoplus_{j \in J_i} \prod_{k \in K_{ij}} \Z \]
+then $C$ is solid.
+\end{theorem}
+
+\begin{example}
+If each $C_i$ is isomorphic to,
+\[ \bigoplus_{j \in J_i} \Z[S_j]^{\sol} \]
+for some profinite sets $S_j$, then $C_i$ is solid. This implies (**).
+\end{example}
+
+\begin{rmk}
+Actually, we'll prove something strong. For any ED $S'$ we will show,
+\[ \RHom{}{\Z[S]^{\sol}}{C}(S') \iso R\Gamma(X \times S', C) \]
+In fact there is a diagram,
+\begin{center}
+\begin{tikzcd}
+\RHom{}{\Z[S]^{\sol}}{C}(S') \arrow[d] \arrow[r] & \RHom{}{\Z[S \times S']}{C} \arrow[r, equals] & R \Gamma(S \times S', C) 
+\\
+\RHom{}{\Z[S]}{C}(S') \arrow[r, equals] & \RHom{}{\Z[S] \ot^{\LL} \Z[S']}{C}  \arrow[u]
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{prop}
+The above construction gives an isomorphism. This implies the theorem by taking $S' = *$.
+\end{prop}
+
+Fix some notation,
+\begin{align*}
+M(S, \Z) & := \Z[S]^\sol = \RHom{}{C(S, \Z)}{\Z}
+\\
+M(S, \RR) & := \RHom{}{C(S, \Z)}{\R}
+\\
+M(S, \RR/\ZZ) & := \RHom{}{C(S, \Z)}{\RR/\ZZ} 
+\end{align*}
+where these are measures on $S$ valued in the these groups. Then,
+\[ M(S, \RR) \iso \prod_I \RR \]
+Then there is a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M(S, \ZZ) \arrow[r] & M(S, \RR) \arrow[r] & M(S, \RR/\ZZ) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+so we get a map in the derived category,
+\[ M(S, \RR/\ZZ)[-1] \to M(S, \ZZ) \]
+and then apply $\RHom{}{-}{C}(S')$ to get,
+\begin{center}
+\begin{tikzcd}
+\RHom{}{M(S,\Z)}{C}(S') \arrow[d] \arrow[r] & \RHom{}{M(S, \RR/\ZZ)[-1]}{C}
+\\
+R \Gamma(S \times S', C)
+\end{tikzcd}
+\end{center}
+
+\begin{prop}
+There exists a functorial isomorphism,
+\[ g : \RHom{}{M(S, \RR/\ZZ)[-1]}{C}(S') \iso R \Gamma(S \times S', C) \]
+such that the triagle commutes.
+\end{prop}
+
+\begin{prop}
+Prop 1 $\implies$ Prop 2.
+\end{prop}
+
+\begin{proof}
+Step 1: take $S = *$ in Prop 2. then,
+\begin{center}
+\begin{tikzcd}
+R \Gamma(S', C)[-1] \arrow[d, equals] \arrow[r] & \RHom{}{M(*, \RR/\ZZ)}{C}(S') \arrow[d]
+\\
+R\Gamma(S', C)[-1] & \RHom{}{M(*, \Z)[-1]}{C}(S')
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\section{Solid Modules}
+
+\begin{defn}
+An analytic ring is the data of,
+\begin{enumerate}
+\item an underlying condensed ring $\ul{A}$
+\item a functor $\S \mapsto A[S]$ sending ED sets to $\ul{A}$-modules
+\item a natural transformation $\ul{A}[S] \to A[S]$ which is $\ul{A}$-linear
+\end{enumerate}
+satisfying, if $C$ is a complex,
+\[ C = [ \dots \to C_2 \to C_1 \to C_0 \to 0 ] \in \D(\ul{A}) \]
+where each $C_i$ is a direct sum of $A[S]$ then 
+\[ \RHom{\ul{A}}{\ul{A}[S]}{C} \cong \RHom{}{A[S]}{C} \]
+\end{defn}
+
+\begin{rmk}
+This is modeled on $\Z^{\sol}$. 
+\end{rmk}
+
+\begin{theorem}
+Defines a full subcategory $\Mod_{A} \subset \Mod_{\ul{A}}$ of \textit{solid} $A$_modules that is closed under extensions colimits and limits and has a left-adjoint to inclusion (called solidification) writen as $- \ot_{\ul{A}} \A$. Similar statements for the derived categories:
+\begin{enumerate}
+\item $D(\Mod_{A}) \subset D(\Mod_{\ul{A}})$ can be detected on cohomology
+\item left-adjoint derived solidification $- \ot^{\LL}_{\ul{A}} A$
+\item closed under extensions etc.
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+An analytic ring is determined by,
+\begin{enumerate}
+\item $\ul{A}$ the underlying ring
+\item the subcategory $\Mod_{A} \subset \Mod_{\ul{A}}$
+\end{enumerate}
+Indeed we can recover $A[S] = \ul{A}[S] \ot_{\ul{A}} A$.
+\end{rmk}
+
+\begin{defn}
+A map of analytic rings $A \to B$ is just $\ul{A} \to \ul{B}$ such that $\Mod_B \to \Mod_{\ul{B}} \to \Mod_{\ul{A}}$ lands in $\Mod_A$. 
+\end{defn}
+
+\begin{theorem}[Analytic 13.16]
+There exists a fully faithful functor from Huber pairs to normalized animated analytic rings $(A, A^+) \mapsto (A, A^+)_{\sol}$ defined as $A \ot_{A^+_{\disc}} (A_{\disc}^+)_{\sol}$. 
+\end{theorem}
 
 \end{document}

@@ -194,13 +194,31 @@ This is one of the only know ways to obstruct maps $\P^n_k \rat Y$ of a given de
 
 \subsection{Unramified Cohomology}
 
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\newcommand{\nr}{\mathrm{nr}}
+
 But how do we actually obstruct a decomposition of the diagonal? One way is to use pairing on \etale cohomology classes:
 \[ \CH_{\dim{X}}(X \times X) \times H_{\et}^i(X, \mu) \to H_{\et}^i(X, \mu) \]
 defined by,
 \[ \inner{\Gamma}{\alpha} = \pi_{1*}(\gamma(\Gamma) \smile \pi_2^* \alpha) \]
-
-(HOW PAIRING WORKS)
-
+Indeed if $\Gamma_f$ is the graph of $f : X \to X$ then $\inner{\Gamma}{\alpha} = f^* \alpha$.
+Notice that if $z \in \CH_0(X)$ is a zero cycle then,
+\[ \inner{\pi_2^* z}{\alpha} = 0 \]
+We need to check this for points $z \in X$. In this case $\inner{\pi_2^* z}{\alpha}$ is the same as the pullback along the map $X \to \Spec{\kappa(z)} \to X$ so if $k = \bar{k}$ then this class is zero on the point. Therefore, if we have a decomposition,
+\[ \Delta_X = [X \times z] + Z \]
+then we see that,
+\[ \alpha = \inner{\Delta_X}{\alpha} = \inner{Z}{\alpha} \]
+which is ``supported on a divisor $D \subsetneq X$''. We want to get a cohomology theory that kills such classes because then we can say that $\alpha = 0$ and hence the existence of such classes is an obstruction to the existence of a decomposition of the diagonal.
+\bigskip\\
+Indeed, we can do this by passing to $H^i_{\et}(k(X), \mu)$ which kills the second term. This has the added benefit of being obviously birationally invariant making it easy to reason about for rationality arguments. However, this doesn't work because then the pairing doesn't make sense anymore since there is no way to intersect an \etale cohomology class defined on $k(X)$ with a subvariety. Therefore we pass to an intermediate cohomology theory called unramified cohomology,
+\[ H^i_{\et}(X, \mu) \to H^i_{\nr}(k(X), \mu) \embed H^i_{\et}(X, \mu) \]
+on which the pairing,
+\[ \CH_0(X_K) \times H^i_{\nr}(k(X), \mu) \to H^i_{\nr}(k(X), \mu) \]
+The unramified cohomology is brutally defined so that such a pairing exists. We want to restrict to the subset of classes $\alpha \in H^i_{\nr}(k(X), \mu)$ for which it makes sense to restrict $\alpha|_z$ for $z \in X$. Explicitly, this means that our classes should all be in the image,
+\[ H^i_{\et}(\stalk{X}{z}, \mu) \to H^i_{\et}(k(X), \mu) \]
+for each point $z \in X$. Then we can choose a preimage $\alpha' \in H^i_{\et}(\stalk{X}{z}, \mu)$ and define $\alpha|_z$ via the pullback map,
+\[ H^i_{\et}(\stalk{X}{z}, \mu) \to H^i_{\et}(\kappa(z), \mu) \]
+We will have to do some work to show that this definition makes sense, gives a well-defined restriction map, and the resulting theory has good functoriality properties and is a birational invariant. 
 
 \section{The Main Theorem II}
 
@@ -222,23 +240,701 @@ When we prove the theorem we will understand the exact numerics and see that II 
 
 \section{Unramified Cohomology I}
 
-Give primer on etale cohomology of function fields. Define unramified cohomology and prove basic properties (PAGES). How do we build unramified classes.
+Lots of deep theorems in \etale cohomology without proofs today.
+\bigskip\\
+Fix notation: let $K / k$ be a finitely generated field extension and $\nu$ a discrete valuation which is trivial on $k$. Let $A_\nu$ and $\kappa_\nu$ be the DVR and the residue field. Let $\mathrm{char}(k) = p$ (possibly zero). Let $m \in \N$ be a positive integer invertible in $K$. 
+\bigskip\\
+Goal 1: show that there is a map,
+\[ \partial_\nu : H^i(K, \mu_m^{\ot j}) \to H^{i-1}(\kappa_\nu, \mu_m^{\ot {j-1}}) \]
+
+\begin{defn}
+We say that $\nu$ is \textit{geometric} if $\trdeg{k}{\kappa_\nu} = \trdeg{K} - 1$.
+\end{defn}
+
+\begin{theorem}[Abyankar]
+$\trdeg{k}{\kappa_\nu} \le \trdeg{k}{K} - 1$.
+\end{theorem}
+
+\begin{example}
+Consider the valuation $\nu$ on $\CC(x,y)$ where $\nu(f)$ is the order of vanishing of $f|_{(z, e^z)}$ at $0$. This makes sense because $f$ cannot vanish along all of $(z, e^z)$ because it is not algebraic (it's zariski dense). Then $\kappa_\nu = \CC$ so this valuation is not geometric. 
+\end{example}
+
+\begin{prop}
+A valuation $\nu$ is geometric if and only if there exists a proper normal variety $X$ with $k(X) = K$ and a prime divisor $E \subset X$ such that $\nu = \ord_{E}$. In this case $\kappa_\nu = k(E)$.
+\end{prop}
+
+\begin{proof}
+It is clear that $\ord_{E}$ is geometric since $\kappa_\nu = k(E)$ and $\dim{E} = \dim{X} - 1$.
+\bigskip\\
+Conversely, choose a normal proper model $X$ of $K$. This gives a map,
+\[ \Spec{A_\nu} \to X \]
+by the valuative criterion of properness. Let $x \in X$ be the image of the closed point of $\Spec{A_\nu}$. Thus we get an inclusion $\stalk{X}{x} \embed A_\nu$. This may not be an isomorphism but we can blow up at $Z_0 = \overline{ \{ x \} }$ to get,
+\begin{center}
+\begin{tikzcd}
+& \vdots \arrow[d]
+\\
+& \Bl_{Z_1}(X_1) \arrow[d]
+\\
+& X_1 = \Bl_{Z_0}(X) \arrow[d]
+\\
+\Spec{A_\nu} \arrow[ruu, dashed] \arrow[ru, dashed] \arrow[r] & X
+\end{tikzcd}
+\end{center}
+then the ring gets bigger at each step so we must have,
+\[ A_\nu = \dlim \stalk{X}{x_i} \]
+If $\nu$ is geometric, eventually $\stalk{X}{x_i}$ will contain a transcendence basis for $\kappa_\nu$ and therefore $\dim{\overline{ \{ x_i \} }} = \dim{X} - 1$. Then the normalization of $\stalk{X}{x_i}$ is a DVR and $\stalk{X}{x_i} \embed A_\nu$ gives a finite extension on residue fields (have the same transcendence degree) and the fraction fields are the same and therefore at a finite stage these become equal.
+\end{proof}
+
+\begin{defn}
+$H^i_{nr}(K/k, \mu_m^{\ot j}) = \{ \alpha \in H^i(K, \mu_m^{\ot j}) \mid \partial_\nu \alpha = 0 \text{ for all geometric } \nu \}$.
+\end{defn}
+
+We have the following goals:
+
+\begin{theorem}
+If $X$ is a smooth projective model of $K$ then it suffices to consider the valuations of divisors on $X$.
+\end{theorem}
+
+\begin{prop}
+If $K' / K / k$ are finitely generated fields and $f : \Spec{K'} \to \Spec{K}$ then,
+\begin{enumerate}
+\item there is a pullback map,
+\[ f^* : H_{\nr}^i(K/k, \mu_m^{\ot j}) \to H_{\nr}^i(K'/k, \mu_m^{\ot j}) \]
+\item if $K' / K$ is finte then there is a pushforward map,
+\[ f_* : H_{\nr}^i(K'/k, \mu_m^{\ot j}) \to H_{\nr}^i(K / k, \mu_m^{\ot j}) \]
+\end{enumerate}
+\end{prop}
+
+\begin{prop}
+$f^* : H^i_{\nr}(K/k, \mu_m^{\ot j}) \iso H^i_{\nr}(K(x_1, \dots, x_n), \mu_m^{\ot j})$
+hence unramified cohomology is a stable rational invariant.
+\end{prop}
+
+\begin{rmk}
+If $k = \bar{k}$ then $H^i_{\nr}(k/k, \mu_m^{\ot j}) = 0$ for $i > 0$.
+\end{rmk}
+
+\subsection{\etale Cohomology}
+
+Recall that $\mu_m \subset \Gm$ is the subsheaf of elements with $x^m = 1$. We will always assume that $m$ and $p$ are coprime. We define,
+\[ \mu_m^{-\ot j} = \Hom{}{\mu^{\ot j}_m}{\Z / m \Z} \]
+for $j > 0$.
+
+\begin{theorem}[Hilbert 90]
+$H^1(K, \Gm) = H^1_{\et}(\Spec{K}, \Gm) = H^1_{\text{Zar}}(\Spec{K}, \Gm) = 0$.
+\end{theorem}
+
+\begin{cor}
+The Kummer sequence,
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \mu_m \arrow[r] & \Gm \arrow[r] & \Gm \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+gives an isomorphism,
+\[ H^1(K, \mu_m) = K^\times / (K^\times)^m \]
+Therefore, for any element $a \in K^\times$ this gives an element $(a) \in H^1(K, \mu_{m})$.
+\end{cor}
+
+\begin{defn}
+For $a_1, \dots, a_n \in K^\times$ we define the \textit{symbol},
+\[ (a_1, \dots, a_n) = (a_1) \smile \cdots \smile (a_n) \in H^n(K, \mu_m^{\ot n}) \]
+\end{defn}
+
+\begin{theorem}
+If $K$ is finitely generated over $k = \bar{k}$ then for $i > \trdeg{k}{K}$,
+\[ H^i(K, \mu_m^{\ot j}) = 0 \]
+\end{theorem}
+
+\subsection{The Residue Map}
+
+\begin{thm}
+Let $V$ be a scheme and $Z \subset V$ is closed and $U = V \sm Z$. If $\F$ is an \etale sheaf on $V$ then there is a long exact sequence,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^i(V, \F) \arrow[r] & H^i(U, \F|_U) \arrow[r] & H_Z^{i+1}(V, \F) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+which is compatible with cup products.
+\end{thm}
+
+\begin{proof}
+We use the distinguished triangle,
+\begin{center}
+\begin{tikzcd}
+j_{!} \Z_U \arrow[r] & \Z_V \arrow[r] & \iota_* \Z_V \arrow[r] & \iota_{!} \Z_U[1]
+\end{tikzcd}
+\end{center}
+Then we apply $\RHom{}{-}{\F}$ and identify. 
+\end{proof}
+
+\begin{theorem}
+If $V$ is Noetherian and regular and $Z$ is pure of codimension $c$ and regular then,
+\[ H^i_Z(V, \mu_m^{\ot j}) = H^{i-2c}(Z, \mu_m^{\ot (j-c)}) \]
+\end{theorem}
+
+Then let $A$ be a DVR and $K = \Frac{A}$ and $\kappa = A / \m$ then the above sequence gives,
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^i(A, \mu_m^{\ot j}) \arrow[r] & H^i(K, \mu_m^{\ot j}) \arrow[r, "\partial"] & H^{i-1}(K, \mu_m^{\ot {j-1}}) \arrow[r] & H^{i+1}(A, \mu_m^{\ot j}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+then we define $\partial_A = \partial_{\nu} = - \partial$.
+
+\begin{example}
+$\partial_\nu : H^1(K, \mu_m) \to H^0(\kappa, \Z / m \Z)$ is just the map,
+\[ K^\times / (K^\times)^m \to \Z / m \Z \quad \text{ via } \quad \partial_\nu(a) = \nu(a) \mod m \]
+\end{example}
+
+\begin{cor}
+$\ker{\partial_\nu} = \im{(H^i(A, \mu_m^{\ot j}) \to H^i(K, \mu_n^{\ot j}))}$.
+\end{cor}
+
+\subsection{Functoriality}
+
+For $K' / K$ then there is a pullback map in \etale cohomology,
+\[ f^* : H^i(K, \mu_m^{\ot j}) \to H^i(K, \mu_m^{\ot j}) \]
+Assume that $\nu$ on $K'$ has nontrivial restriction to $K$ then $\kappa_{A'} / \kappa_{A}$. Then we get a diagram,
+\begin{center}
+\begin{tikzcd}
+H^i(K', \mu) \arrow[r, "\partial_{A'}"] & H^{i-1}(\kappa_{A'}, \mu(-1)) 
+\\
+H^i(K, \mu) \arrow[u, "f^*"] \arrow[r, "\partial_A"] & H^{i-1}(\kappa_A, \mu(-1)) \arrow[u, "f^*"]
+\end{tikzcd}
+\end{center}
+and therefore $f^*$ gives a map on unramified cohomology,
+\[ f^* : H^i_{\nr}(K, \mu_m^{\ot j}) \to H^i_{\nr}(K, \mu_m^{\ot j}) \]
+(WHAT ABOUT RESTRINGTING TRIVIALLY)
+
+
+
+Now for pushforwards. Let $K' / K$ be finite and $\nu$ a valuation on $K$. Then let $A'$ be the integral closure of $A$ in $K'$. Then the Krull-Akizuki theorem ays that $A'$ is a Dedekind domain and is semilocal. Let $A_1, \dots, A_r$ be the local rings. Assume that $A'$ is a finite $A$-module. Then,
+\begin{center}
+\begin{tikzcd}
+H^i(K', \mu_{m}^{\ot j}) \arrow[r, "\oplus \partial"] \arrow[d, "f_*"] & \bigoplus H^{i-1}(\kappa_i, \mu_m^{\ot j - 1}) \arrow[d, "\sum f_*"]
+\\
+H^i(K, \mu_m^{\ot j}) \arrow[r, "\partial"] & H^{i-1}(\kappa, \mu_m^{\ot j-1}) 
+\end{tikzcd}
+\end{center}
+Consider,
+\begin{center}
+\begin{tikzcd}
+H^i(K', \mu_m^{\ot j}) \arrow[r, "f_*"] & H^i(K, \mu_m^{\ot j}) 
+\\
+H^i_{\nr}(K', \mu_m^{\ot j}) \arrow[r, "f_*"] \arrow[u, hook] & H^i_{\nr}(K, \mu_m^{\ot j}) \arrow[u, hook]
+\end{tikzcd}
+\end{center}
+By the previous diagram the map is compatible as long as $A'$ is finite over $A$ which is true in the geometric setting because geometic valuations arise from projective models. Indeed if $Y, Y'$ are normal proper models with $Y' \to Y$ and the valuations arise from prime divisors on $Y'$ and $Y$. The integral closure of $A = \stalk{Y}{o}$ is,
+\begin{center}
+\begin{tikzcd}
+\Spec{B} \pullback \arrow[r] \arrow[d] & Y' \arrow[d]
+\\
+\Spec{\stalk{Y}{p}} \arrow[r] & Y
+\end{tikzcd}
+\end{center} 
+and $A'$ is the normalization of $A'$. Then the map $\Spec{A'} \to \Spec{\stalk{Y}{p}}$ is proper and quasi-finite and hence finite so we win.
+\bigskip\\
+Then we get $f_* \circ f^* = \deg{f} \cdot \id$ because this is true at the level of \etale cohomology.
+
+\begin{theorem}
+Consider the map $\Spec{K(x_1, \dots, x_n)} \to \Spec{K}$. Then the map,
+\[ f^* : H^i_{\nr}(K, \mu_m^{\ot j}) \to H^i_{\nr}(K(x_1, \dots, x_n), \mu_m^{\ot j}) \]
+is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+We use the Faddeev sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^i(K, \mu_m^{\ot j}) \arrow[r, "f^*"] & H^i(K(x_1, \dots, x_n), \mu_m^{\ot j}) \arrow[r, "\sum \partial_x"] & \bigoplus_{x \in \P^1_k} H^i(\kappa(x), \mu_m^{\ot j}) 
+\end{tikzcd}
+\end{center}
+An unramified class $\alpha$ satisfies $\partial_x \alpha = 0$ by definition so it arises from $H^i(K, \mu_m^{\ot j})$. Therefore, it suffices to show that it arises from an unramified class for $K$. Suppose that $\beta \in H^i(K, \mu_m^{\ot j})$ maps to $\alpha$ and is not unramified. Then there is some geometric $\nu$ on $K$ such that $\partial_\nu \beta \neq 0$. Then choose some model $Y$ for $K$ and $E \subset Y$ such that $\nu = \ord_E$. Then we produce $\nu' = \ord_{E \times \P^1}$ on $Y \times \P^1$. Then we get a diagram,
+\begin{center}
+\begin{tikzcd}
+H^i(K, \mu_m^{\ot j}) \arrow[d] \arrow[r, "\partial_\nu"] & H^{i-1}(K, \mu_m^{\ot {i-1}}) \arrow[d]
+\\
+H^i(K(x), \mu_m^{\ot j}) \arrow[r, "\partial_{\nu'}"] & H^{i-1}(\kappa(x), \mu_m^{j-1})
+\end{tikzcd}
+\end{center}
+and the right downward map is injective again by the Faddeev sequence. Therefore, since $\partial_{\nu'} \alpha = 0$ because $\alpha$ is unramified then by the injectivity $\partial_\nu \beta = 0$ giving a contradiction. 
+\end{proof}
+
 
 \section{Unramified Cohomology II}
 
-Prove the pairing between Chow groups and unramified cohomology (PAGES). 
+From now on, we fix a field $k$ and $\mu = \mu_m^{\ot j}$ for some integer $m$ invertible in $k$. There is not much lost by taking $k = \bar{k}$. When we work with a field where it is essential that it is not algebraically closed (e.g. the function field of a variety) I will denote it by $K$ and it will be a field over $k$.
+\bigskip\\
+Main takeaways from Matt's talk,
+\begin{enumerate}
+\item functoriality of unramified cycles,
+\begin{enumerate}
+\item for any field extension $K'/K$ there is a pullback map,
+\[ f^* : H^i_{\nr}(K, \mu) \to H^i_{\nr}(K', \mu) \]
+
+\item for a finite field extension $K'/K$ there is a pushforward map,
+\[ f_* : H^i_{\nr}(K', \mu) \to H^i_{\nr}(K, \mu) \]
+
+\item and $f_* f^* = \deg{f}$.
+\end{enumerate}
+
+\item every geometric valuation of $K$ arises from the generic vanishing order of a divsior $D \subset X$ on some normal projective model $X$ of $K$.
+\end{enumerate}
+
+\begin{rmk}
+Let's clear up the issue from last time. Recall that we needed to show that if $\alpha \in H^i_{\nr}(K, \mu)$ and $\nu'$ is a geometric valuation then $\partial_{\nu'} f^* \alpha = 0$. If $\nu'|_K = \nu$ is a nontrivial valuation, let $A$ and $A'$ be the corresponding valuations then we use functoriality,
+\begin{center}
+\begin{tikzcd}
+H^i(K', \mu) \arrow[r, "\partial_{A'}"] & H^{i-1}(\kappa_{A'}, \mu(-1)) 
+\\
+H^i(K, \mu) \arrow[u, "f^*"] \arrow[r, "\partial_A"] & H^{i-1}(\kappa_A, \mu(-1)) \arrow[u, "f^*"]
+\end{tikzcd}
+\end{center}
+and use that $\partial_A \alpha = 0$ by definition. However, what if $\nu'$ restricts trivially to $K$. This exactly means that $K \subset A' \subset K'$. Therefore, $\partial_{A'} f^* \alpha = 0$ is automatically zero (not even using that $\alpha$ is unramified) because from the sequence,
+\begin{center}
+\begin{tikzcd}
+H^i(A', \mu) \arrow[r] & H^i(K', \mu) \arrow[r, "\partial_{A'}"] & H^{i-1}(\kappa(A'), \mu(-1))
+\\
+& H^i(K, \mu) \arrow[u, "f^*"] \arrow[lu, dashed]
+\end{tikzcd}
+\end{center}
+shows that the image maps to zero along $\partial_{A'}$.
+\end{rmk}
+
+
+\section{Bloch-Ogus}
+
+We need a difficult result which says that over a smooth variety, the unramifiedness of an \etale cohomology class is controlled in codimension $1$. This is a purity theorem for \etale cohomology.
+
+\begin{theorem}
+Let $X$ be a variety over $k$ and $x \in X^{\smooth}$. Consider the natrual map,
+\[ \iota_x : H^i(\stalk{X}{x}, \mu_m^{\ot j}) \to H^i(k(X), \mu_m^{\ot j}) \]
+\begin{enumerate}
+\item  $\iota_x$ is injective
+
+\item A class $\alpha \in H^i(k(X), \mu_m^{\ot j})$ lies in $\im{\iota_x}$ if and only if for each prime divisor $x \in D \subset X$ we have $\partial_{\ord_D}(\alpha) = 0$
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+For $H^1$ classes this follows from the classical Zariski-Nagata purity theorem. Recall that $H^1(X, \mu)$ classes correspond to $\mu$-torsors. Then these properties correspond to,
+\begin{center}
+\item torsors over $k(X)$ extend over $\stalk{X}{x}$ in at most one way (in fact, this only uses normality)
+
+\item torsors extend over $\stalk{X}{x}$ if they extend over $\stalk{X}{\xi}$ for all $\xi \spto x$ codim $1$ points.
+\end{center}
+We use the following fundamental fact:
+\begin{prop}[Normality is \etale local]
+if $A \to B$ is an \etale map of Noetherian local rings then $A$ is normal iff $B$ is normal.
+\end{prop}
+Let $A = \stalk{X}{x}$ and $K = k(X)$. One argument uses $\pi_1^\et$ and the identification,
+\[ \FEt_X \cong \pi_1^{\et}(X)\text{-Sets} \]
+and argues that $\pi_1^{\et}(K) \onto \pi_1^{\et}(A)$ by showing that connected \etale covers $Y \to \Spec{A}$ are irreducible by normality and hence remain connected over $\Spec{K}$. Therefore,
+\[ H^1_{\et}(A, \mu) = \Hom{}{\pi_1^\et(A)}{\mu} \embed \Hom{}{\pi_1^{\et}(K)}{\mu} = H^1_{\et}(K, \mu) \]
+Now if we can extend to a finite \etale cover $Y \to U$ for $U$ with complementary codimension $\ge 2$ then using the structure theorem of quasi-finite maps,
+\begin{center}
+\begin{tikzcd}
+Y \arrow[r, hook] & X \arrow[d]
+\\
+& \Spec{A}
+\end{tikzcd}
+\end{center}
+with $X \to \Spec{A}$ finite, $Y \embed X$ open embedding, and $X \to \Spec{A}$ finite. Normalizing, assume that $X$ is normal. Then $Y \embed f^{-1}(U)$ is open and both are finite over $U$ and normal so it is an isomorphism. Therefore, we see that $X \to \Spec{A}$ is quasi-finite and unramified in codimension $1$ so if $A$ is regular we apply Zariski-Nagata purity to see that $X \to \Spec{A}$ is \etale. This shows that,
+\[ \FEt_{\Spec{A}} \to \FEt_{U} \]
+is an equivalence of categories. Another way to see this is to note that normality implies that for any finite \etale cover $\Spec{B} \to \Spec{A}$ then $B$ is the normalization of $A$ in $L = \Frac{B}$. Therefore, the uniqueness property is clear and full-faithfulness since ring maps $B \to B'$ over $A$ are the same as field maps $L \to L'$. Then to extend a cover $Y \to U$ over $\Spec{A}$ we just take $B$ to be the normalization of $A$ in $k(Y)$. The cover $Y \to U$ then shows that $A \to B$ is \etale again by Zariski-Nagata purity.
+\end{rmk}
+
+\subsection{Restrion Maps and Smooth Models}
+
+\begin{prop}
+Let $X$ be a smooth $k$-variety and $\alpha \in H_{\nr}^i(k(X)/k, \mu)$.
+\begin{enumerate}
+\item for any $x \in X$ there is a well-defined restriction,
+\[ \alpha|_x \in H^i(\kappa(x), \mu) \]
+
+\item If $X$ is proper over $k$ then $\alpha|_x$ is unramified over $k$ giving,
+\[ \alpha|_x \in H^i_{\nr}(\kappa(x)/k, \mu) \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+There exists a unique lift $\wt{\alpha} \in H^i(\stalk{X}{x}, \mu)$ and thus we define $\alpha|_x := q^* (\wt{\alpha})$ under,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(\stalk{X}{x}, \mu) \arrow[r] \arrow[d, "q^*"] & H^i(k(X), \mu)
+\\
+H^i_{\et}(\kappa(x), \mu)  
+\end{tikzcd}
+\end{center}
+Now let $X$ be proper. We need to show that $\alpha|_x$ is unramified. Let $Z$ be a normal $k$-variety with $k(Z) \cong \kappa(x)$ and $z \in Z^{(1)}$ be a codimension $1$ point. We need to prove that $\partial_z (\alpha|_x) = 0$ or equivalenty that $\alpha|_x$ is in the image of,
+\[ H^i(\stalk{Z}{z}, \mu) \to H^i(\kappa(x), \mu) \]
+Since $X$ is proper, we may shrink $Z$ so that $k(Z) \cong \kappa(x)$ is induced by $\iota : Z \to X$ sending the generic point to $x \in X$ with $z \in Z$ (since every codim $1$ point is in the domain of definition). Since $\alpha$ is unramified and $X$ is smooth, $\alpha$ is contained in,
+\[ H^i(\stalk{X}{\iota(z)}, \mu) \embed H^i(k(X), \mu) \]
+Spreading out says there is an open neighborhood $U$ of $\iota(z)$ and a class $\wt{\alpha} \in H^i(U, \mu)$ restricting to $\alpha$ at the generic point. Since $x \spto \iota(z)$ then $x \in U$ so $\wt{\alpha}$ is contained in,
+\[ H^i(\stalk{X}{x}, \mu) \embed H^i(k(X), \mu) \] 
+(ASK STEPHEN ABOUT WHY WE NEED THE OPEN!!!)
+\begin{center}
+\begin{tikzcd}
+H^i(\stalk{X}{\iota(z)}, \mu) \arrow[d] \arrow[r, hook] & H^i(\stalk{X}{x}, \mu) \arrow[d] \arrow[r, hook] & H^i(k(X), \mu)
+\\
+H^i(\stalk{Z}{z}, \mu) \arrow[d] \arrow[r] & H^i(\kappa(x), \mu)
+\\
+H^i(\kappa(z), \mu)
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{cor}
+For \textit{any} map\footnote{i.e. not just the dominant ones} $f : X \to Y$ of smooth proper varities over $k$ there is a pullback map,
+\[ f^* : H_{\nr}(k(Y), \mu) \to H_{\nr}^i(k(X), \mu) \]
+given by restricting $\alpha$ to the generic point of the image of $f$ and pulling back along $f : X \to \im{f}$.
+\end{cor}
+
+\begin{prop}
+Let $X$ be a smooth proper variety over $k$ and $m$ invertible in $k$. Then a class $\alpha \in H^i(k(X), \mu_m^{\ot j})$ is unramified over $k$ if and only if $\partial_{\ord_D}(\alpha) = 0$ for all prime divisors $D \subset X$.
+\end{prop}
+
+\begin{proof}
+By definition, if $\alpha$ is unramified then $\partial_{\ord_D}(\alpha) = 0$. For the converse, assume $\partial_{\ord_D}(\alpha) = 0$. By our description of geometric valuations, we need to show that for any normal $k$-variety $Y$ birational to $X$ and any codimension $1$ point $y \in Y$ we have $\partial_y \alpha = 0$ or equivalently that $\alpha$ lies in the image of ,
+\[ H^i(\stalk{Y}{y}, \mu) \to H^i(k(X), \mu) \]
+Since $Y$ is normal, $\phi : Y \rat X$ is defined in codimension $1$ so shrinking $Y$ we may assume that $\phi : Y \to X$ is a morphism (keeping $y \in Y$). Let $x = \phi(y) \in X$. Then consider,
+\begin{center}
+\begin{tikzcd}
+H^i(\stalk{X}{x}, \mu) \arrow[rd] \arrow[dd]
+\\
+& H^i(k(X), \mu) 
+\\
+H^i(\stalk{Y}{y}, \mu) \arrow[ru]
+\end{tikzcd}
+\end{center}
+But we proved that $\alpha$ is in the image of the top map because $X$ is smooth so we win. 
+\end{proof}
+
+\subsection{Comparison With Usual Cohomology}
+
+Let $X$ be a smooth proper $k$-variety. From the above theorem, it follows immediately that there is a factorization,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(X, \mu) \arrow[rd] \arrow[rr] & & H^i_{\et}(k(X), \mu)
+\\
+& H^i_{\nr}(k(X), \mu) \arrow[ru, hook]
+\end{tikzcd}
+\end{center}
+since any global class is in particular unramified along every divisor. 
+\bigskip\\
+In general, this map is neither an injective or surjective. However,
+\begin{enumerate}
+\item for $i = 1$ it is an isomorphism (we secretly saw this from the discussion for $i = 1$ Boch-Ogus). Indeed, this shows that $H^1_{\et}(X, \mu)$ is a birational invariant for smooth projective $X$. This also follows immediately from the birational invariance of $\pi_1^{\et}(X)$.
+
+\item for $i = 2$ and $\mu = \mu_m$ it is surjective and the kernel is,
+\[ \im{(c_1 : \Pic{X} \to H^2(X, \mu))} \]
+and therefore by the Kummer sequence,
+\[ H^2_{\nr}(k(X), \mu_m) = \Br{X}[m] \]
+\end{enumerate}
+
+
+\begin{rmk}
+If $X$ is a smooth $\CC$-variety, the exponential sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ZZ \arrow[r] & \struct{X} \arrow[r] & \struct{X}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+gives,
+\begin{center}
+\begin{tikzcd}
+H^2(X, \struct{X}) \arrow[r] & \Br{X} \arrow[r] & H^3(X, \ZZ) \arrow[r] & H^3(X, \struct{X})
+\end{tikzcd}
+\end{center}
+
+In particular, we get a surjection $\Br{X} \to H^3(X, \ZZ)_{\tors}$ and if $H^2(X, \struct{X}) = 0$ (or more generally when $H^2(X, \QQ)$ is generated by algebraic cycles) this is an isomorphism. The group $H^3(X, \ZZ)_{\tors}$ is the invariant Artin and Mumford used to show certain 3-folds are not rational. Therefore, the unramified cohomology is a vast generalization of their method. 
+\end{rmk}
+
+
+\subsection{The Pairing}
+
+Let $X$ be smooth proper over $K$ (here it is vital to allow $k$ not algebraically closed since we will apply this to function fields over $k$). Let $Z_0(X)$ be the group of zero cycles. 
+
+\begin{prop}
+There is a pairing,
+\[ \CH_0(X) \times H^i_{\nr}(K(X)/K, \mu) \to H^i(K, \mu) \]
+defined on prime cycles $z \in X$ via,
+\[ \inner{z}{\alpha} := (f_z)_* (\alpha|_z) \in H^i(K, \mu) \]
+defined since $f_z : \Spec{\kappa(z)} \to \Spec{K}$ is finite.
+\end{prop}
+
+The entire content of this result is that the pairing is invariant under rational equivalence which is the result of the following lemma.
+
+\begin{lemma}
+Let $f : C \to X$ be a nonconstant map over $K$ from a smooth curve. Then for any $\alpha \in H^i_{\nr}(K(X)/K, \mu)$ and non-zero rational function $\phi \in K(C)$,
+\[ \inner{g_* \div(\phi)}{\alpha} = 0 \]
+\end{lemma}
+
+\begin{rmk}
+This is used to prove the main result, which we come to before the proof of this technical lemma.
+\end{rmk}
+
+\begin{theorem}
+Let $X, Y$ be smooth proper varities over $k$. There is a bilinear pairing,
+\[ \CH_{\dim{X}}(X \times Y) \times H_{\nr}^i(k(Y), \mu) \to H_{\nr}^i(k(X), \mu) \quad (\Gamma, \alpha) \mapsto \Gamma^* \alpha \]
+defined on prime cycles $\Gamma \subset X \times Y$ as follows. If $\pi_1(\Gamma) \neq X$ then $\Gamma^* \alpha = 0$. Otherwise $\pi_1 : \Gamma \to X$ is finite giving a map,
+\[ p : \Spec{\kappa(\gamma)} \to \Spec{k(X)} \]
+and we set,
+\[ \Gamma^* \alpha := p_*( (\pi_2^* \alpha)|_\gamma ) \] 
+\end{theorem}
+
+\begin{proof}
+Let $K = k(X)$. Then there are natural maps,
+\[ Z_{\dim{X}}(X \times Y) \to Z_0(Y_K) \quad \text{and} \quad H_{nr}^i(k(Y)/k, \mu) \to H_{\nr}^i(K(Y)/K, \mu) \]
+inducing a diagram,
+\begin{center}
+\begin{tikzcd}
+Z_{\dim{X}}(X \times Y) \times H^i_{\nr}(k(Y)/k, \mu) \arrow[rd] \arrow[dd]
+\\
+& H^i(K, \mu)
+\\
+Z_0(Y_K) \times H^i_{\nr}(K(Y)/K, \mu) \arrow[ru]
+\end{tikzcd}
+\end{center}
+Since the map $Z_{\dim{X}}(X \times Y) \to Z_0(Y_K)$ descends to the level of Chow groups we deduce that $\Gamma^* \alpha = 0$ if $\Gamma \sim_{\text{rat}} 0$.
+\end{proof}
+
+\begin{rmk}
+We need a lemma first to prove the lemma. These facts follow essentially from definition.
+\end{rmk}
+
+\begin{lemma}
+Let $g : X \to Y$ be a morphism of smooth proper $K$-varities. Then,
+\begin{enumerate}
+\item for any $\alpha \in H^i_{\nr}(K(Y)/K, \mu)$ and $z \in Z_0(X)$ we have,
+\[ \inner{g_* z}{\alpha} = \inner{z}{g^* \alpha} \]
+\item if $X, Y$ are curves and $g$ is finite then for any $\beta \in H^i_{\nr}(K(X)/K, \mu)$ and $w \in Z_0(Y)$ we have,
+\[ \inner{g^* w}{\beta} = \inner{w}{g_* \beta} \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $x \in X$ and $f_x : \Spec{\kappa(z)} \to \Spec{K}$.
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{\kappa(x)} \arrow[r] \arrow[d, "g_x"] & X \arrow[d, "g"]
+\\
+\Spec{\kappa(y)} \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+Then,
+\[ \inner{[x]}{g^* \alpha} = (f_x)_* (g^* \alpha)|_x = (f_y \circ g_x)_* (g_x^* (\alpha|_y)) = \deg{(g_x)} \cdot (f_y)_* (\alpha|_y) = \inner{g_* [z]}{\alpha} \]
+Now let $g : X \to Y$ be a finite map of smooth proper curves so $g$ is flat and $w \in Y$ then,
+\[ g^* [w] = \sum_{z \in g^{-1}(w)} e(z) [z] \]
+where $e(z)$ is the ramification index. Therefore,
+\[ \inner{g^* [w]}{\beta} = \sum_{z \in g^{-1}(w)} e(z) \inner{[z]}{\beta} = \sum_{z \in g^{-1}(w)} e(z) (f_z)_*(\beta|_z) \]
+However, 
+\[ \inner{[w]}{g_* \beta} = (f_w)_*(g_* \beta)|_w \]
+We need to compute $(g_* \beta)|_w$ in terms of the $(f_z)_* (\beta|_w)$. Let $\pi \in \stalk{Y}{w}$ be a uniformizer. By compatibility with cup products,
+\[ (g_* \beta)|_w = \partial_w (g_* \beta \smile (\pi)) \]
+(DO THIS!!!) 
+
+
+(FIX FIX FIX FIX!!!!)
+By the projection formula,
+\[ g_* \beta \smile (\pi) = g_*(\beta \smile (g^* \pi)) \]
+Then,
+\[ \partial_w(g_* \beta \smile (\pi)) = \partial_w g_*(\beta \smile (g^* \pi)) = \sum_{z \in f^{-1}(w)} (g_z)_* \partial_z (\beta \smile (g^* \pi)) \]
+as we saw in Matt's talk. Now, $g^* \pi = \prod_{z \in g^{-1}(w)} \pi_z^{e(z)}$ and therefore,
+\[ \partial_{z}(\beta \smile (g^* \pi)) = e(z) \cdot \partial_z(\beta \smile (\pi_z)) = e(z) \beta|_z \]
+and thus,
+\[ \inner{w}{g_* \beta} = (f_w)_* \partial_w (g_* \beta \smile (\pi)) = (f_w)_* \left( \sum_{z \in g^{-1}(z)} e(z) \cdot (g_z)_* \beta|_z \right) = \sum_{z \in g^{-1}(z)} e(z) \cdot (f_z)_* (\alpha|_z) \]
+\end{proof}
+
+\begin{proof}[Proof of the main lemma]
+Consider the finite morphism $\varphi : C \to \P^1_K$ and then,
+\[ \div(\phi) = \varphi^*([0] - [\infty]) \]
+The previous result shows,
+\[ \inner{g_* \div{\phi}}{\alpha} = \inner{\div{\phi}}{g^* \alpha} = \inner{\varphi^*([0] - [\infty])}{g^* \alpha} 
+= \inner{[0] - [\infty]}{\varphi_* g^* \alpha} \]
+so because $\varphi_* g^* \alpha \in H^i_{\nr}(K(\P^1)/K, \mu)$ it reduces to analyzing the pairing for $\P^1$. Indeed, let,
+\[ f : \P^1_K \to \Spec{K} \]
+be the structure map. We showed that, 
+\[ f^* : H_{\et}^i(K, \mu) \to H^i_{\nr}(K(\P^1)/K, \mu) \] 
+is an isomorphism. Then for any $\beta \in H^i_{\nr}(K(\P^1) / K, \mu)$ write $\beta = f^* \beta'$ and it is clear that,
+\[ \inner{[z]}{\beta} = (f_x)_* (f^* \beta)|_x = f_{x*} f^*_x \beta'  = \deg{(x)} \cdot \beta \]
+for any closed $x \in \P^1_K$. Therefore,
+\[ \inner{z}{\beta} = \deg{(z)} \cdot \beta' \]
+and hence,
+\[ \inner{[0]}{\beta} = \inner{[\infty]}{\beta} \]
+proving the claim.
+\end{proof}
+
+
 
 \section{Torsion-Orders of Fanos}
 
-Prove basic properties of torsion-orders (PAGES)
-\begin{enumerate}
-\item prove that retract-rational varities have decompositions of the diagonal (Schreieder: Slopes, Lemma 2.4) (Schreieder: Unramified Cohomology, Lemma 7.5).
+\subsection{Decomposition of the Diagonal}
 
-\item torsion of the diagonal = universal exponent of torsion in $\CH_0(X)$ (Voisin, Prop 2.9).
+Let $X$ be a variety. We want to measure how far it is from being rational. 
 
-\item 
-\end{enumerate}
-Prove that for $X_d \subset \P^{N+1}_k$ we have the upper bound $\torsion(X) \divides d!$. The lower bound will occupy the rest of our time.
+\begin{example}
+If $X = \P^n$ then $[\Delta_X] \in \CH_n(X \times X)$ then there is an expansion,
+\[ \Delta_X = [\P^n \times \{ \text{pt} \}] + [H \times \ell] + \cdots + [\ell \times H] + [ \{ \text{pt} \} \times \P^n ] \]
+so we can write it as,
+\[ [\Delta_X] = [\P^n \times x] + Z \]
+where $Z$ does not dominate under the first projection. 
+
+\begin{defn}
+If $X / k$ is pure dimension $n$ then $X$ \textit{admits a decomposition of the diagonal} if,
+\[ [\Delta_X] = [X \times z] + Z \in \CH_n(X \times X) \]
+where $z \in Z_0(X)$ and $\Supp{}{Z} \subset D \times X$ for some divisor $D$. 
+\end{defn}
+
+\begin{lemma}
+$X / k$ admits a decomposition of the diagonal iff,
+\[ [\delta_X] = [z_K] \in \CH_0(X_K) \]
+where $K = k(X)$ and $z \in Z_0(X)$.
+\end{lemma}
+
+\begin{proof}
+Use the isomorphism,
+\[ \CH_0(X_K) = \dlim_{U \subset X} \CH_{n}(U \times X) \]
+over all nonempty opens $U \subset X$. Therefore a decomposition implies $[\delta_X] + [z_Z]$ since $Z$ is killed in $\CH_n(U \times X)$. For the reverse implicaton, we use the excision exact sequence,
+\begin{center}
+\begin{tikzcd}
+\CH_n(D \times X) \arrow[r] & \CH_n(X \times X) \arrow[r] & \CH_n(U \times X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+therefore if $[\Delta_X] - [X \times z]$ restricts to zero in the limit it restricts to zero in some $\CH_n(U \times X)$ and hence is in the image of $\CH_n(D \times X)$ giving a decomposition of the diagonal. 
+\end{proof}
+\end{example}
+
+\begin{defn}
+$X$ is \textit{retract rational} if there exist rational maps,
+\[ X \rat \P^n \to X \]
+which compose to the identity.
+\end{defn}
+
+\begin{rmk}
+rational and stably rational imply retract rational.
+\end{rmk}
+
+\begin{prop}
+If $X / k$ is proper, and $X$ is retract rational then $X$ has a decomposition of the diagonal. 
+\end{prop}
+
+\begin{proof}
+WTS $[\delta_X] = [z_K] \in \CH_0(X_K)$. We want to get pushforward maps on Chow such that $g_* f_* = \id$ and then $g_* f_* \delta_X = \delta_X$ but $f_* \delta_X \in \CH_0(\P^N_K)$ but,
+\[ \deg : \CH_0(\P^N_K) \to \Z \]
+is an isomorphism and hence we would win because $f_* g_* \delta_X$ would be a zero cycle. 
+\bigskip\\
+The real proof will use that $\P^N$ is smooth. The smoothness gives a Gysin homomorphism. Consider,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "f", dashed] & \P^N \arrow[r, "g", dashed] & X
+\end{tikzcd}
+\end{center}
+We resolve these maps using the graphs,
+\begin{center}
+\begin{tikzcd}
+\Gamma_f \arrow[r] \arrow[d] & \P^N & \Gamma_g \arrow[l, "q"] \arrow[]d
+\\
+X & X
+\end{tikzcd}
+\end{center}
+where now all the maps are proper. Then we basechange this diagram to $K$. All the pushforwards are well-defined but we need to use smoothness of $\P^N$ to have a $q^!$ to pullback and we check that,
+\[ g_* q^! f_* (\delta_{\Gamma_f}) = \delta_X \]
+\end{proof}
+
+\begin{lemma}
+For any $K / k$ the degree map,
+\[ \deg : \CH_0(\P^N_K) \to \Z \]
+is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+Excision sequence,
+\begin{center}
+\begin{tikzcd}
+\CH_0(\P^{N-1}_K) \arrow[r] & \CH_0(\P^N_K) \arrow[r] & \CH_0(\A^N_K) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and we apply induction. 
+\end{proof}
+
+\begin{defn}
+$\torsion{X}$ is the smallest positive integer $N$ such that,
+\[ N [\delta_X] = [z_K] \]
+for some $z \in \CH_0(X)$.
+\end{defn}
+
+\begin{cor}
+$X$ admits decomposition of the diagonal iff $\torsion{X} = 1$.
+\end{cor}
+
+\begin{rmk}
+If $N [\delta_X] = z_K$ for some $z \in Z_0(X)$ then $\torsion{X} \divides N$ by the division algorithm. 
+\end{rmk}
+
+\begin{prop}
+Let $f : X \to Y$ be a proper generically finite dominant map between proper $k$-varieties. Then,
+\[ \Tor{Y} \divides \torsion{X} \cdot (\deg{f}) \] 
+\end{prop}
+
+\begin{proof}
+$f \times f : X \times X \to Y \times Y$ is proper. Note that $f \times f |_{\Delta_X} : \Delta_X \to \Delta_Y$ has degree $\deg{f}$ since it is isomorphic to $f$. Then we get $f' : X_{k(X)} \to Y_{k(Y)}$ is proper. Then,
+\[ (f')_* (\Tor(X) \delta_X - z_{K(X)}) = \Tor(X) (\deg{f}) \delta_Y - (f')_* z_{K(X)} = 0 \]
+and therefore we conclude since $(f')_* z_{K(X)} = (\deg{f}) (f_* z)_{K(Y)}$ is pulled back from $Z_0(Y)$. 
+\end{proof}
+
+\begin{cor}
+If $f : \P^n \rat X$ then $\torsion{X} \divides \deg{f}$. 
+\end{cor}
+
+We now want to understand how $\CH_0(X_L)$ as we vary $L/k$.
+
+\begin{defn}
+$X$ is \textit{universally $\CH_0$-trivial} if $\deg : \CH_0(X_L) \to \Z$ is an isomorphism. 
+\end{defn}
+
+\begin{rmk}
+This is the same as there existing a $z \in Z_0(X)$ of degree $1$ and $\CH_0(X_L) \cong \Z z_L$.
+\end{rmk}
+
+\begin{lemma}
+If $X$ is RCC then $\CH_0(X_L)_0 = \ker{(\CH_0(X_L) \to \Z)}$ is torsion. 
+\end{lemma}
+
+\begin{proof}
+$\CH_0(X_{\bar{L}}) \xrightarrow{\deg} \Z$ is an isomorphism since $X$ is RCC. Then anything in the kernel is killed after a finite extension. Therefore it is killed by the degree of the extension by pull-push. 
+\end{proof}
+
+\begin{rmk}
+Just because every element is torsion doesn't mean that there is a universal exponent. However, if $X$ is smooth then there is a universal exponent.
+\end{rmk}
+
+\begin{prop}
+If $X$ is RCC smooth and projective over $k$ then $\torsion{X} \cdot \CH_0(X_L)_ = 0$ for all $L / k$.
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Hikari Continuation}
+
+We defined,
+
+\begin{defn}
+$\torsion{X}$ as the least positive integer such that $\torsion{X} \cdot [\delta_X] = [z_K]$ for $z \in \CH_0(X)$.
+\end{defn}
+
+\begin{lemma}
+If $X$ is RRC then $\ker{(\CH_0(X_K) \xrightarrow{\deg} \Z)}$ is torsion for any $L/k$.
+\end{lemma}
+
+\begin{prop}
+Let $X$ be an RCC smooth projective variety then there exists $N = \torsion(X)$ such that,
+\[ N \]
+\end{prop}
+
 
 \section{Constructing Unramified Classes I}
 

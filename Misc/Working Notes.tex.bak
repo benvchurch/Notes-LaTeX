@@ -1,0 +1,764 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+\usepackage{bbm}
+\usepackage{cancel}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+
+\newcommand{\smooth}{\mathrm{smooth}}
+\newcommand{\sing}{\mathrm{sing}}
+
+\begin{document}
+
+\section{TODO!!}
+
+\begin{enumerate}
+\item Finish symplectic geometry course
+\begin{enumerate}
+\item figure out if symplectic toric is the same as projective toric variety (projectivity needed to come from a polytope and also to be Kahler)
+\item review coisotropic reduced and write some notes
+\item hyperkahler reduction examples 
+\item are there examples of non-compact hyperkahlers?
+\item work out the kinks in notes on Hamiltonian actions
+\end{enumerate}
+\item review killing homotopy groups Columbia lectures and write some notes
+\item figure out those damn jet bundles and connections on principal bundles
+\begin{enumerate}
+\item RMK: $\pi^* E$ is NOT trivial for a vector bundle let alone a fiber bundle. it does get equipped with a canonical section but for a vector bundle this is just the trivial section, only for a principal bundle does giving a section trivialize it.
+\item role of atiyah sequence vs jet bundle sequence
+\item 
+\end{enumerate}
+\item spectral sequences for tor and ext in derived category (FIND MY NOTES ON THIS!)
+\begin{enumerate}
+\item application to universal coefficient theorem
+\item Kunneth spectral sequence
+\item Kunneth formula for smash product?
+\item why are derived functors triangulated
+\item derived functors in terms of Kan extensions (NOTES)
+\end{enumerate}
+\item write notes on universal morphisms
+\item $G$-action of $X/Y$ induces map Descent data $X/Y$ to $G$-equivariant sheaves
+\begin{enumerate}
+\item isomorphism when $X/Y$ is a $G$-cover i.e. $X \to Y$ is a $G$-torsor
+\item write down explicit $G$-equivariant structure on $\Omega_X$
+\item Galois descent derive explicit form
+\end{enumerate}
+\item Weil restriction
+\begin{enumerate}
+\item write down trivialization after going back up
+\item Galois descent in explicit form
+\end{enumerate}
+\item notes on Galois actions on schemes
+\item notes on Frobenii
+\item notes on universal constructions in math with examples
+
+\item fix notes on Tor in category of sheaves and Tor symmetry (do I need symmetry of flat objects a priori?).
+
+\item Finish stable homotopy theory course.
+
+\item Finish vector bundles and connections notes (in AG folder)
+\begin{enumerate}
+\item Kahler iff $\nabla I = 0$ where $\nabla$ is the Levi-Civita connection
+\item Ricci tensor and the trace bullshit 
+\item Riemann-Hilbert and existence of flat frames for integrable connections
+\end{enumerate}
+\end{enumerate}
+
+\section{What I Want to Think About}
+
+\begin{enumerate}
+\item Flat cohomology equal etale cohomology for smooth (affine groups) apply this to that counting rational points things
+\item work out the details for the group fixing $\CC$ inside endomorphism group. What does an integrable structure of this kind look like, how close to a complex manifold can we get? In dimension two this should be exactly a conformal (not necessarily orientable) structure. 
+\item FINISH CONFORMAL NOTES!
+\item Hilbert Class Field of curves (ASK BRIAN FOR REFERENCE)
+\item Read about Fredholm index and Riemann-Roch
+\item Cohmology and inclusion-exclusion: cohomology for vectorspaces?
+\end{enumerate}
+
+\section{Some Questions I Have}
+
+\begin{enumerate}
+\item Reduction of structure group for a scheme.
+\begin{enumerate}
+\item what about the algebraic group $\mathrm{SL}^{\pm} = \det^{-1}(\mu)$ what does reduction of structure group give. For a manifold this is supposed to be a pseudo-volume form but obviously that's not right.
+\item what about $\Res{\CC}{\RR}{\Gm} \embed \mathrm{GL}_2$ from the action $\Gm \acts \A^1_{\CC}$ restricted giving an action $\Res{\CC}{\RR} \Gm \acts \A^2_{\RR}$. I feel like this should give an almost complex structure. What properties does it have? What about for other fields?
+\item What is an almost complex structure on a scheme look like?
+\end{enumerate}
+\item Is my calculation of an ``almost almost complex structure'' as reduction of structure group to $\left< \sigma \right> \ltimes \mathrm{GL}(n, \CC) \subset \mathrm{GL}(2n, \RR)$. For the case $n = 1$ this should be the conformal group justifying that I think this should correspond to the non-oriented case of a complex manifold since Riemann surfaces are exactly oriented conformal manifolds.
+\end{enumerate}
+
+
+\section{Project}
+
+\section{Foliations}
+
+\subsection{Riemannian Foliations}
+
+\begin{rmk}
+Given a transverse metric $g_\F$ to a foliation $\F \subset T M$ we can always choose a metric $g$ on $M$ such that $g$ is bundle-like. Indeed, just choose a splitting $T M \cong \F \oplus Q$ and choose any metric on $\F$ then take the sum. 
+\end{rmk}
+
+\subsection{Holonomy}
+
+\subsection{Linearization}
+
+HOW IS THIS RELATED TO THE NORMAL BUNDLE?
+
+\section{Finding A Leaf}
+
+\newcommand{\Alb}{\mathrm{Alb}}
+
+Recall that $A$ is the cokernel of $\Alb_F \to \Alb_X$.
+
+\begin{enumerate}
+\item $\dim{F} \ge \dim{\Alb_F}$ by [Kawamata, Thm. 1]
+
+\item $\dim{A} \ge \dim{\Alb_X} - \dim{\Alb_F}$ by definition
+
+\item hence, $\dim{A} \ge \dim{\Alb_X} - \dim{F}$
+
+\item $\dim{A} + \dim{W} \le \dim{\Alb_X}$ by Popa-Schnell 
+
+\item hence we conclude $\dim{W} \le \dim{\Alb_X} - \dim{A} \le \dim{F}$.
+\end{enumerate}
+However, $\dim{W} = \dim{F}$ by assumption. Therefore, every one of the above inequalities is an equality.
+\bigskip\\
+Therefore, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(Y, \Omega_Y^1) \arrow[r] & H^0(X, \Omega^1_X) \arrow[r] & H^0(F, \Omega^1_F) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+The first map is injective by generic smoothness of $X' \to Y$ and the fact that Hodge numbers are birational invariants. The second map is surjection by (in)equality (b) and then the sequence is exact by (in)equality (c). 
+\bigskip\\
+Therefore, the image $W|_F \subset H^0(F, \Omega_F)$ is everything. But recall that $F \to \Alb_F$ is dominant by Kawamata. Therefore generically the global forms on $F$ span the cotangent space meaning the forms $W|_F$ are a generic coframe of $F$. This implies,
+\[ X \to \Alb_X \to \Alb_X^\vee \to \Alb_F^\vee \]
+is surjective because $\Alb_F \to \Alb_F^\vee$ is finite and any section of $H^0(X, \Omega_X^1) \onto H^0(F, \Omega^1_F)$ must generically span a $\dim{F}$ subspace of the cotangent space since these forms span $F$ at its generic point.
+
+\section{Contracting Fibers}
+
+\begin{prop}
+Let $X, Y, A$ be varieties over $\CC$. Suppose there is a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "g"] \arrow[d, "f"] & A 
+\\
+Y
+\end{tikzcd}
+\end{center}
+where $A$ is an abelian variety and $f,g$ are proper, $f$ is $\struct{}$-connected, and the general fiber of $f$ is an abelian variety which maps finitely onto its image under $g$. Then $g$ is a smooth isotrivial abelian fibration. (WHAT ABOUT IF Y IS SINGULAR) (POTENTIALLY GOOD REDUCTION!!) (OKAY SO THIS IS TRUE OUTSIDE OF CODIMENSION $2$ I THINK)
+\end{prop}
+
+(CAN I PROVE THAT EVERY FIBER IS AN ABELIAN VARIETY WITH POSSIBILY REDUCED STRUCTURE)
+
+\begin{proof}
+Let $y \in Y$ be a point with a singular fiber. Then choose a map $\Spec{R} \to Y$ from a DVR whose closed point hits $y$. Let $K = \Frac{R}$ then $X_K$ is a torsor over an abelian $K$-scheme so after some extension of DVRs $R' \supset R$ is becomes an abelian variety with semi-stable reduction. Let $\cA$ be the Neron model of $X_{K'}$ and consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\cA^\circ \arrow[rd] \arrow[r, dashed] & X_{R'} \arrow[d] \arrow[r] & X_{R} \arrow[d] \arrow[r] & X \arrow[d] \arrow[r] & A
+\\
+& \Spec{R'} \arrow[r] & \Spec{R} \arrow[r] & Y 
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\section{Stuff}
+
+\begin{lemma}
+Suppose we have a diagram of schemes,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd] \arrow[r, dashed, "f"] & Y' \arrow[d, "g"]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+with $X$ normal and integral where $f : X \rat Y'$ is a rational map and $g : Y' \to Y$ is finite and $g \circ f$ is a morphism. Then $f$ is a morphism.
+\end{lemma}
+
+\begin{proof}
+This is a local question on $X$ so shrinking $Y$ and then $X$ (and taking $Y'$ the preimage) we may assume that everything is affine. Therefore, we have the situation,
+\begin{center}
+\begin{tikzcd}
+K \arrow[from=r] & A'
+\\ 
+R \arrow[u, hook] \arrow[from=r] & A \arrow[u] 
+\end{tikzcd}
+\end{center}
+where $K = \Frac{R}$ and $A \to A'$ is finite. Since $A'$ is integral over $A$ its image in $K$ is integral over $R$ but $R$ is a normal domain so the image is contained in $R$ and hence we get a unique map $A' \to R$ proving the claim. 
+\end{proof}
+
+\section{Chow Stuff}
+
+Let $X, Y, Z$ be smooth projective varieties over $k$. Recall that there exists a composition,
+\[ \CH^{d}(Y \times Z) \times \CH^{d'}(X \times Y) \to \CH^{d+d' - \dim{Y}}(X \times Z) \]
+given by,
+\[ \Gamma_2 \circ \Gamma_1 = \pi_{13_*}(\pi_{12}^* \Gamma_1 \frown \pi_{23}^* \Gamma_2) \]
+
+\begin{lemma}
+This composition is associative.
+\end{lemma}
+
+\begin{proof}
+Consider $\Gamma_1 \in \CH^{d}(X \times Y)$ and $\Gamma_2 \in \CH^{d'}(Y \times Z)$ and $\Gamma_3 \in \CH^{d''}(Z \times W)$. Then we get,
+\begin{align*}
+\Gamma_3 \circ (\Gamma_2 \circ \Gamma_1) &= \pi^{134}_{14 *} (\pi_{13}^{134*} (\Gamma_2 \circ \Gamma_1) \frown \pi_{34}^{134*} \Gamma_3)
+\\
+&= \pi^{134}_{14 *} (\pi_{13}^{134*} [\pi^{123}_{13*} (\pi^{123*}_{12} \Gamma_1 \frown \pi^{123*}_{23} \Gamma_2)] \frown \pi_{34}^{134*} \Gamma_3)
+\\
+&= \pi^{134}_{14 *} ( \pi^{1234}_{134*} \pi^{1234*}_{123} (\pi^{123*}_{12} \Gamma_1 \frown \pi^{123*}_{23} \Gamma_2) \frown \pi_{34}^{134*} \Gamma_3)
+\\
+&= \pi^{134}_{14 *} ( \pi^{1234}_{134*} (\pi^{1234*}_{12} \Gamma_1 \frown \pi^{1234*}_{23} \Gamma_2) \frown \pi_{34}^{134*} \Gamma_3)
+\\
+&= \pi^{134}_{14 *}  \pi^{1234}_{134*} ((\pi^{1234*}_{12} \Gamma_1 \frown \pi^{1234*}_{23} \Gamma_2) \frown  \pi^{1234^*}_{134} \pi_{34}^{134*} \Gamma_3)
+\\
+& = \pi^{1234}_{14*} ((\pi^{1234*}_{12} \Gamma_1 \frown \pi^{1234*}_{23} \Gamma_2) \frown  \pi^{1234^*}_{34} \Gamma_3)
+\end{align*}
+so we reduce to associativity for intersection product.
+\end{proof}
+
+There is also an action,
+\[ \CH^{d}(X \times Y) \times \CH^{e}(Y) \to \CH^{e+d-\dim{X}}(X) \]
+defined by,
+\[ \Gamma^* \alpha = \pi_{1*} (\Gamma \frown \pi_2^* \alpha) \]
+Likewise, there is a pairing,
+\[ \CH^{d}(X \times Y) \times \CH^{e}(X) \to \CH^{e+d-\dim{Y}}(Y) \]
+defined by,
+\[ \Gamma_* \alpha = \pi_{2*}(\pi_1^* \alpha \frown \Gamma) \]
+By the commutativity of intersection product, it is obvious that $\Gamma^* = (\Gamma^\top)_*$ where $(-)^\top$ is applying the involution $X \times Y \to Y \times X$.
+
+\begin{lemma}
+The above composition law makes this action functorial,
+\[ (\Gamma_2 \circ \Gamma_1)_* \alpha = \Gamma_{2*} \Gamma_{1*} \alpha \]
+and likewise,
+\[ (\Gamma_2 \circ \Gamma_1)^* \alpha = \Gamma_2^* \Gamma_1^* \alpha \]
+\end{lemma}
+
+\subsection{Vanishing Lemmas}
+
+Here we need that all varieties are non-singular and quasi-projective so we can apply the moving lemma.
+
+\begin{defn}
+Let $\alpha, \beta \in \CH^{\bullet}(X)$. We say that $\alpha, \beta$ meet \textit{properly} if for each variety $V$ and $W$ appearing in $\alpha$ and $\beta$ then,
+\[ \dim{(V \cap W)} = \dim{V} + \dim{W} - \dim{X} \]
+\end{defn}
+
+\begin{theorem}[Moving Lemma]
+If $X$ is non-singular and quasi-projective, and $\alpha, \beta$ are cycles on $X$ then there is $\alpha' \sim_{\text{rat}} \alpha$ such that $\alpha'$ and $\beta$ meet properly. 
+\end{theorem}
+
+\begin{prop}
+Suppose that $\alpha, \beta \in Z^{\bullet}(X)$ are such that $\Supp{}{\alpha} \cap \Supp{}{\beta} = \empty$. Then $\alpha \frown \beta = 0$.
+\end{prop}
+
+\begin{proof}
+On a nonsingular variety, we have $\alpha \frown \beta \in \CH_\bullet(\Supp{}{\alpha} \cap \Supp{}{\beta})$ if we use the ``refined product'' in terms of Gysin maps (which does not meaningfully differ from $\iota^*$ in the case of regularly embeded subvarities) see [Fulton, p. 131].
+\end{proof}
+
+\begin{lemma}
+Suppose that $\Supp{}{\Gamma} \subset X \times V$ where $\codim{V,X} = r$ then $\Gamma^* \alpha = 0$ for all $\alpha \in \CH^{e}(Y)$ where $e > \dim{Y} - r$. 
+\end{lemma}
+
+\begin{proof}
+It suffices to consider $\Gamma$ and $\alpha$ prime divisors. Then $\Gamma \subset X \times V$ and $\pi_2^* \alpha = X \times \alpha$. Notice that the expected dimension of $V$ intersecting $\alpha$ is negative so by the moving lemma there exists $\alpha' \sim_{\text{rat}} \alpha$ disjoint from $V$. Therefore, $(X \times V) \cap (X \times \alpha) = \empty$ and thus $\Gamma \frown \pi_2^* \alpha = 0$.
+\end{proof}
+
+
+\begin{prop}
+The diagram,
+\begin{center}
+\begin{tikzcd}
+\CH^{d}(Y \times Z) \times \CH^{d'}(X \times Y) \arrow[d, "\ell", two heads] \arrow[r] & \CH^{d+d' - \dim{Y}}(X \times Z) \arrow[d, two heads, "\ell"]
+\\
+\CH^{d}(Y \times_k Z) \times \CH^{d'}(k(X) \times_k Y) \arrow[r, dashed] & \CH^{d+d' - \dim{Y}}(k(X) \times_k Z) 
+\end{tikzcd}
+\end{center}
+induces a well-defined composition law. 
+\[ \CH^{d}(Y \times Z) \times \CH^{d'}(Y_{k(X)}) \to \CH^{d+d'-\dim{Y}}(Z_{k(X)}) \]
+\end{prop}
+
+\begin{proof}
+We need to show if $\delta' \in \ker{\ell_{X,Y}}$ then $\Gamma' \circ \delta' \in \ker{\ell_{X,Z}}$. It suffices to consider the case of prime cycles (since being in the kernel is a condition only on the support which passes to each prime component of a cycle) so assume $\delta'$ is a prime cycle with $\Supp{}{\delta} \subset D \times Y$ then,
+\[ \Gamma' \circ \delta' = \pi_{13*}(\pi_{12}^* \delta' \frown \pi_{23}^* \Gamma') \]
+but $\delta' \subset D \times Y$ so $\Gamma' \circ \delta' \subset D \times Z$ and hence is in the kernel. 
+\end{proof}
+
+\begin{rmk}
+This is just given by pullback after base changing along $k(X) / k$. Indeed $\pi_{23}^*$ is just base change along $L / k$ for the cycle $\Gamma$ after passing to $(Y \times Z)_{L}$ and $\pi_{12}^*$ is just pullback along the first projection $(Y \times Z)_{L} \to Y_{L}$. This works for any field $L/k$ as used in the proof of [Voisin, Birational Invariants, Prop. 2.9]. 
+\end{rmk}
+
+\begin{example}
+Consider $X = Y = Z = \P^2$ and $\Gamma_1 = \ell \times X$ and $\Gamma_2 = X \times \ell$. Then,
+\[ \Gamma_2 \circ \Gamma_1 = \pi_{13*}( (X \times \ell \times X) \frown (X \times \ell \times X)) = X \times X \]
+which is nonzero in $\CH^0(k(X) \times_k X)$. However, $\ell(\Gamma_1) = 0$ by definition. This shows that,
+\[ \CH^{1}(k(X) \times_k X) \times \CH^{1}(k(X) \times_k X) \to \CH^{0}(k(X) \times_k X) \]
+is \textit{not} well-defined. This is because we are pairing in $\CH^{1}$ not $\CH_{0}$. However, we will see that $\CH_0(X_K)$ acts on $\CH^{d}(X_K)$.
+\end{example}
+
+\begin{prop}
+The diagram,
+\begin{center}
+\begin{tikzcd}
+\CH^{d}(Y \times Z) \times \CH^{\dim{X}}(X \times Y) \arrow[d, "\ell", two heads] \arrow[r] & \CH^{d + r}(X \times Z) \arrow[d, two heads, "\ell"]
+\\
+\CH^{d}(k(Y) \times_k Z) \times \CH_{0}(k(X) \times_k Y) \arrow[r, dashed] & \CH^{d + r}(k(X) \times_k Z) 
+\end{tikzcd}
+\end{center}
+where $r = \dim{X} - \dim{Y}$ induces a well-defined composition law. 
+\end{prop}
+
+\begin{proof}
+We need to show if $\delta \in \ker{\ell_{Y,Z}}$ then $\delta \circ \Gamma \in \ker{\ell_{X,Z}}$ since we already showed the other composition is well-defined. It suffices to consider the case of prime cycles (since being in the kernel is a condition only on the support which passes to each prime component of a cycle) so assume $\delta$ is a prime cycle with $\Supp{}{\delta} \subset D \times Z$ and $\Gamma \subset X \times Y$ is a prime cycle then,
+\[ \delta \circ \Gamma = \pi_{13*}(\pi_{12}^* \Gamma \frown \pi_{23}^* \delta) \]
+We can assume that $\Gamma$ is a prime cycle dominating $X$ else this is automatically in $\ker{\ell_{X,Z}}$ by the previous proposition. Therefore, $\Gamma$ is the graph of a correspondence,
+\begin{center}
+\begin{tikzcd}
+& \Gamma \arrow[dl, "\pi"'] \arrow[rd, "f"] 
+\\
+X & & Y
+\end{tikzcd}
+\end{center}
+where $\pi$ is generically finite. If $\pi_{12}^* \Gamma \frown \pi_{23}^* \delta$ does not dominate $X$ then it will be in the kernel so we can assume that $\im{f} \subset D$ otherwise the support of the intersection will be contained in $f^{-1}(D) \times D \times Z$ and $f^{-1}(D)$ is a proper closed subset of $\Gamma$ and hence cannot dominate $X$. Then we apply the moving lemma to find $\Gamma' \sim_{\text{rat}} \Gamma$ such that $\Gamma'$ intersects $X \times D$ properly. Then passing to the irreducible components of $\Gamma'$ which, as before, we can assume dominate $X$ then by pure dimension count $\Gamma' \frown (D \times X)$ cannot dominate $X$ and hence $\delta \circ \Gamma = 0$.
+\end{proof}
+
+\begin{rmk}
+Note, that the other direction does \textit{not} hold. We don't get a well-defined map for,
+\begin{center}
+\begin{tikzcd}
+\CH^{\dim{Y}}(Y \times Z) \times \CH^{d'}(X \times Y) \arrow[d, "\ell", two heads] \arrow[r] & \CH^{d'}(X \times Z) \arrow[d, two heads, "\ell"]
+\\
+\CH_0(k(Y) \times_k Z) \times \CH^{d'}(k(X) \times_k Y) \arrow[r, "\xcancel{--}" description] & \CH^{d'}(k(X) \times_k Z) 
+\end{tikzcd}
+\end{center}
+Indeed, consider $X = Y = Z = \P^2$ then consider, $\delta = [\ell \times \ell] \in \CH^2(X \times X)$ and $\Gamma = [X \times \ell] \in \CH^1(X \times X)$. Since $\delta$ is zero in $\CH_0(X_K)$ the composition $\delta \circ \Gamma$ should be in the kernel. However, 
+\[ \delta \circ \Gamma = \pi_{13*}([X \times \ell \times X] \frown [X \times \ell \times \ell]) = [X \times \ell] \]
+which is nontrivial in $\CH_1(X_K)$. The asymmetry here is quite strange. In $\CH^{\dim{X}}{X \times X}$ we have well-defined pullbacks and pushforwards of cycles. However, $\CH_0(X_K)$ only has a well-defined pullback, there is no pushforward. This is related to the asymmetry where the transpose of a cycle on $\CH^{d}(X \times X)$ is not a well-defined operation ast the level of $\CH_0(X_K)$ e.g. consider $[X \times *]$ vs $[* \times X]$, one is zero the other is nonzero in $\CH_0(X_K)$. 
+\end{rmk}
+
+(WHAT ABOUT $\ell(\Gamma^\top)$ vs $\ell(\Gamma)$. THIS COULD BE VERY DIFFERENT!!)
+
+\subsection{Ring Structure}
+
+\begin{rmk}
+$\Hom{\rat}{X}{Y}$ is the set of dominant rational maps $X \rat Y$. Therefore is is equivalent to maps $k(Y) \to k(X)$ in the category of fields over $k$. The category of varieties with dominant rational maps is equivalent to the category of finitely-generated fields over $k$.
+\end{rmk}
+
+\begin{prop}
+The diagram,
+\begin{center}
+\begin{tikzcd}
+\Hom{\rat}{Y}{Z} \times \Hom{\rat}{X}{Y} \arrow[d] \arrow[r] & \Hom{\rat}{X}{Z} \arrow[d]
+\\
+\CH_0(k(Y) \times_k Z) \times \CH_0(k(X) \times_k Y) \arrow[r] & \CH_0(k(X) \times_k Z)
+\end{tikzcd}
+\end{center}
+commutes.
+\end{prop}
+
+\begin{proof}
+Let $f : X \rat Y$ and $g : Y \rat Z$ be rational maps. First, if $f$ and $g$ are morphisms then $\Gamma_g \circ \Gamma_f = \Gamma_{g \circ f}$ so the claim is obvious. Let $U \subset X$ and $V \subset Y$ be open subsets such that $f : U \to V$ and $g : V \to Y$ are morphisms. Therefore,
+\[ (\pi_{12}^* \Gamma_f \frown \pi_{23}^* \Gamma_g)|_{U \times V \times Z} = [\im{(\id, f, g \circ f)}|_{U}] \]
+Therefore, 
+\[ \alpha = (\pi_{12}^* \Gamma_f \frown \pi_{23}^* \Gamma_g) - [\overline{\im{(\id, f, g \circ f)}|_{U}}] \]
+has support on $(U \times V \times Z)^C$. Any term supported on $U^C \times Y \times Z$ does not dominate $X$ and hence will be zero in $\CH_0(k(X) \times_k Z)$. Therefore, it suffices to consider terms supported on $X \times V^C \times Z$. We can assume each prime cycle $\alpha$ dominates $X$ and hence $\alpha \frown \pi_{1}^*(x)$ is nonzero for any $x \in X$. However, $\pi_1^*(x)$ intersects both $(\pi_{12}^* \Gamma_f \frown \pi_{23}^* \Gamma_g)$ and $[\overline{\im{(\id, f, g \circ f)}|_{U}}]$ is degree $\deg{x}$ (since they are birational onto $X$ and by the projection formula $\pi_{1*}(\Gamma \frown \pi_{1}^*(x)) = \pi_{1*} \Gamma \frown [x] = [X] \frown [x] = [x]$ so $\deg{(\Gamma \frown \pi_{1}^*(x))} = \deg{[x]}$). Therefore $\alpha$ does not dominate $X$ proving the claim. (FIND A BETTER PROOF).
+\end{proof}
+
+\newcommand{\RatEnd}[1]{\mathrm{RatEnd}\left( #1 \right)}
+
+\begin{cor}
+The map $\RatEnd{X} \to \CH_0(X_K)$ is a ring map. 
+\end{cor}
+
+
+\section{Curves on Fanos}
+
+\newcommand{\Def}[1]{\mathrm{Def}\left( #1 \right)}
+\newcommand{\Ob}[1]{\mathrm{Ob}\left( #1 \right)}
+\newcommand{\ob}{\mathrm{ob}}
+
+\begin{theorem}
+Let $X$ be a smooth projective separably rationally connected variety over an algebraically closed field $k$. Then $X$ is connected by genus $g$ curves of arbitrary moduli for each $g \ge 0$. Explicitly, for each integer $g \ge 1$ there exists a map from a family of smooth proper irreducible genus $g$ curves,
+\begin{center}
+\begin{tikzcd}
+\C \arrow[d] \arrow[r] & X 
+\\
+B
+\end{tikzcd}
+\end{center}
+with $B$ a finite type $k$-scheme equipped with two sections $\sigma_1, \sigma_2 : B \to \C$ such that,
+\begin{enumerate}
+\item the general fiber of $\C \to B$ is unramified (embedded if $\dim{X} \ge 3$) under $\C \to X$ 
+
+\item the map,
+\[ B \xrightarrow{(\sigma_1, \sigma_2)} X \times X \]
+is dominant and the fibers $(\sigma_1, \sigma_2)^{-1}(x_1, x_2)$ dominate $\M_{g,2}$ under the map $B \to \M_{g,2}$.
+\end{enumerate} 
+\end{theorem}
+
+\begin{rmk}
+For $g = 0$ the statement is vacuous for the silly reason that $\overline{\M}_{0,2} = \empty$. The corresponding statements about passing rational curves through points is well-studied (e.g. Kollar, Rational Curves on Algebraic Varities) and will be essential in the proof.
+If $k$ is not algebraically closed then we can make the same construction for $X_{\bar{k}}$ and $B$ will be defined over some finite $k'/k$. This is really necessary, since $X$ could have no $k$-point. 
+\end{rmk}
+
+\begin{proof}
+We consider the moduli space,
+\[ \overline{\M}_{g,n}(X ; d,  x_1, \dots, x_r) \]
+for integers $g,n,r$ with $r \le n$ of maps from stable curves $f : C \to X$ of genus $g$ with $n$ marked points such that $p_i \mapsto x_i$ for $i \le r$ for fixed point $x_1, \dots, x_r \in X$ and such that $f_* C \cdot H \le d$ for a choice of ample divisor $H$. Note that this stack is proper (in particular has finitely many irreducible components) over $k$. It will suffice to show that for any pair of point $x_1, x_2 \in X$ the map $\overline{\M}_{g,n}(X, x_1, x_2) \to \overline{\M}_{g,n}$ has a nonempty smooth locus containing a closed point which is an embedded curve in $X$. This implies the map to $\overline{\M}_{g,n}$ is dominant (its image contains a nonempty open) and a generic member of $\overline{\M}_{g,n}(x_1, x_2)$ is embedded since this is an open condition. Indeed, we conclude via the following diagram,
+\begin{center}
+\begin{tikzcd}
+& \overline{\M}_{g,n}(X ; d, x_1, x_2) \arrow[r] \arrow[d] & (x_1, x_2) \arrow[d]
+\\
+B \arrow[r, "\et"] & \overline{\M}_{g,n}(X ; d) \arrow[d] \arrow[r, "\sigma_1 \times \sigma_2"] & X \times X 
+\\
+& \overline{\M}_{g,n}
+\end{tikzcd}
+\end{center}
+where $B \to \overline{\M}_{g,n}(X ; d)$ is an \etale map from finite type $k$-scheme chosen to dominate each component of $\overline{\M}_{g,n}(X ; d)$ containing the point of $\overline{\M}_{g,n}(X ; d, x_1, x_2)$ at which the map to $\overline{\M}_{g,n}$ is smooth. Then the family of curves over $B$ satisfies the required properties because the general fiber of $B \to X \times X$ maps to $\overline{\M}_{g,n}$ with a nonempty smooth locus and hence dominates. Therefore, we reduce to the following lemma.
+\end{proof}
+
+\begin{lemma}
+With the above notation, for each $g \ge 1$ and $n \ge 2$ there exists $d > 0$ such that for all pairs $x_1, x_2 \in X$ the map,
+\[ \overline{\M}_{g,n}(X ; x_1, x_2) \to \overline{\M}_{g,n} \]
+has a nonempty smooth locus.
+\end{lemma}
+
+\begin{proof}
+We will probe this question via relative infinitessimal deformation theory. Let,
+\[ \mu_0 = [C_0, f_0, p_1, \dots, p_n] \in \overline{\M}_{g,n}(X; d, x_1, x_2)(k) \]
+be a fixed point and $c_0 = [C, p_1, \dots, p_n] \in \overline{M}_{g,n}(k)$ its image. Then for each small extension of Artin local $k$-algebras,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & A' \arrow[r] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we need to fill in any lifting diagram,
+\begin{center}
+\begin{tikzcd}
+\Spec{A} \arrow[d] \arrow[r] & \overline{\M}_{g,n}(X; x_1, x_2) \arrow[d]
+\\
+\Spec{A'} \arrow[r] \arrow[ru, dashed] & \overline{\M}_{g,n}
+\end{tikzcd}
+\end{center}
+to be $2$-commutative if $\Spec{k} \to \Spec{A'} \to \overline{\M}_{g,n}$ is $c_0$ (i.e. is equipped with a $2$-morphism). Heuristically, there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Aut{c_0} \arrow[r] & \Def{f_0} \arrow[r] & \Def{\mu_0} \arrow[r] & \Def{c_0} \arrow[r] & \Ob{f_0}
+\end{tikzcd}
+\end{center}
+and we need to show that $\Def{\mu_0} \onto \Def{c_0}$ is surjective so it suffices to show that,
+\[ \Ob{f_0} = \Ext{1}{C}{f^* \Omega_{X}}{\struct{C}(-p_1-p_2) \ot I} \]
+is zero. 
+Explicitly, given a deformation $[C, p_1, \dots, p_n]_{A'}$ of $c_0$ over $A'$ and and a map $f_A : C_A \to X$ we need to extend the map to $f_{A'} : C \to X$ fixing the points $p_1, p_2$. By lemma \ref{def_theory} there is an obstruction,
+\[ \ob (f_A) \in \Ext{1}{C}{f^* \Omega_X}{\struct{C_0}(-p_1 - p_2) \ot I} = \Ext{1}{C_0}{f_0^* \Omega_X}{\struct{C_0}(-p_1-p_2)} \ot_k I \]
+Therefore, it suffices to find a $c_0$ with the requisite vanishing property which we do in the following proposition. 
+\end{proof}
+
+\begin{prop}
+With the above notation, for each $g \ge 1$ there is a $d \ge 0$ so that there exist an unramified (embedded) stable curve $\mu_0 = [C, f, p_1, \dots, p_n] \in \overline{\M}_{g,n}(X ; d, x_1, x_2)$ for some $n \ge 2$ such that,
+\[ \Ext{1}{C}{f^* \Omega_X}{\struct{C}(-p_1 - p_2)} = H^1(C, f^* \T_X(-p_1-p_2)) = 0 \]
+\end{prop}
+
+\begin{proof}
+Repeatedly applying the following lemma (and taking $d = g d(g+3)$) we can find an immersed (embedded if $\dim{X} \ge 3$) stable curve, $[C, x_1, x_2, p_1, \dots, p_{g+1}] \in \overline{\M}_{g, g+3}(X; d, x_1, x_2)$, 
+\begin{center}
+\begin{tikzpicture}
+
+    
+	\draw[line width=0.2mm] (0,0) -- (0,3);
+	\filldraw[black] (0, 1.5) circle (2pt)
+	node[anchor=west]{$p_1$};
+	
+    \draw[line width=0.2mm] (1.5,0) -- (1.5,3);
+   	\filldraw[black] (1.5, 1.5) circle (2pt)
+	node[anchor=west]{$p_2$};
+
+    \node at (4, 1.5) {\dots} ;    
+    
+    \draw[line width=0.2mm] (6.5,0) -- (6.5,3); 
+   	\filldraw[black] (6.5, 1.5) circle (2pt)
+	node[anchor=west]{$p_g$};
+    \draw[line width=0.2mm] (8,0) -- (8,3);
+   	\filldraw[black] (8, 1.5) circle (2pt)
+	node[anchor=west]{$p_{g+1}$};
+    
+    
+    \draw[line width=0.2mm] (-0.5,0.5) -- (8.5,0.5);
+	\draw[line width=0.2mm] (-0.5,2.5) -- (8.5, 2.5);
+	
+   	\filldraw[black] (4, 2.5) circle (2pt)
+	node[anchor=south]{$x_1$};
+		
+   	\filldraw[black] (4, 0.5) circle (2pt)
+	node[anchor=north]{$x_2$};
+	
+
+% Calligraphic brace
+\draw [decorate, line width = 2pt,
+    decoration = {calligraphic brace,mirror, raise=5pt, amplitude = 10pt}] (1,-0.25) --  (7, -0.25) ;
+    \node[anchor=north] at (4, -1) {$g$};
+ 
+ 	
+\end{tikzpicture}
+\end{center}
+We use the prescribed tangent directions to ensure that each node is immersed (i.e. the branches do not become tangent in the image) and the lemma says that each component is immersed (embedded if $\dim{X} \ge 3$). Furthermore, if $\dim{X} \ge 3$ we can take $Z$ to be the union of the curves we have constructed up to this point and ensure that each new curve only intersects $Z$ in $X$ at the two prescribed points. Therefore, we get an embedding $f : C \to X$ of the above stable curve.
+\bigskip\\
+It suffices to compute the obstruction space. Applying Lemma \ref{ext_vector_bundle} we need to show that,
+\[ H^0(\wt{C}, \nu^* f^* \T_X(-x_1 - x_2)) \to \bigoplus_{x \in C^{\sing}} T_{x} X \]
+is surjective. However, $\nu^* f^* \T_X(-x_1 - x_2)$ restricted to each vertical component is just the pullback of $\T_X$ along a very free  curve $f : \P^1 \to X$ (since $x_1, x_2$ only lie on the horizontal components) and hence is ample. Therefore, its evaluation at any two distinct points is surjective. Since each node is on unique vertical components and there are only two nodes on each vertical components we see that the evaluation map to the nodes is surjective.
+\end{proof}
+
+\begin{lemma}
+Let $B \subset \P^1$ be a finite subscheme of length $b$. Let $f : \P^1 \to X$ be a rational curve,
+\[ f^* \T_X \cong \bigoplus_{i = 1}^n \struct{\P^1}(a_i) \]
+with $a_1 \ge a_2 \ge \cdots \ge a_n$. Then,
+\begin{enumerate}
+\item if $a_2 > b$ and $f|_B$ is unramified the general deformation of $f$ fixing $f|_B$ is unramified
+
+\item if $a_3 > b$ and $f|_B$ is an embedding the general deformation of $f$ fixing $f|_B$ is an embedding.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+To appear.
+\iffalse
+For part (a) it suffices to deform $f$ along a tangent field $H^0(\P^1, f^* \T_X \ot \I_B)$ which vanishes nowhere except on $B$. Since $a_2 > b$ thus $f^* \T_X \ot \I_B$ contains two copies of $\struct{\P^1}(a_i)$ with $a_i > 0$. (WHY DONT GET IT WITH JUST $a_1 \ge b$ SINCE THEN HAVE A FREE PARAMETER AND MAKE IT VANISH COMPLETELY ALONG $B$) (WHAT ABOUT OBSTRUCTIONS)
+
+By part (a) we can deform $f$ such that it is unramified. Then factoring $f : \P^1 \to \P^1 \to C$ through the normalization we must have the first map be an isomorphism or else by Riemann-Hurwitz it would have ramification. Thus $f$ is an immersion with finitely many ordinary multiple points. We need to deform $f$ along a tangent field $H^0(\P^1, f^* \T_X \ot \I_B)$ which separates the branches at these multiple points.  
+\fi
+\end{proof}
+
+\begin{rmk}
+We will make use of [Kollar, IV Thm. 3.9]. Combining this with the explicit degree bounds for smoothing combs (c.f. [Kollar, IV Thm. 3.10]) we conclude that there exists an integer $d(n)$ such that every finite set of points of length $n$ lies on an unramified (embedded) very free rational curve of $H$-degree at most $d(n)$.
+\end{rmk}
+
+\begin{lemma}
+Let $X$ be smooth, projective, separably rationally connected variety over $k = \bar{k}$. For each ample divisor $H$, there exists an integer $d(n) \ge 0$ such that for all,
+\begin{enumerate}
+\item closed subschemes $Z \subset X$ with $\codim{Z, X} \ge 2$ 
+
+\item distinct closed points $x_1, \dots, x_n \in X$ 
+
+\item tangent directions $\ell_i \in T_{x_i} X$ 
+\end{enumerate}
+Then there exists a rational curve $f : \P^1 \to X$ such that,
+\begin{enumerate}
+\item $f_* [\P^1] \cdot H \le d$
+
+\item $f$ is very free meaning $f^* \T_X$ is ample
+
+\item $f$ is immersed (unramified and $f(\P^1)$ has only nodal singularities) and embedded if $\dim{X} \ge 3$
+
+\item $x_1, \dots, x_n \in f(\P^1)^{\smooth}$ and $f(\P^1) \sm \{ x_1, \dots, x_n \}$ is disjoint from $Z \sm \{ x_1, \dots, x_n \}$
+
+\item if $t_1, \dots, t_n \in \P^1$ satisfy $t_i \mapsto x_i$ then $f_* : T_{t_i} \P^1 \to T_{x_i} \P^1$ is an isomorphsm onto $\ell_i \cdot k$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+To appear.
+\end{proof}
+
+\subsection{Ext on Stable Curves}
+
+\begin{lemma} \label{ext_vector_bundle}
+Let $C$ be a nodal curve and $\E$ a vector bundle on $C$. Suppose that on the normalization of each component $C_i \subset C$ the vector bundle $\E$ satisfies $H^1(\wt{C}_i, \E|_{\wt{C}_i}) = 0$ then,
+\[ H^1(C, \E) = 0 \iff H^0(\wt{C}, \nu^* \E) \onto \bigoplus_{x \in C^{\sing}} \E(x) \text{ is surjective} \]
+\end{lemma}
+
+\begin{proof}
+Let $\nu : \wt{C} \to C$ be the normalization. Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E \arrow[r] & \nu_* \nu^* \E \arrow[r] & \bigoplus\limits_{x \in C^{\sing}} \iota_{x*} \E(x) \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Let $\wt{\E} = \nu^* \E$ then the second map is defined as follows. For the two preimages $\wt{x}_1, \wt{x}_2 \in \nu^{-1}(x)$ of a node $x \in C^{\sing}$, the second map seconds a section $s \in \Gamma(\wt{U}, \wt{\E})$ to the difference,
+\[ s(\wt{x}_1) - s(\wt{x}_2) \in \E(x) \]
+under the canonical identifications,
+\begin{center}
+\begin{tikzcd}
+\wt{\E}(\wt{x}_1) \arrow[rr, "\sim"] \arrow[rd, "\sim"] & & \wt{\E}(\wt{x}_2) \arrow[ld, "\sim"']
+\\
+& \E(x)
+\end{tikzcd}
+\end{center}
+Then taking the long exact sequence we get,
+\begin{center}
+\begin{tikzcd}[column sep = small]
+0 \arrow[r] & H^0(C, \E) \arrow[r] & \bigoplus\limits_{C_i \subset C} H^0(\wt{C}_i, \wt{\E}|_{\wt{C}_i}) \arrow[r] & \bigoplus\limits_{x \in C^{\sing}} \E(x) \arrow[r] & H^1(C, \E) \arrow[r] & \bigoplus\limits_{C_i \subset C} H^0(\wt{C}_i, \wt{\E}|_{\wt{C}_i}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and thus we conclude.
+\end{proof}
+
+\begin{prop}
+COMBINATORICS OF SPLITTING TYPE ON A NODAL CURVE WITH RATIONAL COMPONENTS, DO THIS.
+\end{prop}
+
+\subsection{Deformation Theory}
+
+\begin{lemma} \label{def_theory}
+Let $A$ be an Artin local ring with residue field $\kappa$. Let $X_A$ be a smooth $A$-scheme and $C_A, B_A$ be any $A$-schemes and the data,
+\begin{enumerate}
+\item $A$-morphisms $g_A : B_A \to C_A$ and $f_A : C_A \to X_A$ with $g_A$ a closed embedding
+
+\item a small extension of Artin local rings,
+\[ 0 \to I \to A' \to A \to 0 \]
+
+\item deformations $B_{A'}$ of $B_A$ and $C_{A'}$ of $C_A$ and $X_{A'}$ of $X_A$ over $A'$
+
+\item deformations $g_{A'} : B_{A'} \to C_{A'}$ of $g_A$ and $h_{A'}$ of $h_{A} = f_A \circ g_A$
+\end{enumerate}
+then, denoting the data over $\kappa$ with a $0$, there exists a class,
+\[ \ob(f_A) \in \Ext{1}{C_0}{f_0^* \Omega_{X_0}}{\I_{B_0}} \ot_k I \]
+obstructing the existence of a map $f_{A'} : C_{A'} \to X_{A'}$ such that $f_{A'} \circ g_{A'} = h_{A'}$ where,
+\[ \I_{B_0} = \ker{(\struct{C_0} \to g_{0*} \struct{B_0})} \]
+\end{lemma}
+
+\begin{proof}
+Using the flatness properties, we need to consider the following lifting problem,
+\begin{center}
+\begin{tikzcd}
+& & g_* \struct{B_{A'}} \arrow[from=dd, bend left = 70, near start, "h_{A'}^{\#}"] \arrow[r] & g_* \struct{B_A}
+\\
+0 \arrow[r] & I \ot \struct{C_0} \arrow[r, crossing over] & \struct{C_{A'}} \arrow[u] \arrow[r] & \struct{C_A} \arrow[r] \arrow[u] & 0
+\\
+& & f^{-1}_0 \struct{X_{A'}} \arrow[u, dashed]  \arrow[r] & f^{-1}_0 \struct{X_A} \arrow[u, "f_A^{\#}"] 
+\end{tikzcd}
+\end{center}
+such that the diagram commutes. The set of such liftings locally on $C_0$ is a torsor over,
+\[ \Der[A']{f_0^{-1} \struct{X_{A'}}}{\I_{B_0} \ot_\kappa I} = \Der[k]{f_0^{-1} \struct{X_0}}{\I_{B_0}} \ot_\kappa I = \shHom{\struct{C_0}}{f_0^* \Omega_{X_0}}{\I_{B_0}} \ot_\kappa I \]
+Therefore, it suffices to show that lifts exist locally. The local picture,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \ot B_0 \arrow[r] & B' \arrow[from=dd, bend left = 70] \arrow[r] & B \arrow[r] & 0
+\\
+0 \arrow[r] & I \ot S_0 \arrow[u] \arrow[r, crossing over] & S' \arrow[u] \arrow[r] & S \arrow[r] \arrow[u] & 0
+\\
+& I \ot J_{B_0} \arrow[u] & R' \arrow[u, dashed, "\ell'"] \arrow[r] & R \arrow[u, "\ell"] 
+\\
+& 0 \arrow[u]
+\end{tikzcd}
+\end{center}
+where $R'$ is smooth over $A'$ so there exists a lift $\ell' : R \to S'$ over $A'$ since $S' \to S$ is a square-zero extension. We need to modify the lift to make it commute with $R' \to B'$. The difference is an element $\delta \in \Hom{R'}{\Omega_{R'/A'}}{B_0 \ot_\kappa I}$  
+so we consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Hom{R'}{\Omega_{R'}}{S_0 \ot_\kappa I} \arrow[r] & \Hom{R'}{\Omega_{R'}}{B_0 \ot_\kappa I} \arrow[r] & \Ext{1}{R'}{\Omega_{R'/A'}}{J_{B_0} \ot_\kappa I}
+\end{tikzcd}
+\end{center}
+which arises from tensoring the exact sequence (using that $g_A$ is a closed embedding for surjectivity)
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & J_{B_0} \arrow[r] & S_0 \arrow[r] & B_0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+by $- \ot_\kappa I$ which remains exact since $\kappa$ is a field and applying $\Hom{R'}{\Omega_{R'/A'}}{-}$. Now $\Omega_{R'/A'}$ is a projective $R'$-module so the Ext is zero and hence we can lift $\delta$ to a derivation $\tilde{\delta} : R' \to S_0 \ot_\kappa I$ then $\ell' - \tilde{\delta}$ gives the required lift. 
+\end{proof}
+
+\begin{rmk}
+We can weaken the hypothesis that $g$ is a closed embedding. However, we still need some condition. Indeed, consider deformations of a line mapping to a line through a point but we deform the image of the line off of the point. Explicitly, consider the deformations over $k[\epsilon]$,
+\begin{center}
+\begin{tikzcd}
+k[\epsilon, y] \arrow[r] & k[y]
+\\
+k[\epsilon] \arrow[u] \arrow[r] & k \arrow[u]
+\\
+k[\epsilon, x] \arrow[uu, bend left = 60, "x \mapsto \epsilon y"] \arrow[u, dashed,  "\xcancel{-}" description] \arrow[r] & k[x] \arrow[u, "x \mapsto 0"']
+\end{tikzcd}
+\end{center}
+Any maps $k[\epsilon, x] \to k[\epsilon, z]$ making the diagram commute must send $x$ into $\epsilon k[\epsilon, z]$ but this maps inside $k[\epsilon] \subset k[\epsilon, y]$ and hence does not make the left triangle commute. Therefore, some condition on the map $h_{A'} : B_{A'} \to X_{A'}$ is required. It is clearly necessarly to assume that $\im{h_{A'}^{\#}} \subset \im{g_{A'}^{\#}}$ because for there to be a factorization,
+\begin{center}
+\begin{tikzcd}
+S' \arrow[rr] & & B'
+\\
+& R' \arrow[ru, dashed] \arrow[lu]  
+\end{tikzcd}
+\end{center}
+it is of course necessary that $\im{(R' \to B')} \subset \im{(S' \to B')}$. However, we need slightly more in general as the next example shows,
+\begin{center}
+\begin{tikzcd}
+k[\epsilon, y] \arrow[r] & k[y]
+\\
+k[\epsilon, z] \arrow[u, "z \mapsto \epsilon y"'] \arrow[r] & k[z] \arrow[u, "z \mapsto 0"']
+\\
+k[\epsilon, x] \arrow[uu, bend left = 60, "x \mapsto \epsilon y"] \arrow[u, dashed,  "\xcancel{-}" description] \arrow[r] & k[x] \arrow[u, "x \mapsto 0"']
+\end{tikzcd}
+\end{center}
+Any map $k[\epsilon, x] \to k[\epsilon, z]$ making the diagram commute must send $x$ into $\epsilon k[\epsilon, z]$ but this lands inside $k[\epsilon] \subset k[\epsilon, y]$ under $k[\epsilon, z] \to k[\epsilon, y]$ and hence does not make the left triangle commute. Heuristically, the composition of two first-order deformations of a constant map should be non-constant only to second-order and thus cannot equal a non-trivial first-order deformation of the composed constant map. The issue algebraically is that $\ker{(k[\epsilon, z] \to k[\epsilon, y])} = (\epsilon, z^2)$ does not surject onto $(z) = \ker{(k[z] \to k[y])}$ which is exactly needed to make such liftings possible\footnote{Diagram chasing by first sending $x \mapsto \bar{x}$ to an element making the left triangle commute we then need to modify the image so that its projection in $k[z]$ is correct. It may not be correct but it is correct after mapping to $k[y]$ since the outer square commutes so we need to kill an element of $\ker{(k[z] \to k[y])}$. Thus, we need to modify $\bar{x}$ by something in $\ker{(k[\epsilon, z] \to k[\epsilon, y])}$ (to not change the left triangle commuting) to hit a specified element of $\ker{(k[z] \to k[y])}$. Thus we need the required surjectivity.} 
+\bigskip\\
+The right conditions are:
+\begin{enumerate}
+\item $\im{h_{A'}^{\#}} \subset \im{g_{A'}^{\#}}$
+
+\item $\ker{g_{A'}^{\#}} \onto \ker{g_{A}^{\#}}$ is surjective (e.g. when $\ker{g_{A'}^{\#}}$ is $A'$-flat, so true when $g_{A'}$ is an embedding).
+\end{enumerate}
+
+The proof is modified as following. We need to show that the difference $\delta' : R' \to B_0 \ot_\kappa I$ lands in $\im{(S_0 \to B_0)} \ot_\kappa I$ (equals $\im{(S_0 \ot_\kappa I \to B_0 \ot_\kappa I)}$ since $\kappa$ is a field). By the first assumption $\delta$ has image inside $\im{(S' \to B')} \cap \ker{(B' \to B)}$. Applying the snake lemma to the diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \ot B_0 \arrow[r] & B' \arrow[r] & B \arrow[r] & 0
+\\
+0 \arrow[r] & I \ot S_0 \arrow[u] \arrow[r, crossing over] & S' \arrow[u] \arrow[r] & S \arrow[r] \arrow[u] & 0
+\end{tikzcd}
+\end{center}
+we get an exact sequence,
+\begin{center}
+\begin{tikzcd}
+\ker{(S' \to B')} \arrow[r] & \ker{(S \to B)} \arrow[r, "\partial"] & \coker{(S_0 \to B_0)} \ot_\kappa I \arrow[r] & \coker{(S' \to B')} 
+\end{tikzcd}
+\end{center}
+Then $\delta$ maps to $\coker{(S_0 \to B_0)} \ot_\kappa I$ and has zero image in $\coker{(S' \to B')}$ since its image lies inside $\im{(S' \to B')}$. By the second hypothesis, the connecting map $\partial = 0$ since the map on kernels is surjective so the image of $\delta$ in $\coker{(S_0 \to B_0)} \ot_\kappa I$ is zero giving us what we want. Thus we get $\delta : R' \to \im{(S_0 \to B_0)} \ot_\kappa I$ and hence we can apply the exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Hom{R'}{\Omega_{R'}}{S_0 \ot_\kappa I} \arrow[r] & \Hom{R'}{\Omega_{R'}}{\im{(S_0 \to B_0)} \ot_\kappa I} \arrow[r] & \Ext{1}{R'}{\Omega_{R'/A'}}{J_{B_0} \ot_\kappa I}
+\end{tikzcd}
+\end{center}
+which arises from tensoring the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & J_{B_0} \arrow[r] & S_0 \arrow[r] & \im{(S_0 \to B_0)} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+by $- \ot_\kappa I$ which remains exact since $\kappa$ is a field and applying $\Hom{R'}{\Omega_{R'/A'}}{-}$. Now $\Omega_{R'/A'}$ is a projective $R'$-module so the Ext is zero and hence we can lift $\delta$ to a derivation $\tilde{\delta} : R' \to S_0 \ot_\kappa I$ then $\ell' - \tilde{\delta}$ gives the required lift.
+\end{rmk}
+
+\section{Smoothing Singularities}
+
+\begin{theorem}
+Let $X_0$ be a $k$-scheme and $X$ a deformation of $X_0$ over $C$,
+\begin{enumerate}
+\item there are three sucessive obstructions to the existence of an extension $X'$ over $C'$,
+\[ \ob_1 \in H^0(X_0, \T^2_{X_0} \ot J) \quad \ob_2 \in H^1(X_0, \T^1_{X_0} \ot J) \quad \ob_3 \in H^2(X_0, \T^0_{X_0} \ot J) \]
+
+\item If these obstructions are zero then there is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(X_0, \T^0_{X_0} \ot J) \arrow[r] & \Def{X, C'} \arrow[r] & H^0(X_0, \T^1_{X_0} \ot J) \arrow[r] & H^2(X_0, \T^0_{X_0} \ot J)
+\end{tikzcd}
+\end{center}
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+Therefore, if we find an example with smoothable singularities where $\T^2_{X_0} = 0$ and $\T^1_{X_0}$ supported in dimension zero (i.e. isolated lci singularities) but the map,
+\[ H^0(X_0, \T^1_{X_0} \ot J) \to H^2(X_0, \T^0_{X_0} \ot J) \]
+is nontrivial then we could have singularities which can be individually smoothed but not simultaneously. 
+\bigskip\\
+However, this never happens if $\dim{X_0} = 0$. We see that curves with isolated lci singularities are always smoothable. Indeed, there is no obstruction and,
+\[ \Def{X, C'} \onto H^0(X_0, \T^1_{X_0} \ot J) \]
+is surjective. There is no obstruction to deforming an ample line bundle so we can use formal GAGA to algebrize this deformation. Now the claim is that every lci singularity is individually smoothable. SEE \chref{https://arxiv.org/pdf/0808.0436.pdf}{TRY}.
+\end{rmk}
+
+\end{document}

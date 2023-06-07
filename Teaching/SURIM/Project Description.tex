@@ -1,0 +1,75 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../../Algebraic Geometry/}{AlgGeoCommands}
+
+\usepackage[style=alphabetic, backend=bibtex8,
+            autocite=footnote, notetype=endonly, labeldateparts]{biblatex}
+\addbibresource{bib.bib}
+
+\begin{document}
+\title{Counting Points on Varieties and Applications to Ranks of Elliptic Curves over Function Fields}
+
+\author{Ben Church and Spencer Dembner}
+
+\maketitle 
+
+\section{Introduction}
+
+\subsection{Supersingularity}
+
+Suppose we have a polynomial, $f \in \FF_q[x_1, \dots, x_n]$ with coefficients in the finite field $\FF_q$. Let $X$ be the \textit{variety} defined by $f$. An interesting sequence of numbers associated to $X$ are the counts of the number of solutions to $f$ in each of the larger fields $\FF_q$,
+\[ \# X(\FF_{q^n}) = \# \{ (x_1, \dots, x_n) \in \FF_{q^n} \mid f(x_1, \dots, x_n) = 0 \} \]
+To analyze the behavior of this sequence, we put it into an exponential generating function called the \textit{zeta function} of $X$,
+\[ \zeta_X(t) = \exp{ \left( \sum_{n \ge 1} \frac{\# X(\FF_{q^n})}{n} t^n \right)} \]
+One of the crowning achievements of modern algebraic geometry is understanding the properties of this generating function in terms of the geometry of $X$. What I mean by the geometry of $X$ is considering a lift the defining polynomial $f \in \ZZ[x_0, \dots, x_n]$ to one with integer coefficients and considering the complex vanishing locus,
+\[ Z(f) = \{ (x_1, \dots, x_n) \in \CC^{n} \mid f(x_0, \dots, x_n) = 0 \subset \CC^{n} \]
+This is an actual geometric space. One result says that,
+\[ \zeta_X(t) = \frac{P_1(t) \cdots P_{2n-1}(t)}{P_p(t) \cdots P_{2n}(t)} \]
+where $P_i(t)$ is a polynomial of degree $b_i$ where,
+\[ b_i = \dim_{\QQ} H^i(Z(f), \QQ) \]
+is the dimension of the $i^{\text{th}}$-homology group of the complex variety $Z(f)$.
+\bigskip \par
+We say that $X$ is \textit{supersingular} if each of the polynomials $P_i(t)$ has roots of the form $\zeta q^{\frac{i}{2}}$ where $\zeta$ is a root of unity. Part of the point of the project will be to find new examples of supersingular varieties.
+\bigskip \par
+One reason to care about supersingular varieties is the following conjecture. We say that $X$ is \textit{rational} if $f$ can be ``solved by rational functions''. Explicitly this means there exist rational functions $r_1, \dots, r_n \in \overline{\FF}_q(t_1, \dots, t_n)$ in $n$ indeterminants such that,
+\[ f(r_1(t_1, \dots, t_n), \dots, r_n(t_1, \dots, t_n)) = 0 \]
+such that every indeterminants $t_i$ appears in some $r_j$. Shioda \cite{shioda_conjecture} conjectured that if $n = 2$ then $X$ is rational if and only if $X$ is supersingular. An overarching goal of this project is to test this conjecture.  
+
+\subsection{Ranks of Elliptic Curves}
+
+An \textit{elliptic curve} is an algebraic curve $E$ defined by a polynomial of the form,
+\[ y^2 = x^3 + ax + b \]
+A fundamental property of $E$ is that its points form an abelian group with a group composition defined by some polynomial functions. A foundational theorem due to Mordell shows that the rational solutions of this equation $E(\Q)$ forms a finitely generated abelian group. Therefore, abstractly,
+\[ E(\Q) = \Z^r \oplus E(\Q)_{\tors} \]
+where $r \in \N$ is an integer called the \textit{rank} of $E$ and $E(\Q)_{\tors}$ is a finite abelian group. 
+\bigskip \par
+A major area of research in contemporary number theory concerns the distribution of ranks of these elliptic curves. It is not even know whether there is an upper bound on the ranks of elliptic curves over $\Q$. Currently, the largest known rank is $28$ \cite{elkies_28}. Some conjecture that the ranks of elliptic curves are indeed bounded (and even that we may have found close to the largest ranks over $\Q$) based on heuristics coming from random matrix models \cite{park_heuristic}. However, over $\Q$ this problem remains extremely difficult, the boundedness question is wide open with weak evidence for unboundedness coming from the work of Elkies \cite{elkies}. There is a fruitful analogy between number fields, such as $\Q$, and ``function fields'' such as $\FF_q(t)$. The later is often more accessible using the tools of algebraic geometry. With this in mind, it is natural to study the ranks of elliptic curves with equations defined over the function field $\FF_q(t)$. However, in this case, Ulmer demonstrated the existence of elliptic curves over $\FF_q(t)$ with arbitrary large ranks \cite{ulmer}. These constructions rely heavily on our knowledge of supersingular surfaces to get around a particular stumbling block in our knowledge: that the rank can only conjecturally be computed in terms of a more accessible quantity called the analytic rank. In general, this equality is known as Birch and Swinnerton-Dyer conjecture, one of the famed Millennium problems. However, for elliptic curves constructed in terms of supersingular surfaces, this equality can be proven. 
+\bigskip \par
+Although Ulmer's construction shows that ranks over $\FF_q(t)$ are unbounded, there remains a conjecture that those elliptic curves having a particular numerical property -- that their $j$-invariant satisfies a bound on its degree (in $\FF_q(t)$) -- should have bounded ranks.
+
+\section{Project Outline}
+
+This project aims to find new examples of supersingular varieties and use them to find new examples of elliptic curves over $\FF_q(t)$ with large ranks. We will search for these examples with a view towards testing both the Shioda conjecture and the boundedness of ranks of special elliptic curves over $\FF_q(t)$.
+\bigskip \par
+Participants will study the requisite background material and then write or adapt a code-base to search for numerical examples with the desired properties. We will then aim to make conjectures about the structure of the examples discovered and attempt to prove these conjectures. A major technical tool will be the algorithm for point counting on diagonal hypersurfaces developed by Weil in \cite{weil}. Analysis of this method will make heavy use of Gaussian sums which participants will work with to improve the efficiency of computer searches. 
+\begin{center}
+Approximate timeline of the project:
+\end{center}
+\textbf{Weeks:}
+\begin{enumerate}
+\item[1] Background reading and exercises.
+\item[2-3] Understand and improve existing code-base in SAGE to search for supersingular varieties.
+\item[4-5] Analyze data to determine numerical conditions for a variety to be supersingular. 
+\item[6-7] Try to use new examples to create elliptic curves of large ranks.
+\item[8-10] Attempt to test the Shioda and boundedness conjectures with our new examples.
+\end{enumerate}
+
+\section{Project Requirements}
+
+It it required that participants have a solid foundation in algebra at the level of Dummit and Foote. Furthermore, it is expected that participants have basic familiarity with Python or at least some programming experience. Prior experience with SAGE is not expected. While it is not required, students with some exposure to algebraic geometry -- for example Fulton's \textit{Algebraic Curves} -- will be in the best position to make progress on the theoretical aspects of this project. That said, there is significant technical work in optimization and data analysis involved in the project which will not involve background knowledge of algebraic geometry. The majority of problems encountered will be reducible to statements about the direct analysis of polynomial equations and Galois theory. Therefore, it is most important that the participants foster teamwork and communication between more and less experienced participants to make sure that problems are reduced to, or stated in, the shared tongue of algebra. 
+\bigskip \par
+Our intention is that this project combines concrete computational goals with ambitious open-ended research aims. Participants will be given concrete programming tasks and exercises at the advanced undergraduate level to build familiarity with concrete examples. However, as the program continues, participants will be encouraged to pursue ambitious mathematical aims such as proving any conjectures they develop over the course of the program. 
+
+\printbibliography
+
+\end{document}
