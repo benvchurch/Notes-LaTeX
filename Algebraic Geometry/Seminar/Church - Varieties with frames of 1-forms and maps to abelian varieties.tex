@@ -1,0 +1,200 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+\section{Talk}
+
+\title{varieties with frames of $1$-forms and smooth maps to abelian varities}
+
+This is joint work with Nathan Chen and Feng Hao. 
+\\
+Conventions: all varities are over $\CC$. A minimal model is a projective variety with $\Q$-factorial terminal singularities and $K_X$ nef. 
+\\ 
+
+Question: how much do the properties of the $1$-forms on a variety constrain its geometry.
+
+Answer: a lot. Groundbreaking result:
+
+\begin{theorem}[Popa-Schnell, 2014]
+Let $X$ be a smooth projective variety and $\omega \in H^0(X, \Omega_X)$ a nowhere vanishing $1$-form. Then $X$ is \textit{not} of general type. 
+\end{theorem}
+
+In fact they prove more:
+
+\begin{theorem}
+Let $W \subset H^0(X, \Omega^1_X)$ be a linear subspace consisting entirely (except $\omega = 0$) of nowhere vanishing forms. Then,
+\[ \dim{W} \le \dim{X} - \kappa(X) \] 
+\end{theorem}
+
+There are of course many special varieties that do admit many such nonvanishing forms: abelian varieties are the standard examples. Here, we will be particularly interested in the equality case of this inequality. The standard examples of varieties satisfying this equality are,
+\[ (A \times S) / G \]
+where $A$ is an abelian variety, $S$ is a general type variety and $G$ is an abelian group acting diagonally and on $A$ by translation. Our main theorem says that these are essentially the only examples.
+
+
+An alternative source of motivation comes from thinking about frames of $1$-forms and their relation to smooth fibrations over abelian varities. The existence of such a subspace $W \subset H^0(X, \Omega_X$ of dimension $g$ is equivalent to having $1$-forms $\omega_1, \dots, \omega_g \in H^0(X, \Omega_X)$ which are pointwise independent (i.e. they form a partial frame). This condition is the same as saying that there is a trivial subbundle of the cotangent bundle,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}^{\oplus g} \arrow[r] & \Omega_X \arrow[r] & \F^\vee \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where I wrote $\F^\vee$ because if you dualize this you notice that $\F \subset \T_X$ given by the kernel of the evaluation at the forms $\omega_1, \dots, \omega_g$ is a holomorphic foliation in the sense of complex geometry. 
+
+We want to ``explain'' the existence of this frame of holomorphic $1$-forms algebraically (or equivalently give a sort of algebraization result for the foliation $\F$). How do lots of pointwise independent forms arise? The most natural way is via a smooth map,
+\[ X \to A \]
+where $A$ is an abelian variety of dimension $g$. So the question is: does every frame of $1$-forms ``arise'' from a smooth map to an abelian variety. Our main theorem says that if the Kodaira dimension is large enough, the answer is yes. 
+
+\begin{example}
+It may be tempting to say that the forms ``arise'' as the pullback of forms along $X \to A$. However, this is completely false. For example, let $C$ be a genus $2$ curve with simple Jacobian and $E$ an elliptic curve. Consider the $1$-form on $X = C \times E$ of the form,
+\[ \omega_C + \omega_E \]
+which is nowhere vanishing. If $\omega_C \neq 0$ this cannot be the pullback of a form from a map $X \to E'$ to an elliptic curve since every map $C \to E'$ is constant. 
+\end{example}
+
+Therefore, ``arise'' is really the wrong word. More accurately, the forms are ``explained'' by the smooth map to the abelian variety. This also highlights the major difficulty in proving this sort of claim directly. There is often exactly one ``good'' frame, namely $\omega_E$, which actually arises from the smooth map and one must deform the given frame not by a small amount but by some large transformation to arive at the ``correct'' frame from the given one. We will bypass these difficulties by introducing techniques from the minimal model program.  
+
+\subsection{Main Theorem}
+
+For simplicitly, I will state the results when $X$ is a smooth projective minimal variety. 
+
+\begin{theorem}[CCH, '23]
+Suppose that $X$ admits $g$ pointwise independent $1$-forms $\omega_1, \dots, \omega_g \in H^0(X, \Omega_X^1)$ and $\kappa(X) = \dim{X} - g$. Then there exists a smooth map,
+\[ X \to A \]
+to an abelian variety of dimension $g$ which is isotrivial in the sense that there is a $G$-cover $X' \to X$ with $X' \cong A' \to Y$ where $A' \to A$ is an isogeny with kernel $G$ and $Y$ is a smooth minimal model of general type.
+\end{theorem}
+
+Our methods apply in the non-minimal case but the structure is more complex. The following example shows what can happen in the non-minimal case.
+
+\begin{example}
+Let $S$ be a smooth general type surface with an elliptic curve $E \subset S$. Let $\Gamma \subset E \times S$ be the graph of the inclusion. Then,
+\[ X = \Bl_{\Gamma}(E \times S) \to E \]
+is smooth since its fibers are the blowups of $S$ at points of $E$. Thus $X$ admits a nowhere vanishing $1$-form. However, $X$ cannot be \etale locally a product because the morphism $X \to E$ is only birationally isotrivial and not isotrivial.
+\end{example}
+
+\begin{rmk}
+Therefore, if $X$ is not minimal we don't get the full force of the above conclusion. However, we can show that $X$ is birational to a diagonal quotient $(A' \times S)/G$.
+\end{rmk}
+
+\begin{conj}[Hao]
+Let $X$ be a smooth projective variety and $f : X \to A$ a map to a simple abelian variety. Then the following are equivalent,
+\begin{enumerate}
+\item there exists a $1$-form $\omega \in H^0(A, \Omega_A)$ such that $f^* \omega$ is nowhere vanishing
+\item $f$ is smooth.
+\end{enumerate}
+\end{conj}
+
+\begin{theorem}[CCH, '23]
+If $X$ is minimal and $\kappa(X) \ge \dim{X} - \dim{A}$ then the conjecture holds. 
+\end{theorem}
+
+\subsection{Step 1: factor the Albanese}
+
+Call the subspace spanned by pointwise independent forms,
+\[ W \subset H^0(X, \Omega_X^1) \]
+
+\newcommand{\can}{\mathrm{can}}
+
+Our goal is to now produce a candidate map from $X$ to an abelian variety of dimension $g$. Let $\phi : X \rat X^{\can}$ be the Iitaka fibration of $X$, consider a desingularization $S$ of $X^{\can}$, and let $X' \to X$ be a smooth resolution of $X \rat S$. These fit into the diagram below:
+\begin{center}
+\begin{tikzcd}[row sep=small]
+& F \arrow[rr] \arrow[d] & & \Alb_{F} \arrow[d]
+\\
+X \arrow[dd, dashed] & X' \arrow[l] \arrow[rr] \arrow[dd] & & \Alb_{X} \arrow[dd, two heads] \arrow[dl, two heads]
+\\
+&  & Q_X \arrow[rd, two heads] &
+\\
+X^{\can} & S \arrow[l] \arrow[ru, dashed] \arrow[rr] & & \Alb_S
+\end{tikzcd}
+\end{center}
+The Albanese morphism $X \to \Alb_{X}$ induces a rational map $X' \to \Alb_X$, which is everywhere defined since $\Alb_X$ is an abelian variety. The two left-facing morphisms are birational, so we will freely use $\Alb_{X} \cong \Alb_{X'}$. In the diagram, $F$ denotes a general fiber of $X' \rightarrow S$ and $Q_X$ is the cokernel of $\Alb_F \to \Alb_X$. This gives the third column of induced morphisms on Albanese varieties. Since the fiber $F$ is contracted in $X' \to Q_X$ by definition, it factors birationally through $X' \to S$ by rigidity. 
+
+
+\begin{lemma}
+    $\dim{F} \ge \dim{\Alb_X} - \dim{Q_X} \ge \dim{W}$
+\end{lemma}
+
+\begin{proof}
+First $\dim{F} \ge \dim{\Alb_F}$ because $\kappa(F) = 0$ (Kawamata) and $\dim{Q_X} \ge \dim{\Alb_X} - \dim{\Alb_F}$ (by definition of $Q_X$). For the second inequality, note that the composition morphism $f \colon X \to \Alb_{X} \to Q_X$ birationally factors through the Iitaka fibration on $X$. Therefore, we may apply \cite[Theorem 2.1]{PS14} to show that
+\[ W \cap f^{*} H^{0}(Q_X, \Omega_{Q_X}^1) = \{ 0 \}, \]
+which implies that $\dim W + \dim Q_X \leq \Alb_{X}$. Note that $f^{\ast}$ is injective since $\Alb_X \to Q_X$ is smooth and surjective.
+\end{proof}
+
+A key observation is that under an additional assumption on the Kodaira dimension, we can produce a map from $X$ to an abelian variety.
+
+\begin{theorem} \label{non_contraction}
+If $\kappa(X) = \dim{X} - \dim{W}$, then $\dim{F} = \dim{W}$ so the above are all equalities. This has the following consequences:
+\begin{enumerate}
+\item $F \to \Alb_F$ is a birational morphism,
+\item $\Alb_F \to \Alb_X$ is finite \etale onto its image,
+\item $F \to \Alb_X$ defines a generically finite map onto a translate of an abelian subvariety in $\Alb_{X}$,
+\item $X$ admits a surjective morphism to an abelian variety of dimension $g$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Suppose $\kappa(X) = \dim{X} - \dim{W}$, or equivalently $\dim{F} = \dim{W}$. In this case, all of the inequalities in \eqref{eq:1} become equalities, $\kappa(F) = 0$, and $\dim{F} = \dim{\Alb_F}$ so (i) holds by \cite[Theorem 1]{kawamata_abelian_varieties}. (ii) follows from the fact that $\dim{Q_X} + \dim{\Alb_F} = \dim{\Alb_X}$, and (iii) is the composition of (i) and (ii).
+
+By varying the fiber $F$, rigidity implies that the images of $F \to \Alb_X$ give translates of a fixed abelian subvariety, say $B \subset \Alb_X$. Fixing a polarization on $A$ and dualizing yields a morphism
+\[ q : A \to A^\vee \onto B^\vee \]
+such that $B \subset A$ maps surjectively onto $B^\vee$. We claim that $X \to B^\vee$ is surjective, which follows from the fact that $F \to B$ is surjective.
+\end{proof}
+
+
+\subsection{Step 2: Abelian Torsors}
+
+
+
+This is not quite an ``airplane proof'' but I just came up with a much simpler proof of the main result which is based on the following lemma.
+
+\begin{lemma}
+Let $S$ be variety and consider a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, "f"] \arrow[dr, "\psi"] & & A \times S \arrow[ld]
+\\
+& S
+\end{tikzcd}
+\end{center}
+where $A$ is an abelian variety, $f$ is finite, and $X \to S$ is a smooth proper morphism whose fibers are abelian varities. Then there is an isogeny $A' \to A$ with kernel $G$ such that $S' = f^{-1}(0 \times S) \to S$ is a $G$-torsor and,
+\[ X \cong (A' \times S')/G \]
+compatibly with the maps to $S$ and $A$ where $G \acts A' \times S'$ diagonally.
+\end{lemma}
+
+Now we will complete the proof in the minimal case where it is technically simpler. Before I did a lot of heavy lifting to prove good properties of the Iitaka fibration. It turns out, the proof is heavily simplified if you just throw away as much of the base as you want.
+\\
+Since $X$ is minimal, there Iitaka fibration is an actual morphism $\psi : X \to S$ and $K_X = \phi^* L$ so the general fiber $F$ of $\psi$ is $K$-trivial. Under our assumptions, the Albanese $a : X \to \Alb_X$ does not contract $F$. Pass to an open $U \subset S$ such that $\phi_U$ is smooth. Since $F$ is smooth and minimal and maps generically finitely onto an abelian variety then by a result of Kawamata it $F$ is an abelian variety and $F \to \Alb_X$ is an isogeny onto its image. Therefore by fibral flatness we can apply the previous lemma $X_U \to U$ to conclude that,
+\[ X_U \cong (A' \times U')/G \]
+Now we choose an equivariant smooth compactification $U' \embed Y$ (by equivariant Nagata compactification and equivariant resolution of singularities) to get,
+\[ X \birat X_U \embed (A' \times Y)/G \]
+This birational equivalence means we can extend the finite \etale cover $A' \times Y \to (A' \times Y)/G$ to $X' \to X$ such that $X' \birat A' \times Y$. But $Y$ is general type so by BCHM there is a minimal model $Y^{\min}$ and $X'$ is minimal since $X$ is so we use the fact that all minimal models are connected by a sequence of flops. However, every flop of $A' \times Y^{\min}$ is just $A'$ times a flop of $Y^{\min}$ since the flopping curves are rational so they project trivially down to $A'$. Therefore we must have that $X'$ is isomorphic to $A' \times Y'$ for another minimal model $Y'$.
+
+\subsection{Further Results}
+
+There is a fibration: $\phi : X \birat S$ whose fibers are rationally connected which contracts a very general rational curve called the maximally rationally connected (MRC) fibration. Note we can't expect it to contract all the rational curves (think about the countably many rational curves on a K3). 
+
+\begin{theorem}
+Suppose that $X$ is a smooth projective variety with $g$ pointwise independent $1$-forms. Let,
+\[ \phi : X \rat Z \]
+be the MRC fibration. Suppose that,
+\[ \dim{X} = r + \kappa(Z) + g \]
+where $r$ is the relative dimension of $\phi$. Then $X$ admits an \etale cover $X' \to X$ such that $X'$ is birational to a rationally-connected fibration over $A \times S$ where $A$ is an abelian variety of dimension $g$ and $S$ is a general type variety of dimension $\kappa(Y)$.
+\end{theorem}
+
+\begin{rmk}
+This result says, if the dimension is fully explained by a ``rationally connected'' part a ``general type'' part and a ``abelian part'' then there's actually a splitting. This is the best possible result since there can me actual moduli in a rationally-connected fibration,
+\[ \phi : X \to (A \times S) \]
+\end{rmk}
+
+\begin{example}
+Consider blowup of $\P^2$ along a point of $E$ and four points not on $E$. This gives a family of rationally connected varities over $E$ which is not isotrivial (the fibers are not isomorphic). However, it is birationally isotrivial.
+\end{example}
+
+
+The dichotomy between the general type leading to isotrivial and the Fano leading to nonisotrivial families fits into the story of Brody hyperbolicity for example the work of Popa, Taji, and Wu which shows that smooth family which vary maximally in moduli must do so over a Brody hyperbolic base (e.g. not an abelian variety). 
+
+
+\begin{rmk}
+Suppose that $\phi$ were a morphism. Then the proof is clear. Since the fibers of $\phi$ are rationally connected every $1$-form on $X$ is pulled back from those on $S$. Since the forms are independent on $X$ then they must be independent on $S$ so we can apply our previous results. The entire difficulty comes from the fact that $\psi$ is usually not a morphism and if we blowup $X$ to resolve it we lose the nowhere vanishing property. I can prove this by introducing new birational invariants defined in terms of universal Dolbeaux cohomology of Higgs bundles which refine the property ''there is a nonvanishing form on some birational model of $X$''. These invariants are then translated to information about which forms vanish using Kashiwara's estimate.
+\end{rmk}
+
+
+\end{document}

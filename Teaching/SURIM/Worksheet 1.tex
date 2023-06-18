@@ -1,0 +1,649 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../../Algebraic Geometry/}{AlgGeoCommands}
+
+\usepackage[style=alphabetic, backend=bibtex8,
+            autocite=footnote, notetype=endonly, labeldateparts]{biblatex}
+\addbibresource{bib.bib}
+
+\begin{document}
+\title{Counting Points on Varieties and Applications to Ranks of Elliptic Curves over Function Fields \bigskip\\
+\Large Worksheet for Week 1 and 2}
+
+\author{Ben Church and Spencer Dembner}
+
+\maketitle 
+
+Problems marked with $*$ are very hard. Feel free to move on without fully solving them. 
+
+\section{Rationality and Unirationality}
+
+\newcommand{\lcm}{\mathrm{lcm}}
+
+We say that the variety $X$ defined by a polynomial $f \in k[x_0, \dots, x_n]$ is \textit{rational} if $f$ can be ``solved by rational functions''. Explicitly this means there exist rational functions $r_0, \dots, r_n \in k(t_1, \dots, t_n)$ in $n$ indeterminants such that,
+\[ f(r_1(t_1, \dots, t_n), \dots, r_n(t_1, \dots, t_n)) = 0 \]
+such that every indeterminant $t_i$ appears in some $r_j$. We are now going to make this more precise by looking at the field of fractions of the ring where we set $f = 0$:
+\[ K = \Frac{k[x_0, \dots, x_n]/(f)} \]
+
+\begin{defn}
+We say that a finitely generated field $K / k$ is,
+\begin{enumerate}
+\item \textit{rational} if $K \cong k(t_1, \dots, t_n)$ for some indeterminants $t_1, \dots, t_n$
+
+\item \textit{unirational} if $K \subset k(t_1, \dots, t_n)$ for some indeterminants $t_1, \dots, t_n$
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+The function field of the variety defined by,
+\[ x_0 + f(x_1, \dots, x_n) = 0 \]
+for any polynomial $f$ not depending on $x_0$ is always rational. Indeed, we eliminate $x_0$,
+\[ x_0 = - f(x_1, \dots, x_n) \]
+and thus,
+\[ K = k(x_1, \dots, x_n) \]
+\end{example}
+
+\begin{example}
+The fraction field of,
+\[ y^2 = x^3 \]
+is rational. Indeed,
+\[ K = k(\tfrac{y}{x}) \]
+because $x = (\tfrac{y}{x})^2$ and $y = (\tfrac{y}{x})^3$. 
+\end{example}
+
+In the following problems let $k$ be an algebraically closed field (and of characteristic not $2,3$).
+
+\subsection{}
+
+Show that the function field of,
+\[ x^2 + y^2 = 1 \]
+is rational. What about the function field of,
+\[ x^2_0 + x_1^2 + \cdots + x_n^2 = 1 \]
+What about the function field of the equation,
+\[ q(x_0, \dots, x_n) = 1 \]
+for any quadratic form $q$ with coefficents in $k$.
+
+\subsection{}
+
+Show that the function field of the cubic equation,
+\[ x^3 + y^3 = 1  \]
+is \textit{not} rational. Hint: we're trying to solve $x^3 + y^3 = z^3$ in $k[t]$. Write,
+\[ x^3 = z^3 - y^3 = (z - y)(z - \zeta_3 y)(z - \zeta_3^2 y) \]
+Use the fact that $k[t]$ is a UFD so we can assume that $y,z$ are coprime.  
+
+\subsection{}
+
+Show that the function field of the cubic equation,
+\[ y^2 = f(x) = x^3 + a x + b  \]
+is rational if and only if $f$ has a repeated root. Hint: consider derivatives of the parametrizing functions and their roots.
+
+
+\section{Luroth and Shioda}
+
+The Luroth problem asks when rationality and unirationality are equivalent for a function field $K$ over an algebraically closed field $k$. We call the transcendence degree $\trdeg{k}{K}$ the \textit{dimension} of the field $K$.
+
+\begin{theorem}[Luroth, Castelnuovo, and others]
+If $k$ has characteristic zero and $\trdeg{k}{K} \le 2$ then the following are equivalent,
+\begin{enumerate}
+\item $K$ is rational
+\item $K$ is unirational
+\end{enumerate} 
+\end{theorem}
+
+\subsection{}
+Show that the function field defined by,
+\[ x^3 + y^3 + z^3 = 1 \]
+is unirational. Hint: choose two lines, for example parametrically,
+\[ (x,y,z) = (t,-t,1) \quad (x,y,z) = (s, -s, \zeta_3) \]
+For fixed $t,s$ call the points on these lines $P$ and $Q$ respectively. Now the claim is that the line $\overline{PQ}$ intersects the cubic equation in exactly one point besides $P$ and $Q$. Mapping $(t,s)$ to this point will give the desired parametrization. 
+
+\subsection{$\ast$}
+
+Show that the function field defined by,
+\[ x^3 + y^3 + z^3 + w^3 = 1 \]
+is \textit{unirational}. Hint: choose a line satisfying the equation and consider the planes passing through this line. They are parameterized by two numbers $s,t$. The intersection of each plane with the cubic equation factors into a linear equation and a quadratic part. If you allow square roots in some polynomials in $s,t$ you should be able to parameterize the residual quadratic part with an additional variable. 
+\par
+It is a very difficult theorem due to Clemens and Griffiths that the function field in this example is \textbf{not} rational.
+
+\subsection{}
+
+In characteristic $p > 0$ very weird things can happen. Consider the Zariski surface $X$,
+\[ z^p = f(x,y) \]
+where $f \in k[x,y]$ over a field $k$ of characteristic $p$. Show that $X$ is unirational. Hint: consider $x = t^p$ and $y = s^p$, how can you exploit that $k$ has characteristic $p$.
+
+\begin{example}
+Consider the Fermat surface $X$ defined by,
+\[ x^n + y^n + z^n = 1 \]
+over the field $k = \overline{\FF}_p$. Shioda proved \cite[Theorem III]{shioda_fermat} that $X$ is unirational if and only if,
+\[ p^\nu \equiv -1 \mod n \]
+for some positive integer $\nu$. This will be our main motivating example.
+\end{example}
+
+\section{Counting Points over $\FF_q$}
+
+Let $q = p^n$ be a power of a prime $p$. 
+\\
+Suppose we have a polynomial, $f \in \FF_q[x_1, \dots, x_n]$ with coefficients in the finite field $\FF_q$. Let $X$ be the \textit{variety} defined by $f$. An interesting sequence of numbers associated to $X$ are the counts of the number of solutions to $f$ in each of the larger fields $\FF_q$,
+\[ \# X(\FF_{q^n}) = \# \{ (x_1, \dots, x_n) \in \FF_{q^n} \mid f(x_1, \dots, x_n) = 0 \} \]
+To analyze the behavior of this sequence, we put it into an exponential generating function called the \textit{zeta function} of $X$,
+\[ \zeta_X(t) = \exp{ \left( \sum_{n \ge 1} \frac{\# X(\FF_{q^n})}{n} t^n \right)} \]
+
+\subsection{}
+
+Let $X = \A^n_{\FF_q}$ You can think of this as the case where $f = 0$ in the above definition. Then compute $\zeta_X(t)$. You should find that it simplifies and has a pole at $t = q^{-n}$.
+
+
+\subsection{}
+
+Let $a_0, a_1, \dots, a_r \in \FF_q$. How many solutions are there to the equation,
+\[ a_0 x_0 + a_1 x_1 + \cdots + a_r x_r = 0 \]
+in the field $\FF_q$ meaning the number $\# X(\FF_q)$ for the above equation? Compute $\zeta_X$.
+
+\subsection{}
+
+Let $u \in \FF_q$ and $n > 0$ be an integer, and let $d = \gcd(n, q-1)$. Show that the number $N(u)$ of solutions to the equation $x^n = u$ is,
+\[ N(u) = \begin{cases}
+1 & u = 0
+\\
+d & u \neq 0 \text{ and admits a d-th root in } \FF_q
+\\
+0 & u \neq 0 \text{ and does not admit a d-th root in } \FF_q
+\end{cases} \]
+Notice that unlike the previous cases, the number of points $\# X(\FF_q) = N(u)$ for $X = V(x^n - u)$ is not a polynomial in $q$. Compute $\zeta_X$.
+
+
+\subsection{} \label{hyperelliptic}
+
+You may take on faith the following fact: consider a polynomial,
+\[ y^2 - f(x) \in \FF_p[x,y] \]
+with $f$ monic\footnote{This assumption ensures that the ``points at $\infty$'' are defined over $\FF_p$.} of degree $d$. Set,
+\[ \delta = 
+\begin{cases}
+1 & d \text{ is odd}
+\\
+2 & d \text{ is even}
+\end{cases} 
+\quad \quad
+g = 
+\begin{cases}
+\frac{d-1}{2} & d \text{ is odd}
+\\
+\frac{d}{2} & d \text{ is even}
+\end{cases} \]
+Set $X = V(f)$. This is called the ``an affine hyperelliptic curve of genus $g$''. Then,
+\[ \zeta_{X}(t) = \frac{P(t)}{(1 - t)^{1-\delta} (1 - p t)} \]
+where $P(t)$ is a monic polynomial of degree $2g$ with constant term $p^g$. 
+\begin{enumerate}
+\item What does this form of $\zeta_{X}$ imply explicitly about the point counts $\# X(\FF_{p^n})$?
+\item consider $f(x) = x^3 + 1$ compute $\zeta_X$ for $p = 5,7$
+\item consider $f(x) = x^4 - x^2 + x$ compute $\zeta_X$ for $p = 5,7$
+\item Write a program in sage that takes in a polynomial $f \in k[x]$ and a prime number $p$ and computes $\zeta_X$ for $y^2 - f$ over $\FF_p$.
+\end{enumerate}
+
+
+\section{The Weil Conjectures}
+
+You probably noticed that all the zeta functions we computed are all rational functions. This is not a coincidence. One of the crowning achievements of modern algebraic geometry is understanding the properties of this generating function in terms of the geometry of $X$. What I mean by the geometry of $X$ is considering a lift the defining polynomial $f \in \ZZ[x_0, \dots, x_n]$ to one with integer coefficients and considering the complex vanishing locus,
+\[ Z(f) = \{ (x_1, \dots, x_n) \in \CC^{n} \mid f(x_0, \dots, x_n) = 0 \subset \CC^{n} \]
+This is an actual geometric space. The main result says that $\zeta_X$ is a rational function of the form,
+\[ \zeta_X(t) = \frac{P_1(t) \cdots P_{2n-1}(t)}{P_p(t) \cdots P_{2n}(t)} \]
+where $P_i(t)$ is a polynomial of degree $b_i$ where,
+\[ b_i = \dim_{\QQ} H_i(Z(f), \QQ) \]
+is the dimension of the $i^{\text{th}}$-homology group of the complex variety $Z(f)$.
+\\
+The Weil conjectures \cite{weil} (now theorems) make precise predictions about the form of the $\zeta$ function. The best results are true for $X$ a \textit{non-singular projective} variety over $\FF_q$. Non-singular means that the defining equations have full-rank partial derivatives everywhere. Projective means that the variety is ``complete'' e.g. that the associated variety over the complex numbers is a compact manifold. Then the Weil conjectures state that if $X$ is an $n$-dimensional non-singular projective variety over $\FF_q$ then,
+
+\begin{enumerate}
+\item Rationality: $\zeta_X(t)$ is a \textit{rational function} of $t$ and takes the form,
+\[ \zeta_X(t) = \frac{P_1(t) \cdots P_{2n-1}(t)}{P_p(t) \cdots P_{2n}(t)} \]
+where $P_i(t)$ is an integer polynomial. Furthermore, $P_0(t) = 1 - t$ and $P_{2n}(t) = 1 - q^n t$ and all $P_i(t)$ factor over $\CC$ as,
+\[ \prod_j (1 - \alpha_{ij} t) \]
+for numbers $\alpha_{in} \in \CC$ called the \textit{roots} of $X$
+
+\item Functional equation and Poincar\'{e} duality: The zeta function satisfies,
+\[ \zeta(X, q^{-n} t^{-1}) = \pm q^{ne/2} t^e \zeta(X, t) \]
+where $e := e(X)$ is the \textit{Euler characteristic} of $X$. In particular, for each $i$, the numbers $\{ \alpha_{2n - i, j} \}_j$ and $\{ q^n / \alpha_{i,j} \}_j$ are equal up to permutation.
+
+\item Riemann hypothesis: $|\alpha_{i,j}| = q^{i/2}$ for all $0 \le i \le 2n$ and all $j$.
+
+\item Betti numbers: if $X$ is a ``good reduction mod $p$'' of a non-singular projective variety $X_K$ over a number field $K \embed \CC$ embedded in $\CC$ then,
+\[ \deg{P_i} = \dim_{\CC} H_i(X_K(\CC), \Z) \]
+which is the dimension of the homology of the complex manifold defined by the same equations as $X$.
+\end{enumerate}
+
+The reason for the terminology ``Riemann hypothesis'' is the formal similarity to the Riemann hypothesis for the Riemann zeta function. Indeed, suppose we write,
+\[ \zeta_X(s) = \zeta_X(q^{-s}) \]
+Then the functional equation becomes,
+\[ \zeta_X(n-s) = \pm q^{ne/2 - e s} \zeta_X(s) \]
+which looks similar to the functional equation for the Riemann zeta function and the ``Riemann hypothesis'' part of the Weil conjectures becomes that all the poles and zeros of $\zeta_X(s)$ lie on the ``critical lines'' of complex numbers $s$ with real part $k/2$ for $k \in 0,1,\dots,2n$. 
+\bigskip\\
+You can learn more about the Weil conjectures in the following places (arranged somewhat in increasing order of complexity)
+\begin{enumerate}
+\item \url{https://en.wikipedia.org/wiki/Weil_conjectures}
+\item \url{http://www.math.toronto.edu/~jacobt/Lecture1.pdf}
+\item \url{https://pagine.dm.unipi.it/tamas/Weil.pdf} Chapters 1 and 2
+\item \url{https://pages.uoregon.edu/ddugger/weil607.pdf} Chapters 1-4
+\item \url{https://people.math.harvard.edu/~mpopa/571/chapter2.pdf}
+\item \url{https://dept.math.lsa.umich.edu/~mmustata/zeta_book.pdf}.
+\end{enumerate}
+
+In the following problems we will explore some examples of zeta functions of non-singular projective varieties. 
+
+\subsection{}
+
+We can write projective space as the quotient,
+\[ \P^n = \frac{\A^{n+1} \sm \{ 0 \}}{\Gm} \]
+explicitly this means that the points over a field $K$ are,
+\[ \P^n(K) = \frac{K^{n+1} \sm \{ 0 \}}{K^\times } \]
+We can extend the definition of the $\zeta$-function to these more interesting spaces by counting the number of points over the fields $\FF_q$ using the above formula. Compute $\zeta_{\P^n}$ and compare to $\zeta_{\A^n}$.
+
+\subsection{}
+
+Suppose that $X$ decomposes as a disjoint union,
+\[ X = X_1 \sqcup X_2 \sqcup \cdots \sqcup X_k \]
+of pieces. Prove that,
+\[ \zeta_X = \zeta_{X_1} \cdot \zeta_{X_2} \cdots \zeta_{X_k} \]
+Use this to interpret geometrically the form of $\zeta_{\P^n}$.
+
+\subsection{$\ast$}
+
+Let $a,b,c \in \FF_q$. How many non-zero solutions are there to the equation,
+\[ a x^2 + b y^2 + c z^2 = 0 \]
+in $\FF_{q^r}$ up to scaling? Call this number $S(r)$. Compute,
+\[ \zeta_X(t) = \exp{ \left( \sum_{r \ge 1} \frac{S(r)}{r} t^r \right) } \] 
+and prove that it is a rational function. This is the zeta function of the variety $X = \frac{V(f) \sm \{ 0 \}}{\Gm}$.
+\\
+Note that there are several cases, depending on whether or not $a x^2 + b y^2 + c z^2$ is a product of linear factors over $\overline{\FF_q}$. Does the zeta function satisfy the functional equation in each of these cases? Why or why not Can you compute the analogous zeta function for quadratics in more than three variables? Is the point count always a polynomial?
+\bigskip\\
+Hint: for the three-variable case, pick a point on the quadratic -- first you must show it has one -- and look at a plane through this point. What does the intersection with the quadratic look like? How many points does it have, up to scaling?
+
+\subsection{}
+
+\newcommand{\Gr}{\mathrm{Gr}}
+
+How many distinct $k$-dimensional subspaces of $\FF^n_q$ are there? Call this number $R(q, k, n)$. Show that the function,
+\[ \zeta_{\Gr(k,n)}(t) := \exp{\left( \sum_{r \ge 1} \frac{R(q^r, k, n)}{r} t^r \right) }\]
+is a rational function by computing it. This is the $\zeta$ function of the \textit{Grassmannian} $\Gr(k, n)$ over $\FF_q$. Check that this zeta function satisfies the functional equation part of the Weil conjectures i.e. that,
+\[ \zeta_{k,n}(q^{-d} t^{-1}) = \pm q^{de/2} t^e \zeta_{k,n}(t) \]
+for appropriate integers $d$ and $e$.
+
+\subsection{}
+
+Consider the set $P_{n,d}$ of homogeneous degree $d$ polynomials with coefficents in $\FF_q$, in $n$ variables. What is the \textit{average} number of non-zero solutions to a polynomial in $P_{n,d}$, up to scaling?
+
+\subsection{}
+
+Let $\{ f_i \}$ be a system of polynomial equations with coefficients in $\FF_q$, and let $X(\FF_{q^k})$ be the set of solutions to $\{ f_i \}$ in $\FF_{q^k}$. The zeta function of the variety associated to this system of equations is,
+\[ \zeta_X(t) = \exp{\left( \sum_{k \ge 1} \frac{\# X(\FF_{q^k})}{k} t^k \right)}\]
+Write $\zeta_X(t)$ as an infinite product over the Galois orbits in,
+\[ X(\overline{\FF}_q) = \bigcup_k X(\FF_{q^k}) \]
+Write $\zeta_X(t)$ as an infinite sum over Galois orbits in $X(\overline{\FF}_q)$.
+
+\subsection{} \label{base_change}
+
+Let $X$ be a variety over $\FF_q$. Then for any $k$ we can ``base change'' it to a variety $X'$ over $\FF_{q^k}$. If $X$ is defined by an equation $f \in \FF_q[x_0, \dots, x_n]$ then $X'$ is simply defined by the same polynomial $f$ but viewed as an element of $\FF_q[x_0, \dots, x_n]$. Explicitly, $X'$ is characterized by the property that,
+\[ \# X'(\FF_{(q^k)^n}) = \# X(\FF_{q^{kn}}) \]
+What is the relationship between $\zeta_X$ and $\zeta_{X'}$? How can we compute the roots of $X'$ in terms of the roots of $X$?
+
+\section{Supersingularity}
+
+We say that $X$ is \textit{supersingular} if all the roots of $X$ are of the form $\zeta q^{\frac{i}{2}}$ where $\zeta$ is a root of unity. Part of the point of the project will be to find new examples of supersingular varieties. 
+\par
+One reason to care about supersingular varieties is the following conjecture. Shioda \cite{shioda_conjecture} conjectured that, in the two dimensional case, $X$ is rational if and only if $X$ is supersingular. An overarching goal of this project is to test this conjecture. We do know the easy direction of this conjecture:
+
+\begin{prop}
+If a variety $X$ over $\FF_q$ is unirational then $X$ is supersingular. 
+\end{prop}
+
+This gives us already some examples of supersingular varieties. In the following problems we will find more examples.
+
+\subsection{}
+
+Identify which of the varieties considered previously are supersingular. Pay close attention to Problem \ref{hyperelliptic}. Does the supersingularity of a variety defined by a fixed polynomial $f \in \ZZ[x_0, \dots, x_n]$ with integer coefficients considered over $\FF_p$ for different primes $p$ depend on the choice of prime? 
+
+\subsection{}
+
+Prove that a variety $X$ over $\FF_q$ is supersingular if and only if its base change (c.f. Problem \ref{base_change}) $X'$ to $\FF_{q^k}$ is supersingular.
+
+\section{Diagonal Hypersurfaces, Weil's Method, and Gauss Sums}
+
+Weil used a clever point counting method to check his conjectures for equations of the form,
+\[ a_0 x_0^{n_0} + a_1 x_1^{n_1} + \cdots + a_r a_r^{n_r} = 0 \]
+in the original paper \cite{weil} where he first set out his celebrated conjectures:
+\begin{center}
+\url{https://www.ams.org/journals/bull/1949-55-05/S0002-9904-1949-09219-4/S0002-9904-1949-09219-4.pdf}
+\end{center}
+This paper should be read in detail \textit{after} you think about the following problems which develop Weil's point counting technique from scratch.
+
+\subsection{}
+
+Let,
+\[ f(x_0, \dots, x_n) = \sum_{i = 0}^n a_i x^{m_i} \]
+be a polynomial with coefficients $a_i \in \FF_q$. Suppose that for each $i$, $a_i$ is non-zero and has an $m_i$-th root in $\FF_q$. Show that the zeta function of the variety $X = \{ f = 0 \}$ is independent of the $a_i$. In particular it is the same as the zeta function for the polynomial,
+\[ g(x_0, \dots, x_n) = \sum_{i = 0}^n x_i^{m_i} \]
+
+\subsection{}
+
+The next problems have to do with characters. A multiplicative character of $\FF_q$ is a group homomorphism $\chi : \FF_q^\times \to \CC^\times$ from the nonzero elements of $\FF_q$ to the nonzero elements of the complex numbers (both considered as groups under multiplication). Let $w \in \FF_q^\times$ be a generator of the multiplicative group. Then any multiplicative character is determined by its value on $w$, which must be a $(q-1)$-th root of unity. Vice versa, for any rational number $\alpha \in \QQ$ such that $(q-1) \alpha \in \ZZ$, we can define a character $\chi_\alpha$ by setting,
+\[ \chi_\alpha(w) = e^{2 \pi i \alpha} \]
+We use the following convention: we regard any multiplicative character $\chi$ as a function $\chi : \FF_q \to \CC^\times$ by setting,
+\[ \chi(0) = 
+\begin{cases}
+0 & \chi \neq \chi_0
+\\
+1 & \chi = \chi_0 
+\end{cases} \]
+
+\subsection{}
+
+Show that if $\chi$ is a multiplicative character, then
+\[ \sum_{u \in \FF_q} \chi(u) = 
+\begin{cases}
+0 & \chi \neq \chi_0
+\\
+q & \chi = \chi_0 
+\end{cases} \]
+
+\subsection{}
+
+Show that the number $N(u)$ of solutions to $x^n = u$ defined in Problem DO IT can be expressed as,
+\[ N(u) = \sum_{\substack{ \alpha \in [0,1) \cap \QQ \\ 
+d \alpha \in \ZZ }} \chi_{\alpha}(u) \]
+
+\subsection{}
+
+Let $a_0, a_1, \dots, a_r \in \FF_q$ and let $n_0, n_1, \dots, n_r$ be positive integers. Let $N_q$ be the number of solution to the equation,
+\[ a_0 x_0^{n_0} + a_1 x_1^{n_1} + \cdots + a_r a_r^{n_r} = 0 \]
+over $\FF_q$. Set,
+\[ L(u) = \sum_{i = 0}^r a_i u_i \]
+and $d_i = \gcd(n_i, q-1)$. Then show that,
+\[ N_q = \sum_{u, \alpha} \chi_{\alpha_0}(u_i) \chi_{\alpha_1}(u_1) \cdots \chi_{\alpha_r}(u_r) \]
+where the sum ranges over all $u = (u_0, \dots, u_r)$ such that $L(u) = 0$ and all $\alpha = (\alpha_0, \dots, \alpha_r)$ such that $\alpha_i \in [0,1)$ and $d_i \alpha_i \in \ZZ$ for all $i$.
+
+\subsection{}
+
+We now break up the sum into two parts: the first where some $\alpha_i = 0$, the second where all $\alpha_i \neq 0$. For the given $r$-tuple of exponents $n$ we define the set of admissible $\alpha$,
+\[ A_{n, q} = \left\{ (\alpha_0, \dots, \alpha_r) : 0 < \alpha_i < 1 \text{ and } d_i \alpha_i \in \Z \text{ and } \sum \alpha_i \in \Z \text{ where } d_i = \gcd{(n_i, q-1)} \right\} \]
+Assume all $a_i \neq 0$. 
+\begin{enumerate}
+\item Show using a change of variables $u_i \mapsto u_i / a_i$ that,
+\[ N_q = q^r + \sum_{\alpha \in A_{n,q}} \chi_{\alpha_0}(a_0^{-1}) \cdots \chi_{\alpha_r}(a_r^{-1}) S(\alpha) \]
+where,
+\[ S(\alpha) = \sum_{\left\{ u \middle| \sum u_i = 0 \right\}} \chi_{\alpha_0}(u_0) \cdots \chi_{\alpha_r}(u_r) \]
+
+\item Show that $S(\alpha)$ is divisible by $q-1$. Then we define the Jacobi sum of $\alpha$ over $k = \FF_q$ to be,
+\[ j(\alpha) = \frac{1}{q-1} S(\alpha) \]
+\end{enumerate}
+
+
+\section{Gaussian Sums} 
+
+Let $k = \FF_q$. Fix an additive character $\psi : k \to \CC^\times$ and let $\chi :  k^\times \to \CC^\times$ be a nontrivial multiplicative character. Then we define the \textit{Gaussian sum},
+\[ g(\chi) := \sum_{x \in k} \chi(x) \psi(x) \]
+Remember that when $\chi$ is nontrivial we set $\chi(0) = 0$ and otherwise $\chi_0(0) = 1$. 
+
+\subsection{}
+
+Show that $g(\chi_0) = 0$ and for $\chi \neq \chi_0$ we have,
+\[ g(\chi) \bar{g}(\chi) = q \]
+
+\subsection{}
+
+Prove that $g(\chi)$ is independent of the choice of nontrivial additive character $\psi$ up to multiplication by a root of unity. Hint: first prove the following lemma.
+
+\begin{lemma}
+Let $R$ be a finite ring. If $\psi : R \to \CC^\times$ is an additive character and $r \in R$ then set $\psi_r(x) = \psi(rx)$. Then the following are equivalent,
+\begin{enumerate}
+\item $\psi_r$ is nontrivial for all $r \neq 0$
+\item every additive character of $R$ is of the form $\psi_r$ for some $r \in R$.
+\end{enumerate}
+\end{lemma} 
+
+\begin{proof}
+Hint: let $\wh{R}$ be the ring of additive characters (with pointwise addition and multiplication). Show that $R \to \wh{R}$ via $r \mapsto \psi_r$ is a map of additive groups. What does it mean for this map to be injective or surjective? How does $\# R$ compare to $\# \wh{R}$.
+\end{proof}
+
+\subsection{}
+
+Prove that,
+\[ \chi(x) = \frac{g(\chi)}{q} \sum_{t \in k} \bar{\chi}(t) \bar{\psi}(tx) \]
+which we think of as a Fourier expansion. Hint: use the fact that we can re-index the sum $g(\chi)$ to sum over $t x$ for any fixed nonzero $t$.
+
+\subsection{} \label{computing_j}
+
+Using the previous problem, prove that,
+\[ j(\alpha) = \frac{1}{q} g(\chi_{\alpha_0}) \cdots g(\chi_{\alpha_r}) \]
+Using this and previous problems, compute,
+\[ j(\alpha) \bar{j}(\alpha) \]
+
+\section{Extensions of Characters}
+
+Let $k' = \FF_{q^s}$ be an extension of $k$ of degree $s$. Let $N : k' \to k$ and $T : k' \to k$ be the norm and trace respectively.
+
+\subsection{}
+
+If $w$ denotes a generator of $k^\times$. 
+
+\begin{enumerate}
+\item Show there is a generator $w' \in k'^\times$ such that $N(w') = w$.
+
+\item As before, we denote by $\chi_\alpha'$ the multiplicative character on $k'$ such that $\chi_{\alpha}'(w') = e^{2 \pi i \alpha}$. Suppose that $(q-1) \alpha \in \ZZ$. Then show that,
+\[ \chi'_\alpha(x) = \chi_\alpha(N(x)) \]
+for all $x \in k'$.
+\end{enumerate}
+
+\subsection{}
+
+Choose any additive character $\psi' : k' \to \CC^\times$. In fact we can choose $\psi'(x) = \psi(T(x))$ which is nontrivial since $T : k' \to k$ is surjective (why?). Similarly, fixing a multiplicative character $\chi : k^\times \to \CC^\times$ define $\chi'(x) = \chi(N(x))$.  Now denote by $g'(\chi')$ the Gaussian sum in $k'$,
+\[ g'(\chi') = \sum_{y \in k'} \chi'(y) \psi'(y) \]
+
+\begin{theorem}[Hasse-Davenport]
+$g'(\chi') = - [-g(\chi)]^s$.
+\end{theorem}
+
+In this exercise we are going to prove it. You may want to read these excellent notes on the subject if you get stuck,
+
+\begin{center}
+\url{https://people.reed.edu/~jerry/361/lectures/hassedav.pdf}
+\end{center}
+
+Let $\M$ be the set of monic polynomials in $k[X]$ (not necessarily irreducible). Define a function,
+\[ \lambda : \M \to \CC^\times \]
+as follows. Write,
+\[ f(X) = X^d - c_1 X^{d-1} + \cdots + (-1)^d c_d \]
+then set,
+\[ \lambda(f) = \psi(c_1) \chi(c_d) \]
+
+\begin{enumerate}
+\item Show that $\lambda(fg) = \lambda(f) \lambda(g)$.
+
+\item For any multiplicative function $\lambda : \M \to \CC^\times$ prove that,
+\[ \sum_{f \in \M} \lambda(f) \, t^{\deg{f}} = \prod_{f \text{ irred.}} (1 - \lambda(f) \, t^{\deg{f}})^{-1} \]
+What does this remind you of?
+
+\item For the particular function $\lambda$ defined above, show that,
+\[ \sum_{f \in \M} \lambda(f) t^{\deg{f}} = 1 + g(\chi) t \]
+
+\item Show that,
+\[ g'(\chi') = \sum_{\substack{f \text{ irred.} \\ d \divides \nu}} d (\psi(c_1) \chi(c_d))^{\frac{s}{d}} \]
+
+\item Use the preceding parts to prove the theorem of Hasse-Davenport.
+\end{enumerate}
+
+\subsection{} \label{proof_of_thm}
+
+Let $Y$ be the variety defined by the equation,
+\[ a_0 x_0^{n_0} + \cdots + a_r x_r^{n_r} = 0 \]
+over $\FF_q$ with $a_i \neq 0$ and $n_i$ coprime to $q$. Really we are interested in removing the scaling ambiguity by considering $X = (Y \sm \{ 0 \})/\Gm$ which is a projective variety. We will talk later about what this means in detail. For now, just take as definition that,
+\[ \# X(\FF_{q^k}) = \frac{\# Y(\FF_{q^k}) - 1}{q^k - 1} \]
+Let $m = \lcm{(n_0, \dots, n_r)}$ and let $f$ be the multiplicative order of $q$ mod $m$ (the smallest $f$ such that $q^f \equiv 1 \mod m$). Then let $A_{n,q^f}$ be the set of admissible $\alpha$ as before. For $\alpha \in A_{n,q}$ define $\mu(\alpha)$ to be the smallest integer such that $(q^{\mu(\alpha)}-1) \alpha_i \in \ZZ$ for each $i$.
+
+Use everything we have shown so far to prove the following.
+
+\begin{theorem} \label{thm:diagonal_zeta_function}
+Given the above,
+\[ \zeta_X(t) = \left[ \prod_{i = 0}^{r-1} \frac{1}{1-q^i t} \right] \cdot  \left[ \prod_{\alpha \in A_{n,q} / \sim} \bigg( 1 + (-1)^r B(\alpha) j(\alpha) \, t^{\mu(\alpha)} \bigg) \right]^{(-1)^r} \]
+where,
+\[ B(\alpha) = \bar{\chi}_{\alpha_0}(a_0) \cdots \bar{\chi}_{\alpha_r}(a_r) \]
+and,
+\[ j(\alpha) = \frac{1}{q} g(\chi_{\alpha_0}) \cdots g(\chi_{\alpha_r}) \]
+and we say that two $\alpha, \alpha' \in A_{n,q}$ are equivalent if $q \alpha = \alpha'$.
+\end{theorem}
+
+What does this say about when $X$ is supersingular? Notice that the supersingularity of $X$ does not depend on the $a_i$. Explain this without using the computation of $\zeta_X$. Hint: what happens when we base change to a field $k'$ in which $a_i$ has an $n_i$-th root?
+
+\section{Stickelberger's theorem}
+
+Therefore, we are left with the problem of determining when the numbers,
+\[ j(\alpha) = \frac{1}{q} g(\chi_{\alpha_0}) \cdots g(\chi_{\alpha_r}) \]
+are all roots of unity. This is a difficult problem in general. However, it can be turned into entirely combinatorics via the theorem of Stickelberger (CITE). 
+
+
+\begin{defn}
+A complex number $\alpha \in \CC$ is a \textit{algebraic integer} if $\alpha$ is the root of a monic polynomial $f \in \ZZ[x]$ with integer coefficients. We say that $\deg{\alpha}$ is the minimal $\deg{f}$ for polynomials with these properties. It turns out there is a unique minimal degree $f$ called the \textit{minimal polynomial} of $\alpha$ whose roots are called the \textit{conjugates} of $\alpha$.
+\end{defn}
+
+\subsection{}
+
+It is not true that the only algebraic integers with $|\alpha| = 1$ are roots of unity. For example,
+\[ \alpha = (\sqrt{2} - 1) + i \sqrt{2 \sqrt{2} - 2} \]
+However, the following is true.
+
+\begin{theorem}
+Let $\alpha$ be an algebraic integer such that every conjugate $\alpha'$ of $\alpha$ has $|\alpha'| \le 1$. Then $\alpha$ is a root of unity.
+\end{theorem}
+
+Prove this theorem. Hint: if $\alpha$ is a degree $d$ algebraic integer then so is $\alpha^n$. Are there infinitely many integer polynomials of degree $d$ whose roots all satisfy $|\alpha| \;e 1$?
+
+\subsection{}
+
+The usefulness of the above theorem is that in our situation, the roots of $X$ in degree $r-1$ satisfy,
+\[ |\alpha_{ij}| = q^{i/2} \]
+and hence all their conjugates as well because those are also roots of $X$ (since the polynomials $P_j(t^{-1})$ are monic with integer coefficients $\alpha_{ij}^{-1}$ are algebraic integers and for fixed $i$ all conjugates appear as we run through $j$). For the diagonal hypersurface $X$ as in Theorem~\ref{thm:diagonal_zeta_function} show this property explicitly. Hint: since we already computed $|j(\alpha)|$ in Problem \ref{computing_j}, the main difficulty is in finding the conjugates of $j(\alpha)$. Think Galois theory. 
+
+\subsection{}
+
+The point is that, by the above two problems, to show that $X$ is supersingular, it suffices to show that each $\alpha_{ij} / q^{\frac{i}{2}}$ is an algebraic integer. In fact, it suffices to show this for one root in each conjugacy class. To show that an algebraic number $\alpha \in \CC$ is an algebraic integer, we can often compute its decomposition as a fractional ideal. 
+\par
+Choose a number field $K \subset \CC$ containing $\alpha$ meaning a finite field extension $K / \Q$. Then there is a ring of algebraic integers $\struct{K} \subset K$ inside $K$. A fundamental result about these rings is that every ideal $I \subset \struct{K}$ has a \textit{unique} factorization,
+\[ I = \prod_{i = 1}^r \p_i^{e_i} \]
+into prime ideal $\p_i$. We write $\ord_{\p_i}(I) = e_i$ and $0$ for $\p$ not among $\p_1, \dots, \p_r$. For an element $a \in \struct{K}$ we write $\ord_{\p}(a)$ for the order in the principal ideal $I = (a)$. For any $\alpha \in K$ we can write $\alpha = \frac{a}{b}$ and define formally,
+\[ \ord_{\p}(\alpha) = \ord_{\p}(a) - \ord_{\p}(b) \]
+and define the \textit{fractional ideal} associated to $a$ as the formal symbol,
+\[ (\alpha) = \prod_{\p \subset \struct{K}} \p^{\ord_{\p}(\alpha)} \]
+In fact we can interpret this as a finitely generated $\struct{K}$-submodule of $K$ but we won't need this. The only thing we need is the following lemma.
+
+\begin{lemma}
+If $\alpha \in K$ satisfies $\ord_{\p}(\alpha) \ge 0$ for all $\p \subset \struct{K}$ then $\alpha \in \struct{K}$.
+\end{lemma}
+
+Using this, show that the diagonal hypersurface of Theorem~\ref{thm:diagonal_zeta_function} is supersingular if and only if,
+\[ \ord_{\p}(j(\alpha)) \ge \frac{r-1}{2} \]
+for all $\alpha \in A_{n, q}$ and $\p \subset \struct{K}$ where $K = \Q(\zeta_p, \zeta_{q^f-1})$ where $f$ is as in Problem~\ref{proof_of_thm}.
+
+\subsection{}
+
+How we actually compute the order is via Stickelberger's Theorem:
+
+
+\begin{defn}
+Let $\{ - \}$ denote the fractional part of a real number. Then define the function,
+\[ s\left( v \right) = (p-1) \sum_{i = 0}^{f-1} \left\{ \frac{p^i v}{q - 1} \right\} \]
+\end{defn}
+
+
+\begin{theorem} \label{thm:gauss_fact_lang}[Lang's Algebraic Number Theory, IV.4, Theorem 10 (p.97)]
+Let $\mathfrak{p}$ be a prime lying over $p$ in $\Q(\zeta_{m})$ and let $\mathfrak{P}$ be a prime lying over $\mathfrak{p}$ in $\mathbb{Q}(\zeta_{m}, \zeta_p)$. Let $f$ be the order of $p$ modulo $m$ and $q = p^f$. Let $\chi$ be a character of $\F=\F_q$ such that
+\[\chi(a) \equiv a^{-(q-1)/m} \pmod{\mathfrak{p}}\]
+Then for any integer $r \ge 1$ we have:
+\[\tau\left(\chi^r\right) \sim \mathfrak{P}^{\alpha(r)}\]
+where 
+\[\alpha(r) = \frac{1}{f}\sum_{\mu} s\left(\frac{(q-1)\mu r}{m}\right)\sigma_{\mu}^{-1}\]
+where the summation runs over all $0 < \mu < p-1$ relatively prime to $p-1$ and where $s(v)$ is the sum of the digits of the $p$-adic expansion of $v$ modulo $q - 1$. Furthermore, if $\mu, \mu'$ are such that $\sigma_{\mu}^{-1}\mathfrak{P} = \sigma_{\mu'}^{-1}\mathfrak{P}$ then
+\[s\left(\frac{(q-1)\mu r}{m}\right) = s\left(\frac{(q-1)\mu' r}{m}\right)\]
+\end{theorem}
+
+
+\begin{remark} If $f = 1$, then $\sigma_{\mu}^{-1} \mathfrak{P}$ is distinct for all $\mu\in(\Z/m\Z)^{\times}$. In general, by cyclotomic reciprocity, there are $\frac{\phi(m)}{f}$ distinct values of $\sigma_{\mu}^{-1} \mathfrak{P}$ as $\mu$ ranges over all the elements of $(\Z/m\Z)^{\times}$
+\end{remark}
+
+Read Lang's proof of this theorem and use it to verify the following.
+
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\s}[1]{s\left( #1 \right)}
+\newcommand{\Pf}{\mathfrak{P}}
+
+\begin{theorem} \label{thm:gauss_sum_is_root_of_unity_ideal_factorization_counting_condition}
+Let $p$ be an odd prime (or $r + 1$ is even) and $q = p^f$. The normalized product $\omega = q^{-\frac{r+1}{2}} g(\chi^{e_0}) \cdots g(\chi^{e_r})$ is a root of unity if and only if,
+\[ \sum_{i = 0}^r s\left(\frac{(q-1) \mu e_i}{m}\right) = \frac{r+1}{2} (p - 1) f \]
+for each $\mu \in (\Z / m \Z)^\times$.
+\end{theorem}
+
+\begin{proof}
+Consider the ideals generated by $g(\chi^{e_0}) \cdots g(\chi^{e_r})$ and by $q^{\frac{r+1}{2}}$ respectively. By Lang's formula, we know the Gaussian sum factors into prime ideals as,
+\[ (g(\chi^{e_0}) \cdots g(\chi^{e_r})) = \mathfrak{P}_1^{D_1} \cdots \mathfrak{P}_{w}^{D_{w}} \]
+where,
+\[ D_j = \sum_{i = 0}^r s\left(\frac{(q-1) \mu e_i}{m}\right) \]
+Lang's formula contains a factor of $f^{-1}$. However, $\sigma_\mu^{-1} \mathfrak{P}$ ranges over each prime above $p$ a total of $f$ times because the decomposition group has order $f$. The sets of $\sigma_\mu$ mapping to a fixed prime are exactly the cosets of the decomposition groups of which there are $w = \phi(m)/f$. In the field $K = \Q(\zeta_m, \zeta_p)$ the ideal $(p)$ factors as,
+\[ (p) = \mathfrak{P}_1^{(p-1)} \cdots \mathfrak{P}_w^{(p-1)} \] Therefore, since $\Q(\sqrt{p}) \subset \Q(\zeta_p)$ for $p$ an odd prime, the ideal $(q^{\frac{r+1}{2}}) = (p^{\frac{r+1}{2} f})$ factors into primes as,
+\[ (q^\frac{r+1}{2}) = (p^\frac{r+1}{2})^f = \mathfrak{P}_1^{\frac{r+1}{2} (p-1) f} \cdots \mathfrak{P}_w^{\frac{r+1}{2} (p-1) f} \]
+Therefore, the principal fractional ideal generated by $\omega$ factors as,
+\[ (\omega) = (q^{\frac{r+1}{2}})^{-1} (g(\chi^{e_0}) \cdots g(\chi^{e_r})) = \mathfrak{P}_1^{D_1 - \frac{r+1}{2} (p-1) f} \cdots \mathfrak{P}_{w}^{D_{w} - \frac{r+1}{2} (p-1) f } \] 
+Which implies that $\omega \in \iO_K$ if and only if,
+\[ D_w =\sum_{i = 0}^r s\left(\frac{(q-1) \mu e_i}{m}\right) \ge \frac{r+1}{2} (p - 1) f \]
+such that the fractional ideal it generates is an actual ideal of $\iO_{K}$. However, by Proposition \ref{prop:gauss_sum_prod_alg_int}, $\omega \in \iO_K$ if and only if $\omega$ is a root of unity. In particular, if $\omega \in \iO_K$ then $\omega$ is a unit. Therefore, $\omega$ is a root of unity if and only if,
+\[ \sum_{i = 0}^r s\left(\frac{(q-1) \mu e_i}{m}\right) \ge \frac{r+1}{2} (p - 1) f \]
+for each $\mu \in (\Z / m \Z)^\times$
+if and only if
+\[ \sum_{i = 0}^r s\left(\frac{(q-1) \mu e_i}{m}\right) = \frac{r+1}{2} (p - 1) f \]
+for each $\mu \in (\Z / m \Z)^\times$. 
+\end{proof}
+
+
+\begin{theorem}\label{thm:gauss_factor_SS}
+Let $X$ defined by,
+\[ a_0 x_0^{n_0} + \dots + a_r x_r^{n_r} = 0 \]
+be a variety over $\FF_{p^t}$. Let $n = \lcm(n_i)$. Let $q = p^f$ such that $f = \text{ord}_n(p)$. Then $X$ is supersingular if and only if,
+\[ \sum_{i = 0}^{r} \s{ \frac{(q-1)\mu \ell_i}{n} } = \frac{r+1}{2}(p - 1)f,\]
+for each,
+\[ \ell \in \left\{(\ell_0, \dots, \ell_r) : \ell_i \in \Z \text{ and } n \divides \sum_{i = 0}^{r} \ell_r \text{ and } 0 < \ell_i < n \text{ and } n \divides \ell_i n_i \right\} \]
+and each $\mu \in (\Z/n\Z)^\times$. Notice in Lang (p97) that if $\sigma_\mu(\Pf_j) = \Pf_j$, then $s\left(\frac{(q-1)\mu r_i}{n}\right) = s\left(\frac{(q-1) r_i}{n}\right)$.
+\end{theorem}
+
+\begin{rmk}
+Here it is more convenient to write in terms of the $\ell$ which are integers unlike the $\alpha$ which are then obtained by the relation,
+\[ \alpha_i = \frac{\ell_i}{n} \] 
+\end{rmk}
+
+\begin{rmk}
+In fact, we don't have to check for every $\mu \in (\Z / n \Z)^\times$ because (Lang p. 97) if $\sigma_\mu(\Pf_j) = \Pf_j$, then $s\left(\frac{(q-1)\mu r_i}{n}\right) = s\left(\frac{(q-1) r_i}{n}\right)$.
+\end{rmk}
+
+
+\subsection{}
+
+Using the previous combinatorial description of supersingularity for diagonal hypersurfaces, verify supersingularity in the following cases,
+\begin{enumerate}
+\item $r$ is odd, all $n_i = n$ and $p$ is a prime such that $p^\nu \equiv -1 \mod n$ for some $\nu$ (this is Shioda's case).
+
+\item $r = 3$ and $p,q,w$ be primes such that $p,q,w \equiv 1 \mod s$ for some integer $s$ and let $X$ be defined by,
+\[ a_0 x_0^p + a_1 x_1^{ps} + a_2 x_2^q + a_3 x_3^{ps} = 0 \]
+over $\FF_w$. Finally suppose that $w$ is a primitive root modulo both $p$ and $q$.
+\end{enumerate}
+
+\subsection{Reading}
+
+In the following weeks we will be searching for new examples. Here is a list of sources we've mentioned so far. It is a good idea to read through much of these carefully. 
+
+\begin{enumerate}
+\item \chref{http://www.ams.org/journals/bull/1949-55-05/S0002-9904-1949-09219-4/S0002-9904-1949-09219-4.pdf}{Weil's original paper}
+\item \chref{https://projecteuclid.org/journals/tohoku-mathematical-journal/volume-31/issue-1/On-Fermat-varieties/10.2748/tmj/1178229881.full}{Shioda on Fermat varieties}
+\item \chref{https://link.springer.com/article/10.1007/BF01370660}{Shioda introduces his conjecture}
+\item Chapter IV of \chref{https://link.springer.com/book/10.1007/978-1-4612-0853-2}{Lang's Number Theory}
+\end{enumerate}
+
+At this point, we will start looking for new examples. Remind me to send you notes on the relationships between diagonal varieties and tricks for computing the sums that arise from Stickelberger's theorem. 
+
+\printbibliography
+
+\end{document}

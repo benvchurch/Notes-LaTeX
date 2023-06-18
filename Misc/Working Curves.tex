@@ -1,0 +1,309 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+\usepackage{bbm}
+\usepackage{cancel}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+
+
+\begin{document}
+
+\sloppy
+
+\section{Remedial Curve Theory}
+
+\subsection{Geometric Irreducibility of Generic Fibers}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/0553}{Tag 0553}]
+Let $f : X \to Y$ be a morphism of schemes. Assume,
+\begin{enumerate}
+\item $Y$ is irreducible with generic point $\eta$,
+\item $X_\eta$ is geometrically irreducible
+\item $f$ is of finite type
+\end{enumerate}
+then there exists a nonempty open subscheme $V \subset Y$ such that $X_V \to V$ has geometrically irreducible fibers.
+\end{lemma}
+
+\begin{lemma} \label{lemma:normal_geom_integral}
+Let $f : X \to Y$ be a morphism of schemes. Suppose that,
+\begin{enumerate}
+\item $X$ and $Y$ are integral
+\item $X$ is normal
+\item the fibers of $f$ are geometrically connected (e.g. $f_* \struct{X} = \struct{Y}$)
+\end{enumerate}
+then the generic fiber $X_\eta \to \Spec{\kappa(\eta)}$ is geometrically irreducible.
+\end{lemma}
+
+\begin{proof}
+$X_\eta / \kappa(\eta)$ is geometrically irreducible iff $\kappa(\eta)$ is separable closed in $\kappa(\xi)$. This follows from \chref{https://stacks.math.columbia.edu/tag/054Q}{Tag 054Q} and \chref{https://stacks.math.columbia.edu/tag/0G33}{Tag 0G33}. Let $\alpha \in \kappa(\xi)$ be separably algebraic over $\kappa(\eta)$ i.e. a root of a separable polynomial $p \in \kappa(\eta)[x]$. There is a coordinate ring $A$ of $Y$ where all the denominators of $p$ are invertible. We claim that $A[\alpha] \subset B$ where $B$ is any coordinate ring of $X$ containing $A$. Indeed, $\alpha$ is integral over $A$ and hence over $B$ so by normality $\alpha \in B$ so we get morphisms,
+\[ X_A \to \Spec{A[\alpha]} \to \Spec{A} \]
+but the fibers of $X_A \to \Spec{A}$ are geometrically connected so we must have $\alpha \in A$ since otherwise the fibers of $\Spec{A[\alpha]} \to \Spec{A}$ and hence $X_A \to \Spec{A}$ are not geometrically irreducible.
+\end{proof}
+
+\begin{rmk}
+If we only assumed that $X / k$ is geometrically irreducible (which is weaker than $X$ being normal) the result would not follow. Indeed, consider,
+\[ X = \Proj{k[t][X,Y,Z]/(X^2 - t Y^2)} \to \Spec{k[t]} = Y \]
+where $k$ is algebraically closed. Then $X$ and $Y$ are geomtrically integral since they are integral. Indeed, we need to check that the polynomials on the charts,
+\[ \left( \frac{X}{Z} \right)^2 - t \left( \frac{X}{Y} \right)^2 \quad \quad \left( \frac{X}{Y} \right)^2 - t \quad \quad 1 - t \left( \frac{Y}{X} \right)^2 \]
+are irreducible. They are since $t$ does not admit a square root. However, the generic fiber is,
+\[ X = \Proj{k(t)[X,Y,Z]/(X^2 - t Y^2)} \to \Spec{k(t)} \]
+is not geometrically irreducible since after the extension $k(t^{\frac{1}{2}}) / k(t)$ we can split the polynomial. However, $X$ is not normal since $t^{\frac{1}{2}}$ is in the fraction ield (look at the second chart) but not in every chart since $H^0(X, \struct{X}) = k[t]$ and this does not contain $t^{\frac{1}{2}}$. The normalization of $X$ is $\P^1 \times \Spec{k[t^{\frac{1}{2}}]}$ with the map,
+\[ [T_0 : T_1] \to [t^{\frac{1}{2}} T_0 : T_0 : T_1] \]
+This ``hits both branches'' since $t^{\frac{1}{2}}$ ``remembers which branch of the suqare root it is on'' while still making $\wt{X}$ an integral scheme as it must be since it is the normalization of an integral schemes.
+\end{rmk}
+
+\begin{rmk}
+When the base has $\dim{Y} = 1$ and is over a perfect field then we can also ensure that the generic fiber is geometrically integral.
+\end{rmk}
+
+\begin{prop}
+Let $f : X \to Y$ be a proper morphism of schemes. Let $X,Y$ be integral and finite type over a perfect field $k$. If $X$ is normal and $\dim{Y} = 1$ then the following are equivalent,
+\begin{enumerate}
+\item $X_\eta \to \Spec{\kappa(\eta)}$ is geometrically integral
+\item $\kappa(\eta)$ is algebraically closed in $\kappa(\xi)$
+\item $f^{\#} : \struct{Y} \to f_* \struct{X}$ is an isomorphism.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Lemma 7.2 of Badescu. 
+\end{proof}
+
+\begin{example}
+If the base has dimension $> 1$ this isfalse. For example,
+\[ X = \Proj{\FF_p[s,t][X,Y,Z]/(X^p + s Y^p + t Z^p)} \to \Spec{\FF_p[s,t]}= Y \]
+satisfies $f_* \struct{X} = \struct{Y}$ and $X$ is normal but the generic fiber,
+\[ X = \Proj{\FF_p(s,t)[X,Y,Z]/(X^p + s Y^p + t Z^p)} \to \Spec{\FF_p(s,t)} \]
+is not geometrically reduced. Indeed, alhough $\FF_p(s,t)$ is algebraically closed in,
+\[ \Frac{\FF_p(s,t)[x,y]/(x^p + s y^p + t)} \]
+it is not separable since separability implies reducedness fo the base change by the field extension $\FF_p(s^{\frac{1}{p}}, t^{\frac{1}{p}})$.
+\end{example}
+
+\begin{rmk}
+Note that if $X$ is any of,
+\begin{enumerate}
+\item reduced
+\item integral
+\item normal
+\item regular
+\end{enumerate}
+then the same is true of $X_\eta$ for any map $f : X \to Y$ by localization. However, unlike the case for irreducibiliy above, the corresponding geometric versions do \textit{not} hold as the following and previous examples show. 
+\end{rmk}
+
+\begin{example}
+Quasi-elliptic fibrations $\Bl{\P^2} \to \P^1$ have fibers which are not geometrically normal or regular.
+\end{example}
+
+\begin{theorem}[Fujita, 1982]
+Let $f : X \to Y$ be a proper dominant morphism of integral locally noetherian schemes. Consider the following properties,
+\begin{enumerate}
+\item $\kappa(\xi_Y)$ is algebraically closed in $\kappa(\xi_X)$
+\item $\rank_Y(f_* \struct{X}) = 1$
+\item the general fiber satisfies $h^0(X_y, \struct{X_y}) = 1$
+\item $f^{\#} : \struct{Y} \to f_* \struct{X}$ is an isomorphism.
+\end{enumerate}
+Then the following implications hold,
+\begin{center}
+\begin{tikzcd}
+(a) \arrow[r] & (b) \arrow[l, bend right, "X \text{ normal}"'] \arrow[d] \arrow[r, bend left, "Y \text{ normal}"] & (d) \arrow[l]
+\\
+& (c) \arrow[u]
+\end{tikzcd}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+DO IT!!!
+\end{proof}
+
+\begin{example} \label{example:geometrically_nonreduced}
+Consider,
+\[ X = \Proj{k[t][X,Y,Z]/(X^p + c Y^p + t Z^p)} \to \Spec{k[t]} \]
+where $c \in k$ is not a $p^{\text{th}}$-power. Then $X_\eta$ is a smooth genus $\frac{(p-1)(p-2)}{2}$ curve but $X_0$ is integral and $H^0(X_0, \struct{X_0}) = k$ but $X_0$ is not geometrically reduced. The arithmetic genus is still constant but the geometric genus drops to zero. 
+\end{example}
+
+\subsection{Genera of Curves}
+
+\begin{defn}
+A \textit{curve} $C$ over $k$ is a separated finite type scheme over $k$ of pure dimension $1$.
+\end{defn}
+
+\begin{defn}
+Let $X$ be a proper curve over $k$. The \textit{arithmetic genus} of $X$ is,
+\[ p_a(X/k) := \dim_k H^1(X, \struct{X}) \]
+If $H^0(X, \struct{X}) = K$ is a field then we write,
+\[ p_a(X) := \dim_K H^1(X, \struct{X}) \]
+\end{defn}
+
+\begin{rmk}
+The arithmetic genus is stable under field extension by flat base change. However, if $X$ admits $X \to \Spec{k'} \to \Spec{k}$ then the arithmetic genus of $X$ viewed over $k$ is $[k' : k]$ times the arithmetic genus of $X$ viewed over $k'$. The point of the second definition is that when it it applies the base field is unambigious.
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a curve which is a disjoint union of finitely many smooth curves over an algebraically closed field $k$. Then the \textit{geometric genus} (or just \textit{genus}) of $X$ is,
+\[ g(X) := p_a(X/k) = \sum_{i = 1}^n p_a(C_i / k) \]
+\end{defn}
+
+\begin{defn}
+Let $X$ be a curve over a field $k$. Consider $\wt{X}$ which is the normalization of $(X_{\bar{k}})_{\red}$. This is a disjoint union of finitely many smooth curves $C_i$ over $\bar{k}$. Thus we can define,
+\[ g(X/k) := g(\wt{X}) \]
+If $H^0(X, \struct{X}) = K$ is a field then we set,
+\[ g(X) := g(X/k) \]
+\end{defn}
+
+
+\begin{rmk}
+The geometric genus is stable under field extension by definition. However, notice that $g(X/k)$ does depend on the base field. If $X$ admits $X \to \Spec{k'} \to \Spec{k}$ then the geometric genus of $X$ viewed over $k$ is $[k' : k]$ times the geometric genus of $X$ viewed over $k'$. The point of the second definition is that when it it applies the base field is unambigious.
+\end{rmk}
+
+PUT IN THE RELATIONSHIP BETWEEN THE TWO
+
+\begin{lemma}
+Let $f : X \to Y$ be a nonconstant map of proper regular curves over an algebrcially closed field $k$. Then $g(X) \ge g(Y)$.
+\end{lemma}
+
+\begin{proof}
+Riemann-Hurwitz and Frobenius tricks CITE [H]
+\end{proof}
+
+\begin{prop}
+Let $f : X \to Y$ be a dominant map of proper curves over a field $k$. Then $g(X/k) \ge g(Y/k)$.
+\end{prop}
+
+\begin{proof}
+By definition, we set $\wt{X}$ to be the normalization of $(X_{\bar{k}})_{\red}$ and then $g(X/k) = g(\wt{X})$. Then the induced map $f : \wt{X} \to \wt{Y}$ is also surjective since it is dominant (because this is preserved by base change and reduction and normalization) and proper. Therefore, each component of $\wt{Y}$ is hit by some component of $\wt{X}$ so we reduce to the previous lemma and conclude,
+\[ g(X/k) \ge g(Y/k) \]
+\end{proof}
+
+\begin{example}
+Say $E = \Proj{\RR[X,Y,Z]/(Y^2 Z - X^3 - x Z^2)}$ is an elliptic curve over $\RR$. It is important that we consider the genus of $E_{\CC}$ \textit{as a curve over $\RR$} as $2$ and not $1$ because,
+\[ X = \Proj{\RR[X,Y,Z]/((Y^2 Z - X^3)^2 + (XZ^2)^2)} \]
+has normalization $E_{\CC}$. However, $X$ has genus $2$ since $H^0(X, \struct{X}) = \RR$ so we must view it over $\RR$ and to compute its genus we base change to $X_{\CC}$ then our definition will give genus $2$. If we want the map $E_{\CC} \to X$ to satisfy the above lemma we must have $g(E_{\CC} / \RR) = 2$. 
+\end{example}
+
+\begin{prop}
+Let $f : X \to Y$ be a dominant map of proper curves over $k$ with,
+\[ k \to H^0(Y, \struct{Y}) \to H(X, \struct{X}) \]
+. Then $g(X) \ge g(Y)$.
+\end{prop}
+
+\subsection{Degenerations of Curves}
+
+Notation: let $(R, \m, \kappa)$ be a DVR with fraction field $K = \Frac{R}$. Let $S = \Spec{R}$. For $X \to S$ let $X_\eta = X_K$ be the generic fiber and let $X_s = X_\kappa$ the special fiber.
+
+\begin{defn}
+A \textit{degeneration of curves} is a proper flat family $X \to S = \Spec{R}$ over a DVR $R$ where $X_\eta$ is an integral normal projective curve over $K = \Frac{R}$. If $X$ is normal we say that $X$ is a \textit{model} of $X_\eta$ over $R$.
+\end{defn}
+
+\begin{lemma}
+The total space $X$ of a degeneration of curves is integral.
+\end{lemma}
+
+\begin{proof}
+We need to show that every affine open $\Spec{A} = U \subset X$ has $A$ a domain. Indeed, $R \to A$ is flat so $A \embed A_K$ is injective but $A_K$ is an affine open of $X_K$ which in integral so $A_K$ and hence $A$ is a domain.
+\end{proof}
+
+\begin{lemma} \label{lemma:normal_o_conn}
+Let $f : X \to Y$ be a proper flat map of integral schemes with $Y$ normal. Then the following are equivalent,
+\begin{enumerate}
+\item $f_* \struct{Y} = \struct{Y}$
+\item $H^0(X_\eta, \struct{X_\eta}) = \kappa(\eta)$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Indeed, $f_* \struct{X}$ is a finite $\struct{Y}$-algebra and since $X$ is integral it is a sheaf of domains. We need to show that $\struct{Y} \to f_* \struct{X}$ is an isomorphism which is a local question so we reduce to $\Spec{A} \subset Y$ and $\Spec{B} \subset X$ such that $A \to B$. Then we have maps $A \to (f_* \struct{X})(A) \to B$ and $A \to B$ is flat hence injective since they are domains. Hence $\struct{Y} \to f_* \struct{X}$ is injective. Furthermore, by flat base change,
+\[ H^0(X_\eta, \struct{X_\eta}) = (f_* \struct{X})_{\eta} \]
+so if (b) holds then $(f_* \struct{X})_{\eta} = \kappa(\eta)$. Since $\struct{Y}$ is normal and $f_* \struct{X}$ is integral over $\struct{Y}$ we see that $\struct{Y} \to f_* \struct{X}$ is an isomorphism since it is contained in the fraction field.
+\end{proof}
+
+\begin{prop}
+Let $X \to S$ be a degeneration of curves. Consider the following properties,
+\begin{enumerate}
+\item $X_\eta \to \Spec{\kappa(\eta)}$ is geometrically integral
+
+\item $X_\eta \to \Spec{\kappa(\eta)}$ is geometrically irreducible
+
+\item $X_\eta \to \Spec{\kappa(\eta)}$ is geometrically connected
+
+\item $H^0(X_\eta, \struct{X_\eta}) = \kappa(\eta)$
+
+\item $f_* \struct{X} = \struct{S}$
+\end{enumerate}
+then the following implications hold,
+\begin{center}
+\begin{tikzcd}
+(a) \arrow[d] \arrow[r] & (d) \arrow[d]
+\\
+(b) \arrow[u, bend left, "X_\eta \text{ geom. \kern-0.5em red.}"] \arrow[d] & (e) \arrow[ld] \arrow[u]
+\\
+(c) \arrow[u, bend left, "X \text{ normal}"]
+\end{tikzcd}
+\end{center}
+In particular, if $X$ is normal and $X_\eta$ is geometrically reduced all the properties are equivalent.
+\end{prop}
+
+\begin{proof}
+The only nontrivial implications are:
+\begin{itemize}
+\item $(a) \implies (d)$ is \chref{https://stacks.math.columbia.edu/tag/0BUG}{Tag 0BUG} (8)
+\item $(d) \implies (e)$ is exactly Lemma~\ref{lemma:normal_o_conn}
+\item $(c) \implies (b)$ is Lemma~\ref{lemma:normal_geom_integral} and the fact that geometric connectedness of fibers can be checked generically in universally open (e.g. flat finitely presented) families [EGA IV, Cor. 15.5.4].
+\end{itemize} 
+\end{proof}
+
+\begin{rmk}
+Even if $f_* \struct{X} = \struct{S}$ we don't necessarily have that $X_\eta$ is geometrically reduced e.g. Example~\ref{example:geometrically_nonreduced}.
+\end{rmk}
+
+\subsection{Controlling the Arithmetic Genus in Families}
+
+\subsubsection{Setup}
+
+Let $X \to S$ be a normal degeneration of curves. Then consider the following data. Let $\Gamma_i \subset X_s$ be the (reduced) irreducible componetns of the special fiber and the following $\kappa$-algebras,
+\begin{enumerate}
+\item $A = H^0(X_s, \sttruct{X_s})$
+
+\item $\kappa' = H^0((X_s)_\red, \struct{(X_s)_\red}$
+
+\item $\kappa_i = H^0(\Gamma_i, \struct{\Gamma_i})$
+\end{enumerate}
+where $A$ is an Artin local $\kappa$-algebra and $\kappa'$ and $\kappa_i$ are finite field extensions of $\kappa$ by \chref{https://stacks.math.columbia.edu/tag/0BUG}{Tag 0BUG} (1) since these schemes are connected and the second two are reduced.  
+
+\subsubsection{Conjectures}
+
+Here are three conjectures in decreasing order of strength. 
+
+\begin{degn}
+
+\end{defn}
+
+\subsection{Examples}
+
+Suppose that we have a flat proper family $f : X \to S$ with $f_* \struct{X} = \struct{S}$. Formation of this pushforward my fail to be compatible with basechange (this is failure of cohomological flatness in degree zero). When this happens we can have jumping up of $h^0(X_s, \struct{X_s})$. Consider the finite $\kappa(s)$-algebra, 
+\[ A = H^0(X_s, \struct{X_s}) \]
+There are three ways we could imagine $A$ jumping up:
+\begin{enumerate}
+\item $A$ is a finite separable extension of $\kappa(s)$
+\item $A$ is a finite purely-inseparable extension of $\kappa(s)$
+\item $A$ is nonreduced.
+\end{enumerate}
+
+The first cannot happen because $f : X \to S$ has geometrically connected fibers but if there is a factorization $X \to \Spec{k'} \to \Spec{k}$ with $k'$ separable then it is geometrically disconnected. Therefore, any field inside $A$ must be purely inseparable over $k$. However both (b) and (c) can happen as we will now see. 
+
+DEGENERATE GENUS 1 TO PURELY INSEP EXTN 
+
+CAN
+
+\end{document}
