@@ -1,0 +1,383 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Quasi-Coherent Sheaves}
+
+Recall that for a DM-stack we defined the small \etale site:
+
+\begin{defn}
+Let $\X$ be a DM-stack. Then the \textit{small \etale site} $\X_{\et}$ of $\X$ is the category of schemes equipped with an \etale map $U \to \X$. A covering is $\{ U_i \to U \}$ over $\X$ such that $\sqcup_i U_i \to U$ is surjective.
+\end{defn}
+
+Then for a sheaf $\F$ on $\X_{\et}$ we defined its global sections,
+\[ \Gamma(\X, \F) := \Hom{\Sh(\X_{\et})}{1}{\F} \]
+where $1$ is the terminal sheaf (the sheafification of $U \mapsto *$). 
+
+\begin{rmk}
+This definition works nicely for $\X$ DM and naturally generalizes the \etale site $X_{\et}$ of a scheme. However, there is a glaring flaw if we attempt to extend this definition to Artin stacks there is a catastrophic failure: $\X_{\et}$ could be empty! For example, $(B \Gm)_{\et}$ is empty. Indeed, DM-stacks are exactly those stacks with schemes as \etale neighborhoods. To remedy this we could take the smooth site of $\X$. To stay in the world of \etale cohomology we consider a hybrid site where the schemes are smooth over $\X$ but the covers are all \etale.
+\end{rmk}
+
+\newcommand{\lisset}{\ell-\et}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Zar}{\mathrm{Zar}}
+\newcommand{\B}{\mathbf{B}}
+\newcommand{\fU}{\mathfrak{U}}
+\renewcommand{\QCoh}{\mathrm{QCoh}}
+\newcommand{\DD}{\mathrm{DD}}
+\newcommand{\cU}{\mathcal{U}}
+
+
+\begin{defn}
+Let $\X$ be an algebraic stack. Then the \textit{lisse-\etale site} $\X_{\lisset}$ is the category of schemes smooth over $\X$ with \textit{arbitrary} maps of schemes over $\X$. A covering $\{ U_i \to U \}$ is a collection of morphisms such that $\sqcup_i U_i \to U$ is surjective or \etale.
+\end{defn}
+
+\begin{defn}
+Let $\F$ be a sheaf on $\X_{\lisset}$ then,
+\[ \Gamma(\cU, \F) = \Hom{\Sh(\cU_{\lisset})}{1_{\fU}}{\F|_{\cU_{\lisset}}} \]
+where $1_{\cU}$ is the \textit{indicator sheaf} of the smooth $\X$-stack $\cU \to \X$ the sheafification of the constant sheaf $\underline{*}$. This is the terminal object of $\cU_{\lisset}$.
+This can be computed by choosing a smooth presentation,
+\[ R \rightrightarrows U \to \cU \]
+and setting,
+\[ \Gamma(\fU, \F) = \eq \left( \F(U) \rightrightarrows \F(R) \right) \] 
+\end{defn}
+
+\begin{defn}
+The structure sheaf $\struct{\X}$ is defined via,
+\[ \struct{\X}(U) = \Gamma(U, \struct{U}) \]
+is a ring ovject in the abelian category $\Ab(\X_{\lisset})$. We therefore define the abelian category $\Mod{\struct{\X}}$. Given a morphism $f : \X \to \Y$ of algebraic stacks there are morphisms of topoi,
+\begin{center}
+\begin{tikzcd}
+\Ab(\X_{\lisset}) \arrow[r, bend left, "f_*"] & \Ab(\Y_{\lisset}) \arrow[l, bend left, "f^*"] & & \Mod{\struct{\X}} \arrow[r, bend left, "f_*"] & \Mod{\struct{\Y}} \arrow[l, bend left, "f^*"] 
+\end{tikzcd}
+\end{center}
+Given two $\struct{\X}$-modules $\F$ and $\G$ we define the tensor product $\F \ot_{\struct{\X}} \G$ as the sheafification of,
+\[ U \mapsto \F(U) \ot_{\struct{\X}(U)} \G(U) \]
+and the Hom sheaf $\shHom{\struct{\X}}{\F}{\G}$ as the sheaf,
+\[ U \mapsto \Hom{\struct{U}}{\F|_U}{\G|_U} \]
+where $\F|_U$ means the restriction to the site $U_{\lisset}$ (note this is much more data than the restriction to $U_{\Zar}$). 
+\end{defn}
+
+\subsection{Quasi-Coherent Sheaves}
+
+As above we denote by $\F|_U$ the restriction of $\F$ to $U_{\lisset}$ and $\F|_{U_{\Zar}}$ the restriction to $U_{\Zar}$. Then we define,
+
+\begin{defn}
+Let $\X$ be an algebraic stack. A $\struct{\X}$-module $\F$ is \textit{quasi-coherent} if:
+\begin{enumerate}
+\item for every smooth $U \to \X$ the restriction $\F|_{U_{\Zar}}$ is a quasi-coherent $\struct{U_{\Zar}}$-module
+\item for every morphism $f : V \to U$ of smooth $\X$-schemes, the induced morphism,
+\[ f^* (\F|_{U_{\Zar}}) \to \F_{V_{\Zar}} \]
+is an isomorphism.
+\end{enumerate}
+\end{defn} 
+
+\begin{rmk}
+The above definition can be made in any site which refines the Zariski topology on each of its opens. However, in this generality such an object is usually called a \textit{cystal in quasi-coherent sheaves} and the term \textit{quasi-coherent} in an arbitrary site is reserved for the notion developed below. However, in most sites the two notions agree.
+\end{rmk}
+
+
+\begin{defn}
+In an arbitrary ringed site $(\C, \struct{})$ (or even an arbitrary ringed topos) a $\struct{}$-module $\F$ is \textit{quasi-coherent} if for each object $U \in \C$ there exists a cover $\{ U_i \to U \}$ such that $\F|_{\C / U_i}$ is a \textit{presentable} $\struct{}$-module meaning there exists a presentation,
+\begin{center}
+\begin{tikzcd}
+\bigoplus_{J} \struct{}|_{\C / U_i} \arrow[r] & \bigoplus_{I} \struct{}|_{\C / U_i} \arrow[r] & \F|_{\C / U_i} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+We call the abelian subcategory of such sheaves $\QCoh(\C) \subset \Mod{\struct{\C}}$.
+\end{defn}
+
+\begin{defn}
+Let $S$ be a scheme and $\C \subset \Sch_S$ a subcategory. Consider the presheaf of rings,
+\begin{align*}
+\struct{} : \C^\op & \to \mathrm{Ring}
+\\
+(T \to S)  & \mapsto \Gamma(T, \struct{T}) 
+\end{align*}
+This is a sheaf for the fpqc topology. Furthermore, for any sheaf $\F$ on $S_{\Zar}$ there is a presheaf,
+\begin{align*}
+\struct{} : \C^\op & \to \mathrm{Ab}
+\\
+(f : T \to S) & \mapsto \Gamma(T, f^* \F)
+\end{align*} 
+which is a $\struct{}$-module. Furthermore, if $\F$ is quasi-coherent then $\F^a$ is a fpqc sheaf by descent.
+\end{defn}
+
+\begin{theorem}[\chref{https://stacks.math.columbia.edu/tag/03OJ}{Tag 03OJ}]
+Let $S$ be a scheme. Let $\C$ be a site such that,
+\begin{enumerate}
+\item $\C$ is a full subcategory of $\Sch_S$
+\item any Zariski covering of $T \in \C$ can be refined by a covering of $\C$
+\item $\id : S \to S$ is an object of $\C$ (so it particular $\C$ has a terminal object)
+\item every covering of $\C$ is an fpqc covering of schemes
+\end{enumerate}
+Then the presheaf $\struct{}$ is a sheaf on $\C$ and there is an equivalence of categories,
+\begin{align*}
+\QCoh(S) & \iso \QCoh(\C)
+\\
+\F & \mapsto \F^a
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+This is basically a rephrasing of fpqc descent.
+\end{proof}
+
+\begin{prop}
+Let $\F$ be a $\struct{\X_{\lisset}}$-module. Then the following are equivalent,
+\begin{enumerate}
+\item $\F$ is quasi-coherent in the general sense
+\item $\F$ is quasi-coherent in the crystal sense.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+C.f. \chref{https://stacks.math.columbia.edu/tag/06WK}{06WK}. Let $\C = \X_{\lisset}$. Suppose that $\F$ satisfies (a). Then the restriction of $\F$ is quasi-coherent on $\C_{/U}$ and thus by the previous lemma $\F|_{\C} = (\F|_{U_{\Zar}})^a$ and therefore satisfies (b). Given (b) take any $U \to \X$ smooth. Then we know $\F|_{U_{\Zar}}$ is quasi-coherent so there is an affine Zariski open cover $\{ U_i \to U \}$ such that $\F|_{(U_i)_{\Zar}}$ is presented. Then the claim is that $\F|_{\C/U_i}$ is also presented. Indeed, the comparison map induced by $f : V \to U$ is an isomorphism the presentation pulls back to give a presentation of $\F|_{\C/U_i}$. 
+\end{proof}
+
+\subsection{Descent Data}
+
+\begin{defn}
+Let $(U,R,s,t,c, e)$ be a groupoid scheme over $S$ where $s,t : R \rightrightarrows U$ are the source and target maps and $c : R \times_{s,U,t} R \to R$ is the composition and $e : U \to R$ is the identity. Then the category of \textit{descent data} consists of the category of pairs $(\F, \varphi)$ where $\F$ is a sheaf on $U$ and $\varphi$ is an isomorphism,
+\[ \varphi : t^* \F \iso s^* \F \]
+such that $e^* \varphi = \id$ and satsifying the coycle condition,
+\[ c^* \varphi = \pi_2^* \varphi \circ \pi_1^* \varphi \]
+as morphisms of sheaves on $R \times_{s,U,t} R$. 
+\end{defn}
+
+\begin{example}
+For any cover $U \to X$ we can form the ``Cech groupoid'' $U \times_X U \rightrightarrows U$ whose composition is given by projection,
+\[ (U \times_X U) \times_{\pi_1, U, \pi_2} (U \times_X U) = U \times_X U \times_X U \to U \times_X U \quad \quad ((a,b), (c,a)) \mapsto (c,a,b) \mapsto (c, b) \] 
+For this we recover the ordinary notion of a descent datum. 
+\end{example}
+
+\begin{example}
+Let $G \acts X$ be an action of an algebraic group on a scheme. Then there a groupoid $G \times X \rightrightarrows X$ whose composition $G \times G \times X \to G \times X$ is given by multiplication in the group. 
+
+For this we will recover the notion of $G$-equivariance. 
+\end{example}
+
+
+\begin{prop}
+Let $R \rightrightarrows U$ be a smooth presentation of an algebraic stack $\X$ by schemes. There is an equivalence of categories,
+\[ \QCoh(\X) \to \DD_{\mathrm{QCoh}}(U/R) \quad \F \mapsto (\F|_{U_{\Zar}}, \varphi) \]
+where $\mathrm{DD}_{\mathrm{QCoh}}(U/R)$ is the category of descent data for quasi-coherent sheaves along the groupoid $R \rightrightarrows U$.
+\end{prop}
+
+\begin{proof}
+For any smooth map $V \to \X$ there is a further smooth refinement $V' \to V$ such that $V' \to \X$ factors through $U \to \X$. Hence, applying descent to $V' \to V$, any quasi-coherent sheaf $\F$ on $\X_{\lisset}$ is determined by its descent data over $R \rightrightarrows U$.
+\end{proof}
+
+\begin{defn}
+Let $G \acts X$ be an action of a group scheme on a scheme (or algebraic space). The category of $G$-equivariant sheaves is defined as the category of descent data for the groupoid $G \times X \rightrightarrows X$.
+\end{defn}
+
+\begin{rmk}
+Some standard diagram chasing shows that this is formally the same as the usual definition of a $G$-equivariant sheaf in [\chref{https://stacks.math.columbia.edu/tag/03LE}{Stacks}]. In the case that $G$ is a finite constant group it is easy to check that this agrees with the naive notion in terms of compatilbe isomorphisms between the pullbacks along the action by elements $g \in G$. 
+\end{rmk}
+
+\begin{prop}
+There is an equivalence of categories,
+\[ \QCoh([X/G]) \to \QCoh_{G}(X) \]
+\end{prop}
+
+\begin{proof}
+This is a special case of the previous proposition.
+\end{proof}
+
+{\color{red} OTHER EXERCISES}
+
+
+\subsection{Picard Groups}
+
+Let $\X$ be an algebraic stack. Then $\Pic{\X}$ denotes the set of isomorphism classes of line bundles on $\X$ which becomes an abelian group under $\ot$.
+
+\begin{example}
+If $G$ is an affine algebraic $k$-group then $\Pic{\B G} = \Hom{\text{gp}}{G}{\Gm}$ is the group of characters. Gor example, 
+\begin{enumerate}
+\item $\Pic{\B \Gm} = \Z$
+\item $\Pic{\B \GL_n} = \Z$
+\item $\Pic{\B \PGL_n} = \{ 0 \}$.
+\end{enumerate}
+This is because line bundles on $\B G$ are the same as line bundles on $\Spec{k}$ along with descent data i.e. a $G$-action. This is the same as a $1$-dimensional $G$-representation. 
+\end{example}
+
+{\color{red} EXERCISE 6.1.12
+
+EXERCISE 6.1.13
+
+EXERCISE 6.1.14 }
+
+\subsection{Global Quotients and the Resolution Property}
+
+\begin{defn}
+An algebraic stack $\X$ is a \textit{global quotient stack} if there is an isomrophism $\X \cong [U / \GL_n]$ where $U$ is an algebraic space. This is equivalent to asking for the existence of a $\GL_n$-bundle $U \to \X$ where $U$ is an algebraic space. By definition this is the same as a representable morphism $\X \to \B \GL_n$.
+\end{defn}
+
+\begin{prop}
+Let $\X \to \Y$ be a surjective, flat, and projective morphism of noetherian algebraic stacks. If $\X$ is a quotient stack then $\Y$ is a quotient stack.
+\end{prop}
+
+\begin{proof}
+{\color{red} DO THIS!!}
+\end{proof}
+
+\begin{defn}
+A noetherian algebraic stack has the \textit{resolution property} if every coherent sheaf if a quotient of a vector bundle.
+\end{defn}
+
+A smooth or quasi-projective scheme over a field has the resolution property. Any notherian normal $\Q$-factorial scheme with affine diagonal also has the resolution property.
+
+\begin{prop}
+Let $G$ be an affine algebraic $k$-group with an action $G \acts U$ on a quasi-projective $k$-scheme $U$. Assume that there is an ample line bundle $\L$ with a $G$-action. Then $[\Spec{A}/G]$ has the resolution property.
+\end{prop}
+
+\begin{rmk}
+While not every line bundle $\L$ on a normal $k$-scheme admits a $G$-action, it turns out there is always some positive power such that $\L^{\ot n}$ has a $G$-action. {\color{red} (CITE THIS!!)} 
+\end{rmk}
+
+\begin{proof}
+The $G$-line bundle $\L$ corresponds to a line bundle on $[U/G]$ which is ample which respect to the morphism $p : [U/G] \to \B G$ since relative ampleness can be checked after smooth covers (it can be reduced to a fiberwise condition). For a coherent sheaf $\F$ on $[U/G]$ the natural map,
+\[ \L^{-\ot N} \ot p^* p_* (\L^{\ot N} \ot \F) \onto \F \]
+is surjective for $N \gg 0$ since relative ampleness implies global generation of $\L^{\ot N} \ot \F$. The pushforward $p_* (\L^{\ot N} \ot \F)$ is quasi-coheret on $\B G$ hence a $G$-representation. We can hence write it as an increasing union of finite-dimensional $G$-representations $V_i$ and obtain,
+\[ \colim_i (\L^{-\ot N} \ot p^* V_i) \onto \F \]
+since $\F$ is coherent, this stabilizes at some stage meaning,
+\[ \L^{-\ot N} \ot p^* V_i \onto \F \]
+at some finite stage $i$.
+\end{proof}
+
+\begin{theorem}[Totaro-Gross]
+Let $\X$ be a quasi-separated normal algebraic stack of finite type over $k$. Assume that the stabilizer group at every closed point is smooth and affine. Then the following are equivalent:
+\begin{enumerate}
+\item $\X$ has the resolution property
+\item $\X \cong [U / \GL_n]$ with $U$ quasi-affine
+\item $\X \cong [\Spec{A} / G]$ with $G$ an affine algebraic group.
+\end{enumerate}
+In particular, $\X$ has affine diagonal.
+\end{theorem}
+
+\begin{rmk}
+The normality hypothesis on $\X$ and smoothness hypothesis on the stabilizers are unnecessary. However, the affineness hypothesis on the stabilizers is necessary. For example, $\B E$ the classifying stack of an elliptic curve has the resolution property. 
+\end{rmk}
+
+\subsection{Sheaf Cohomology}
+
+\renewcommand{\Cech}{\check{C}}
+
+\begin{lemma}
+If $\X$ is an algebraic stack, the categories $\Ab(\X_{\lisset})$ and $\Mod{\X}$ have enough injectives. If $\X$ is quasi-separated then $\QCoh{(\X)}$ has enough injectives.
+\end{lemma}
+
+\begin{defn}
+Let $\X$ be an algebraic stack and $\F$ a sheaf on $\X_{\lisset}$. The \textit{cohomology groups} $H^i(\X_{\lisset}, \F)$ are the derived functors of,
+\[ \Gamma(\X, -) : \Ab(\X_{\lisset}) \to \Ab \]
+applied to $\F$,
+\[ H^i(\X_{\lisset}, \F) = R^i \Gamma(\X, \F) \]
+\end{defn}
+
+\begin{defn}
+Given a smooth covering $\fU = \{ \cU_i \to \X \}_{i \in I}$ of algebraic stacks and an abelian presheaf $\F$ on $\X_{\lisset}$ the \textit{Cech complex} $\Cech^\bullet(\fU, \F)$ of $\fU$ with respect to $\fU$ is,
+\[ \Cech^n(\fU, \F) = \prod_{(i_0, \dots, i_n) \in I^{n+1}} \F(\cU_{i_0} \times_{\X} \cdots \times_{\X} \cU_{i_n}) \]
+with differential,
+\[ \d^n : \Cech^n(\fU, \F) \to \Cech^{n+1}(\fU, \F) \quad (s_{i_0, \dots, i_n}) \mapsto \left( \sum_{k = 0}^{n+1} (-1)^k p_{\hat{k}}^* s_{i_0, \dots, \hat{i}_k, \dots, i_n} \right)_{i_0, \dots, i_{n+1}} \]
+where the projection $p_{\hat{k}}$ forgets the $t^{\text{th}}$ coordinate. The \textit{\v{C}ech cohomology} of $\F$ with respect to $\fU$ is,
+\[ \check{H}^i(\fU, \F) := H^i(\Cech^\bullet(\fU, \F)) \] 
+\end{defn}
+
+\begin{theorem}
+Let $\X$ be an algebraic stack and $\F$ a quasi-coherent sheaf on $\X_{\lisset}$. Then for any cover $\fU = \{ \cU_i \to \X \}_{i \in I}$ there exists a spectral sequence,
+\[ E^{p,q}_2 = \check{H}^p(\fU, H^q(-,\F)) \implies H^{p+q}(\X_{\lisset}, \F) \]
+where $H^q(-,\F)$ is the presheaf $U \mapsto H^q(U_{\lisset}, \F)$. 
+\end{theorem}
+
+\begin{proof}
+Consider the commutative diagram of functors,
+\begin{center}
+\begin{tikzcd}
+\mathrm{Sh}(\X_{\lisset}) \arrow[rd, "\Gamma"'] \arrow[r, "a", hook] & \mathrm{PSh}(\X_{\lisset}) \arrow[d, "\check{H}^0"]
+\\
+& \Ab
+\end{tikzcd}
+\end{center}
+Notice that $\Cech^\bullet(\fU, -)$ is exact in the category of presheaves which shows that $\check{H}^\bullet(\fU, -)$ forms a $\delta$-functor. In fact, since $\check{H}^i(\fU, \I) = 0$ for $i > 0$ and any injective sheaf (this is a very general fact, see \chref{https://stacks.math.columbia.edu/tag/03OR}{Tag 03OR}) it is a universal $\delta$-functor. Now the inclusion $a$ takes injectives to injectives because sheaves form a reflexive subcategory (maps to a sheaf factors through the sheafification). Therefore, we apply the Grothendieck spectral sequence so it suffices to compute $R^q a(\F)$ of a sheaf $\F$. Since the functor $(-) \mapsto \Gamma(U, -)$ is exact on presheaves we see that,
+\[ R^q a(\F)(U) = R^q \Gamma(U, \F) = H^q(U, \F) \]
+so we conclude.
+\end{proof}
+
+\begin{theorem}
+If $X$ is an affine scheme and $\F$ is a quasi-coherent $\struct{\X_{\lisset}}$-module then,
+\[ H^i(X_{\lisset}, \F) = 
+\begin{cases}
+\Gamma(X, \F) & i = 0
+\\
+0 & i > 0
+\end{cases} \]
+\end{theorem}
+
+\begin{proof}
+We refine to affine coverings $\{ \Spec{B} \to \Spec{A} \}$ then $\F$ is quasi-coherent (in all equivalent notions) and hence arises from some $A$-module $M$. To show that $\check{H}^{>0} = 0$ for this covering we show that the Amistur complex,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & M \ot_A B \arrow[r] & M \ot_A B \ot_A B \arrow[r] & M \ot_A B \ot_A B \ot_A B \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+is exact. Indeed, after applying $B \ot_A -$ which is faithfully flat this complex obtains a nullhomotopy. Now to conclude, we can either apply Cartan's criterion (\chref{https://stacks.math.columbia.edu/tag/03F9}{Tag 03F9}) or use hypercoverings and the fact that hypercover Cech cohomology computes derived functor cohomology.
+\end{proof}
+
+\begin{prop}
+Let $\X$ be an algebraic stack with affine diagonal and $\F$ be a quasi-coherent sheaf. If $\fU = \{U_i \to \X \}$ is an \etale covering with each $U_i$ affine, then $H^i(\X_{\lisset}, \F) = \check{H}^i(\fU, \F)$. 
+\end{prop}
+
+\begin{proof}
+Follows immediately from the Cech-to-derived spectral sequence and the above. 
+\end{proof}
+
+\begin{rmk}
+To remove the ``affine diagonal'' condition we need to use hypercovers. Indeed, if $U_\bullet \to \X$ is a simplicial hypercover in $\X_{\lisset}$ where each $U_\bullet$ is an affine scheme and $\F$ is quasi-coherent then,
+\[ H^i(\X, \F) = \check{H}^i(U_\bullet, \F) \]
+\end{rmk}
+
+\begin{prop}
+Let $X$ be a scheme (or a DM-stack with a sheaf on $\X_{\et}$) \ul{with affine diagonal}\footnote{If we use hypercovers (see the discussion in the proof then we can remove this condition.} and $\F$ a quasi-coherent sheaf. Then,
+\[ H^i(X, \F) = H^i(X_{\lisset}, \F_{\lisset}) \]
+for all $i$ where $\F_{\lisset}$ is the $\struct{X_{\lisset}}$-module defined by,
+\[ \F_{\lisset}(U) = \Gamma(U, f^* \F) \]
+for a smooth map $f : U \to X$. (In the stack case it is pullback under $f : \X_{\lisset} \to \X_{\et}$).
+\end{prop}
+
+\begin{proof}
+Choose an affine Zariski cover $\U$ of $X$ (affine \etale cover $\U$ of $\X$) by the assumption on the diagonal we see that,
+\[ H^i(X_{\lisset}, \F) = \check{H}^i(\U, \F) = H^i(X, \F) \]
+(and similarly for $\X$). The affine diagonal condition is to ensure that projects in the Cech complex are affine and hence have vanishing $H^{>0}$. However, this condition is not necessary. We can always choose a Zariski hypercover $U_\bullet \to X$ by affines and similar arguments show that,
+\[ H^i(X_{\lisset}, \F) = \check{H}^i(U_\bullet, \F) = H^i(X, \F) \]
+\end{proof}
+
+\begin{prop}
+Let $\X$ be an algebraic stack.
+\begin{enumerate}
+\item $\F$ is an $\struct{\X}$-module then $H^i(\X_{\lisset}, \F)$ agrees with $R^i \Gamma : \Mod{\struct{\X}} \to \Ab$ computed in the category of $\struct{\X}$-modules.
+\item If $\X$ has affine diagonal and $\F$ is a quasi-coherent sheaf on $\X$, then the cohomology $H^i(\X_{\lisset}, \F)$ agrees with $R^i \Gamma : \QCoh{(\X)} \to \Ab$ computed in the category of quasi-coherent modules.
+\end{enumerate}
+For a morphism $f : \X \to \Y$ of algebraic stacks (resp. quasi-compact morphism of algebraic stacks with affine diaognals) then (a) (resp. (b)) holds also for $R^i f_* \F$ of an $\struct{\X}$-module (resp. quasi-coherent sheaf).
+\end{prop}
+
+\begin{rmk}
+If $\X$ does not have affine diagonal, then the sheaf cohomology $H^i(\X_{\lisset}, \F)$ of a quasi-coherent sheaf may differ from the derived functor $R^i \Gamma(\X, -) : \QCoh{(\X)} \to \Ab$.
+\end{rmk}
+
+\begin{prop}
+If $\X$ is an algebraic stack and $\F_i$ is a directed system of abelian sheaves in $\X_{\lisset}$ then $\colim_i H^i(\X, \F_i) \to H^i(\X, \colim_i \F_i)$ is an isomorphism. 
+\end{prop}
+
+\end{document}
+

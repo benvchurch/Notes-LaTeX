@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Introduction}
+
+Study the rep theory of $\pi_1(X(\CC))$. How ordinary Hodge theory of $H^1$ is the $r = 1$ case of this.
+
+\section{Higgs Bundles}
+
+In this section we work on a smooth variety $X$.
+
+\begin{defn}
+A \textit{Higgs} bundle is a pair $(\E, \phi)$ where $\E$ is a vector bundle and $\phi$ is a $\struct{X}$-linear map,
+\[ \phi : \E \to \E \ot_{\struct{X}} \Omega_X^1 \]
+such that $\phi \wedge \phi = 0$.
+\end{defn}
+
+\begin{rmk}
+We should define the notation $\phi \wedge \phi$. Such a linear map is equivalent to a section of,
+\[ \phi \in \Gamma(X, \End{\E} \ot_{\struct{X}} \Omega^1_X \]
+This is a sheaf of $\struct{X}$-algebras under the following operation,
+\[ (\varphi_1 \ot \omega_1, \varphi_2 \ot \omega_2) \mapsto (\varphi_1 \circ \varphi_2) \ot (\omega_1 \wedge \omega_2) \]
+then extended $\struct{X}$-linearly. This operation is denoted $\wedge$. However, do not let this mislead you into thinking that $\wedge$ is antisymmetric since if $\rank{\E} > 1$ then the composition in $\End{\E}$ is noncommutative. Hence $\phi \wedge \phi = 0$ is a nontrivial condition when $\E$ has rank at least $2$.
+\end{rmk}
+
+\begin{rmk}
+We refer to $\phi \wedge \phi = 0$ as the \textit{integrability} condition. This is because we call a flat connection integrable. We will now spell out the relationship of Higgs bundles to flat connections. 
+\end{rmk}
+
+There are a number of ways to motivate the definition of a Higgs bundle. My favorite is to think of them as degenerations of a flat connection where we send the nonlinear part to zero. In order to make this precise we introduce the notion of a $t$-connection.
+
+\begin{defn}
+Let $X$ be an $S$-scheme. Let $\E$ be a coherent sheaf on $X$. A $t$-\textit{connection} on $\E$ over $X/S$ is a triple $(t, \E, \nabla)$ where $t : X \to \A^1_S$ is a global function and $\nabla$ is a $S$-linear map,
+\[ \nabla : \E \to \E \ot \Omega^1_X \]
+satisfying the $t$-scalled Liebniz law,
+\[ \nabla(f s) = t \d{f} \ot s + f \nabla s \] 
+\end{defn}
+
+\begin{rmk}
+Notice that if $t = 0$ then $\nabla$ is $\struct{X}$-linear.
+\end{rmk}
+
+\begin{defn}
+There is a natural extension of $\nabla$ to,
+\[ \nabla_p : \E \ot_{\struct{X}} \Omega^p_X \to \E \ot_{\struct{X}} \Omega^{p+1}_X \]
+defined on pure tensors as follows
+\[ \nabla_p(s \ot \omega) = t s \ot \d{\omega} + (-1)^p \nabla s \wedge \omega \]
+Then we define the curvature of $\nabla$,
+\[ \omega_{\nabla} = \nabla_1 \circ \nabla \]
+A straightforward calculation shows that,
+\[ \omega_{\nabla} : \E \to \E \ot \Omega^2_X \]
+is $\struct{X}$-linear. We say that $\nabla$ is \textit{flat} or \textit{integrable} if $\omega_{\nabla} = 0$. In this case $\nabla$ is a differential meaning the de Rham complex,
+\[ 0 \to \E \xrightarrow{\nabla} \E \ot \Omega^1_X \xrightarrow{\nabla_1} \E \ot \Omega_X^2 \xrightarrow{\nabla_2} \E \ot \Omega_X^3 \to \cdots \]
+is actually a complex.
+\end{defn}
+
+\begin{rmk}
+Notice in the case that $t = 0$ we saw $\nabla$ is $\struct{X}$-linear. Call $\phi := \nabla$. Then notice,
+\[ \omega_{\nabla}(s) = \nabla_1 \circ \nabla(s) = \nabla_1 \left( \sum_i s_i \ot \omega_i \right) = - \phi(s_i) \wedge \omega_i = - (\phi \wedge \phi)(s) \] 
+where,
+\[ \phi(s) = \sum_i s_i \ot \omega_i \]
+Therefore, $\phi \wedge \phi = 0$ if and only if the $t$-connection $\nabla$ is flat. 
+\end{rmk}
+
+The previous calculation shows that a $t$-connection is a gadget that interpolates between a flat connection on $X_1$ over $t = 1$ and a Higgs bundle on $X_0$ over $t = 0$. If we take the constant $t$-scheme $X \times \A^1 \to \A^1$ and a constant coherent sheaf $\pi_1^* \E$ then a $t$-connection is litterally just linearly interpolating between a connection on $\E$ and a Higgs bundle structure on $\E$. This picture is completely functorial so we get a universal interpretation,
+\begin{center}
+\begin{tikzcd}
+\M_{\text{Dol}}(X) \arrow[d] \arrow[r, hook] & \M_{\text{Hod}}(X) \arrow[d] & \M_{\text{dR}}(X) \arrow[l, hook] \arrow[d]
+\\
+\{ t = 0 \} \arrow[r, hook] & \A^1 & \{ t = 1 \} \arrow[l, hook] 
+\end{tikzcd}
+\end{center}
+so we get a moduli space $\M_{\text{Hod}}(X)$ of flat $t$-connections $(t, \E, \nabla)$ with a $\Gm$-equivariant map,
+\[ \M_{\text{Hod}}(X) \to \A^1 \quad \quad (t, \E, \nabla) \mapsto t \]
+where the $\Gm$-acts via,
+\[ \lambda \cdot (t, \E, \nabla) = (\lambda t, \E, \lambda \nabla) \]
+\end{document}
+
