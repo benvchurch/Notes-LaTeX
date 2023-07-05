@@ -1,10 +1,278 @@
 \documentclass[12pt]{article}
 \usepackage{import}
-\import{../../Algebraic Geometry/}{AlgGeoCommands}
 
 \usepackage[style=alphabetic, backend=bibtex8,
             autocite=footnote, notetype=endonly, labeldateparts]{biblatex}
 \addbibresource{bib.bib}
+
+
+% Typesetting Packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, total={7in, 9.5in}]{geometry}
+
+% Math Packages
+ 
+\usepackage{amsthm, amssymb, amsmath, centernot, graphicx}
+
+\usepackage{stmaryrd}
+\newcommand{\dbrac}[1]{\llbracket #1 \rrbracket}
+
+% Fonts
+
+\usepackage{calligra, mathrsfs}
+\usepackage{lmodern}
+\usepackage[T2A,T1]{fontenc}
+
+% Other Font Options
+
+% \usepackage{mathpazo} % The Rising Sea
+% \usepackage{euler}
+
+% \usepackage{euler} % Vaughan's notes
+% \usepackage{eulervm}
+
+%\usepackage{kpfonts}  
+
+% \usepackage{libertine} 
+% \usepackage{libertinust1math}
+
+\usepackage{amsfonts} % Stacks project math font
+
+% Make a not ugly version of widetilde
+
+\DeclareSymbolFont{kplargesymbols}{OMX}{jkp}{m}{n}
+\DeclareMathAccent{\wt}{\mathalpha}{kplargesymbols}{"65}
+\DeclareMathAccent{\wtt}{\mathord}{largesymbols}{"65}
+\newcommand{\wh}[1]{\widehat{#1}}
+
+% Graphics Packages
+
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+
+\newsavebox{\pullbacksymbol}
+\sbox\pullbacksymbol{%
+\begin{tikzpicture}%
+\draw (0,0) -- (1ex,0ex);%
+\draw (1ex,0ex) -- (1ex,1ex);%
+\end{tikzpicture}}
+
+\newsavebox{\pushoutsymbol}
+\sbox\pushoutsymbol{%
+\begin{tikzpicture}%
+\draw (0,0) -- (-1ex,0ex);%
+\draw (-1ex,0ex) -- (-1ex,-1ex);%
+\end{tikzpicture}}
+
+\newcommand{\pullback}{\arrow[dr, phantom, "\usebox\pullbacksymbol" , very near start, color=black]}
+\newcommand{\cartesian}{\arrow[dr, phantom, "\usebox\pullbacksymbol" , very near start, color=black]}
+\newcommand{\pushout}{\arrow[lu, phantom, "\usebox\pushoutsymbol" , very near start, color=black]}
+
+\newcommand{\connectingmap}[1]{
+\arrow[draw=none]{d}[name=Z, shape=coordinate]{}
+\arrow[#1,
+rounded corners, crossing over,
+to path={ -- ([xshift=2ex]\tikztostart.east)
+|- (Z) [near end]\tikztonodes
+-| ([xshift=-2ex]\tikztotarget.west)
+-- (\tikztotarget)}]}
+
+% General Utilities 
+
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\bbar}[1]{\overline{#1}}
+\renewcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\usepackage{hyperref}
+\newcommand{\chref}[2]{\href{#1}{\color{blue}{\underline{#2}}}}
+
+% Set-Theoretic Commands
+
+\newcommand{\sm}{\! \setminus \!}
+\renewcommand{\empty}{\varnothing}
+\newcommand{\sub}{\subset}
+\newcommand{\sups}{\supset}
+
+% Functions
+
+\newcommand{\embed}{\hookrightarrow}
+\newcommand{\hook}{\hookrightarrow}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\onto}{\twoheadrightarrow}
+\newcommand{\surj}{\twoheadedrightarrow}
+
+\usetikzlibrary{arrows.meta}
+\newcommand*{\TikzArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex,#1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}%
+\newcommand*{\TikzBiArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, #1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex) node[midway, above, label={[label distance=-0.4cm]$\sim$}] {} ;}}
+\newcommand{\iso}{\TikzBiArrow[->]}
+
+\newcommand{\tolabel}[1]{\xrightarrow{#1}}
+\newcommand{\lmap}[1]{\xrightarrow{#1}}
+
+% Commands on Functions
+
+\newcommand{\id}{\mathrm{id}}
+\DeclareMathOperator{\coker}{\mathrm{coker}}
+\DeclareMathOperator{\eq}{\mathrm{eq}}
+\DeclareMathOperator{\coeq}{\mathrm{coeq}}
+\renewcommand{\Im}[1]{\mathrm{Im}\left( #1 \right)}
+\DeclareMathOperator{\im}{\mathrm{im}}
+\DeclareMathOperator{\coim}{\mathrm{coim}}
+\newcommand{\invI}[2]{#1^{-1} \left( #2 \right)}
+\newcommand{\ev}{\mathrm{ev}}
+
+% Complex Analysis Commands
+
+\newcommand{\real}[1]{\mathfrak{Re}\left( #1 \right)}
+\newcommand{\imag}[1]{\mathfrak{Im}\left( #1 \right)}
+
+% Category-Theoretic Commands
+
+\newcommand{\Hom}[3]{\mathrm{Hom}_{#1} \left( #2, #3 \right)}
+\newcommand{\uHom}[3]{\underline{\mathrm{Hom}}_{#1} \left( #2, #3 \right)}
+\newcommand{\RHom}[3]{\mathrm{RHom}_{#1} \left( #2, #3 \right)}
+\newcommand{\uRHom}[3]{\underline{\mathrm{RHom}}_{#1} \left( #2, #3 \right)}
+\newcommand{\Homover}[3]{\mathrm{Hom}_{#1} \left( #2, #3 \right)}
+\newcommand{\Der}[3][]{\mathrm{Der}_{#1} \left( #2, #3 \right)}
+\newcommand{\End}[2][]{\mathrm{End}_{#1} \left( #2 \right)}
+\newcommand{\Aut}[2][]{\mathrm{Aut}_{#1} \left( #2 \right)}
+
+\newcommand{\op}{\mathrm{op}}
+\DeclareMathOperator*{\colim}{\mathrm{colim}}
+\DeclareMathOperator*{\dlim}{\varinjlim}
+\DeclareMathOperator*{\ilim}{\varprojlim}
+
+% Commands for Groups and Actions
+
+\newcommand{\ab}{\mathrm{ab}}
+\DeclareMathOperator{\ord}{\mathrm{ord}}
+\newcommand{\fix}[2]{\mathrm{Fix}_{#1} (#2)}
+\newcommand{\tors}{\mathrm{tors}}
+
+\usepackage{bbm}
+\newcommand{\acts}{\; \rotatebox[origin=c]{-90}{$\circlearrowright$} \;}
+
+\DeclareMathOperator{\orb}{\mathrm{Orb}}
+\DeclareMathOperator{\stab}{\mathrm{Stab}}
+\DeclareMathOperator{\Orb}{\orb}
+\DeclareMathOperator{\Stab}{\stab}
+
+\newcommand{\galgroup}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\Gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\gal}[1]{\mathrm{Gal}\left( #1 \right)}
+\newcommand{\sep}{\mathrm{sep}}
+
+% Linear Algebra Commands
+
+\DeclareMathOperator{\rank}{\mathrm{rank}}
+\newcommand{\vspan}[1]{\mathrm{span}\! \left\{#1 \right\}}
+\newcommand{\Tr}[1]{\mathrm{Tr}\left( #1 \right)}
+\DeclareMathOperator{\tr}{\mathrm{tr}}
+\newcommand{\exterior}{\bigwedge\nolimits}
+
+% Topology Commands
+
+\newcommand{\ball}[2]{B_{#1} \! \left(#2 \right)}
+\newcommand{\topo}{\mathcal{T}}
+\newcommand{\base}{\mathcal{B}}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\rp}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\cp}{\mathbb{CP}}
+
+% Number Theory Commands
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{NN}}
+\newcommand{\Zplus}{\mathbb{Z}^{+}}
+\newcommand{\Primes}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\centernot \mid}
+\newcommand{\modeq}[3]{#1 \equiv #2 \quad (\mathrm{mod} \: {#3})}
+\DeclareMathOperator{\ch}{\mathrm{char}}
+
+% Homological Algebra Commands
+
+\DeclareMathOperator{\Frob}{\mathrm{Frob}}
+\newcommand{\dsum}{\oplus}
+\newcommand{\bop}{\bigoplus}
+\newcommand{\ot}{\otimes}
+\newcommand{\tensor}{\otimes}
+\newcommand{\bigot}{\bigotimes}
+\newcommand{\btensor}{\bigotimes}
+\newcommand{\Tor}[4]{\mathrm{Tor}^{#1}_{#2} \left( #3, #4 \right)}
+\newcommand{\Ext}[4]{\mathrm{Ext}^{#1}_{#2} \left( #3, #4 \right)}
+
+% Simplicial Commands
+
+\DeclareMathOperator{\sk}{\mathrm{sk}}
+\DeclareMathOperator{\cosk}{\mathrm{cosk}}
+\DeclareMathOperator{\bfsk}{\mathbf{sk}}
+\DeclareMathOperator{\bfcosk}{\mathbf{cosk}}
+
+% Representation Theory Commands
+
+\newcommand{\Res}[3]{\mathrm{Res}^{#1}_{#2} \left( #3 \right)}
+\newcommand{\Ind}[3]{\mathrm{Ind}^{#1}_{#2} \left( #3 \right)}
+\newcommand{\Rep}{\mathrm{Rep}}
+
+% Calculus Commands
+
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\dc}{\mathrm{d}^c}
+\newcommand{\dn}[2]{ \mathrm{d}^{#1} #2 \:}
+\newcommand{\deriv}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\nderiv}[3]{\frac{\dn{#1}{#2}}{\d{#3}^{#1}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\parsq}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\npar}[3]{\frac{\partial^{#1} #2}{\partial {#3}^{#1}}}
+
+% Environments and Proofs
+
+\renewcommand{\qedsymbol}{$\square$}
+\newcommand{\cont}{$\boxtimes$}
+ 
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{rmk}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{thm}[theorem]{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lm}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{cor}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{ex}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{conj}[theorem]{Conjecture}
+
+
+\newcommand{\lcm}{\mathrm{lcm}}
+\newcommand{\Frac}[1]{\mathrm{Frac}\left(#1\right)}
+\newcommand{\trdeg}[2]{\mathrm{trdeg}_{#1}\left(#2\right)}
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\Gm}{\mathbb{G}_m}
 
 \begin{document}
 \title{Counting Points on Varieties and Applications to Ranks of Elliptic Curves over Function Fields \bigskip\\
@@ -18,7 +286,6 @@ Problems marked with $*$ are very hard. Feel free to move on without fully solvi
 
 \section{Rationality and Unirationality}
 
-\newcommand{\lcm}{\mathrm{lcm}}
 
 We say that the variety $X$ defined by a polynomial $f \in k[x_0, \dots, x_n]$ is \textit{rational} if $f$ can be ``solved by rational functions''. Explicitly this means there exist rational functions $r_0, \dots, r_n \in k(t_1, \dots, t_n)$ in $n$ indeterminants such that,
 \[ f(r_1(t_1, \dots, t_n), \dots, r_n(t_1, \dots, t_n)) = 0 \]
@@ -416,7 +683,6 @@ Using the previous problem, prove that,
 Using this and previous problems, compute,
 \[ j(\alpha) \bar{j}(\alpha) \]
 
-\end{document}
 
 \section{Extensions of Characters}
 
@@ -444,6 +710,8 @@ $g'(\chi') = - [-g(\chi)]^s$.
 \end{theorem}
 
 In this exercise we are going to prove it. You may want to read these excellent notes on the subject if you get stuck,
+
+\newcommand{\M}{\mathcal{M}}
 
 \begin{center}
 \url{https://people.reed.edu/~jerry/361/lectures/hassedav.pdf}
@@ -498,7 +766,7 @@ What does this say about when $X$ is supersingular? Notice that the supersingula
 
 Therefore, we are left with the problem of determining when the numbers,
 \[ j(\alpha) = \frac{1}{q} g(\chi_{\alpha_0}) \cdots g(\chi_{\alpha_r}) \]
-are all roots of unity. This is a difficult problem in general. However, it can be turned into entirely combinatorics via the theorem of Stickelberger (CITE). 
+are all roots of unity. This is a difficult problem in general. However, it can be turned into entirely combinatorics via the theorem of Stickelberger.
 
 
 \begin{defn}
@@ -525,23 +793,26 @@ and hence all their conjugates as well because those are also roots of $X$ (sinc
 
 \subsection{}
 
+\newcommand{\iO}{\mathcal{O}}
+\newcommand{\p}{\mathfrak{p}}
+
 The point is that, by the above two problems, to show that $X$ is supersingular, it suffices to show that each $\alpha_{ij} / q^{\frac{i}{2}}$ is an algebraic integer. In fact, it suffices to show this for one root in each conjugacy class. To show that an algebraic number $\alpha \in \CC$ is an algebraic integer, we can often compute its decomposition as a fractional ideal. 
 \par
-Choose a number field $K \subset \CC$ containing $\alpha$ meaning a finite field extension $K / \Q$. Then there is a ring of algebraic integers $\struct{K} \subset K$ inside $K$. A fundamental result about these rings is that every ideal $I \subset \struct{K}$ has a \textit{unique} factorization,
+Choose a number field $K \subset \CC$ containing $\alpha$ meaning a finite field extension $K / \Q$. Then there is a ring of algebraic integers $\iO_{K} \subset K$ inside $K$. A fundamental result about these rings is that every ideal $I \subset \iO_{K}$ has a \textit{unique} factorization,
 \[ I = \prod_{i = 1}^r \p_i^{e_i} \]
-into prime ideal $\p_i$. We write $\ord_{\p_i}(I) = e_i$ and $0$ for $\p$ not amoung $\p_1, \dots, \p_r$. For an element $a \in \struct{K}$ we write $\ord_{\p}(a)$ for the order in the principal ideal $I = (a)$. For any $\alpha \in K$ we can write $\alpha = \frac{a}{b}$ and define formally,
+into prime ideal $\p_i$. We write $\ord_{\p_i}(I) = e_i$ and $0$ for $\p$ not amoung $\p_1, \dots, \p_r$. For an element $a \in \iO_{K}$ we write $\ord_{\p}(a)$ for the order in the principal ideal $I = (a)$. For any $\alpha \in K$ we can write $\alpha = \frac{a}{b}$ and define formally,
 \[ \ord_{\p}(\alpha) = \ord_{\p}(a) - \ord_{\p}(b) \]
 and define the \textit{fractional ideal} associated to $a$ as the formal symbol,
-\[ (\alpha) = \prod_{\p \subset \struct{K}} \p^{\ord_{\p}(\alpha)} \]
-In fact we can interpret this as a finitely generated $\struct{K}$-submodule of $K$ but we won't need this. The only thing we need is the following lemma.
+\[ (\alpha) = \prod_{\p \subset \iO_{K}} \p^{\ord_{\p}(\alpha)} \]
+In fact we can interpret this as a finitely generated $\iO_{K}$-submodule of $K$ but we won't need this. The only thing we need is the following lemma.
 
 \begin{lemma}
-If $\alpha \in K$ satisfies $\ord_{\p}(\alpha) \ge 0$ for all $\p \subset \struct{K}$ then $\alpha \in \struct{K}$.
+If $\alpha \in K$ satisfies $\ord_{\p}(\alpha) \ge 0$ for all $\p \subset \iO_{K}$ then $\alpha \in \iO_{K}$.
 \end{lemma}
 
 Using this, show that the diagonal hypersurface of Theorem~\ref{thm:diagonal_zeta_function} is supersingular if and only if,
 \[ \ord_{\p}(j(\alpha)) \ge \frac{r-1}{2} \]
-for all $\alpha \in A_{n, q}$ and $\p \subset \struct{K}$ where $K = \Q(\zeta_p, \zeta_{q^f-1})$ where $f$ is as in Problem~\ref{proof_of_thm}.
+for all $\alpha \in A_{n, q}$ and $\p \subset \iO_{K}$ where $K = \Q(\zeta_p, \zeta_{q^f-1})$ where $f$ is as in Problem~\ref{proof_of_thm}.
 
 \subsection{}
 
@@ -555,7 +826,7 @@ Let $\{ - \}$ denote the fractional part of a real number. Then define the funct
 
 
 \begin{theorem} \label{thm:gauss_fact_lang}[Lang's Algebraic Number Theory, IV.4, Theorem 10 (p.97)]
-Let $\mathfrak{p}$ be a prime lying over $p$ in $\Q(\zeta_{m})$ and let $\mathfrak{P}$ be a prime lying over $\mathfrak{p}$ in $\mathbb{Q}(\zeta_{m}, \zeta_p)$. Let $f$ be the order of $p$ modulo $m$ and $q = p^f$. Let $\chi$ be a character of $\F=\F_q$ such that
+Let $\mathfrak{p}$ be a prime lying over $p$ in $\Q(\zeta_{m})$ and let $\mathfrak{P}$ be a prime lying over $\mathfrak{p}$ in $\mathbb{Q}(\zeta_{m}, \zeta_p)$. Let $f$ be the order of $p$ modulo $m$ and $q = p^f$. Let $\chi$ be a character of $\FF = \FF_q$ such that
 \[\chi(a) \equiv a^{-(q-1)/m} \pmod{\mathfrak{p}}\]
 Then for any integer $r \ge 1$ we have:
 \[\tau\left(\chi^r\right) \sim \mathfrak{P}^{\alpha(r)}\]
@@ -571,7 +842,6 @@ where the summation runs over all $0 < \mu < p-1$ relatively prime to $p-1$ and 
 
 Read Lang's proof of this theorem and use it to verify the following.
 
-\newcommand{\iO}{\mathcal{O}}
 \newcommand{\s}[1]{s\left( #1 \right)}
 \newcommand{\Pf}{\mathfrak{P}}
 
@@ -633,26 +903,8 @@ Using the previous combinatorial description of supersingularity for diagonal hy
 over $\FF_w$. Finally suppose that $w$ is a primitive root modulo both $p$ and $q$.
 \end{enumerate}
 
-\subsection{Reading}
-
-In the following weeks we will be searching for new examples. Here is a list of sources we've mentioned so far. It is a good idea to read through much of these carefully. 
-
-\begin{enumerate}
-\item \href{http://www.ams.org/journals/bull/1949-55-05/S0002-9904-1949-09219-4/S0002-9904-1949-09219-4.pdf}{Weil's orginal oaper}
-\item \href{https://projecteuclid.org/journals/tohoku-mathematical-journal/volume-31/issue-1/On-Fermat-varieties/10.2748/tmj/1178229881.full}{Shioda on Fermat varities}
-\item \href{https://link.springer.com/article/10.1007/BF01370660}{Shioda introduces his conjecture}
-\item Chapter IV of \href{https://link.springer.com/book/10.1007/978-1-4612-0853-2}{Lang's Number Theory}
-\end{enumerate}
-
-BEFORE THEY LOOK FOR SUPERSINGULAR EXAMPLES READ 10, ON RELATIONSHIPS BETWEEN DIAOGNAL VARIETIES
-
-
-\section{Worksheet: Weighted Projective Space}
-
-\section{Sage Implementation Worksheet}
-
-\section{Worksheet: Ranks of Elliptic Curves over Function Fields}
-
 \printbibliography
+
+\end{document}
 
 \end{document}
