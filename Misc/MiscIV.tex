@@ -13,6 +13,8 @@
 \newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
 \newcommand{\AbGrp}{\mathbf{AbGrp}}
 
+\newcommand{\pr}{\mathrm{pr}}
+
 \begin{document}
 
 \section{Lang-Nishimura}
@@ -49,10 +51,188 @@ contains the $\bb{E}_8$ lattice as a subquotient. Indeed,
 \section{Weierstrass Points}
 
 
+
 \section{MAPP}
 
 \begin{remark}
 Note that the isomorphism $X \iso (B' \times Z)/G$ is \textit{not} compatible with any map to $A$. Indeed, there may not even be a map to $A$ since $B'/G = B$ may only be isogenous to an abelian subvariety. Even if $G$ is trivial, the isomorphism may not be compatible with $f$ and the projection. For example, consider $X = E \times C$ where $E$ is an elliptic curve and $C$ is a genus $2$ curve with Jacobian $E \times E'$. Mapping to the Albanese $E \times E \times E'$, our construction gives the identity $\id : E \times C$. However, the map to the Al banese does not factor through the first projection $\pr_1 : X \to E$. 
 \end{remark}
+
+
+\section{Etale fundamental groups are NOT profinitely complete}
+
+I allways thought that \etale fundamental groups are profinitely complete i.e. equal to their own profinite completion. This is false in general. They are always profinite but this is weaker in general. It is true that a profinite group is the limit over its finite \textit{continuous} quotients or equivalently,
+\[ G = \ilim G/H \]
+as $H$ runs over the finite index \textit{open} (actually every open subgroup in a compact group is automatically finite index) normal subgroups. However, this does not necessarily include every finite index subgroup.
+
+\begin{rmk}
+However, if a \textit{topological} group $G$ is profinite then $G \to \wh{G}^{\text{top}}$ is an isomorphism by definition where,
+\[ \wh{G}^{\text{top}} = \ilim_{\substack{H \triangleleft G \\ H \text{ open}}} G/H \]
+\end{rmk}
+
+\begin{example}
+$\pi_1^{\et}(\Spec{\Q}) = \Gal{\overline{\Q}/\Q}$ is \textit{not} profinitely complete. Indeed, see Chapter 7 of Milne's Class Field Theory.
+\end{example}
+
+\begin{rmk}
+See these answers:
+\begin{enumerate}
+\item \chref{https://math.stackexchange.com/questions/3734250/are-normal-subgroups-of-finite-index-in-an-absolute-galois-groups-open}{Silverman's incorrect definition}
+
+\item \chref{https://mathoverflow.net/questions/82177/a-profinite-group-which-is-not-its-own-profinite-completion/}{examples of noncomplete profinite groups}
+\end{enumerate}
+\end{rmk}
+
+\begin{prop}
+However, if $X$ is a scheme of finite type over $\CC$ then,
+\[ \pi_1^{\et}(X) = \wh{\pi_1(X(\CC))} \]
+is the profinite completion of a finitely presented group and hence is profinitely complete.
+\end{prop}
+
+\begin{proof}
+Indeed, by Riemann-Existence,
+\[ \pi_1^{\et}(X)\text{-FinSets} \cong \FEt_X \cong \{ \text{finite covering spaces of } X \} \cong \pi_1(X(\CC))\text{-FinSets} \]
+where $\pi_1^{\et}(X)\text{-FinSets}$ means \textit{continuous} finite $\pi_1^{\et}(X)$-sets. This identifies $\pi_1^{\et}(X)$ as a topological group with $\wh{\pi_1(X(\CC))}$
+\end{proof}
+
+\begin{lemma}
+If $G$ is a finitely presented group then $\wh{G} \to \wh{\wh{G}}$ is an isomorphism.
+\end{lemma}
+
+\begin{proof}
+\chref{https://math.stackexchange.com/questions/4534747/do-groups-with-finitely-many-finite-index-subgroups-of-each-index-have-strongly}{See here}.
+\end{proof}
+
+\begin{rmk}
+Note that the above theorem is nontrivial. In fact, it is false without the finite presentation assumption. See \chref{https://arxiv.org/pdf/0801.2955.pdf}{here}.
+\end{rmk}
+
+\section{Grothendieck Abelian Categories}
+
+\begin{defn}
+Let $\cA$ be an abelian category. We say that satisfies,
+\begin{enumerate}
+\item[(AB3)] $\cA$ has all direct sums
+\item[(AB4)] $\cA$ is AB4 and taking direct sums is exact
+\item[(AB5)] $\cA$ is AB3 and taking filtered colimits is exact
+\item[(AB6)] $\cA$ is AB3 and given a family of filtered categories $\{ I_j \}_{j \in J}$ and maps $D_j : I_j \to \cA$ we have,
+\[ \prod_{j \in J} \colim_{I_j} D_j = \colim_{(i_j) \in \prod\limits_{j \in J} I_j} \left( \prod_{j \in J} D_j(i_j) \right) \]
+\end{enumerate}
+We say that $\cA$ \textit{has a generator} if there is an object $M \in \cA$ such that $\Hom{\cA}{M}{-}$ is faithful. We say that $\cA$ is a \textit{Grothendieck category} if $\cA$ is AB5 and has a generator.
+\end{defn}
+
+\begin{lemma}
+We have the following implications:
+\[ \text{AB6} \implies \text{AB5} \implies \text{AB4} \implies \text{AB3} \]
+\end{lemma}
+
+\begin{lemma}
+For any unital ring $R$, the category $\mathrm{Mod}_R$ satisfies AB6 and AB4$^*$ but not AB5$^*$.
+\end{lemma}
+
+\begin{example}
+$\Ab$ thus satisfies AB6 and AB4$^*$ but not AB5$^*$. Hence $\Ab^\op$ which is isomorphic to the category of compact Hausdorff topological groups by Pontriagin duality saitsifes AB6$^*$ and AB4 but not AB5. 
+\end{example}
+
+\begin{lemma}
+The only abelian category satisfying AB5 and AB5$^*$ is the zero category. 
+\end{lemma}
+
+\begin{lemma}
+An AB3 abelian category $\cA$ has a generator $M$ if and only if for every $A \in \cA$ there is an epimorphism,
+\[ \bigoplus_I M \onto A \]
+\end{lemma}
+
+\begin{proof}
+Suppose that,
+\[ \bigoplus_I M \onto A \]
+By definition, if $f,g : A \to B$ are two maps such that the induced maps,
+\[ M \to A \to B \]
+are pairwise equal then $f = g$. Therefore,
+\[ \Hom{\cA}{A}{B} \xrightarrow{\Hom{\cA}{M}{-}} \Hom{}{\Hom{\cA}{M}{A}}{\Hom{\cA}{M}{B}} \]
+is injective since it is injective after evaluation at the inclusions $\{ M \to A \}_I$.
+\bigskip\\
+Conversely, suppose that $\cA$ has a generator. For each $A \in \cA$ let $I = \Hom{\cA}{M}{A}$ which is a set and there is a canonical map,
+\[ c : \bigoplus_I M \to A \]
+via evaluation. We need to show this is an epimorphism. Indeed, if $f, g : A \to B$ are two maps such that $f \circ c = g \circ c$ this means that $f_* = g_*$ and since $\Hom{\cA}{M}{-}$ is faithful we see that $f = g$ so we conclude that $c$ is an epimorphism.  
+\end{proof}
+
+\begin{theorem}[1.10.1 in T\^{o}hoku] 
+Let $\cA$ be a Grothendieck abelian category then $\cA$ has enough injectives.
+\end{theorem}
+
+\newcommand{\PSh}{\mathrm{PSh}}
+
+(IS THIS CORRECT??)
+
+\begin{prop}
+Let $\C$ be a category and $\cA$ satisfies any of,
+\begin{enumerate}
+\item AB3
+\item AB4
+\item AB5
+\item AB6
+\item AB3$^*$
+\item AB4$^*$
+\item AB5$^*$
+\item AB6$^*$
+\item $\cA$ has a generator
+\item $\cA$ is a Grothendieck abelian category 
+\end{enumerate} 
+then the same is true of $\PSh(\C, \cA) = \mathrm{Fun}(\C^\op, \cA)$.
+\end{prop}
+
+DO THIS!!
+
+\begin{theorem}
+Let $\C$ be a site and $\cA$ satisfies any of,
+\begin{enumerate}
+\item AB3
+\item AB4
+\item AB5
+\item AB6
+\item AB3$^*$
+\item $\cA$ has a generator
+\item $\cA$ is a Grothendieck abelian category
+\end{enumerate}
+then the same is true of $\Sh(\C, \cA)$.
+\end{theorem}
+
+\begin{rmk}
+Note tha even for $\cA = \Ab$ the sheaf category $\Sh(\C, \cA)$ need not be AB4$^*$ because infinite products are only left exact and do not, in general, preserve epimorphisms. For example, \chref{https://math.stackexchange.com/questions/674482/example-of-epimorphisms-such-that-the-product-is-not-an-epimorphism-in-the-categ}{see here}.
+\end{rmk}
+
+DO THIS!!
+
+\begin{theorem}
+Let $\cA$ is a Grothendieck abelian category and $\C$ is a site then the inclusion,
+\[ \Sh(\C, \cA) \embed \PSh(\C, \cA) \]
+has a left adjoint called ``sheafificaion''. 
+\end{theorem}
+
+DO THIS PROOF
+
+\begin{cor}
+If $\cA$ is a Grothendieck abelian category and $\C$ is a site then $\Sh(\C, \cA)$ has enough injectives. 
+\end{cor}
+
+\begin{theorem}[\chref{https://www.sciencedirect.com/science/article/pii/S000187080400194X}{Gabber\footnote{Which as usual he let other people publish.}}]
+Let $X$ be a scheme. Then $\QCoh{X}$ is a Grothendieck abelian category and hence has enough injectives. Furthermore, $\QCoh{X} \embed \Mod{\struct{X}}$ has a right adjoint and hence is also AB3$^*$. 
+\end{theorem}
+
+IS IT TRUE THAT ALL GROTHENDIECK ABELIAN CATEGORIES HAVE ALL PRODUCTS?? WHY DOES QCoh HAVE PRODUCTS?? JUST BECAUSE OF THE COHERATOR?
+
+\begin{rmk}
+Note that products in $\QCoh{X}$ do not agree with products in $\Mod{\struct{X}}$ in general. GIVE EXAMPLE They are also not exact \chref{https://arxiv.org/pdf/1810.08752.pdf}{see here}
+\end{rmk}
+
+\begin{enumerate}
+\item \chref{https://amathew.wordpress.com/2011/07/30/quasi-coherent-sheaves-presentable-categories-and-a-result-of-gabber}{CMB}
+\item \chref{https://mathoverflow.net/questions/27168/injective-objects}{Leo's answer}.
+
+\item \chref{https://mathoverflow.net/questions/40587/quasi-coherent-envelope-of-a-module}{quasi-coherent module}
+
+\item \chref{https://www.math.mcgill.ca/barr/papers/gk.pdf}{Tohoku}.
+\end{enumerate}
 
 \end{document}

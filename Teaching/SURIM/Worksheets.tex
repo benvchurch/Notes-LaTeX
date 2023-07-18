@@ -272,6 +272,7 @@ to path={ -- ([xshift=2ex]\tikztostart.east)
 \newcommand{\trdeg}[2]{\mathrm{trdeg}_{#1}\left(#2\right)}
 
 \newcommand{\A}{\mathbb{A}}
+\renewcommand{\P}{\mathbb{P}}
 \newcommand{\Gm}{\mathbb{G}_m}
 
 \begin{document}
@@ -746,18 +747,18 @@ Let $Y$ be the variety defined by the equation,
 \[ a_0 x_0^{n_0} + \cdots + a_r x_r^{n_r} = 0 \]
 over $\FF_q$ with $a_i \neq 0$ and $n_i$ coprime to $q$. Really we are interested in removing the scaling ambiguity by considering $X = (Y \sm \{ 0 \})/\Gm$ which is a projective variety. We will talk later about what this means in detail. For now, just take as definition that,
 \[ \# X(\FF_{q^k}) = \frac{\# Y(\FF_{q^k}) - 1}{q^k - 1} \]
-Let $m = \lcm{(n_0, \dots, n_r)}$ and let $f$ be the multiplicative order of $q$ mod $m$ (the smallest $f$ such that $q^f \equiv 1 \mod m$). Then let $A_{n,q^f}$ be the set of admissible $\alpha$ as before. For $\alpha \in A_{n,q}$ define $\mu(\alpha)$ to be the smallest integer such that $(q^{\mu(\alpha)}-1) \alpha_i \in \ZZ$ for each $i$.
+Let $m = \lcm{(n_0, \dots, n_r)}$ and let $f$ be the multiplicative order of $q$ mod $m$ (the smallest $f$ such that $q^f \equiv 1 \mod m$). Then let $A_{n,q^f}$ be the set of admissible $\alpha$ as before. For $\alpha \in A_{n,q^f}$ define $\mu(\alpha)$ to be the smallest integer such that $(q^{\mu(\alpha)}-1) \alpha_i \in \ZZ$ for each $i$.
 
 Use everything we have shown so far to prove the following.
 
 \begin{theorem} \label{thm:diagonal_zeta_function}
 Given the above,
-\[ \zeta_X(t) = \left[ \prod_{i = 0}^{r-1} \frac{1}{1-q^i t} \right] \cdot  \left[ \prod_{\alpha \in A_{n,q} / \sim} \bigg( 1 + (-1)^r B(\alpha) j(\alpha) \, t^{\mu(\alpha)} \bigg) \right]^{(-1)^r} \]
+\[ \zeta_X(t) = \left[ \prod_{i = 0}^{r-1} \frac{1}{1-q^i t} \right] \cdot  \left[ \prod_{\alpha \in A_{n,q^f} / \sim} \bigg( 1 + (-1)^r B(\alpha) j(\alpha) \, t^{\mu(\alpha)} \bigg) \right]^{(-1)^r} \]
 where,
 \[ B(\alpha) = \bar{\chi}_{\alpha_0}(a_0) \cdots \bar{\chi}_{\alpha_r}(a_r) \]
-and,
+and we define the following,
 \[ j(\alpha) = \frac{1}{q} g(\chi_{\alpha_0}) \cdots g(\chi_{\alpha_r}) \]
-and we say that two $\alpha, \alpha' \in A_{n,q}$ are equivalent if $q \alpha = \alpha'$.
+where the Gaussian sums are computed over $\FF_{q^{\mu(\alpha)}}$ which is the smallest field for which $\alpha$ defines a character i.e. for which $\alpha \in A_{n,q^{\mu(\alpha)}}$. Finally, we say that two $\alpha, \alpha' \in A_{n,q^f}$ are equivalent if $q \alpha = \alpha'$.
 \end{theorem}
 
 What does this say about when $X$ is supersingular? Notice that the supersingularity of $X$ does not depend on the $a_i$. Explain this without using the computation of $\zeta_X$. Hint: what happens when we base change to a field $k'$ in which $a_i$ has an $n_i$-th root?
@@ -783,7 +784,7 @@ However, the following is true.
 Let $\alpha$ be an algebraic integer such that every conjugate $\alpha'$ of $\alpha$ has $|\alpha'| \le 1$. Then $\alpha$ is a root of unity.
 \end{theorem}
 
-Prove this theorem. Hint: if $\alpha$ is a degree $d$ algebraic integer then so is $\alpha^n$. Are there infinitely many integer polynomials of degree $d$ whose roots all satisfy $|\alpha| \;e 1$?
+Prove this theorem. Hint: if $\alpha$ is a degree $d$ algebraic integer then so is $\alpha^n$. Are there infinitely many integer polynomials of degree $d$ whose roots all satisfy $|\alpha| \le 1$?
 
 \subsection{}
 
@@ -800,23 +801,23 @@ The point is that, by the above two problems, to show that $X$ is supersingular,
 \par
 Choose a number field $K \subset \CC$ containing $\alpha$ meaning a finite field extension $K / \Q$. Then there is a ring of algebraic integers $\iO_{K} \subset K$ inside $K$. A fundamental result about these rings is that every ideal $I \subset \iO_{K}$ has a \textit{unique} factorization,
 \[ I = \prod_{i = 1}^r \p_i^{e_i} \]
-into prime ideal $\p_i$. We write $\ord_{\p_i}(I) = e_i$ and $0$ for $\p$ not amoung $\p_1, \dots, \p_r$. For an element $a \in \iO_{K}$ we write $\ord_{\p}(a)$ for the order in the principal ideal $I = (a)$. For any $\alpha \in K$ we can write $\alpha = \frac{a}{b}$ and define formally,
+into prime ideal $\p_i$. We write $\ord_{\p_i}(I) = e_i$ and $0$ for $\p$ not among $\p_1, \dots, \p_r$. For an element $a \in \iO_{K}$ we write $\ord_{\p}(a)$ for the order in the principal ideal $I = (a)$. For any $\alpha \in K$ we can write $\alpha = \frac{a}{b}$ and define formally,
 \[ \ord_{\p}(\alpha) = \ord_{\p}(a) - \ord_{\p}(b) \]
-and define the \textit{fractional ideal} associated to $a$ as the formal symbol,
-\[ (\alpha) = \prod_{\p \subset \iO_{K}} \p^{\ord_{\p}(\alpha)} \]
+and define the \textit{fractional ideal} associated to $\alpha \in K$ as the formal symbol,
+\[ (\alpha) \sim \prod_{\p \subset \iO_{K}} \p^{\ord_{\p}(\alpha)} \]
 In fact we can interpret this as a finitely generated $\iO_{K}$-submodule of $K$ but we won't need this. The only thing we need is the following lemma.
 
 \begin{lemma}
 If $\alpha \in K$ satisfies $\ord_{\p}(\alpha) \ge 0$ for all $\p \subset \iO_{K}$ then $\alpha \in \iO_{K}$.
 \end{lemma}
 
-Using this, show that the diagonal hypersurface of Theorem~\ref{thm:diagonal_zeta_function} is supersingular if and only if,
-\[ \ord_{\p}(j(\alpha)) \ge \frac{r-1}{2} \]
-for all $\alpha \in A_{n, q}$ and $\p \subset \iO_{K}$ where $K = \Q(\zeta_p, \zeta_{q^f-1})$ where $f$ is as in Problem~\ref{proof_of_thm}.
+Using this, think about how to show that the diagonal hypersurface of Theorem~\ref{thm:diagonal_zeta_function} is supersingular. Show there is some bound $N$ such that if 
+\[ \ord_{\p}(j(\alpha)) \ge N \]
+for all $\alpha \in A_{n, q}$ and primes $\p \subset \iO_{K}$ lying over $p$ where $K = \Q(\zeta_p, \zeta_{q^{f}-1})$ then $X$ is supersingular. This will be spelled out in the following sections.
 
 \subsection{}
 
-How we actually compute the order is via Stickleberger's Theorem:
+How we actually compute the order is via Stickleberger's Theorem. Let $q = p^f$ in what follows where $p$ is a prime.
 
 
 \begin{defn}
@@ -824,17 +825,48 @@ Let $\{ - \}$ denote the fractional part of a real number. Then define the funct
 \[ s\left( v \right) = (p-1) \sum_{i = 0}^{f-1} \left\{ \frac{p^i v}{q - 1} \right\} \]
 \end{defn}
 
+\begin{lemma}
+If $v$ is an integer and $v \le q-1$ then suppose we write the $p$-adic digits of $v$,
+\[ v = a_0 + a_1 p + \cdots + a_{f-1} p^{f-1} \]
+Then,
+\[ s(v) = \sum_{i = 0}^{f-1} a_i \]
+\end{lemma}
+
+\begin{proof}
+Recall that if $n$ is an integer then,
+\[ \left\{ \frac{n}{q-1} \right\} = \frac{n \mod (q-1)}{q-1} \]
+Furthermore, if we work mod $q-1$ then $p^i v$ has $p$-adic digits which are a cyclic permutation of $v$ indeed,
+\[ p^i v \equiv a_0 p^i + a_1 p^{i+1} + \cdots + a_{f-i} + a_{f-i+1} p + \cdots + a_{f-1} p^{i-1} \mod (q-1) \]
+Therefore,
+\[ \sum_{i = 0}^{f-1} \left\{ \frac{p^i v}{q - 1} \right\} = \frac{1}{q-1} \left( a_0 + \cdots + a_{f-1} \right) \left( 1 + p + p^2 + \cdots + p^{f-1} \right) \]
+since we sum over each cyclic permutation once. Therefore,
+\[ s(v) = \left( \sum_{i = 0}^{f-1} a_i \right) \cdot \frac{p-1}{q-1} \cdot (1 + p + p^2 + \cdots + p^{f-1} ) = \sum_{i = 0}^{f-1} \]
+\end{proof}
+
 
 \begin{theorem} \label{thm:gauss_fact_lang}[Lang's Algebraic Number Theory, IV.4, Theorem 10 (p.97)]
-Let $\mathfrak{p}$ be a prime lying over $p$ in $\Q(\zeta_{m})$ and let $\mathfrak{P}$ be a prime lying over $\mathfrak{p}$ in $\mathbb{Q}(\zeta_{m}, \zeta_p)$. Let $f$ be the order of $p$ modulo $m$ and $q = p^f$. Let $\chi$ be a character of $\FF = \FF_q$ such that
+Let $\mathfrak{p}_1, \dots, \mathfrak{p}_w$ where $w = \frac{\phi(m)}{f}$ be a prime lying over $p$ in $\Q(\zeta_{m})$ and let $\mathfrak{P}_1, \dots, \mathfrak{P}_w$ be the unique primes in $\mathbb{Q}(\zeta_{m}, \zeta_p)$ lying over the $\mathfrak{p}_i$. Let $f$ be the order of $p$ modulo $m$ and $q = p^f$. Let $\chi$ be a character of $\FF = \FF_q = \iO_{\Q(\zeta_m)} / \p$ such that
 \[\chi(a) \equiv a^{-(q-1)/m} \pmod{\mathfrak{p}}\]
+This means in our previous notation that $\chi = \chi_{1/m}$ for some choice of generator.
 Then for any integer $r \ge 1$ we have:
-\[\tau\left(\chi^r\right) \sim \mathfrak{P}^{\alpha(r)}\]
+\[ g\left(\chi^r\right) \sim \mathfrak{P}_1^{D_1} \cdots \mathfrak{P}_w^{D_r} \]
 where 
+\[ D_i = s\left(\frac{(q-1)\mu_i r}{m}\right)\sigma_{\mu}^{-1}\]
+where $\mu_i \in (\Z / m \Z)^\times$ are elements that generate the $w$ different cosets of $\left< p \right> \subset (\Z / m \Z)^\times$. Any choice of $\mu_i$ in these cosets will give the same answer. Rearranging these cosets corresponds to rearranging the primes $\p_1, \dots, \p_w$. 
+\end{theorem}
+
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fP}{\mathfrak{P}}
+
+\begin{remark}
+In Lang's book he writes everything in a more invariant way that doesn't require a choice of the ordering of the primes and hence a compatible ordering of the cosets. He does this by using the Galois group $\Gal{\Q(\zeta_m)/\Q}$ which is canonically identified with $(\Z / m \Z)^\times$. For each $\mu \in (\Z / m \Z)^\times$ there is a corresponding $\sigma_\mu$ which acts via $\zeta_m \mapsto \zeta_m^\mu$. Furthermore, this element lifts to the Galois group of the composiiton since by the Chinese remainder theorem this Galois group is $(\Z / m \Z)^\times \times (\Z / p \Z)^\times$ in a canonical way. Fix one prime $\fp$ of $\Q(\zeta_m)$ over $p$ and one prime $\fP$ of $\Q(\zeta_m, \zeta_p)$ over $\fp$.
+Then for any integer $r \ge 1$ we have:
+\[ g\left(\chi^r\right) \sim \mathfrak{P}^{\alpha(r)}\]
+where $\alpha(r)$ is an element of the group algebra $\Z[\Gal{\Q(\zeta_m, \zeta_p))/\Q}]$ defined as,
 \[\alpha(r) = \frac{1}{f}\sum_{\mu} s\left(\frac{(q-1)\mu r}{m}\right)\sigma_{\mu}^{-1}\]
 where the summation runs over all $0 < \mu < p-1$ relatively prime to $p-1$ and where $s(v)$ is the sum of the digits of the $p$-adic expansion of $v$ modulo $q - 1$. Furthermore, if $\mu, \mu'$ are such that $\sigma_{\mu}^{-1}\mathfrak{P} = \sigma_{\mu'}^{-1}\mathfrak{P}$ then
 \[s\left(\frac{(q-1)\mu r}{m}\right) = s\left(\frac{(q-1)\mu' r}{m}\right)\]
-\end{theorem}
+\end{remark}
 
 
 \begin{remark} If $f = 1$, then $\sigma_{\mu}^{-1} \mathfrak{P}$ is distinct for all $\mu\in(\Z/m\Z)^{\times}$. In general, by cyclotomic reciprocity, there are $\frac{\phi(m)}{f}$ distinct values of $\sigma_{\mu}^{-1} \mathfrak{P}$ as $\mu$ ranges over all the elements of $(\Z/m\Z)^{\times}$
@@ -904,7 +936,5 @@ over $\FF_w$. Finally suppose that $w$ is a primitive root modulo both $p$ and $
 \end{enumerate}
 
 \printbibliography
-
-\end{document}
 
 \end{document}

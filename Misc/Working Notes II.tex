@@ -13,6 +13,8 @@
 \newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
 \newcommand{\AbGrp}{\mathbf{AbGrp}}
 
+\newcommand{\fPic}{\mathrm{Pic}}
+
 \begin{document}
 
 \section{Picard Scheme}
@@ -45,7 +47,6 @@ $f$ admits a rigidifying subscheme meaning a closed subscheme $Y \subset X$ whic
 is injective.  
 \end{prop}
 
-\newcommand{\fPic}{\mathrm{Pic}}
 
 \begin{defn}
 Let $Y \embed X$ be a rigidifying subscheme. Then we define the rigidified Picard  functor,
@@ -69,7 +70,7 @@ There is an exact sequence of fppf sheaves of abelian groups,
 0 \arrow[r] & V_X^\times \arrow[r] & V_Y^\times \arrow[r] & \fPic_{X/S} \arrow[r] & \fPic_{X/S|Y} \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-where the last map forgets the rigidification. It is surjective in the fppf topology because by definition any class in $\Pic_{X/S}$ is fppf locally represented by a line bundle.
+where the last map forgets the rigidification. It is surjective in the fppf topology because by definition any class in $\fPic_{X/S}$ is fppf locally represented by a line bundle.
 \end{prop}
 
 \begin{theorem}[8.3.3]
@@ -85,4 +86,89 @@ Let $s \in S$ be a point such that $H^2(X_s, \struct{X_s}) = 0$. Then there is a
 Now suppose that $f$ has relative dimension $1$ and has geometrically connected fibers.
 
 
+\section{Overview of the Proof}
+
+\newcommand{\gon}{\mathrm{gon}}
+
+\begin{defn}
+Let $C/k$ be an integral curve over a field $k$. Then the \textit{gonality} of $C$ is the smallest degree of a finite map $C \to \P^1$ \textit{over} $k$. The \textit{geometric gonality} of $C$ is the maximum of the gonality over $\bar{k}$ of the irreducible components of $C_{\bar{k}}$. 
+\end{defn}
+
+\begin{lemma}
+Let $f : X \to B$ be a proper morphism of relative dimension $1$ between normal varities.
+\end{lemma}
+
+\begin{lemma}
+Let $f : X \to B$ a proper morphism of relative dimension $1$ of varities over a perfect field $k$ whose generic fiber is a smooth connected curve. Let $n = \dim{X}$. Suppose there is a line bundle $\L \embed \Omega_X^{n-1}$ whose sections separate $d$ general points on $X$. Then the general fiber of $f$ has gonality $> d$.
+\end{lemma}
+
+\begin{proof}
+We can shrink $B$ such that the base and the map are smooth. Choose a general fiber $C \embed X$ which is a smooth irreducible curve. Therefore, there is an exact sequence,
+\[ 0 \to \C_{C|X} \to \Omega_{X}|_C \to \Omega_C \to 0 \]
+of vector bundles. Since $\Omega_C$ is a line bundle there is an exact sequence,
+\[ 0 \to \C_{C|X}^{n-1} \to \Omega^{n-1}_X|_C \to (\wedge^{n-2} \C_{C|X}) \ot \Omega_C \to 0 \]
+However, since $C$ is a fiber of $f$ we have $\C_{C|X} = \struct{X}^{n-1}$. Therefore, we get $n-1$ projection maps,
+\[ \L \to \Omega_X^{n-1}|_C \to \Omega_C \]
+which are all zero exactly if $\L \embed \Omega_X^{n-1}$ factors through $\C_{C|X}^{n-1}$ but these forms are constant along fibers so sections of $\L$ would not be able to separate any points on $C$. Therefore, one of the projections $\L \to \Omega_C$ is a nonzero map of line bundles hence injective meaning that,
+\[ H^0(C, \L) \to H^0(C, \Omega_C) \]
+must be injective. Since we chose $C$ generically $H^0(C, \L)$ and hence $H^0(C, \Omega_C)$ can separate $d$ general points on $C$. Therefore $\gon(C) > d$. 
+\end{proof}
+
+\newpage 
+
+\section{Meaning of Supersingular  on even cohomology}
+
+What does it mean to have a $\Frob$ eigenvalue $\alpha = \zeta q^{i/2}$. This happens exactly when $\Frob^n$ has an eigenvalue $(q^n)^{i/2}$. In other words an eigenvector with eigenvalue $\alpha = \zeta q^{i/2}$ is the same as a vector fixed under $\Frob^n / (q^n)^{i/2}$ for some $n$. By the Tate conjecture, these are classes should be algebraic cycles defined over $\FF_{q^n}$. Therefore, for $i$ even, the supersingular eigenspaces are exactly the set of ``potentially algebraic cycles'' meaning the cycles that are represented by cycle classes of varities defined over possibly lager fields. 
+
+\section{Characters}
+
+\newcommand{\lcm}{\mathrm{lcm}}
+
+We are considering the projective variety $X$ defined by the polynomial,
+\[ f = a_0 x_0^{n_0} + \cdots + a_r x_r^{n_r} \]
+Let $m = \lcm(n_0, \dots, n_r)$ and denote by $\mu_n$ the group of $n^{\text{th}}$-roots of unity in $\FF_q$. Then there is an action of the group,
+\[ \mu_{n_0} \times \cdots \times \mu_{n_r} \]
+on $X$. However, the map,
+\[ \mu_{n_0} \times \cdots \times \mu_{n_r} \to \Aut{X} \]
+is not injective since $X$ is defined as the quotient under the action,
+\[ \lambda \cdot (x_0, \dots, x_n) = (\lambda^{\frac{m}{n_0}} x_0, \dots, \lambda^{\frac{m}{n_r}} x_r) \] 
+therefore the kernel of the map 
+\[ \mu_{n_0} \times \cdots \times \mu_{n_r} \to \Aut{X} \]
+is exactly the image of
+\[ \mu_m \to \mu_{n_0} \times \cdots \times \mu_{n_r} \]
+under the map 
+\[ \lambda \mapsto (\lambda^{\frac{m}{n_0}}, \dots, \lambda^{\frac{m}{n_r}}) \]
+Therefore, we get a map,
+\[ G = (\mu_{n_0} \times \cdots \times \mu_{n_r})/\mu_m \to \Aut{X} \]
+Since $G \acts X$ by functoriality it also acts on the middle cohomology,
+\[ G \acts H^{r-1}_{\et}(X, \Q_\ell) \]
+Then $G$ is abelian so its irreducible representations are all one-dimensional characters. Therefore, we get a decomposition into spaces on which $G$ acts through a given character,
+\[ H^{r-1}_{\et}(X, \Q_\ell) = \bigoplus_{\chi \in \wh{G}} H^{r-1}_{\et}(X, \Q_\ell)(\chi) \]
+Weil proved that in our case for each character $\chi$ we have,
+\[ \dim H^{r-1}_{\et}(X, \Q_\ell)(\chi) \le 1 \]
+Furthermore, since $G$ acts by automorphisms and the action of $\Frob$ is natural meaning that the action of $\Frob$ and $G$ commute. Therefore, $\Frob$ preserves the irreducible decomposition of $G$. Since each factor is $1$-dimensional, 
+\[ \Frob \acts H^{r-1}_{\et}(X, \Q_\ell) \]
+is just multiplication by a corresponding $\Frob$ eigenvalue $\alpha_{\chi}$. Furthermore, since if $[Z]$ is the class of a subvariety then $g \cdot [Z] = [g \cdot Z]$ so the action of $G$ preserves the algebraic cycles. Therefore,
+\[ H_{\text{alg}}^{2i}(X, \Q_\ell) \subset H^{2i}_{\et}(X, \Q_\ell) \]
+is a $G$-subrepresentation. Therefore, since each character space is $1$-dimensional then the space of algebraic cycles is a sum of a subset of the characters. These are exactly the ``algebraic characters''. By the Tate conjecture, they are also the ``supersingular characters'' i.e. those characters such that $\alpha_{\chi} = \zeta q^{i/2}$. 
+\bigskip\\
+Now we need to make the connection to the set $A_{\ul{n}, q^f}$. To do this, we fix compatible isomorphisms $\mu_n \cong \mu_n(\CC)$ for each $n$ dividing $q^f - 1$ (recall that $f = \ord_m(q)$. This just amounts to a choice of generator $g \in \FF_{q^f}^\times$ which we identify with $\zeta_{q^f-1} = e^{\frac{2 \pi i}{q^f - 1}}$. Now for each $i$ and a character,
+\[ \chi : \mu_{n_i} \to \mu_{n_i}(\CC) \]
+consider the map,
+\[ \FF_{q^f}^\times \to \mu_{n_i} \xrightarrow{\chi} \mu_{n_i}(\CC) \]
+where the map is,
+\[ x \mapsto x^{\frac{q^f - 1}{n_i}} \mapsto \chi(x^{\frac{q^f - 1}{n_i}}) \]
+This gives a map,
+\[ \wh{G} \to \Hom{}{(\FF_{q^f}^\times)^{r+1}}{\CC^\times} \]
+The compatible isomorphism then enters when we identify,
+\[ \wh{G} = \{ (a_0, \dots, a_r) \mid a_i \in (\Z / n_i \Z) \text{ and } (m/n_0) a_0 + \cdots + (m/n_r) a_r \equiv 0 \mod m \} \]
+By definition, the character corresponding to $a = 1$ is given by taking the generator of $\mu_{n_i}$ which is $g^{\frac{q^f - 1}{n_i}}$ and sending to the generator of $\mu_{n_i}(\CC)$ which is $\zeta_{n_i}$ hence the corresponding character of $\FF_{q^f}^\times$ is defined on the generator by
+\[ g \mapsto \zeta_{n_i} \]
+which corresponds to $\alpha_i = \frac{1}{n_i}$ as we defined previously. Therefore, this identification of $\wh{G}$ shows that its image in $\Hom{}{(\FF_{q^f}^\times)^{r+1}}{\CC^\times}$ is almost the set $A_{\ul{n},q^f}$. Notice we have ``explained'' where the sum condition comes from but not the conditional $0 < \alpha_i < 1$ i.e. corresponding to a condition that all $a_i \neq 0$. To do this let,
+\[ \wh{G}^{\text{prim}} \subset \wh{G} \]
+be the subset where $\chi$ is nontrivial when restricted to each $\mu_{n_i} \to G$. The the image of,
+\[ \wh{G}^{\text{prim}} \to \Hom{}{(\FF_{p^f}^\times)^{r+1}}{\CC^\times} \]
+is exactly the set $A_{\ul{n}, q^f}$. The reason geometrically for considering only primitive characters is, it turns out, 
+\[ \dim H^{r-1}_{\et}(X, \Q_\ell)(\chi) = 1 \]
+exactly for the primitive characters and is zero otherwise. 
 \end{document}
