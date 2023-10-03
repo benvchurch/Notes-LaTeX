@@ -12,24 +12,56 @@
 
 \begin{document}
 
-\section{Introduction}
+\newcommand{\Ad}{\mathrm{Ad}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\Hod}{\mathrm{Hod}}
 
-Study the rep theory of $\pi_1(X(\CC))$. How ordinary Hodge theory of $H^1$ is the $r = 1$ case of this.
+\section{Introduction}
+Our goal is to understand which groups arise as the fundamental group of a smooth complex variety $\pi_1(X(\CC))$. This is a daunting task. To limit our scope very slightly, we study the complex representation theory of $\pi_1(X(\CC))$. 
+Let us consider a representation,
+\[ \rho : \pi_1(X(\CC)) \to \GL_r(\CC) \]
+Orginary Hodge theory provides a description the deformation space of $1$-dimensional representations. Indeed, for $r = 1$ we are asking about characters,
+\[ \pi_1(X(\CC)) \to \CC^\times \]
+A deformation of this character is given by,
+\[ \Hom{}{\pi_1(X(\CC))}{\CC} = H^1(X, \CC) = H^1(X, \struct{X}) \oplus H^0(X, \Omega) \]
+Therefore we get a decomposition of the tangent space into two directions: the first represents the deformations of a holomorphic line bundle and the second the deformations of a holomorphic $1$-form. Furthermore, we can say that given a character $\pi_1(X(\CC)) \to \CC^\times$ this defines a local system and hence a line bundle $\L$ and the above decomposition relates to the deformations of $\L$ and of a $1$-form. 
+\bigskip\\
+Non-abelian Hodge theory generalizes this decomposition for the spaces,
+\[ H^1(\pi_1(X(\CC)), \GL_r(\CC)) := \Hom{}{\pi_1(X(\CC))}{\GL_r(\CC)} / \GL_r(\CC) \]
+which we interpret as the set $\CC$-points of a moduli space of representations. At a given representation $\rho : \pi_1(X(\CC)) \to \GL_r(\CC)$ defining a local system this defines a vector bundle $E$ and non-abelian Hodge theory gives an analogous decomposition of the tangent space at $\rho$ in terms of $E$,
+\[ T_{[\rho]} M_B :=  H^1(X, \End{E}) \oplus H^0(X, \End{E} \ot \Omega^1) \]
+The first term again parametrizes the deformations of $E$ while the second term involves $1$-forms.
+Notice that unlike the case $r = 1$, this decomposition is not globally a direct sum since the factors depend on $E$ in a nontrivial way. We should think of the right-hand-side as the tangent space to a moduli space of new objects called Higgs bundles which are vector bundles along with an extra $1$-form structure. Then we get a correspondence between representations and Higgs bundles. Often people write schematically to show the connection to Hodge theory,
+\[ ``H^1(\pi_1(X(\CC)), \GL_r) =  H^1(X, \GL_r) \oplus H^0(X, \GL_r \ot \Omega^1)'' \]
+I would not take this statement or notation very seriously. On tangent spaces this becomes precise as an isomorphism,
+\[ H^1(\pi_1(X(\CC)), \Ad{\rho}) = H^1(X, \End{E}) \oplus H^0(X, \End{E} \ot \Omega^1) \]
+
+\begin{rmk}
+The identification of $H^1(\pi_1, \Ad{\rho})$ with the tangent space at $[\rho]$ of the character variety is as follows. We deform the map $\rho : \pi \to \GL_r$ via,
+\[ \gamma \mapsto (1 + \epsilon \eta(\gamma)) \cdot \rho(\gamma) \]
+where $\eta(\gamma) \in \gl_r$ and the second term forms a right-invariant vector field. Then we require,
+\[ \gamma_1 \gamma_2 \mapsto [(1 + \epsilon \eta(\gamma_1)) \cdot \rho(\gamma_1)][(1 + \epsilon \eta(\gamma_2)) \cdot \rho(\gamma_2)] = (1 + \epsilon \eta(\gamma_1 \gamma_2)) \cdot \rho(\gamma_1 \gamma_2) \]
+and hence,
+\[ \eta(\gamma_1 \gamma_2) = \eta(\gamma_1) + \rho(\gamma_1) \eta(\gamma_2) \rho(\gamma_1^{-1}) \]
+meaning that $\eta$ is a crossed-hom for the adjoint action. Furthermore, a deformation is induced by the conjugation action if there exists $B \in \gl_r$ such that,
+\[ \gamma \mapsto (1 + \epsilon B) \rho(\gamma) (1 + \epsilon B)^{-1} = \rho(\gamma) + \epsilon [B \rho(\gamma) - \rho(\gamma) B] = (1 + \epsilon [B - \rho(\gamma) B \rho(\gamma)^{-1}]) \cdot \rho(\gamma) \]
+theremore meaning exactly that $\eta$ is a principal crossed homomorphism for the adjoint action.
+\end{rmk}
 
 \section{Higgs Bundles}
 
 In this section we work on a smooth variety $X$.
 
 \begin{defn}
-A \textit{Higgs} bundle is a pair $(\E, \phi)$ where $\E$ is a vector bundle and $\phi$ is a $\struct{X}$-linear map,
+A \textit{Higgs bundle} is a pair $(\E, \phi)$ where $\E$ is a vector bundle and $\phi$ is a $\struct{X}$-linear map,
 \[ \phi : \E \to \E \ot_{\struct{X}} \Omega_X^1 \]
 such that $\phi \wedge \phi = 0$.
 \end{defn}
 
 \begin{rmk}
 We should define the notation $\phi \wedge \phi$. Such a linear map is equivalent to a section of,
-\[ \phi \in \Gamma(X, \End{\E} \ot_{\struct{X}} \Omega^1_X \]
-This is a sheaf of $\struct{X}$-algebras under the following operation,
+\[ \phi \in \Gamma(X, \End{\E} \ot_{\struct{X}} \Omega^1_X) \]
+We endow $\End{\E} \ot_{\struct{X}} \Omega^\bullet_X$ with the structure of a sheaf of graded $\struct{X}$-algebras under the following operation,
 \[ (\varphi_1 \ot \omega_1, \varphi_2 \ot \omega_2) \mapsto (\varphi_1 \circ \varphi_2) \ot (\omega_1 \wedge \omega_2) \]
 then extended $\struct{X}$-linearly. This operation is denoted $\wedge$. However, do not let this mislead you into thinking that $\wedge$ is antisymmetric since if $\rank{\E} > 1$ then the composition in $\End{\E}$ is noncommutative. Hence $\phi \wedge \phi = 0$ is a nontrivial condition when $\E$ has rank at least $2$.
 \end{rmk}
@@ -81,9 +113,392 @@ The previous calculation shows that a $t$-connection is a gadget that interpolat
 \{ t = 0 \} \arrow[r, hook] & \A^1 & \{ t = 1 \} \arrow[l, hook] 
 \end{tikzcd}
 \end{center}
-so we get a moduli space $\M_{\text{Hod}}(X)$ of flat $t$-connections $(t, \E, \nabla)$ with a $\Gm$-equivariant map,
+so we get a moduli space $\M_{\Hod}(X)$ of flat $t$-connections $(t, \E, \nabla)$ with a $\Gm$-equivariant map,
 \[ \M_{\text{Hod}}(X) \to \A^1 \quad \quad (t, \E, \nabla) \mapsto t \]
 where the $\Gm$-acts via,
 \[ \lambda \cdot (t, \E, \nabla) = (\lambda t, \E, \lambda \nabla) \]
+
+\section{Variation of Hodge Structures}
+
+We have seen that a Higgs bundle is morally a ``linearized connection''. These arise from the somewhat artificial construction of a $t$-connection. However, they also arise from a much more natural object: a polarized $\CC$-variation of Hodge structures. 
+
+\begin{defn}
+A \textit{complex variation of Hodge structures of weight} $k$ over a algebraic (or analytic) variety $S$ is the data $(V, V^{p,q})$ of,
+\begin{enumerate}
+\item a $\CC$-local system $V$
+\item analytic subbundles $V^{p,q}$ of $V \ot \struct{S}$ with $p + q = k$
+\end{enumerate}
+such that,
+\begin{enumerate}
+\item for each $s \in S$,
+\[ V_s = \bigoplus_{p+q=k} V^{p,q}_s \]
+\item the subbundles,
+\[ F^p := \bigoplus_{i \ge p} V^{i, k - i} \]
+are holomorphic and,
+\[ \ol{F}^q := \bigoplus_{i \le k-q} V^{i, k-i} \]
+is anti-holomorphic
+\item let $\nabla$ be the flat connection induced on $V \ot \struct{S}$. Then,
+\[ \nabla_X F^p \subset F^{p-1} \quad \nabla_X \ol{F}^q \subset \ol{F}^{q-1} \]
+for any local vectorfield $X$. 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+In the case of a $\Z$ or $\Q$ or $\RR$-variation of Hodge structures where we have a real structure on the vectorspace the data of $F^p$ alone is sufficient to determine the Hodge structure since $\ol{F}^p$ is the complex conjugate and $V^{p,q} = F^p \cap \ol{F}^q$. However, without the $\RR$ structure we cannot recover $\ol{F}^q$ from $\ol{F}^p$.
+\end{rmk}
+
+We abuse notation by letting $V$ refer to both the underlying local system and the holomorphic vector bundle $V \ot \struct{S}$ and the underlying $C^{\infty}$-vector bundle.
+
+\begin{defn}
+A \textit{polarization} of a complex variation of Hodge structure $(V, V^{p,q})$ is a Hermitian form $\psi : V \ot V \to \CC$ which is parallel for the flat connection $\nabla$ satisfying the so-called Riemann bilinear relations:
+\begin{enumerate}
+\item the decomposition,
+\[ V = \bigoplus_{p+q = k} V^{p,q} \]
+is orthogonal for $\psi$
+\item $(-1)^{p-k} \psi$ is positive definite on $V^{p,q}$
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Note that usually a polarization is given in terms of a bilinear form $Q$ such that $\psi(u,v) = Q(u,h(i) \bar{v})$ a definite Hermitian form on each $V^{p,q}$ for which the Hodge decomposition is orthogonal.
+\end{rmk}
+
+\begin{prop}
+Let $(V, V^{p,q}, \nabla, \psi)$ be a complex polarized variation of Hodge structures. Then, the maps,
+\[ \nabla : F^p / F^{p+1} \to (F^{p-1} / F^{p}) \ot \Omega^1_S \] 
+are linear because if $f$ is a local section of $F^p$ then $\nabla(sf) = s \nabla f + f \ot \d{s}$ but $f \ot \d{s}$ is a section of $F^p \ot \Omega_S^1$ and hence zero in the quotient. Furthermore, since $F^p / F^{p+1} = V^{p,k-p}$ we get linear maps,
+\[ \theta^p : V^{p,k-p} \to V^{p-1,k-p+1} \ot \Omega^1_S \]
+which define a Higgs field $\theta$ on $V$. This defines a \textit{graded Higgs bundle} 
+\end{prop}
+
+\begin{rmk}
+The vector bundles $E^{p,q} = F^p / F^{p+q}$ are holomorphic. However, the identification $V^{p,q} = F^p / F^{p+q}$ is not holomorphic in the sense that $F^p / F^{p+q} \embed V$ is not necessarily a map of holomorphic vector bundles.
+\end{rmk}
+
+
+\begin{defn}
+A graded Higgs bundle $\big( \bigoplus\limits_{i+j = k} E^{i,j}, \theta \big)$ is a Higgs bundle on a graded holomorphic vector bundle,
+\[ E = \bigoplus_{i + j = k} E^{i,j} \]
+where the Higgs field $\theta$ is the sum of linear maps,
+\[ \theta^i : E^{i,j} \to E^{i-1,j+1} \ot \Omega^1_S \]
+\end{defn}
+
+
+One of the main theorems of Hitchin and Simpson shows that this construction can be reversed. The graded Higgs bundle contains all of the information in the polarized variation of Hodge structures. 
+
+\begin{theorem}[Simpson, Hitchin]
+The functor,
+\[ \left\{ \text{complex polarized VHS } (V, V^{p,q}, \nabla, \psi) \right\} \xrightarrow{\mathrm{Gr}_{F^\bullet}} \left\{ \text{graded Higgs bundles } \big( \bigoplus_{i+j = k} E^{i,j}, \theta \big) \right\} \]
+is an equivalence of categories onto the subcategory of polystable graded Higgs bundles with trivial chern classes.
+\end{theorem}
+
+\section{Stability Conditions}
+
+We fix an ample class $H$ on $X$ (or as Simpson does, fix a Kahler class on $X$).
+
+\begin{defn}
+The slope of a torsion-free coherent sheaf $\F$ is,
+\[ \mu(\F) := \frac{c_1(\F) \cdot H^{n-1}}{\rank{\F}} \]
+\end{defn}
+
+\begin{defn}
+A subsheaf $\F \subset E$ of a Higgs bundle $(E, \phi$) is $\phi$-\textit{stable} if $\phi(\F) \subset \F \ot \Omega^1_X$.
+\end{defn}
+
+\begin{defn}
+We say that a Higgs bundle $(E, \psi)$ is,
+\begin{enumerate}
+\item (semi)-stable if for all $\phi$-stable coherent subsheaf $0 \subsetneq \F \subsetneq E$ then $\mu(\F) < \mu(E)$ (resp. $\le$)
+\item polystable if it is a direct sum of stable Higgs bundles of the same slope.
+\end{enumerate}
+\end{defn}
+
+\section{Moduli Spaces}
+
+\newcommand{\Dol}{\mathrm{Dol}}
+
+There are three Moduli problems we are concerned with:
+\begin{enumerate}
+\item  $\M_B(X)$ the moduli of local systems (representations of $\pi_1(X(\CC))$)
+\item $\M_{\dR}(X)$ the moduli of vector bundles with flat connection
+\item $\M_{\Dol}(X)$ the moduli of Higgs bundles 
+\end{enumerate}
+
+The first two are related by the Riemann-Hilbert correspondence. We saw that there was a degeneration $\M_{\dR} \spto \M_{\Dol}$ so we should expect that their underlying topological spaces might be related. It will be more convenient to work in terms of the GIT coarse space (the corresponding good moduli spaces of these moduli stacks). 
+
+\begin{theorem}
+There exist homeomorphisms (diffeomorphisms over the smooth loci) of the coarse moduli spaces,
+\[ M_{\Dol}^{ss} \cong_h M_B^{ss} \cong M_{\dR} \]
+where $M_B^{ss}$ coarse space parametrizing semisimple representations and $M_{\Dol}^{ss}$ is the coarse space of semistable Higgs bundles. Morover, this restricts to homeomorphisms,
+\[ M_{\Dol}^{s} \cong_h M_B^{+} \cong M_{\dR}^{+} \]
+where $M_B^{+}$ is the fine character variety of irreducible representations and $M_{\Dol}^{s}$ is the fine moduli space of stable Higgs bundles\footnote{These moduli spaces are fine since the stable/irreducible objects have non-scalar automorphisms} and $M_{\dR}^{+}$ is the fine moduli space of irreducible vector bundles with flat connections.
+\end{theorem}
+
+\begin{rmk}
+The second map $M_B \cong M_{\dR}$ is an isomorphism of complex analytic spaces (it is not algebraic) via the Riemann-Hilbert correspondence. However, the maps $M_{\Dol}^{ss} \to M_B^{ss}$ are not. Transporting the complex structure on $M_B^{ss}$ to $M_{\Dol}^{ss}$ gives an additional complex structure $J$ in addition to the natural complex structure $I$ on $M_{\Dol}^{ss}$. These are not equal. In fact, we will show that $IJ = -JI$. Therefore if $K = IJ$ then $I,J,K$ form a representation of the quaternions and hence $M_{\Dol}^{ss}$ becomes a hyperkahler manifold.
+\end{rmk}
+
+\subsection{The Correspondence}
+
+
+\newcommand{\dbar}{\bar{\partial}}
+\newcommand{\hol}{\mathrm{hol}}
+
+We want to describe a map $M_{\dR} \to M_{\Dol}$. 
+\bigskip\\
+Let $(E, \nabla)$ be a flat vector bundle. We choose a hermitian metric $h$ on $E$. Then there is a unique decomposition,
+\[ \nabla = \nabla_h + \Psi \]
+where $\nabla_h$ satisfies $\nabla_h h = 0$ and $\Psi$ is self-adjoint for $h$. Then we get a Higgs bundle,
+\[ (E, \dbar_E = \nabla_h^{0,1}, \Phi = \Psi^{1,0}) \]
+as long as $(\nabla_h^{0,1})^2 = 0$  and $\dbar_E \Phi = 0$. These both follow from the flatness $\nabla^2 = 0$. Indeed,
+\[ F_{\nabla_h} + \nabla \Psi + \Psi \wedge \Psi = 0 \] 
+\bigskip\\
+Going backward, if we start with $(E, \dbar_E, \phi)$ then we need to recover $\nabla = \nabla_h + \Psi$. Let's assume we can recover the metric $h$ on $E$ that we used in the other direction. Then $\nabla_h$ is just the Chern connection and $\Psi^{0,1} = \psi$ but $\Psi$ is self-adjoint so $\Psi = \psi + \psi^{\dagger}_h$. Therefore,
+\[ \nabla = \nabla_h + \psi + \psi^{\dagger}_h \]
+Then the integrability condition becomes,
+\[ F_{\nabla} = F_{\nabla_h} + [\psi, \psi^{\dagger}_h] = 0 \]
+This is called the \textit{Hitchin equation}. We will need to show that there exists a metric that solves this equation. 
+
+\section{$G$-Higgs Bundles}
+
+What we have defined so far is a $\GL_r$-Higgs bundle since its underlying structure is a vector bundle i.e. a principle $\GL_r$-vector bundle. We can generalize this to any connected reductive group $G$. 
+
+
+\newcommand{\ad}{\mathrm{ad}}
+\newcommand{\g}{\mathfrak{g}}
+
+\begin{defn}
+Let $P$ be a principal $G$-bundle and $\ad(P) = P \times_{\ad} \g$ the adjoint bundle. Define an operation $[-,-]$ endowing $\ad(P) \ot \Omega^{\bullet}_X$ with the structure of a sheaf of graded $\struct{X}$-algebras by,
+\[ (\xi_1 \ot \omega_1, \xi_2 \ot \omega_2) = [\xi_1, \xi_2] \ot (\omega_1 \wedge \omega_2)  \]
+\end{defn}
+
+\begin{defn}
+A $G$-Higgs bundle is a pair $(P, \Phi)$ of a principal $G$-bundle and a section,
+\[ \Phi \in H^0(X, \ad(P) \ot \Omega_X^1) \quad \text{ such that } \quad [\Phi, \Phi] = 0 \]
+\end{defn}
+
+\section{References}
+
+
+\section{Harmonic Bundles}
+
+We should first disambiguate ''vector bundle with flat connection''. On a holomorphic vector bundle $E$ we could have two notions of a flat connection: a holomorphic connection which is a map,
+\[ \E_{\hol} \to \E_{\hol} \ot (\Omega^1_X)_{\hol} \]
+satisfing the flatness condition,
+or a connection on the underlying smooth vector bundle,
+\[ \E_{C^{\infty}} \to \E_{C^{\infty}} \ot (\Omega^1_X)_{C^{\infty}} \]
+which satisfies an identical flatness condition. It is clear that the former induces the later. Much more surprisingly, this is a bijection between these two types of connections (using flatness in an essential way here!). 
+\bigskip\\
+Indeed if $(E, \nabla)$ is a vector bundle with a flat connection we first claim that $E$ has a canonical holomorphic structure for which $\nabla$ is compatible. Indeed, a holomorphic structure on $E$ is uniquely determined by an operator $\dbar_E : \cA^0(E) \to \cA^{0,1}(E)$ satisfying the Leibnitz law and $(\dbar_E)^2 = 0$ so we set $\dbar_E = \nabla^{0,1}$. Since the curvature of $\nabla$ vanishes,
+\[ (\nabla^{1,0} + \nabla^{0,1})^2 = 0 \implies (\nabla^{1,0})^2 = (\nabla^{0,1})^2 = \nabla^{0,1} \circ \nabla^{1,0} + \nabla^{1,0} \circ \nabla^{0,1} = 0 \] 
+Therefore setting $\dbar_E = \nabla^{0,1}$ defines a holomorphic structure. Then I claim that $\nabla^{1,0}$ is a holomorphic connection. Indeed, we just need to check that if $s$ is a holomorphic section of $E$ then $\nabla^{1,0} s$ is a holomorphic section of $\Omega_X^1 \ot E$. However, $\nabla^{1,0} \circ \nabla^{0,1} + \nabla^{0,1} \circ \nabla^{1,0} = 0$ so applying this operator to $s$ and recalling that $\nabla^{0,1} s = 0$ by definition of a holomorphic section we get,
+\[ \nabla^{0,1} \circ \nabla^{1,0} s = 0 \]
+proving that $\nabla^{1,0} s$ is holomorphic. Thus $(E, \nabla)$ is equivalent to the data of a holomorphic vector bundle with a flat holomorphic connection.
+
+Note that we can package the data (holomorphic structure and Higgs field) of a Higgs bundle into a tripple $(E, \dbar_E, \phi)$ such that,
+\[ (\dbar_E + \phi)^2 = 0 \]
+
+\begin{defn}
+A \textit{hermitian bundle} is a pair $(E, h)$ of a complex (smooth) vectorbundle $E$ and a bilinar map $h : E \oplus E \to \CC$ which is fiberwise a hermitian metric.
+\end{defn}
+
+\begin{defn}
+Let $(E, h)$ be a hermitian bundle. We say that a connection $\nabla$ on $E$ is \textit{hermitian} or \textit{unitary} if $\nabla h = 0$. Expliticly, this means for any two local sections $s_1, s_2$ of $E$,
+\[ h(\nabla s_1, s_2) + h(s_1, \nabla s_2) = 0 \] 
+\end{defn}
+
+\begin{theorem}
+If $(E, h)$ is a holomorphic hermitian bundle there is a unique hermitian connection $\nabla$ compatible with the complex structure in the sense that $\nabla^{0,1} = \bar{\partial}_E$. We call $\nabla$ the \textit{Chern connection}.
+\end{theorem}
+
+
+
+\begin{theorem}
+\begin{enumerate}
+\item A flat bundle $V$ has a harmonic metric if and only if it is semisimple
+\item A Higgs bundle $E$ has a Hermitian-Yang-Mills metric if and only if it is polystable. 
+\item the Hermitian-Yang-Mills metric is harmonic if and only if $\ch_1(E) \cdot [\omega]^{\dim{X}-1} = 0$ and $\ch_2(E) \cdot [\omega]^{\dim{X}-2} = 0$.
+\end{enumerate}
+\end{theorem}
+
+Let $(E, \phi)$ be a Higgs bundle. We first choose a hermitian metric $h$ on $E$ which induces a Chern connection $\nabla_h$. The Chern connection will likely not be flat so we modify it by the Higgs field, $\nabla' := \nabla_h + \phi$. Computing the curvature gives,
+\[ F_{\nabla'} = F_{\nabla_h} + \nabla \phi + \phi \wedge \phi \]
+
+\section{Moduli Spaces of Vector Bundles and Higgs Bundles}
+
+\newcommand{\Isom}{\mathrm{Isom}}
+
+From now on let $S$ be a base scheme (the only important case this quarter will be $S = \Spec{\CC}$ but we may talk about $S = \Spec{\Q_p}$ or $\Spec{\FF_p}$ next quarter).
+
+\begin{defn}
+Let $X$ be an $S$-scheme and $r$ an integer. Then let $\M(X, r)$ be the stack fibered in groupoids over $\Sch_S$ with,
+\begin{enumerate}
+\item objects are pairs $(T, \E)$ where $T$ is an $S$-scheme and $\E$ is a vector bundle over $X_T$ of rank $r$ flat over $T$ (flatness is automatic if $X \to S$ is flat)
+\item morphisms are pairs $(f, \alpha) : (T, \E) \to (T', \E')$ of a morphism $f : T \to T'$ over $S$ and an isomophism $\alpha : (\id \times f)^* \E' \iso \E$.
+\end{enumerate} 
+\end{defn}
+
+\begin{theorem}
+If $X \to S$ is proper and of finite presentation then $\M(X, r)$ is an algebraic stack of finite presentation over $S$ with affine diagonal of finite presentation.
+\end{theorem}
+
+\renewcommand{\Coh}{\mathbf{Coh}}
+
+\begin{proof}
+In the stacks project the stack $\Coh_{X/S}$ of all coherent sheaves is consered for $X \to S$ finitely presented. This is the stack fibered in groupoids over $\Sch_S$ with,
+\begin{enumerate}
+\item objects are pairs $(T, \F)$ where $T$ is an $S$-scheme and $\F$ is a quasi-coherent $\struct{X_T}$-module of finite presentation, flat over $T$, with support proper over $T$
+\item morphism are pairs $(f, \alpha) : (T, \F) \to (T', \F')$ with $f : T \to T'$ and $\alpha : (\id \times f)^* \F' \iso \F$.
+\end{enumerate}
+A few remarks: we just require $\F$ to be of finite presentation rather than coherent (these are equivalent over noetherian test schemes) because it is preserved under base change. The properness condition is necessary for the automorphisms to be finite-dimensional\footnote{For example the stack $\X$ of all vector bundles of rank $r$ on $\A^1$ does not form an algebraic stack because it is limit-preserving since the a vector bundle on $(\ilim T_i) \times \A^1$ in an inverse system of affine schemes $\{ T_i \}$ is defined over some $T_i \times \A^1$ and the morphisms are given by the colimit by spreading out. Therefore, by Tag~\chref{https://stacks.math.columbia.edu/tag/0CXI}{0CXI} if $\X$ were algebraic then $\Delta_{\X}$ would be representable by locally finite type algebraic spaces hence the isomorphism schemes would be finite dimensional. However, the infinitesimal automorphisms of $\struct{X}$ on $\A^1$ is infinite dimensional.}
+The stacks project (e.g. Tag~\chref{https://stacks.math.columbia.edu/tag/09DS}{09DS}) checks Artin's axioms to prove that $\Coh_{X/S}$ is an algebraic stack over $S$ if $X \to S$ is separated and of finite presentation.
+\bigskip\\
+Now $\M(X, r) \subset \Coh_{X/S}$ is an open substack when $X \to S$ is additionally universally closed. Indeed, since $\F$ is flat over $T$ local freeness can be checked on fibers hence we just need to show that the locus on $T$ where $\F$ is locally free on the fiber is open and indeed since the locus where $\F$ on $X_T \to T$ is a vector bundle of rank $r$ is open on $X_T$ the locus on $T$ is open since the $X_T \to T$ is closed.
+\bigskip\\
+Moreover, $\Coh_{X/S} \to S$ is locally of finite presentation because it is limit preserving (one of Artin's axioms) which one shows via spreading out vector bundles. The diagonal is affine and finitely presented because the isom space,
+\[ \Isom(\F, \G) : T/S \mapsto \Isom_{T}(\F_T, \G_T) \]
+between fintely presented $\struct{X}$-modules is representable by a scheme affine and of finite presentation over $T$ (see Tag~\chref{https://stacks.math.columbia.edu/tag/08K9}{08K9}).
+\end{proof}
+
+Now we want to discuss the moduli of vector bundles with connections. We need the notion of a relative connection.
+
+\begin{defn}
+Let $f : X \to S$ be a morphism of schemes. Then an $S$-connection on a vector bundle $\E$ over $X$ is an $f^{-1} \struct{S}$-linear map,
+\[ \nabla : \E \to \Omega^1_{X/S} \ot \E \]
+satisfying the Leibnitz rule. The $f^{-1} \struct{S}$-linearity is automatic from the form of the Leibnitz law and the definition of $\Omega_{X/S}$.
+\end{defn}
+
+\begin{defn}
+Let $\M_{\dR}(X, r)$ be the stack fibered in groupoids over $\Sch_S$ with,
+\begin{enumerate}
+\item objects are $(T, \E, \nabla)$ where $T$ is an $S$-scheme and $\E$ is a vector bundle over $X_T$ of rank $r$ flat over $T$ and $\nabla$ is a flat $T$-connection on $\E$
+\item morphisms $(f, \alpha) : (T, \E, \nabla) \to (T', \E', \nabla')$ are pairs $f : T \to T'$ and $\alpha : (\id \times f)^* \E' \iso \E$ an isomorphism such that,
+\begin{center}
+\begin{tikzcd}
+(\id \times f)^* \E' \arrow[d, "\alpha"] \arrow[r, "\nabla'"] &  (\id \times f)^* \E' \ot \Omega_{X_T/T}^1 \arrow[d, "\alpha \ot \id"] 
+\\
+\E \arrow[r, "\nabla"] & \E \ot \Omega^1_{X_T/T}
+\end{tikzcd}
+\end{center}
+commutes\footnote{Given a morphism $f : X \to Y$ and a vector bundle $(\E, \nabla)$ with connection on $Y$ there is a pullback connection $(f^* \E, f^* \nabla)$ defined as the unique connection such that $(f^* \nabla) (f^* s) = f^* (\nabla s)$ }
+\end{enumerate}
+\end{defn}
+
+\renewcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\begin{lemma}
+Let $f : \X \to \Y$ be a morphism of algebraic stacks over $S$. Suppose that $\cP$ is a property of morphisms of algebraic stacks such that,
+\begin{enumerate}
+\item $\cP$ is preserved under base change and composition
+\item $\cP$ holds for $f$
+\item $\cP$ holds for $\Delta_{\Y/S}$
+\end{enumerate}
+then $\cP$ holds for $\Delta_{\X/S}$.
+\end{lemma}
+
+\begin{proof}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\X \arrow[d, "f"] \arrow[r, "\Delta_{\X/S}"] & \X \times_S \X \arrow[d, "f \times f"]
+\\
+\Y \arrow[r, "\Delta_{\Y/S}"] & \Y \times_S \Y
+\end{tikzcd}
+\end{center}
+Then factoring $\Delta_{\X/S}$ via the graph we see that $\Delta_{\X/S}$ is the composition of the base change of the diagonal of $f \times f$ and the base change of $(\Delta_{\Y/S} \circ f)$ all of which satisfy $\cP$.
+\end{proof}
+
+\begin{prop}
+Let $X \to S$ be proper and of finite presentation with $\Omega^1_{X/S}$ flat over $S$ (e.g. if $X \to S$ is smooth). Then $\M_{\dR}(X, r)$ is an algebraic stack of finite type over $S$ with affine diagonal.
+\end{prop}
+
+\begin{proof}
+We will show that the forgetful map $\M_{\dR}(X, r) \to \M(X, r)$ is affine and finite presentation (in particular representable). Then any smooth presentation of $\M(X,r)$ gives a smooth presentation of $\M_{\dR}(X, r)$ by base change. Then we apply the lemma with $\cP$ being ``affine and of finite presentation'' to the map $\M_{\dR}(X, r) \to \M(X, r)$. 
+\bigskip\\
+We need to show that for any test scheme $T \to \M(X, r)$ that $\M_{\dR}(X, r) \times_{\M(X, r)} T \to T$ is affine and of finite presentation. Indeed the test map fixes a vector bundle $\E$ on $X_T$ of rank $r$ and we need to consider the functor,
+\[ T'/T \mapsto \{ \nabla \text{ integrable } T'\text{-connection on } \E_{T'} \} \]
+To understand this, recall that $T'$-connections on $\E_{T'}$ correspond to sections of the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_{T'} \ot \Omega^1_{X_T'/T'} \arrow[r] & \cP^1_{X/S}(\E)_{T'} \arrow[r] & \E_{T'} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\nabla = j - \sigma$. Therefore, the integrable connections correspond to the pullback along,
+\[ \Hom{T'}{\E_{T'}}{\cP^1_{X/S}(\E)_{T'}} \to \Hom{T'}{\E_{T'}}{\E_{T'} \ot \Omega^2_{X'_T/T'}} \times \Hom{T'}{\E_{T'}}{\E_{T'}} \]
+of the section $(0, \id)$ (note the curvature map is nonlinear). Furthermore, these sheaves are all pulled back along $X_{T'} \to X_T$. Since the pullback of a section induces the pullback connection and $f^* F_{\nabla} = F_{f^* \nabla}$ so this is a map of sheaves. Then the functor is the pullback along,
+\[ \Hom{}{\E}{\cP^1_{X/S}(\E)_{T}} \to \Hom{}{\E}{\E \ot \Omega^2_{X_T/T}} \times \Hom{}{\E}{\E} \]
+but since these sheaves are finitely presented (since $X \to S$ is finitely presented), flat over $T$, and with proper support over $T$ these functors are representable by schemes (Tag~\chref{https://stacks.math.columbia.edu/tag/08K6}{08K6}) affine and finitely-presented over $T$ hence so is the pullback of $T$ along this map since the map is also affine and finitely presented.
+\end{proof}
+
+\begin{rmk}
+Taking moduli of relative connections is necessary if we want $\M_{\dR}$ to even be a stack! Indeed, the functor of all connections on $\E$ does not satisfy the fppf sheaf condition. Indeed this is for the same reason that $T \mapsto H^0(T, \Omega_T)$ is not a sheaf in the fppf topology in positive characteristic (it is a sheaf for the \etale and hence smooth topology). Interestingly in characteristic zero it is a sheaf in the $h$-topology restricted to smooth scheemes but not in general. However, more problematically $T \mapsto H^0(T, \Omega_T)$ is never representable. Indeed, the functor is limit preserving so its representing object would have to be finite type but it has exactly one closed point (lets work with the case $S = \Spec{\CC}$) but it has nontrivial maps from $\A^1$ so it cannot be represented by an Artin ring. 
+\end{rmk}
+
+Now we consider the moduli problem of $t$-connections. There are two ways one might approach this that boil down to the question: should the $k$-points of this moduli space allow for $t$ to be a function or should it take on a constant value e.g. if $X$ is a $t$-scheme over $k$ we could imagine a $k$-point corresponds to a $t$-connection over $X$. This is not what we want because it does equip our moduli space with a fibration over $\A^1$. Instead, we will let the $t$-scheme structure arise from the test scheme so the stack will be fibered over the category of $t$-schemes i.e. $\Sch_{\A^1_S}$. Categorically, this amounts to nothing more than chaning our base scheme from $S$ to $\A^1_S$. Then we can define the moduli problem.
+
+
+\begin{defn}
+Let $\M_{\Hod}(X, r)$ be the stack fibered in groupoids over $\Sch_{\A^1_S}$ with,
+\begin{enumerate}
+\item objects are $(T, \E, \nabla)$ where $T$ is an $\A^1_{S}$-scheme and $\E$ is a vector bundle over $X_T$ of rank $r$ flat over $T$ and $\nabla$ is a flat $t$-connection on $\E$ relative to $T$
+\item morphisms $(f, \alpha) : (T, \E, \nabla) \to (T', \E', \nabla')$ are pairs $f : T \to T'$ and $\alpha : (\id \times f)^* \E' \iso \E$ an isomorphism such that,
+\begin{center}
+\begin{tikzcd}
+(\id \times f)^* \E' \arrow[d, "\alpha"] \arrow[r, "\nabla'"] &  (\id \times f)^* \E' \ot \Omega_{X_T/T}^1 \arrow[d, "\alpha \ot \id"] 
+\\
+\E \arrow[r, "\nabla"] & \E \ot \Omega^1_{X_T/T}
+\end{tikzcd}
+\end{center}
+commutes\footnote{Given a morphism $f : X \to Y$ and a vector bundle $(\E, \nabla)$ with connection on $Y$ there is a pullback connection $(f^* \E, f^* \nabla)$ defined as the unique connection such that $(f^* \nabla) (f^* s) = f^* (\nabla s)$ }
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Because the $t$-parameter arises from a map $T \to \A^1$ and the $t$-connection is relative to $T$ we treat $t$ like a constant when applying $\nabla$ there is no $\d{t}$ term that appears.
+\end{rmk}
+
+\begin{prop}
+Let $X \to S$ be proper and of finite presentation with $\Omega^1_{X/S}$ flat over $S$ (e.g. if $X \to S$ is smooth). Then $\M_{\Hod}(X, r)$ is an algebraic stack of finite type over $S$ with affine diagonal.
+\end{prop}
+
+\begin{proof}
+As before, we will show that the forgetful map $\M_{\Hod}(X, r) \to \M(X, r) \times \A^1_S$ is affine and finite presentation (in particular representable). 
+We need to show that for any test $t$-scheme $T \to \M(X, r)$ that $\M_{\dR}(X, r) \times_{\M(X, r)} T \to T$ is affine and of finite presentation. Indeed this fixes the data $(T, t, \E)$ where $\E$ is a vector bundle on $X_T$ of rank $r$ and $t : T \to \A^1_S$. We need to show that the functor,
+\[ T'/T \mapsto \{ \nabla \text{ integrable } t\text{-connection on } \E_{T'} \text{ over } T' \} \]
+is representable. To understand this, check that $t$-connections on $\E_{T'}$ over $T'$ correspond not to sections of,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_{T'} \ot \Omega^1_{X_T'/T'} \arrow[r] & \cP^1_{X/S}(\E)_{T'} \arrow[r] & \E_{T'} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but to maps $\sigma$ such that $\pi \circ \sigma = t$ is the multiplication by $t$ map 
+where we set $\nabla = t \cdot j - \sigma$.  Therefore, the integrable connections correspond to the pullback along,
+\[ \Hom{T'}{\E_{T'}}{\cP^1_{X/S}(\E)_{T'}} \to \Hom{T'}{\E_{T'}}{\E_{T'} \ot \Omega^2_{X'_T/T'}} \times \Hom{T'}{\E_{T'}}{\E_{T'}} \]
+of the section $(0, t)$. Furthermore, these sheaves are all pulled back along $X_{T'} \to X_T$. Since the pullback of a section induces the pullback connection and $f^* F_{\nabla} = F_{f^* \nabla}$ so this is a map of sheaves. Therefore the functor is the pullback along,
+\[ \Hom{}{\E}{\cP^1_{X/S}(\E)_{T}} \to \Hom{}{\E}{\E \ot \Omega^2_{X_T/T}} \times \Hom{}{\E}{\E} \]
+but since these sheaves are finitely presented (since $X \to S$ is finitely presented), flat over $T$, and with proper support over $T$ these functors are representable by schemes (Tag~\chref{https://stacks.math.columbia.edu/tag/08K6}{08K6}) affine and finitely-presented over $T$ hence so is the pullback of $T$ along this map since the map is also affine and finitely presented.
+\end{proof}
+
+\begin{rmk}
+Alternatively, we could descrbie $t$-connections  as sections of the sequence obtained by pulling back along $\E_{T'} \xrightarrow{t} \E_{T'}$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E_{T'} \ot \Omega^1_{X_T'/T'} \arrow[r] & \cP^{t}_{X/S}(\E)_{T'} \arrow[r] & \E_{T'} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where explicitly $\cP^{t}_{X/S}(\E)_{T'}$ is the kernel of $\cP^1_{X/S}(\E)_{T'} \oplus \E_{T'} \to \E_{T'}$ via $\pi - t$ so that a section of this new sequence is a map $\sigma : \E_{T'} \to \cP^1_{X/S}(\E)_{T'}$ and a map $\lambda : \E_{T'} \to \E_{T'}$ so that $(\sigma, \lambda)$ is a section meaning that $\lambda = \id$ and that lands in $\cP^{t}_{X/S}(\E)_{T'}$ meaing $\pi \circ \sigma = t$. Under this interpretation we we need to consider the pullback of $(0, \id)$ along,
+\[ \Hom{}{\E}{\cP^t_{X/S}(\E)_{T}} \to \Hom{}{\E}{\E \ot g^* \Omega^2_{X/S}} \times \Hom{}{\E}{\E} \]
+but why is the first representable? We need to show that $\cP^t_{X/S}(\E)$ is finitely presented and flat over $S$ (we already know its support is proper over $S$. It is not generally true that the kernel of a surjection between finitely-presented modules is finitely-presented. However, this is true if the quotient is flat since then the sequence is locally split (using that finitely presented flat modules are projective).
+\end{rmk}
+
+\subsection{Framed Moduli}
+
+For reprsentations $\pi \to \GL_r(\CC)$ we often instead consider the moduli space of \textit{framed representations} meaning without moding out by conjugation (not taking maps up to isomorphism but rather just the set of group homomorphisms). This has the advantange of have a moduli problem representable by a scheme rather than a stack. Note, when $\pi = \pi_1(X(\CC))$ we need to pick a basepoint $x \in X$ since otherwise this group is only defined up to conjugation so the set of maps is not well-defined.
+\bigskip\\
+This framing for reprsentations of $\pi_1$ corresponds to \textit{framed local systems} meaning local systems $\L$ equipped with an isomorphism $\varphi : \L_x \iso \CC^r$. As long as $X$ is connected, this rigidifies the problem since $\Hom{}{\L}{\L'} \embed \Hom{}{\L_x}{\L_x'}$ is injective because the sheaves are locally constant. 
+
+\subsection{Coarse Spaces}
+
 \end{document}
 

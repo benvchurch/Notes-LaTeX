@@ -454,7 +454,7 @@ Let $\pi : \X \to X$ be a good moduli space and $\X$ be q-sep over a scheme $S$.
 \item If $\X$ is noetherian then $X$ is also noetherian.
 \item If $\X$ is of finite type over $S$ and $S$ is noetherian then $X$ is finite type over $S$ and $\pi_*$ preserves coherent sheaves.
 
-\item If $\X$ is noetherian then $\oi$ is initial for maps to algebraic spaces.
+\item If $\X$ is noetherian then $\pi$ is initial for maps to algebraic spaces.
 \end{enumerate}
 \end{theorem}
 
@@ -487,7 +487,7 @@ A quasi-compact quasi-separated morphism $f : \X \to \Y$ is \textit{cohomologica
 Consider a diagram,
 \begin{center}
 \begin{tikzcd}
-\X' \arrow[d, "\pi'] \arrow[r, "f"] & \X \arrow[d, "\pi"]
+\X' \arrow[d, "\pi"'] \arrow[r, "f"] & \X \arrow[d, "\pi"]
 \\
 \Y' \arrow[r, "g"] & \Y
 \end{tikzcd}
@@ -502,7 +502,7 @@ Consider a diagram,
 \begin{proof}
 (a) by flat base change $\pi_*' f^* \cong g^* \pi_*$ and $f^*$ is exact and $g^*$ is faithfully exact so we conclude. For (b), first consider the case that $g$ is quasi-affine. Then factor as,
 \[ \Y' \embed \rSpec{\Y}{f_* \struct{\Y'}} \to \Y \]
-where the second map is affine by definition. If $g$ is affine then $g_*$ is faithfully exact. If $g$ is an open immersion then for $F' \onto G'$ in $\QCoh(\X')$ we conclude that $G := \im{(f_* F' \to f_* G')$ since $f^* f_* = \id$ we get $f^* G = G'$ and $\pi_*$ is exact so $\pi_* f_* F' \to \pi_* F$ so pullback via $g$ then,
+where the second map is affine by definition. If $g$ is affine then $g_*$ is faithfully exact. If $g$ is an open immersion then for $F' \onto G'$ in $\QCoh(\X')$ we conclude that $G := \im{(f_* F' \to f_* G')}$ since $f^* f_* = \id$ we get $f^* G = G'$ and $\pi_*$ is exact so $\pi_* f_* F' \to \pi_* F$ so pullback via $g$ then,
 \[ g^* \pi_* f_* F' = \pi_*' f^* f_* F' = \pi'_* F' \onto g^* \pi_* G = \pi'_* f^* G = \pi_*' G \]
 the first by flat basechange. Thus we conclude. To do the general case, assume $\Y$ and $\Y'$ are quasi-compact and choose a smooth presentation $Y = \Spec{A} \to \Y$ which is quasi-affine since $\Y$ is. Then $\Y'_Y \to \Y$ is faithfully flat so by (a) suffices to show that $\X'_Y \to \Y'_Y$ is cohomologically affine. By (a) again we can pass to a smooth cover $Y' \to \Y'_{Y}$ and reduce to a morphism of affine schemes which is hence affine so we win. 
 \end{proof}
@@ -546,7 +546,7 @@ In particular,
 
 \begin{proof}
 For (a) and $g$ flat then $g^* (\struct{X} \to \pi_* \struct{\X})$ is just $\struct{X'} \to \pi_*' \struct{\X'}$ by flat base change. Thus if $g$ is faithfully flat then we get,
-\[ \struct{X} \iso \pi_* \struc{\X} \iff \struct{X'} \iso \pi_*' \struct{\X'} \]
+\[ \struct{X} \iso \pi_* \struct{\X} \iff \struct{X'} \iso \pi_*' \struct{\X'} \]
 Furthermore, the lemma says that cohomological flatness descends under $g$ proving (a). We also showed that (b) holds for flat base change. To prove it for arbitrary base change we first prove the projection formula. Indeed, let $U \to X$ be an \etale presentation with $U$ disjoint union of affine schemes. Then $\pi_U : \X_U \to U$ is a GMS by flat case. Then the pullback of $\id \to \pi_* \pi^*$ is $\id \to \pi_{U*} \pi_U^*$. We can assume that $X = \Spec{A}$ and consider,
 \[ G_2 \to G_1 \to G \to 0 \]
 is a free presentation. Then consider,
@@ -619,6 +619,273 @@ The following maps are universally submersive,
 
 \end{proof}
 \end{example}
+
+\section{Determinantal Line Bundles}
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\univ}{\mathrm{univ}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\detstar}{\det\nolimits^{*}}
+
+Recall that $k$ is an algebraically closed field of characteristic zero.
+\bigskip\\
+Let $X$ be a smooth, projective and connected curve over $k$. Let $\S$ be an algebraic stack over $k$. Then consider the diagram,
+\begin{center}
+\begin{tikzcd}
+& X \times \S \arrow[rd, "p"] \arrow[ld, "q"']
+\\
+X & & \S
+\end{tikzcd}
+\end{center}
+Since $X \times \S \to \S$ is representable by schemes we can use cohomology and base change theorem. If $\E$ is a vector bundle on $X \times \S$ then $\R p_* \E$ is a refect complex on $\S$ with amplitude in $[0,1]$ since this is true for the projection map $X \times T \to T$ from a test scheme. {\color{red} what does amplitude mean}
+
+\begin{prop}
+Let $k$ be a field, $S$ a $k$-scheme of finite type and $f : X \to S$ a smooth projective morphism of relative dimension $n$. If $F$ is a flat coherent sheaf on $X$ then there is a locally free resolution
+\[ 0 \to F_n \to F_{n-1} \to \cdots \to F_0 \to F \to 0 \]
+such that $R^n f_* F_\nu$ is locally free for $\nu = 0, \dots, n$ and $R^i f_* F_\nu = 0$ for $i \neq n$ and $\nu = 0, \dots, n$. Moreover, there is a natural quasi-isomorphism
+\[ [R^n f_* F_n \to R^n f_* F_{n-1} \to \cdots \to R^n f_* F_0] \to (\R f_* F)[n] \]
+\end{prop}
+
+\begin{proof}
+Let $\struct{X}(1)$ be an $f$-very ample line bundle on $X$. Since $f$ is a Cohen-Macaulay morphism (it is even smooth) we have a Serre duality pairing,
+\[ R^i f_* \F(-m) \times R^{n-i} f_* (\F^\vee(m) \ot \omega_{X/Y}) \to R^n f_* \omega_{X/Y} = \struct{X} \]
+which is perfect. Using the mumford complex, there is some $m_0$ such that for $m \ge m_0$ we have $R^{n-i} f_* (\F^\vee(m) \ot \omega_{X/Y}) = 0$ for all $i < n$ and hence $R^i f_* \F(-m) = 0$. Define $S$-flat sheaves $K_\nu$ and $G_\nu$ inductively as follows. Let $K_0 := F$. Assume that $K_\nu$ has been constructed. Since this is a bounded family, for sufficiently large $m \gg m_0$ all fibers $(K_\nu)_s$ are $m$-regular. Hence, by cohomology and base change $f_* K_\nu(m)$ is locally free (since its higher cohomology vanishes) and there is a natural surjection $G_\nu := f^* (f_* K_\nu(m))(-m) \to K_\nu$ (surjective on fibers by $m$-regularity). Then $G_\nu$ is locally free and
+\[ R^i f_* G_\nu = f_* K_\nu(m) \ot R^i f_* \struct{X}(-m) \]
+by the projection formula. In particular, $R^n f_* G_\nu$ is locally free and the other direct image sheaves vanish. Finally, define
+\[ K_{\nu + 1} := \ker{(G_\nu \to K_\nu)} \]
+Therefore we get an infinite locally free resolution $G_\bullet \to F$. Since for each $s \in S$
+\[ (K_n)_s = \ker{((G_{n-1})_s \to (G_{n-2})_s)} \]
+and the fiber $X_s$ is regular of dimension $n$ it has global dimension $n$ and therefore $(K_n)_s$ is locally free since it is the $n^{\text{th}}$ syzygy module in the locally free resolution of the locally free sheaf $F_s$. Hence $K_n$ is itself locally free by Nakayama\footnote{Suppose that $f : X \to S$ is a morphism and $F$ is a coherent $\struct{X}$-module. If $F_x$ is flat over $\stalk{S}{s}$ then $F$ is locally free at $x$ if and only if $F_s$ is locally free at $x \in X_s$. Recall that $F$ is locally free at $x$ if and only if $F_x$ is free over $\stalk{X}{x}$ since $F$ is coherent. Then if $(F_s)_x = F_x / \m_s F_x$ is free we lift the basis to
+\[ 0 \to K \to \struct{X}{x}^{\oplus r} \to F_x \to 0 \]
+but $F_x$ is flat over $\stalk{S}{s}$ so this stays exact when applying $- \ot \stalk{S}{s}/\m_s$ so we see that $K / \m_s K = 0$ and hence $K / \m_x K = 0$ so by Nakayama's lemma $K = 0$.}. Therefore, we can truncate to get the locally free resolution $F_\bullet$. The last statement follows from the first. Indeed, the quasi-isomorphism,
+\[ [F_n \to \cdots \to F_0] \to F[0] \]
+gives the desired result after applying $\R f_*$ and showing that the natural map {\color{red} WHERE DOES IT COME FROM?}
+\[ \R f_* [F_n \to \cdots \to F_0] \to [R^n f_* F_n \to \cdots \to R^n f_* F_0][-n] \]
+is a quasi-isomorphism. Indeed, the derived functor spectral sequence shows that,
+\[ E^{p,q}_2 = \cH^p(R^q f_* F_\bullet) \implies \cH^{p+q}(\R f_* F_\bullet) \]
+but the only nonzero part of the $E_2$ page is the column $(p, n)$ and thus
+\[ E^{p,n} = \cH^p(R^n f_* F_\bullet) = \cH^{p+n}(\R f_* F_\bullet) \]
+showing that the natural map is a quasi-isomorphism.
+\end{proof}
+
+{\color{red} WHY CAN WE APPLY THIS TO A REPRESENTABLE MAP OF STACKS}
+
+Let $\E$ be a vector bundle on $X \times \S$ then there exists a short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E^{-1} \arrow[r] & \E^0 \arrow[r] & \E \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+such that $R^0 p_* \E^{j-1} = 0$ and $K^j = \R^1 \E^{j-1}$ is locally free for $j = 0, 1$ {\color{red} (Note: I think there is a typo in the indices in the notes)} therefore there is a quasi-isomorphism,
+\[ [ K^0 \to K^1] \to \R p_* \E \]
+
+\begin{defn}
+If $\E$ is a vector bundle on $X \times \S$ and $[K^0 \to K^1]$ is a two-term complex of locally free sheaves quasi-isomorphic to $\R p_* \E$ then we define the line bundle,
+\[ \det{\R p_* \E} := \det{K^0} \ot (\det{K^1})^\vee \] 
+\end{defn}
+
+We could also make this definition for any perfect complex on $\S$. The rank of a perfect complex is defined as the alternating sum of the ranks of a representative. This is independent of the choice of representative because localizing at the generic point reduces to the case of finite dimensional vectorspaces for whcih Euler characteristic of a bounded complex coincides with the alternating sum of dimensions. If $\rank{(\R p_* \E)} = 0$ then by definition $\rank{K^0} = \rank{K^1}$ so the dual $(\det{\R p_* \E})^\vee$ is then equipped with a section given by the determinant of the map $K^0 \to K^1$. 
+
+\begin{lemma}
+The definition of $\det{\R p_* \E}$ is independent of the choice of representative perfect complex.
+\end{lemma}
+
+\begin{lemma}
+Given an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E' \arrow[r] & \E \arrow[r] & \E'' \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then,
+\[ \det{\R p_* \E} = (\det{\R p_* \E'}) \ot (\det{\R p_* \E''}) \]
+\end{lemma}
+
+\begin{proof}
+We find a complex $\E^\bullet = [\E^{-1} \to \E^0]$ and $\E^\bullet \to \E$ a quasi-isomorphism as above. Choose $\E'^\bullet$ and $\E''^\bullet$ similarly. In fat, it follows from the construction that these resolutions may be choosen comptabily so that there is a short exact sequence of complexes,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \E'^\bullet \arrow[r] & \E^\bullet \arrow[r] & \E''^\bullet \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+compatible with the quasi-isomorphisms to the previous sequence. Taking cohomology, we find a short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K'^\bullet \arrow[r] & K^\bullet \arrow[r] & K''^\bullet \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of complex of locally free sheaves on $\S$. The result follows from the multiplicativity of determinants in short exact sequences of locally free sheaves,
+\[ \det{K^0} = \det{K'^0} \ot \det{K''^0} \quad \det{K^1} = \det{K'^1} \ot \det{K''^1} \]
+and therefore,
+\[ \det{K^\bullet} := \det{K^0} \to (\det{K^1})^\vee = \det{K'^0} \to \det{K''^0} \ot (\det{K'^1} \ot \det{K''^1})^\vee = \det{K'^\bullet} \ot (\det{K''^\bullet})^\vee \]
+\end{proof}
+
+
+We will apply this construction to the case $\S = \M_X(r,d)$ and $\E = \E_{\univ} \ot q^* V$ where $V$ is a vector bundle on $X$. 
+
+\begin{defn}
+For a vector bundle $V$ on $X$ we define the \textit{determinantal line bundle}
+\[ \L_V := (\det{\R p_* (\E_{\univ} \ot q^* V)}^\vee \]
+on $\M_X(r,d)$ associated to $V$. If $\chi(X, E \ot V) = 0$ for all $[E] \in \M_X(R,d)$
+then the rank of $\R p_* (\E_{\univ} \ot q^* V)$ is zero and we define the section
+\[ s_V \in \Gamma(\M_X(r,d), \L_V) \]
+\end{defn}
+
+\begin{rmk}
+Since $\R p_* (\E_{\univ} \ot q^* V)$ is perfect, its construction commutes with base change. In particular, its restrciction to a $k$-point $[E] \in \M_X(r,d)$ is identified with the two-term complex $\R \Gamma(X, \E \ot V)$. If moreover
+\[ \chi(X, E \ot V) = h^0(X, E \ot V) - h^1(X, E \ot V) = 0 \]
+we see that indeed $\rank{\R p_* (\E_{\univ} \ot q^* V)} = 0$.
+\end{rmk}
+
+\begin{rmk}
+Note that,
+\[ \deg{E \ot V} = (\deg{E}) (\rank{V}) + (\rank{E}) (\deg{V}) \]
+and therefore by Riemann-Roch $\chi(X, E \ot V) = 0$ if and only if,
+\[ d \rank{V} + r \deg{V} + (1-g) r \rank{V} = 0 \]
+or equivalently,
+\[ (\ast) \quad \mu(E) \rank{V} + \deg{V} + (1-g) \rank{V} = 0 \]
+Notice that this is actually just a numerical condition on $V$ that only depends on the slope of $E$. Therefore, if $(\ast)$ holds then $\chi(X, E \ot V) = 0$ for all vector bundles $E$ with fixed slope $\mu(E)$.
+\end{rmk}
+
+The construnction of the determinantal line bundle defines a morphism,
+\[ \det : \M_X(r, d) \to \cPic^d_X \]
+such that,
+\[ (\id_X \times \det)^* \cP = p^* \det{\E_{\univ}} \]
+where $\cP$ is the Poincare bundle on $\cPic^d_X \times X$. 
+
+\begin{prop}
+The following hold:
+\begin{enumerate}
+\item the assigment $V \mapsto \L_V$ induces a group homomorphism,
+\[ K_0(X) \to \Pic{\M_X(r,d)} \]
+meaning the isomorphism class of $\L_V$ depends only on $\rank{V}$ and $\det{V}$
+\item if $V$ and $W$ are vector bundles of the same rank and degree then there exists a line bundle $\cN$ on $\cPic_X^d$ such that,
+\[ \L_W \cong \L_V \ot \detstar \cN \]
+where $\detstar$ is the pullback along the map $\det : \M_X(r,d) \to \cPic^d_X$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For an exact sequence of vector bundles on $X$,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & V_1 \arrow[r] & V_2 \arrow[r] & V_3 \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+we get an exact sequence using flatness of $q$ and the fact that $\E_{\univ}$ is a vector bundle,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & q^* V_1 \ot \E_{\univ} \arrow[r] & q^* V_2 \ot \E_{\univ} \arrow[r] & q^* V_3 \ot \E_{\univ} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which thus induces an isomorphism,
+\[ \L_{V_2} \cong \L_{V_1} \ot \L_{V_3} \]
+proving the factorization of the map of monoids through $K_0(X)$,
+\begin{center}
+\begin{tikzcd}
+\mathrm{Vect}_X \arrow[rr] \arrow[rd] & & \Pic{\M_X(r,d)} 
+\\
+& K_0(X) \arrow[ru, dashed]
+\end{tikzcd}
+\end{center}
+Then the consequence follows from the isomorphism $K_0(X) = \Z \oplus \Pic{X}$ given by $V \mapsto (\rank{V}, \det{V})$. 
+\par
+To prove the second statment, using the first we may assume that $V = \struct{X}^{\oplus r_V - 1} \oplus \struct{X}(D)$ for some divisor $D$ on $X$ and similarly for $W$. Moreover, writing $D = D_1 - D_2$ as a difference of effective divisors we see that,
+\[ [\struct{X}(D)] = [\struct{X}] + [\struct{D_1}] - [\struct{D_2}] \]
+in $K_0(X)$. Therefore, the classes of $V$ and $W$ in $K_0(X)$ differ only by the class of a divisor of degree $0$ {\color{red} DOESNT THE PROOF WORK FOR DIVISORS OF ANY DEGREE?}. Thus by the additivity of the derminantal construction, it suffices to prove that,
+\[ \det{\R p_* (\E_{\univ} \ot q^* \struct{x})} \cong \detstar \cN' \]
+for some line bundle $\cN'$ on $\cPic^d_X$ where $x \in X$ is a closed point. Viewing $\E_x$ and $\cP_x$ as sheaves on $\M_X(r,d)$ and $\cPic^d_X$ respectively as pullback along the sections $\S \to X \times \S$ defined by $x \in X$ then,
+\[ \det{\R p_* (\E_{\univ} \ot q^* \struct{x})} = \det{\E_x} = \detstar \cP_x \]
+which proves the claim. 
+\end{proof}
+
+\begin{defn}
+Let $E$ be a vector bundle on $X$. We say that $E$ is \textit{cohomology-free} if $h^0(X, E) = h^1(X, E) = 0$.
+\end{defn}
+
+\begin{prop}
+If $(\ast)$ holds for $V$ then the following are equivalent,
+\begin{enumerate}
+\item the section $s_V \in \Gamma(\M_X(r,d), \L_V)$ is nonzero at $[E]$
+\item $E \ot V$ is cohomology-free
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The morphism $\det{j} : \det{K_0} \to \det{K_1}$ of line bundles is nonzero at the point $[E] \in \M_X(r,d)$ if and only if the morphism of vector bundles $j : K-0 \to K_1$ is an isomorphism at $[E]$. Since $\R p_* (\E_{\univ} \ot q^* V)$ is quasi-isomorphic to $[K_0 \to K_1]$ we see that $j$ is an isomorphism if and only if $(\R p_* (\E_{\univ} \ot q^* V))_{[E]} = 0$ if and only if $h^0(X, E \ot V) = h^1(X, E \ot V) = 0$ by cohomology and base change. 
+\end{proof}
+
+\begin{rmk}
+While $\L_V$ only depends on $\rank{V}$ and $\det{V}$ the section $s_V$ \textit{does} depend on $V$ itself since it can detect cohomology-freeness as above. We will leverage this fact to produce enough sections of $\L_V$ to establish ampleness. Notice also that, under the assumption that $\chi(X, E \ot V) = 0$ the vanishing of $H^0(X, E \ot V)$ is equivalent to the vanishing of $H^1(X, E \ot V)$.
+\end{rmk}
+
+Now we specialize this discussion to the open substack $\M_X^{ss}(r,d) \subset \M_X(r,d)$. The goal is to prove that the good mouli space $M_X^{ss}(r,d)$ is projective. Our candidate ample line bundle is the descent of some $\L_V$.
+
+\begin{prop}
+The determinantal line bundle $\L_V$ associated to a vector bundle $V$ satisfying $(\ast)$ descends to $M_X^{ss}(r,d)$ uniquely meaning there exists a unique line bundle $L_V \in \Pic{M_X^{ss}(r,d)}$ such that $\L_V \cong \phi^* L_V$.
+\end{prop}
+
+\begin{proof}
+By Thorem 3.5(iv), we must show that stabilizers of $\M_X^{ss}(r,d)$ act trivially on the fibers of $\L_V$. By Theorem 3.12(ii), the closed points of $\M_X^{ss}(r,d)$ correspond to polystable bundles,
+\[  E = \bigoplus_{j = 1}^n E_j^{\oplus m_j} \]
+where the $E_i$ are pairwise nonisomorphic stable bundles. Since $E$ is also semistable the slopes of the $E_i$ must all be equal so $\mu(E_i) = \mu(E) = \frac{d}{r}$. Since these are nonisomorphic stable bundles with the same slope there are no nonzero morphisms between them (we have $\Hom{}{E_i}{E_j} = k \cdot \delta_{ij}$). Since $\End{E_j} = k$ we see that,
+\[ \Aut{E} = \GL_{m_1} \times \cdots \times \GL_{m_n} \]
+The fiber of $\L_V|_{[E]}$ is identified with
+\[ \det{\R \Gamma(X, E \ot V)} = \prod_{i = 1}^n (\det{H^i(X, E \ot V)})^{\ot (-1)^i} \]
+An element $(g_1, \dots, g_n) \in \Aut{E}$ act on,
+\[ \det{H^i(X, E \ot V)} \cong \bigotimes_{j = 1}^n (\det{H^i(X, E_j \ot V)})^{\ot m_j} \]
+by multiplication with,
+\[ \prod_{j = 1}^n \det{(g_i)}^{\dim{H^i(X, E_j \ot V)}} \]
+and thus on $\L_V|_{[E]}$ by multiplication with,
+\[ \prod_{j = 1}^n \det{(g_j)}^{\chi(X, E_j \ot V)} \]
+but each $E_j$ has slope $\mu(E_j) = \frac{d}{r}$ so by $(\ast)$ we have $\chi(X, E_j \ot V) = 0$ since it implies vanishing for all $E$ with $\mu(E) = \frac{d}{r}$ and hence the action is trivial.
+\end{proof}
+
+\subsubsection{Moduli of Vector Bundles with Fixed Determinant}
+
+Let $L$ be a line bundle on $X$ of degree $d$ corresponding to a closed point of $\cPic^d_X$ represented by a morphism $[L] : \Spec{k} \to \cPic_X^d$ {\color{red} IS EVERY $k$-point closed? in Pic? I Think so since $X/k$ is SMOOTH so we should have separatedness}. Then consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\M_X(r,L) \arrow[d] \arrow[r] \pullback & \M_X(r,d) \arrow[d, "\detstar"] 
+\\
+\Spec{k} \arrow[r, "L"] & \cPic^d_X
+\end{tikzcd}
+\end{center}
+
+Explicitly, $\M_X(r,L)$ is the stack of pairs $(\E, \varphi)$ where $\E$ is a vector bundle on $X \times S$ of rank $r$ and degree $d$ fiberwise equipped with an isomorphism $\varphi : \det{\E} \iso L|_{X \times S}$. The condition of constant degree $d$ on fibers is implied by determinant isomorphism which is why $d$ is left out of the notation.
+
+\begin{cor}
+For a line bundle $L$ of degree $d$ on $X$, the restriction of the determinantal line bundle $L_V$ to $M_X^{ss}(r, L)$ only depends on the rank and degree of $V$.
+\end{cor}
+
+\begin{proof}
+We have commuting diagrams,
+\begin{center}
+\begin{tikzcd}
+\M_X^{ss}(r, L) \pullback \arrow[d] \arrow[r] & \M_X^{ss}(r,d) \arrow[d]
+\\
+\Spec{k} \arrow[r, "L"] & \cPic^d_X
+\end{tikzcd}
+\quad \text{ and } \quad
+\begin{tikzcd}
+\M_X^{ss}(r, L) \arrow[d] \arrow[r, hook] & \M_X^{ss}(r,d) \arrow[d]
+\\
+M_X^{ss}(r, L) \arrow[r, hook] & M_X^{ss}(r, d)
+\end{tikzcd}
+\end{center}
+where in the second square, both vertical arrows are hood moduli space morphisms. If $V$ and $W$ are vector bundles of equal rank and degree on $X$, both satisfying condition (10) then there exists a line bundle $\cN$ on $\cPic^d_X$ such that $\L_W \cong \L_V \ot \detstar \cN$. The left diagram shows that, restriction to $\M_X^{ss}(r,L)$, this isomrophism becomes $\L_W \cong \L_V$. The right diagram now shows that the restriction of $L_V$ and $L_W$ to $M_X^{ss}(r, L)$ become isomrophic after pulling back to $\M_X^{ss}(r, L)$, so the restrictions must be isomorphic by the uniqueness of the descent along the good moduli space morphism $\M_X^{ss}(r, L) \to M_X^{ss}(r, L)$.
+\end{proof}
+
+\begin{theorem}[Dr\'{e}zet-Narasimhan]
+There exist isomorphisms,
+\begin{align*}
+\Pic{M_X^{ss}(r,d)} & \cong \Pic{\fPic_X^d} \oplus \Z 
+\\
+\Pic{M_X^{ss}(r,L)} & \cong \Z 
+\end{align*}
+In the first line, $\Z$ is {\color{red} WHAT IS IT GENERATED BY?}
+In the second line, $\Z$ is generated by the determinantal line bunle $L_V$ where $V$ is chosen to be of minimal rank,
+\end{theorem}
 \end{document}
 
 

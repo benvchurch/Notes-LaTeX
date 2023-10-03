@@ -1,0 +1,713 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Noether-Lefschetz}
+
+\subsection{Outline of Grothendieck-Lefschetz}
+
+\newcommand{\Lef}{\mathrm{Lef}}
+\newcommand{\Leff}{\mathrm{Leff}}
+\renewcommand{\Pic}[1]{\mathrm{Pic}(#1)}
+\newcommand{\fPic}{\mathrm{Pic}}
+
+(ADD STACKS PROJECT REFERENCES)
+
+\begin{defn}
+Let $Y \subset X$ be a closed subscheme. We say that $(X, Y)$ satisfies,
+\begin{enumerate}
+\item $\Lef(X,Y)$ if for any open $U \subset X$ containing $X$ and any finite locally free $\E$ on $U$ then,
+\[ \Gamma(U, \E) \to \Gamma(\hat{X}, \hat{\E}) \]
+is an isomorphism
+\item $\Leff(X,Y)$ if it satisfies $\Lef(X,Y)$ are moreover for any finite locally free $\mathfrak{E}$ on $\hat{X}$ there exists an open $U \subset X$ containing $Y$ an a finite locally free $\E$ on $U$ such that $\hat{\E} = \mathfrak{E}$.
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+If $(X, Y)$ satisfies $\Leff(X, Y)$ then,
+\[ \Pic{\hat{X}} = \dlim_{\substack{U \subset X \\ Y \subset Y}} \Pic{U} \]
+\end{prop}
+
+\begin{proof}
+There is a natural map,
+\[ \dlim_{\substack{U \subset X \\ Y \subset Y}} \Pic{U} \to \Pic{\hat{X}} \]
+via completion. Then $\Lef(X,Y)$ shows that this map is injective since if $\hat{\L}_1 \cong \struct{\hat{X}}$ then the section spreads out to the open $U$ and since it is nonvanishing on $Y$ it is nonvanishing on some smaller open $U' \subset U$ containing $Y$. Furthermore, the property $\Leff(X, Y)$ says exactly that this map is surjective.
+\end{proof}
+
+If we have the $\Leff(X, Y)$ extension property then Lefschetz theorems can be reduced to computing formal liftings.
+
+\begin{theorem}[Grothendieck-Lefschetz (Hartshorne, Ample subvarities, Theorem 3.1)]
+Let $X$ be an $S_2$ and locally-factorial variety and $Y \subset X$ a closed subscheme. Assume that,
+\begin{enumerate}
+\item $\Lef(X, Y)$ (resp. $\Leff(X,Y)$)
+\item $Y$ meets every effective divisor on $X$
+\item $H^i(Y, \I^n / \I^{n+1}) = 0$ for $i = 1$ (resp. for $i = 1,2$) and all $n \ge 1$ where $\I$ is the ideal cutting out $Y$.
+\end{enumerate}
+Then the natural map,
+\[ \Pic{X} \to \Pic{Y} \]
+is injective (resp. an isomorphism).
+\end{theorem}
+
+\begin{proof}
+Consider the restriction maps,
+\[ \Pic{X} \to \dlim_{\substack{U \subset X \\ Y \subset U}} \Pic{U} \to \Pic{\hat{X}} \to \Pic{Y} \]
+we will show these are all injective (isomorphisms). 
+\begin{enumerate}
+\item the first is an isomorphism since by (b) any $U$ containing $Y$ satisfies $\codim{X,X \sm U} \ge 2$ and $X$ is $S_2$ and locally factorial which implies that $\Pic{X} \to \Pic{U}$ is an isomorphism
+
+\item the second is an injection (resp. isomorphism) by $\Lef(X,Y)$ (resp. by $\Leff(X,Y)$)
+\item the third is an injection (resp. isomorphism) via the following lifting computation. Consider the unit exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I^n / \I^{n+1} \arrow[r, "x \mapsto 1 + x"] & \struct{Y_{n+1}}^\times \arrow[r] & \struct{Y_n}^\times \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+On cohomology this gives,
+\begin{center}
+\begin{tikzcd}
+H^1(Y, \I^n / \I^{n+1}) \arrow[r] & \Pic{Y_{n+1}} \arrow[r] & \Pic{Y_{n}} \arrow[r] & H^2(Y, \I^n/\I^{n+1}) 
+\end{tikzcd}
+\end{center}
+Therefore, since the left hand (resp. outer) groups are all zero for $n \ge 1$ there exists at most one lift to $\hat{X}$ (resp. we can lift any line bundle on $Y_1 = Y$ uniquely all the way to $\hat{X}$) giving an injection (resp. isomorphism),
+\[ \Pic{\hat{X}} = \ilim_n \Pic{Y_n} \embed \Pic{Y} \]
+\end{enumerate}
+\end{proof}
+
+Therefore, it suffices to check when a pair $(X, Y)$ satisfies $\Leff(X,Y)$ or $\Leff(X,Y)$. Luckily Grothendieck did this for us.
+
+\begin{theorem}[SGA2 Expose X, Example 2.2]
+Let $X$ be a proper $k$-scheme and $\L$ an ample line bundle. Let $Y = V(s)$ for $s \in \Gamma(X, \L)$ a regular section. Then,
+\begin{enumerate}
+\item if $\depth{}{\stalk{X}{x}} \ge 2$ for all closed points $x \in X$ then $\Lef(X,Y)$ holds,
+\item if moreover $\depth{}{\stalk{X}{y}} \ge 3$ for all closed points $y \in Y$ then $\Leff(X,Y)$ holds as well.
+\end{enumerate}
+\end{theorem}
+
+\begin{cor}
+Let $X$ be a CM locally-factorial projective $k$-variety and $\L$ an ample line bundle. Let $Y = V(s)$ for $S \in \Gamma(X, \L)$ a regular section. Then if $k$ has characteristic zero then, the map
+\[ \Pic{X} \to \Pic{Y} \]
+\begin{enumerate}
+\item is injective if $\dim{X} \ge 3$
+\item is an isomorphism if $\dim{X} \ge 4$
+\end{enumerate}
+and otherwise the above is true up to a finite $p$-torsion kernel and cokernel.
+\end{cor}
+
+\begin{proof}
+In characteristic zero, Kodaira vanishing shows that the obstruction spaces $H^i(Y, \L^{\ot -n}) = 0$ vanish for $i = 1,2$. However if $\mathrm{char}(k) = p$ then we replace Kodaira vanishing with asymptotic
+Serre vanishing and note that the nonzero terms are finite by properness and are $p$-torsion. {\color{red} HOW DOES FINITENESS WORK OVER A NONFINITE FIELD DO YOU DO SPREADING OUT?}
+\end{proof}
+
+\begin{cor}
+Let $X \subset \P^n$ be a hypersurface of degree $d$ with $\dim{X} \ge 3$. Then,
+\[ \Pic{X} = \Z H \]
+\end{cor}
+
+\begin{proof}
+By the above theorems, it suffices to check that,
+\[ H^i(X, \struct{X}(-nd)) = 0 \]
+for $i = 1,2$ and all $n \ge 0$. However, we have an exact sequence,
+\begin{center}
+\begin{tikzcd}
+H^i(\P^n, \struct{X}(-nd)) \arrow[r] & H^i(X, \struct{X}(-nd)) \arrow[r] & H^{i+1}(\P^n, \struct{X}(-(n+1)d))
+\end{tikzcd}
+\end{center}
+and since $n \ge 4$ and $i = 1,2$ we see that the outside terms are zero. 
+\end{proof}
+
+\begin{rmk}
+However, the proof fails completely for hypersurfaces $X \subset \P^3$ because the obstruction space $H^2(X, \struct{X}(-nd))$ is large for $n \gg 0$ by Serre duality. Indeed the conclusion fails for $d < 4$ (smooth quadric surfaces have $\Pic{X} = \Z^2$ and smooth cubic surfaces have $\Pic{X} = \Z^7$). However, when $d \ge 4$ the result is true for the \textit{general} hypersurface. 
+\end{rmk}
+
+\subsection{Setup for Noether-Lefschetz}
+
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cV}{\mathcal{V}}
+
+Let $k$ be any field. Let $X$ be an integral Cohen-Macaullay locally-factorial projective 3-fold and $Y \subset X$ the vanishing locus of a regular section $s \in V \subset H^0(X, \struct{X}(d))$ where $\struct{X}(1)$ is a very ample line bundle on $X$ and $V \subset H^0(X, \struct{X}(d))$ is a base-point free linear system. 
+
+\begin{theorem}
+With the above notation, suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular\footnote{The main property we will use is that $H^0(X, \omega_X(d)) \ot H^0(X, \struct{X}(nd)) \onto H^0(X, \omega_X((n+1)d))$ for all $n \ge 0$ as well as some $H^1$ vanishing properties of $\struct{X}$.}
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\item $\fPic_{X/k}^0$ is smooth
+\end{enumerate}
+then for a very general member $Y \in |V|$ the map
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism. 
+\end{theorem}
+
+\begin{rmk}
+The condition (a) that $K_X$ is $d$-regular is a slight strengthening of the condition that $K_X(Y)$ is globally generated considered in [RS].
+\end{rmk}
+
+\begin{rmk}
+The condition (a) exactly corresponds to the following vanishing conditions,
+\begin{align*}
+H^1(X, K_X(d-1)) &= H^2(X, \struct{X}(1-d))^* = 0
+\\
+H^2(X, K_X(d-2)) &= H^1(X, \struct{X}(2-d))^* = 0
+\\
+H^3(X, K_X(d-3)) &= H^0(X, \struct{X}(3-d))^* = 0
+\end{align*}
+In characteristic zero, these are equivalent to $d \ge 4$ by Kodaira vanishing. In positive characteristic these conditions are more stringent. Furthermore condition (b) for complete $V$ is implied by the stronger condition that $\struct{X}$ is $d$-regular. This amounts to the vanishing conditions,
+\begin{align*}
+H^1(X, \struct{X}(d-1)) &= 0
+\\
+H^2(X, \struct{X}(d-2)) &= 0
+\\
+H^3(X, \struct{X}(d-3)) &= 0
+\end{align*}
+which are not directly implied by Kodaira vanishing. However, for each $(X, \struct{X}(1))$ there is garunteed, by amplness, some $d \gg 0$ such that these conditions hold. 
+\end{rmk}
+
+\begin{rmk}
+Notice that $K_X$ being $d$-regular implies that it is $(nd+1)$-regular for all $n \ge 1$ and hence,
+\[ H^2(X, \struct{X}(-nd)) = H^1(X, K_X(nd))^* = 0 \]
+for all $n \ge 1$. Likewise, $K_X$ is $(nd + 2)$-regular for all $n \ge 1$ and hence,
+\[ H^1(X, \struct{X}(-nd)) = H^2(X, K_X(nd))^* = 0 \]
+for all $n \ge 1$.
+\end{rmk}
+
+\begin{rmk}
+Notice that from the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-d) \arrow[r] & \struct{X} \arrow[r] & \struct{Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore,
+\begin{center}
+\begin{tikzcd}
+H^1(X, \struct{X}(-d)) \arrow[r] & H^1(X, \struct{X}) \arrow[r] & H^1(Y, \struct{Y}) \arrow[r] & H^1(X, \struct{X}(-d))
+\end{tikzcd}
+\end{center}
+by the above remarks the outside groups vanish via the regularity assumption on $K_X$. Therefore, 
+\[ H^1(X, \struct{X}) \iso H^1(Y, \struct{Y}) \]
+which implies that
+\[ \fPic^0_{X/k} \to \fPic^0_{Y/k} \]
+is an isogeny. In particular, $\coker{(\Pic{X} \to \Pic{Y})}$ is a quotient of $\NS{Y}$ which is finitely generated. Furthermore, $\fPic_{Y/k}$ is smooth if and only if $\fPic_{X/k}$ is smooth.
+\end{rmk}
+
+\begin{cor}
+Let $X \subset \P^3_k$ be a very general hypersurface of degree $d \ge 4$. Then $\Pic{X} = \Z \cdot H$.
+\end{cor}
+
+\begin{rmk}
+This gives a proof over any field that does not require application of characteristic zero techniques. 
+\end{rmk}
+
+\subsection{Passing Between "very general" and the geometric generic fiber}
+
+Here we prove three different perspectives on passing between the very general fiber and the geometric generic fiber which will apply to the case of Picard groups.
+
+\newcommand{\cX}{\mathcal{X}}
+\renewcommand{\I}{\mathcal{I}}
+
+\subsubsection{Version 1}
+
+
+\begin{rmk}
+Note that if $S$ is qcqs then retrocompact open and quasicompact open coincide. Indeed, if $j : U \to S$ is a quasicompact open immersion then since $S$ is quasicompact we see that $j^{-1}(S) = U$ is also quasicompact. Conversely, if $U$ is quasicomact then for any quasicompact open $V \subset S$ we have $j^{-1}(V) = V \cap U$ is quasicompact since $S$ is quasiseparated.  
+\end{rmk}
+
+\begin{rmk}
+Even if $S$ is qcqs then constructibility is a nontrivial condition. For example $S = \Spec{k[x_0, x_1, \dots]}$ and $U = V(x_0, x_1, \dots)^C$ is not quasicompact and hence not constructible.
+\end{rmk}
+
+\begin{prop}
+Let $\cP$ be a property of schemes over an algebraically closed field. Suppose,
+\begin{enumerate}
+\item if $K/k$ is an extension of algebraically closed fields and $X$ is a $k$-scheme then 
+\[ \cP(X_K) \iff \cP(X_k) \]
+\item for any $\cX \to \Spec{R}$ flat and finitely presented we have $\cP(\cX_{\bar{\eta}}) \implies \cP(\cX_{\bar{s}})$
+\end{enumerate}
+Then for any flat finitely presented morphism $f : X \to S$ of schemes the locus,
+\[ \{ s \in S \mid \cP(X_{\bar{s}}) \} \]
+is a countable union of constructible closed subsets (meaning their complements are retrocompact). 
+\end{prop}
+
+\begin{proof}
+By absolute Noetherian approximation write $S = \ilim_\lambda S_\lambda$ where each $S_\lambda$ is a finite type $\Z$-scheme. By spreading out we get a fiber product diagram for some $\lambda$,
+\begin{center}
+\begin{tikzcd}
+X \pullback \arrow[d] \arrow[r] & X_\lambda \arrow[d]
+\\
+S \arrow[r] & S_\lambda
+\end{tikzcd}
+\end{center}
+with $X_\lambda \to S_\lambda$ flat and finitely presented. Now we show that that locus,
+\[ J = \{ s \in S_\lambda \mid \cP( (X_\lambda)_{\bar{s}}) \} = \bigcup_{n \in \N} C_n \]
+where $C_n$ is a constructible closed subset. Then we conclude since the locus $\{ s \in S \mid \cP(X_{\bar{s}}) \}$ is the preimage of $J$ under $S \to S_\lambda$ by propety (a). Property (b) shows that $J$ is closed under specialization so $J$ is the union over the closures of its points. However, $S_{\lambda}$ is a finite type $\Z$-scheme and hence its underlying space is countable. Hence $J$ is a countable union.
+\end{proof}
+
+
+\subsubsection{Version 2}
+
+\begin{prop}
+Let $f : X \to S$ be a finitely presented morphism of schemes with $S$ qcqs and irreducible. Then there exists a countable union of proper constructible closed subsets $C \subset S$ such that for each $t \in S \setminus C$ there exists an algebraically closed field $K$ containing both $\kappa(t)$ and $\kappa(\eta)$ such that $(X_t)_K \cong (X_\eta)_K$ as $K$-schemes where $\eta \in S$ is the generic point.
+\end{prop}
+
+\begin{proof}
+By absolute Noetherian approximation write $S = \ilim_\lambda S_\lambda$ where each $S_\lambda$ is a finite type $\Z$-scheme. By spreading out we get a fiber product diagram for some $\lambda$,
+\begin{center}
+\begin{tikzcd}
+X \pullback \arrow[d] \arrow[r] & X_\lambda \arrow[d]
+\\
+S \arrow[r] & S_\lambda
+\end{tikzcd}
+\end{center}
+Let $C$ be the preimage of the union of all proper subschemes of $S_\lambda$ which is a countable union since $S_\lambda$ is finite type over $\Z$. Then for each $t \in S \sm C$ we have $t \mapsto \eta_\lambda$ where $\eta_\lambda$ is the generic point of $S_\lambda$ and hence $X_t$ and $X_\eta$ are both base changes of the same scheme $(X_\lambda)_{\eta_\lambda}$ by the fields $\kappa(t)$ and $\kappa(\eta)$ and hence the claim follows immediately taking any algebraic closed $K$ containing both $\kappa(t)$ and $\kappa(\eta)$. 
+\end{proof}
+
+
+\begin{prop}
+Let $\cP$ be a property of schemes over an algebraically closed field. Suppose,
+\begin{enumerate}
+\item if $K/k$ is an extension of algebraically closed fields and $X$ is a $k$-scheme then
+\[ \cP(X_K) \iff \cP(X_k) \]
+\end{enumerate}
+Then for any finitely presented morphism $f : X \to S$ of schemes with $S$ qcqs and irreducible such that $\cP$ does not hold for the generic fiber $X_{\bar{\eta}}$ then $\{ s \in S \mid \cP(X_{\bar{s}}) \}$
+is contained in a countable union of proper construcible closed subsets. 
+\end{prop}
+
+\begin{proof}
+Take $C$ as in the previous proposition. By (a) and the conclusion of the above proposition we see that if $s \in S \setminus C$ then $\neg \cP(X_{\bar{s}})$ so,
+\[ \{ s \in S \mid \cP(X_{\bar{s}}) \} \subset C \]
+which proves the claim. 
+\end{proof}
+
+\subsubsection{Checking the conditions for Noether-Lefschetz Property}
+
+
+{\color{red} CHECK PROPERTIES (a) AND (b) FOR ``Noether-Lefschetz fails''}
+
+\subsection{Smoothness of the Picard Scheme}
+
+Instead of passing between Noether-Lefschetz for the geometric generic fiber and for the very general fiber we can use properties of the Picard scheme directly to make the same sort of reduction. 
+
+\begin{lemma} \label{lemma:picard_smoothness}
+    Let $f:X \to S$ be a smooth proper morphism of schemes with geometrically connected fibers. Assume $S$ is quasi-compact and quasi-separated. Then the relative picard functor $\mathrm{Pic}_{X/S}$ is represented by an algebraic space over $S$. Furthermore, if $Z \subset \mathrm{Pic}_{X/S}$ denotes the (closed) complement of the smooth locus of $\mathrm{Pic}_{X/S} \to S$, then the image of $Z$ in $S$ is a countable union of closed, constructible subsets of $S$. 
+\end{lemma}
+
+\begin{proof}
+    The representability of $\mathrm{Pic}_{X/S}$ follows from \cite[\href{https://stacks.math.columbia.edu/tag/0D2C}{Tag 0D2C}]{stacks-project}, since $X/S$ having geometrically connected fibers implies  $\mathcal{O}_T \to f_{T,*}\mathcal{O}_X$ is an isomorphism for every $S$-scheme $T$. By a limit argument, there are a scheme $S_0$ of finite type over $\mathbf{Z}$, a smooth proper morphism $f_0: X_0 \to S_0$ with geometrically connected fibers, an affine morphism $S \to S_0$, and an isomorphism $X_0 \times _{S_0} S = X$. Then $\mathrm{Pic}_{X/S} = \mathrm{Pic}_{X_0/S_0} \times _{S_0} S$. Since the smooth locus of the base change of a morphism is the pullback of the smooth locus of the morphism, we see that we may replace $S$ with $S_0$ and thus assume $S$ is of finite type over $\mathbf{Z}$. But then the underlying topological space of $S$ is Noetherian and countable, so we only have to show the image of $Z$ in $S$ is closed under specialization. This follows since $X/S$ is smooth so $\mathrm{Pic}_{X/S}$ satisfies the existence part of the valuative criterion of properness.
+\end{proof}
+
+{\color{red} How much can we weaken smoothness?}
+
+\subsection{The Universal Family}
+
+We want to show that the lifting problem for $\Pic{\hat{X}} \to \Pic{Y}$ is unobstructed for the very general member $Y \in |V|$. However, the natural obstruction spaces $H^2(Y, \struct{Y}(-nd))$ never vanish by Serre duality. The main idea is to compare the obstruction for lifting along the formal neighborhoods of $Y \subset X$to the lifting problem for the formal neighborhood of $Y$ viewed as a fiber in the universal family. This latter lifting problem will then be unobstructed for the general member by a spreading out argument. 
+\bigskip\\
+First we fix some notaiton. Consider the universal hypersurface $\cY$ which is the incidence correspondence,
+\[ \cY \subset X \times S \]
+where $S = \P(H^0(X, \struct{X}(d))$. Thus $\cY$ is equipped with projection maps $p : \cY \to X$ and $q : \cY \to S$ where $q$ is flat and proper and $p$ is smooth and proper, in fact it is a projective bundle. Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cV \arrow[r] & V \ot \struct{X} \arrow[r] & \struct{X}(d) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cV$ is the bundle of sections in $V$ which vanishing at a given point of $x$. Hence we see that $\cY = \P(\cV) := \rProj{X}{\Sym{}{\cV^\bullet}}$ compatible with $p : \cY \to X$. Now let $\hat{X}$ be the formal completion of $X$ along $Y$ and viewing $Y \subset \cY$ as the fiber over $s \in S$ let $\hat{cY}$ be the formal completion of $\cY$ along $Y$. Since we have a morphism of schemes $p : \cY \to X$ mapping the fiber $\cY_s = Y$ into (scheme-theoretically) the closed subscheme $Y \subset X$ (in fact it is an isomorphism over $Y$) we get a morphism of formal schemes,
+\[ \hat{p} : \hat{\cY} \to \hat{X} \]
+Then let $\I$ be the ideal cutting out $Y \subset X$. Since the map $p$ sends $\cY_s \to Y$ we have $p^* \I \subset \m_s \struct{\cY}$ or we say that $\I$ maps into $\m_s \struct{\cY}$ under the sheaf map $p^{\#}$. This also implies that $\I^n$ maps into $\m_s^n \struct{\cY}$ under $p^{\#}$ which is what induces the map of formal schemes $\hat{p} : \hat{\cY} \to \hat{X}$. 
+
+\subsection{Formal Deformations and Formal Noether-Lefschetz}
+
+\begin{defn}
+We say that $(X, Y)$ satisfies \textit{formal Noether-Lefschetz} (FNL) if,
+\[ \im{(\Pic{\hat{X}} \to \Pic{Y})} = \im{(\Pic{\hat{\cY}} \to \Pic{Y})} \]
+We say that $(X, |V|)$ satisfies FNL if there is a nonempty open $U \subset S$ so that for each $s \in U$ the pair $(X, \cY_s)$ satisfies FNL.
+\end{defn}
+
+First we will show how FNL implies the Noether-Lefschetz property using that obstructions for $Y \subset \cY$ are unobstructed for the generic member $Y \in |V|$.
+
+\begin{theorem} \label{thm:FNL_implies_geometric_NL}
+Suppose that $(X, |V|)$ satisfies FNL and $H^1(X, \struct{X}) = 0$. Let $K = k(S)$. Then,
+\[ \Pic{X_{\ol{K}}} \to \Pic{\cY_{\ol{K}}} \]
+is surjective.
+\end{theorem}
+
+{\color{red} In the proof I assumed that $k$ is algebraically closed. Does it work regardless?}
+
+\begin{proof}
+Choose $\alpha \in \Pic{\cY_K}$. First, note that $H^1(\cY_K, \struct{\cY_K}) = 0$ by the vanishing conditions so $\fPic_{\cY_K/K}$ is an \etale $K$-group. Hence every point appears over $K^{\sep}$ so we may assume that $\alpha \in \Pic{\cY_{K^{\sep}}}$ Then by spreading out there is some finite separable extension $L/K$ such that $\alpha$ is the pullback of $\alpha_L \in \Pic{\cY_L}$. Spreading out gives an \etale map $U \to S$ inducing $L/K$ on the generic point and a class $\alpha_U \in \Pic{\cY_U}$. Choose some $t \in U$ mapping to a closed point $s \in S$ in the locus where FNL holds. Since $U \to S$ is \etale it induces an isomorphism of formal neighborhoods. Hence, the completion of $\cY_U$ along $(\cY_U)_t$ is isomorphic to $\hat{\cY}$ since $k$ is algebraically closed so $\kappa(t) = \kappa(s) = k$. Therefore we get a class $\hat{\alpha} \in \Pic{(\hat{\cY})_{\kappa(t)}}$ so by FNL we get a lift to $\alpha' \in \Pic{\hat{X}}$ and hence to $\Pic{X}$ by Grothendieck-Lefschetz. Then $\alpha_U - q^* \alpha'$ is trivial on a fiber of $p$. Since $H^1(Y, \struct{Y}) = 0$ for all $Y \in |V|$ then $\fPic_{\cY/S}$ is generically \etale so if we do the above construction chosing $s$ in the \etale locus then $\alpha_U - q^* \alpha'$ and the zero section agree at the generic point. Hence we have shown that $\alpha$ arises as the pullback of $\alpha' \in \Pic{X}$.
+\end{proof}
+
+
+Now we need to prove the formal Noether-Lefschetz property. We want to compare obstructions for lifting line bundles from $Y$ to $\hat{\cY}$ to those same obstructions for lifting $Y$.
+Choose $s \in U$ and $Y = \cY_s$. Since $p$ is flat, $p^*$ is exact and therefore there is a diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & p^* \I^n / \I^{n+1} \arrow[d] \arrow[r] & p^* \struct{Y_{n+1}} \arrow[d] \arrow[r] & p^* \struct{Y_n} \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \J^n / \J^{n+1} \arrow[r] & \struct{\cY_{n+1}} \arrow[r] & \struct{\cY_{n}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cY_{n} = (\cY_s)_n$ is the $n^{\text{th}}$-formal neighborhood of $\cY_s \subset \cY$ cut out by the ideal $J^n = \m_s^n \struct{\cY}$. Since $p$ is a projective bundle $R p_* \struct{\cY} = \struct{X}$ and therefore by the projection formula $p^*$ preserves cohomology. Therefore, applying the long exact sequences of cohomology gives a diagram,
+\begin{center}
+\begin{tikzcd}
+H^1(Y, \I^n / \I^{n+1}) \arrow[d] \arrow[r] & \Pic{Y_{n+1}} \arrow[d] \arrow[r] & \Pic{Y_n} \arrow[r] \arrow[d] & H^2(Y, \I^n / \I^{n+1}) \arrow[d, "\gamma_n"]
+\\
+H^1(Y, \J^n / \J^{n+1}) \arrow[r] & \Pic{\cY_{n+1}} \arrow[r] & \Pic{\cY_n} \arrow[r] & H^2(Y, \J^n / \J^{n+1})
+\end{tikzcd}
+\end{center}
+Suppose that $\alpha \in \im{(\Pic{\hat{\cY}} \to \Pic{Y})}$ then $\alpha$ lifts to some comptabile sequence of $\alpha_n \in \Pic{\cY_{n}}$. We want to find a sequence $\alpha_n' \in \Pic{Y_n}$ which pulls back to $\alpha_n$. Indeed, set $\alpha_1' = \alpha_1$ since $\cY_1 = Y_1 = Y$. Suppose we have built $\alpha_n'$. If $\gamma_n$ is injective then the obstruction class of $\alpha_n'$ dies since it maps to $\alpha_n$ which is unobstructed by assumption. Hence there is some lift $\alpha_{n+1}'$ but it is not clear that $\alpha_{n+1}' \mapsto \alpha_{n+1}$. The difference is controlled by some class in $H^1(Y, \J^n / \J^{n+1})$ which may be nonzero. However,
+\[ H^1(Y, \J^n / \J^{n+1}) = \m^n / \m^{n+1} \ot H^1(Y, \struct{Y}) \]
+so if $H^1(Y, \struct{Y}) = 0$ then there is unique lifting along $\cY_{n+1} \to \cY_n$.
+Therefore, we have proven:
+
+\begin{lemma} \label{lemma:FNL_holds}
+Suppose that for all $Y = Y_s$ in some nonempty open $U \subset S$ we have for all $n \ge 1$,
+\begin{enumerate}
+\item $\gamma_n$ is injective
+\item $H^1(Y, \struct{Y}) = 0$
+\end{enumerate} 
+Then $(X, |V|)$ satisfies FNL.
+\end{lemma}
+
+
+\subsection{Version Using the Picard Scheme}
+
+Here we define a variant that uses properties of the Picard scheme rather than the unpalatable condition $H^1(X, \struct{X}) = 0$.
+
+\begin{prop} \label{prop:pic_smooth_formal_lifting}
+Suppose that for some $s \in S$ setting $Y = Y_s$ we have,
+\begin{enumerate}
+\item $\gamma_n$ is injective for all $n \ge 1$
+\item every point of $\fPic_{\cY/S}$ lying over $s$ is a smooth point of the morphism $\fPic_{\cY/S} \to S$
+\end{enumerate}
+then $\Pic{\hat{X}} \to \Pic{Y}$ is surjective.
+\end{prop}
+
+\begin{proof}
+Consider the long exact cohomology sequence as previously,
+Therefore, applying the long exact sequences of cohomology gives a diagram,
+\begin{center}
+\begin{tikzcd}
+H^1(Y, \I^n / \I^{n+1}) \arrow[d] \arrow[r] & \Pic{Y_{n+1}} \arrow[d] \arrow[r] & \Pic{Y_n} \arrow[r] \arrow[d] & H^2(Y, \I^n / \I^{n+1}) \arrow[d, "\gamma_n"]
+\\
+H^1(Y, \J^n / \J^{n+1}) \arrow[r] & \Pic{\cY_{n+1}} \arrow[r] & \Pic{\cY_n} \arrow[r] & H^2(Y, \J^n / \J^{n+1})
+\end{tikzcd}
+\end{center}
+However, since every point of $\fPic_{\cY/S}$ over $s$ is a smooth point of the morphism it implies the formal lifting criterion which we apply for the extension of Artin local rings $\stalk{S}{s} / \m_s^{n+1} \onto \stalk{S}{s} / \m_s^n$. This shows that any $\L \in \Pic{\cY_{n}}$ is unobstructed to lifting to $\Pic{\cY_{n+1}}$. Hence the injectivity of $\gamma_n$ shows that any $\L \in \Pic{Y_n}$ is unobstructed to lift to $\Pic{Y_{n+1}}$ hence proving the claim.
+\end{proof}
+
+The same argument shows the following result. 
+
+\begin{prop}
+If $\Spec{L} \to \fPic_{\cY/S}$ corresponds to a smooth point $(s, \L) \in \fPic_{\cY/S}$ of the family and if all $\{ \gamma_n \}_{n \ge 1}$ for the pair $(X_L, \cY_L)$ are injective then $\L \in \Pic{\cY_L}$ is in the image of $\Pic{X_L} \to \Pic_{\cY_L}$.
+\end{prop}
+
+\subsection{Injectivity of the maps $\gamma_n$}
+
+\begin{prop} \label{prop:injectivity}
+Suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\end{enumerate}
+then the maps $\gamma_n$ are injective for $n \ge 1$ and any $Y \in |V|$ equidimensional and Cohen-Macaulay
+\end{prop}
+
+\begin{proof}
+Let $Y$ be such that it is Cohen-Macaulay so that $K_Y = K_X(d)|_Y$ is a dualizing sheaf.
+We need to show that the maps,
+\[ \gamma_n : H^2(Y, \I^n / \I^{n+1}) \to H^2(Y, \J^n / \J^{n+1}) = H^2(Y, \struct{Y}) \ot \m^n / \m^{n+1} = H^2(Y, \struct{Y}) \ot S^n (V/s)^* \]
+are injective for $n \ge 1$.
+Applying Serre duality - and using that $K_Y = K_X(d)$ - these are dual to,
+\[ \gamma_n^\vee : H^0(Y, K_X(d)) \ot S^n W \to H^0(Y, K_X((n+1)d)) \]
+so it suffices to show that $\gamma_n^\vee$ are surjective for all $n \ge 1$.
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}[column sep = tiny, row sep = large]
+& H^0(Y, K_X(d)) \ot H^0(Y, \struct{Y}(nd)) \arrow[rd] \arrow[from=ddd]
+\\
+H^0(Y, K_X(d)) \ot S^n (V/s) \arrow[ru] \arrow[rr, near start, "\gamma_n^\vee", crossing over] & & H^0(Y, K_X((n+1)d))
+\\
+H^0(X, K_X(d)) \ot S^n V \arrow[u] \arrow[rr, crossing over] \arrow[rd, "\alpha"] & & H^0(X, K_X((n+1)d)) \arrow[u, "\gamma"]
+\\
+& H^0(X, K_X(d)) \ot H^0(X, \struct{X}(nd)) \arrow[ru, "\beta"] 
+\end{tikzcd}
+\end{center}
+From commutativity, it suffices to show that each $\alpha, \beta, \gamma$ are surjective. First $\alpha$ is surjective by assumption (b) . Then $\beta$ is surjective because $K_X$ is $d$-regular. Finally, for $\gamma$ we consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K_X(nd) \arrow[r] & K_X((n+1)d) \arrow[r] & K_X((n+1)d) |_Y \arrow[r] & 0
+\end{tikzcd}
+\end{center} 
+to get,
+\begin{center}
+\begin{tikzcd}
+H^0(X, K_X((n+1)d)) \arrow[r, "\gamma"] & H^0(Y, K_X((n+1)d)) \arrow[r] & H^1(X, K_X(nd))
+\end{tikzcd}
+\end{center}
+but $K_X$ is $1$-regular and hence $(nd+1)$-regular for all $n \ge 1$ and hence $H^1(X, K_X(nd)) = 0$ proving that $\gamma$ is surjective.
+\end{proof}
+
+\subsection{Proof of the Main Theorem}
+
+\begin{theorem}[Version 1]
+Suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular\footnote{The main property we will use is that $H^0(X, \omega_X(d)) \ot H^0(X, \struct{X}(nd)) \onto H^0(X, \omega_X((n+1)d))$ for all $n \ge 0$ as well as some $H^1$ vanishing properties of $\struct{X}$.}
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\item $H^1(X, \struct{X}) = 0$
+\end{enumerate}
+then for a very general member $Y \in |V|$ the map
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism. 
+\end{theorem}
+
+\begin{proof}
+By passing to the geometric generic fiber we need to show that $\Pic{X_K} \to \Pic{\cY_K}$ is an isomorphism. Therefore by Theorem~\ref{thm:FNL_implies_geometric_NL} it suffices to show that FNL holds. This is what Lemma~\ref{lemma:FNL_holds} and Proposition~\ref{prop:injectivity} show.
+\end{proof}
+
+\begin{theorem}[Version 2]
+Suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular\footnote{The main property we will use is that $H^0(X, \omega_X(d)) \ot H^0(X, \struct{X}(nd)) \onto H^0(X, \omega_X((n+1)d))$ for all $n \ge 0$ as well as some $H^1$ vanishing properties of $\struct{X}$.}
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\item $\fPic_{X/k}^0$ is smooth
+\end{enumerate}
+then for a very general member $Y \in |V|$ the map
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism. 
+\end{theorem}
+
+\begin{proof}
+consider the maps,
+\[ \Pic{X} \to \Pic{\hat{X}} \to \Pic{Y} \]
+Grothendieck-Lefschetz shows that the first map is an isomorphism and the second is injective. Hence it suffices to prove surjectivity of the second.
+Let $K = k(S)$. Since $\fPic_{X_K/K}^0 \to \fPic_{\cY_K/K}^0$ is an isogeny and $\fPic_{X_K/K}^0 = (\fPic_{X/k}^0)_K$ is smooth we conclude that $\fPic_{\cY/S} \to S$ is generically smooth and therefore the image of the nonsmooth locus $C \subset S$ is a countable union of proper closed subvarieties. For any $s \in S \setminus C$ the hypotheses of Proposition~\ref{prop:pic_smooth_formal_lifting} hold by Proposition~\ref{prop:injectivity} so we conclude.
+\end{proof}
+
+\newpage
+
+\section{Talk: Ben, Laure, Noah, Sean, Shreya, Supravat}
+
+Throughout we fix the following notation. Let $k$ be any field. Let $X$ be a smooth projective 3-fold and $Y \subset X$ the vanishing locus of a regular section $s \in V \subset H^0(X, \struct{X}(d))$ where $\struct{X}(1)$ is a very ample line bundle on $X$ and $V \subset H^0(X, \struct{X}(d))$ is a base-point free linear system. 
+
+\subsection{Outline of Grothendieck-Lefschetz}
+
+\begin{defn}
+Let $Y \subset X$ be a closed subscheme. We say that $(X, Y)$ satisfies,
+\begin{enumerate}
+\item $\Lef(X,Y)$ if for any open $U \subset X$ containing $X$ and any finite locally free $\E$ on $U$ then,
+\[ \Gamma(U, \E) \to \Gamma(\hat{X}, \hat{\E}) \]
+is an isomorphism
+\item $\Leff(X,Y)$ if it satisfies $\Lef(X,Y)$ are moreover for any finite locally free $\mathfrak{E}$ on $\hat{X}$ there exists an open $U \subset X$ containing $Y$ an a finite locally free $\E$ on $U$ such that $\hat{\E} = \mathfrak{E}$.
+\end{enumerate}
+\end{defn}
+
+If we have the $\Leff(X, Y)$ extension property then Lefschetz theorems can be reduced to computing formal liftings.
+
+\begin{theorem}[Grothendieck-Lefschetz (Hartshorne, Ample subvarities, Theorem 3.1)]
+Let $X$ be an $S_2$ and locally-factorial variety and $Y \subset X$ a closed subscheme. Assume that,
+\begin{enumerate}
+\item $\Lef(X, Y)$ (resp. $\Leff(X,Y)$)
+\item $Y$ meets every effective divisor on $X$
+\item $H^i(Y, \I^n / \I^{n+1}) = 0$ for $i = 1$ (resp. for $i = 1,2$) and all $n \ge 1$ where $\I$ is the ideal cutting out $Y$.
+\end{enumerate}
+Then the natural map,
+\[ \Pic{X} \to \Pic{Y} \]
+is injective (resp. an isomorphism).
+\end{theorem}
+
+\begin{proof}
+Consider the restriction maps,
+\[ \Pic{X} \to \dlim_{\substack{U \subset X \\ Y \subset U}} \Pic{U} \to \Pic{\hat{X}} \to \Pic{Y} \]
+we will show these are all isomorphisms. 
+\begin{enumerate}
+\item the first is an isomorphism since by (b) any $U$ containing $Y$ satisfies $\codim{X,X \sm U} \ge 2$ and $X$ is $S_2$ and locally factorial which implies that $\Pic{X} \to \Pic{U}$ is an isomorphism
+
+\item the second is an isomorphism by $\Leff(X,Y)$
+\item the third is an isomorphism via the following lifting computation. Consider the unit exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I^n / \I^{n+1} \arrow[r, "x \mapsto 1 + x"] & \struct{Y_{n+1}}^\times \arrow[r] & \struct{Y_n}^\times \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+On cohomology this gives,
+\begin{center}
+\begin{tikzcd}
+H^1(Y, \I^n / \I^{n+1}) \arrow[r] & \Pic{Y_{n+1}} \arrow[r] & \Pic{Y_{n}} \arrow[r] & H^2(Y, \I^n/\I^{n+1}) 
+\end{tikzcd}
+\end{center}
+Therefore, since the outside groups are all zero for $n \ge 1$ we can lift any line bundle on $Y_1 = Y$ uniquely all the way to $\hat{X}$ giving isomorphism,
+\[ \Pic{\hat{X}} = \ilim_n \Pic{Y_n} = \Pic{Y} \]
+\end{enumerate}
+\end{proof}
+
+Therefore, it suffices to check when a pair $(X, Y)$ satisfies $\Leff(X,Y)$. Luckily Grothendieck did this for us.
+
+\begin{theorem}[SGA2 Expose X, Example 2.2]
+Let $X$ be a proper $k$-scheme and $\L$ an ample line bundle. Let $Y = V(s)$ for $s \in \Gamma(X, \L)$ a regular section. Then,
+\begin{enumerate}
+\item if $\depth{}{\stalk{X}{x}} \ge 2$ for all closed points $x \in X$ then $\Lef(X,Y)$ holds,
+\item if moreover $\depth{}{\stalk{X}{y}} \ge 3$ for all closed points $y \in Y$ then $\Leff(X,Y)$ holds as well.
+\end{enumerate}
+\end{theorem}
+
+\begin{cor}
+Let $X$ be a regular projective $k$-variety with $\dim{X} \ge 4$ and $\L$ an ample line bundle. Let $Y = V(s)$ for $S \in \Gamma(X, \L)$ a regular section. Then the map,
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism if $k$ has characteristic zero.
+\end{cor}
+
+\begin{proof}
+In characteristic zero, Kodaira vanishing shows that the obstruction spaces $H^i(Y, \L^{\ot -n}) = 0$ vanish for $i = 1,2$. 
+\end{proof}
+
+\begin{cor}
+Let $X \subset \P^n$ be a hypersurface of degree $d$ with $\dim{X} \ge 3$. Then,
+\[ \Pic{X} = \Z H \]
+\end{cor}
+
+\begin{rmk}
+However, the proof fails completely for hypersurfaces $X \subset \P^3$ because the obstruction space $H^2(X, \struct{X}(-nd))$ is large for $n \gg 0$ by Serre duality. Indeed the conclusion fails for $d < 4$ (smooth quadric surfaces have $\Pic{X} = \Z^2$ and smooth cubic surfaces have $\Pic{X} = \Z^7$). However, when $d \ge 4$ the result is true for the \textit{general} hypersurface. 
+\end{rmk}
+
+\subsection{Setup for Noether-Lefschetz}
+
+
+
+\begin{theorem}
+Suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular\footnote{The main property we will use is that $H^0(X, \omega_X(d)) \ot H^0(X, \struct{X}(nd)) \onto H^0(X, \omega_X((n+1)d))$ for all $n \ge 0$ as well as some $H^1$ vanishing properties of $\struct{X}$.}
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\item $H^1(X, \struct{X}) = 0$
+\end{enumerate}
+then for a very general member $Y \in |V|$ the map
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism. 
+\end{theorem}
+
+\begin{rmk}
+The condition (a) that $K_X$ is $d$-regular is a slight strengthening of the condition that $K_X(Y)$ is globally generated considered in [RS].
+\end{rmk}
+
+\begin{rmk}
+Notice that from the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{X}(-d) \arrow[r] & \struct{X} \arrow[r] & \struct{Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore,
+\begin{center}
+\begin{tikzcd}
+H^1(X, \struct{X}) \arrow[r] & H^1(Y, \struct{Y}) \arrow[r] & H^1(X, \struct{X}(-d))
+\end{tikzcd}
+\end{center}
+by (c) the first vanishes and by the above remarks the second does as well from the regularity assumption on $K_X$. Therefore $H^1(Y, \struct{Y}) = 0$.
+\end{rmk}
+
+\begin{cor}
+Let $X \subset \P^3$ be a very general hypersurface of degree $d \ge 4$. Then $\Pic{X} = \Z \cdot H$.
+\end{cor}
+
+\subsection{The Universal Family}
+
+We want to show that the lifting problem for $\Pic{\hat{X}} \to \Pic{Y}$ is unobstructed for the very general member $Y \in |V|$. However, the natural obstruction spaces $H^2(Y, \struct{Y}(-nd))$ never vanish by Serre duality. The main idea is to compare the obstruction for lifting along the formal neighborhoods of $Y \subset X$to the lifting problem for the formal neighborhood of $Y$ viewed as a fiber in the universal family. This latter lifting problem will then be unobstructed for the general member by a spreading out argument. 
+\bigskip\\
+First we fix some notaiton. Consider the universal hypersurface $\cY$ which is the incidence correspondence,
+\[ \cY \subset X \times S \]
+where $S = \P(H^0(X, \struct{X}(d))$. Thus $\cY$ is equipped with projection maps $p : \cY \to X$ and $q : \cY \to S$ where $q$ is flat and proper and $p$ is smooth and proper, in fact it is a projective bundle. Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cV \arrow[r] & V \ot \struct{X} \arrow[r] & \struct{X}(d) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cV$ is the bundle of sections in $V$ which vanishing at a given point of $x$. Hence we see that $\cY = \P(\cV) := \rProj{X}{\Sym{}{\cV^\bullet}}$ compatible with $p : \cY \to X$. Now let $\hat{X}$ be the formal completion of $X$ along $Y$ and viewing $Y \subset \cY$ as the fiber over $s \in S$ let $\hat{cY}$ be the formal completion of $\cY$ along $Y$. Since we have a morphism of schemes $p : \cY \to X$ mapping the fiber $\cY_s = Y$ into (scheme-theoretically) the closed subscheme $Y \subset X$ (in fact it is an isomorphism over $Y$) we get a morphism of formal schemes,
+\[ \hat{p} : \hat{\cY} \to \hat{X} \]
+Then let $\I$ be the ideal cutting out $Y \subset X$. Since the map $p$ sends $\cY_s \to Y$ we have $p^* \I \subset \m_s \struct{\cY}$ or we say that $\I$ maps into $\m_s \struct{\cY}$ under the sheaf map $p^{\#}$. This also implies that $\I^n$ maps into $\m_s^n \struct{\cY}$ under $p^{\#}$ which is what induces the map of formal schemes $\hat{p} : \hat{\cY} \to \hat{X}$. 
+
+\subsection{Formal Deformations and Formal Lefschetz}
+
+\begin{defn}
+We say that $(X, Y)$ satisfies \textit{formal Noether-Lefschetz} (FNL) if,
+\[ \im{(\Pic{\hat{X}} \to \Pic{Y})} = \im{(\Pic{\hat{\cY}} \to \Pic{Y})} \]
+We say that $(X, |V|)$ satisfies FNL if there is a nonempty open $U \subset S$ so that for each $s \in U$ the pair $(X, \cY_s)$ satisfies FNL.
+\end{defn}
+
+First we will show how FNL implies the Noether-Lefschetz property using that obstructions for $Y \subset \cY$ are unobstructed for the generic member $Y \in |V|$.
+
+\begin{theorem}
+Let $K$ be the separable closure of the function field of $S$. Suppose that $(X, |V|)$ satisfies FNL. Then,
+\[ \Pic{X_K} \to \Pic{\cY_K} \]
+is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+Since $\fPic_{\cY/S}$ is representable and $H^1(Y, \struct{Y}) = 0$ there is a countable intersection of nonempty opens $C \subset S$ such that $\fPic_{\cY_s}$ is smooth for any $s \in C$. For any $\L \in \Pic{Y}$ such that the map  $\Spec{L} \to \fPic_{\cY/S}$ lands in the smooth locus, by the formal lifting property, it spreads out to line bundle $\hat{\L} \in \Pic{\hat{\cY}}$ and therefore by formal Lefschetz we get $\hat{\L}' \in \Pic{\hat{X}_L}$ which restricts to $\L \in \Pic{X}$. Therefore by Grothendieck-Lefschetz, $\L$ is in the image of $\Pic{X_L} \to \Pic{Y}$.
+\end{proof}
+
+
+Now we need to prove the formal Noether-Lefschetz property. We want to compare obstructions for lifting line bundles from $Y$ to $\hat{\cY}$ to those same obstructions for lifting $Y$.
+Choose $s \in U$ and $Y = \cY_s$. Since $p$ is flat, $p^*$ is exact and therefore there is a diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & p^* \I^n / \I^{n+1} \arrow[d] \arrow[r] & p^* \struct{Y_{n+1}} \arrow[d] \arrow[r] & p^* \struct{Y_n} \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \J^n / \J^{n+1} \arrow[r] & \struct{\cY_{n+1}} \arrow[r] & \struct{\cY_{n}} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+where $\cY_{n} = (\cY_s)_n$ is the $n^{\text{th}}$-formal neighborhood of $\cY_s \subset \cY$ cut out by the ideal $J^n = \m_s^n \struct{\cY}$. Since $p$ is a projective bundle $R p_* \struct{\cY} = \struct{X}$ and therefore by the projection formula $p^*$ preserves cohomology. Therefore, applying the long exact sequences of cohomology gives a diagram,
+\begin{center}
+\begin{tikzcd}
+H^1(Y, \I^n / \I^{n+1}) \arrow[d] \arrow[r] & \Pic{Y_{n+1}} \arrow[d] \arrow[r] & \Pic{Y_n} \arrow[r] \arrow[d] & H^2(Y, \I^n / \I^{n+1}) \arrow[d, "\gamma_n"]
+\\
+H^1(Y, \J^n / \J^{n+1}) \arrow[r] & \Pic{\cY_{n+1}} \arrow[r] & \Pic{\cY_n} \arrow[r] & H^2(Y, \J^n / \J^{n+1})
+\end{tikzcd}
+\end{center}
+Suppose that $\alpha \in \im{(\Pic{\hat{\cY}} \to \Pic{Y})}$ then $\alpha$ lifts to some comptabile sequence of $\alpha_n \in \Pic{\cY_{n}}$. We want to find a sequence $\alpha_n' \in \Pic{Y_n}$ which pulls back to $\alpha_n$. Indeed, set $\alpha_1' = \alpha_1$ since $\cY_1 = Y_1 = Y$. Suppose we have built $\alpha_n'$. If $\gamma_n$ is injective then the obstruction class of $\alpha_n'$ dies since it maps to $\alpha_n$ which is unobstructed by assumption. Hence there is some lift $\alpha_{n+1}'$ but it is not clear that $\alpha_{n+1}' \mapsto \alpha_{n+1}$. The difference is controlled by some class in $H^1(Y, \J^n / \J^{n+1})$ which may be nonzero. However,
+\[ H^1(Y, \J^n / \J^{n+1}) = \m^n / \m^{n+1} \ot H^1(Y, \struct{Y}) \]
+so if $H^1(Y, \struct{Y}) = 0$ then there is unique lifting along $\cY_{n+1} \to \cY_n$.
+Therefore, we have proven:
+
+\begin{lemma}
+Suppsoe that for all $Y = Y_s$ in some nonempty open $U \subset S$ we have for all $n \ge 1$,
+\begin{enumerate}
+\item $\gamma_n$ is injective
+\item $H^1(Y, \struct{Y}) = 0$
+\end{enumerate} 
+Then $(X, |V|)$ satisfies FNL.
+\end{lemma}
+
+
+\section{Proposal for Stacks Project writeup}
+
+Let $k$ be any field. Let $X$ be an integral Cohen-Macaullay locally-factorial projective 3-fold and $Y \subset X$ the vanishing locus of a regular section $s \in V \subset H^0(X, \struct{X}(d))$ where $\struct{X}(1)$ is a very ample line bundle on $X$ and $V \subset H^0(X, \struct{X}(d))$ is a base-point free linear system. 
+
+\begin{theorem}
+With the above notation, suppose that,
+\begin{enumerate}
+\item $K_X$ is $d$-regular\footnote{The main property we will use is that $H^0(X, \omega_X(d)) \ot H^0(X, \struct{X}(nd)) \onto H^0(X, \omega_X((n+1)d))$ for all $n \ge 0$ as well as some $H^1$ vanishing properties of $\struct{X}$.}
+\item $S^n V \onto H^0(X, \struct{X}(nd))$ for all $n \ge 0$ (e.g. if $V$ is complete and $\struct{X}$ is $d$-regular)
+\item $\fPic_{X/k}^0$ is smooth
+\end{enumerate}
+then for a very general member $Y \in |V|$ the map
+\[ \Pic{X} \to \Pic{Y} \]
+is an isomorphism. 
+\end{theorem}
+
+To prove this we need the following results:
+
+\begin{enumerate}
+\item Lemmas on Castelnuovo-Mumford regularity (not yet in stacks project)
+
+\item Grothendeck-Lefschetz (in the stacks project)
+
+\item Lemma~\ref{lemma:picard_smoothness} (enough is in the stacks project to prove this)
+
+\item Proposition~\ref{prop:pic_smooth_formal_lifting}
+
+\item Proposition~\ref{prop:injectivity}
+\end{enumerate}
+
+\end{document}
