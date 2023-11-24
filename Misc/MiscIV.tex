@@ -2014,6 +2014,8 @@ A linear map $f : L \to L$ is a \textit{derivation of degree} $n$ if $f(L^i) \su
 \[ f([a,b]) = [f(a), b] + (-1)^{n |a|} [a, f(b)] \]
 \end{defn}
 
+\newcommand{\ad}{\mathrm{ad}}
+
 \begin{rmk}
 Note that if $a \in L^i$ then $\ad_a : L \to L$ given by $[a, -]$ is a derivation of degree $i$ and $\d$ is a derivation of degree $1$.
 \end{rmk}
@@ -2401,4 +2403,60 @@ First, notice that $T \to X$ is flat by miracle flatness (FINISH PROOF, HOW TO G
 
 IS NORMALITY ENOUGH IN THE $G$ IS sFINITE CASE?? NON-NORMAL EXAMPLE FOR $G$ NOT FINITE
 
+\section{Applications of Zariski Connectedness}
+
+\begin{prop}
+Let $f : X \to S$ me a lfp morphism of schemes. Consider the function,
+\[ n(s) := \# \pi_0(X_{\bar{s}}) \]
+sending $s$ to the number of geometric components of the fiber. If $f$ is flat and proper then $n : S \to \Z$ is lower semi-continuous. If morover, the fibers of $f$ are geometrically reduced then $n$ is locally constant.
+\end{prop}
+
+\begin{rmk}
+Without the reducedness assumption, $n$ can certainally jump down e.g. consider a ramified covering of curves. Morover, all of the assumptions are necessary:
+\begin{enumerate}
+\item flatness: consider $\A^1 \sqcup \{ * \} \to \A^1$ mapping $* \to 0$
+\item properness: consider $X = \Proj{k[t][X,Y,Z]/(X^2  - Y^2 + t Z^2)} \to \Spec{k[t]}$ which is the degeneration of a conic to two lines. Then consider $X \sm \{ (0, [0,0,0]) \}$ where we remove the point connecting the two conics hence the number of connected components jumps up
+\end{enumerate}
+\end{rmk}
+
+\begin{proof}
+Consider the Stein factorization $f : X \to S' \to S$ then the connected components of $X_{\bar{s}}$ are in bijection with the connected components of $S'_{\bar{s}}$ since $X \to S'$ has geometrically connected components. Hence if $S' \to S$ were flat this would be easy. However, this is not always the case\footnote{Suppose the schemes are noetherian, then $S' \to S$ finite and is moreover flat if and only if $f_* \struct{X}$ is a vector bundle (we need $S' \to S$ to be lfp for this equivalence) but there are examples of flat proper maps of noetherian schemes $f : X \to S$ such that $f_* \struct{X}$ is not a vector bundle. Whenever there is a failure of cohomological flatness this can occur for a thickening of the fiber via the theorem of formal functions e.g. \chref{https://mathoverflow.net/questions/65267/global-sections-of-flat-scheme-also-flat}{here}. DOD BETTER  }. Instead we use etale localization. Suppose there are $n$ geometric points in the fiber over $s$. Then by \chref{https://stacks.math.columbia.edu/tag/0BSR}{Tag 0BSR} there exists an \etale neighbrohood $U \to S$ of $s$ such that $S'_U = V_1 \sqcup V_2 \sqcup \cdots V_m$ with $s_i \in V_i$ and $\kappa(s_i) / \kappa(s)$ purely inseparable. Then $X_{V_i} \to X$ are \etale and $X \to S$ is flat and lfp so $X_{V_i} \to S$ has open image. Since there are finitely many, the intersection of their images is an open neighborhood of $s$ on which there are at least $m$ geometric points in each fiber.
+\bigskip\\
+Now suppose that $f : X \to S$ has geometrically reduced fibers. Then $n(s) = \dim_{\kappa(s)} H^0(X_s, \struct{X_s})$ because $H^0(X_s, \struct{X_s})$ is a finite product of local Artinain $\kappa(s)$-algebras corresponding to the connected components. By flat base change, we compute $H^0(X_{\bar{s}}, \struct{X_{\bar{s}}})$ as the base change and this is reduced hence a product of $\kappa(\bar{s})$ since this is an algebraically closed fields and the number of products is eactly $n(s)$ and equal to the dimension of $H^0(X_s, \struct{X_s})$. However, the function $s \mapsto H^0(X_{s}, \struct{X_s})$ is upper semicontinuous hence we conclude.
+\end{proof}
+
+\begin{rmk}
+It is interesting to me that ``proper pushforward of coherent is coherent'' is only considered in the locally noetherian case in EGA see [EGA III.1, Theorem 3.2.1]. Can you do anything by noetherian approximation? Maybe not if you can't make the base change from the noetherian setting flat in order to use flat base change. Hmm?
+\end{rmk}
+
+\newcommand{\Y}{\mathscr{Y}}
+
+\begin{theorem}
+Let $f : \X \to \Y$ me a lfp morphism of DM-stacks. Consider the function,
+\[ n(s) := \# \pi_0(\X_{\bar{s}}) \]
+sending $s$ to the number of geometric components of the fiber. If $f$ is flat and proper then $n : S \to \Z$ is lower semi-continuous. If morover, the fibers of $f$ are geometrically reduced then $n$ is locally constant.
+\end{theorem}
+
+\begin{proof}
+The proof is identical up to some reductions. Taking an \etale cover, we can assume $\Y = S$ is a scheme. Just as for schemes, there is a Stein factorization,
+\[ f : \X \to \rSpec{S}{f_* \struct{\X}} = S' \to S \]
+and $S'$ is affine over $S$ is hence a scheme. Therefore, we conclude by applying \etale localiation to $S' \to S$ exactly as above. Then we get opens $\X_{V_i}$ and the maps $\X_{V_i} \to S$ are flat and lpf hence open so taking the intersection of these images gives an open where the function $n$ is at least $n(s)$. To conlude we need to prove upper semicontinuity for stacks. 
+\end{proof}
+
+\begin{prop}
+Let $\X$ be a normal noetherian connected DM-stack. Then $\X$ is irreducible.
+\end{prop}
+
+\begin{proof}
+Let $U \to \X$ be an \etale neighborhood then $U$ is normal. Shrinking so that $U$ is connected (noetherianity implies that the connected components are clopen) we see that $U$ is irreducible. Hence its image is open and irreducible. Therefore, $\X$ is locally irreducible and connected and hence irreducible. Indeed, for any irreducible component $T \subset |\X|$ then either $T \cap U_i$ is empty or $T \cap U_i$ is an irreducible component because if $T \cap U_i \subset Z \subset U_i$ is a larger irreducible then $\overline{Z}$ is irreducible and contains $T$ since $T \subset \ol{Z} \cup U_i^C$ are closed but $T \not\subset U_i^C$ because $T \cap U_i \neq \empty$ hence $T \subset \ol{Z}$ and $Z$ is irreducible so $T = \ol{Z}$ by maximality and hence $T \cap U_i = \ol{Z} \cap U_i = Z$ so we conclude that $T \cap U_i$ is an irreducible component of $U_i$. But $U_i$ is irreducible so $U_i \supset T$ and hence $T = |\X|$ so we conclude.  
+\end{proof}
+
+\begin{theorem}
+The moduli space of curves $\M_{g,n}$ over any field is geometrically irreducible.
+\end{theorem}
+
+\begin{proof}
+For $n' \ge n$ we have $\M_{g,n'} \to \M_{g,n}$ is surjective so it suffices to prove the claim for $n' \gg 0$ so we may assume that $\M_{g,n}$ is DM.
+It suffices to prove this over prime subfields. Then consider $\M_{g,n} \to \Spec{\Z}$ and the DM-compactification of stable curves $\ol{\M}_{g,n} \to \Spec{\Z}$ which is smooth and proper map of noetherian DM-stacks. Hence, we can apply Zariski connectedness to conclude that the number of connected components is constant and by smoothness (hence geometric normality) if the fiber is geometrically connected then it is geometrically irreducible. Therefore we reduce to $\Q$. Then we base change to $\CC$ so we win by classical methods. Then $\M_{g,n} \embed \ol{\M}_{g,n}$ is open so we win.
+\end{proof}
 \end{document}
