@@ -24,7 +24,10 @@
 \begin{defn}
 Let $X$ be a space and $C \subset \cP(X)$ a set of subsets. Call these \textit{concepts} and $C$ a \textit{concept class}. Then for $S \subset X$ we say that $C$ \textit{shatters} $S$ if,
 \[ C \cap S := \{ c \cap S \mid c \in C \} = \cP(S) \]
+meaning that every subset of $S$ is of the form $c \cap S$ for some $c \in C$.
 \end{defn}
+
+We will sometimes refer to $C$ as a \textit{hypothesis class}.
 
 \begin{defn}
 If $C$ is a concept class. Then \textit{Vapnik–Chervonenkis} is,
@@ -75,6 +78,10 @@ proving the result by induction.
 
 \section{PAC Learning}
 
+We will work with learning contexts where we are trying to learn binary classification on space $X$ equipped with a measure $\mu$ representing the distribution of data. Explicitly, we are trying to learn one of a given set of hypotheses for where in $X$ the data is clustered according to $\mu$. This means we are given a set of concepts $C$ consisting of subsets of $C$ and a loss function $\ell(x, c)$ measuring how poorly our hypothesis about the data 
+
+Usually we think of learning in terms of trying to learn a function $f : \mathcal{X} \to \mathcal{Y}$ where $\mathcal{X}$ is a space of observables and $\mathcal{Y}$ is a space of labels we are trying to predict best with a concept class of possible functions $C$. Then there is a measure $\mu$ on $\mathcal{X} \times \mathcal{Y}$ which represents how the real data and labels are distributed. Note that we can think of the functions $C$ as subsets of $X := \mathcal{X} \times \mathcal{Y}$ and the loss of $h : \mathcal{X} \to \mathcal{Y}$ on a particular example $(x,y)$ means that we have a loss function on $X \times C$. Therefore, we have reduced to the binary classification problem. 
+
 \begin{defn}
 A \textit{learning context} is a triple $(X, C, \ell)$ where $X$ is a measurable space, $C$ a concept class on $X$, and $\ell : X \times C \to [0,1]$ is a loss function. For a probability measure $\mu$ on $X$ define the expected loss of $c \in C$,
 \[ L_\mu(c) := \E_\mu[\ell(-,c)] \]
@@ -89,17 +96,35 @@ A learning context $(X, C, \ell)$ is \textit{(efficiently) PAC learnable} if the
 \[ \P(L_\mu(c) \le \min_{c' \in C} L_\mu(c') + \epsilon) \ge 1 - \delta \]
 \end{defn}
 
+\begin{example}
+Let $\ell : X \times C \to [0,1]$ be the ``zero-one'' loss,
+\[ \ell(x, c) = 
+\begin{cases}
+0 & x \in c
+\\
+1 & x \notin c
+\end{cases} \]
+and suppose that $\mu$ is supported on some $c \in C$. Then the context $(X, C, \ell)$ is PAC learnable for any algorithm chosing a concept that fits a sample perfectly exactly if there is some $m_C : (0,1)^2 \to \N$ such that for all $\epsilon, \delta \in (0,1)$ and all measures $\mu$ on $X$ for $S$ for a set of $m \ge m_C(\epsilon, \delta)$ iid samples from $(X, \mu)$ then $A(S) = c$ so that
+\[ \P_{x \sim \mu}(x \in c) \ge 1 - \epsilon \]
+with probability at least $1 - \delta$.
+\end{example}
+
+\subsection{The Finite Case}
+
+We suppose that the concept class $C$ is finite. Then it is elementary that $(X, C, \ell)$ is efficiently PAC learnable.
+
+\begin{theorem}
+Let $C$ be a finite concept class. Then $(X, C, \ell)$ is efficiently PAC learnable using the empirical risk minimization algorithm. I
+\end{theorem}
+
+{\color{red} TODO} 
+
+\chref{https://vatsalsharan.github.io/lecture_notes/lec2_final.pdf}{see here}
+
 \subsection{No Free Lunch}
 
 \begin{theorem}
-Let $X$ be finite, $C = \cP(X)$, and $\ell : X \times C \to [0,1]$ be the zero-one loss defined by,
-\[ \ell(x, c) = 
-\begin{cases}
-1 & x \in c
-\\
-0 & x \notin c
-\end{cases} \]
-There exist universal fixed $\epsilon, \delta \in (0,1)$ such that if $A$ is any learning algorithm for $(X, C, \ell)$ and $m < |X|/2$ then there is a distribution $\mu$ on $X$ such that,
+Let $X$ be finite, $C = \cP(X)$, and $\ell : X \times C \to [0,1]$ be the zero-one loss. Then there exist universal fixed $\epsilon, \delta \in (0,1)$ such that if $A$ is any learning algorithm for $(X, C, \ell)$ and $m < |X|/2$ then there is a distribution $\mu$ on $X$ such that,
 \[ \P( \]
 \end{theorem}
 
@@ -209,12 +234,19 @@ Let $(X, C, \ell)$ be a learning context. Then the following are equivalent,
 \item $(X, C, \ell)$ is PAC learable
 \item $(X, C, \ell)$ is efficiently PAC learnable
 \item any ERM rule is an efficient PAC learning algorithm for $(X, C, \ell)$
-\item $\VC{C} < \infty$.
+\item $\VC(C) < \infty$.
 \end{enumerate}
 \end{theorem}
 
-\begin{proof}
+{\color{red} TODO}
 
-\end{proof}
+\subsection{References}
+
+\begin{enumerate}
+\item \chref{https://www.cs.princeton.edu/courses/archive/spring18/cos511/scribe_notes/0212.pdf}{Princeton}
+\item \chref{https://people.cs.umass.edu/~akshay/courses/cs690m/files/lec1.pdf}{umass}
+\item \chref{https://vatsalsharan.github.io/lecture_notes/lec2_final.pdf}{Theory of Machine Learning}
+\item \chref{https://www.cs.utexas.edu/~klivans/05f2.pdf}{utexas}
+\end{enumerate}
 
 \end{document}

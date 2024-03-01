@@ -1,0 +1,177 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\section{Fourier-Mukai Transforms}
+
+\begin{theorem}[Mukai]
+Let $A/k$ be an abelian variety then there is an equivalence of categories,
+\[ D^b(A) \iso D^b(A^\vee) \]
+\end{theorem}
+
+\begin{rmk}
+$D^b(A)$ is the category of complexes of quasi-coherent sheaves whose cohomology sheaves are coherent and only finitely many nonzero.
+\end{rmk}
+
+\subsection{Derived Categories}
+
+\renewcommand{\RHom}{\mathbb{R}\mathrm{Hom}}
+\newcommand{\LL}{\mathbb{L}}
+
+Let $X$ be smooth projective over a field $k$. We make these assumptions because,
+\begin{enumerate}
+\item smooth: such that all rings are regular hence finite modules have finite projective dimension
+\item projective: every coherent sheaf is a quotient by a vector bundle
+\end{enumerate}
+therefore every element in $D^b(X)$ is represented by a finite complex of vector bundles.
+\bigskip\\
+Fact: there exists $\ul{\RHom}$ and $\ot^{\LL}$. For a map $f : X \to Y$ (which is automatically proper because $X,Y$ are projective varities) then for any $E \in D^b(X)$ we get $\RR f_* E \in D^b(Y)$ and for $E \in D^b(Y)$ then $\LL f^* E \in D^b(X)$. 
+\bigskip\\
+Furthermore, there is a projection formula,
+\[ \RR f_* (E \ot^{\LL}_X \LL f^* F) \cong \RR f_* E \ot^{\LL}_Y F \]
+
+\begin{prop}
+If we have a Cartesian diagram,
+\begin{center}
+\begin{tikzcd}
+X' \arrow[d, "f'"] \arrow[r, "g'"] \pullback & X \arrow[d, "f"]
+\\
+Y' \arrow[r, "g"] & Y
+\end{tikzcd}
+\end{center}
+and either $f$ or $g$ is flat then for $E \in D^b(X)$ there is a base change isomorphism,
+\[ \LL g^* (\RR f_* E) \cong \RR f'_* (\LL g'^* E) \]
+\end{prop}
+
+\begin{prop}
+If $f : X \to Y$ is smooth,
+\[ (\RR f_* E)^\vee \cong \RR f_* (E^\vee \ot \omega_{X/Y}[\dim{X} - \dim{Y}]) \]
+\end{prop}
+
+\subsection{Integral functors}
+
+Given the following situation,
+\begin{center}
+\begin{tikzcd}
+& X \times_k Y \arrow[ld, "\pi_X"'] \arrow[rd, "\pi_Y"]
+\\
+X & & Y
+\end{tikzcd}
+\end{center}
+And fix $\cP \in D^b(X \times Y)$.
+
+\begin{defn}
+The \textit{integral functor with kernel} $\cP$ is,
+\[ \Phi^{\cP}_{Y \to X} : D^b(Y) \to D^b(X) \]
+given by
+\[ E \mapsto \RR \pi_{X*} (\cP \ot^{\LL}_{X \times Y} \LL \pi_Y^* E) \] 
+\end{defn}
+
+\begin{prop}
+The composition of integral functors is an integral functor. 
+\end{prop}
+
+
+\newcommand{\cQ}{\mathcal{Q}}
+
+\begin{proof}
+To compute $\Phi_{Y \to X}^{\cP} \circ \Phi_{Z \to Y}^{\cQ}$ draw the diagram,
+\begin{center}
+\begin{tikzcd}
+& & X \times Y \times Z \arrow[ld] \arrow[rd]
+\\
+& X \times Y \arrow[rd] \arrow[ld] & & X \times Z \arrow[ld] \arrow[rd]
+\\
+X & & Y & & Z
+\end{tikzcd}
+\end{center}
+then we compute that by base change,
+\[ \LL (\pi^{XY}_Y)^* \circ \RR (\pi^{YZ}_Y)_* \cong \RR (\pi^{XYZ}_{XY})_* \circ \LL (\pi^{XYZ}_{YZ})^* \]
+Therefore,
+\[ \Phi_{Y \to X}^{\cP} \circ \Phi_{Z \to Y}^{\cQ} = \RR (\pi_X^{XYZ})_* [ \mathcal{R} \ot^{\LL}_{XYZ} \LL (\pi^{XYZ}_Z)^*] \]
+where
+\[ \mathcal{R} = (\pi^{XYZ}_{YZ})^* \cQ \ot^{\LL}_{XYZ} (\pi^{XYZ}_{XY})^* \cP \]
+\end{proof}
+
+\begin{prop}
+All integral functors have both left and right adjoints which are also integral functors.
+\end{prop}
+
+\begin{proof}
+\begin{align*}
+\RR \Hom{X}{E}{\RR \pi_{X*} [\cP \ot^{\LL} \LL \pi_Y^* F} &= \RR \Hom{X \times Y}{\pi_{X}^* E}{\cP \ot^{\LL} \LL \pi_Y^* F} 
+\\
+& = \RR \Hom{X \times Y}{\cP^\vee \ot^{\LL} \LL \pi_X^* E}{\LL \pi_Y^* F}  
+\\
+& = \RR \Hom{Y}{\RR \pi_{Y*} (\cP^\vee \ot^{\LL} \LL \pi_X^* E \ot^{\LL} \LL \pi_X^* \omega_X[\dim{X}]}{F} 
+\end{align*}
+therefore the left adjoint is given by $\Phi^{\cP^\vee \ot^{\LL} \LL \pi_X^* \omega_X[\dim{X}]}_{X \to Y}$. Similarly the right adjoint is given by $\Phi^{\cP^\vee \ot^{\LL} \LL \pi_Y^* \omega_Y[\dim{Y}]}_{X \to Y}$.
+\end{proof}
+
+\subsection{Full faithfulness}
+
+General fact: if a functor $F$ has a left adjoint $G$ then $\Hom{}{X}{Y} \to \Hom{}{F(X)}{F(Y)} = \Hom{}{GF(X)}{Y}$ so $GF = \id$ is enough to show that $F$ is fully faithful. 
+
+\begin{theorem}
+The functor $F := \Phi_{Y \to X}^{\cP}$ is fully faithful if and only if 
+\[ \RR \Gamma \RR \Hom{Y}{\struct{y_1}}{\struct{y_1}} \to \RR \Gamma \RR \Hom{Y}{F \struct{y_1}}{F \struct{y_2}} \]
+is an isomorphism in $D^b(k)$ for all closed points $y_1, y_2 \in Y$. Equivalently, if $y_1 \neq y_2$ then $\RR \Hom{Y}{F \struct{y_1}}{F \struct{y_2}} = 0$ and if $y_1 = y_2$ then,
+\[ \RR \Gamma \RR \Hom{Y}{\struct{y}}{\struct{y}} \iso \RR \Gamma \RR \Hom{Y}{F \struct{y}}{F \struct{Y}} \]
+\end{theorem}
+
+\begin{proof}
+It is clear this is necessary by considering shifts. Therefore, we need to prove sufficience. Let $G$ be the left adjoint and write $GF = \Phi^{\cQ}_{Y \to Y}$. The counit map $GF \to \id$ is realized by the map of sheaves $\cQ \to \Delta_{Y}$ inside $D^b(Y \times Y)$. Let $K$ be the fiber of this map. By assumption, 
+\[ \RR \Hom{Y}{\struct{y_1}}{\struct{y_1}} \iso \RR \Hom{Y}{GF \struct{y_1}}{\struct{y_2}} \] 
+this is given by precomposition with $\cQ \to \Delta_{Y}$ meaning there is an exact triangle
+\[ K_{y_1} \to \cQ_{y_1} \to \struct{y_1} \to K_{y_1}[+1] \]
+But the assumption exactly implies that $\RR \Hom{Y}{K_{y_1}}{\struct{y_2}} = 0$. Then $K_{y_1} = 0$ because the resolution of $K_{y_1}$ must be exact at each $y_2$. Therefore $K = 0$ because it is zero on all fibers. 
+\end{proof}
+
+\subsection{Fourier-Mukai}
+
+Let $A/k$ be an abelian variety and $A^{\vee} / k$ is dual $\fPic^0_A$. We let $\cP \in D^b(A \times A^\vee)$ the Poincare bundle. The claim is that:
+\[ \Phi^{\cP}_{A^\vee \to A} : D^b(A) \to D^b(A^\vee) \]
+is an equivalence. 
+\bigskip\\
+First we show it is fully faithful. To do this set $F = \Phi^{\cP}_{A^\vee \to A}$ then
+\begin{enumerate}
+\item for $y_1 \neq y_2$ we need $\RR\Hom{}{F \struct{y_1}}{F \struct{y_2}} = 0$ but $F \struct{y_i} = \L_{y_i}$ is the line bundle corresponding to $y_i \in A^\vee$ so we need to show that $\RR\Hom{A}{\L_{y_1}}{\L_{y_2}} = 0$
+\item for $y = y$ we need to show that $\RR \Hom{A^\vee}{\struct{y}}{\struct{y}} \iso \RR \Hom{A}{\L_y}{\L_y}$.
+\end{enumerate}
+
+For part 1 we just need to show that $H^i(\L_y) = 0$ for all $i$ and $y \neq 0$ by setting $y = y_2 - y_1$. 
+
+\begin{lemma}[Mumford]
+For any $\L \in A^\vee$ nonzero $H^i(\L) = 0$ for all $i$.
+\end{lemma}
+
+\begin{proof}
+Consider $m : A \times A \to A$ addition. Then these satisfy the theorem of the square,
+\[ m^* \L_y \cong \pi_1^* \L_y \ot \pi_2^* \L_y \]
+Then by Kunneth:
+\[ H^k(A \times A, m^* \L_y) = \bigoplus_{i + j = k} H^i(A, \L_y) \ot H^j(A, \L_y) \]
+Note that if $A \embed A \times A \to A$ is the identiy where $A \embed A \times A$ is $\id \times 0$. Therefore, the pullback map $m^*$ is injective so,
+\[ \dim H^k(A, \L_y) \le H^k(A \times A, m^* \L_y) = \sum_{i + j = k} (\dim H^i(A, \L_y) (\dim H^j(A, \L_y) \]
+But we know that $H^0(A, \L_y) = 0$ since $y \neq 0$ so we get that all $H^i(A, \L_y) = 0$ by an inductive argument. 
+\end{proof}
+
+For part 2 we can use the Kozul resolution to show that,
+\[ \dim \Ext{i}{A^\vee}{\struct{y}}{\struct{y}} = {g \choose i} \]
+and by Hodge theory we also know that,
+\[ \dim H^i(A, \struct{A}) = {g \choose i} \]
+Both sides have the same dimension. We just need to check that the maps are nonzero. {\color{red} ran out of time here}.
+\bigskip\\
+Now we show it is essentially surjective. However, we know its left adjoint is the integral functor for $\cP^{\vee} \ot \pi_X^* \omega_X[\dim{X}] = \cP^{\vee}[\dim{X}]$. Therefore, the same computation works for $\cP^\vee$ so we see that the left adjoint is also fully faithful. 
+
+\end{document}
+

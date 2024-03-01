@@ -1,0 +1,1061 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\ob}{\mathrm{ob}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\vir}{\mathrm{vir}}
+
+\begin{document}
+
+\section{Facts About the Picard Scheme}
+
+\newcommand{\Set}{\mathbf{Set}}
+
+\begin{defn}
+Let $f : X \to S$ be a morphism of schemes. Consider the sheaf
+\[ \fPic_{X/S} : (\Sch_S)_{\fppf} \to \Set \]
+given by the sheafification in the big $\fppf$ site of the presheaf $T \mapsto \Pic{X_T} / \Pic{T}$. We say that $\fPic_{X/S}$ exists if this sheaf is representable by an algebraic space. 
+\end{defn}
+
+\begin{theorem}[Artin]
+Let $f : X \to S$ be proper, flat and finitely presented. Then if the formation of $f_* \struct{X}$ commutes with all base change then $\fPic_{X/S}$ is represented by an algebraic space over $S$.
+\end{theorem}
+
+\subsection{Some Remarks About Sites}
+
+\renewcommand{\Sh}{\mathrm{Sh}}
+\newcommand{\PSh}{\mathrm{PSh}}
+
+Functors between sites are just functors of the underlying category.
+
+\begin{defn}
+Given a functor $u : \C \to \D$ we can form the following operations on presheaves
+\[ u^p : \PSh(\D) \to \PSh(\C) \quad u^p : \F \mapsto \F \circ u \]
+\[ u_p : \PSh(\C) \to \PSh(\D) \quad u_p : \F \mapsto (V \mapsto \dlim_{V \to u(U)} \F(U)) \]
+these are the familiar pushforward and pullback maps if $u = f^{-1}$ for a morphism of topological spaces. Furthermore there is another pushforward
+\[ {}_p u : \PSh(\C) \to \PSh(\D) \]
+\[ {}_p u : \F \mapsto (V \mapsto \ilim_{u(U) \to V} \F(U)) \]
+If $\C$ and $\D$ are sites then composing these functors with sheafification produces functors $u^s, u_s, {}_s u$ on the category of sheaves.
+\end{defn}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/00VE}{Tag 00VE}]
+The functors $(u_p, u^p)$ and $(u^p, {}_p u)$ are adjoint pairs.
+\end{lemma}
+
+In good situations $f = (u_s, u^s)$ will define a morphism of topoi $\Sh(\D) \to \Sh(\C)$. The canonical example of such behavior is when $u = f^{-1}$ for $f : X \to Y$ a continuous map in which case $f : \Sh(X) \to \Sh(Y)$ is the usual morphism of topoi. Indeed, this holds in the following situation. 
+
+\begin{lemma}
+If $u : \C \to \D$ is a continuous functor of sites then $(u_s, u^s)$ is an adjoint pair and $u_s = u_p$.
+\end{lemma}
+
+\begin{proof}
+It is clear that $u^p \F$ is a sheaf since $(u^p \F)(U) = \F(u(U))$ and $u$ preserves coverings so $u^p \F$ satisfies the sheaf condition. Furthermore,
+\[ \Hom{\Sh(\D)}{u_s \F}{\G} = \Hom{\PSh(\D)}{u_p \F}{\G} = \Hom{\PSh(\C)}{\F}{u^p \G} = \Hom{\Sh(\C)}{\F}{u^s \G} \]
+The first step follows by the universal property of sheafification, the second by adjointness of $(u_p, u^p)$ and the third by $u^p = u^s$. 
+\end{proof}
+
+\begin{defn}
+A \textit{morphism} $f : \D \to \C$ of sites is a continuous functor $f^{-1} : \C \to \D$ (meaning it preserves fiber products by covers and takes covers to covers) such that $(f^{-1})_s$ is exact. Therefore, it defines a morphism of topoi $((f^{-1})_s, (f^{-1})^s) : \Sh(\D) \to \Sh(\C)$. 
+\end{defn}
+
+In dual good situations $(u^s, {}_s u)$ will define a morphism of topoi $\Sh(\C) \to \Sh(\D)$ (note the different directions of these maps). The canonical of such behavior is the postcomposition map $(\Sch_{S'})_{\fppf} \to (\Sch_{S})_{\fppf}$ along a map $S' \to S$. Indeed, this holds in the following situation.
+
+\begin{defn}
+Let $u : \C \to \D$ be a functor between sites. The functor is called \textit{cocontinuous} if for each $U \in \C$ and covering $\{ V_j \to u(U) \}_{j \in J}$ in $\D$ there exists a covering $\{U_i \to U\}_{i \in I}$ such that the family of maps $\{ u(U_i) \to u(U) \}_{i \in I}$ refines the covering $\{ V_j \to u(U) \}_{j \in J}$.
+\end{defn}
+
+\begin{rmk}
+Note that in general $\{ u(U_i) \to u(U) \}_{i \in I}$ is \textit{not} in general a covering in $\D$. 
+\end{rmk}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/00XO}{Tag 00XO}]
+Let $u : \C \to \D$ be a cocontinuous functor between sites. Then it defines a morphism $g = (u^s, {}_s u) : \Sh(\C) \to \Sh(\D)$ of topoi where
+\[ u^s \F := (\F \circ u)^{\#} \]
+and 
+\[ {}_s u \F := (U \mapsto \lim_{u(U) \to V} \F(U))^{\#} \]
+meaning they form an adjoint pair and $u^s$ is exact. 
+\end{lemma}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/00XX}{Tag 00XX}] \label{lemma:cocontinuous_adjoint_pair}
+Let $\C$ and $\D$ be sites. Let $u : \C \to \D$ and $v : \D \to \C$ be functors. Assume that $u$ is cocontinuous and that $(u, v)$ is an adjoint pair. Let $g = (u^s, {}_s u) : \Sh(\C) \to \Sh(\D)$ be the morphism of topoi in the previous lemma. Then $g_* \F = v^p \F$ as presheaves so $g_* = v^s = v^p$ and also $g^{-1} = v_s$. Hence the map of topoi $(v_s, v^s)$ associated to $v$ is equal to $g$. Moveover, if $v$ is continuous then $v$ defines a morphism of sites $f : \C \to \D$ whose associated morphism of topoi is equal to $g$.
+\end{lemma}
+
+\begin{proof}
+We have $u^p h^V = h^{v(V)}$ by adjointness since,
+\[ (u^p h^V)(U) = h^V(u(U)) = \Hom{\D}{u(U)}{V} = \Hom{\C}{U}{v(V)} = h^{v(V)}(U) \]
+Therefore $g^{-1} (h^V)^{\#} = (u^p (h^V)^{\#})^{\#} = (u^p h^V)^{\#} = (h^{v(V)})^{\#}$. Hence for any sheaf $\F$ on $\C$ we have
+\[ (g_* \F)(V) = \Hom{\Sh(\D)}{(h^V)^{\#}}{g_* \F} = \Hom{\Sh(\C)}{g^{-1} (h^V)^{\#}}{\F} = \Hom{\Sh(\C)}{(h^V)^{\#}}{\F} = \F(v(V)) \]
+To prove that $g^{-1} := u^s$ equals $v_s$ we use that $(v_s, v^s)$ and $(u^s, {}_s u)$ are adjoint pairs and $v^s = {}_s u$ so we conclude by uniqueness of adjoints.
+\end{proof}
+
+\begin{lemma}
+Let $g : S' \to S$ be a map of objects of a site $\C$ which has fiber products against $g$. Consider the functors 
+\[ g^{-1} : \C_S \to \C_{S'} \quad \quad g^{\to} : \C_{S'} \to \C_{S} \]
+given by
+\[ g^{-1} : X/S \mapsto X \times_S S' / S' \quad \quad g^{\to} : X / S' \mapsto X / S \]
+Then $(g^{\to}, g^{-1})$ is an adjoint pair with $g^{\to}$ is continuous and cocontinuous and $g^{-1}$ continuous. They induce the same morphism of topoi $f : \Sh(\C_{S'}) \to \Sh(\C_{S})$ meaning
+\[ f^{-1} = (g^{-1})_s = (g^{\to})^s = (g^{\to})^p \]
+and 
+\[ f_* = (g^{-1})^p = {}_s (g^{\to}) \]
+\end{lemma}
+
+\begin{proof}
+Indeed,
+\[ \Hom{S}{g^{\to} X}{Y} = \Hom{S'}{X}{S' \times_S Y} = \Hom{S'}{X}{g^{-1} Y} \]
+Note that $g^{\to}$ is continuous, cocontinuous, and commutes with fiber products and equalizers. By continuity $(g^{\to})^s = (g^{\to})^p$ (which is also obvious). Now we conclude using the previous lemma.
+\end{proof}
+
+\begin{cor}
+Let $g : S' \to S$ be a morphism of schemes and consider the corresponding maps between sites
+\[ g^{\to} : \Sch_{S'} \to \Sch_S \quad \quad g^{-1} : \Sch_{S} \to \Sch_{S'} \]
+Then the corresponding morphism of topoi for the $\tau$-topology
+\[ f : \Sh((\Sch_{S'})_{\tau}) \to \Sh((\Sch_{S})_{\tau}) \]
+is computed as $(f^{-1} \F)(U/S') = \F(U/S)$ and $(f_* \F)(V/S) = \F(V_{S'}/S')$.
+\end{cor}
+
+\begin{rmk}
+We call $f^{-1} \F$ the ``base change of $\F$ along $g$''. Indeed, if $\F = h^X$ is representable by an $S$-scheme then $f^{-1} \F = h^{X_{S'}}$ indeed we proved this in Lemma~\ref{lemma:cocontinuous_adjoint_pair} applied to the adjoint pair $(g^{\to}, g^{-1})$. It is just adjointness, recall
+\[ (f^{-1} h^X)(U/S') = h^X(U/S) = \Hom{S}{U}{X} = \Hom{S'}{U}{X_{S'}} = h^{X_{S'}}(U) \]
+Therefore, we will sometimes write $\F \times_S S' := f^{-1} \F$.
+\end{rmk}
+
+\begin{lemma}[\chref{https://stacks.math.columbia.edu/tag/00WY}{Tag 00WY}]
+Let $\F : \C^\op \to \Set$ be a presheaf. Let $\F^{\#} \in \Sh(\C)$ be its sheafification. If $u : \C \to \D$ is a continuous functor of sites then  $u_s \F^{\#}$ is the sheafification of $u_p \F$.
+\end{lemma}
+
+\begin{proof}
+Indeed, for any sheaf $\G$ on $\D$
+\begin{align*}
+\Hom{\Sh(\D)}{u_s \F^{\#}}{\G} &= \Hom{\Sh(\C)}{\F^{\#}}{u^s \G} = \Hom{\PSh(\C)}{\F}{u^s \G} = \Hom{\PSh(\C)}{\F}{u^p \G}
+\\
+& = \Hom{\PSh(\C)}{u_p \F}{\G} = \Hom{\Sh(\C)}{(u_p \F)^{\#}}{\G} 
+\end{align*}
+using that $u^s = u^p$ because $u$ is continuous. Thus we conclude by the Yoneda lemma.
+\end{proof}
+
+\begin{lemma}
+In the situation of Lemma~\ref{lemma:cocontinuous_adjoint_pair} with $v$ continuous, let $\F : \D^\op \to \Set$ be a presheaf. Then $u^s (\F^{\#}) = (u^p \F)^{\#}$. 
+\end{lemma}
+
+\begin{proof}
+Indeed, for any sheaf $\G$ on $\C$
+\begin{align*}
+\Hom{\Sh(\C)}{u^s \F^{\#}}{\G} &= \Hom{\Sh(\D)}{\F^{\#}}{{}_s u \, \G} = \Hom{\PSh(\D)}{\F}{{}_s u \, \G} = \Hom{\PSh(\C)}{\F}{v^p \, \G}
+\\
+& = \Hom{\PSh(\C)}{v_p \F}{\G} = \Hom{\Sh(\C)}{u^p \F}{\G} = \Hom{\Sh(\C)}{(u^p \F)^{\#}}{\G} 
+\end{align*}
+\end{proof}
+
+\begin{cor}
+If $g : S' \to S$ is a morphism in a site $\C$ and $f : \Sh(\C_{S'}) \to \Sh(\C_{S})$ is the corresponding morphism of topoi. If $\F : \C_{S}^\op \to \Set$ is a presheaf then $f^{-1} (\F^{\#}) = (\F \circ g^{\to})^{\#}$. 
+\end{cor}
+
+\begin{cor}
+The Picard functor $\fPic_{X/S}$ commutes with base change, meaning for any $g : S' \to S$ we have $\fPic_{X/S} \times_S S' = \fPic_{X_{S'}/S'}$.
+\end{cor}
+
+\begin{proof}
+Indeed, this is exactly the previous lemma applied to the Picard sheaf which is the sheafification of the relative Picard functor $T/S \mapsto \Pic{X_T}/\Pic{T}$. Finally, this composed with $g^{\to}$ produces,
+\[ T/S' \mapsto T/S \mapsto \Pic{X_T} / \Pic{T} = \Pic{(X_{S'})_T} / \Pic{T} \]
+which is the relative Picard functor for $X_{S'}/S'$ applied to $T/S'$.
+\end{proof}
+
+
+\subsection{Exceptional Pushforward}
+
+Here let $g : S' \to S$ be a morphism of schemes and 
+\[ f : \Sh((\Sch_{S'})_{\tau}) \to \Sh((\Sch_{S})_{\tau}) \]
+the corresponding morphism of topoi for the $\tau$-topology. 
+\bigskip\\
+Note that $f_* \F = (g^{-1})^s \F$ is Weil-restriction because exactly its value on $T/S$ is $\F(T \times_S S')$.
+\bigskip\\
+Now, there is another operation we can perform on schemes which we upgrade to sheaves. Let $g : S' \to S$ be a morphism and $f : X \to S'$ be an $S'$-scheme. Then we can view $X/S'$ as a $S$-scheme which is called $g^{\to} X$. This gives,
+\[ \Hom{S}{T}{g^{\to} X} = \{ (a,b) \mid a : T \to S' \text{ and } b \in \Hom{S'}{T}{X} \} \]
+where $b$ is a $S'$-morphism through the structure map $a$. The claim is that there is an exceptional left adjoint $f_!$ such that $f_! h^{X/S'} = h^{X/S}$ and thus $f_!$ extends this operation to all sheaves.
+
+\begin{lemma}
+Let $u : \C \to \D$ be cocontinuous functor and $g = (u^s, {}_s u) : \Sh(\C) \to \Sh(\D)$ the associated morphism of topoi. If $u$ is also continuous then
+\begin{enumerate}
+\item $g^{-1} = u^p$ (no sheafification required)
+\item $g^{-1}$ has a left adjoint $g_! = u_s$
+\item $g^{-1}$ commutes with arbitrary colimits
+\item $g_! (h^{X})^{\#} = (h^{u(X)})^{\#}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Indeed, since $u$ is continuous $u^p$ sends sheaves to sheaves and $g^{-1} = u^s = (u^p)^{\#}$ so we see that $g^{-1} = u^p$. Therefore, 
+\begin{align*}
+\Hom{\Sh(\C)}{\F}{g^{-1} \G} = \Hom{\PSh(\C)}{\F}{u^p \G} = \Hom{\PSh(\D)}{u_p \F}{\G} = \Hom{\Sh(\D)}{g_! \F}{\G} 
+\end{align*}
+and (c) follows from (b). Finally,
+\[ \Hom{\Sh(\D)}{g_! (h^X)^{\#}}{\G} = \Hom{\Sh(\C)}{h^X}{g^{-1} \G} = (g^{-1} \G)(X) = \G(u(X)) = \Hom{\Sh(\C)}{(h^X)^{\#}}{\G} \]
+using (a) to get $g^{-1} \G = G \circ u$.
+\end{proof}
+
+\begin{rmk}
+Although $(u_p, u^p)$ are always adjoint, $(u_s, u^s)$ are not necessarily adjoint if $u$ is not continuous because there is a sheafification in $u^s$ which does not have good mapping-in behavior.
+\end{rmk}
+
+
+\begin{cor}
+Let $g : S' \to S$ be a morphism of schemes and $f : \Sh((\Sch_{S'})_{\tau}) \to \Sh((\Sch_{S})_{\tau})$
+the corresponding morphism of $\tau$-topoi. Then $f_! h^{X/S'} = h^{X/S}$ for any $S'$-scheme $X$.
+\end{cor}
+
+\begin{proof}
+This follows immediately from (d) above applied to $u = g^{\to}$. We can also just check,
+for any sheaf $\F$ on $\C_{S}$ where $\C = (\Sch)_{\tau}$ use adjunction,
+\begin{align*}
+\Hom{\Sh(\C_{S})}{f_! h^{X/S'}}{\F} & = \Hom{\Sh(\C_{S'})}{h^{X/S'}}{f^{-1} \F} = (f^{-1} \F)(X/S')
+\\
+& = \F(g^{\to}(X/S')) = \F(X/S) = \Hom{\Sh(\C_{S})}{h^{X/S}}{\F}
+\end{align*}
+so we conclude by the Yoneda lemma.
+\end{proof}
+
+\section{Remarks about Moduli Theory}
+
+It is usually advisable from the perspective of moduli theory to work in ``big'' sites not ``small'' sites. The reason is if you restrict your objects to only those with certain nice properties over the base $S$ then these covers may not be able to see any representing object that has worse properties. For example, if we take the representable sheaf given over $\A^1$-schemes by the object $* \to \A^1$ then in the small \etale, fppf, etc site this is the trivial sheaf because no nonempty finitely presented flat scheme $T \to \A^1$ can factor through a point since its image must be open. Therefore, this functor is even representable in the fppf site, by the empty scheme, but this is not the correct object. 
+
+\section{Abelian Schemes}
+
+In this section $k$ is an arbitrary field.
+
+\begin{lemma}
+Let $f : A \to B$ be a map of abelian varities and $\phi^\vee : B^\vee \to A^\vee$ be the dual. Consider the maps
+\[ A \times_k A^\vee \leftarrow A \times_k B^\vee \to B \times_k B^\vee \]
+then there is a canonical isomorphism of rigidified sheaves on $A \times_k B^\vee$
+\[ (\id_A \times \phi^\vee)^* \cP_A \cong (\phi \times \id_{B^\vee})^* \cP_B \]
+\end{lemma}
+
+\begin{proof}
+Indeed, one way of defining $\phi^\vee$ is as the classifying map for the bundle $(\phi \times \id_{B^\vee})^* \cP_B$ on $A \times_k B^\vee$ which is rigidifed along $e_A \times B^\vee$. To see why this agrees with the map defined by functoriality, we need to show that for any $t : T \to B^\vee$ that $\phi^\vee \circ t$ represents $\phi^*_T \L_t$ on $A_T$. Indeed, this is by definition. To say that $\phi^\vee \circ t$ represents $\phi^* \L_t$ means exactly
+\[ (\id_A \times \phi^\vee \circ t)^* \cP_A = (\id_A \times t)^* (\id_A \times \phi^\vee)^* \cP_A = (\id_A \times t)^* (\phi \times \id_{B^\vee})^* \cP_B = (\phi \times \id_T)^* (\id_B \times t)^* \cP_B \]
+\end{proof}
+
+\begin{defn}
+Let $(X, x_0)$ be a pointed $k$-scheme meaning $x_0 \in X(k)$. Recall that the \textit{albanese} $\Alb_X$ of $X$ is the initial object in the category of pointed maps $(X, x_0) \to (A, e)$ where $A$ is an abelian variety.
+\end{defn}
+
+\begin{theorem}
+Let $X$ be proper, geometrically integral, and geometrically normal. Then the abanese exists and $\Alb_X = (\fPic_{X/k}^\circ)_{\red}^\vee$.
+\end{theorem}
+
+\begin{proof}
+Recall that $\fPic_{X/k}^\circ$ is a proper group scheme [Kleinman, Theorem 5.4]. Thus $(\fPic^\circ_{X/k})_{\red}$ is an abelian variety {\color{red} does this require $k$ perfect}. By interpreting $\fPic_{X/k}$ as the moduli space of line bundles rigidified along $x \in X$ there is a universal Poincare bundle $\cP$ on $\fPic_{X/k} \times_k X$. We restrict to $(\fPic_{X/k}^\circ)_{\red} \times_k X$ which defines a morphism $X \to \Alb_X$ sending $x \mapsto e$ where $\Alb_X := (\fPic_{X/k}^\circ)_{\red}^\vee$. We need to check that $\Alb_X$ satisfies the universal property. Indeed, let $f : (X, x_0) \to (A, e)$ be a pointed morphism. Then we get a morphism $f^\vee : A^\vee \to \fPic_{X/k}^\circ$ and hence $A^\vee \to (\fPic_{X/k}^\circ)_{\red}$. We need to show that the dual morphism $\Alb_X \to A$ recovers $(X, x_0) \to (A, e)$ as the composition $X \to \Alb_X \to A$. By definition, $a : X \to \Alb_X$ satisfies $(a \times \id)^* \cP_{\Alb_X} = \cP_X$. It suffices to show that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}
+(X \times_k A^\vee, \L) \arrow[d, "f \times \id"] \arrow[r, equals] & (X \times A^\vee, \L) \arrow[r, "\id \times f^\vee"] \arrow[d, "a \times \id"] & (X \times (\fPic_{X}^\circ)_{\red}, \cP_X) \arrow[d, "a \times \id"]
+\\
+(A \times_k A^\vee, \cP_A) \arrow[from=r, "\tilde{f} \times \id"] & (\Alb_X \times A^\vee, \M) \arrow[r, "\id \times f^\vee"'] & (\Alb_X \times (\fPic_X^\circ)_{\red}, \cP_{\Alb_X})
+\end{tikzcd}
+\end{center}  
+where $\L := (\id \times f^\vee)^* \cP_X$ and $\M := (\id \times f^\vee)^* \cP_{\Alb_X}$. Commutativity of the right hand square is obvious. Note that $(\tilde{f} \times \id)^* \cP_A = \M$ by the previous lemma. Therefore, by commutativity of the right square
+\[ \L = (\id \times f^\vee)^* \cP_X = (a \times \id)^* (\id \times f^\vee)^* \cP_{\Alb} = (a \times \id)^* \M = (\tilde{f} \times \id)^* \cP_A \]
+Hence we see that
+\[ (a \times \id)^* (\tilde{f} \times \id)^* \cP_A = (f \times \id)^* \cP_A \]
+so by definition of $A^\vee$ this means the classifing maps of these bundles $f : X \to A$ and $\tilde{f} \circ a : X \to A$ must be equal.
+\bigskip\\
+This argument is \chref{http://tinyurl.com/4333a3ac}{stolen from here}.
+\end{proof}
+
+\subsection{The Relative Case}
+
+\begin{rmk}
+Note that there may not exist a map $X \to \Alb_{X/S}$ of $S$-schemes unless $X \to S$ has a section. Indeed, we need a section in order to define the Poincare bundle which is usually used to define the morphism. The Albanese is best presented as an initial object in the category of \textit{pointed} maps to abelian schemes.
+\end{rmk}
+
+\begin{lemma}
+Let $f : X \to Y$ be a morphism of pointed\footnote{meaning $X$ and $Y$ are equipped with sections $\sigma_X$ and $\sigma_Y$ over $S$ such that $f \circ \sigma_X = \sigma_Y$} $S$-schemes such that $X^\vee = \fPic_{X/S}^\circ$ and $Y^\vee = \fPic_{Y/S}^\circ$ exist as algebraic spaces over $S$. Let $\phi^\vee : Y^\vee \to X^\vee$ be the dual. Consider the maps
+\[ X \times_S X^\vee \leftarrow X \times_S Y^\vee \to Y \times_k Y^\vee \]
+then there is a canonical isomorphism of rigidified sheaves on $X \times_S Y^\vee$
+\[ (\id_X \times f^\vee)^* \cP_X \cong (f \times \id_{Y^\vee})^* \cP_Y \]
+\end{lemma}
+
+\begin{proof}
+Again, immediate from the definition of $f^\vee$ as the classifying map for the bundle $(f \times \id_{Y^\vee}) \cP_Y$ which is basically the usual definition. 
+\end{proof}
+
+\begin{prop}
+Let $\pi : X \to S$ be a morphism with a section $\sigma : S \to X$ such that both $\fPic_{X/S}^\circ$ and $\Alb_{X/S} := \fPic_{\fPic_{X/S}^\circ}^\circ$ exist\footnote{Here we refer to the Picard scheme rigidified along the section $\sigma$ so that it admits a universal bundle. I expect this will imply that $f$ and $\fPic_{X/S}$ are both proper but the proof is basically formal given the universal properties.} (as algebraic spaces). Then for any abelian scheme $\cA \to S$ and a pointed $S$-morphism $f : (X, \sigma) \to (\cA, e)$ there is a unique factorization 
+\[ X \xrightarrow{a} \Alb_{X/S} \xrightarrow{\tilde{f}} \cA \]
+\end{prop}
+
+\begin{proof}
+The proof is basically idential. The Poincare bundle $\cP_X$ on $X \times_S \fPic^\circ_{X/S}$ defines a morphism $a : X \to \Alb_{X/S}$ such that $(a \times \id)^* \cP_{\Alb_{X/S}} = \cP_X$. From here, the proof is identical. We define the morphism $f^\vee : \cA^\vee \to \fPic_{X/S}^\circ$ and then $\tilde{f}$ is its dual. We need to show that the dual morphism $\Alb_{X/S} \to \cA$ recovers $(X, \sigma) \to (\cA, e)$ as the composition $X \to \Alb_{X/S} \to \cA$. It suffices to show that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}
+(X \times_S \cA^\vee, \L) \arrow[d, "f \times \id"] \arrow[r, equals] & (X \times_S \cA^\vee, \L) \arrow[r, "\id \times f^\vee"] \arrow[d, "a \times \id"] & (X \times_S \fPic_{X}^\circ, \cP_X) \arrow[d, "a \times \id"]
+\\
+(\cA \times_S \cA^\vee, \cP_A) \arrow[from=r, "\tilde{f} \times \id"] & (\Alb_X \times_S \cA^\vee, \M) \arrow[r, "\id \times f^\vee"'] & (\Alb_X \times_S \fPic_X^\circ, \cP_{\Alb_X})
+\end{tikzcd}
+\end{center}  
+where $\L := (\id \times f^\vee)^* \cP_X$ and $\M := (\id \times f^\vee)^* \cP_{\Alb_X}$. Commutativity of the right hand square is obvious. Note that $(\tilde{f} \times \id)^* \cP_A = \M$ by the previous lemma. Therefore, by commutativity of the right square
+\[ \L = (\id \times f^\vee)^* \cP_X = (a \times \id)^* (\id \times f^\vee)^* \cP_{\Alb} = (a \times \id)^* \M = (\tilde{f} \times \id)^* \cP_A \]
+Hence we see that
+\[ (a \times \id)^* (\tilde{f} \times \id)^* \cP_A = (f \times \id)^* \cP_A \]
+so by definition of $\cA^\vee$ this means the classifing maps of these bundles $f : X \to \cA$ and $\tilde{f} \circ a : X \to \cA$ must be equal. 
+\end{proof}
+
+\begin{cor}
+Let $X$ be a proper, geometrically integral, and geometrically normal $k$-variety and $A$ an abelian variety. Choose $x_0 \in X(k)$. Then $\Hom{k}{(X, x_0)}{(A, e)} = \Hom{k\text{-grp}}{\Alb_X}{A}$ and $\Hom{k}{X}{A} = \Hom{k}{\Alb_X}{A}$. If $k$ has characteristic zero, the latter is isomorphic to a disjoint union of copies of $A$. 
+\end{cor}
+
+\begin{proof}
+For any $T \to \Spec{k}$, apply the previous theorem to the pointed map $X_T \to A_T$ to produce the bijection at the level of $T$-points. In this generality, we know the Hom scheme is representable by an algebraic space. For the unpointed case, given any $f : X_T \to A_T$ we can translate by $f(x_0)$ to get a pointed map and hence get a factorization $X_T \to (\Alb_{X})_T \to A_T$ where the second map is translation by $f(x_0)$ composed with a homomorphism. This proves the second statement. In characteristic zero, $\Hom{k\text{-grp}}{\Alb_X}{A}$ is \etale over $k$ by considering lattices. Moreover, $A \times_k \Hom{k\text{-grp}}{\Alb_X}{A} \cong \Hom{k}{\Alb_X}{A}$ via the map $(a, f) \mapsto f + a$ because any map of abelian varities preserving the identity is a homomorphism.   
+\end{proof}
+
+
+\newcommand{\fHom}{\mathrm{Hom}}
+
+\begin{lemma}
+Let $G$ be a sheaf of groups on a site $\C$ and $T$ a sheaf with a $G$-action. Suppose that for any $U \in \C$ there is a covering $\{ U_i \to U \}$ such that $T|_{U_i}$ is a $G|_{U_i}$-torsor.
+\end{lemma}
+
+\begin{proof}
+It suffices to show that if $T(U)$ is nonempty then $G(U) \acts T(U)$ simply transitively. Let $x,y \in T(U)$ for each $U_i$ there is a unique $g_i \in T(U_i)$ such that $g_i \cdot x|_{U_i} = y_{U_i}$. By the uniqueness applied to $U_{ij} = U_i \times_U U_j$ we see that 
+\end{proof}
+
+\begin{rmk}
+Note that freeness cannot be checked locally. Indeed, 
+\end{rmk}
+
+\begin{prop}
+Let $\pi : X \to S$ be a flat proper morphism (now without a section) such that both $\fPic_{X/S}^\circ$ and $\Alb_{X/S} := \fPic_{\fPic_{X/S}^\circ}^\circ$ exist (as algebraic spaces) and are abelian schemes. Consider, the sheaf,
+\[ \F = \fHom_S^1(X, \Alb_{X/S}) \] 
+which is given by 
+\[ T \mapsto \{f \in \Hom{T}{X_T}{(\Alb_{X/S})_T} \mid f^\vee : (\Alb_{X/S})_T^\vee \to \fPic_{X_T/T}^\circ \text{ is an isomorphism} \} \]
+This is an open subscheme of $\Hom{S}{X}{\Alb_{X/S}}$ if this is representable. Moreover, it is a torsor for $\Alb_{X/S}$ in the fppf-topology.
+\end{prop}
+
+\begin{proof}
+The openess follows from the openessness of the locus where $f^\vee : (\Alb_{X/S})_T^\vee \to \fPic^\circ_{X_T/T}$ is an isomorphism over $T$ because this is a map of smooth proper $T$-schemes. The action $\Alb_{X/S} \acts \F$ gives $\F$ the structure of an $\Alb_{X/S}$-torsor because fppf-locally $\pi :X \to S$ acquires a section and thus by the previous results $\Alb_{X/S}$ show that $\F$ is nonemtpy and the action is simply transitive by the corresponding fact for abelian varities {\color{red} DO THIS}
+\end{proof}
+
+Since $\Alb_{X/S}$ is an abelian scheme, any torsor over it is smooth and hence trivial in the \etale topology.
+
+\section{Examples}
+
+Consider $C$ a hyperelliptic curve, $E$ an elliptic curve $G = \Z/2$ and let $X = (C \times E)/G$ where the action is via $(x,y) \mapsto (\iota(x), y + p)$ where $\iota : C \to C$ is the hyperelliptic involution and $p \in E[2]$. Then consider $\pi : X \to \P^1$ whose fibers are $E$ over $t \notin B$ with $B \subset \P^1$ the branch locus of $C \to \P^1$. 
+\bigskip\\
+Note that $f : X \to \P^1$ is flat, proper, and finitely presented. Moreover, by Raynaud's theorem (or direct calculation that can be done with Claim 1) we have $f_* \struct{X} = \struct{\P^1}$ universally. Therefore, $\fPic_{X/\P^1}$ exists as algebraic spaces. Moreover, since $H^2(X_t, \struct{X_t}) = 0$ it is a smooth algebraic space over $S$. The by [EGA IV$_3$, 15.6.5] $\fPic_{X/\P^1}^\circ$ is represented by an open subspace. We will see that they are far from separated.
+
+\subsubsection{Claim 1}
+
+\newcommand{\br}[1]{\llbracket #1 \rrbracket}
+
+The fibers over $t \in B$ are a nonreduced structure on $\wt{E} := E / \left< p \right>$ defined by the split extension of $\struct{\wt{E}}$ by $\L$ corresponding to the unique nontrivial $2$-torsion point of $\wt{E}$ in the image of $E[2]$.
+\bigskip\\
+Analytically locally near the branch point, the morphism has the form $(E \times \Spec{k\br{s}})/G \to \Spec{k\br{t}}$ where $t \mapsto s^2$. The structure sheaf of the quotient is given by the $G$-invariants in
+\[ \struct{E} \oplus s \struct{E} \]
+where $\sigma \in G$ acts by $s \mapsto -s$ and on $\struct{E}$ by translation by $p$. Therefore, the $s$-component must correspond to a nontrivial $G$-equivariant line bundle on $E$ which is $2$-torsion and whose underlying line bundle is $\struct{E}$ which desends to the line bundle $\L$ extending $\struct{\wt{E}}$. However, 
+\[ \ker{(\fPic(\wt{E}) \iso \fPic^G(E) \to \fPic(E))} = \ker{(\wt{E} \to E)} \]  
+and the unique nontrivial point of this kernel is the dual $2$-torsion point corresponding to $\L$ as claimed.
+
+\subsubsection{Claim 2}
+
+The fibers of $\fPic_{X/\P^1}^\circ$ are
+\[ \fPic_{X/\P^1}^\circ \cong
+\begin{cases}
+E & t \notin B
+\\
+\wt{E} & t \in B
+\end{cases} \]
+Indeed, $X_t \cong E$ for $t \notin B$ and otherwise we need to compute $\fPic^\circ_{X_t}$ where $X_t$ is the nonreduced structure on $\wt{E}$. However, we have the sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \L \arrow[r] & \struct{X_t}^\times \arrow[r] & \struct{\wt{E}}^\times \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+but $H^1(\L) = 0$ so $\fPic_{X_t}^\circ = \wt{E}$ for $t \in B$.
+
+\subsubsection{Claim 3}
+
+$\fPic^\circ_{X/\P^1}$ is not separated. Indeed, consder the divisor $D \subset X$ given by the reduction of some double fiber. Then $\struct{X}(D)$ is trivial away from this fiber but $\struct{X}(D)|_D = \L^\vee$ because this is the normal bundle to $D = (X_t)_{\red} \subset X_t$. This is nontrivial in the special fiber and hence this shows that the Picard scheme is not separated. 
+
+\subsubsection{Claim 4}
+
+There is an \etale equivalence relation pushout diagram,
+\begin{center}
+\begin{tikzcd}
+\wt{E} \times (\P^1 \sm B) \arrow[r] \arrow[d] & \wt{E} \times \P^1 \arrow[d]
+\\
+\wt{E} \times \P^1 \arrow[r] & \fPic^\circ_{X/\P^1}
+\end{tikzcd}
+\end{center}
+where the downward map is $(x,y) \mapsto (x + \hat{p}, y)$ where $\hat{p} \in \wt{E}[2]$ is the dual $2$-torsion point to $p$. Moreover, we can conisder the map $X \to \wt{E}$ whcih produces a dual map
+\[ \wt{E} \times \P^1 \to \fPic^\circ_{X/\P^1} \]
+on fibers this is the dual map $\wt{E} \to E$ for $t \notin B$ and an isomorphism $\wt{E} \to \wt{E}$ for $t \in B$. This also shows nonseparatedness because of the following result.
+
+\begin{prop}
+Let $f : X \to Y$ be a morphism of smooth proper $S$-schemes whose fibers are connected. Then the locus over $S$ where $f$ is finite is open and $s \mapsto \deg{f_s}$ is locally constant.
+\end{prop}
+
+\begin{proof}
+Openness of the finite locus is given by [EGA III$_1$, Prop. 4.6.7(i)] flat (by fibral flatness). Therefore, $f_* \struct{X}$ is a vector bundle whose formation is compatible with base change and whose rank at a point computes the degree over that point which is therefore constant. 
+\end{proof}
+
+The claim is that this fails if we only assume the schemes are universally closed and not separated. 
+
+\begin{example}
+Let $X$ be the affine line two origins and $X \to \A^1$ the projection. As a map of $\A^1$-schemes the fiber degree jumps from $1$ to $2$. Likewise the map $\A^1 \sqcup \A^1 \to X$ has fiber degree jumping from $2$ to $1$. Indeed, in these examples $f_* \struct{X}$ does not correctly compute the fiber degree at nonseparated points. 
+\end{example}
+
+\section{Torsors For Abelian Schemes}
+
+\begin{theorem}[Raynaud's Thesis, XIII 2.8.]
+Let $X$ be a torsor over an abelian scheme $\cA \to S$. If $S$ is a regular and noetherian then there exists a finite \etale cover $S' \to S$ such that $X_{S'}$ is trivial.
+\end{theorem}
+
+
+
+\section{Proof of The Main Theorem}
+
+In this section we work over $\CC$.
+
+\begin{prop} \label{prop:inf_auts}
+Let $X$ be a projective klt variety with $K_X \sim_{\Q} 0$ and $H^1(X, \struct{X}) = 0$. Then $H^1(X, \T_X) = 0$ meaning that $\mathrm{Aut}_X$ is an \etale $k$-group.
+\end{prop}
+
+{\color{red} Maybe we only know how to prove this if $K_X = 0$.}
+
+\begin{defn}
+Consider the following situation $(*)$
+\begin{center}
+$f : X \to S$ is a flat projective morphism whose fibers are normal varities such that $R^1 f_* \struct{X}$ is a vector bundle whose formation commutes with all base changes.
+\end{center}
+\end{defn}
+
+\begin{lemma}
+In situation $(*)$ then $\fPic_{X/S}^\circ \to S$ is representable by an abelian scheme. In this case we define $\Alb_{X/S} := (\fPic_{X/S}^{\circ})^\vee$.
+\end{lemma}
+
+\begin{proof}
+{\color{red} ANDRES POINTED OUT A GOOD PROOF}
+\end{proof}
+
+
+\begin{theorem}[Ambro]
+Let $(X, B)$ be a projective log variety with klt singularities such that $K + B \equiv_{\text{num}} 0$. Then,
+\begin{enumerate}
+\item there exists a positive integer $b$ such that $b(K_X + B) \sim 0$ 
+\item The Albanese map $X \to \Alb_X$ is surjective with connected fibers. Furthermore, there exists an \etale covering $A' \to \Alb_X$, a projective log variety $(F, B_F)$ and an isomorphism
+\begin{center}
+\begin{tikzcd}
+(X, B) \times_{\Alb_X} A' \arrow[rd] \arrow[rr, "\sim"] & & (F, B_F) \times A' \arrow[ld]
+\\
+& A'
+\end{tikzcd}
+\end{center}
+\end{enumerate}
+\end{theorem}
+
+
+\newcommand{\Isom}{\mathrm{Isom}}
+
+\begin{theorem}
+Let $f : X \to S$ be a flat projective morphism of varities over $\CC$ such that
+\begin{enumerate}
+\item each fiber $X_s$ is normal, klt, $\Q$-factorial and has $K_{X_s} \equiv_{\text{num}} 0$ 
+\item $S$ is regular
+\end{enumerate}
+then there exists a finite \etale cover $S' \to S$ and a finite \etale cover $X' \to X_{S'}$ such that as $S'$-schemes there is an isomorphism $X' \cong F \times_{S'} \cA$ where $\cA \to S'$ is an abelian scheme and $F \to S'$ is a flat projective morphism satisfying the same properties in the assumptions of the theorem and additionally for any finite \etale cover $Y \to F_s$ of a fiber we have $H^1(Y, \struct{Y}) = 0$.
+\end{theorem}
+
+\begin{proof}
+Note that because we assume that $X_s$ is geometrically integral and since klt implies Du Bois {\color{red} cite} by [CITE DUBOIS CONSTANCY] we see that $X \to S$ satisfies $(*)$.
+
+\subsubsection{Step 1}
+We want to produce a map $X \to \Alb_{X/S}$. We can only do this if we can find a section of
+\[ \fHom_S^1(X, \Alb_{X/S}) \]
+However, this is a torsor over an abelian scheme $\Alb_{X/S}$ and $S$ is regular so by Raynaud, this torsor is killed by a finite \etale cover $S_1 \to S$. Replacing $X$ by $X_{S_1}$ we may assume that there is an morphism $X \to \Alb_{X/S}$ whose fibers $X_s \to \Alb_{X_s}$ are choices of albanese maps (note that we are \textit{not} claiming the existence of a section of $X \to S$, the choices of points $x_s \in X_s$ such that $X_s \to \Alb_{X_s}$ sends $x_s \mapsto e$ may not be made in a compatible way, indeed $X \to S$ may not have a section \textit{finite}-etale locally on $S$ even in the case it is smooth\footnote{For example, consider $\P(\Omega_{\P^2}) \to \P^2$ which has no sections and $\P^2$ is simply connected. Of course its relative albanese is trivial and hence it admits an Albanese morphism}.
+\bigskip\\
+Set $\cA := \Alb_{X/S}$ and consider the diagram,
+\begin{center}
+\begin{tikzcd}
+F \arrow[r] \arrow[rd] & X \arrow[d] \arrow[r, "a"] & \cA \arrow[ld]
+\\
+& S
+\end{tikzcd}
+\end{center}
+where $F = X \times_{\cA} e_{\cA}$ is the fiber over the zero section. We claim that $F \to S$ is flat. Indeed, by fibral flatness $a$ is flat since its fibers $X_s \to \Alb_{X_s}$ are actually isotrivial, hence flat, by Ambro's theorem. Therefore, the base change $F \to S$ of $a : X \to \cA$ is also flat.
+
+\subsubsection{Step 2}
+
+Ambro's result applied to each fiber proves that $F$ has normal, klt, $\Q$-factorial fibers and satisfies $K_{F_s} \sim_{\Q} 0$ and hence $F \to S$ also satisfies $(*)$.
+Choose a point $s_0 \in S$. By Ambro's theorem there is a finite \etale cover $A' \to \Alb_{X_{s_0}}$ splitting $a_{s_0}$. 
+
+\begin{lemma}
+Let $\varphi : A \to B$ be an isogeny of abelian varities. Then there is a futher isogeny $B \to A$ such that the composition $B \to A \to B$ is $[n]$ for some\footnote{We can only take $n = \deg{(A \to B)}$ if $A$ and $B$ are principally polarized} integer $n$.
+\end{lemma}
+
+\begin{proof}
+Consider $\varphi^{\vee} : B^\vee \to A^{\vee}$ and choose a polarization $A^{\vee} \iso A$ then the composition gives $B^\vee \to B$ and composing with a polarization gives $B \to B^\vee \to B$. Therefore, we reduce to the statment for a map $\varphi : B \to B$. Since $\ker{\varphi^{\vee}}$ is a torsion finite abelian group scheme there is $n$ such that $n \cdot \ker{\varphi^{\vee}}$ hence $\ker{\varphi^{\vee}} \subset \ker{[n]}$ so there is a factorization
+\begin{center}
+\begin{tikzcd}
+B^\vee \arrow[r, "\times n"] \arrow[d,"\varphi^\vee"'] & B^\vee
+\\
+B^\vee \arrow[ru, dashed, "\psi"]
+\end{tikzcd}
+\end{center}
+hence $[n] = \psi \circ \varphi^\vee$ and therefore dualizing $[n] = [n]^\vee = \varphi \circ \psi^\vee$ proves the claim.
+\end{proof}
+
+Using this lemma, we can take the covering in Ambro's theorem to be multiplication by $n$. Hence consider the diagram
+\begin{center}
+\begin{tikzcd}
+F \arrow[d, equals] \arrow[r] & X' \pullback \arrow[d, "\et"] \arrow[r] & \cA \arrow[d, "\times n"]
+\\
+F \arrow[r] & X \arrow[r, "a"] & \cA
+\end{tikzcd}
+\end{center}
+such that on the restriction to the fiber over $X_{s_0}$ there exists an isomorphism $X'_{s_0} \cong \cA_{s_0} \times F_{s_0}$ preserving the diagram. Likewise this proves that $F$ has normal, klt, $\Q$-factorial fibers and satisfies $K_{F_{s_0}} \sim_{\Q} 0$. It is not necessarily\footnote{For example, consider a surface of the form $X = (E \times E')/(\Z / 2 \Z)$ where the group acts via $(x,y) \mapsto (-x, y + p)$ for $p \in E'[2]$. This is a free action so $X$ is smooth and its fibers over $S = \P^1 \sm B$ are $E'$. Then $X \to \Alb_{X_S/S} = E' / (\Z / 2 \Z)$ has fibers $E$ which do not have vanishing $h^{0,1}$.} true that $H^1(F_s, \struct{F_s}) = 0$. However, we can now iterate the steps so far to the family $F \to S$ to get $F' \to S$ and if $H^1(F_s, \struct{F_s}) \neq 0$ then $\dim{F'} < \dim{F}$ so this process must terminate after finitely many steps. Hence we can assume that $H^1(F_s, \struct{F_s}) = 0$ for all $s \in S$ because of its constancy over $S$.
+
+\subsubsection{Step 3}
+
+Consider functor sending $T \to S$ to the set of isomorphisms $\varphi : X_T \to (F \times_S \cA)_T$ making the diagram
+\begin{center}
+\begin{tikzcd}
+F_T \arrow[r, equals] \arrow[d] & F_T \arrow[d, "\id \times e"]
+\\
+X_T \arrow[r, "\varphi"] \arrow[d] & (F \times_S \cA)_T \arrow[d]
+\\
+\cA \arrow[r, equals] & \cA
+\end{tikzcd}
+\end{center}
+commute.
+These are ``upper-triangular'' isomorphisms. We denote this by
+\[ \Isom^{F,\cA}_S(X, F \times_S \cA) \embed \Isom_S(X, F \times_S \cA) \]
+Notice that the above is a closed embedding because these $S$-schemes are separated and hence the equalizer of two morphisms is a closed subscheme. 
+
+\subsubsection{Some Deformation Theory}
+
+
+\begin{lemma} \label{def_theory}
+Let $A$ be an Artin local ring with residue field $\kappa$. Let $X_A$ be a smooth $A$-scheme and $C_A, B_A$ be any $A$-schemes and the data,
+\begin{enumerate}
+\item $A$-morphisms $g_A : B_A \to C_A$ and $f_A : C_A \to X_A$ with $g_A$ a closed embedding
+
+\item a small extension of Artin local rings,
+\[ 0 \to I \to A' \to A \to 0 \]
+
+\item deformations $B_{A'}$ of $B_A$ and $C_{A'}$ of $C_A$ and $X_{A'}$ of $X_A$ over $A'$
+
+\item deformations $g_{A'} : B_{A'} \to C_{A'}$ of $g_A$ and $h_{A'}$ of $h_{A} = f_A \circ g_A$
+\end{enumerate}
+then, denoting the data over $\kappa$ with a $0$, there exists a class,
+\[ \ob(f_A) \in \Ext{1}{C_0}{f_0^* \Omega_{X_0}}{\I_{B_0}} \ot_k I \]
+obstructing the existence of a map $f_{A'} : C_{A'} \to X_{A'}$ such that $f_{A'} \circ g_{A'} = h_{A'}$ where,
+\[ \I_{B_0} = \ker{(\struct{C_0} \to g_{0*} \struct{B_0})} \]
+\end{lemma}
+
+\begin{proof}
+Using the flatness properties, we need to consider the following lifting problem,
+\begin{center}
+\begin{tikzcd}
+& & g_* \struct{B_{A'}} \arrow[from=dd, bend left = 70, near start, "h_{A'}^{\#}"] \arrow[r] & g_* \struct{B_A}
+\\
+0 \arrow[r] & I \ot \struct{C_0} \arrow[r, crossing over] & \struct{C_{A'}} \arrow[u] \arrow[r] & \struct{C_A} \arrow[r] \arrow[u] & 0
+\\
+& & f^{-1}_0 \struct{X_{A'}} \arrow[u, dashed]  \arrow[r] & f^{-1}_0 \struct{X_A} \arrow[u, "f_A^{\#}"] 
+\end{tikzcd}
+\end{center}
+such that the diagram commutes. The set of such liftings locally on $C_0$ is a torsor over,
+\[ \Der[A']{f_0^{-1} \struct{X_{A'}}}{\I_{B_0} \ot_\kappa I} = \Der[k]{f_0^{-1} \struct{X_0}}{\I_{B_0}} \ot_\kappa I = \shHom{\struct{C_0}}{f_0^* \Omega_{X_0}}{\I_{B_0}} \ot_\kappa I \]
+Therefore, it suffices to show that lifts exist locally. The local picture,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \ot B_0 \arrow[r] & B' \arrow[from=dd, bend left = 70] \arrow[r] & B \arrow[r] & 0
+\\
+0 \arrow[r] & I \ot S_0 \arrow[u] \arrow[r, crossing over] & S' \arrow[u] \arrow[r] & S \arrow[r] \arrow[u] & 0
+\\
+& I \ot J_{B_0} \arrow[u] & R' \arrow[u, dashed, "\ell'"] \arrow[r] & R \arrow[u, "\ell"] 
+\\
+& 0 \arrow[u]
+\end{tikzcd}
+\end{center}
+where $R'$ is smooth over $A'$ so there exists a lift $\ell' : R \to S'$ over $A'$ since $S' \to S$ is a square-zero extension. We need to modify the lift to make it commute with $R' \to B'$. The difference is an element $\delta \in \Hom{R'}{\Omega_{R'/A'}}{B_0 \ot_\kappa I}$  
+so we consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Hom{R'}{\Omega_{R'}}{S_0 \ot_\kappa I} \arrow[r] & \Hom{R'}{\Omega_{R'}}{B_0 \ot_\kappa I} \arrow[r] & \Ext{1}{R'}{\Omega_{R'/A'}}{J_{B_0} \ot_\kappa I}
+\end{tikzcd}
+\end{center}
+which arises from tensoring the exact sequence (using that $g_A$ is a closed embedding for surjectivity)
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & J_{B_0} \arrow[r] & S_0 \arrow[r] & B_0 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+by $- \ot_\kappa I$ which remains exact since $\kappa$ is a field and applying $\Hom{R'}{\Omega_{R'/A'}}{-}$. Now $\Omega_{R'/A'}$ is a projective $R'$-module so the Ext is zero and hence we can lift $\delta$ to a derivation $\tilde{\delta} : R' \to S_0 \ot_\kappa I$ then $\ell' - \tilde{\delta}$ gives the required lift. 
+\end{proof}
+
+\begin{lemma}
+Given morphisms $Z \xrightarrow{\iota} X,Y$ and $X,Y \xrightarrow{\pi} W$ of flat proper $S$-schemes consider the algebraic space
+\[ \Isom_S^{Z,W}(X, Y) \to S \]
+representing the functor sending $T$ to the isomorphisms $\varphi : T_X \to Y_T$ such that the diagram
+\begin{center}
+\begin{tikzcd}
+Z_T \arrow[r, equals] \arrow[d, "\iota_X"] & Z_T \arrow[d, "\iota_Y"]
+\\
+X_T \arrow[r, "\varphi"] \arrow[d, "\pi_X"] & Y_T \arrow[d, "\pi_Y"]
+\\
+W_T \arrow[r, equals] & W_T
+\end{tikzcd}
+\end{center}
+commutes. Suppose that
+\[ \Hom{\struct{X_s}}{\Omega_{X_s/W_s}}{\J} = 0 \]
+where $\J$ is the ideal sheaf of $Z_s \embed X_s$
+then the structure map $\Isom_S^{Z,W}(X, Y) \to S$ is unramified in a neighborhood of $s \in S$. Moreover, there are iterated obstructions
+\[ \ob_1(\varphi) \in H^0(\shExt{1}{\struct{X_s}}{\Omega_{X_s/W_s}}{\J}) \]
+and 
+\[ \ob_2(\varphi) \in H^1(\shHom{\struct{X_s}}{\Omega_{X_s/W_s}}{\J}) \]
+whose vanishing ensures that the structure map is also \etale in a neighborhood of $s \in S$.
+\end{lemma}
+
+\begin{proof}
+We check the valuative criterion for unramifiedness. Suppose we are given the following data
+\begin{enumerate}
+\item a square-zero extension of Artin rings $0 \to I \to A' \to A \to 0$
+\item a map $\Spec{A} \to S$
+\item an isomorphism $\varphi : X_A \iso Y_A$ making the requisite diagrams commute
+\end{enumerate}
+we need to show there is at most one extension to an isomorphism $\varphi' : X_{A'} \iso Y_{A'}$ making the requisite diagrams commute. Let $s \in S$ be the image of $\Spec{A} \to S$ and $\kappa$ the residue field. We use $0$ to denote the base change to $\kappa$. The set of $\varphi'$ correspond to dashed arrows in the diagram
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \ot \iota_* \struct{Z_0} \arrow[r] & \iota_{*} \struct{Z_{A'}} \arrow[from=dd, bend left = 70, near end, "\iota_Y^{\#}"] \arrow[r] & \iota_* \struct{Z_A} \arrow[r] & 0
+\\
+0 \arrow[r] & I \ot \struct{X_0} \arrow[u] \arrow[r, crossing over]  & \struct{X_{A'}} \arrow[from=dd, bend left = 70, near start, "\pi_X^{\#}", crossing over] \arrow[u] \arrow[r] & \struct{X_A} \arrow[r] \arrow[u] & 0
+\\
+& & \varphi^{-1}_0 \struct{Y_{A'}} \arrow[u, dashed]  \arrow[r] & \varphi^{-1}_0 \struct{Y_A} \arrow[u, "\varphi^{\#}"] 
+\\
+& & \pi^{-1}_Y \struct{W_{A'}} \arrow[u]  \arrow[r] & \pi_Y^{-1} \struct{W_A} \arrow[u, "\varphi^{\#}"] 
+\end{tikzcd}
+\end{center}
+The difference $\delta = \varphi'_1 - \varphi'_2$ is a derivation $\varphi_0^{-1} \struct{Y_{A'}} \to I \ot \struct{X_0}$ landing inside $I \ot \J_{Z_0}$ which is zero on $\pi^{-1}_Y \struct{W_{A'}}$. Therefore, this is a torsor over
+\[ \Der[\pi_Y^{-1} \struct{W_{A'}}]{\varphi_0^{-1} \struct{Y_{A'}}}{I \ot \J_{Z_0}} = \Der[\pi_U^{-1} \struct{W_0}]{\struct{Y_0}}{\I_{Z_0}} \ot I = \Hom{\struct{X_0}}{\varphi_0^{*} \Omega_{Y_0/W_0}}{\J_0} \ot I \]
+Because $\varphi_0$ is an isomorphism, the assumption applies to show there is at most one extension. Since the space of lifts is a pseudo-torsor over
+\[ \shHom{\struct{X_s}}{\Omega_{X_s/W_s}}{\J} \]
+it suffices to show there exists such a class $\ob_1(\varphi)$ whose vanishing is equivalent to the existence of $\varphi'$ locally on $X_A$. {\color{red} TODO}
+\end{proof}
+
+Hence applying this result to our situation, we need to check that $\Hom{\struct{F_s \times \cA_s}}{\Omega_{F_s}}{\struct{F_s \times \cA_s}} =  0$. By the Kunneth formula, $H^1(F_s, \T_{F_s}) = 0$ which is the content of Proposition~\ref{prop:inf_auts}.
+
+\subsubsection{(TODO) Step 5 Deformation Theory of Products}
+
+We need to prove the following claim:
+
+\newcommand{\Def}{\mathrm{Def}}
+
+\begin{prop}
+Let $X,Y$ be proper geometrically connected and reduced $k$-schemes with
+\begin{enumerate}
+\item $H^1(Y, \struct{Y}) = 0$
+\item $H^0(Y, \T_Y) = 0$
+\end{enumerate}
+Then the canonical map of deformation functors
+\[ \Def_X \times \Def_Y \to \Def_{X \times Y} \]
+is an isomorphism.
+\end{prop}
+
+{\color{red} TODO, also is it automatic that the splitting of the deformation must be compatible with the maps $F \to X \to \cA$ }
+
+\begin{cor}
+The algebraic space $\Isom_S^{F,\cA}(X, F \times_S \cA) \to S$
+is \etale over $S$.
+\end{cor}
+
+\subsubsection{Step 6}
+
+By the previous result, the image of the Isom scheme is open, hence we have split $X$ not only at $s_0$ but in an open neighborhood also. Therefore, to each point $s \in S$ we can associated a pair $(n_s, U_s)$ of an integer $n_s > 0$ and an open $U_s$ containing $s$ such that after base change along $[n_s] : \cA \to \cA$ there is a splitting over $U_s$. Since $S$ is quasi-compact, there is a finite set $\{ s_1, \dots, s_r \}$ such that $U_1, \dots, U_r$ cover $S$. Take $n = n_1 \cdots n_r$ then base changing over 
+
+\begin{prop}
+The fibers of $\Isom_S^{F,\cA}(X, F \times_S \cA) \to S$ are either empty or are exactly one reduced point. 
+\end{prop}
+
+\begin{proof}
+Since it is \etale, it suffices to show that there is a unqiue $k$-point in each fiber. This is equivalent to showing that there is a unique automorphism $\varphi : F_s \times \cA_s \to F_s \times \cA_s$ compatible with the projection to $\cA_s$ and the inclusion of $F_s$ at the zero section. The former condition means that $\pi_2 \circ \varphi : F_s \times \cA_s \to \cA_s$ is $\pi_2$ hence it suffices to prove that $\pi_1 \circ \varphi = \pi_1$. However, $\pi_1 \circ \varphi : F_s \times \cA_s \to F_s$ is the same as a morphism $\cA_s \to \Hom{}{F_s}{F_s}$ and the condition that $\varphi \circ (\id \times e) = \id \times e$ implies that $e \mapsto \id$. Since $\mathrm{Aut}_{F_s}$ is \etale and $\cA_s$ is connected we conclude that the classifying map is constant and therefore $\pi_1 \circ \varphi = \pi_1$. 
+\end{proof}
+
+Therefore $\Isom_S^{F,\cA}(X, F \times_S \cA) \to S$ is radicial and unramified hence a monomorphism. Furthermore a flat monomorphism locally of finite presentation is an open immersion. However, after base change along $[n] : \cA \to \cA$ we know that $\Isom_S^{F,\cA}(X, F \times_S \cA) \to S$ is surjective and therefore is an isomorphism. Hence $X \cong F \times_S \cA$ compatibly with the extension structure.
+
+\end{proof}
+
+\section{Goals}
+
+\subsection{klt Log Pairs}
+
+Would want a statement of the form: if $(X, D) \to S$ is a family of klt Calabi-Yau pairs, meaning $(X_s, D_s)$ is klt and $K_{X_s} + D_s \sim_{\Q} 0$ (or numerically equivalent to zero?) then there are finite \etale covers $S' \to S$ and $X' \to X_{S'}$ such that $X' \to S'$ is a product of $\cA \to S'$ an abelian scheme and $(F, D_F)$ which satisies all the same good properties as $(X, D)$.
+\bigskip\\
+It sounds like we should be able to apply this somehow to moduli problems of CY pairs. I don't know.
+
+To make the argument work we better check the various steps
+\begin{enumerate}
+\item Ambro's result is already in this form
+\item vital part is the vanishing of infinitesimal deformations, I think this still works (see below)
+\item how do we construct $D_F$ is it just $D_F := F \cap D$ we should look at Ambro's proof to see if this works on fibers
+\item the isom scheme arguments will need minor modifications to take into account the $D$.
+\end{enumerate}
+
+\begin{lemma}
+Let $(X, D)$ be a log-CY klt pair with $H^1(X, \struct{X}) = 0$ and $D$ a $\Z$-divisor (I'm not sure what the correct thing is if $K_X$ is only a $\Q$-divisor). Then $H^0(X, \T_X(-D)) = 0$.
+\end{lemma}
+
+\newcommand{\reg}{\mathrm{reg}}
+
+\begin{proof}
+Indeed, the canonical pairing $\Omega_{X^{\reg}} \ot \Omega_{X^{\reg}}^{n-1} \to \omega_{X^{\reg}}$ over the regular locus induces an isomorphism of reflexive sheaves $\T_X(-D) \iso \Omega_X^{[n-1]}(-K_X - D) = \Omega_X^{[n-1]}$. Consider a log resolution $\pi : \wt{X} \to X$. By [Greb Kebekus Diff Forms LC Spaces, Theorem 1.5] there is an extension $H^0(X, \Omega_X^{[n-1]}) = H^0(\wt{X}, \Omega_{\wt{X}}^{[n-1]})$. By Hodge theory, the dimension of this space is the same as the dimension of $H^1(\wt{X}, \struct{\wt{X}}) = H^1(X, \struct{X})$ using that $X$ has rational singularities {\color{red} this is still true for klt pairs right?} so we just need the assumption $H^1(X, \struct{X}) = 0$.
+\end{proof}
+
+\subsection{Applications to the Iitaka fibration}
+
+\section{Deformation Theory}
+
+\begin{lemma}[BHPS, Lemma 3.4]
+Let $k$ be a field and $X,Y$ proper DM stacks over $k$. Assume that either
+\begin{enumerate}
+\item $\Ext{0}{X}{\LL_X}{\struct{X}} = 0$ i.e. $X$ has no infinitesimal automorphisms or
+\item $H^1(Y, \struct{Y}) = 0$ 
+\end{enumerate}
+and $H^0(X, \struct{X}) = k$. Then the natural map
+\[ \Ext{i}{X}{\LL_X}{\struct{X}} \to \Ext{i}{X \times Y}{p_1^* \LL_X}{\struct{X \times Y}} \]
+induces by pulling back along the projection $p_1 : X \times Y \to X$ is bijective for $i = 0,1$ and injective for $i = 2$.
+\end{lemma}
+
+\newcommand{\cQ}{\mathcal{Q}}
+
+\begin{proof}
+By the projection formula and adjointness
+\[ \Ext{i}{X \times Y}{p_1^* \LL_X}{\struct{X \times Y}} = \Ext{i}{X}{\LL_X}{\RR p_{1*} \struct{X \times Y}} = \Ext{i}{X}{\LL_X}{\RR \Gamma(Y, \struct{Y}) \ot \struct{X}} \]
+Consider the exact triangle
+\[ \struct{X} \xrightarrow{u} \RR \Gamma(Y, \struct{Y}) \ot \struct{X} \to \cQ \to + 1 \]
+where $\cQ$ is defined a the cone of $u$. Applying $\Hom{X}{\LL_X}{-}$ gives
+\[ \Ext{i}{X}{\LL_X}{\cQ[-1]} \to \Ext{i}{X}{\LL_X}{\struct{X}} \to \Ext{i}{X \times Y}{p_1^* \LL_X}{\struct{X \times Y}} \to \Ext{i}{X}{\LL_X}{\cQ} \]
+Thus, it suffies to check that $\Ext{i}{X}{\LL_X}{\cQ} = 0$ for $i \le 1$. Because $H^0(X, \struct{X}) = k$ the map $\H^0(u)$ is an isomorphism so $\cQ \in D^{\ge 1}(X)$. Therefore, since $\LL_X$ is connective we immediatley see that $\Ext{0}{X}{\LL_X}{\cQ} = 0$. To check that $\Ext{1}{X}{\LL_X}{\cQ} = 0$ note that the exact trangle
+\[ \tau_{\ge 2} \cQ[-1] \to \H^1(\cQ)[-1] \to \cQ \]
+shows that $\Ext{1}{X}{\LL_X}{\cQ} = \Ext{0}{X}{\LL_X}{\H^1(\cQ)}$. By construction $\H^1(\cQ) = H^1(Y, \struct{Y}) \ot \struct{X}$ is a free $\struct{X}$-module. Therefore, its vanishing follows by either the assumption $H^1(Y, \struct{Y}) = 0$ or by the assumption that $\Ext{0}{X}{\LL_X}{\struct{X}} = 0$.  
+\end{proof}
+
+\begin{cor} \label{cor:ext_product_basechange_asymmetric}
+Therefore if $Y$ satisfies the \textit{both} the following properties
+\begin{enumerate}
+\item $\Ext{0}{Y}{\LL_Y}{\struct{Y}} = 0$ i.e. $Y$ has no infinitesimal automorphisms \textit{and}
+\item $H^1(Y, \struct{Y}) = 0$
+\end{enumerate}
+and both $X,Y$ have $H^0(\struct{}) = k$ then the previous lemma applies to $X,Y$ in either order. 
+\end{cor}
+
+\begin{proof}
+For the projections $p_1 : X \times Y \to Y$ and $p_2 : X \times Y \to Y$ we get the statement for $p_1$ by using the fact that $H^1(Y, \struct{Y}) = 0$. Swapping the roles of $X$ and $Y$ we get the statement for $p_2$ because $Y$ has not infinitesimal automorphisms. 
+\end{proof}
+
+
+\newcommand{\Def}{\mathrm{Def}}
+\newcommand{\Art}{\mathrm{Art}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\begin{prop}
+Let $X,Y$ be proper DM-stacks over $k$ with $H^0(X, \struct{X}) = H^0(Y, \struct{Y}) = 0$ and suppose
+\begin{enumerate}
+\item $H^1(Y, \struct{Y}) = 0$
+\item $\Ext{0}{Y}{\LL_Y}{\struct{Y}} = 0$ i.e. $Y$ has no infinitesimal automorphisms.
+\end{enumerate}
+Then the canonical map of deformation spaces
+\[ \Def_X \times \Def_Y \to \Def_{X \times Y} \]
+is an isomorphism.
+\end{prop}
+
+\begin{proof}
+We will show that
+\[ \mathrm{prod}_{X,Y}(A) : \Def_X(A) \times \Def_Y(A) \to \Def_{X \times Y}(A) \]
+is an equivalence of groupoids for $A \in \Art_k$ by working inductively on $\dim_k(A)$. {\color{red} maybe we can use the extension structure to rigidify and therefore get no infinitesimal automorphisms}
+
+For $\dim_k(A) = 1$ we have $A = k$ and there is nothing to prove. By induction, we may assume the claim for all $A \in \Art_k$ with $\dim_k(A) \le n$ for some fixed interger $n$. Given $\wt{A} \in \Art_k$ with $\dim_k(\wt{A}) = n + 1$ choose a surjection $\wt{A} \onto A$ with kernel $k$ as an $A$-module giving a digram
+\begin{center}
+\begin{tikzcd}
+\Def_X(\wt{A}) \times \Def_Y(\wt{A}) \arrow[r, "\mathrm{prod}_{X,Y}"] \arrow[d] & \Def_{X \times Y}(\wt{A}) \arrow[d]
+\\
+\Def_X(A) \times \Def_Y(A) \arrow[r, "\mathrm{prod}_{X,Y}"] & \Def_{X \times Y}(A)
+\end{tikzcd}
+\end{center}
+with the bottom map an equivalence by assumption. We will show that the top map is also an equivalence. There is nothing to show if the bottom row is empty, we may fix a base point of the bottom row, meaning a flat deformation $f : \X \to \Spec{A}$ and $g : \Y \to \Spec{A}$ of $X, Y$ to $\Spec{A}$. Let $\pi_{f,g} : \X \times_A \Y \to \Spec{A}$ denote the fiber product and $p, q$ the projection maps.
+\bigskip\\
+We first show that all fibers of $\mathrm{prod}_{X,Y}(\wt{A})$ are nonempty {\color{red} I actually think this argument only shows if there is a point on the right then there exists a point on the left not that \textit{every} fiber is nonempty} meaning if $\pi_{f,g}$ admits a deformation to $\wt{A}$ then so do each $f, g$. Let $D_A : \LL_A \to k[1]$ be the derivation classifying the surjection $\wt{A} \onto A$. Associated to this derivation, we have obstruction classes
+\[ \ob(f) := \ob(f, f^* D_A) : \LL_{\X/A}[-1] \to \struct{X}[1] \quad \quad \ob(g) := \ob(g, g^* D_A) : \LL_{\Y/A}[-1] \to \struct{Y}[1] \]
+on $\X$ and $\Y$ and the obstruction class
+\[ \ob(\pi_{f,g}, \pi_{f,g}^* D_A) : \LL_{\X \times_A \Y/A} [-1] \to \struct{\X \times_A \Y}[1] \]
+on $\X \times \Y$ which satisfy the following compatiblity diagram
+\begin{center}
+\begin{tikzcd}[column sep = large]
+p^* \LL_{\X/A}[-1] \arrow[d] \arrow[r, "p^* \ob(f)"] & \struct{\X \times_A \Y}[1] \arrow[d, equals]
+\\
+\L_{\X \times_A \Y/A}[-1] \arrow[r, "\ob(\pi_{f,g})"] & \struct{\X \times_A \Y}[1] \arrow[d, equals]
+\\
+q^* \LL_{\Y/A}[-1] \arrow[u] \arrow[r, "q^* \ob(g)"] & \struct{\X \times_A \Y}[1]
+\end{tikzcd}
+\end{center}
+The assumption that $\pi_{f,g}$ admits a deformation across $A' \onto A$ ensures that the midle horizontal arrow in the above diagram is $0$. It follows by commutativity that the same is true of the other horizontal arrows, i,e, that $p^* \ob(f) = q^* \ob(g) = 0$. To show that $\ob(f) = 0$ it suffices to show that the pullback
+\[ \pi_0(\Hom{\X}{\LL_{\X/A}[-1]}{k \ot_A \struct{\X}[1]} \to \pi_0(\Hom{\X \times_A \Y}{p_1^* \LL_{\X/A}[-1]}{p_1^* (k \ot_A \struct{\X})[1]} \]
+is injective, and similarly for $Y$. Simplifying, this amounts to showing that the pullback
+\[ \Ext{2}{\X}{\LL_{\X/A}}{\struct{\X}} \to \Ext{2}{\X \times_A \Y}{p_1^* \LL_{\X/A}}{\struct{\X \times \Y}} \]
+is injective and similarly for $Y$. By base change and adjunction, it is enough to check that the pullback
+\[ \Ext{2}{X}{\LL_X}{\struct{X}} \to \Ext{2}{X \times Y}{p_1^* \LL_X}{\struct{X \times Y}} \]
+is injective and similarly for $Y$. Both follow from Corollary~\ref{cor:ext_product_basechange_asymmetric}.
+\bigskip\\
+Now we show that $\mathrm{prod}_{X,Y}(\wt{A})$ is an equivalence on fibers over a fixed deformation to $A$. This amounts to showing that for any deformation of $\X \times_A \Y$ over $\wt{A}$ it is uniquely isomorphic to a defomration of $\X$ times a deformtion of $\Y$. These are torsors over the requisite $\Ext{1}{X}{\LL_{X}}{\struct{X}}$ etc by base change {\color{red} elaborate} and the space of automorphisms is $\Ext{0}{X}{\LL_{X}}{\struct{X}}$ etc.
+\bigskip\\
+Note that $\LL_{X \times Y} = p_1^* \LL_X \oplus p_2^* \LL_Y$ and the natural map
+\[ \Ext{i}{X}{\LL_X}{\struct{X}} \oplus \Ext{i}{Y}{\LL_Y}{\struct{Y}} \to \Ext{i}{X \times Y}{\LL_{X \times Y}}{\struct{X \times Y}} = \Ext{i}{X \times Y}{p_1^* \LL_{X \times Y}}{\struct{X \times Y}} \oplus \Ext{i}{X \times Y}{\LL_{X \times Y}}{\struct{X \times Y}} \]
+is simply the sum of the maps described in the preceeding lemmas. Therefore, this map is an isomorphism for $i = 0, 1$ and injective for $i = 2$. 
+\bigskip\\
+Any map of torsors over isomorphic groups is an isomorphism so we conclude.
+\end{proof}
+
+\section{Deformation Theory a la Abramovich-Hasset}
+
+LSBA = Kollar-Shepherd-Barron-Alexeev
+
+\begin{defn}
+A proper geometrically connected $k$-variety is \textit{stable} if $X$ has semi-log canonical singularities and $K_X$ is a $\Q$-Cartier ample divisor.
+\end{defn}
+
+\begin{defn}
+Let $S$ be a $k$-scheme, a \textit{stable family} $f : X \to S$ is a proper flat morphism whose fibers are stable varieties nd such that $\omega_{X/S}^{[m]}$ is flat over $S$ and commutes with base change for all $m \in \ZZ$.
+\end{defn}
+
+\begin{defn}
+Let $h(m)$ be an integer-valued function. The moduli functor $\ol{\M}_h$ of stable varieties with Hilbert function $h$ is the functor taking $S$ to the groupoid of stable families $f : X \to S$ whose fibers have Hilbert function $h$ with respect to $\omega_{X/S}$. 
+\end{defn}
+
+\begin{defn}
+Given a stable variety $X$ over $k$ let $\M(X)$ denote the connected component of $\ol{\M}_{h(X)}$ containing $X$. Say that $X$ and $Y$ are \textit{deformation equivalent} if $\M(X) = \M(Y)$.
+\end{defn}
+
+\begin{lemma}[BHPS]
+Let $X$ be a stable variety over a field $k$ of characteristic $0$. Then $X$ has no infinitesimal automorphisms. 
+\end{lemma}
+
+\subsection{$\Q$-Gorenstein Deformations}
+
+\begin{defn}
+let $X$ be a normal projective surface with quotient singularities, a $\Q$-Gorenstein smoothing is a $1$-parameter flat family of projective surfaces $\psi : \X \to \Delta$ such that
+\begin{enumerate}
+\item the generic fiber $X_t$ is a smooth projective surface
+\item the central fiber $X_0$ is isomorphic to $X$
+\item the canonical divisor $K_{\X / \Delta}$ is $\Q$-Cartier.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+The third condition is equivalent to $\X$ being $\Q$-Gorenstein because then there is an integer multiple $m K_{\X}$ which is Cartier and 
+\[ m K_{\X / \Delta} = m K_{\X} - m \phi^* K_{\Delta} \]
+is also Cartier. 
+\end{rmk}
+
+
+\subsection{References}
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/1206.0438.pdf}[BHPS]
+\item \chref{https://www.math.brown.edu/bhassett/papers/projective/slcmodEMS2.pdf}{[AH]}
+\item \chref{https://arxiv.org/pdf/2402.15117.pdf}{[AAB]}
+\item \chref{https://arxiv.org/pdf/2307.06522.pdf}{[ABBDILW]}
+\end{enumerate}
+
+\newpage
+
+\section{Talk}
+
+\subsection{Motivation: unirationality}
+
+Unirationaltiy is the weakest notion of a polynomial system being ``solvable'' by polynomials. 
+
+\begin{defn}
+Let $X$ be a variety over $k$. We say that $X$ is \textit{unirational} (over $k$) if there is a dominant rational map $\P^n \rat X$.
+\end{defn}
+
+This says exactly that (most) points of $X$ can be parametrized by some rational functions. 
+
+\subsubsection{Characteristic Zero}
+
+Proving that a variety is not unirational is often quite sublte. For example, even in characteristic zero there is no known example of a rationally connected variety where we can prove it is not unirational.
+\par 
+However, if the variety admits any sort of forms we can use these as an obstruction.
+
+\begin{prop}
+Let $k$ be of characteristic zero and $X$ a proper $k$-variety. Then if $\omega \in H^0(X, \Omega_X^{\ot m})$ is a nonzero form for $m > 0$ then $X$ is not unirational.
+\end{prop}
+
+\begin{proof}
+Indeed, if $f : \P^n \rat X$ is a unirational parametrization with $n = \dim{X}$ then $f$ is generically \etale. Furthermore, since $X$ is proper $f$ is defined in codimension $1$ so $f^* \omega$ extends to a section of $H^0(\P^n, \Omega_{\P^n}^{\ot m})$ giving a contradiction. 
+\end{proof}
+
+This argument fails completely in positive characteristic because of the existence of inseparable maps for which $f^* \omega = 0$.
+
+\begin{example}
+Consider a surface $X / \FF_p$ defined as a smooth compactification of an equation of the form,
+\[ z^p = f(x,y) \]
+for some $f \in \FF_p[x,y]$. Then if we choose $f$ to have large degree $X$ may be of general type. However, notice that if we adjoin $p^{\text{th}}$-roots $s,t$ of $x$ and $y$ then the equation becomes
+\[ z^p = f(s^p, t^p) = f(s,t)^p \]
+therefore $k(X) \subset k(s,t)$ given by $z = f(s,t)$ and $x = s^p$ and $y = t^p$. This shows that $X$ is always uniratonal. 
+\end{example}
+
+This demonstrates that unirationality in positive characteristic is a phenmenon that persists even for quite ``complex'' varieties from the perspective of the usual classification of surfaces. 
+
+\subsection{Fundamental Groups}
+
+Another property enjoyed by unirational varities in characteristic is that their fundamental groups vanish.
+
+\begin{prop}
+Let $X / \CC$ be a smooth proper complex variety. If $X$ is unirational then $\pi_1(X) = 0$.
+\end{prop} 
+
+\begin{proof}
+Let $f : \P^n \sm Z \to X$ be a unirational parametrization and we can choose $\codim{Z} \ge 2$. Thus $\pi_1(\P^n \sm Z) = 1$ so the map lifts to the universal cover $\wt{X} \to X$ as a holomorphic map. However $f$ is generically a finite cover so this forces $\wt{X} \to X$ to be a finite cover also. Hence $\wt{X}$ is also a smooth proper variety. Now consider the diagram,
+\begin{center}
+\begin{tikzcd}
+Y \arrow[r] \arrow[d] \pullback & \wt{X} \arrow[d]
+\\
+\P^n \sm Z \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+since $\pi_1(\P^n \sm Z) = 1$ we see that $Y$ is a finite union of copies of $\P^n \sm Z$ and hence $\wt{X}$ is also unirational. Therefore we showed that $h^0(\wt{X}, \Omega_{\wt{X}}^p) = 0$ so by hodge symmetry $h^p(\wt{X}, \struct{\wt{X}}) = 0$ so $\chi(\wt{X}) = 1$. However, it is well-known that if $\wt{X} \to X$ has degree $n$ then $\chi(\struct{\wt{X}}) = n \chi(\struct{X})$ hence $n = 1$. 
+\end{proof}
+
+Some version of this caries over to positive characteristic as well. 
+
+\begin{theorem}[Serre]
+Let $k$ be of characteristic $p$ and $X$ is a smooth proper $k$-variety. If $X$ is unirational then $\pi_1(X)$ is finite of order coprime to $p$. 
+\end{theorem}
+
+We will see in the next section an example where $\pi_1(X)$ is nonzero in positive characteristic.
+
+\subsection{Shioda's Example}
+
+Shioda used some very clever tricks and computations to compute the following.
+
+\begin{theorem}[Shioda]
+Let $F_n$ be the Fermat surface over $\FF_p$ ($p > 2$) given by the equation
+\[ \{ X^n + Y^n + Z^n + W^n = 0 \} \subset \P^3 \]
+Then $F_n$ is unirational if and only if $p^\nu \equiv -1 \mod n$ for some $\nu$.
+\end{theorem}
+
+\begin{example}
+Let $G = \Z / 5 \Z$ act on $F_5$ by $\lambda \cdot [X : Y : Z : W] = [X : \lambda Y : \lambda^2 Z : \lambda^3 W]$. This action is free and hence $X = F_5 / G$ is a smooth projective surface with $\pi_1(X) = \Z / 5 \Z$ called the Godeaux surface. Shioda's result shows that this is supersingular over infinitely many primes. However, we saw this cannot happen over $\CC$, indeed $X$ has general type. 
+\end{example}
+
+How does Shioda prove this theorem: for the ``if'' part he uses an extremely clever change of variables to just write down the unirational parametrization. To show the ``only if'' he needs an obstruction, this comes from \etale cohomology. 
+
+\begin{prop}
+Let $X$ be a smooth projective unirational surface over $\FF_q$. Then $\Frob_q \acts H^2_{\et}(X, \QQ_\ell)$ has eigenvalues of the form $\zeta \cdot q$ for $\zeta$ a root of unity. We call this property \textit{supersingularity}. 
+\end{prop}
+
+\begin{proof}
+Pass to an extension $\FF_{q^n}$ such that the unirational parametrization and all points of indeterminacy are defined over $\FF_{q^n}$. Resolving the indeterminacy locus, we get $\Bl_S \P^2 \to X$ where $S \subset \P^2$ is a finite set of points. Therefore $H^2_{\et}(X, \QQ_\ell) \embed H^2_{\et}(\Bl_S \P^2, \Q_\ell) = \Q_\ell(-1)^{1 + \# S}$. Thus $\Frob_{q^n} = \Frob_{q}^n$ acts via $q^n$.  
+\end{proof}
+
+
+\begin{lemma}
+Let $f : X \to Y$ be surjection of smooth proper varieties. Then $f^* : H^i_{\et}(Y, \Q_\ell) \embed H^i_{\et}(X, \Q_\ell)$ is injective.
+\end{lemma}
+
+\begin{proof}
+Poincare duality defines a pushforward map $f_* = D^{-1} \circ (f_*)^{\vee} \circ D$ where $D(\alpha) = \tr{(\alpha \smile -)}$. If $f$ is generically finite, it suffices to show that $f_* f^* = \deg{f}$ since this is invertible on $\Q_\ell$. Indeed, 
+\[ D(f_* f^* \alpha) = \tr{(f^* \alpha \smile f^* - )} = \tr{f^* (\alpha \smile -)} = (\deg{f}) D(\alpha) \]
+because $f^* = \deg{f}$ on top cohomology. If $f$ is not generically finite then we may take a generic multisection $Z \subset X \to Y$ and then $(f \circ \iota)^*$ is injective so $f^*$ is injective.
+\end{proof}
+
+Shioda then computes that $F_n$ is supersingular exactly when $p^\nu \equiv - 1 \mod p$ for some $\nu$ and this covers all the cases his construction works to show $F_n$ is moreover unirational. This, and a handful of other examples, leads him to make the following conjecture.
+
+\begin{conj}[Shioda]
+Let $X$ be a smooth projective surface over $\FF_q$. Suppose that
+\begin{enumerate}
+\item $\pi_1(X) = 1$
+\item $X$ is supersingular
+\end{enumerate}
+then $X$ is unirational.
+\end{conj}
+
+\begin{rmk}
+One might ask why doesn't Shioda just require that $\pi_1(X)$ is finite as suggested by Serre's theorem and the Godeaux surface example: this conjecture would be false because it turns out the Godeaux surface is supersingular in every characteristic (of good reduction) but it unirational only in the characteristics that $F_5$ is unirational in.
+\end{rmk}
+
+The goal of this talk is to describe new obstructions to unirationality that could be used to test Shioda's conjecture.
+
+\subsection{Jet Obstructions}
+
+
+Here we describe one approach to obstructing unirationality. The idea is very simple: recall that in characteristic zero we may use forms to obstruct unirationality. Hover, the issue is that degree $p$ purely inseparable maps can kill first-order derivatives. The fundamental observation is that they cannot kill $p^{\text{th}}$-order derivatives. Therefore, if we can find higher-order forms on our varities then these will pullback nontrivially even along certain inseparable maps to produce obstructions. This idea can be formalized using various notions of jet bundles.
+
+\begin{defn}
+Let $X \to S$ be a smooth scheme. Then $J^n_{X/S} := \pi_{1*} \pi_2^* \struct{X}$ where the projections are along the $n^{\text{th}}$-order thickening of the diagonal $\Delta^n_{X/S} := V(\I_{\Delta}^{n+1}) \subset X \times_S X$. This satisfies the following universal property,
+\[ \shHom{\struct{X}}{J^n_{X/S}}{\E} = \shDiff{\le n}{X}{\struct{X}}{\E} \]
+\end{defn}
+
+Now I define a notion of bigness for lifts of jets.
+
+\newcommand{\jetamp}{\mathrm{jetamp}}
+
+\begin{defn}
+Let $X$ be a smooth proper variety. Define the \textit{jet-amplitude} of $X$ to be
+\[ \jetamp(X) := \sup \left \{ \frac{n}{r} : \exists \, \omega \in H^0(X, J^{n}_X) \text{ such that } \omega|_{J^{r}_X} \neq 0 \right\} \]
+\end{defn}
+
+\begin{theorem}[C]
+Suppose that $\log_p \jetamp(X) \ge k$ then there does not exist a unirational parametrization $\P^n \rat X$ of inseparability degree $k$.
+\end{theorem}
+
+\begin{proof}
+Since $\jetamp$ only increases anlong separable maps we may assume that $X$ has a purely inseparable unirational parametrization $f : \P^n \rat X$ of degree $k$. Now suppose that $\jetamp \ge p^k$ then there is $\omega \in H^0(X, J^{p^k r})$ such that $\omega|_J^{r} \neq 0$. Using extension in codimension $\ge 2$, there are well-defined pullback map
+\begin{center}
+\begin{tikzcd}
+H^0(X, J^{p^k r}) \arrow[r] \arrow[d, "f^*"] & H^0(X, J^{r}) \arrow[d, "f^*"] 
+\\
+H^0(\P^n, J^{p^k r}) \arrow[r] & H^0(\P^n, J^{r}) 
+\end{tikzcd}
+\end{center} 
+and the fact that $f$ has degree $p^k$ means that $f^* \omega \neq 0$ which gives a contradiction.
+\end{proof}
+
+Unfortunately it is quite difficult to compute $\jetamp(X)$. For ``generic'' complete intersections of large degree, it is known that $\jetamp(X) = \infty$. However, for any particular example it is very hard to get ones hands on this thing. There is a trivial bound as follows.
+
+\begin{prop}
+Let $X$ be a smooth projective variety. Then,
+\[ \jetamp(X) \ge \hat{h}^0(\Omega_X) / \hat{h}^1(\Omega_X) - 1 \]
+where $\hat{h}^i$ is the so-called \textit{asymtotic cohomology}
+\[ \hat{h}^i(X, \E) := \limsup_{m \to \infty} \frac{h^0(X, \nSym{m}{\E})}{m^{\dim{X} + \rank{\E} - 1}} \]
+\end{prop}
+
+{\color{red} DO THIS PROOF CORRECTLY}
+
+\begin{proof}
+This arises from the exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \nSym{n}{\Omega_X} \arrow[r] & J^n_X \arrow[r] & J^{n-1}_X \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Therefore, 
+\[ h^0(X, J^{nr}_X) \ge h^0(X, J^r_X) + \sum_{k = r}^{rn} \left[h^0(X, \nSym{k}{\Omega_X} -  h^1(X, \nSym{k+1}{\Omega_X}) \right] \]
+\end{proof}
+
+\subsection{Hyperbolicity}
+
+\end{document}

@@ -1,0 +1,939 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\usepackage{relsize}
+\usepackage[bbgreekl]{mathbbol}
+\usepackage{amsfonts}
+\DeclareSymbolFontAlphabet{\mathbb}{AMSb} %to ensure that the meaning of \mathbb does not change
+\DeclareSymbolFontAlphabet{\mathbbl}{bbold}
+\newcommand{\Prism}{{\mathlarger{\mathbbl{\Delta}}}} 
+\begin{document}
+
+
+\section{Prismatic Cohomology}
+
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\ad}{\mathrm{ad}}
+
+Our goal will be the following theorem about the topology of algebraic varities. 
+
+\begin{theorem}
+et $X$ be a smooth, proper, $\CC$-variety with unramified good reduction at $p$. Let $i < p - 2$ and $W \subset X$ and Zariki open. Then the image of the restriction map,
+\[ H^i(X, \FF_p) \to H^i(W, \FF_p) \]
+has dimension at least $h_X^{0,i} := \dim H^0(X, \Omega_X^i)$.
+\end{theorem}
+
+This statement amounts to showing that certain cohomology classes are not $p$-divisible.
+\bigskip\\
+There is a version with $\Q$-coefficients that follows from Hodge theory.
+
+\begin{theorem}
+Let $X$ be a smooth, proper, complex variety and $W \subset X$ any Zariki open. Then the image of the restiction map,
+\[ H^i(X, \QQ) \to H^i(W, \QQ) \]
+has dimension at least $h_X^{0,i} := \dim H^0(X, \Omega_X^i)$.
+\end{theorem}
+
+\begin{proof}
+The map $H^i(X, \QQ) \to H^i(W, \QQ)$ is a morphism of mixed hodge structures. Posibly passing to a log resolution $\pi : \wt{X} \to X$ of $Z = X \sm W$ we may assume that $\pi^{-1}(Z) = D$ is an snc divisor (note the birational modification does not change $h^{0,i}_X$ and the map $H^i(\wt{X}, \QQ) \to H^i(W, \QQ)$ factors through $H^i(X, \QQ)$ so its image is the same). Then there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^0(\wt{X}, \Omega^i_{\wt{X}}) \arrow[d] \arrow[r] & H^0(\wt{X}, \Omega^i_{\wt{X}}(\log{D})) \arrow[d]
+\\
+H^i(\wt{X}, \QQ) \ot_{\QQ} \CC \arrow[r] & \mathrm{Gr}^W_i H^i(W, \QQ) \ot_{\QQ} \CC
+\end{tikzcd}
+\end{center}
+where the top map is injective and the downward maps are injective. This immediately implies the claim. 
+\end{proof}
+
+The real power of our main result is that it works integrally. This has applications to essential dimension to be discussed later.
+
+\subsection{Mod-p Cohomology}
+
+We need the following about Delinge-Illusie's treatment of de Rham cohomology and basics of prismatic cohomology.
+
+
+\subsubsection{Log de Rham cohomology}
+
+Let $k$ be a perfect field of characteritic $p$, and let $X$ be a smooth $k$-scheme. Suppose that $X$ is equipped with a normal crossings divisor $D \subset X$. Let $\Omega^\bullet_{X/k}(\log{D})$ denote the de Rham complex with log poles in $D$. 
+\par 
+Let $(X^1, D^1)$ be the base change by Frobenius $F_k : \Spec{k} \to \Spec{k}$ and $F_{X/k} : X \to X^1$ denote the relative Frobenius. It is a finite flat map (since $X$ is smooth) of $k$-schemes such that $F_{X/k} : D \to D^1$.
+
+\begin{lemma}
+Suppose that $(X, D)$ admits a lift to $W_2(k)$ called $(\wt{X}, \wt{D})$ with $\wt{D}$ a snc divisor flat over $W_2(k)$. Then for $j < p$,
+\[ H^0(X^1, \Omega^j_{X^1/k}(\log{D^1})) \embed H^j(X, \Omega^\bullet_{X/k}(\log{D})) \]
+is canonically a direct summand. 
+\end{lemma}
+
+\begin{proof}
+This follows from the existence of the Cartier operator in the same way as in Deligne-Illusie.
+\end{proof}
+
+\subsubsection{Prisms}
+
+Let $K$ be a field of characteristic $0$. By a \textit{p-adic valuation} on $K$ we mean a rank one valuation $\nu$ on $K$, with $\nu(p) > 0$. We suppose that $K$ is complete with respect to $\nu$ with ring of integers $\cO_K$ and perfect residue field $k$. We will only recall exactly as much about prismatic cohomology as necessary.
+
+\begin{defn}
+A $\delta$\textit{-ring} is a pair $(R, \delta)$ where $R$ is a commutative ring and $\delta : R \to R$ is a set map such that,
+\begin{enumerate}
+\item $\delta(0) = \delta(1) = 0$
+\item $\delta(xy) = x^p \delta(y) + y^p \delta(x) + p \delta(x) \delta(y)$
+\item $\delta(x + y) = \delta(x) + \delta(y) + \frac{x^p + y^p - (x+y)^p}{p}$
+\end{enumerate}
+Note that the last term exists as some universal polynomial with integer coefficents. 
+\end{defn}
+
+We think of this as a sort of ``derivation along the $p$-direction''. It is also related to lifting Frobenius on $R / p$. Indeed, if $\phi(x) = x^p + p \delta(x)$ then $\phi : R \to R$ is a ring map by property (c) and obviously it lifts $x \mapsto x^p$ on $R / p$. In fact, if $R$ is $p$-torsionfree then lifts of Frobenius are exactly the same as $\delta$-ring structures.
+
+\begin{defn}
+Let $(A, I)$ be a pair where $A$ is a $\delta$-ring and $I \subset A$ is an ideal. The pair is a \textit{prism} if
+\begin{enumerate}
+\item  $I \subset A$ is invertible (defines a Cartier divisor on $\Spec{A}$) 
+\item $A$ is derived $(p,I)$-complete
+\item $p \in I + \phi(I) A$
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+Let $A$ be a $p$-torsionfree and $p$-complete $\delta$-ring then $(A, (p))$ is a prism.
+\end{example}
+
+\begin{example}
+The \textit{Breuil-Kisin} prism. Assume that $\nu$ on $K$ is discrete. Set $A = W(k)[[u]]$ equipped with Frobenius $\varphi$ extending Frobenius on $W(k)$ by $u \mapsto u^p$. Equip $A$ with the map $A \to \cO_K$ sending $u \mapsto \pi$ some uniformizer. It kernel is generated by an Eisenstein polynomial $E(u) \in W(k)[u]$ for $\pi$. In fact, in applications we will assume $\cO_K = W(k)$ and $\pi = p$. Then $(A, E(u) A)$ is the Breuil-Kisin prism.
+\end{example}
+
+\begin{example}
+Suppose that $K$ is algebraically closed. Let $R = \ilim \cO_K / p$ taking the limit over Frobenius. We take $A = W(R)$. Any element $(x_0, x_1, \dots) \in R$ lifts uniquely to a sequence $(\hat{x}_0, \hat{x}_1, \dots,) \in \cO_K$ with $\hat{x}_i^p = \hat{x}_{i-1}$. Then there is a natural surjective map of rings $\theta : A \to \cO_K$ sending a Teichmuller element $x$ as above to $\hat{x}_0$. The kernel of $\theta$ is principal, generated by $\xi = p - [\ul{p}]$ where $\ul{p} = (p, p^{1/p}, \dots)$ then $(A, \xi A)$ is an example of a perfect prism. 
+\end{example}
+
+\subsubsection{Logarithmic Cohomology}
+
+We will use logarithmic formal schemes over $\cO_K$. We will consider logarithmic \etale cohomology meaning the natural cohomology on the site of log \etale covers of logarithmic schemes. The main fact we will use is the following comparison result:
+
+\begin{theorem}
+Let $k$ be an algebraically closed field and $X$ a smooth $k$-scheme. Let $D \subset X$ be an snc divisor and $X_D^{\log}$ the log structure induced by $D$. Then there is a canonical isomorphism,
+\[ H^i_{\et}(X_D^{\log}, \mu) \iso H^i(X \sm D, \mu) \]
+{\color{red} COEFFICIENTS}
+\end{theorem}
+
+\begin{proof}
+Idea: show that any finite \etale map $Y \to X \sm D$ extends canonically to a finite log-\etale map $\ol{Y} \to X_D$ which proves the statment for $i = 1$ then use dimension shifting and some spectral sequence. To show the claim, take the normalization of $Y$ in $X$ which gives a finite map $Y \to X$ ramified only over $D$ by Zariski nagata purity. Then a local check shows that this map is log-\etale {\color{red} WHY?} 
+\end{proof}
+
+\subsubsection{Prismatic Cohomology}
+
+Let $K$ be either discretely valued or algebraically closed. Let $X$ be a formal smooth $\cO_K$-scheme equipped with a relative normal crossings divisor $D$. Write $X_D$ for log structure induced by $D$. We will denote by $X_{D,K}$ the associated log adic space giving by analytification. 
+\par 
+The \textit{prismatic cohomology} of $X_D$ is the complex of $A$-modules $R \Gamma_{\Prism}(X_D/A)$ equipped with a $\varphi$-semi-linear map $\varphi$. The mod $p$ cohomology is given by setting,
+\[ \ol{R \Gamma_{\Prism}(X_D/A)} = R \Gamma_{\Prism}(X_D/A) \ot_A^{\LL} A / p A \]
+and we will denote by $\ol{H^i_{\Prism}(X_D/A)}$ the cohomology of $\ol{R \Gamma_{\Prism}(X_D/A)}$. Then we have the following properties:
+\begin{enumerate}
+\item There is a canonical isomorphism of commutative algebras in $D(A)$
+\[ R \Gamma(\Omega^\bullet_{X_k/k}(\log{D_k})) \cong \ol{R \Gamma_{\Prism}(X_D/A)} \ot^{\LL}_{A/pA, \varphi} l \]
+\item If $K$ is algebraically closed then there is an isomorphism of commutative algebras in $D(A)$
+\[ R \Gamma_{\et}(X_{D,K}, \FF_p) \cong \ol{R \Gamma_{\Prism}(X_D/A)}[1/\xi]^{\varphi=1} \]
+\item the linear map,
+\[ \varphi^* \ol{R \Gamma_{\Prism}(X_D/A)} \to \ol{R \Gamma_{\Prism}(X_D/A)} \]
+becomes an isomorphism in $D(A)$ after inverting $u$ (resp $\xi$) if $K$ i discrete (resp. algebraically closed). For each $i \ge 0$, there is a canonical map,
+\[ V_i : \ol{H^i_{\Prism}(X_D/A)} \to H^i(\varphi^* \ol{R \Gamma_{\Prism}(X_D/A)} \]
+\item Let $K'$ be a field complete with respect to a $p$-adic valuation, and which is either discrete or algebraically closed. Let $B \to \cO_{K'}$ be the corresponding prism, as defined above. Suppose $K \to K'$ is a map of valued field and $A \to B$ is compatbile with the projection to $\cO_K \to \cO_{K'}$ and Frobenius. Then there is a canonical isomorphism
+\[ \ol{R \Gamma_{\Prism}(X_D/A)} \ot_A^{\LL} B \cong \ol{R \Gamma_{\Prism}(X_{D, \cO_{K'}}/B)} \]
+\item When $X$ is proper over $\cO_K$ then $\ol{R \Gamma_{\Prism}(X_D/A)}$ is a perfect complex of $A/p$-modules.
+\item Suppose that $K$ is algebraically closed, and that $X$ is proper over $\cO_K$ then for each $i \ge 0$ there are natural isomorphisms
+\[ H^i_{\et}(X_{D,K}, \FF_p) \ot_{\FF_p} A / p A[1/\xi] \cong \ol{H^i_{\Prism}(X_D/A)}[1/\xi] \]
+\end{enumerate}
+
+\subsection{Main Result}
+
+Let $k$ be a perfect field of characteristic $p$. Here we can take $K$ to be a complete $p$-adic field with discrete valuation such that $\cO_K = W(k)$. 
+
+\begin{prop} \label{main_prop}
+Let $X$ be a proper smooth scheme over $\cO_K$ equipped with a relative normal crossings divisor $D \subset X$. Set $U = X \sm D$ and $W \subset U_C$ be a dense open subscheme. If $0 \le i < p -2$ then,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(U_C, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge h^{0,i}_{(X_C, D_C)} \]
+\end{prop}
+\bigskip
+Let's see how this implies the theorem. Let $Y$ be a proper smooth scheme over $\CC$ and $D \subset Y$ a normal crossings divisor. We say that $(Y, D)$ has \textit{good reduction at} $p$ if there exists an algebraically closed field $C \embed \CC$ over which $(Y, D)$ is defined and a $p$-adic valuation on $C$ with ring of integers $\cO_C$ and an extension to a smooth proper $\cO_C$-scheme $Y^\circ$ with a relative normal crossings divisor $D^\circ \subset Y^\circ$ over $\cO_C$ extending $D$. We say that $(Y, D)$ has \textit{unramified good reduction} at $p$ if in addition $(Y^\circ, D^\circ)$ can be chosen so that it descends to an absolutely unramified\footnote{meaning unramified over $\Z_{(p)}$} dvr $\cO \subset \cO_C$. 
+
+\begin{rmk}
+This condition is actually easily checkable. Indeed if $Y$ is a smooth proper finite type $\CC$-scheme then it spreads out to a smooth proper scheme $\mathcal{Y} \to \Spec{A}$ over some finite type $\ZZ$-algebra $A \subset \CC$. Now suppose there exists $\p \subset A$ such that $\Spec{A} \to \Spec{\ZZ}$ is smooth at $\p$ and $\p \mapsto (p)$. This is nothing more than saying that $p$ is not contained in the Jacobian ideal. Then choose a minimal prime $\xi$ over $p A$ since $\xi \spto \p$ we see that $\Spec{A} \to \Spec{\Z}$ is smooth at $\xi$ and hence $A_{\xi} \subset \CC$ is a $p$-adic dvr unramified over $\ZZ_{(p)}$ by smoothness. Then we extend this $p$-adic valuation to $\CC$ and $\cO = A_{\xi}$ is our requisite unramified dvr. 
+\end{rmk}
+
+\begin{cor}
+Let $Y$ be a proper smooth connected $\CC$-scheme and $D \subset Y$ a normal crossing divisor and $W \subset U := Y \sm D$ a dense ope nsubscheme. Suppose that $(Y, D)$ has unramified good reduction at $p$. If $0 \le i < p - 2$ then,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(U, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge h^{0,i}_{(X, D)} \]
+\end{cor}
+
+This proves the main theorem if we take $D = \emptyset$.
+
+\begin{proof}
+Since the \etale cohomology groups do not change upon base change to algebraically closed fields. By assumption, we may assume that $(Y, D)$ is defined over $\cO$ unramified. Then taking the $p$-adic completion $C \subset C'$ we get $\cO \subset \cO'$ which is unramified and $p$-adically complete so we reduce to the previous case.  
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{main_prop}]
+Let $k_C$ be the residue field of $C$. We may replace $X$ by it base change to $W(k_C)$ and assume that $C$ and $K$ have the ame residue field. Denote by $\wh{X}$ and $\wh{D}$ the formal completions of $X$ and $D$. Let $\wh{W} \subset \wh{X}$ be the formal open subschem, which is the complement of $Z_k$. Note that we have $\wh{W}_C \subset W^\ad$ so there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(X_{D,C}, \FF_p) \arrow[dd, "\alpha"] \arrow[r] & H^i_{\et}(W, \FF_p) \arrow[d] 
+\\
+& H^i_{\et}(W^\ad, \FF_p) \arrow[d]
+\\
+H^i(\wh{X}_{D,C}, \FF_p) \arrow[r, "\beta"] & H^i_{\et}(\wt{X}_{C}, \FF_p) 
+\end{tikzcd}
+\end{center}
+We need to show the following facts,
+\begin{enumerate}
+\item $\alpha$ is an isomorphism
+\item $\dim_{\FF_p} \im{\beta} \ge h^{0,i}_{(X,D)}$
+\item $H^i_{\et}(X_{D,C}, \FF_p) \cong H^i_{\et}(U_C, \FF_p)$
+\end{enumerate}
+\end{proof}
+
+{\color{red} WHY IS THE FIRST LEMMA 2.2.10}
+
+Now we will prove these three facts. 
+
+The only hard one:
+
+Let $X$ be a proper, smooth formal scheem over $\cO_K$ equipped with a relative normal crossing divisor $D \subset X$. Let,
+\[ h^{0,i}_{(X,D)} := \dim_K H^0(X_K, \Omega^i_{X_K/K}(\log{D})) \]
+
+\begin{prop}
+Let $W \subset X \sm D$ be a dense open formal subscheme. Then for $0 \le i < p - 2$
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p)} \ge h^{0,i}_{(X,D)} \]
+\end{prop}
+
+\begin{proof}
+Take the prism $A$ to be $W(k)[[u]]$ with $E(u) = u - p$. We obtain a prism $A_C \to \cO_C$. There is a Frobenius compatible map $A \to A_C$ sending $u \mapsto [\ul{p}]$. Set,
+\[ M_{\Prism} = \im{(\ol{H^i_{\Prism}(X_D/A)} \to \ol{H^i_{\Prism}(W/A)})} \]
+which is a finitely generated $A / pA = k[[u]]$-module. There is an isomorphism,
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+and similarly for the open $W$. Therefore, by {\color{red} PROPERTY} there is an isomorphism
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+Then there are maps,
+\begin{align*}
+\ol{H^i_{\Prism}(X_D/A)} & \ot_A^{\LL} A_C [1/\xi] \cong H^i_{\et}(X_{D,C}, \FF_p) \ot_{\FF_p} A_C / p A_C [1/\xi]
+\\
+& \to H^i_{\et}(W_C, \FF_p) \ot_{\FF_p} A_C / p A_C[1/\xi] \to \ol{H^i_{\Prism}(W/A)} \ot_A A_C[1/\xi] 
+\end{align*}
+the composite is the natural map. Hence,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p))} \ge \dim_{k((u))} M_{\Prism}[1/u] \]
+By {\color{red} LEMMA} $M_{\Prism}$ is a finitely generated free $k[[u]]$-module. Hence it suffices to show $\dim_k M_{\Prism} / u M_{\Prism} \ge h^{0,i}_{(X,D)}$. 
+
+
+Hence using Lemma 2.2.1 again, we see that $\ol{H^j_{\Prism}(X_D/A)}$ is $u$-torsion free for $0 \le j \le i + 1$. Hence there are maps,
+\begin{align*}
+H^i(X_k, \Omega^\bullet_{X_k/k}(\log{D_k})) & \cong \ol{H^i_{\Prism}(X_D/A)} \ot_{A, \varphi} k \to M_{\Prism} \ot_{A, \varphi} k 
+\\
+& \to \ol{H^i_{\Prism}(W/A)} \ot_{A, \varphi} k \to H^i(W_k, \Omega^\bullet_{W_k/K}(\log{D})) 
+\end{align*}
+where the composition is the natural map. This shows that the image has dimension $\le \dim_k M_{\Prism} / u M_{\Prism}$ and it suffices to how that this dimension is $\ge h^{0,i}_{(X,D)}$. Since $W \subset X$ is dense, the map,
+\[ H^0(X_k, \Omega^i_{X_k/k}(\log{D})) \to H^0(W_k, \Omega^i_{X_k/k}) \]
+is injective. Hence the image has dimension at leat $\dim_k H^0(X_k, \Omega^i_{X_k/k}(\log{D_k})) \ge h^{0,i}_{(X,D)}$ {\color{red} I THINK THIS WAS AN ERROR IN THE PAPER NEED LOG D} where the last inequality follows from the upper semi-continuity of $h^0$. 
+\end{proof}
+
+\section{Talk 1}
+
+Our goal will be the following theorem about the topology of algebraic varities. 
+
+\begin{theorem}
+et $X$ be a smooth, proper, $\CC$-variety with unramified good reduction at $p$. Let $i < p - 2$ and $W \subset X$ and Zariki open. Then the image of the restriction map,
+\[ H^i(X, \FF_p) \to H^i(W, \FF_p) \]
+has dimension at least $h_X^{0,i} := \dim H^0(X, \Omega_X^i)$.
+\end{theorem}
+
+This statement amounts to showing that certain cohomology classes are not $p$-divisible.
+\bigskip\\
+There is a version with $\Q$-coefficients that follows from Hodge theory.
+
+\begin{theorem}
+Let $X$ be a smooth, proper, complex variety and $W \subset X$ any Zariki open. Then the image of the restiction map,
+\[ H^i(X, \QQ) \to H^i(W, \QQ) \]
+has dimension at least $h_X^{0,i} := \dim H^0(X, \Omega_X^i)$.
+\end{theorem}
+
+\begin{proof}
+The map $H^i(X, \QQ) \to H^i(W, \QQ)$ is a morphism of mixed hodge structures. Posibly passing to a log resolution $\pi : \wt{X} \to X$ of $Z = X \sm W$ we may assume that $\pi^{-1}(Z) = D$ is an snc divisor (note the birational modification does not change $h^{0,i}_X$ and the map $H^i(\wt{X}, \QQ) \to H^i(W, \QQ)$ factors through $H^i(X, \QQ)$ so its image is the same). Then there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^0(\wt{X}, \Omega^i_{\wt{X}}) \arrow[d] \arrow[r] & H^0(\wt{X}, \Omega^i_{\wt{X}}(\log{D})) \arrow[d]
+\\
+H^i(\wt{X}, \QQ) \ot_{\QQ} \CC \arrow[r] & \mathrm{Gr}^W_i H^i(W, \QQ) \ot_{\QQ} \CC
+\end{tikzcd}
+\end{center}
+where the top map is injective and the downward maps are injective. This immediately implies the claim. 
+\end{proof}
+
+The real power of our main result is that it works integrally. This has applications to essential dimension to be discussed later.
+
+\subsection{Main Result}
+
+\begin{prop} \label{main_prop}
+Let $X$ be a proper smooth scheme over $\cO_K$ equipped with a relative normal crossings divisor $D \subset X$. Set $U = X \sm D$ and $W \subset U_C$ be a dense open subscheme. If $0 \le i < p -2$ then,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(U_C, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge h^{0,i}_{(X_C, D_C)} \]
+\end{prop}
+\bigskip
+Let's see how this implies the theorem. Let $Y$ be a proper smooth scheme over $\CC$ and $D \subset Y$ a normal crossings divisor. We say that $(Y, D)$ has \textit{good reduction at} $p$ if there exists an algebraically closed field $C \embed \CC$ over which $(Y, D)$ is defined and a $p$-adic valuation on $C$ with ring of integers $\cO_C$ and an extension to a smooth proper $\cO_C$-scheme $Y^\circ$ with a relative normal crossings divisor $D^\circ \subset Y^\circ$ over $\cO_C$ extending $D$. We say that $(Y, D)$ has \textit{unramified good reduction} at $p$ if in addition $(Y^\circ, D^\circ)$ can be chosen so that it descends to an absolutely unramified\footnote{meaning unramified over $\Z_{(p)}$} dvr $\cO \subset \cO_C$. 
+
+\begin{rmk}
+This condition is actually easily checkable. Indeed if $Y$ is a smooth proper finite type $\CC$-scheme then it spreads out to a smooth proper scheme $\mathcal{Y} \to \Spec{A}$ over some finite type $\ZZ$-algebra $A \subset \CC$. Now suppose there exists $\p \subset A$ such that $\Spec{A} \to \Spec{\ZZ}$ is smooth at $\p$ and $\p \mapsto (p)$. This is nothing more than saying that $p$ is not contained in the Jacobian ideal. Then choose a minimal prime $\xi$ over $p A$ since $\xi \spto \p$ we see that $\Spec{A} \to \Spec{\Z}$ is smooth at $\xi$ and hence $A_{\xi} \subset \CC$ is a $p$-adic dvr unramified over $\ZZ_{(p)}$ by smoothness. Then we extend this $p$-adic valuation to $\CC$ and $\cO = A_{\xi}$ is our requisite unramified dvr. 
+\end{rmk}
+
+\begin{cor}
+Let $Y$ be a proper smooth connected $\CC$-scheme and $D \subset Y$ a normal crossing divisor and $W \subset U := Y \sm D$ a dense ope nsubscheme. Suppose that $(Y, D)$ has unramified good reduction at $p$. If $0 \le i < p - 2$ then,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(U, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge h^{0,i}_{(X, D)} \]
+\end{cor}
+
+This proves the main theorem if we take $D = \emptyset$.
+
+\begin{proof}
+Since the \etale cohomology groups do not change upon base change to algebraically closed fields. By assumption, we may assume that $(Y, D)$ is defined over $\cO$ unramified. Then taking the $p$-adic completion $C \subset C'$ we get $\cO \subset \cO'$ which is unramified and $p$-adically complete so we reduce to the previous case.  
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{main_prop}]
+We just need something that lives between $H_{\et}^i(-,\FF_p)$ and $H_{\dR}^i$.
+\end{proof}
+
+
+\begin{proof}[Proof of Proposition~\ref{main_prop}]
+Let $k_C$ be the residue field of $C$. We may replace $X$ by it base change to $W(k_C)$ and assume that $C$ and $K$ have the ame residue field. Denote by $\wh{X}$ and $\wh{D}$ the formal completions of $X$ and $D$. Let $\wh{W} \subset \wh{X}$ be the formal open subschem, which is the complement of $Z_k$. Note that we have $\wh{W}_C \subset W^\ad$ so there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(X_{D,C}, \FF_p) \arrow[dd, "\alpha"] \arrow[r] & H^i_{\et}(W, \FF_p) \arrow[d] 
+\\
+& H^i_{\et}(W^\ad, \FF_p) \arrow[d]
+\\
+H^i(\wh{X}_{D,C}, \FF_p) \arrow[r, "\beta"] & H^i_{\et}(\wt{X}_{C}, \FF_p) 
+\end{tikzcd}
+\end{center}
+We need to show the following facts,
+\begin{enumerate}
+\item $\alpha$ is an isomorphism
+\item $\dim_{\FF_p} \im{\beta} \ge h^{0,i}_{(X,D)}$
+\item $H^i_{\et}(X_{D,C}, \FF_p) \cong H^i_{\et}(U_C, \FF_p)$
+\end{enumerate}
+\end{proof}
+
+{\color{red} WHY IS THE FIRST LEMMA 2.2.10}
+
+Now we will prove these three facts. 
+
+The only hard one:
+
+Let $X$ be a proper, smooth formal scheme over $\cO_K$ equipped with a relative normal crossing divisor $D \subset X$. Let,
+\[ h^{0,i}_{(X,D)} := \dim_K H^0(X_K, \Omega^i_{X_K/K}(\log{D})) \]
+
+\begin{prop}
+Let $W \subset X \sm D$ be a dense open formal subscheme. Then for $0 \le i < p - 2$
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p)} \ge h^{0,i}_{(X,D)} \]
+\end{prop}
+
+\begin{proof}
+Take the prism $A$ to be $W(k)[[u]]$ with $E(u) = u - p$. We obtain a prism $A_C \to \cO_C$. There is a Frobenius compatible map $A \to A_C$ sending $u \mapsto [\ul{p}]$. Set,
+\[ M_{\Prism} = \im{(\ol{H^i_{\Prism}(X_D/A)} \to \ol{H^i_{\Prism}(W/A)})} \]
+which is a finitely generated $A / pA = k[[u]]$-module. There is an isomorphism,
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+and similarly for the open $W$. Therefore, by {\color{red} PROPERTY} there is an isomorphism
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+Then there are maps,
+\begin{align*}
+\ol{H^i_{\Prism}(X_D/A)} & \ot_A^{\LL} A_C [1/\xi] \cong H^i_{\et}(X_{D,C}, \FF_p) \ot_{\FF_p} A_C / p A_C [1/\xi]
+\\
+& \to H^i_{\et}(W_C, \FF_p) \ot_{\FF_p} A_C / p A_C[1/\xi] \to \ol{H^i_{\Prism}(W/A)} \ot_A A_C[1/\xi] 
+\end{align*}
+the composite is the natural map. Hence,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p))} \ge \dim_{k((u))} M_{\Prism}[1/u] \]
+By {\color{red} LEMMA} $M_{\Prism}$ is a finitely generated free $k[[u]]$-module. Hence it suffices to show $\dim_k M_{\Prism} / u M_{\Prism} \ge h^{0,i}_{(X,D)}$. 
+
+
+Hence using Lemma 2.2.1 again, we see that $\ol{H^j_{\Prism}(X_D/A)}$ is $u$-torsion free for $0 \le j \le i + 1$. Hence there are maps,
+\begin{align*}
+H^i(X_k, \Omega^\bullet_{X_k/k}(\log{D_k})) & \cong \ol{H^i_{\Prism}(X_D/A)} \ot_{A, \varphi} k \to M_{\Prism} \ot_{A, \varphi} k 
+\\
+& \to \ol{H^i_{\Prism}(W/A)} \ot_{A, \varphi} k \to H^i(W_k, \Omega^\bullet_{W_k/K}(\log{D})) 
+\end{align*}
+where the composition is the natural map. This shows that the image has dimension $\le \dim_k M_{\Prism} / u M_{\Prism}$ and it suffices to how that this dimension is $\ge h^{0,i}_{(X,D)}$. Since $W \subset X$ is dense, the map,
+\[ H^0(X_k, \Omega^i_{X_k/k}(\log{D})) \to H^0(W_k, \Omega^i_{X_k/k}) \]
+is injective. Hence the image has dimension at leat $\dim_k H^0(X_k, \Omega^i_{X_k/k}(\log{D_k})) \ge h^{0,i}_{(X,D)}$ {\color{red} I THINK THIS WAS AN ERROR IN THE PAPER NEED LOG D} where the last inequality follows from the upper semi-continuity of $h^0$. 
+\end{proof}
+
+
+\subsection{Prismatic Cohomology}
+
+\subsubsection{Prisms}
+
+Let $K$ be a field of characteristic $0$. By a \textit{p-adic valuation} on $K$ we mean a rank one valuation $\nu$ on $K$, with $\nu(p) > 0$. We suppose that $K$ is complete with respect to $\nu$ with ring of integers $\cO_K$ and perfect residue field $k$. We will only recall exactly as much about prismatic cohomology as necessary.
+
+\begin{defn}
+A $\delta$\textit{-ring} is a pair $(R, \delta)$ where $R$ is a commutative ring and $\delta : R \to R$ is a set map such that,
+\begin{enumerate}
+\item $\delta(0) = \delta(1) = 0$
+\item $\delta(xy) = x^p \delta(y) + y^p \delta(x) + p \delta(x) \delta(y)$
+\item $\delta(x + y) = \delta(x) + \delta(y) + \frac{x^p + y^p - (x+y)^p}{p}$
+\end{enumerate}
+Note that the last term exists as some universal polynomial with integer coefficents. 
+\end{defn}
+
+We think of this as a sort of ``derivation along the $p$-direction''. It is also related to lifting Frobenius on $R / p$. Indeed, if $\phi(x) = x^p + p \delta(x)$ then $\phi : R \to R$ is a ring map by property (c) and obviously it lifts $x \mapsto x^p$ on $R / p$. In fact, if $R$ is $p$-torsionfree then lifts of Frobenius are exactly the same as $\delta$-ring structures.
+
+\begin{defn}
+Let $(A, I)$ be a pair where $A$ is a $\delta$-ring and $I \subset A$ is an ideal. The pair is a \textit{prism} if
+\begin{enumerate}
+\item  $I \subset A$ is invertible (defines a Cartier divisor on $\Spec{A}$) 
+\item $A$ is derived $(p,I)$-complete
+\item $p \in I + \phi(I) A$
+\end{enumerate}
+\end{defn}
+
+\begin{example}
+Let $A$ be a $p$-torsionfree and $p$-complete $\delta$-ring then $(A, (p))$ is a prism.
+\end{example}
+
+\begin{example}
+The \textit{Breuil-Kisin} prism. Assume that $\nu$ on $K$ is discrete. Set $A = W(k)[[u]]$ equipped with Frobenius $\varphi$ extending Frobenius on $W(k)$ by $u \mapsto u^p$. Equip $A$ with the map $A \to \cO_K$ sending $u \mapsto \pi$ some uniformizer. It kernel is generated by an Eisenstein polynomial $E(u) \in W(k)[u]$ for $\pi$. In fact, in applications we will assume $\cO_K = W(k)$ and $\pi = p$. Then $(A, E(u) A)$ is the Breuil-Kisin prism.
+\end{example}
+
+\begin{example}
+Suppose that $K$ is algebraically closed. Let $R = \ilim \cO_K / p$ taking the limit over Frobenius. We take $A = W(R)$. Any element $(x_0, x_1, \dots) \in R$ lifts uniquely to a sequence $(\hat{x}_0, \hat{x}_1, \dots,) \in \cO_K$ with $\hat{x}_i^p = \hat{x}_{i-1}$. Then there is a natural surjective map of rings $\theta : A \to \cO_K$ sending a Teichmuller element $x$ as above to $\hat{x}_0$. The kernel of $\theta$ is principal, generated by $\xi = p - [\ul{p}]$ where $\ul{p} = (p, p^{1/p}, \dots)$ then $(A, \xi A)$ is an example of a perfect prism. 
+\end{example}
+
+\subsubsection{Logarithmic Cohomology}
+
+We will use logarithmic formal schemes over $\cO_K$. We will consider logarithmic \etale cohomology meaning the natural cohomology on the site of log \etale covers of logarithmic schemes. The main fact we will use is the following comparison result:
+
+\begin{theorem}
+Let $k$ be an algebraically closed field and $X$ a smooth $k$-scheme. Let $D \subset X$ be an snc divisor and $X_D^{\log}$ the log structure induced by $D$. Then there is a canonical isomorphism,
+\[ H^i_{\et}(X_D^{\log}, \mu) \iso H^i(X \sm D, \mu) \]
+{\color{red} COEFFICIENTS}
+\end{theorem}
+
+\begin{proof}
+Idea: show that any finite \etale map $Y \to X \sm D$ extends canonically to a finite log-\etale map $\ol{Y} \to X_D$ which proves the statment for $i = 1$ then use dimension shifting and some spectral sequence. To show the claim, take the normalization of $Y$ in $X$ which gives a finite map $Y \to X$ ramified only over $D$ by Zariski nagata purity. Then a local check shows that this map is log-\etale {\color{red} WHY?} 
+\end{proof}
+
+\subsubsection{Prismatic Cohomology}
+
+Let $K$ be either discretely valued or algebraically closed. Let $X$ be a formal smooth $\cO_K$-scheme equipped with a relative normal crossings divisor $D$. Write $X_D$ for log structure induced by $D$. We will denote by $X_{D,K}$ the associated log adic space giving by analytification. 
+\par 
+The \textit{prismatic cohomology} of $X_D$ is the complex of $A$-modules $R \Gamma_{\Prism}(X_D/A)$ equipped with a $\varphi$-semi-linear map $\varphi$. The mod $p$ cohomology is given by setting,
+\[ \ol{R \Gamma_{\Prism}(X_D/A)} = R \Gamma_{\Prism}(X_D/A) \ot_A^{\LL} A / p A \]
+and we will denote by $\ol{H^i_{\Prism}(X_D/A)}$ the cohomology of $\ol{R \Gamma_{\Prism}(X_D/A)}$. Then we have the following properties:
+\begin{enumerate}
+\item There is a canonical isomorphism of commutative algebras in $D(A)$
+\[ R \Gamma(\Omega^\bullet_{X_k/k}(\log{D_k})) \cong \ol{R \Gamma_{\Prism}(X_D/A)} \ot^{\LL}_{A/pA, \varphi} l \]
+\item If $K$ is algebraically closed then there is an isomorphism of commutative algebras in $D(A)$
+\[ R \Gamma_{\et}(X_{D,K}, \FF_p) \cong \ol{R \Gamma_{\Prism}(X_D/A)}[1/\xi]^{\varphi=1} \]
+\item the linear map,
+\[ \varphi^* \ol{R \Gamma_{\Prism}(X_D/A)} \to \ol{R \Gamma_{\Prism}(X_D/A)} \]
+becomes an isomorphism in $D(A)$ after inverting $u$ (resp $\xi$) if $K$ i discrete (resp. algebraically closed). For each $i \ge 0$, there is a canonical map,
+\[ V_i : \ol{H^i_{\Prism}(X_D/A)} \to H^i(\varphi^* \ol{R \Gamma_{\Prism}(X_D/A)} \]
+\item Let $K'$ be a field complete with respect to a $p$-adic valuation, and which is either discrete or algebraically closed. Let $B \to \cO_{K'}$ be the corresponding prism, as defined above. Suppose $K \to K'$ is a map of valued field and $A \to B$ is compatbile with the projection to $\cO_K \to \cO_{K'}$ and Frobenius. Then there is a canonical isomorphism
+\[ \ol{R \Gamma_{\Prism}(X_D/A)} \ot_A^{\LL} B \cong \ol{R \Gamma_{\Prism}(X_{D, \cO_{K'}}/B)} \]
+\item When $X$ is proper over $\cO_K$ then $\ol{R \Gamma_{\Prism}(X_D/A)}$ is a perfect complex of $A/p$-modules.
+\item Suppose that $K$ is algebraically closed, and that $X$ is proper over $\cO_K$ then for each $i \ge 0$ there are natural isomorphisms
+\[ H^i_{\et}(X_{D,K}, \FF_p) \ot_{\FF_p} A / p A[1/\xi] \cong \ol{H^i_{\Prism}(X_D/A)}[1/\xi] \]
+\end{enumerate}
+
+\subsection{Proof For Real}
+
+\begin{proof}[Proof of Proposition~\ref{main_prop}]
+Let $k_C$ be the residue field of $C$. We may replace $X$ by it base change to $W(k_C)$ and assume that $C$ and $K$ have the ame residue field. Denote by $\wh{X}$ and $\wh{D}$ the formal completions of $X$ and $D$. Let $\wh{W} \subset \wh{X}$ be the formal open subschem, which is the complement of $Z_k$. Note that we have $\wh{W}_C \subset W^\ad$ so there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(X_{D,C}, \FF_p) \arrow[dd, "\alpha"] \arrow[r] & H^i_{\et}(W, \FF_p) \arrow[d] 
+\\
+& H^i_{\et}(W^\ad, \FF_p) \arrow[d]
+\\
+H^i(\wh{X}_{D,C}, \FF_p) \arrow[r, "\beta"] & H^i_{\et}(\wt{X}_{C}, \FF_p) 
+\end{tikzcd}
+\end{center}
+We need to show the following facts,
+\begin{enumerate}
+\item $\alpha$ is an isomorphism
+\item $\dim_{\FF_p} \im{\beta} \ge h^{0,i}_{(X,D)}$
+\item $H^i_{\et}(X_{D,C}, \FF_p) \cong H^i_{\et}(U_C, \FF_p)$
+\end{enumerate}
+\end{proof}
+
+{\color{red} WHY IS THE FIRST LEMMA 2.2.10}
+
+Now we will prove these three facts. 
+
+The only hard one:
+
+Let $X$ be a proper, smooth formal scheem over $\cO_K$ equipped with a relative normal crossing divisor $D \subset X$. Let,
+\[ h^{0,i}_{(X,D)} := \dim_K H^0(X_K, \Omega^i_{X_K/K}(\log{D})) \]
+
+\begin{prop}
+Let $W \subset X \sm D$ be a dense open formal subscheme. Then for $0 \le i < p - 2$
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p)} \ge h^{0,i}_{(X,D)} \]
+\end{prop}
+
+\begin{proof}
+Take the prism $A$ to be $W(k)[[u]]$ with $E(u) = u - p$. We obtain a prism $A_C \to \cO_C$. There is a Frobenius compatible map $A \to A_C$ sending $u \mapsto [\ul{p}]$. Set,
+\[ M_{\Prism} = \im{(\ol{H^i_{\Prism}(X_D/A)} \to \ol{H^i_{\Prism}(W/A)})} \]
+which is a finitely generated $A / pA = k[[u]]$-module. There is an isomorphism,
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+and similarly for the open $W$. Therefore, by {\color{red} PROPERTY} there is an isomorphism
+\[ \ol{H^i_{\Prism}(X_D/A)} \ot_A^{\LL} A_C \iso \ol{H^i_{\Prism}(X_{D, \cO_C}/A_C)} \]
+Then there are maps,
+\begin{align*}
+\ol{H^i_{\Prism}(X_D/A)} & \ot_A^{\LL} A_C [1/\xi] \cong H^i_{\et}(X_{D,C}, \FF_p) \ot_{\FF_p} A_C / p A_C [1/\xi]
+\\
+& \to H^i_{\et}(W_C, \FF_p) \ot_{\FF_p} A_C / p A_C[1/\xi] \to \ol{H^i_{\Prism}(W/A)} \ot_A A_C[1/\xi] 
+\end{align*}
+the composite is the natural map. Hence,
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_{D,C}, \FF_p) \to H^i_{\et}(W_C, \FF_p))} \ge \dim_{k((u))} M_{\Prism}[1/u] \]
+By {\color{red} LEMMA} $M_{\Prism}$ is a finitely generated free $k[[u]]$-module. Hence it suffices to show $\dim_k M_{\Prism} / u M_{\Prism} \ge h^{0,i}_{(X,D)}$. 
+
+
+Hence using Lemma 2.2.1 again, we see that $\ol{H^j_{\Prism}(X_D/A)}$ is $u$-torsion free for $0 \le j \le i + 1$. Hence there are maps,
+\begin{align*}
+H^i(X_k, \Omega^\bullet_{X_k/k}(\log{D_k})) & \cong \ol{H^i_{\Prism}(X_D/A)} \ot_{A, \varphi} k \to M_{\Prism} \ot_{A, \varphi} k 
+\\
+& \to \ol{H^i_{\Prism}(W/A)} \ot_{A, \varphi} k \to H^i(W_k, \Omega^\bullet_{W_k/K}(\log{D})) 
+\end{align*}
+where the composition is the natural map. This shows that the image has dimension $\le \dim_k M_{\Prism} / u M_{\Prism}$ and it suffices to how that this dimension is $\ge h^{0,i}_{(X,D)}$. Since $W \subset X$ is dense, the map,
+\[ H^0(X_k, \Omega^i_{X_k/k}(\log{D})) \to H^0(W_k, \Omega^i_{X_k/k}) \]
+is injective. Hence the image has dimension at leat $\dim_k H^0(X_k, \Omega^i_{X_k/k}(\log{D_k})) \ge h^{0,i}_{(X,D)}$ {\color{red} I THINK THIS WAS AN ERROR IN THE PAPER NEED LOG D} where the last inequality follows from the upper semi-continuity of $h^0$. 
+\end{proof}
+
+Therefore we conclude using the following lemma:
+
+\begin{lemma}
+Suppose that $(X, D)$ admits a lift to $W_2(k)$ called $(\wt{X}, \wt{D})$ with $\wt{D}$ a snc divisor flat over $W_2(k)$. Then for $j < p$,
+\[ H^0(X^1, \Omega^j_{X^1/k}(\log{D^1})) \embed H^j(X, \Omega^\bullet_{X/k}(\log{D})) \]
+is canonically a direct summand. 
+\end{lemma}
+
+\begin{proof}
+This follows from the existence of the Cartier operator in the same way as in Deligne-Illusie.
+\end{proof}
+
+\section{Talk 2}
+
+\subsection{The Prismatic Site}
+
+\newcommand{\barOpris}{\ol{\mathcal{O}}_{\Prism}}
+
+\begin{lemma}
+If $(A, I) \to (B,J)$ is a map of prismis then the natural map induces an isomorphism $I \ot_A B \cong J$. In particular, $IB = J$.
+\end{lemma}
+
+\begin{proof}
+{\color{red} Lemma 3.5 in Scholze}
+\end{proof}
+
+Fix a (bounded) prism $(A, I)$ and a formuall smooth $A/I$-algebra $R$. The \textit{prismatic site of} $R$ relatve to $A$, dentoed $(R/A)_{\Prism}$, is the category whose objects are prisims $(B, IB)$ over $(A,I)$ together with an $A/I$-algebra map $R \to B/IB$
+\begin{center}
+\begin{tikzcd}
+B \arrow[r] & B/I & R \arrow[d] \arrow[l]
+\\
+A \arrow[u] \arrow[rr] & & A/I
+\end{tikzcd}
+\end{center}
+these are the diagrams. Covers are \textit{faithfully flat} maps of prisms.
+
+\begin{defn}
+A map $(A, I) \to (B, I B)$ of prisms is \textit{(faithfully) flat} if $A / (p, I) \to B \ot_A^{\LL} A / (p, I)$ is (faithfully) flat. 
+\end{defn}
+
+\begin{defn}
+The structure sheaf of $(R/A)_{\Prism}$ is the sheaf,
+\[ \struct{\Prism} : (B, IB) \mapsto B \]
+Likewise we define a sheaf $\ol{\struct{\Prism}}$ on $(R/A)_{\Prism}$ defined by,
+\[ \barOpris : (B, IB) \mapsto B / I B \]
+\end{defn}
+
+\begin{defn}
+$\Prism_{R/A} := R \Gamma_{\Prism}(X/A) := R \Gamma_{\Prism}((R/A)_{\Prism}, \struct{\Prism})$
+\end{defn}
+
+\subsubsection{The non-affine case}
+
+
+\begin{defn}
+Let $(A, I)$ be a bounded prism and $X \to \Spec{A/I}$ be a scheme. Then the \textit{prismatic site} of $X$ relative to $A$, denoted $(X/A)_{\Prism}$, is the category of objects,
+\begin{center}
+\begin{tikzcd}
+\Spec{B} \arrow[d] & \Spec{B/IB} \arrow[l] \arrow[r] & X \arrow[d] 
+\\
+\Spec{A} \arrow[from = rr] & & \Spec{A/I} 
+\end{tikzcd}
+\end{center}
+We endow $(X/A)_{\Prism}$ by the Grothendieck topology given by faithfully flat covers of prisms and there are sheaves,
+\[ \struct{\Prism} : (B, IB) \mapsto B \]
+and 
+\[ \barOpris : (B, IB) \mapsto B/I \]
+Note that $\struct{\Prism}$ is valued in $(p,I)$-complete $A$-$\delta$-algebras while $\barOpris$ is valued in $p$-complete $R$-algebras.
+\end{defn}
+
+\subsection{Breuil-Kisin and Breuil-Kisin-Fargues Prisms}
+
+As pointed out last time, to make the \etale comparison theorem work we need an algebraically closed field but we want to work over $K = \Frac{W(k)}$ to set up our Breuil-Kisin prism but this is not algebraically closed. Therefore, we will need to work with two different prisms and a comparison between them.
+
+\subsubsection{Breuil-Kisin Prism}
+
+Recall our construction. Let $k$ be a perfect field of characteristic $p$ and $K = \Frac{W(k)}$ which is a complete $p$-adic field with $\cO_K = W(k)$. You should think of the example $k = \FF_p$ and $K = \Q_p$ but we might need $k$ to be the perfection of the function field of a variety over $\FF_p$ as we discussed last time. Then we define.
+
+\begin{defn}
+The \textit{Breuil-Kisin prism} for $K$ is $A = W(k)[[u]]$ with $I = (u - p) = (E(u))$ so we get a map $A \to A/I = W(k) = \cO_K$. 
+\end{defn} 
+
+\subsubsection{Breuil-Kisin-Fargues Prism}
+
+Let $C$ be an algebraically closed complete $p$-adic field (we will later take $C$ to be the completion of the algebraic closure of $K$). Then we set,
+\[ R = \ilim_{x \mapsto x^p} \cO_K / p \]
+\begin{defn}
+The \textit{Breuil-Kisin-Fargues prism} is $B = W(R)$ with its canonical Frobenius. Note there is an isomorphism of commutative monoids:
+\begin{align*} 
+\ilim_{x \mapsto x^p} \cO_K & \to \ilim_{x \mapsto x^p} \cO_K / p 
+\\
+x & \mapsto [x]
+\end{align*}
+There is a surjective map of rings
+\[ \theta : B \to \cO_C \] 
+which sends 
+\[ [x] \mapsto x \mapsto x_0 \]
+Then $\ker{\theta}$ is generated by
+\[ \xi := p - [\ul{p}] \]
+where $\ul{p} = (p, p^{1/p}, \dots)$. Then $(B, \xi B)$ is a perfect prism. 
+\end{defn}
+
+We will always work with $A = W(k)[[u]]$ the Breuil-Kisin prism for a scheme over $\cO_K = W(k)$ and the Breuil-Kisin-Fargues prism $B$ for a scheme over $\cO_C$.
+\bigskip\\
+Let $K \to C$ be a map of $p$-adic fields with $K$ and $C$ as above. Then there is a comparison map,
+\begin{center}
+\begin{tikzcd}
+A \arrow[r] \arrow[d] & B \arrow[d]
+\\
+\cO_K \arrow[r] & \cO_{C}
+\end{tikzcd}
+\end{center}
+where the map $A \to B$ is given by $u \mapsto [\ul{p}]$ and therefore $E(u) = u - p \mapsto -\xi$. 
+\bigskip\\
+It will be useful to record the following fact:
+\[ k[[u]] = A / p A \to B / p B \]
+is flat. Since $k[[u]]$ is a DVR this amounts to showing that $u \mapsto [\ul{p}] \in B / p B = R$ is a non-zerodivisor. Since $[\ul{p}]$ lists along the monoid map to $\ul{p}$ which is nonzero this is clear because $\cO_C$ is a domain.
+
+\subsection{Comparison Results}
+
+We need the following comparison theorems.
+
+\subsubsection{de Rham Comparison}
+
+Let $k$ be the residue field of $\cO_K$. Let $X \to \Spec{\cO_K}$ be a smooth scheme. Then for any bounded prism $(A,I)$ (we will always take the Breuil-Kisin prism) with $A/I \iso \cO_K$ there are canonical isomorphisms,
+\[ R \Gamma(X, \Omega_X^\bullet) \iso R \Gamma_{\Prism}(X/A) \hat{\ot}^{\LL}_{A, \phi_A} \cO_K \]
+and therefore canonical isomorphisms,
+\[ R \Gamma(X_k, \Omega_{X_k}^\bullet) \iso R \Gamma_{\Prism}(X/A) \ot^{\LL}_{A, \varphi} k \iso \ol{R \Gamma_{\Prism}(X/A)} \ot_{A/pA, \varphi}^{\LL} k \]
+
+\subsubsection{\etale Comparison}
+
+Let $(B, \xi B)$ be a perfect prism and $B/I \iso \cO_C$ for $C$ an algebraically closed $p$-adically complete field (we will always take $(B, \xi B)$ to be the Breuil-Kisin-Fargues prisim associated to $C$). Let $X \to \Spec{\cO_C}$ be a smooth scheme. Then there are canonical isomorphisms,
+\[ R \Gamma_{\et}(X_C, \FF_p) \iso \ol{R \Gamma_{\Prism}(X/B)}[1/\xi]^{\varphi = 1} \]
+where $\varphi = 1$ means taking the fiber of the semilinear endomorphism $\varphi - 1$.
+
+\begin{lemma}
+This comparison theorem gives an exact triangle,
+\[ R \Gamma_{\et}(X_C, \FF_p) \to R \ol{R \Gamma_{\Prism}(X/B)}[1/\xi] \xrightarrow{1 - \varphi} \ol{R \Gamma_{\Prism}(X/B)}[1/\xi] \to +1 \]
+and hence (because the target is a $B/pB$-module) morphisms,
+\[ H^i_{\et}(X_C, \FF_p) \ot_{\FF_p} B / p B \to \ol{H^i_{\Prism}(X/B)}[1/\xi] \]
+If $X \to \Spec{\cO_C}$ is proper these are isomorphisms.
+\end{lemma}
+
+\subsubsection{Base Change}
+
+Because we are working with two different prisms, we need some sort of base change result. Luckily the following very general comparison theorem holds. 
+
+\begin{theorem}
+Let $(A, I) \to (B, J)$ be a map of bounded prisms and $Y = X \times_{\Spec{A/I}} \Spec{B/J}$. Then the natural map,
+\[ R \Gamma_{\Prism}(X/A) \hat{\ot}^{\LL}_{A} B \iso R \Gamma_{\Prism}(Y/B) \]
+is an isomorphism. 
+\end{theorem}
+
+This implies the following,
+\begin{align*}
+\ol{R \Gamma_{\Prism}(Y/B)} & = (R \Gamma_{\Prism}(X/A) \hat{\ot}^{\LL}_A B) \ot^{\LL}_B B / p B
+\\
+& = R \Gamma_{\Prism}(X/A) \hat{\ot}^{\LL}_A B / p B
+\\
+& = R \Gamma_{\Prism}(X/A) \hat{\ot}^{\LL}_A (A / p A) \hat{\ot}^{\LL}_{A / p A} B / p B
+\\
+& = \ol{R \Gamma_{\Prism}(X/A)} \hat{\ot}^{\LL}_{A / p A} B / p B
+\end{align*}
+In particular, if $A / p A \to B / p B$ is flat then we get comparison isomorphisms,
+\[ \ol{H^i_{\Prism}(Y/B)} \iso \ol{H^i_{\Prism}(X/A)} \hat{\ot}_{A} B / p B = \ol{H^i_{\Prism}(X/A)} \hat{\ot}_A B \]
+
+\subsubsection{Finiteness of cohomology}
+
+\begin{theorem}
+Let $(A, I)$ be a bounded prism. Let $X \to \Spec{A/I}$ be a smooth proper scheme. Then $R \Gamma_{\Prism}(X/A)$ is a perfect complex of $A$-modules. 
+\end{theorem}
+
+In particular, applying $- \ot^{\LL} A / pA$ and taking cohomology we see that $\ol{H^i_{\Prism}(X/A)}$ is a finite $A/pA$-module.
+
+\subsection{Proof of the Main Theorem}
+
+As before let $K = \Frac{W(k)}$ for $k$ a perfect field. Let $C$ be the completion of the algebraic closure.
+
+\begin{theorem}
+Let $X \to \Spec{\cO_K}$ be a smooth proper scheme and $W \subset X$ an open which is dense in the special fiber. Then for $0 \le i < p - 2$
+\[ \dim_{\FF_p} \im{(H^i_{\et}(X_C, \FF_p) \to H^i_{\et}(W_C, \FF_p))} \ge h^{i,0}_X := \dim_{K} H^0(X_K, \Omega_{X_K}^i) \]
+\end{theorem}
+
+\begin{proof}
+As before, we set $A$ to be the Breuil-Kisin prisim for $K$ and $B$ to be the Breuil-Kisin-Fargues prism for $C$. Now set,
+\[ M_{\Prism} := \im{(\ol{H^i_{\Prism}(X/A)} \to \ol{H^i_{\Prism}(W/A)})} \]
+Because $X$ is proper the first term is finite and hence $M_{\Prism}$ is a finite $A/pA = k[[u]]$-module. By the comparison theorem and the fact that $A / p A \to B / p B$ is flat,
+\[ \ol{H^i_{\Prism}(X/A)} \hat{\ot}_A B \iso \ol{H^i_{\Prism}(X_{\cO_C}/B)} \]
+The proof will then proceed by the following steps.
+\end{proof}
+
+\subsubsection{The \etale Comparison Diagram}
+
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+H^i_{\et}(X_C, \FF_p) \ot_{\FF_p} B / p B[1/\xi] \arrow[r, "\sim"] \arrow[dd, "\res^{\et}_W"'] & \ol{H^i_{\Prism}(X_{\cO_C}/B)} \arrow[r, "\sim"] & \ol{H^i_{\Prism}(X/A)} \hat{\ot}_A B [1/\xi] \arrow[d, two heads]
+\\
+& & M_{\Prism} \hat{\ot}_{k[[u]]} B/pB [ 1/\xi] \arrow[d, hook]
+\\
+H^i_{\et}(W_C, \FF_p) \ot_{\FF_p} B / p B[1/\xi] \arrow[r] & \ol{H^i_{\Prism}(W_{\cO_C}/B)} \arrow[r, "\sim"] & \ol{H^i_{\Prism}(W/A)} \hat{\ot}_A B[1/\xi] 
+\end{tikzcd}
+\end{center}
+The top maps are isomorphisms because $X$ is proper (using the lemma after the \etale comparison theorem). Furthermore, since $B/pB$ is flat over $A/pA$ the map 
+\[ M_{\Prism} \hat{\ot}_{k[[u]]} B / p B[1/\xi] \to \ol{H^i_{\Prism}(W/A)} \ot_A B / p B[1/\xi] \]
+is injective. Therefore,
+\[ \dim_{\FF_p} \im{\res^{\et}_W} \ge \dim_{k((u))} M_{\Prism}[1/u] \]
+note that mod $p$ we have $u \mapsto - \xi$. 
+
+\subsubsection{The de Rham Comparison Diagram}
+
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+H^i(X_k, \Omega_{X_k}^\bullet) \arrow[from=r, "\sim"'] \arrow[dd, "\res^{\dR}_W"'] & H^i(\ol{R \Gamma_{\Prism}(X/A)} \ot^{\LL}_{A,\varphi} k) \arrow[from=r, "\sim"'] & \ol{H^i_{\Prism}(X/A)} \ot_{A, \varphi} k \arrow[d]
+\\
+& & M_{\Prism} \ot_{A, \varphi} k \arrow[d]
+\\
+H^i(W_k, \Omega_{W_k}^\bullet) \arrow[from=r, "\sim"'] & H^i(\ol{R \Gamma_{\Prism}(W/A} \ot^{\LL}_{A,\varphi} k) \arrow[from=r] & \ol{H^i_{\Prism}(W/A)} \ot_{A, \varphi} k
+\end{tikzcd}
+\end{center}
+The leftmost maps are given by the subs in the Tor-spectral sequence. To show the map,
+\[ \ol{H^i_{\Prism}(X/A)} \ot_{A, \varphi} k \iso H^i(\ol{R \Gamma_{\Prism}(X/A)} \ot^{\LL}_{A, \varphi} k) \]
+is an isomorphism we need to prove the following claim:
+\begin{center}
+For $0 \le j \le i + 1$ the $A/pA = k[[u]]$-modules $\ol{H^i_{\Prism}(X/A)}$ are $u$-torsion free.
+\end{center}
+Given this claim, since $\res_W^{\dR}$ factors through the $k$-module $M_{\Prism} \ot_{A, \varphi} k$ we see that,
+\[ \dim_k \im{\res^{\dR}_W} \le \dim_k M_{\Prism} \ot_{A, \varphi} k = \dim_k M_{\Prism} / u M_{\Prism} \]
+{\color{red} WHAT ABOUT THE FROB HERE?}
+
+Therefore if we can show the next claim:
+\begin{center}
+$M_{\Prism}$ is a finitely generated free $k[[u]]$-module.
+\end{center}
+Then we conclude that,
+\[ \dim_{\FF_p} \im{\res^{\et}_W} \ge \dim_{k((u))} M_{\Prism}[1/u] = \dim_k M_{\Prism} / u M_{\Prism} \ge \dim_k \im{\res^{\dR}_W} \]
+Therefore it suffices to bound $\res^{\dR}_W$. 
+
+\subsubsection{Cartier Isomorphism}
+
+Recall that because $X_k$ is a smooth scheme over a perfect field $k$ which lifts over $W_2(k)$ there is an isomorphism in the derived category,
+\[  \bigoplus_{i < p} \Omega^i_{X^{(p)}_k}[-i] \iso \tau_{<p} F_* \Omega^\bullet_X \]
+in the derived category where $F : X_k \to X_k^{(p)}$ is the relative Frobenius. This decomposition is natural so we get a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+H^0(X_k^{(p)}, \Omega^i_{X_k^{(p)}}) \arrow[d] \arrow[r, hook] \arrow[r, hook] & H^0(W_k^{(p)}, \Omega_{W_k^{(p)}}) \arrow[d, hook]
+\\
+H^i(X_k, \Omega_{X_k}^\bullet) \arrow[r, "\res^{\dR}_W"] & H^i(W_k, \Omega_{W_k}^\bullet)
+\end{tikzcd}
+\end{center}
+Since the maps along the top are injective we see that,
+\[ \dim_k \im{\res^{\dR}_W} \ge \dim_k H^0(X_k^{(p)}, \Omega^i_{X_k^{(p)}}) = \dim_k H^0(X_k, \Omega^i_{X_k}) \]
+The last equality follows from the $\varphi$-semilinear isomorphism of schemes $X_k \to X_k^{(p)}$.
+Finally,
+\[ \dim_k \im{\res^{\dR}_W} \ge \dim_k H^0(X_k, \Omega^i_{X_k}) \ge \dim_K H^0(X_K, \Omega^i_{X_K}) \]
+by upper semicontinuity which completes the proof (modulo the claims). 
+
+\section{Talk 3}
+
+\newcommand{\ed}{\mathrm{ed}}
+
+\begin{defn}
+Let $f : Y \to X$ be a finite map of complex algebraic varities. The \textit{essential dimension} $\ed(Y/X)$ of $f$ is the smallest integer $e$ such that, over some dense open of $X$, the map $f$ arises as the pullback of a map of varities of dimension $e$. 
+\end{defn}
+
+\begin{example}
+Note that if $g : Y \to X$ is a cyclic cover, meaning the extension of fields is Galois with a cyclic Galois group, then because the base field $\CC$ contains all roots of unity we see that $g : Y \to X$ is generically the extraction of an $n^{\text{th}}$-root of some rational function $x$ on $X$. Then the map $Y \to X$ is generically pulled back from $z^n : \A^1 \to \A^1$ hence $\ed(Y/X) = 1$. 
+\end{example}
+
+\begin{example}
+The $S_n$-quotient $f_n : \A^n \to \A^n$ is the example that motivated the development of the study of essential dimenison. Note that if the generic degree $n$ polynomial is solvable in radicals then $f_n$ is a composition of cyclic covers and hence has $\ed(f_n) = 1$. For $n = 5$ we know $\ed(f_5) = 2$ so given radicals and one other function (determined by the essential dimension covering) we can solve degree $5$ polynomials. Working out $\ed(f_n)$ is a major open problem.
+\end{example}
+
+\begin{defn}
+Let $f : Y \to X$ be a finite map of complex algebraic varities. The $p$-\textit{essential dimension} $\ed(Y/X ; p)$ of $f$ is the minimum over $\ed(Y'/X' ; p)$ of all generically-finite maps $X' \to X$ of degree coprime to $p$ and $Y' = Y \times_X X'$.
+\end{defn}
+
+\begin{defn}
+Recall that the mod $p$-homology cover of a space $X$ is the \etale cover $Y \to X$ corresponding to the maximal $(\Z / p \Z)^n$ quotient of $\pi_1(X)$.
+\end{defn}
+
+\subsection{Theorems}
+
+\begin{theorem}[A]
+Let $X$ be a smooth proper complex variety, and $Y \to X$ its mod $p$ homology cover. Suppose that $X$ has good unramified reduction at $p$, and let $b_1$ denote the first betti number of $X$. Then for $p > \max \{ \tfrac{1}{2} b, 3 \}$,
+\[ \ed(Y/X ; p) \ge \min \{ \dim{X}, \tfrac{1}{2} b_1 \} \]
+\end{theorem}
+
+
+In the following cases, this theorem shows that the mod $p$ homology cover is $p$-\textit{imcompressible} meaning $\ed(Y/X ; p) = \dim{X}$ 
+\begin{enumerate}
+\item $X$ is an abelian variety
+\item $X = C_1 \times \cdots \times C_r$ for curve of genus $g(C_i) \ge 1$
+\item locally symmetric varities associated to cocompact lattices in $\SU(n, 1)$
+\end{enumerate}
+
+\begin{theorem}[B]
+Let $X$ be a smooth, proper complex variety, $G$ a finite group, and $Y \to X$ a $G$-cover. Suppose that $X$ has unramified good reduction at $p$ and let $i < p -2$. If $H^0(X, \Omega_X^i) \neq 0$ and the map $H^i(G, \FF_p) \to H^i(X, \FF_p)$ is surjective then
+\[ \ed(Y/X ; p) \ge i \]
+Note the the map is defined by the map $\pi_1(X) \to G$ and the natural maps
+\[ H^i(G, \FF_p) \to H^i(\pi_1(X), \FF_p) \to H^i(X, \FF_p) \] 
+\end{theorem}
+
+\subsection{Abelian Varieties}
+
+\subsection{Idea}
+
+We will use the following theorem
+
+\begin{theorem}[C]
+Let $X$ be a smooth, proper, complex variety, with unramified good reduction at $p$ and $W \subset X$ a Zariski open. Then the following hold
+\begin{enumerate}
+\item if $i < p - 2$ then
+\[ \dim_{\FF_p} \im{(H^i(X, \FF_p) \to H^i(W, \FF_p))} \ge h^{i,0}_X \]
+\item if $X$ is an abelian variety then the above also holds for $i = p - 2$
+\item if $p > \max \{ i + 1 , 3 \}$ and $i \le \dim{X}$ then
+\[ \dim_{\FF_p} \im{(\wedge^i H^1_{\et}(X, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge { h^{1,0}_X \choose i } \]
+\end{enumerate}
+\end{theorem}
+
+The proof uses prismatic cohomology. Then we will deduce Theorem B as follows. Consider the composite,
+\[ H^i(G, \FF_p) \to H^i(X, \FF_p) \to H^i(W, \FF_p) \]
+The assumptions ensure that this map is nonzero. However, if $Y|_W \to W$ arises from a covering of varieties $Y' \to Z'$ of dimension $< i$ then the map factors as
+\[ H^i(G, \FF_p) \to H^i(Z, \FF_p) \to H^i(W, \FF_p) \]
+By possibily shrinking $W$ and then $Z$ we may assume that $Z$ is affine, and it follows that the above map must vanish since the cohomological dimension of affine varities is at most their dimension.
+\bigskip\\
+For theorem A we instead we need a result for $\wedge^i H^1(X, \FF_p) \to H^i(W, \FF_p)$. 
+
+\subsection{Proofs}
+
+Let $k$ be a perfect field and $K = \Frac{W(k)}$. 
+
+\begin{prop} \label{main_prop}
+Let $X$ be a smooth proper scheme over $\cO_K$ let $W \subset X$ be a dense open subscheme. If $0 \le i < p -2$ then
+\begin{enumerate}
+\item if $i < p - 2$ then
+\[ \dim_{\FF_p} \im{(H^i(X, \FF_p) \to H^i(W, \FF_p))} \ge h^{i,0}_X \]
+\item if $X$ is an abelian variety then the above also holds for $i = p - 2$
+\item if $p > \max \{ i + 1 , 3 \}$ and $i \le \dim{X}$ then
+\[ \dim_{\FF_p} \im{(\wedge^i H^1_{\et}(X, \FF_p) \to H^i_{\et}(W, \FF_p))} \ge { h^{1,0}_X \choose i } \]
+\end{enumerate}
+\end{prop}
+\bigskip
+Let's see how this implies the theorem. Let $Y$ be a proper smooth scheme over $\CC$. We say that $Y$ has \textit{good reduction at} $p$ if there exists an algebraically closed field $C \embed \CC$ over which $Y$ is defined and a $p$-adic valuation on $C$ with ring of integers $\cO_C$ and an extension to a smooth proper $\cO_C$-scheme $Y^\circ$ over $\cO_C$. We say that $Y$ has \textit{unramified good reduction} at $p$ if in addition $(Y^\circ, D^\circ)$ can be chosen so that it descends to an absolutely unramified\footnote{meaning unramified over $\Z_{(p)}$} dvr $\cO \subset \cO_C$. 
+
+\begin{rmk}
+This condition is actually easily checkable. Indeed if $Y$ is a smooth proper finite type $\CC$-scheme then it spreads out to a smooth proper scheme $\mathcal{Y} \to \Spec{A}$ over some finite type $\ZZ$-algebra $A \subset \CC$. Now suppose there exists $\p \subset A$ such that $\Spec{A} \to \Spec{\ZZ}$ is smooth at $\p$ and $\p \mapsto (p)$. This is nothing more than saying that $p$ is not contained in the Jacobian ideal. Then choose a minimal prime $\xi$ over $p A$ since $\xi \spto \p$ we see that $\Spec{A} \to \Spec{\Z}$ is smooth at $\xi$ and hence $A_{\xi} \subset \CC$ is a $p$-adic dvr unramified over $\ZZ_{(p)}$ by smoothness. Then we extend this $p$-adic valuation to $\CC$ and $\cO = A_{\xi}$ is our requisite unramified dvr. 
+\end{rmk}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{rmk}
+Given a variety over $\CC$, it has unramified good reduction at all but finitely many primes $p$ because if we spread out to some finite type $\ZZ$-algebra $A \subset \CC$ then $\Spec{A} \to \Spec{\ZZ}$ is smooth over all but finitely many primes.
+\end{rmk}
+
+DO Corollary 2.2.13 and discussion following and the discussion following 2.2.15 but we.
+
+\subsection{Characeristic Classes}
+
+Let $C$ be an algebraically closed field of characteristic $0$.
+
+Let $X$ be a proper, connected, smooth $C$-scheme, equipped with a normal crossings divisor $D$. Fix a geometric point $\bar{\eta}$ mapping to the generic point $\eta \in X$. Let $\pi_1^{\et}(X, \bar{\eta}) \onto G$ be a finite quotient. For any $i$ there are canoincal maps,
+\[ H^i(G, \FF_p) \to H^i(\pi_1^{\et}(X, \bar{\eta}), \FF_p) \to H^i_{\et}(X, \FF_p) \]
+where the first map is inflation and the second is induced by the comparison map between the finite \etale and \etale sites. 
+
+\begin{theorem}[D]
+Suppose that $i < p - 2$ and $X$ has unramified good reduction at $p$. Let $G$ be a finite group and $Y \to X$ a connected $G$-cover. Suppose that $h^{i,0}_X \neq 0$ and that the map
+\[ H^i(G, \FF_p) \to H_{\et}^i(X, \FF_p) \]
+is surjective. Then $\ed(Y/X ; p) \ge i$. If $X$ is an abelain variety the above also holds for $i = p - 2$.
+\end{theorem}
+
+\begin{proof}
+Let $X' \to X$ be a finite connected covering which has prime to $p$ degree over $\eta$, and let $\eta' \in X'$ be the generic point. We need to show that $\ed(Y'/X' \ge i$ where $Y' = Y \times_X X'$. Consider the composite
+\[ H^i(G, \FF_p) \to H^i(\pi_1^\et(X, \bar{\eta}), \FF_p) \to H^i_{\et}(X, \FF_p) \to H^i(\eta, \FF_p) \to H^i(\eta', \FF_p) \]
+Our assumptions imply that the composition of the first two maps is surjective. Since $h_X^{i,0} \neq 0$ then Theorem B implies that the third map is nonzero. The composite of the fourth map with trace $H^i(\eta', \FF_p) \to H^i(\eta, \FF_p)$ is multiplication by $\deg{X'/X}$ which is coprime to $p$ and hence invertible. Therefore, the fourth map must be injective so the composite is nonzero. 
+\bigskip\\
+Suppose $\ed(Y'/X') < i$. Then for some dense open $W \subset X'$ there is a map of $C$-schemes $W \to Z$ with $\dim{Z} < i$ and a $G$-cover $Y'_Z \to Z$ such that $Y'|_W \cong Y'_Z \times_Z W$ as $G$-torsors. Shrinking $Z$ and $W$ if necessary, we may assume that $Z$ is affine. The above constructions give a diagram
+\begin{center}
+\begin{tikzcd}
+H^i(G, \FF_p) \arrow[d, equals] \arrow[r] & H^i_{\et}(Z, \FF_p) \arrow[d]
+\\
+H^i(G, \FF_p) \arrow[r] & H^i_{\et}(W, \FF_p) \arrow[r] & H^i_{\et}(\eta', \FF_p)
+\end{tikzcd}
+\end{center}
+Since $Z$ is affine of dimension $< i$ it follows that $H^i_{\et}(Z, \FF_p) = 0$. This implies that the composite of the maps in the bottom from is zero contradicting what we previously demonstrated.
+\end{proof}
+
+\begin{cor}
+Let $A/C$ be an abelian variety of dimension $g$. Let $p \ge g + 2$ and suppose that $X$ has unramified good reduction at $p$. Then $[p] : A \to A$ as a $(\Z / p \Z)^{2g}$-cover has $\ed([p] ; p) = g$. In particular, this equality holds for almost all $p$.
+\end{cor}
+
+\begin{proof}
+By definition $g = \dim{X} \ge \ed([p] ; p)$ so it suffices to prove that $\ed([p] ; p) \ge g$. Let $G = (\Z / p \Z)^{2g}$ be the quotient of $\pi_1^{\et}(A, \bar{\eta})$ corresponding to $[p] : A \to A$. The map
+\[ H^i(G, \FF_p) \to H^i_{\et}(A, \FF_p) \]
+is surjective because it is surjective on $i = 1$ and $H^\bullet(A, \FF_p)$ is the exterior algebra generated in $H^1(A, \FF_p)$ by cup product. Since $h^{g, 0} = 1$ we conclude that $\ed([p] ; p) \ge g$ by the previous theorem. 
+\end{proof}
+
+\subsection{Mod p homology covers}
+
+We now specify our attention to when the $G$-cover $Y \to X$ is the mod $p$ homology cover of $X$. Recall that the mod $p$ homology cover is given by the maximal quotient $\pi_1^{\et}(X) \onto (\Z / p \Z)^{2g}$. This is the same as the quotient by $p$ of the abelianization of $\pi_1^{\et}(X)$. Note that this arises as follows,
+\begin{center}
+\begin{tikzcd}
+Y \arrow[r] \arrow[d] \pullback & \Alb_X \arrow[d, "\times p"] 
+\\
+X \arrow[r] & \Alb_X
+\end{tikzcd}
+\end{center}
+because $\pi_1^{\et}(X) \to \pi_1^{\et}(\Alb_X)$ {\color{red} IS THIS TRUE IF THERE IS TORSION IN $H^1$}
+
+\begin{theorem}[E]
+Suppose $X$ has unramified good reduction at $p$. Suppose that $i \le \min\{ h^{1,0}_X, \dim{X} \}$ and that $p > \max\{ i + 1, 3 \}$. Then the mod $p$ homology cover $Y \to X$ satisifes $\ed(Y/X ; p) \ge i$. In particular, if $p > \max\{ h^{1,0}_X + 1, 3 \}$ then
+\[ \ed(Y/X ; p) \ge \min\{h^{1,0}_X, \dim{X}\} \]
+\end{theorem}
+
+\begin{rmk}
+Note the bounds are exactly those in Theorem C part (c).
+\end{rmk}
+
+\begin{proof}
+An in the proof of Theorem D, let $X' \to X$ be a finite connecting covering of degree prime to $p$ over $\eta$ and let $\eta' \in X'$ be the generic point. Let $G = \Gal{Y/X}$, and consider the composite map
+\[ \wedge^i H^1(G, \FF_p) \iso \wedge^i H^1_{\et}(X, \FF_p) \to H^i(\eta, \FF_p) \to H^i(\eta', \FF_p) \]
+By Theorem C, the second map is nonzero assuming $i \le h^{1,0}_X$. The last map is injective since $X' \to X$ has degree coprime to $p$ over $\eta$. Since the compositie map factors through $H^i(G, \FF_p)$, it foloows that
+\[ H^i(G, \FF_p) \to H^i(\eta', \FF_p) \]
+is nonzero, which implies that $\ed(Y/X ; p) \ge i$ as in the proof of Theorem D. 
+\end{proof}
+
+\begin{cor}
+Let $X$ be a projective $C$-scheme with unramified good reduction at $p$. Let $b_1 = \dim_{\QQ} H^1(X, \QQ)$ and suppose $p > \max\{ \tfrac{1}{2} b_1 + 1, 3 \}$. Then the mod $p$ homology cover $Y \to X$ satisfies
+\[ \ed(Y/X ; p) \ge \min \{ \tfrac{1}{2} b_1, \dim{X} \} \]
+\end{cor}
+
+\begin{proof}
+Since $X$ is projective, we have $h^{1,0}_X = h^{0,1}_X = \tfrac{1}{2} b_1$. Thus we reduce to the previous result.
+\end{proof}
+
+\end{document}

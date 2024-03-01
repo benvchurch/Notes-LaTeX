@@ -865,6 +865,7 @@ If $(A, \m)$ is a local ring then we define $\depth{}{M} := \depth{\m}{M}$.
 
 \subsection{The Cohomological Criterion}
 
+
 \begin{lemma}
 Let $A$ be a Noetherian ring, $I \subset R$ an ideal, and $M$ a finite $A$-module with $IM \neq M$. Then the following are equivalent,
 \begin{enumerate}
@@ -1940,6 +1941,230 @@ The first part is immediate from the fact that $\Spec{\Z}$ is Jacobson. If $x \i
 \begin{prop}
 If $X \to \Spec{\Z}$ is finite type and $X$ is reduced then there is a dense open such that $U \to \Spec{\Z}$ is smooth.
 \end{prop}
+
+
+\section{Silly Counterexamples}
+
+\begin{example}
+The following seems reasonable at first: let $A \embed B$ be a finite type injection of noetherian domains then $\dim{B} \ge \dim{A}$. However, this is obviously false considering $\Z_{(p)} \embed \Q$ is finite type. The above is true for $A, B$ finite type $k$-algebras however using noetherian normalization and transcendence degree arguments. 
+\end{example}
+
+\section{Local Cohomology and the $S2$ Property}
+
+WARNING, For closed $Z \embed X$ it can happen that $\H_Z^0(\F)$ is not quasi-coherent for $\F$ quasi-coherent. (EXAMPLE). Indeed, this can only happen if $U = X \sm Z$ is not retrocompact. 
+
+IS THE PROBLEM THAT WE MIGHT NOT HAVE $\Gamma(\H_Z^0) = H_Z^0$ ?? I THINK THIS IS FINE BY DEFINITION. MAYBE THE ISSUE IS THAT $H_Z^0$ IS NOT $\Gamma_I$ IN THE AFFINE CASE??
+
+QUASICOHERENT SHEAVES NOT HAVE KERNELS OR SOMETHING?
+
+
+\begin{rmk}
+
+\end{rmk}
+
+
+\begin{defn}
+Let $\Gamma_{\a}$ be the functor $M \mapsto \Gamma_\a(M)$ where,
+\[ \Gamma_{\a}(M) = \{ m \in M \mid \a \subset \sqrt{\Ann{\a}{m}} \} \]
+This is clearly\footnote{The functor taking $M$ to its submodule of elements with a property $\cP$ which is preserved under arbitrary maps (meaning if $x \in M$ has property $\cP$ and $\varphi : M \to N$ is $A$-linear then $\varphi(x)$ has $\cP$) and invariant under inclusions (meaning $m \in M$ has $\cP$ iff its image in $M \embed N$ has $\cP$) is always left-exact. Indeed, it preserves injectons and if $0 \to M' \to M \to M''$ is left-exact then for any $m \in M$ with $\cP$ if $m \mapsto 0$ then it arises from $m' \in M'$ and $m'$ has $\cP$ by the invariance property} left-exact so it has right-derived functors $H_\a^i(M)$ called \textit{local cohomology}. 
+\end{defn}
+
+\begin{rmk}
+When $\a$ is fintiely generated, 
+\[ \a \subset \sqrt{\Ann{A}{m}} \iff \a^n \subset \Ann{A}{M} \iff \a^n \cdot m = 0 \]
+recovering the usual definition. 
+\end{rmk}
+
+\begin{lemma}
+Let $A$ be a ring and $\a$ an ideal and $M$ an $A$-module. Let $X = \Spec{A}$ and $Z = V(\a)$ and $\F = \wt{M}$. Then,
+\[ H^i_{Z}(\F) = \Gamma_{\a}(M) \]
+Furthermore, if $U = X \sm Z$ is retrocompact then $\H^i_{Z}(\F)$ are quasi-coherent and $\H^i_{Z}(\F) = \wt{H^i_{\a}(M)}$.
+\end{lemma}
+
+\begin{proof}
+Indeed,
+\begin{align*}
+\Gamma_Z(\F) & = \{ m \in M \mid m_\p \neq 0 \implies \p \in Z \} = \{ m \in M \mid \p \supset \Ann{A}{m} \implies \p \supset \a \} 
+\\
+& = \{ \m \in M \mid \sqrt{\Ann{A}{m}} \supset \a \} = \Gamma_\a(M)
+\end{align*}
+and $H^i_Z(\F) = \Gamma_{\a}(M)$ follows by universal $\delta$-functor nonsense.
+\bigskip\\
+Now suppose $U$ is retrocompact. Then,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H_Z^0(\F) \arrow[r] & \F \arrow[r] & j_* (\F|_U) 
+\end{tikzcd}
+\end{center}
+is exact with $\F$ quasi-coherent and $j_* (\F|_U)$ quasi-coherent since $j : U \embed X$ is quasi-compact (by hypothesis) and quasi-separated (since it is a monomorphism). Furthermore, we computed the global sections $\Gamma_Z(\F) = \Gamma(\H^0_Z(\F))$ so $\H^0_Z(\F) = \wt{\Gamma_{\a}(M)}$. Then by dimension shifting (or the Grothendieck spectral sequence) it suffices to show that $H^i_Z(\wt{I}) = 0$ for any injective $A$-module $I$. {\color{red} (COPY HARTSHORNE's PROOF!!)}
+
+\end{proof}
+
+
+\begin{lemma}
+For any ring $A$ and ideal $\a \subset A$ and $A$-module $M$,
+\[ \Gamma_{\a}(H^i_{\a}(M)) = H^i_{\a}(M) \]
+meaning for each $\xi \in H^i_{\a}(M)$ and $a \in \a$ we have $a^n \cdot \xi = 0$ for some $n > 0$.
+\end{lemma}
+
+\begin{proof}
+First consider the case $i = 0$. For any $A$-module $M$, if $m \in \Gamma_\a(M) \subset M$ then $\a \subset \sqrt{\Ann{A}{m}}$ so $m \in \Gamma_\a(\Gamma_\a(M))$ but $\Gamma_\a(N) \subset N$ for any $N$ showing that $\Gamma_\a(\Gamma_\a(M)) = \Gamma_\a(M)$. Now, note that if $M$ has the property that $\Gamma_\a(M) = M$ and $\varphi : M \onto N$ then $\Gamma_\a(N) = N$ because for any $x \in N$ we can lift to some $m \in M$ and for each $a \in \a$ there is some $n > 0$ so that $a^n \cdot m = 0$ and thus $a^n \cdot x = a^n \varphi(m) = \varphi(a^n x) = 0$. Therefore $\Gamma_\a(N) = N$. Now we proceed by induction and dimension shifting. Embed $M \embed I$ into an injective $A$-module $I$ giving an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r] & I \arrow[r] & K \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+The long exact sequence gives for any $q \ge 0$,
+\begin{center}
+\begin{tikzcd}
+H^q_\a(I) \arrow[r] & H^q_\a(K) \arrow[r] & H^{q+1}_\a(M) \arrow[r] & H^{q+1}_\a(I)
+\end{tikzcd}
+\end{center}
+but $H^{q+1}_\a(I) = 0$ since $I$ is injective and thus $H^q_\a(K) \onto H^{q+1}_\a(M)$. Therefore, if $\Gamma_\a(H^q_\a(K)) = H^q_\a(K)$ for any $A$-module $K$ then we see that $\Gamma_\a(H^{q+1}_\a(M)) = H^{q+1}_\a(M)$ so by induction $\Gamma_\a(H^{q}_\a(M)) = H^q_\a(M)$ for any $q \ge 0$ and any $A$-module $M$.
+\end{proof}
+
+\begin{lemma}
+Let $S \subset A$ be a multiplicative subset. If $I$ is finitely generated then,
+\[ H^i_{S^{-1} I}(S^{-1} A, S^{-1} M) = S^{-1} H^i_I(A, M) \]
+\end{lemma}
+
+\begin{rmk}
+It is not clear if the usual definition performs better in the case that $I$ is not finitely generated.  
+\end{rmk}
+
+\begin{proof}
+For $i = 0$ this is clear. The canonical map,
+\[ S^{-1} H^i_I(A, M) \to H^i_{S^{-1} I}(S^{-1} A, S^{-1} M) \]
+is an isomorphism. Injectivity is obvious, for surjectivity if $m/s$ is such that for all $x/u \in S^{-1} I$ we have $(x/u)^n \cdot (m/s) = 0$ for some $n$ this means $t(x^n \cdot m) = 0$ for some $t \in S$. Since $I$ is finitely generated, we can choose one $t$ such that $I^n \cdot (tm) = 0$ so $tm \in \Gamma_I(A, M)$ and thus $tm/t \in S^{-1} \Gamma_I(A, M)$ proves surjectivity. Then the case $i > 0$ follows by dimension shifting and exactness of $S^{-1}(-)$.
+\end{proof}
+
+\begin{lemma}
+Let $\varphi : A \to S$ be a flat ring map and $I \subset A$ a finitely generated ideal and $M$ an $A$-module then,
+\[ H^i_I(A, M) \ot_A S = H^i_{IS}(S, M \ot_A S) \]
+\end{lemma}
+
+\begin{proof}
+First consider the case $i = 0$. There is a natural map $\Gamma_I(M) \ot_A S \to \Gamma_{IS}(M \ot_A S)$ which we need to show is an isomorphism. Let $x_1, \dots, x_r \in I$ be a generating set. Then, 
+\[ \Gamma_I(M) := \ker{ \left( M \to \prod_{i = 1}^r M_{x_i} \right)} \]
+and therefore by exactness of $- \ot_A S$ we conclude that,
+\[ \Gamma_I(M) \ot_A S = \ker{ \left( M \ot_A S \to \prod_{i = 1}^r (M \ot_A S)_{x_i} \right)} = \Gamma_{IS}(M \ot_A S) \]
+Tensor products only commute with finite products hence we need $I$ to be finitely generated. The general case $i > 0$ then follows by universal $\delta$-functor nonsense since $- \ot_A S$ is exact.
+\end{proof}
+
+\begin{lemma}
+Let $\varphi : A \to S$ be a ring map and $I \subset A$ an ideal. Let $N$ be an $S$-module. Then,
+\[ H^i_I(A, N) = H^i_{IS}(S, N) \]
+\end{lemma}
+
+\begin{proof}
+This is obvious for $i = 0$ since $IS$ is generated by $I$ so if $I \subset \sqrt{\Ann{A}{x}}$ then $IS \subset \varphi(\sqrt{\Ann{A}{x}}) S \subset \sqrt{\Ann{S}{x}}$. Then the result follows for $i > 0$ if we can show that $H^i_I(A, -)$ vanishes on injective $S$-modules. {\color{red} DO I NEED SOME FINITENESS FOR THIS?? KOZUL?}
+\end{proof}
+
+
+\begin{defn}
+Let $A$ be a local ring and $M$ an $A$-module. We say that $M$ is $S_r$ if,
+\[ \depth{}{M} \ge \min \{ \dim{A}, r \} \]
+If $A$ is not local then we say that $M$ is $S_r$ if for each prime $\p \subset A$ the module $M_\p$ is $S_r$ over $A_\p$.
+\end{defn}
+
+
+\begin{prop}
+Let $A$ be a ring and $M$ an $A$-module and $I \subset A$ an ideal. Then,
+\begin{enumerate}
+\item $\Ext{i}{A}{A/I}{M} = 0$ for $i < \depth{I}{M}$
+\item $H^i_I(M) = 0$ for $i < \depth{I}{M}$.
+\end{enumerate}
+\end{prop}
+
+\begin{rmk}
+When $A$ is noetherian and $M$ is finite, then $\depth{I}{M}$ is the maximal integer such that either (a) or (b) (and hence both) holds.  
+\end{rmk}
+
+\begin{proof}
+Choose an $M$-regular sequence $x_1, \dots, x_r \in I$. We proceed by induction on $r$, where the $r = 0$ case is trivial. Now consider,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & M \arrow[r, "x_1"] & M \arrow[r] & M / x_1 M \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and the associated long exact sequence,
+\begin{center}
+\begin{tikzcd}
+\Ext{i}{A}{A/I}{M / x_1 M} \arrow[r] & \Ext{i+1}{A}{A/I}{M} \arrow[r, "x_1"] & \Ext{i+1}{A}{A}{M} \arrow[r] & \Ext{i+1}{A}{A/I}{M/x_1 M}
+\end{tikzcd}
+\end{center}
+but for $i < r-1$ we have $\Ext{i}{A}{A/I}{M/x_1 M} = 0$ by the induction hypothesis. Thus, $\Ext{i+1}{A}{A/I}{M}$ has no $x_1$ torsion but $x_1 \Ext{i}{A}{A/I}{M} = 0$ since $x_1 \in I$. Hence $\Ext{i+1}{A}{A/I}{M} = 0$ for all $i + 1 < r$. 
+\par
+Likewise, there is a long exact sequence of local cohomology,
+\begin{center}
+\begin{tikzcd}
+H^i_I(M / x_1 M) \arrow[r] & H^{i+1}_I(M) \arrow[r, "x_1"] & H^{i+1}_I(M) \arrow[r] & H^{i+1}_I(M/x_1 M)
+\end{tikzcd}
+\end{center}
+and for $i < r-1$ we have $H^i_I(M/x_1M) = 0$ by induction. Furthermore, each $m \in H^{i+1}_I(M)$ is killed by $x_1^n$ for some $n$ so $x_1$ cannot be injective on $H^{i+1}_I(M)$ unless $H^i_I(M) = 0$. Hence we conclude $H^{i+1}_I(M) = 0$ for $i + 1 < r$ by induction.
+\end{proof}
+
+\begin{defn}
+Let $X$ be a scheme and $\F$ a quasi-coherent $\struct{X}$-module. We say that $\F$ is $S_r$ if for each $x \in X$ the module $\stalk{X}{x}$-module $\F_x$ is $S_r$.
+\end{defn}
+
+\begin{prop}
+Let $X$ be a scheme and $\F$ a quasi-coherent $\struct{X}$-module. If $\F$ is $S_r$ then $H^i_x(X, \F) = 0$ for all closed finitely generated points $x \in X$ and $i < \min\{ \codim{x, X}, r\}$.
+\end{prop}
+
+\begin{proof}
+It suffices to show that $H^i_x(X, \F) = H^i_{\m_x}(\stalk{X}{x}, \F_x)$. Indeed, for any affine open $U \subset X$ containing $x$ we have,
+\[ H^i_x(X, \F) = H^i_x(U, \F|_U) = H^i_{\p}(A, M) \]
+where $U = \Spec{A}$ and $\F|_U = \wt{M}$. Since this holds for any affine open $U$ containing $x$ we can take the limit over $D(f)$ containing $\p$ to get,
+\[ H^i_x(X, \F) = \dlim H^i_x(D(f), \F|_{D(f)}) = \dlim_{f \notin \p} H^i_{\p}(A_f, M_f) = \dlim_{f \notin \p} H^i_{\p}(A, M)_{f} = H^i_{\p}(A, M)_{\p} = H^i_{\p}(A_\p, M_\p) \]
+\end{proof}
+
+\begin{rmk}
+This shows that for any ideal $I \subset A$ we can form the multiplicative set $S = \{ f \in A \mid \forall \p \supset I : f \notin \p \}$ and $H^i_I(M)$ is $S$-local. 
+\end{rmk}
+
+\begin{theorem}
+Let $X$ be a noetherian scheme and $Z \subset X$ a subscheme with $\codim{Z, X} \ge r$ and $\F$ a coherent $\struct{X}$-module such that $\Supp{}{\F} = X$ and $\F_x$ is $S_r$ for all $x \in Z$. Then,
+\[ \H^i_Z(X, \F) = 0 \quad \text{ for } \quad i < r \]
+\end{theorem}
+
+\begin{proof}
+Let $x \in Z$ and write $H^0_x$ for the functor $\F \mapsto H^0_{\m_x}(\stalk{X}{x}, \F_x)$. Notice that $H^0_x = H^0_x \circ \H^0_Z$ because if $\m_x \subset \sqrt{\Ann{\stalk{X}{x}}{s_x}}$ then there is some open $x \in U$ on which $s|_U$ has support only along $\ol{ \{ x \} }$. This induces a Grothendieck spectral sequence
+\[ E^{p,q}_2 = H^p_x(\H^q_Z(\F)) \implies H_x^{p+q}(\F) \]
+because $\H^0_Z$ sends flasque $\struct{X}$-modules to $H^0_x$-acyclic objects. Indeed, if $\G$ is flasque then there is an exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \H^0_Z(\G) \arrow[r] & \G \arrow[r] & j_* j^* \G \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and therefore the long exact sequence for $H^0_x(-)$ gives,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0_x(\G) \arrow[r] & H^0_x(\G) \arrow[r] & H^0_x(j_* j^* \G) \arrow[r] & H^1_x(\H^0_Z(\G)) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+But $H^0_x(j_* j^* \G)$ is zero because if a section of $j_* j^* \G$ has support inside $Z$ then it is zero since it arises from $\G(U)$ and its stalk over $U$ is preserved. Furthermore, $H^{>1}_x(X, \H^0_Z(\G)) = 0$ because the other two terms are flasque and hence $H^i_x(X, -)$ acyclic. Thus we apply the spectral sequence to compute $\H^k_Z(\F) = 0$ for $k < r$. We proceed by induction on $k$. For $k = 0$ we know $H^0_x$
+\end{proof}
+
+\section{Coherenece of Pushforwards}
+
+\begin{theorem}
+Let $X$ be a locally noetherian scheme. Let $j : U \to X$ be the inclusion of an open subscheme with complement $Z$. Let $\F$ be a coherent $\struct{U}$-module. Assume,
+\begin{enumerate}
+\item $X$ is universally catenary
+\item for every $z \in Z$ the formal fibers of $\stalk{X}{z}$ are ($S_1$).
+\end{enumerate}
+Then the following are equivalent
+\begin{enumerate}
+\item for each $x \in \Ass{\struct{U}}{\F}$ let $Y = \ol{ \{ x \} }$ then for any $z \in Z \cap \ol{ \{ x \} }$ we have $\dim{\stalk{Y}{z}} \ge 2$
+\item $j_* \F$ is coherent.
+\end{enumerate}
+\end{theorem}
+
+\begin{rmk}
+In particular, the hypotheses hold when $X$ is excellent. 
+\end{rmk}
+
 
 
 \end{document}

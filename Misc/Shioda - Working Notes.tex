@@ -1,0 +1,545 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\ob}{\mathrm{ob}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\vir}{\mathrm{vir}}
+\newcommand{\cN}{\mathcal{N}}
+
+\begin{document}
+
+
+\section{Foliation-obstruction setup}
+
+\newcommand{\Ram}{\mathrm{Ram}}
+
+Let $X$ be a smooth proper scheme over a noetherian scheme $S$. Let $s : \Spec{k} \embed S$ be a closed point and $C / k$ a smooth proper curve. Consider a separable map $f : C \to X$ (eg an immersion). Consider $P := \P(\Omega_{X/S}^1)$ then by base change $\P(\Omega_{X_s//k}) = P \times_S k$ to which by separability there is a lift $f' : C \to \P(\Omega_{X_s/k})$.
+
+\begin{proof}
+Let $L := \struct{P_s}(1)$ be the tautological bundle on $P$, and $\chi_C = 2 - 2 g(C)$ the geometric Euler characteristic of the curve. Then,
+\[ L \cdot_{f'} C = - \chi_C - \Ram_f \le - \chi_C \]
+\end{proof}
+
+\begin{proof}
+This is immediate by definition: the map $\pi^* \Omega_X \to L$ pulls back to $f^* \Omega_X \onto \L \subset \Omega_C$ hence 
+\[ L \cdot_{f'} C = \deg{\L} = \deg{\Omega_C} - \Ram_f \] 
+\end{proof}
+
+Now suppose that $f : C \to X$ is invariant by a foliation $\F$ by curves. Outside of the singular locus $Z$ the foliation defines a section of $\P(\Omega_{X/S}) \to X$ whose closure over $Z$ is a blowup  $\pi : \wt{X} \to X$ with center supported in $Z$. Therefore, there is an exceptional divisor $E$ and $L|_{\wt{X}} = \pi^* K_{\F}(-E)$ and provided that $f$ doesn't factor through $Z$, the intersection $E \cdot_{f'} C$ can be identified with the Segre class $s_Z(f)$ so that,
+\[ K_{\F} \cdot_{f} C = - \chi_C - \Ram_f + s_Z(f) \]
+
+The main result we need is in controlling this Segre class $s_Z(f)$.
+
+
+\section{Bigness of $K_\F$}
+
+What is the condition on $\omega$ for it to define a foliation with $K_\F$ big?
+
+Consider, $Y \to V(\omega) \subset \P(\Omega_X)$ the desingularization. Denote the maps $p : Y \to \P(\Omega_X)$ and $f : Y \to X$. Then we have,
+\begin{center}
+\begin{tikzcd}
+f^* \Omega_X \arrow[d] \arrow[r] & \Omega_Y \arrow[d]
+\\
+L \arrow[r] & \pushout Q
+\end{tikzcd}
+\end{center}
+Let $L = p^* \struct{X}(1)$.
+Since $f^* \Omega_X \to L$ is surjective, it is immediate that $Q = \coker{(\ker{(f^* \Omega_X \to L)} \to \Omega_Y)}$.
+Then we can take the torsion-free quotient of $Q$ which is rank $1$ and hence is $\I_Z \cdot \M$ for some $Z \subset Y$ closed subscheme of codimenson $2$. 
+
+\begin{lemma}
+Let $X$ be a smooth variety and $\F$ a torsion-free coherent sheaf of rank $1$. Then there is a unique decomposition $\F \cong \I_Z \cdot \L$ where $\L$ is a line bundle and $\I_Z$ is the ideal sheaf of a codimension $2$ subscheme.
+\end{lemma}
+
+\begin{proof}
+Since $\F$ is torsion-free the map $\F \to \F^{\vee \vee}$ is injective. Furthermore, $\F^{\vee \vee}$ is a line bundle since it is reflexive of rank $1$ on a smooth variety. Let $\L = \F^{\vee \vee}$ and consider $\F \ot \L^{-1} \embed \struct{X}$. It suffices to show that this map is an isomorphism in codimension $1$. Indeed, if $\dim{\stalk{X}{x}} \le 1$ then $\stalk{X}{x}$ is a DVR and $\F_x$ is torsion-free and hence free therefore $\F$ is a vector bundle over an open $U$ of complementary codimension at least $2$ and thus $\F \to \F^{\vee \vee}$ is an isomorphism over $U$. 
+\end{proof}
+
+
+Now the claim is, if $L$ is big then $\M$ is big. Indeed, there is a map $L \to \M$ and hence $H^0(Y, L^{\ot m}) \embed H^0(Y, \M^{\ot m})$, 
+
+
+WEIRD from McQuillan's paper: if $\Omega_X$ is big then it seems that the foliation is always big. WHAT ABOUT THE BIDISK FOLIATIONS?
+
+PROBLEM: no reason for $L$ to be BIG, IS EXACTLY,
+\[ 0 \to \Sym{k-m}{\Omega_X} \xrightarrow{\omega} \Sym{k}{\Omega_X} \to f_* L^{\ot m} \to 0 \]
+for $m > k$ and taking cohomology we have to control a connecting map. Therefore, its only clearly big if some asymtotic cohomology statement holds which is possibly stronger than the asymtotic cohomology statement we need for the jet obstruction. 
+\bigskip\\
+In fact, if $L^{\ot m}$ has a nonconstant section at all then the base locus does not dominate $X$ so we immediately win by the resultant method. Thus we expect no sections. 
+
+
+It looks like if $\F$ is $p$-closed then we ask are there finitely many or infinitely many $C$ such that $K_{\F} \cdot C < 0$. In the former case we win by McQuillan's theorem. In the latter case, we loose by Miyaoka's theorem since then there are infinitely many rational curves of bounded degree by Bend-and-Break hence uniruled. 
+
+\section{Foliation Basics}
+
+\begin{prop}
+Let $f : X \to Y$ be a morphism of $S$-schemes and a morphism $\F \to \T_{Y/S}$ a subsheaf. Then there exists, a morphism $f^+ \F \to \T_{X/S}$ and the linear Lie bracket maps are compatible,
+\begin{center}
+\begin{tikzcd}
+\wedge^2 f^+ \F \arrow[d] \arrow[r, "\ell"] & \T_{X/S} / f^+ \F \arrow[d]
+\\
+f^* \wedge^2 \F \arrow[r, "f^* \ell"] & f^* \T_{Y/S} / \F  
+\end{tikzcd}
+\end{center}
+and if $S$ has characteristc $p$ then the $p$-curvature maps are also compatible,
+\begin{center}
+\begin{tikzcd}
+\Frob^*_X f^+ \F \arrow[d] \arrow[r, "\psi_p"] & \T_{X/S} / f^+ \F \arrow[d]
+\\
+f^* \Frob^*_X\F \arrow[r, "f^* \psi_p"] & f^* \T_{X/S} / \F 
+\end{tikzcd}
+\end{center}
+\end{prop}
+
+\begin{proof}
+We define $f^+ \F$ via the diagram,
+\begin{center}
+\begin{tikzcd}
+f^+ \F \arrow[d] \pullback \arrow[r] & f^* \F \arrow[d]
+\\
+\T_{X/S} \arrow[r] & f^* \T_{Y/S}
+\end{tikzcd}
+\end{center}
+Now the commutativity is obvious from the fact that $\T_{X/S} \to \pi^* \T_{Y/S}$ is compatible with bracket and $p$-power operations.
+\end{proof}
+
+Therefore, as long as $X$ does not map into the singular locus of the foliation $\F$, then we can define a foliation as the saturated image of $f^+ \F$ on $Y$ and then it will also be involutive and $p$-closed if $\F$ is. {\color{red} PROVE THIS!!}
+
+
+\begin{cor}
+If $f : C \to X$ is an entire curve invariant under a foliation $\F$ then 
+\[ \im{f} \subset \Sing{\F} \cup (V^1(\psi_p) \cap V^1(\ell)) \]
+where $V^1$ is the locus where a map of vector bundles is not full rank. For example, if $\F$ is a rank $1$ foliation then,
+\[ \im{f} \subset \Sing{\F} \cup V(\psi_p) \]
+If $X$ is a surface and $\F$ is not $p$-closed then $\Sing{\F}$ is a collection of points so any invariant curve is contained in $\Delta_p := V(\psi_p)$.
+\end{cor}
+
+\begin{theorem}[Miyaoka]
+Let $L$ be a nef $\RR$-divisor on $X$. Let $f : C \to X$ be a nonconstant morphism from a smooth projective curve $C$ such that $X$ is a smooth along $f(C)$. Let $\F \subset \T_X$ be a ($p$-closed) $1$-foliation, smooth along $f(C)$. Assume that,
+\[ c_1(\F) \cdot C > \frac{K_X \cdot C}{p-1} \]
+then for every $x \in f(C)$ there is a rational curve $B_x \subset X$ passing through $x$ such that,
+\[ L \cdot B_x \le 2n \frac{p L \cdot C}{(p-1) c_1(\F) \cdot C - K_X \cdot C} \]
+\end{theorem}
+
+\begin{proof}
+Let $\rho : X \to Y = X / \F$ be the quotient. Then,
+\[ K_X = (p-1) c_1(\F) + \rho^* K_Y \] 
+and therefore,
+\[ K_Y \cdot C = K_X \cdot C - (p-1) c_1(\F) \cdot C < 0 \]
+Since the foliation is smooth along $f(C)$, the variety $Y$ is also smoth along the image of $C$. Therefore, by Bend-and-Break [Kollar rational curves, Theorem 5.8] we know that there exists such a family of rational curves $B_x'$ throught each point of the image of $C$ such  that for any nef $\RR$-divisor $M$ of $Y$ we have
+\[ M \cdot B_x' \le 2n \frac{M \cdot C}{-K_Y \cdot C} \]
+Let $L'$ be the pullback of $L^{(1)}$ via the canonical map $Y \to X^{(1)}$ then $\rho^* L' = (F_X)^* L = p L$. Since $\rho$ is purely inseparable of degree $p^{\rank{\F}}$ the reduced pre-image $B_x$ of $B_x'$ is also a rational curve. Note that,
+\[ p (L \cdot B_x) = \rho^* L' \cdot B_x \le p L' \cdot B_x' \]
+If the induced morphism $B_x \to B_x'$ is inseparable then we have equality. Otherwise, $\rho^* L' \cdot B_x = L' \cdot B_x'$ and the inequality is obvious. Therefore,
+\[ L \cdot B_x \le L' \cdot B_x' \le 2n \frac{L' \cdot C}{-K_Y \cdot C} \le 2n \frac{p L \cdot C}{(p-1) c_1(\F) - K_X \cdot C} \]
+proving the claim.
+\end{proof}
+
+\begin{rmk}
+$c_1(\F) = - K_{\F}$ and therefore the theorem applies to curves $C$ with $K_{\F} \cdot C < 0$.
+\end{rmk}
+
+
+\section{Surfaces over $\ZZ$}
+
+\begin{example}
+Consider the deformation $X \to \A^1$ of a smooth quartic surface in $\P^3$ to the singular Kummer quadric. Then $\pi_1(X_0^{\text{sm}}) \neq 1$ even though $\pi_1(X_1 \sm S) = 1$ for any finite set of points $S$. This shows we cannot use deformation theory and Grothendieck's existence theorem to conlude that the fundamental group is zero. However, the resolution of singularities of $X_0$ is indeed simply-connected. This shows we need to carefully analyze the singularities of the special fiber in order to conclude.
+\end{example}
+
+\begin{prop}
+Let $X / K$ be a smooth proper suface over a number field. Let $\p \subset K$ be a prime such that $N(\p) = q = p^n$ and $K / \Q$ is unramfied over $p$. Let $\ell \neq p$ be another prime. Suppose,
+\begin{enumerate}
+\item $\pi_1^{\et}(X_{\ol{K}}) = 0$
+\item $\Frob_{\q}^n \acts H^2_{\et}(X_{\ol{K}}, \Q_{\ell})$ by $q^n \cdot \id$ for some $n > 0$ 
+\item there is a flat proper model $\X \to \Spec{\stalk{K}{\p}}$ of $X$ such that $\X_\p$ is integral with isolated (GOOD DO THIS!!!) singularities.
+\end{enumerate}
+Then let $Y$ be a smooth proper surface over $\FF_q$ obtained as a resolution of singularities of $\X_{\p}$. Then,
+\begin{enumerate}
+\item $\pi_1^{\et}(Y_{\ol{\FF}_q}) = 0$
+\item $Y$ is supersingular meaning $\Frob_{\q} \acts H^2(Y_{\ol{\FF}_q}, \Q_\ell)$ by $q^n \cdot \id$ for some $n > 0$. 
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+DO THIS PROOF!!!
+\end{proof}
+
+
+
+
+
+
+
+\section{Surfaces to Try}
+
+\subsection{Horikawa surfaces}
+
+Properties:
+\begin{enumerate}
+\item always $\pi_1 = 0$ (REF?)
+\item usually general type 
+\item can be orbifold hyperbolic
+\end{enumerate}
+
+Cons:
+
+\begin{enumerate}
+\item supersingularity seems hard
+\item often are actually unirational
+\end{enumerate}
+
+\begin{enumerate}
+\item 
+\end{enumerate}
+
+References:
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/1201.5822.pdf}{How is the orbifold jets relevant here?}
+\item \chref{https://arxiv.org/pdf/0805.3986.pdf}{there are lots of unirational horikawa surfaces}
+\item 
+\end{enumerate}
+
+\subsection{Hilbert Modular Surfaces}
+
+
+\subsection{Quotient of Products of Curves}
+
+\subsection{Line Arrangement Varities}
+
+\subsection{Explicit Complete Intersections}
+
+
+\subsection{REU Examples}
+
+
+\begin{theorem}
+Let $p, q, w$ be primes such that $p, q, w \equiv 1 \mod{s}$ for some $s$ and let $X$ be the variety defined by,
+\[ x_0^p + x_1^{ps} + x_2^{q} + x_3^{qs} = 0 \]
+over $\FF_{w}$. If $w$ is a primitive root modulo $p$ and $q$ then $X$ is supersingular.  
+\end{theorem}
+
+\begin{example}
+This works for,
+\begin{enumerate}
+\item $p = 7$
+\item $q = 13$
+\item $s = 3$
+\item $w = 19$
+\end{enumerate}
+\end{example}
+
+This example is supersingular for infinitely many explicit primes. Also it should be simply connected {\color{red} WHY?}
+\bigskip\\
+What the singularities? Note this is clearly quasi-smooth. Therefore, the singularities are only at the singularities of $P = \P(qs, ps, q, p)$. This is well-formed. 
+
+\section{Foliations Methodology}
+
+\subsection{What people say about McQuillan's paper}
+
+\subsubsection{AN EXPLICIT BOUND FOR THE LOG-CANONICAL DEGREE OF CURVES ON
+OPEN SURFACES}
+
+Bogomolov proved the well known result according to which irreducible curves of fixed
+geometric genus on X form a bounded family. Since Bogomolov’s argument depended on the
+analysis of curves contained in a certain closed set (see [Des79] for an exposition), his remark-
+able result was not effective. Indeed, Bogomolov was able to prove that curves in this closed set
+form a bounded family by considerations involving algebraic foliations but without providing an
+explicit bound on their degree. Because of this, in a deformation of the surface X , the number of
+either rational or elliptic curves might in principle tend to infinity. This situation can be ruled
+out providing an upper bound on the canonical degree of irreducible curves on X by a function
+of the invariants of X and the geometric genus of the curve. The existence of such a function
+and its form was then conjectured in various places and in slightly different contexts, see for
+instance [Tia96, §9], with the function depending only on K2
+X , c2(X ) and the geometric genus of
+the curve. The conjecture was proved with some restrictive hypothesis on the singularities of the
+curve involved by Langer in [Lan03] and finally in its full generality by Miyaoka in [Miy08]. It
+is interesting to note that part of Miyaoka’s result can be recovered by methods closer in spirit to
+the original argument of Bogomolov, see McQuillan [McQ17, Corollary 1.3], though one is able to
+prove the existence of the afore mentioned function no explicit form can be established.
+
+
+\subsubsection{Effective algebraic integration in bounded genus, Most interesting part of McQuillan's classification of foliations}
+
+\newcommand{\HH}{\mathbb{H}}
+
+\begin{theorem}
+Let $\F$ be a relatively minimal foliation on a smooth projective surface $X$. If the numerical dimension of $\F$ does not coincide with the Kodaira dimension of $\F$ then,
+\begin{enumerate}
+\item $\nu(\F) = 1$
+\item $\kappa(\F) = -\infty$
+\item $X$ is the minimal desingularization of the Baily-Borel compactification of an irreducible quotient of $\HH \times \HH$ 
+\item $\F$ is induced by one of the two natural fibrations on $\HH \times \HH$
+\end{enumerate}
+\end{theorem}
+
+\subsubsection{Definitions}
+
+(WHAT IS ALMOST ETALE??)
+
+When the foliation is p-closed it follows from [2, Th´eor`eme 1] that there are infinitely
+many algebraic solutions. On the other hand, if the foliation F is not p-closed then there
+is a divisor F , the p-divisor, which is defined as the degeneracy locus of the p-curvature
+morphism F . An interesting property of the p-divisor is that every irreducible algebraic
+solution of the foliations is contained in the support of the p-divisor.
+
+
+QUESTION: DO THE LEAVES OF SUCH A FOLIATION ALWAYS HAVE TO BE RATIONALLY CONNECTED? LOOK AT THE PAPER PROVING THIS USING MORI THEORY?
+
+\section{Place to Collect Foliation Results}
+
+\subsubsection{Paper of Langer}
+
+Proves Popa-Schnell for surfaces in all characteristics
+
+\chref{https://www.mimuw.edu.pl/~alan/papers/foliations.pdf}{Theorem }
+
+Look at Theorem 5.1
+
+Also gives a nice foliation producing rational curves result: Theorem 2.1
+
+\subsection{Foliaitons To Read}
+
+\begin{enumerate}
+\item Myoka
+\item Bogomolov-McQuillen
+\end{enumerate}
+
+\section{Product-Quotient Surfaces}
+
+Let $G \acts C_1$ and $G \acts C_2$ be two faithful actions on smooth projective curves. Then we consider $X = (C_1 \times C_2) / G$ with the diagonal action and $\pi : S \to X$ the minimal desingualarizaton. Here we write down some results.
+
+\begin{prop}
+If $C$ is any curve and $H$ is a finite group acting faithfully on $C$ and $p \in C$ then the fixed point $H_p$ is cyclic. 
+\end{prop}
+
+\begin{proof}
+ Hershel M. Farkas , Irwin Kra III.7.7 It follows from the next result.
+\end{proof}
+
+\begin{prop}
+Let $h_1, \dots, h_n$ be holomorphic functions in the neighborhood of $0 \in \CC$ with $h_j(0) = 0$ and suppose these form a group $H$ under composition. Then $H$ is a rotation group, meaning there is an open disc around $0$ on which all $h_i$ are defined and a biolomorphism to $\Delta$ such that the $h_j$ are identidied with rotations. 
+\end{prop}
+
+\begin{cor}
+The singularities of $X$ are cyclic quotient singulairites. If $\ol{(x,y)} \in X$ then analytically locally this point is $\CC^2 / C_n$ where $n = \# G_{(x,y)}$ defined by $\xi \cdot (z_1, z_2) = (\xi z_1, \xi^a z_2)$ for some $a$ coprime to $n$ and $\xi$ a primitive $n^{\text{th}}$-root of unity. This is a \textit{singularity of type} $\frac{1}{n}(1,a)$.
+\end{cor}
+
+\begin{rmk}
+Note that $(n,a) = 1$ because otherwise some element of $G$ would act trivially on the second factor in an analytic neighborhood but by rigidity this means it acts trivially on one curve and hence the action is not faithful. 
+\end{rmk}
+
+\subsection{Singularity Types}
+
+Note that $\frac{1}{n}(1,a) = \frac{1}{n}(1,a')$ where $a, a'$ are inverses in $(\Z / n \Z)^\times$. The exceptional fiber of the minimal resolution of a cyclic quotient singularity of type $\frac{1}{n}(1,a)$ are well-known and correspond to Hizerbruch-Jung strings:
+\[ L = \sum_{i = 0}^\ell Z_i \]
+a connected union of smmoth rational curves $Z_1, \dots, Z_\ell$ with self-intersection numbers at most $-2$ and ordered linearly so that $Z_i \cdot Z_{i+1} = 1$ and all other intersections are zero. Then the exceptional divisor $E$ on $S$ is the disjoint union of these HJ strings. 
+\bigskip\\
+The self-intersection numbers $Z_i^2 = -b_i$ are determined by the formula,
+\[ \frac{n}{a} = b_i - \frac{1}{b_2 - \frac{1}{\cdots}} \]
+We denote this fraction by the notation $[b_1, \dots, b_{\ell}]$ so we write,
+\[ \frac{n}{a} = [b_1, \dots, b_\ell] \]
+Moreover,
+\[ \frac{n}{a} = [b_1, \dots, b_\ell] \iff \frac{n}{a'} = [b_\ell, \dots, b_1] \]
+Cyclic quotient singularities of type $\frac{1}{n}(1, n-1)$ are particular cases of \textit{rational double points} or $A_n$ singularity: all the curves $Z_i$ have self-intersection $-2$. Singularities of type $\frac{1}{2}(1,1)$ are called \textit{ordinary double points} or $A_1$ singularities. However, type $\frac{1}{n}(1,a)$ for $a \neq n-1$ do not need to be canonical singularities.  
+
+
+\begin{prop}[Serrano, Prop. 2.2]
+$q(S) : = h^1(S, \struct{S}) = g(C_1/G) + g(C_2/G)$.
+\end{prop}
+
+Therefore, for our purposes we will always take $C_1 / G \cong C_2 / G \cong \P^1$. 
+\bigskip\\
+Furthermore, let $p_g = h^0(S, \omega_S) = h^2(S, \struct{S})$. Thus if $q(S) = 0$ we see that,
+\[ \chi(\struct{S}) = 1 + p_g \]
+and hence by Noether's formula,
+\[ c_1^2 + c_2 = 12 (1 + p_g) \]
+
+\begin{theorem}[Serrano, Theorem 4.1]
+Let $S$ be as above and $\sigma_1 : S \to C_1 / G$ and $\sigma_2 : S \to C_2 / G$ the associated fibrations. Let $\{ n_i N_i \}_{i \in I}$ and $\{ m_j M_j \}_{j \in J}$ denote the components of all singular fibers of $\sigma_1$ and $\sigma_2$ respectively with the multiplicites attached. Finally, let $\{ Z_t \}_{t \in T}$ be the set of curves contracted to points by $\sigma_1 \times \sigma_2$ (i.e. the exceptional locus of $\pi : S \to X$) then,
+\[ K_S = \sigma_1^* (K_{C_1/G}) + \sigma_2^*(K_{C_2 / G}) + \sum_{i \in I} (n_i - 1)N_i + \sum_{j \in J} (m_i - 1) M_i + \sum_{t \in T} Z_t \]
+The fibrations induce foliations $\F_1, \F_2$ on $S$ such that Serrano's formula can be written as,
+\[ K_S = \cN_{\F_1}^\vee \ot \cN_{\F_2}^\vee \ot \struct{S}(E) \]
+\end{theorem}
+
+
+\begin{center}
+\begin{tikzcd}
+& S  \arrow[d, "\pi"] \arrow[ldd, "\sigma_1"'] \arrow[rdd, "\sigma_2"]
+\\
+& (C_1 \times C_2) / G \arrow[ld, "p_1"] \arrow[rd, "p_2"'] 
+\\
+C_1 / G & & C_2 / G
+\end{tikzcd}
+\end{center}
+We know that $X$ has only cyclic quotient singularities. 
+
+\subsection{Surfaces with $p_g = 0$ and $c_1^2 = c_2$}
+
+The conditions imply that $c_1^2 = c_2 = 6$ and $p_g = q = 0$. These have been classified and all have exactly two $A_1$ singularities.
+\bigskip\\
+Around one of the two singular points, $X$ is analytically isomorphic to the quotient $\CC^2 / C_2$ with action $(z_1, z_2) \mapsto (-z_1, -z_2)$. This is isomorphic to an affine subvariety of $\CC^3$ with coordinates,
+\[ u = z_1^2 \quad v = z_1 z_2 \quad w = z_2^2 \]
+defined by the equation $uw  =  v^2$. Moreover, if $\mu_1, \mu_2$ are the local coordinates on $S$, the resolution morphism is locally given by,
+\[ \pi(\mu_1, \mu_2) = (\mu_1, \mu_1 \mu_2, \mu_1 \mu_2^2) \]
+given by blowing up $(u,v,w)$. Therefore, we have the following relation between the local coordinates,
+\[ z_1 = \mu_1^{1/2} \quad z_2 = \mu_1^{1/2} \mu_2 \]
+The exceptional fiber is a single $(-2)$-curve. Using the local coordinates $\mu_1, \mu_2$ on $S$ we see that it is given by the set of point $\{ \mu_1 = 0 \}$. 
+
+\subsection{Bigness of the Cotangent Bundle}
+
+\renewcommand{\sm}{\mathrm{sm}}
+
+Let $\Lambda$ be the set of points of $C_1 \times C_2$ with nontrivial stabilizer. We consider a procedure to produce sections of $S^{2m} \Omega_X$ from sections of $K_S^{\ot m}$. 
+\bigskip\\
+Let $\omega \in H^0(S, K_S^{\ot m})$. The pushforward $\pi_*$ gives a section of $K_X^{\ot m}$ away from the singularities which can be pulled back to a section of $(K_{C_1 \times C_2}^{\ot m})^G$ defined outside $\Lambda$. Since $\Lambda$ is a set of points it has codimension $\ge 2$ so this extends to a section over $C_1 \times C_2$. Moreover, we can identify sections of $(K_{C_1 \times C_2})^G$ with $(S^{2m} \Omega_{C_1 \times C_2})^G$ which descend to a section of $S^{2m} \Omega_X$ over the smooth locus which pulls back to a section $\Gamma(\omega)$ of $S^{2m} \Omega_S$ defined outside of $E$. 
+\begin{center}
+\begin{tikzcd}
+H^0(S, K_S^{\ot m}) \arrow[ddd, "\Gamma"] \arrow[rddd, "\Theta"] \arrow[r, "\varphi_*"] & H^0(X^{\sm}, K_{X}^{\ot m}) \arrow[r, "p^*"] & H^0(C_1 \times C_2 \sm \Lambda, K_{C_1 \times C_2}^{\ot m})^G \arrow[d]
+\\
+& & H^0(C_1 \times C_2, K_{C_1 \times C_2}^{\ot m})^G \arrow[d]
+\\
+& & H^0(C_1 \times C_2, \Omega_{C_1}^{\ot m} \ot \Omega_{C_2}^{\ot m})^G \arrow[d]
+\\
+H^0(S \sm E, S^{2m} \Omega_S) & H^0(X^{\sm}, S^{2m} \Omega_X) \arrow[l, "\varphi^*"] & H^0(C_1 \times C_2, S^{2m} \Omega_{C_1 \times C_2})^G \arrow[l, "p_*"] 
+\end{tikzcd}
+\end{center} 
+
+\begin{prop}
+If $\omega \in H^0(S, \struct{S}(m(K_S - E))$ then $\Gamma(\omega)$ naturally extends to a global section $\Gamma(\omega) \in H^0(S, S^{2m} \Omega_S)$.
+\end{prop}
+
+\begin{proof}
+We get $\Theta(\omega) \in H^0(X^{\sm}, S^{2m} \Omega_X)$ which, by definition, can be written locally on a punctured disk around an $A_1$ singularity,
+\[ a(z_1, z_2) \d{z_1}^m \d{z_2}^m \]
+Using the change of coordinates $z_1 = \mu_1^{1/2}$ and $z_2 = \mu_1^{1/2} \mu_2$ given by $\pi$ we get the pullback by $\pi^*$ of $\Theta(\omega)$ which is $\Gamma(\omega)$ can be written locally as,
+\[ \sum_{j = 0}^m {m \choose j} \frac{\mu_2^{m-j} (a \circ \pi)(\mu_1, \mu_2)}{2^{2m - j} \mu_1^{m-j}} \d{\mu_1}^{2m-j} \d{\mu_2}^j \]
+but $a \circ \pi$ canishes along $E$ at multiplicity at least $m$ so this is well-defined on $S$. 
+\end{proof}
+
+\begin{rmk}
+Notice that all of these forms are of type $\d{z_1}^m \d{z_2}^m$ and therefore the resultant of any two is zero. Therefore, we need to use methods beyond the resultant. 
+\end{rmk}
+
+
+\begin{prop}
+The line bundle $\struct{S}(K_S - E)$ is big.
+\end{prop}
+
+\begin{proof}
+Since $S$ is a minimal surface of general type, the canonical divisor $K_S$ is nef. Therefore, by the asymtotic Riemann-Roch theorem,
+\[ h^0(S, K_S^{\ot m}) = \tfrac{1}{2} m^2 c_1(S)^2 + O(m) \]
+but $c_1(S)^2 = 6$ so we have,
+\[ h^0(S, K_S^{\ot m}) = 3 m^2 + O(m) \]
+Thus, there exists a positive real number $M$ such that,
+\[ 3 m^2 - M m \le h^0(S, K_S^{\ot m}) \]
+for $m$ large enough.
+\bigskip\\
+On the other hand, let $\omega$ be a section of $K_S^{\ot m}$. The corresponding section on $C_1 \times C_2$ can be written locally, around a fixed point, as
+\[ a(z_1, z_2) (\d{z_1} \wedge \d{z_2})^m \]
+where $a$ is a holomorphic function,
+\[ a(z_1, z_2) = \sum_{i,j} a_{ij} z_1^i z_2^j \]
+Using change of coordinates $z_1 = \mu_1^{1/2}$ and $z_2 = \mu^{1/2} \mu_2$ given by $\pi$ at an $A_1$ singularity. Then $\omega$ vanishes along $E$, at least with multiplicity $m$ if $a_{i,j} = 0$ for all $i,j$ such that $i + j < 2m$. This gives $1 + 2 + \cdots + 2m$ sufficent conditions. However, the section is invariant by the $G$-action, then $a_{i,j} = 0$ for all $i + j$ odd since any function defined on the quotient must be invariant under the stabilizer $C_2$ acting via $(z_1, z_2) \mapsto (-z_1, -z_2)$. Therefore, 
+\begin{align*}
+h^0(S, \struct{S}(m(K_S - E))) & \ge h^0(S, K_S^{\ot m}) - \# \{ A_1 \text{ singularities} \} \frac{1 + 2 + \cdots + 2 m}{2} 
+\\ 
+& \ge (3 m ^2 - Mm) - (2m^2 + m) = m^2 - (M+1)m 
+\end{align*}
+\end{proof}
+
+It looks like the innequality we need is $c_1^2 > 2 a_1$ where $a_1$ is the number of $a_1$ singularities and we only have $a_1$ singularities. {\color{red} COMPARE TO ROUSEAUX}
+
+
+\section{Explicit Formulas for Bigness}
+
+\subsection{Orbifold}
+
+Let $\X \to (X, \Delta)$ be a 2-dimensional orbifold for which $\Delta = 0$ and the singularities are ADE. Let $Y \to X$ be the minimal desingularization.
+
+\begin{prop}
+The Chern numbers are $c_1^2(\X) = c_1^2(X) = c_1^2(Y)$ and,
+\[ c_2(\X) = c_2(Y) - \sum (n+1) (a_n + d_n + e_n) + \sum \left( \frac{a_n}{n+1} + \frac{d_n}{4(n-2)} + \frac{e_6}{24} + \frac{e_7}{48} + \frac{e_8}{180} \right) \]
+Where $a_n$ is the number of $A_n$ singularities etc.
+\end{prop}
+
+\begin{rmk}
+Note these numbers are the orders of the group which acts to form the standard group quotient representation of these singularities.
+\end{rmk}
+
+\begin{theorem}[\chref{https://arxiv.org/pdf/1303.3377.pdf}{RR13}]
+Suppose that $s_2(Y) + s_2(\X) > 0$ then $\Omega_Y$ is big.
+\end{theorem}
+
+\begin{cor}
+If there are only $a_n$ singularities this number is,
+\[ 2 c_1^2(Y) - 2 c_2(Y) + \sum \frac{n^2 + 2n}{n + 1} a_n \]
+\end{cor}
+
+\subsection{Local Euler Characteristic}
+
+Again let $\pi : Y \to X$ be the resolution of a surface. Then we have,
+\[ \chi(Y, S^m \Omega^1_Y) = \frac{1}{12} \left( 2 (K^2 - \chi) m^3 - 6 \chi m^2 - (K^2 + 3 \chi) m + K^2 + \chi \right) \]
+where $K^2 = c_1(Y)$ and $\chi = c_2(Y)$. 
+
+\begin{theorem}[\chref{https://arxiv.org/pdf/1912.08908.pdf}{Bruin1}]
+Let $X$ be an irreducible complex projective surface whose singular locus $S$ is a finite set of isolated du Val singularities. Let $\tau : Y \to X$ be a minimal resolution. Then for $m \ge 3$ we have,
+\[ h^0(Y, S^m \Omega_Y^1) \ge \chi(Y, S^m \Omega^1_Y) + \sum_{s \in S} \chi^1(s, S^m \Omega^1_Y) \]
+and for all $m \ge 1$
+\[ h^0(Y, S^m \Omega^1_Y) \ge h^0(X, \hat{S}^m \Omega^1_X) - \sum_{s \in S} \chi^0(s, S^m \Omega_Y^1) \]
+\end{theorem}
+
+\begin{theorem}
+If $s \in S$ is an $A_1$ singularity then $\chi^0 \sim \frac{11}{108} m^3$ and $\chi^1 \sim \frac{4}{27} m^3$. See the paper for exact formulas. 
+\end{theorem}
+
+
+\subsection{Complete Intersections of Quadrics}
+
+Let $X \subset \P^n$ be the complete intersection of $n - 2$ with $\ell$ isolated $A_1$ singularities. Let $Y \to X$ be the minimal resolution. In this case we have,
+\[ K^2 = c_1(Y)^2 = (n - 5)^2 2^{n-2} \quad \chi = c_2(Y) = (n^2 - 7n + 16)n^{n-3} \]
+which is general type for $n \ge 6$.  Thene we have,
+\[ \chi(Y, S^m \Omega_Y^1) = \tfrac{1}{3} 2^{n-5} (2 (n^2 - 13 n + 34) m^3 - 6(n^2 - 7n + 16) m^2 - (5 n^2 - 41 n + 98) m + 3 n^2 - 27 + 66) \]
+
+
+\section{Surfaces with Many Nodes}
+
+\begin{enumerate}
+\item Barth's sextic is NOT known to have big $\Omega$ I think NOT know to be quasi-hyperbolic {\color{red} I THINK BOGOMOLOV'S PAPER HAS THE MISTAKE THAT MAKES PEOPLE THINK IT HAS BIG OMEGA}
+
+\item Barth decic and Sarti's surface both are known to have big $\Omega$.
+\end{enumerate}
+
+
+{\color{red} magic squares surface looks to be not supersingular in most characteristics via quick computer search}
+
+
+
+\subsection{Surface of degre 5 with four $A_9$ singularities}
+
+
+\section{Questions}
+
+Does McQuillan's Theorem actually imply that if $\Omega$ is big then it cannot be uniruled in any characteristic of good reduction? In particular in finitely many characteristics? 
+
+
+\section{Ideas}
+
+Maybe the following works: for $H^1(\X, S^n \Omega_{\X})$ I can get the usual Euler characteristic estimate for the stack but also use the formulas for $H^0(X, \hat{S}^n \Omega_X)$ which should be the same as the differentials on the stack (right?) and therefore the difference gives me a bound on the $H^1$ term. 
+
+\end{document}

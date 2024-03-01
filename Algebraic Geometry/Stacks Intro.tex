@@ -6,8 +6,6 @@
 \usepackage{dutchcal}
 \DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
 
-
-\newcommand{\fppf}{\mathrm{fppf}}
 \newcommand{\Set}{\mathrm{Set}}
 \newcommand{\Def}{\mathrm{Def}}
 \newcommand{\cDef}{\mathcal{Def}}
@@ -245,7 +243,7 @@ We cannot give $T F$ a vectorspace structure without (H2) so it is more correct 
 \end{rmk}
 
 \begin{defn}
-A pre-deformation functor $F : \C_{\Lambda} \to \Set$ is a \textit{deformation functor} if it satisfies (H1) and (H2).
+A predeformation functor $F : \C_{\Lambda} \to \Set$ is a \textit{deformation functor} if it satisfies (H1) and (H2).
 \end{defn}
 
 \begin{theorem}[Schlessinger]
@@ -297,7 +295,7 @@ and we cannot have $a = b = 0$ but $a + b = 1$.
 \end{example}
 
 \begin{rmk}
-The above illustrates why it is necessary to define deformations of a scheme as equipped with a distinguished isomorphism $\varphi : X' \ot_A k \iso X$ otherwise $\Def_X$ will not be a deformation functor. Indeed, let $\Def'_X$ be the pre-deformation functor,
+The above illustrates why it is necessary to define deformations of a scheme as equipped with a distinguished isomorphism $\varphi : X' \ot_A k \iso X$ otherwise $\Def_X$ will not be a deformation functor. Indeed, let $\Def'_X$ be the predeformation functor,
 \[ \Def'_X : A \mapsto \{ X' \mid X' \text{ flat } A\text{-schemes such that } X' \ot_A k' \cong X \} / \cong \]
 but forgetting the isomorphism. Then for $X = \Spec{k[x,y]/(xy)}$
 \[ \Def_X'(k[\epsilon_1, \epsilon_2]) \to \Def'_X(k[\epsilon]) \times \Def'_X(k[\epsilon]) \]
@@ -388,24 +386,47 @@ By Schlessinger's theorem, this is telling us that a deformation functor $F = D_
 \end{rmk}
 
 \begin{prop}
-If a predeformation category $\F \to \C_\Lambda$ satisdies (RS) then the functor of isomorphism classes $\overline{\F}$ satisfies,
-\begin{enumerate}
-\item (H1)
-\item (H2)
-\item (H4) if and only if for every morphism $x' \to x$ in $\F$ over a small extension $A' \onto A$ the map $\Aut[A']{x'} \to \Aut[A]{x}$ is surjective.
-\end{enumerate}
+If a predeformation category $\F \to \C_\Lambda$ satisfies (RS) then the functor of isomorphism classes $\ol{\F}$ satisfies (H1) and (H2) and also satisfies (H4) if and only if for every morphism $x' \to x$ in $\F$ over a small extension $A' \onto A$ the map $\Aut[A']{x'} \to \Aut[A]{x}$ is surjective.
 \end{prop}
+
+\begin{proof}
+For (H1) consider $A' \to A$ and a small extension $A'' \onto A$. Then consider,
+\[ \ol{\F}(A' \times_A A'') \to \ol{\F}(A') \times_{\ol{\F}(A)} \ol{\F}(A'') \]
+An element of the target consits of objects $x \in \F(A')$ and $y \in \F(A'')$ whose pushforwards in $\F(A)$ are isomorphic. A choice of an isomorphism then determines an element $(x, y, \gamma) \in \F(A') \times_{\F(A)} \F(A'')$ which by (RS) is isomorphic to the image of some element $z \in \F(A' \times_A A'')$ whose isomorphism class gives the required lift. 
+\par 
+For (H2) we need only consider injectivity since (H1) gives surjectivity. Let $x,y \in \ol{\F}(A \times_k k[\epsilon])$ whose pushforwards $x_1, y_1 \in \ol{\F}(A)$ and $x_2, y_2 \in \ol{\F}(k[\epsilon])$ in $\ol{\F}(A)$ and $\ol{\F}(k[\epsilon])$ are equal meaning there are isomorphisms $\gamma_1 : x_1 \to y_1$ and $\gamma_2 : x_2 \to y_2$. We need to lift these to produce an isomorphism $\gamma : x \to y$. By (RS) it suffices to find an isomorphism $(x_1, x_2) \to (y_1, y_2)$ in $\F(A) \times_{\F(k)} \F(k[\epsilon])$ but $\F(k)$ is equivalent to the trivial category so $(\gamma_1, \gamma_2)$ is automatically compatible with the isomorphisms between the pushforwards in $\F(k)$ so we conclude. 
+\par
+For (H4) we again only consider injectivity since (H1) gives surjectivity. Let $x, y \in \ol{\F}(A' \times_A A')$ for $f : A' \onto A$ a small extension with projections $x_1, y_1 \in \ol{\F}(A')$ and $x_2, y_2 \in \ol{\F}(A')$ admitting isomorphisms $\gamma_1 : x_1 \to y_1$ and $\gamma_2 : x_2 \to y_2$. As before, since the projections agree in $\ol{\F}(A)$ there are isomorphisms $a_1 : f_* x_1 \to f_* y_1$ and $a_2 : f_* x_2 \to f_* y_2$ and we need to be able to choose $\gamma_1, \gamma_2$ compatible with $a_1, a_2$ in order to define an isomorphism in $\F(A') \times_{\F(A)} \F(A')$ which will lift to an isomorphism $x \to y$ in $\F(A' \times_A A')$ by (RS). Explicitly, we need to choose $\gamma_1$ and $\gamma_2$ such that 
+\begin{center}
+\begin{tikzcd}
+f_* x_1 \arrow[d, "f_* \gamma_1"'] \arrow[r, "a_1"] & f_* x_2 \arrow[d, "f_* \gamma_2"]
+\\
+f_* y_1 \arrow[r, "a_2"]   & f_* y_2 
+\end{tikzcd}
+\end{center}
+commutes. If $\Aut[A']{x_1} \to \Aut[A]{x}$ is surjective then we can modify the isomorphism $\gamma_1$ to cancel the composition around the square proving (H4).
+\par
+Conversely, suppose $\ol{\F}$ satisfies (H4) and consider a morphism $x' \to x$ over a small extension $A' \onto A$. Let $\gamma \in \Aut[A]{x}$ be an automorphism. The objects $(x', x', \gamma)$ and $(x', x', \id)$ of $\F(A') \times_{\F(A)} \F(A')$ define $z_1, z_2 \in \F(A' \times_A A')$ by (RS). However, $z_1, z_2$ have isomorphic projections hence are equal in $\ol{\F}(A') \times_{\ol{\F}(A)} \ol{\F}(A')$ so by (H4) we must have $z_1, z_2 \in \ol{\F}(A' \times_A A')$ equal meaning there is an isomorphism $z_1 \to z_2$ which maps to an isomorphism $(b_1, b_2) : (x', x', \gamma) \to (x', x', \id)$. Explicitly, these are isomorphisms $b_1, b_2 : x' \to x'$ such that
+\begin{center}
+\begin{tikzcd}
+x \arrow[d, "f_* b_1"'] \arrow[r, "\gamma"] & x \arrow[d, "f_* b_2"]
+\\
+x \arrow[r, "\id"] & x
+\end{tikzcd}
+\end{center}
+and therefore $b_2^{-1} \circ b_1 \in \Aut[A]{x}$ lifts $\gamma$.
+\end{proof}
 
 \begin{rmk}
 This condition on automorphisms is saying that $\mathrm{Isom}$ is formally smooth at the identity. 
 \end{rmk}
 
 \begin{rmk}
-We can define comparable notions of (H1) and (H2) for deformation categories (see \chref{https://stacks.math.columbia.edu/tag/06HV}{Tag 06HV}) which are weaker than (RS) and suffice in the proof of Rim-Schlessinger (the existence of versal objects discussed in the next section) however in practice this condition turns out to be less useful. Indeed, we will need the full power of (RS) to prove Artin's criteria.
+We can define comparable notions of (H1) and (H2) for deformation categories (see \chref{https://stacks.math.columbia.edu/tag/06HV}{Tag 06HV}) which are weaker than (RS) and suffice in the proof of Rim-Schlessinger (the existence of versal objects discussed in the next section) however in practice this condition turns out to be less useful. Indeed, we will need the full power of (RS) to prove Artin's criteria. {\color{red} WHERE IS THE FULL POWER USED?}
 \end{rmk}
 
 \begin{prop}
-Let $X$ be a $k$-scheme. The pre-deformation category $\cDef_X \to \C_k$ given by deformations of $X$ over Artin local $k$-algebras is a deformation category.
+Let $X$ be a $k$-scheme. The predeformation category $\cDef_X \to \C_k$ given by deformations of $X$ over Artin local $k$-algebras is a deformation category.
 \end{prop}
 
 \begin{proof}
@@ -436,7 +457,7 @@ Choosing a ring $\Lambda$ with a finite type map $\Lambda \to k$ I can replace $
 Let $X$ be a $k$-scheme then,
 \begin{enumerate}
 \item $\Def_X$ satisfies (H1) and (H2)
-\item $\Def_X$ satisfies (H3) if $X$ is proepr over $k$ or affine with isolated singularities
+\item $\Def_X$ satisfies (H3) if $X$ is proper over $k$ or affine with isolated singularities
 \item $\Def_X$ satisfies (H4) if and only if for every deformation $(X_{A'}, \varphi_{A'})$ over $A'$ and small extension $A' \to A$ every automorphism of $(X_A, \varphi_A)$ lifts to an automorphism of $(X_{A'}, \varphi_{A'})$.
 \end{enumerate}
 \end{prop}
@@ -634,6 +655,8 @@ Finally, prove that a representable morphism $f : \X \to \Y$ of limit preserving
 \begin{rmk}
 Usually most difficult to prove openness of versality. There a number of deformation-theoretic techniques for proving this but require effectivity of formal objects over more general formal schemes. There are also tangent-obstruction theory methods for proving openness of versality.
 \end{rmk}
+
+(WHERE DOES RS GET USED BESIDES FOR EXISTENCE OF VERSAL OBJECT SINCE IT IS NOT THE MIN ASSUMPTION FOR THIS)
 
 \section{References}
 

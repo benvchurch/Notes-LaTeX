@@ -1,0 +1,127 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\section{Borel-Weil-Bott}
+
+Let $G/k$ be a split connected reductive group. Let $T \subset \ol{B} \subset G$ be a split maximal torus and $\ol{B}$ a borel containing it. Let $X^*(T) = \Hom{}{T}{\Gm}$. Let $X^*(T)^+$ be the cone of dominant characters which is
+\[ \{ \lambda : \inner{\lambda}{\alpha^\vee} \ge 0 \} \]
+where $\alpha^\vee$ are coroots for the Borel $B$ opposite to $\ol{B}$ (for example this means that $P_\alpha = B$ for the dynamical thing). Write $B = TN$ where $N$ is the unipotent radical of $B$.
+
+\begin{theorem}[Highest Weight]
+Suppose $k$ has characteristic zero. Let $W$ be an irreducible finite dimensional algebraic representation of $G$. Then $\dim_{k} W^N = 1$ and $T \acts W^N$ by some $\chi_W \in X^\bullet(T)^+$
+\begin{enumerate}
+\item the association $W \mapsto \chi_W$ induces a bijection,
+\[ \{ \text{irred. fin dim reps} \} / \text{isom} \iso X^\bullet(T)^+ \]
+\item The category of algebraic finite dimensional reps of $G$ is semisimple. 
+\end{enumerate} 
+\end{theorem}
+
+Borel-Weil-Bott gives an explicit way to construct these highest-weight representations algebraically.
+\bigskip\\
+Let $X = G / \ol{B}$ be the flag variety. A $\ol{B}$-representation $E$ induces a vector bundle $\L_E$ on $X$ where,
+\[ \Gamma(U, \L_E) = \{ f : \pi^{-1}(U) \to E \mid \forall g \in \ol{B} : f(gb) = b^{-1} f(g) \} \]
+
+\begin{theorem}[Borel-Weil]
+For any $\lambda \in X^\bullet(T)$ consider $\L_{\lambda}$ by induction to $\ol{B}$
+$H^0(\lambda) := H^0(G/B, \L_\lambda)$ is either:
+\begin{enumerate}
+\item the irreducible of heighest weight $\lambda$ if $\lambda \in X^\bullet(T)^+$
+\item $0$ otherwise.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Bott]
+First for $w \in W := N(T)/T$ consider the action on $X^\bullet(T)$ by $w \bullet \lambda = w (\lambda + \rho) - \rho$ where,
+\[ \rho = \tfrac{1}{2} \sum_{\alpha \in \Phi^+} \alpha \]
+Then $H^{i + \ell(w)}(G/B, \L_{w \bullet \lambda}) \cong H^i(G/B, \L_\lambda)$ where $\ell(w)$ is the number of simple reflections needed to write $w$. In particular $H^i(G/B, \L_\ell) = 0$ unless $i = i(\lambda)$ where $i(\lambda)$ is the minimal length of a $w$ such that $\lambda = w \bullet \mu$ for $\mu \in X^\bullet(T)^+$. 
+\end{theorem}
+
+\begin{rmk}
+$\L_{-2 \rho} = \omega_{G/B}$. 
+\end{rmk}
+
+\subsection{Proof of Borel-Weil}
+
+First recall the Bruhat decomposition,
+\[ G = \bigcup_{w \in W} \ol{N} w B \]
+and $\codim{\ol{N} w B} = \ell(w)$. Therefore, $\ol{N}B$ is an open subset which is rational. 
+\bigskip\\
+Work over $\CC$.
+\bigskip\\
+Consider $H^0(\lambda) := H^0(G/B, \L_\lambda) = \{ f : G \to \CC \mid f(g b) = \lambda(b)^{-1} f(b) \}$. If $B = TN$ so $\ol{B} = T \ol{N}$ then,
+\[ H^0(\lambda)^N = \{ f : G \to \CC \mid f(g b) = \lambda(b^{-1}) f(g) \text{ and } f(ab) = f(b) \} \]
+For any $f \in H^0(\lambda)$ it is determined on the open cell $\ol{N}B \subset G$ of the Bruhat decomposition via $f(nb) = \lambda(b)^{-1} f(1)$ therefore $\dim_{\CC} H^0(\lambda)^N \le 1$ determined by $f$. If $g \in H^0(\lambda)^N$ such that $g(1) = 1$  note that if $t \in T$ then $(t \cdot f)(1) = f(t^{-1}) = \lambda(t) f(1) = \lambda(t)$ so $T \acts H^0(\lambda)^N$ by the character $\chi_W$. Therefore, if $H^0(\lambda)^N \neq 0$ then $\lambda \in X(T)^+$ by the theorem of highest weight. For this we used that $G/B$ is proper so $H^0(\lambda)$ is a finite-dimensional algebraic representation. Moreover, we need to show that if $\lambda$ is dominant then $H^0(\lambda)^N \neq 0$. 
+\bigskip\\
+To construct nonzero $f \in H^0(\lambda)^N$ we need to satisfy $f(gb) = \lambda(b)^{-1} f(g)$ and $f(ng) = f(g)$. Using the second equation and $f(1) = 1$ we get a well-defined function on the open cell. We need to show this extends to $G$. Consider,
+\[ S = \ol{N} B \cup \ol{N} s_\alpha B = R B \]
+where $s_\alpha$ is a simple reflection and $R$ is the root subgroup associated to $\alpha$ and $\ol{N}$. Idea: $R$ has some Levi $L$, by passing to the universal cover of $L$ and by pulling back, one reduces to the case $G = \SL_2$. On $\SL_2$ we immediately check that for the characters,
+\[ \lambda_n : \begin{pmatrix}
+t & 0 
+\\
+0 & t^{-1}
+\end{pmatrix} \]
+that the function
+\[ f : \begin{pmatrix}
+a & b
+\\
+c & d
+\end{pmatrix}
+\mapsto d^n f(1) \]
+is a holomorphic function satisfying the required properties. 
+\bigskip\\
+Matt's suggestion: shouldn't the order of vanishing along some divisor be governed by $\inner{\lambda}{\alpha^\vee}$ and these are nonnegative by the definition of dominant.
+
+
+\subsection{Bott}
+
+The main theorem follows from iterating the following result. 
+\begin{theorem}
+If $\alpha$ is a simple root and $\lambda \in X^\bullet(T)$ with $\inner{\lambda + \rho}{\alpha^\vee} \ge 0$. Then there exists a $G$-equivariant isomorphism,
+\[ H^i(G/B, \L_\lambda) = H^{i+1}(G/B, \L_{\s_\alpha \bullet \lambda} \]
+\end{theorem}
+
+\begin{proof}
+Let $P_\alpha$ be a parabolic contaning $\ol{B}$ and the root subgroup generated by $\alpha$. Construct a $P_\alpha$-rep $V_\alpha^\lambda$ such that as a $T$-module it is the direct sum of characters: $\lambda, \lambda - \alpha, \cdots, s_\alpha(\lambda)$. One way to do this is $H^0(P_\alpha/B, \L_\alpha)$. If $\inner{\lambda}{\alpha^\vee} \ge $ then there are two short exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & V^\lambda_\alpha \arrow[r] & (\lambda) \arrow[r] & 0
+\\
+0 \arrow[r] & s_\alpha(\lambda) \arrow[r] & K \arrow[r] & V^{\lambda \bullet \alpha}_\alpha \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Reindexing, we get 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & K \arrow[r] & V^{\lambda + \rho}_\alpha \ot (-\rho) \arrow[r] & (\lambda) \arrow[r] & 0
+\\
+0 \arrow[r] & s_\alpha \bullet \lambda \arrow[r] & K \ot (-\rho) \arrow[r] & V^{\lambda + \rho - \alpha}_\alpha \ot (-\rho) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Claim,
+\[ R \Gamma(X, V_\alpha^{\lambda + \rho} \ot (-\rho)) = R \Gamma(X, K \ot (-\rho)) = 0 \]
+Consider the projection: 
+\[ G/B \to G/P_\alpha \]
+which is a $\P^1$-bundle. Then $V_\alpha^{\lambda + \rho}$ and $V^\lambda_\alpha$ are $P_\alpha$-reps so in fact on fibers are trivial. But $\inner{-\rho}{\alpha^\vee} = -1$ so $V_\alpha^{\lambda+ \rho \ot (-\rho)$ restricted to any fiber of $\Pi_\alpha$ vas vanishing cohomology since it restricts to $\struct{\P^1}(-1)$. Then by the Leray spectral sequence,
+\[ R \Pi_{\alpha *} V_\alpha^{\lambda + \rho} \ot (-\rho) = 0 \]
+implies the vanishing. Then taking the two connecting maps,
+\[ H^i(G/B, \L_\lambda} \to H^{i+1}(G/B, K \ot (-\rho)) \rightarrow H^i(G/B, \L_{s_\alpha \bullet \lambda}) \]
+these maps are isomorphisms by the vanishing in the long exact sequences. The composition of these isomorphisms gives the result. 
+
+\end{proof}
+
+\end{document}
+
+

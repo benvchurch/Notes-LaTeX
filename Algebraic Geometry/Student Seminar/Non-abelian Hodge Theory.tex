@@ -66,8 +66,19 @@ We endow $\End{\E} \ot_{\struct{X}} \Omega^\bullet_X$ with the structure of a sh
 then extended $\struct{X}$-linearly. This operation is denoted $\wedge$. However, do not let this mislead you into thinking that $\wedge$ is antisymmetric since if $\rank{\E} > 1$ then the composition in $\End{\E}$ is noncommutative. Hence $\phi \wedge \phi = 0$ is a nontrivial condition when $\E$ has rank at least $2$.
 \end{rmk}
 
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
 \begin{rmk}
-We refer to $\phi \wedge \phi = 0$ as the \textit{integrability} condition. This is because we call a flat connection integrable. We will now spell out the relationship of Higgs bundles to flat connections. 
+We refer to $\phi \wedge \phi = 0$ as the \textit{integrability} condition. This is because we call a flat connection integrable and the condition $\phi \wedge \phi = 0$ is in analogy with the condition for a connection $\nabla$ to be flat, namely $\nabla \circ \nabla = 0$. We will now spell out the relationship of Higgs bundles to flat connections. Recall that a connection $\nabla$ is flat if and only if the associated map, $\T_X \to \End{\E}$
+is a map of sheaves of Lie algebras. Similarly, the map $\phi$ satisfies $\phi \wedge \phi = 0$ if and only if the associated holomorphic map $\T_X \to \End{\E}$ is a map of Lie algebras where $\T_X$ is given the trivial Lie bracket i.e. for any local vector fields $\xi_1, \xi_2$ the endomorphism $\phi_{\xi_1}, \phi_{\xi_2}$ commute. Indeed, in local coordinates,
+\[ \phi = \sum_i \phi_i \ot \d{z_i} \]
+where $\phi_i : \E \to \E$ are endomorphisms. Write $\inner{\xi}{\omega}$ for the canonical pairing between $\T_X$ and $\Omega_X$ for clarity. Then consider,
+\begin{align*}
+[\phi_{\xi_1}, \phi_{\xi_2}] &= \sum_{ij} [\phi_i, \phi_j] \inner{\xi_1}{\d{z_i}} \inner{\xi_2}{\d{z_j}} = \sum_{ij} \phi_i \circ \phi_j \left( \inner{\xi_1}{\d{z_i}} \inner{\xi_2}{\d{z_j}} - \inner{\xi_1}{\d{z_j}} \inner{\xi_2}{\d{z_i}} \right) 
+\\
+& = \sum_{ij} \phi_i \circ \phi_j \inner{\xi_1 \wedge \xi_2}{\d{z_i} \wedge \d{z_j}} = \inner{\xi_1 \wedge \xi_2}{\phi \wedge \phi}
+\end{align*}
+and hence the bracket vanishes if and only if $\phi \wedge \phi = 0$.
 \end{rmk}
 
 There are a number of ways to motivate the definition of a Higgs bundle. My favorite is to think of them as degenerations of a flat connection where we send the nonlinear part to zero. In order to make this precise we introduce the notion of a $t$-connection.
@@ -756,6 +767,385 @@ These notions are equivalent when $X$ is a curve.
 \bigskip\\
 Note that an asymptotic inequality of polynomials gives an inequality on their leading term that differs hence $p$-semi-stability implies $\mu$-semi-stability whereas a \textit{strict} inequality of a leading non-equal coefficient implies \textit{strict} asymptotic inequality of the polynomials hence $\mu$-stability implies $p$-stability. 
 
+\section{Daniel}
+
+\newcommand{\prim}{\mathrm{prim}}
+
+\begin{theorem}
+Let $X/\CC$ be a smooth projective variety. There are homeomorphisms,
+\[ \M^{ss}_{\Dol} \cong \M^{ss}_{\dR} \cong \M_B \]
+\end{theorem}
+
+Here points of $\M^{ss}_{\Dol}$ correspond to direct sums of stable Higgs bundles with $c_1 [\omega]^{d-1} = c_2 [\omega]^{d-2} = 0$. The points of $\M_B$ correspond to semisimple representations.
+
+\begin{conj}
+Isolated points in $\M_B$ are motivic meaning they appear as summands in the monodromy representation of a family of varities.
+\end{conj}
+
+In particular, the corresponding representations of $\pi_1(X)$ are defined over the ring of integers of a number field. This will give an interesting restriction of what $\pi_1(X)$ can be, but the conjecture is very open as far as I can tell. On the other hand, the following consequence of the above conjecture is a theorem of Simpson.
+
+\begin{theorem}[Simpson]
+Let $(V, D) \in \M^{ss}_{\dR}$ be an isolated point. Then $(V, D)$ admits a variation of Hodge structure.
+\end{theorem}
+
+\subsection{Variations of Hodge Structure}
+
+We first need to define what a variation of Hodge structure on a complex vector bundle is. This is supposed to imitate what the de Rham cohomology $H^i_{\dR}(X/\CC)_{\prim}$ of a family of projective varities would look like.
+
+\begin{defn}
+A complex \textit{variation of Hodge structures} is a $C^{\infty}$-complex vector bundle $V$ together with a decomposition,
+\[ V = \bigoplus_{p + q = k} V^{p,q} \]
+and a flat connection on $V$ satisfying:
+\begin{enumerate}
+\item Griffiths transversality
+\[ D : V^{p,q} \to \cA^{0,1}(V^{p+1,q-1}) \oplus \cA^{1,0}(V^{p,q}) \oplus \cA^{0,1}(V^{p,q}) \oplus \cA^{1,0}(V^{p-1, q+1}) \]
+\item there exists a $D$-flat hermitian form $H$ with the property that $(-1)^p H$ is a positive-definite Hermitian metric on $V^{p,q}$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Note that we do not require $V^{p,q} \cong V^{q,p}$ in our definition because there is no complex conjugation action assumed on $V$.
+\end{rmk}
+
+Let's quickly say where these structures arise from in the case of a geometric VHS. The decomposition is the usual Hodge decomposition, and the flat connection is the Gauss-Manin connecion. The hermitian gorm $H$ comes from a global hyperplane class $[\omega]$, adn the $H$ is flat because $[\omega]$ is flat. The positive-definiteness is just the Hodge index theorem. 
+\bigskip\\
+For Griffiths transversality, usually we consider the relative Hodge filtrations,
+\[ F^p = \bigoplus_{p' \ge p} V^{p', k-p'} \]
+is a holomorphic vector bundle and,
+\[ \ol{F}^p = \bigoplus_{p' \le p} V^{p',k-p'} \]
+is an antiholomorphic vector bundle and
+\[ \nabla : F^p \to F^{p-1} \ot \Omega^1 \]
+is a flat holomorphic connection. To actually promote $\nabla$ to a smooth connected, we write $D = \tilde{\nabla} + \dbar$. It follows that
+\[ D : F^{p} \to A^{1,0}(F^{p-1}) \oplus A^{0,1}(F^p) \]
+since $F^p$ is holomorphic (so $\dbar$ is always a well-defined connection on $F^p$). Similarly,
+\[ D : \ol{F}^p \to A^{1,0}(\ol{F}^p) \oplus A^{0,1}(\ol{F}^{p+1}) \]
+Therfore, $D$ sends $V^{p,q} = F^p \cap \ol{F}^q$ into the sum of four tems above.
+\bigskip\\
+The corresponding representations are automatically semisimple because the monodromy is contained in a unitary group (because of the polarization) and all representations of a unitary group are semisimple. By changing signs of $H$ appropriately, we get a hermitian metric $K$. This turns out to be harmonic. If we decompose
+\[ D = \ol{\theta} + \partial + \dbar + \theta \]
+according to Griffiths transversality and set $D'' = \dbar + \theta$ and $D' = \partial + \ol{\theta}$ then we can check that $D''$ is the corresponding connection to the Harmonic metric $K$. Therefore, this is the Higgs bundle. 
+
+\begin{defn}
+A \textit{system of Hodge bundles} is a Higgs bundle $(E, \theta)$ with a decomposition,
+\[ E = \bigoplus_{p, q} E^{p,q} \]
+such that $\theta$ decomposes as,
+\[ \theta : E^{p,q} \to E^{p-1, q+1} \ot \Omega_X^1 \]
+\end{defn}
+
+Then there is a correspondence between a variation of Hodge structures on a given local system and a system of Hosge bundles on the corresponding Higgs bundle.
+\bigskip\\
+Recal that there is a natural $\Gm$-action on the space of Higgs bundles given by $(E, \theta) \mapsto (E, t \theta)$. Using the Simpson correspondence, it will correspond to a mysterious action on the space of semisimple representations of $\pi_1(X)$. This action will preserve the monodromy group.
+
+\begin{lemma}
+If $(E, \theta) \cong (E, t \theta)$ for some $t \in \CC^\times$ not a root of unity then $E$ has the structure of a sysem of Hodge bundles. If $E$ is stable then this decomposition is unique up to reindexing.
+\end{lemma}
+
+\begin{proof}
+Let $f : E \to E$ be the isomorphism satisfying $f \circ \theta = t \theta \circ f$. There is always a decomposition of $E$ into generalized eigensheaves,
+\[ E = \bigoplus_{\lambda \in \CC} E_{\lambda} \]
+where $(f|_{E_\lambda} - \lambda \id)^r = 0$ where $r$ is the rank of $E$.  
+\end{proof}
+
+\begin{lemma}
+Let $f : E \to E$ be an automorphism of vector bundles over a complex projective variety. Then there is a decompositon,
+\[ E = \bigoplus_{\lambda \in \CC} E_\lambda \]
+into generalized eigensheaves of $f$. Then $\theta$ maps $E_\lambda \to E_{t \lambda}$. {\color{red} WHERE IS $t$ NOT ROOT OF UNITY USED?}
+\end{lemma}
+
+\begin{proof}
+Consider,
+\[ \bigoplus_{\lambda \in \CC} \ker{(f - \lambda \id)^r} \to E \]
+where $r = \rank{E}$. If we knew each were a fiber bundle then it would be immediate to check that this map is an isomorphism. One way to do this is to note that the coefficients of the characteristic polynomial of $f$ are global sections of $X$ and hence constant. {\color{red} FINISH}
+\end{proof}
+
+\begin{rmk}
+This is clearly false if $X$ is not projective. For example, consider $f : \struct{\Gm} \to \struct{\Gm}$ given by multiplication by $z$. Then the eigenvalue over $z$ is $z$. 
+\end{rmk}
+
+\begin{cor}
+The representations of $\pi_1(X)$ which come from a complex variation of Hodge structures are exactly the semisimple representations fixed by the $\Gm$-action {\color{red} HOW TO GET THE OTHER DIRECTION?}
+\end{cor}
+
+In particular, rigid representations must be equipped with a variation of Hodge structures. 
+
+\subsection{Monodromy Groups}
+
+\begin{defn}
+Let $V$ be a local system on $X$ and consider $\rho : \pi_1(X, x) \to \GL(V_x)$ the associated monodromy representation. The \textit{monodromy group} or \textit{Mumford-Tate group} $M(V,x) \subset \GL(V_x)$ is the Zariski closure of the image of $\rho$.
+\end{defn}
+
+Question: can we recover this grom the Higgs bundle side of the equation? To do this, we review some Tannakian principles.
+
+\begin{prop}
+Let $G$ be a complex linear algebraic group and $G \embed \GL(V)$ a faithful representation. Then $G$ is the subgroup of elements $g \in \GL(V)$ with the following property: for every subspace $W \subset V^{\ot a} \ot (V^\vee)^{\ot b}$ stable under $G$, the element $g$ stabilizes $W$ as well. 
+\end{prop}
+
+This motivates us to make the following definition.
+
+\begin{defn}
+Let $(E, \theta)$ be a Higgs bundle with vanishing Chern classes. We define $M(E, x) \subset \GL(E_x)$ as the subgroup of $g \in \GL(E_x)$ with the following property: for every Higgs subbundle $W \subset E^{\ot a} \ot (E^{\vee})^{\ot b}$ of deggree zero, the element preserves $W_x$. 
+\end{defn}
+
+\begin{prop}
+If $E$ is a harmonic bundle corresponding to a flat bundle $V$ and a Higgs bundle $E$ then $M(E, x) = M(V, x)$ and moreover this group is reductive.
+\end{prop}
+
+\begin{proof}
+We basically just showed this. Any Higgs bundle with degree zero is a direct summand {\color{red} WHY?}. Reductivity follows from the fact that $V$ is a semisimple representation.
+\end{proof}
+
+We can now strengthen the result on rigid representations:
+
+\begin{prop}
+Let $\rho : \pi_1(X, x) \to \GL(V_x)$ be a semisimple representation. Let $G = M(V, x)$ be its monodromy group and assume that it defines an isolated point in $\M_B(G) = \Hom{}{\pi_1(X, x)}{G}^{ss} // G$. Then $V$ admits a variaton of Hodge structures.
+\end{prop}
+
+Here is a further refinement.
+
+\begin{theorem}
+Let $G$ be a reductive complex algebraic group. Then any (not necessarily semisimple) representation $\pi_1(X, x) \to \GL(V_x)$ can be deformed to a representation that arises from a variation of Hodge structures.
+\end{theorem}
+
+\begin{proof}
+We can first deform the representation so that its monodromy group $M$ is reductive, the idea is that if $M$ is not reductive, there exists a cocharacter $\Gm \to G$ such that $\lim_{t \to 0} \ad(t)(m)$ exists for all $m \in M$ and moreover the dimension decreases in the limit. Doing this inductively reduces to the case when $M$ is reductive.
+\bigskip\\
+Recall that we had this proper map $\M_{\Dol} \to A$ where $A$ is the Hitchin base. At this point, we use the $\Gm$-action on $\M_{\Dol}$ which preserves the monodromy group. If we look at the $t \to 0$ limit, we see that the limiit point must be something that is in $\M_{\Dol}(M)$ and also arises from a variation of Hodge structure. {\color{red} FIX THIS PROOF}
+\end{proof}
+
+\subsection{Groups of Hodge Type}
+
+There are interesting restrictions on what the monodromy groups of a variation of Hodge structures can look like.
+
+\begin{defn}
+Let $W$ be a real algebraic group and $G = W_{\CC}$. A \textit{Cartan involution} $C : W \to W$ is an automorphism such that $C^2 = 1$ and the fixed points of $\sigma C = C \sigma$ on $G$ is compact where $\sigma : G \to G$ is complex conjugation.
+\end{defn}
+
+\begin{defn}
+A real linear algebraic group $W$ is said to be of \textit{Hodge type} if there exists a $(\Gm)_{\CC}$-action on $G = W_{\CC}$ such that $U(1)$ preserves $W$ and $-1$ acts by a Cartan involution.
+\end{defn}
+
+\begin{example}
+A complex group, regarded as a real group, is not of Hodge type. The groups $\SL_n(\RR)$ for $n \ge 3$ and $\SU(2n)$ for $n \ge 3$, and $\SO(p,q)$ for $p,q$ odd, are not of Hodge type. However, groups like $\Sp(2n, \RR)$ are of Hodge type.
+\end{example}
+
+\begin{prop}
+Let $\rho$ be a representation that arises from a variation of Hodge structures, and let $G$ be the associated monodromy subgroup. Let $W \subset \Res{\CC}{\RR}{G} \subset \Res{\CC}{\RR}{\GL(V_x)}$ be the real Zariski closure of the image of $\rho$. Then $W$ is a real form of $G$ and moreover $W$ is of Hodge type.
+\end{prop}
+
+\begin{proof}
+We will use the Higgs interpretation of the monodromy group $G = M(E, x)$. Consider a polarization of the flat vector bundle and the corresponding harmonic metric $K$. Let $\tau$ be the complex conjugate $\GL(E_x) \cong {}^c \GL(E_x)$ induced by $K$, and then its fixed points by $U(E_x, K_x)$. 
+\bigskip\\
+The first claim is that $\tau$ stabilizes $G$ and therefore $U(E_x, K_x) \cap G$ is a real gorm of $G$ {\color{red} TODO}
+\bigskip\\
+Now we consider the action of $\Gm$ on $E$ given by scaling $E^{p,q}$ by $t^p$. This induces a natural action on $\GL(E_x)$ and it preserves $G$ because the tensors $S$ cutting out $G$ are preserved {\color{red} CHECK}. The elements of $U(1)$ preserves the polarization and the metric, hence preserve $U(E_x, K_x) \cap G$. The element $C$, which is the image of $-1$, gives a new complex conjugation $\tau C$ which corresponds to the hermtiian form $H$. This shows that $\pi_1(X)$ lands in this real form $W$ of $G$.
+\end{proof}
+
+\begin{cor}
+Let $W$ be a real reductive algebraic group, with complex form $G$. Suppose $X$ is a smooth projective variety and let $\rho : \pi_1(X) \to W$ is a representation. Assume there is a subgroup $\Gamma \subset \pi_1(X)$ wuth $\rho|_\Gamma$ rigid as a rpresentation for $G$ and also have Zariski dense image in $G$. Then $W$ is a group of Hodge type.
+\end{cor}
+
+\begin{proof}
+First deform $\rho : \pi_1(X) \to G$ into a representation $\rho'$ admitting a variation of Hodge structures. Since $\rho|_\Gamma$ is rigid, we see that $\rho'|_\Gamma \cong \rho|_\Gamma$ as representations into $G$. Modifying $\rho'$ by a conjugation, we may assume that $\rho'|_\Gamma$ has image contained in $W$ (because $\rho(\Gamma) \subset W \subset G$ and $\rho'|_\Gamma$ is isomorphic to $\rho|_\Gamma$). Since its Zariski closure must be a real form of $G$, it has to be equal to $W$. Therefore, $W$ is of Hodge type. 
+\end{proof}
+
+\begin{example}
+The group $\SL_n(\ZZ)$ for $n \ge 3$ cannot be the fundamental group of a smooth projective variety. Indeed, $\SL_n(\RR)$ is not of Hodge type but $\SL_n(\ZZ) \to \SL_n(\RR)$ is rigid. 
+\end{example}
+\section{Final Talk}
+
+Let $M$ be a complex manifold (or $M = X^\an$ for a smooth proper variety).
+
+\begin{defn}
+A \textit{harmonic bundle} is a tuple $(E, \dbar, \theta, h)$ where,
+\begin{enumerate}
+\item $E$ is a smooth $\CC$-vector bundle
+\item $(E, \dbar)$ is a holomorphic vector bundle
+\item $h$ is a Hermitian metric on $E$
+\item $\theta : \E \to \E \ot \Omega^1_X$ is linear where $\E = \ker{\dbar}$ is the sheaf of holomorphic sections (i.e. $\theta$ is holomorphic)
+\end{enumerate}
+such that,
+\[ \nabla := \partial_h + \dbar + \theta + \theta^\dagger_h \]
+is a flat connection. Here we have used the following notation: $\partial_h$ is the Chern connection wrt to the data $(E, \dbar, h)$ and $\theta_h^\dagger : \cA^0(E) \to \cA^{0,1}(E)$ is the adjoint of $\theta$ wrt to $h$ meaning that for all $u,v \in \cA^0(E)$,
+\[ h(\theta(u), v) = h(u, \theta^\dagger_h(v)) \]
+explicitly, let $e_i$ be a local orthonormal frame of $(E, h)$ and $\d{z_i}$ a local frame of $\Omega_M$ then if we write
+\[ \theta(s_j) = C_{ijk} \, s_i \ot \d{z_k} \]
+then
+\[ \theta^\dagger_h(s_j) = C_{jik}^* \, s_i \ot \d{\bar{z}_k} \]
+\end{defn}
+
+\begin{rmk}
+Notational remarks:
+\begin{enumerate}
+\item Given a locally free sheaf $\E$ on $M$ with associated holomorphic bundle $(E, \dbar)$ we say that $\E$ \textit{admits a harmonic bundle structure} if there exists a harmonic bundle of the form $(E, \dbar, \theta, h)$
+
+\item Given a Higgs bundle $(\E, \theta)$ on $M$ with associated holomorphic bundle $(E, \dbar)$, we say that $(\E, \theta)$ \textit{admits a harmonic bundle structue} if there exists a harmonic bundle of the form $(E, \dbar, \theta, h)$ meaning there exists an $h$ fitting into the tuple
+
+\item We say that a flat bundle $(E, \nabla)$ \textit{admits a harmonic bundle structure} if there exists a harmonic bundle $(E, \dbar, \theta, h)$ such that $\nabla = \partial_h + \dbar + \theta + \theta_h^\dagger$.
+\end{enumerate}
+\end{rmk}
+
+\begin{rmk}
+Notice that if $(E, \nabla)$ is a flat bundle then $(E, \nabla^{0,1})$ is a holomorphic bundle since flatness of $\nabla$ implies that $\nabla^{0,1}$ is an integrable type $(0,1)$-connection. However, we should be careful that when we say that $(E, \nabla)$ admits a harmonic bundle structure $(E, \dbar, \theta, h)$ then the holomorphic structure $(E, \dbar)$ does \textit{not} agree with the holomorphic structure $(E, \nabla^{0,1}) = (E, \dbar + \theta_h^\dagger)$ undless $\theta = 0$. This is related to the fact that the Simpson correspondence is not an analytic isomorphism of the moduli spaces.
+\end{rmk}
+
+\begin{rmk}
+Note that given a harmonic bundle $(E, \dbar, \theta, h)$ we can recover the entire datum from $(E, \nabla, h)$ indeed $h$ determines $\partial_h$ so $\nabla^{1,0} = \partial + \theta$ determines $\theta$ and $\nabla^{0,1} = \dbar + \theta_h^\dagger$ then determines $\dbar$.
+\end{rmk}
+
+\begin{theorem}[Simpson]
+A flat bundle $(E, \nabla)$ is semi-simple if and only if it admits a harmonic bundle structure $(E, \dbar, \theta, h)$. Then the metric $h$ is unique up to flat automorphism of $(E, \nabla)$.
+\end{theorem}
+
+\begin{cor}
+If a flat bundle $(E, \nabla)$ admits a harmonic bundle structure $(E, \dbar, \theta, h)$ then the Higgs bundle $(E, \dbar, \theta)$ is uniquely determined by $(E, \nabla)$ up to isomorphism.
+\end{cor}
+
+\begin{proof}
+Suppose that $(E, \dbar', \theta', h')$ is a second harmonic bundle structure. By the previous result there is a flat automorphism $\varphi : E \to E$ such that $\varphi^* h = h'$ but then $\varphi^* \partial_h = \partial_{h'}$ and by assumption $\varphi^* \nabla = \nabla$ but $(E, \nabla, h)$ and $(E, \nabla, h')$ determine $(E, \dbar, \theta, h)$ and $(E, \dbar', \theta', h')$ respectively. Therefore, $\varphi^* \dbar = \dbar'$ and $\varphi^* \theta = \theta$ meaning that $\varphi$ is holomorphic and respects the Higgs field. Therefore, $\varphi : (E, \dbar', \theta') \to (E, \dbar, \theta)$ is an isomorphism of Higgs bundles. 
+\end{proof}
+
+\begin{theorem}
+Let $(E, \dbar, \theta)$ be a Higgs bundle with $\ch_1(E) \cdot [\omega]^{n-1} = \ch_2(E) \cdot [\omega]^{n-2} = 0$. Then $(E, \dbar, \theta)$ admits a harmonic metric $h$ (meaning $(E, \dbar, \theta, h)$ is a harmonic bundle) if and only if it is polystable. Furthermore, the harmonic metric $h$ is unique up to automorphism of $(E, \dbar, \theta)$.
+\end{theorem}
+
+\begin{cor}
+If a Higgs bundle $(E, \dbar, \theta)$ admits a harmonic bundle structure $(E, \theta, \theta, h)$ then the flat bundle $(E, \nabla)$ is unqiuely determined by $(E, \dbar, \theta)$ up to isomorphism.
+\end{cor}
+
+\begin{proof}
+Suppose $\varphi : (E, \dbar, \theta) \to (E, \dbar, \theta)$ is an automorphism such that $\varphi^* h = h'$ then $\varphi^* \nabla = \nabla'$ so $\varphi : (E, \nabla') \to (E, \nabla)$ is a flat isomorphism.
+\end{proof}
+
+
+Daniel made a good observation. We showed that if $(E, \dbar, \theta)$ is a semistable Higgs bundle with vanishing first two Chern numbers then $E$ admits a flat bundle structure. But by Chern-Weil theory, the Chern classes $c_i(E)$ are computed in terms of the curvature which vanishes. Hence all $c_i(E) = 0$.
+\bigskip\\
+Indeed: Simpson is confusing about this point but I think it is implied by Theorem 2 in Higgs bundles and local systems. This is also proved in Theorem 3.1 of Numerically Flat Higgs Vector Bundles by Bruzo and Otero.  
+
+\subsection{The Simpson Correspondence in Terms of $t$-Connections}
+
+\begin{prop}
+Let $(E, \dbar, \theta, h)$ be a harmonic bundle. Then there exists a holomorphic vector bundle with $t$-connection $(\E, D_t)$ on $X \times \A^1$ such that $(\E_0, D_0) = (E, \dbar, \theta)$ is the associated Higgs bundle and $(\E_1, D_1) = (\ker{\nabla^{0,1}}, \nabla^{1,0})$ is the associated flat bundle.
+\end{prop}
+
+\begin{proof}
+Recall that $\nabla = \partial_h + \dbar + \theta + \theta^\dagger_h$ is flat. In previous weeks we actually showed that the condition for flatness is equivalent to the condition (which is stronger but easier to analyize) that $\nabla_t = t \partial + \dbar + \theta + t \theta_h^\dagger$ satisfies $(\nabla_t)^2 = 0$. Therefore, the $(0,1)$ and $(1,0)$ parts commute and are individually flat. This means that $D_t = \dbar + t \theta^\dagger_h$ is a flat $t$-connection on the holomorphic bundle $\E_t = (E, \dbar + t \theta^\dagger_h)$. For $t = 0$ we get $\E_0 = (E, \dbar)$ and $D_0 = \theta$ so $(\E_0, D_0)$ is the associated Higgs bundle. For $t = 1$ we get $\E_1 = (E, \dbar + \theta^\dagger_h) = (E, \nabla^{0,1})$ and $D_1 = \nabla^{1,0}$ so we recover the flat bundle $(\E_1, D_1) = (E, \nabla)$.
+\end{proof}
+
+\subsection{Cohomology of Higgs Bundles}
+
+\newcommand{\HH}{\mathbb{H}}
+
+\begin{defn}
+Let $(\E, \nabla)$ be a vector bundle with a flat algebraic/holomorphic connection. Then the algebraic/holomorphic de Rham complex $(\E \ot \Omega^\bullet, \nabla)$ is the complex,
+\[ 0 \to \E \xrightarrow{\nabla} \E \ot \Omega^1_X \xrightarrow{\nabla^2} \E \ot \Omega^2_X \to \cdots \]
+Note that $(\E \ot \Omega^\bullet, \nabla)$ is a complex if and only if $\nabla$ is flat. Then the de Rham cohomology of $(\E, \nabla)$ is defined as the hypercohomology of this complex,
+\[ H_{\dR}^\bullet(X, (E, \nabla)) = \HH^\bullet(X, (\E \ot \Omega_X^\bullet, \nabla)) \]
+\end{defn}
+
+\begin{rmk}
+If $(E, \nabla)$ is a flat bundle then $\E = \ker{\nabla^{0,1}}$ is a holomorphic bundle and $(\E, \nabla^{1,0})$ is a flat holomorphic connection. We can likewise consider the de Rham complex $\cA^\bullet(E)$ of $(E, \nabla)$,
+\[ 0 \to E \xrightarrow{\nabla} \cA^1(E) \xrightarrow{\nabla^2} \cA^1(E) \to \cdots \]
+and so we likewise define,
+\[ \HH^i_{\dR}(X, (E, \nabla)) := \HH^i(X, \cA^\bullet(E)) = H^\bullet( \Gamma(X, \cA^\bullet(E))) \]
+since $\cA^\bullet(E)$ are flasque sheaves. 
+\end{rmk}
+
+\begin{lemma}[Poincar\'{e}]
+The complexes $\cA^\bullet(E)$ and $(\E \ot \Omega_X^\bullet)^\an$ are exact in positive degrees.
+\end{lemma}
+
+\begin{proof}
+Since $\nabla$ is flat, locally there is a flat frame $e_1, \dots, e_n$ so forms,
+\[ \nabla \left( \sum_i e_i \ot \omega_i \right) = \sum e_i \ot \d{\omega_i} \]
+and therefore we immediately reduce to $n$ copies of the (holomorphic) Poincar\'{e} lemma. 
+\end{proof}
+
+\begin{cor}
+Let $(E, \nabla)$ be a flat bundle and $(\E, \nabla^{1,0})$ with $\E = \ker{\nabla^{0,1}}$ the associated holomorphic bundle. Let $\L$ be the associated local system $\L = \ker{\nabla} = \ker{(\nabla^{1,0} | \E)}$. Then the maps,
+\[ \L[0] \to (\E \ot \Omega_X^\bullet) \to \cA^\bullet(E) \]
+are quasi-isomorphism. Hence we obtain natural isomorphisms,
+\[ H^i(X, \L) = H^i_{\dR}(X, (\E, \nabla^{1,0})) = H^i_{\dR}(X, (E, \nabla)) \]
+\end{cor}
+
+\begin{defn}
+Let $(\E, \theta)$ be a Higgs bundle. Then we define the \textit{Dolbeault complex} $(\E \ot \Omega^\bullet, \theta)$,
+\[ 0 \to \E \xrightarrow{\theta} \E \ot \Omega^1_X \xrightarrow{\theta \wedge} \E \ot \Omega^2_X \to \cdots \]
+Note that this is a complex if and only if $\theta$ satisfies the integrabiliy condition $\theta \wedge \theta = 0$. Then we define the Dolbeault cohomology of $(\E, \theta)$,
+\[ H_{\Dol}^i(X, (\E, \theta)) := \HH^i(X, (\E \ot \Omega_X^\bullet, \theta)) \]
+\end{defn}
+
+\begin{theorem}
+Let $(\E, \theta)$ be a Higgs bundle and $(E, \nabla)$ a flat bundle related by the Simpson correspondence. Then there is a canonical isomorphism,
+\[ H^i_{\Dol}(X, (\E, \theta)) = H^i_{\dR}(X, (E, \nabla)) \]
+\end{theorem}
+
+\begin{proof}
+Show that classes on both sides have unique harmonic representatives which agree. 
+\end{proof}
+
+\begin{rmk}
+A nice way to remember this is that the de Rham cohomology of flat $t$-connection $(\E_t, D_t)$ we constructed earlier,
+\[ \HH^i(X, (\E_t \ot \Omega_X^\bullet, D_t)) \]
+is independent of $t \in \CC$.
+\end{rmk}
+
+\begin{rmk}
+The above description is exactly the proof of the Hodge decomposition which is not a coincidence. Let's give the simplest example of the Simpson correspondence. Consider the harmonic bundle $(\struct{C^\infty}, \dbar, 0, h)$ where $\dbar$ is the canonical differential and $h$ is given by $h(s_1, s_2) = s_1 \bar{s_2}$. Then $(\struct{X}, 0)$ is the associated Higgs bundle and $(\struct{\C^\infty}, \d)$ is the associated flat bundle with associated holomorphic flat bundle $(\struct{X}, \partial)$. The flat bundle has de Rham complex $(\cA^\bullet, \d)$ or the holomorphic version $(\Omega_X^\bullet, \partial)$. Likewise, the Dolbeault complex of $(\struct{X}, 0)$ is $(\Omega_X^\bullet, 0)$ hence the correspondence gives us the Hodge decomposition,
+\[ H^n(X, \CC) = H_{\dR}^n(X, (\struct{X}, \partial)) = H_{\Dol}^n(X, (\struct{X}, 0)) = \HH^n\big(X, \bigoplus_j \Omega_X^j[j]\big) = \bigoplus_{p+q=n} H^p(X, \Omega_X^q) \]
+\end{rmk}
+
+
+Our next goal is to understand the cohomology jumping loci $\Sigma^i_k(M) \subset M$ consisting of objects $V \in M$ such that $h^i(X, V) \ge k$. Here we have not specified if $M$ is $M_{B}$ or $M_{\dR}^{ss}$ or $M_{\Dol}^{ss}$ because of the homeomorphisms $M_B \cong M_{\dR} \cong M_{\Dol}$ which we have seen respect the cohomology,
+\[ H^i(X, \L) = H^i_{\dR}(X, (E, \nabla)) = H^i_{\Dol}(X, (\E, \theta)) \]
+so there is a well-defined topological jumping locus. Thinking of $\Sigma^i_k$ as living in one of the particular moduli spaces corresponds to a choice of complex structure on $\Sigma^i_k$ turning it into a complex submanifold in distinct ways (actually because it is definined by coherent cohomological conditions $\Sigma^i_k$ are automatically subvarities of $M_{\dR}$ and $M_{\Dol}$ and $M_B$ with the corresponding algebraic structures). Let $M$ be the underlying topological space of these moduli spaces. Then $\Sigma^i_k \subset M$ is compatible with the complex structures $I$ arising from the identification $M = M_{\dR}^{ss}$ and $J$ from $M = M_{\Dol}^{ss}$. We first need to understand more about these complex structures.
+
+
+\subsection{Hyperkahler structures}
+
+Set $K = IJ$.
+
+\begin{theorem}[Hitchin, Simpson, Fujiki]
+On the smooth locus $M^{\sm}$ the complex structures $(I, J, K)$ endows $M^{\sm}$ with a Hyperk\"{a}hler structure. This means $(I, J, K)$ form a representation of the quaternions and there exists a metric $g$ such that $I,J,K$ are simultaneously K\"{a}hler with respect to $g$.
+\end{theorem}
+
+There are some very amusing corollaries of having quaternionic structure that arise from the following fact: every ``quaternionically holomorphic'' function is linear! Indeed, suppose $f : \HH \to \HH$ is a function such that,
+\[ \lim_{h \to 0} \frac{f(q + h) - f(q)}{h} \]
+exists. In particular, $f : \CC^2 \to \CC^2$ is holomorphic so we can write $f$ as a power series in $z_1, z_2 \in \CC = \left< 1, i \right>$ where $q = z_1 + z_2 j$,
+\[ f(q) = \sum_{n_1, n_2 \ge 0} c_{n_1, n_2} z_1^{n_1} z_2^{n_2} \]
+Taking the derivative at $q = 0$ we see that the linear term must be $c_1 q$. Then nearby the derivative is governed by quadratic terms but this is impossible. 
+\bigskip\\
+This is basically equivalent to the fact that there are no quaternionically bilinear forms $Q : \HH \times \HH \to \HH$ (indeed multiplication is only bilinear when considered correctly as a bimodule) for the dumb reason that,
+\[ ij Q(x,y) = i Q(x, j y) = Q(ix, jy) = j Q(ix, y) = ji Q(x,y) = -ij Q(x,y) \]
+However, suppose that $Y \subset X$ is a submanifold of a hyperkahler manifold whose tangent bundle is invariant under the entire quaternionic structure (we say that $Y$ is a quaternionic submanifold) then $Y$ is totally geodesic (meaning every geodesic on $Y$ is a geodesic of $X$ or equivalently it says that the restriction of the Levi-Civita connection is the Levi-Civita connection of the submanifold). Indeed, let $\nabla$ be the Levi-Civita connection on $X$ and $\pi : T X|_Y \to N_Y$ the projection to the normal bundle. Then the second fundamental form $\alpha(u,v) = \pi(\nabla_u v)$ is a quadratic form $T Y \times T Y \to N_Y$ measuring the failure of $\nabla|_Y$ to be the Levi-Civita connection on $Y$.
+
+
+\begin{rmk}
+We have, 
+\[ \nabla_u v - \nabla_v u = [u,v] \]
+and hence if $u, v \in TY$ then $[u,v] \in TY$ (it is integrable hence an involutative distribution) so $\pi(\nabla_u v) = \pi(\nabla_v u)$ proving symmetry. Now $\alpha$ is clearly linear in its first argument but we have shown it is symmetric and hence linear also in the second argument. 
+\end{rmk}
+
+However, if $Y$ is quaternionic then $\alpha$ is invariant under $I,J,K$ because $I,J,K$ are K\"{a}hler for $g$ so flat for $\nabla$ and hence $\nabla Iv = I \nabla v$ and $\nabla_{I u} = I \nabla_u$ and likewise for $J,K$. Therefore, if $\pi$ is a map of quaternion representations (i.e. if $Y$ is quaternionic) then $\alpha$ is a quaternion bilinear form hence $\alpha = 0$.
+
+\subsection{Applications}
+
+Applying this to the cohomology jump loci $\Sigma^i_k \subset M$ we see that $\Sigma^i_k$ are totally geodesic submanifolds of even complex dimension. 
+
+\begin{cor}
+Consider the case $r = 1$ i.e. for the group $\Gm$ then $M_B = \Gm^{b_1}$. The cohomology jump loci $\Sigma^i_k \subset M_B$ are unions of translates of subtori.
+\end{cor}
+
+\begin{proof}
+Canonically $M_B$ has universal cover $H^1(X, \CC)$ and we can explicitly check that the hyperkahler structure is the standard linear one on a vector space of real dimension $4n$. But therefore the preimage of $\Sigma^i_k$ is totally geodesic and hence a union of affine space of dimension $4 m$. The image in $M_B$ is then a union of translates of a subtori.
+\end{proof}
+
+Even better, remembering that $M(\Gm)$ is a group, these loci are union of translates of what Simpson calls ``triple tori'' because they are tori in ''three different way''. Explcicity, a triple torus is a closed real analytic subgroup $N \subset M$ such that $N_{\Dol}, N_{\dR}, N_B$ with the three induced algebraic structures induced as closed sets in $M$ with its three algebraic structures are all algebraic subgroups. Since $M_{\Dol} = \A^g \times \fPic^0_X$ we see that triple tori must be a product of a linear space and an abelian subvariety of $\fPic^0_X$. However, $M_B = \Gm^{b_1}$ and the subtori must be some number of copies of $\Gm$ so we see that the dimension of the linear part and the compact part are equal! This is how we get real dimension $4m$.
+\bigskip\\
+What we have just said actually imposes a restriction on the topological type of the smooth projective variety $X$ we started with. To see this, consider how we compute the cohomology jump loci in $M_B(X) = \Hom{}{\pi_1(X)}{\GL_n}//\GL_n$ for any CW complex $X$. Let $\pi := \pi_1(X)$. For a representation $\rho : \pi \to \GL(V)$ the cohomology with twisted coefficients,
+\[ H^i(X, V_\rho) = H^i(X, \L) \]
+which is the cohomology of the associated local system $\L$ is computed as follows. Let $\wt{X} \to X$ be the universal cover and choose a CW structure such that $\pi \acts \wt{X}$ by cellular maps. Let $C_\bullet(\wt{X})$ be the cellular chain complex of $\wt{X}$. Now, 
+\[ H^i(X, V_\rho) = H^i(\Hom{\pi}{C_\bullet(\wt{X})}{V_\rho}) \]
+these dimensions are computed by knowing ranks of certain maps which are built, as block matrices, in terms of integer matrices computed via the cell attacking maps and blocks that are $\rho(g_i)$ for generators $g_i \in M$. Therefore, the minors are polynomials in the coordinates of the $\rho(g_i)$ and hence the $\Sigma^i_k \subset M_B(X)$ are subvarieties. By modifying the attaching map, we can write down virtually any subvariety defined over $\ZZ$. Therefore, it is easy to have $X$ for which the $\Sigma^i_k$ are not unions of translates of subtori and may not even have even complex dimension! Simpson writes down an example showing that one can attach cells to a torus such that the cohomology jump loci have the wrong dimension and hence this cannot be the homotopy type of a smooth projective variety.
 
 \end{document}
 

@@ -9,6 +9,19 @@
 \renewcommand{\succ}{\mathrm{succ}}
 \newcommand{\pr}{\mathrm{pr}}
 
+\newcommand{\cU}{\mathcal{U}}
+
+\section{Introduction}
+
+The point of homotopy type theory is to create a logical system in which isomorphism and equality are ``the same''. Of course, to say this we must furthermore ask what kind of ``the same'' is this? Should we say that isomorphism and equality are equal or are they isomorphic and what does that mean? Our theory will in fact satisfy the \textit{univalence axiom}: the natural map
+\[ \mathrm{idtoeqv} : (A =_{\cU} B) \to (A \simeq B) \]
+is an equivalence. We want to understand what this means.
+
+The total loop space:
+\[ \Sigma_{x \in A} (x =_A x) \]
+The total path space:
+\[ \Sigma_{x,y \in A} (x =_A y) \]
+
 \section{Chapter 1}
 
 \subsection{Exercises}
@@ -114,4 +127,51 @@ which is inhabited by $\id_C$. Then we set,
 which satisfies,
 \[ f(x,x,\refl_x) :\equiv \id_{C(x)} \]
 
+\section{4 Equivalences}
+
+\subsubsection{Exercise 4.6}
+
+\newcommand{\qinv}{\mathrm{quiv}}
+
+\begin{exercise}
+For $A, B : \cU$ define
+\[ \mathrm{idtoqinv}_{A,B} : (A =_{\cU} B) \to \sum_{f : A \to B} \qinv(f) \] 
+by path induction. Explicitly, consider
+\[ C : \prod_{A,B \in \cU} A =_{\cU} B \to \cU \]
+defined by 
+\[ C(A,B,p) :\equiv \sum_{f : A \to B} \qinv(f) \]
+and notice that we have
+\[ c : \prod_{A : \cU} C(A, A, \refl_A) \]
+defined by,
+\[ c(A) = (\id_A, \id_A) \]
+therefore, there is an element,
+\[ \mathrm{idtoqinv} : \prod_{A, B : \cU} \prod_{p : A =_{\cU} B} \sum_{f : A \to B} \qinv(f) \]
+which is the same as an a term
+\[ \mathrm{idtoqinv} : \prod_{A, B : \cU} (A =_{\cU} B) \to \sum_{f : A \to B} \qinv(f) \]
+
+Let \textbf{qinv-univalence} denote the modified form of the univalence axiom that asserts that $\mathrm{idtoqinv}$ has a quasi-inverse.
+
+\begin{enumerate}
+\item Show that \textbf{qinv-univalence} suffices in the proof of function extension in \S 4.9.
+\item Show that \textbf{qinv-univalence} suffices to prove Theorem 4.1.3.
+\item Show that \textbf{qinv-univalence} is inconsistent.
+\end{enumerate}
+\end{exercise}
+
+\begin{enumerate}
+\item 
+\item 
+\item \chref{https://groups.google.com/g/homotopytypetheory/c/EXWVbQNRAdE/m/8g6Xx7aLQeoJ}{look here}.
+\end{enumerate}
+
+
+\section{Examples of Using Univalence}
+
+\begin{exercise} 17.1(a) of \chref{https://arxiv.org/pdf/2212.11082.pdf}{this book}
+Show that the type
+\[ C :\equiv \sum_{A : \cU} \text{isContr}(A) \]
+is contractible.
+\end{exercise}
+
+It suffices to show that $C$ is inhabited and for all $A, B : C$ exhibit an element of type $A =_C B$. First note that $1 : C$ or more formally $1$ along with the inductive proof of contractibility. Then for $(A, t_A), (B, t_B) : C$ we need to exhibt elements $p : A =_{\cU} B$ and $\gamma : (p_*(t_A) =_{\text{isContr}(B)} t_B)$. However, $\text{isContr}(B)$ is a mere proposition so the second is free given the first. However, we are given $t_A : \text{isContr}(A)$ and $t_B : \text{isContr}(B)$ so there are elements of $A \simeq 1$ and $B \simeq 1$ which compose to give $A \simeq B$ and hence by the inverse univalence map $A =_{\cU} B$.
 \end{document}
