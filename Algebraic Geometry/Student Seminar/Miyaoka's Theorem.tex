@@ -1,0 +1,281 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\begin{document}
+\section{Pseudo-effective}
+
+\begin{defn}
+A divisor class $D \in N^1(X)_{\RR}$ is \textit{pseudo-effective} if it is in the closure of the cone of effective divisors. 
+\end{defn}
+
+\begin{defn}
+A class $\alpha \in N_1(X)_{\RR}$ is \textit{movable} if $\alpha \cdot D \ge 0$ for any effective Cartier divisor $D$.
+\end{defn}
+
+\begin{prop}
+If $D$ is pseudo-effective if and only if $D \cdot \alpha \ge 0$ for all movable classes $\alpha$. 
+\end{prop}
+
+\begin{proof}
+If $D$ is pseudo-effective then by definition,
+\[ D = \lim_{t \to 0} D_t \]
+for $D_t$ effective $\RR$-divisors. If $\alpha$ is movable then by definition $D_t \cdot \alpha \ge 0$ for $t > 0$. Since intersection products are continuous (they are really polynomials in the coefficients) we have $D \cdot \alpha \ge 0$. The coverse holds for duals of cones in finite-dimensional vector spaces. Indeed, if $D$ is not pseudo-effective, the separating hyperplane theorem ensures the existence of a numerical curve class $\alpha$ such that $E \cdot \alpha \ge 0$ on all effective divisors, i.e. $\alpha$ is movable, but $D \cdot \alpha < 0$.
+\end{proof}
+
+
+
+\section{Miyaoka's Theorem}
+
+
+\subsection{Harder-Narasimhan filtration}
+
+\begin{rmk}
+Note that it is not true that a nonzero map $\varphi : \E \to \F$ of vector bundles implies that $c_1(\E) \cdot H^{n-1} \le c_1(\F) \cdot H^{n-1}$ unless both have the same rank. For example, consider on $\P^1$ the map $\struct{X}(1) \to \struct{X}(1) \oplus \struct{X}(-1)$. However, if $X$ is smooth $\varphi : \E \to \F$ is a nonzero map of torsion-free sheaves of the same rank $r$ then there is a map $\det{\varphi} : \det{\E} \to \det{\F}$ and hence we get that $c_1(\F) - c_1(\E) = c_1(\det{\F}) - c_1(\det{\E})$ is effective. 
+\end{rmk}
+
+References:
+\begin{enumerate}
+\item Miyaoka, Higher Dimensional Algebraic Varities
+\item 
+\end{enumerate}
+
+Let $X$ be a smooth projective variety of dimension $n$ with ample divisor $H$. Then for any torsion-free coherent sheaf $\E$ define,
+\[ \mu(\E) := \frac{c_1(\E) \cdot H^{n-1}}{\rank{\E}} \]
+Then stability and semistablity are defined the usual way.
+
+\begin{prop}
+Fix a torsion-free sheaf of rank $r$ on the projective polarized variety $(X, H)$. Then the set of slopes $\{ \mu(\F) \mid 0 \neq \F \subset \E \} \subset \frac{1}{r!} \Z$ is bounded above. Let $\mu_1$ be the maximum then $\{ \F \subset \E \mid \mu(\F) = \mu_1 \}$ contains the largest element with respect to the inclusion relation (the maximal destabilizer).
+\end{prop}
+
+\begin{proof}
+Because $\E$ is torsion-free there are injections,
+\[ \E \embed \E^{\vee \vee} \embed \struct{X}(mH)^N \]
+for some integers $m, N$. Therefore, it suffices to show that slopes of subsheaves of $\struct{X}(mH)^N$ are bounded. Let $\F \subset \E$ be a rank $s$ subsheaf. At the generic point the matrix corresponding to $\F \embed \struct{X}(mH)^N$ has $s$ independent columns (because it is full rank) and hence we can choose $\F \embed \struct{X}(mH)^N \to \struct{X}(mH)^s$ such that the composition is injective. Then taking determinants we get $\deg{\F} \le s m H^n$ and hence $\mu(\F) \le m H^n$ proving a uniform bound.
+\bigskip\\
+Now suppose that $\F_1, \F_2 \subset \E$ are two subsheaves with $\mu(\F_1) = \mu(\F_2) = \mu_1$. It suffices to show that $\mu(\F_1 + \F_2) = \mu_1$. Consider the exact sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \F_1 \cap \F_2 \to \arrow[r] & \F_1 \oplus \F_2 \arrow[r] & \F_1 + \F_2 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and the additivity of Chern classes,
+\[ r \mu(\F_1 + \F_2) = r_1 \mu(\F_1) + r_2 \mu(\F_2) - r' \mu(\F_1 \cap \F_2) \]
+where $r = \rank{(\F_1 + \F_2)}$ and $r_i = \rank{\F_i}$ and $r' = \rank{(\F_1 \cap \F_2)}$. By definition of $\mu_1$ we have $\mu(\F_1 \cap \F_2) \le \mu_1$ and thus,
+\[ r \mu(\F_1 + \F_2) \ge (r_1 + r_2 - r') \mu_1 \]
+and thus $\mu(\F_1 + \F_2) \ge \mu_1$ but trivially $\mu(\F_1 + \F_2) \le \mu_1$ so we win. 
+\end{proof}
+
+\begin{defn}
+By the above result, setting $\mu_{\max}(\E) = \mu_1$ is a well-defined invariant of $(X, H, \E)$ and so is the maximal destabilizer. By maximality, the maximal destabilizer is saturated and $H$-semistable.  
+\end{defn}
+
+\begin{lemma}
+Let $\E$ be torsion-free and $\F \subset \E$ the maximal destabilizer. Then $\E$ is $H$-semistable iff $\F = \E$ iff $\mu(\E) = \mu_{\max}(\F)$. If $\E$ is not $H$-semistable then $\mu_{\max}(\E/\F) < \mu_{\max}(\E) = \mu(\F)$.
+\end{lemma}
+
+\begin{proof}
+Indeed, $\E$ is $H$-semistable iff $\mu_{\max}(\E) = \mu(\E)$ since this exactly means that every subsheaf has slope at most $\mu(\E)$ but this is equivalent to $\F = \E$ since $\F$ is maximal amoung subsheaves with $\mu(\F) = \mu_{\max}(\E)$. 
+\bigskip\\
+Suppose that $\mu_{\max}(\E) > \mu(\E)$. Then if $0 \neq \F' \subset (\E / \F)$ is the maximal destabilizer then its preimage $\F'' \subset \E$ must satisfy $\mu(\F'') < \mu_{\max}(\E)$ because $\F''$ strictly contains $\F$ then consider,
+\[ 0 \to \F \to \F'' \to \F' \to 0 \]
+we have,
+\[ r \mu(\F) + r' \mu(\F') = r'' \mu(\F'') < r'' \mu(\F) \]
+and therefore,
+\[ r' \mu(\F') < (r'' - r) \mu(\F) \]
+but $r' = r'' - r$ so we conclude.
+\end{proof}
+
+\begin{cor}
+There exists a filtration,
+\[ 0 = \F_0 \subsetneq \F_1 \subsetneq \cdots \subsetneq \F_s = \E \]
+where $\F_{i+1}$ is the preimage in $\E$ of the maximal destabilizer of $\E / \F_{i}$. Therefore, $\F_{i+1} / \F_i$ is $H$-semistable and the slopes satisfy,
+\[ \mu_{\max}(\E) = \mu(\F_1 / \F_0) > \mu(\F_2 / \F_1) > \cdots > \mu(\F_s / \F_{s-1}) = \mu_{\min}(\E) \]
+Furthermore, $\mu_{\min}(\E) = - \mu_{\max}(\E^\vee)$ is the minimal slope of a torsion-free quotient of $\E$. 
+\end{cor}
+
+\section{Relations Between Notions of Semipositiviity}
+
+\begin{theorem}[Mehta-Ramanathan]
+Let $X$ be a normal projective variety of dimension $\ge 2$ and $H$ an ample divisor. Let $\E$ be torsion-free sheaf. Then for $m \gg 0$ the restriction of $\E$ to a gneral member $Y \in |mH|$ is $H|_Y$-semistable if and only if $\E$ is $H$-semistable.
+\end{theorem}
+
+Therefore, we can reduce to sufficently large degree complete intersection curves.
+
+
+\section{The Main Theorem}
+
+\begin{prop}
+Let $X$ be a smooth projective variety over a field of characteristic $p > 0$. Assume there is a $\Q$-divisor $D$ with $\deg{D} > 0$ such that when restricted to a generated complete intersection curve $\F(-D)$ ample and $(\T_X/F)(-D)$ negative. Then on the open $U$ where $\F \subset \T_X$ is a subbundle we have that $\F$ is a $p$-closed foliation.
+\end{prop}
+
+\begin{proof}
+The bracket defines an $\struct{X}$-linear map $\bigwedge^2 \F \to \T_X / \F$. This must be zero because $(\wedge^2 \F)(-D)$ is ample but $(\T_X/\F)(-2D)$ is negative if restricted to a general curve. Hence $\F$ is a foliation. 
+\bigskip\\
+The $p^{\text{th}}$-power map induces $F^* \F \to (\T_X / \F)$ then $F^* \F(-D)$ is ample on a generic curve but $(\T_X/\F)(-D)$ is negative so the map is zero. 
+\end{proof}
+
+\begin{theorem}
+Let $(X, H)$ be a smooth, polarized projective variety over a field of characteristic $p > 0$. Assume that there is a $p$-closed foliation $\F \subset \T_X$ such that,
+\[ (-K_X + (p-1) \det{\F}) \cdot H^{n-1} > 0 \]
+Then $X$ contains a rational curve $C$ through a general point of $X$ such that,
+\[ C \cdot H \le \frac{2 p H^n}{(-K_X + (p-1) \det{\F}) \cdot H^{n-1}} \]
+\end{theorem}
+
+\begin{proof}
+Let $\pi : X \to Y$ be the quotient by $\F$. Let $H^{(1)}$ be an ample divisor on $X^{(1)}$ such that $\varphi^* H^{(1)} = p H$. Let $m H^{(1)}$ be very ample and $\Gamma^{(1)} \subset X^{(1)}$ be a general complete intersection curve cut out by $m H^{(1)}$ and $\Gamma^* \subset Y$ and $\Gamma \subset X$ its inversel image with reduced structure. The natural projection $\Gamma \to \Gamma^{(1)}$ is Frobenius and $\Gamma$ is numerically equivalent to $m^{n-1} H^{n-1}$ as a $1$-cycle on $X$. Let $d$ be the degree of $\pi : \Gamma \to \Gamma^*$ which is either $1$ or $p$. Then we have,
+\[ d (\Gamma^* \cdot (-K_Y)) = \Gamma \cdot (-\pi^*K_Y) = \Gamma \cdot (-K_X + (p-1) \det{\F}) = m^{n-1} H^{n-1} \cdot (-K_X + (p-1) \det{\F}) \]
+Since this is positive, by Bend-and-Break through a general point of $Y$ there exists a rational curve $C'$ such that,
+\[ C' \cdot \pi_* H \le 2 \frac{\Gamma^* \cdot \pi_* H}{\Gamma^* \cdot (-K_Y)} \]
+Then its image under $Y^{(-1)} \to X$ produces a rational curve $C$ through a general point of $X$ of degree at most,
+\[ C \cdot H \le \frac{2d(\Gamma \cdot H)}{\Gamma \cdot (-\pi^* K_Y)} = \frac{2 p m^{n-1} H^n}{m^{n-1} (-K_X + (p-1) \det{\F}) \cdot H^{n-1}} = \frac{2 p H^n}{(-K_X + (p-1) \det{\F}) \cdot H^{n-1}} \]
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a normal projective variety over an algebraically closed field of characteristic zero. If $\T_X$ is not generically semi-negative then $X$ is uniruled.
+\end{theorem}
+
+\begin{proof}
+Let $\F \subset \T_X$ be the maximal destabilizer and we assume $\mu(\F) > 0$. Then let $D = c H$ with $\mu(\F) > c > \mu_{\max}(\T_X/\F)$ so that $\F(-D)$ is ample and $(\T_X/\F)(-D)$ is negative on the generic complete intersection curve. Then applying the previous result we get modulo almost all primes a $p$-closed foliation $\F \subset \T_X$. Then we apply the previous theorem so for almost all $p$ the reduction of $X$ is uniruled by rational curves $C$ of degree bounded uniformly by,
+\[ C \cdot H \le \frac{3 H^n}{(\det{\F}) \cdot K_X} \]
+because $\mu(\F) > 0$ so the denominator is nonzero. Therefore, because the Hom scheme is finite type $X$ must be uniruled.
+\end{proof}
+
+{\color{red} Is it true that $X$ uniruled implies $\Omega_X$ not generically semipositive?}
+
+\begin{proof}
+Let $X$ be uniruled by $f : \P^1 \times B \rat X$ and $\Omega_X$ be generically semipositive. Consider a generic complete intersection curve $C \subset X$ and its preimage $C' \subset \P^1 \times B$. Then $g : C' \to C$ is finite. Since $\Omega_X |_C$ is semipositive $g^* \Omega_X|_C$ is semipositive so $\Omega_X|_C \to \Omega_{\P^1 \times B}|_{C'}$ which is generically injective and of the same rank means that $\Omega_{\P^1 \times B}|_{C'}$ must also be semipositive. However, $\Omega_{\P^1 \times B} = \Omega_{\P^1} \boxtimes \Omega_{B}$ and $C'$ is a generic complete intersection curve so $\Omega_{\P^1}|_{C'}$ is negative giving a contradiciton.
+\end{proof}
+
+\section{Supplementary Lemmas}
+
+\newcommand{\Nef}{\mathrm{Nef}}
+\newcommand{\Eff}{\mathrm{Eff}}
+\newcommand{\NE}{\mathrm{NE}}
+
+\begin{prop}
+Let $C$ be a smooth projective curve over an algebraically closed field of characteristic zero. Let $\E$ be a locally free sheaf of rank $r$ and $\pi : \P(\E) \to C$ the projective bundle. Let $M = c_1(\struct{\P(\E)}(1)) - (1/\rank{\E}) \pi^* c_1(\E)$. Then the following are equivalent,
+\begin{enumerate}
+\item for any finite $f : C' \to C$ then $f^* \E$ is $\mu$-semistable
+\item $M$ is nef
+\item $\Nef(X) = \RR_{+} M + \RR_{+} \pi^* P$  for $P \in N^1(C)$ a generator
+\item $\ol{\NE}(X) = \RR_{+} M^{r-1} + \RR_{+} M^{r-2} \pi^* P$
+\item $\ol{\Eff}(X) = \Nef(X)$
+\item $\ol{\Eff}(X) \subset \Nef(X)$
+\item $M - \pi^* D$ is not pseduo-effective for any $\Q$-divisor $D$ with $\deg{D} > 0$
+\item $M + \pi^* D$ is ample for some $\Q$-divisor $D$ with $0 < \deg{D} < 1/r!$
+\item $M - \pi^* D$ is not pseudo-effective, where $D$ is some $\Q$-divisor with $0 < \deg{D} < 1/r!$
+\item $\E$ is $\mu$-semistable.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Let $r = \rank{\E}$ and $X = \P(\E)$. 
+By the canonical bundle formula, setting $\xi := c_1(\struct{\P(\E)}(1))$ we get
+\[ \xi^{r} = \xi^{r-1} \pi^* c_1(\E) \]
+Therefore,
+\[ M^r = (\xi - 1/r \, \pi^* c_1(\E))^r = \xi^r - \xi^{r-1} \pi^* c_1(\E) = 0 \]
+since $(\pi^* c_1(\E))^i = 0$ for $i > 1$. This implies that,
+\[ M^{r-2} \cdot (M + \pi^* D) \cdot (M - \pi^* D) = M^r - M^{r-2} (\pi^* D)^2 = 0 \]
+since the square of any pullback divisor is zero.
+
+
+Note that $\ol{\NE}(X) \subset N_1(X)$ is the dual cone of $\Nef(X) \subset N^1(X)$ basically by definition. Let $P \in N^1(C)$ be a generator. We know that $N^1(X)$ has a basis $M$ and $P$.
+
+Suppose $D = a M + b \pi^* P$ is nef. Since $\pi^* P \cdot M^{r-2}$ is a line in a fiber which is an effective curve we see $a = D \cdot (\pi^* P) \cdot M^{r-2} \ge 0$. Furthermore, $D^r = a^{r-1} b \ge 0$ so for $a > 0$ this implies $b \ge 0$ (which is also clear for $a = 0$). Since $\pi^* P$ is nef we see $(b) \iff (c)$.
+
+
+Lets show that $M^{r-1}$ and $M^{r-2} \pi^* P$ form a basis of $N_1(X)$. Indeed, against the basis $M, \pi^*P \in N^1(X)$ the intersection pairing is given by the matrix
+\[ 
+\begin{pmatrix}
+0 & 1
+\\
+1 & 0
+\end{pmatrix} \]
+which is nondegenerate. Therefore $(c) \iff (d)$ using the intersection pairing. 
+
+
+If $M$ is nef then $M + \epsilon \pi^* D$ by $(c)$ is in the interior of the nef cone hence is ample. If $D = a M + b \pi^* P$ is pseduo-effective then $D \cdot (M + \epsilon \pi^* D)^{r-2} \in \ol{\NE}(X)$ and so is its limit $\epsilon \to 0$ so $D \cdot M^{r-2} = a M^{r-1} + b M^{r-2} \pi^* P \in \ol{\NE}(X)$ hence $a, b \ge 0$ by $(d)$. If $a, b > 0$ then $D$ is ample and hence effective so we conclude $(e)$. 
+
+\end{proof}
+
+\begin{lemma}
+Let $f : C' \to C$ be a separable surjective $k$-map of smooth complete curves. Let $\E$ be a bundle on $C$. Then the Harder-Narishiman filtration of $f^* \E$ is the pullback of the Harder-Narishiman filtration of $\E$.
+\end{lemma}
+
+\begin{proof}
+Note that $\deg{f^* \E} = \deg{f^* \det{\E}} = (\deg{f}) \cdot (\deg{\E})$. By factoring the morphism it suffices to consider the case where $f$ is Galois with galois group $G$. We need to show that if
+\[ 0 = \E_0 \subsetneq \E_1 \subsetneq \cdots \subsetneq \E_r = \E \]
+is the Harder-Narisimhan filatration then $f^* \E_i$ is the Harder-Narisimhan filatration of $\E$. Since the slopes of the graded parts are still strictly decreasing after applying $f^*$, it suffices to show that if $\E$ is semistable then $f^* \E$ is semistable and then we apply this to the graded parts (here we use flatness of $f$ to ensure that $f^*$ is exact). Let $\F \subset f^* \E$ be the maximal destabilizer. Consider the $G$-action on $f^* \E$ then $\sigma_g : f^* \E \to f^* \E$ must preserve $\F$ since it is canonical (there is a unique maximal subbundle containing all subbundles of maximal slope) and hence $\F$ descends to $\F_0 \subset \E$ but $\mu(\F_0) = \deg{f} \mu(\F)$ so since $\mu(\F_0) \le \mu(\E)$ we must have $\mu(\F) = \mu(f^* \E)$ and hence $f^* \E = \F$. 
+\end{proof}
+
+{\color{red} IS THE FOLLOWING TRUE}
+
+\begin{prop}
+Let $C$ be a smooth projective curve over an algebraically closed field of characteristic zero. Let $\E$ be a locally free sheaf of rank $r$ and $\pi : \P(\E) \to C$ the projective bundle. Let $M = c_1(\struct{\P(\E)}(1))$. Then the following are equivalent,
+\begin{enumerate}
+\item for any finite $f : C' \to C$ then $f^* \E$ is semipositive
+\item $M$ is nef
+\item $M - \pi^* D$ is not pseduo-effective for any $\Q$-divisor $D$ with $\deg{D} > 0$
+\item $M + \pi^* D$ is ample for some $\Q$-divisor $D$ with $0 < \deg{D} < 1/r!$
+\item $M - \pi^* D$ is not pseudo-effective, where $D$ is some $\Q$-divisor with $0 < \deg{D} < 1/r!$
+\item $\E$ is semipositive.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Notice that $M^2 = c_1(\E)$
+\end{proof}
+
+
+\begin{cor}
+Let $(X, H)$ be a normal, projective, polarized scheme over a ring $R$ of characteristic zero, finitely generated over $\ZZ$. Let $\E$ be a torsion free sheaf on $X$. Let $K = \ol{\Frac{R}}$. If $\E_K$ is $H$-semistable on $X_K$ then $\E$ is $H$-semistalbe on reduction mod $p$ for almost all $p$.
+\end{cor}
+
+\begin{proof}
+Let $C \sim m H^{n-1}$ be a general complete intersection curve on $X$ of large degree. Then we may assume that $\E|_C$ is $\mu$-semistable on $C_K$ hence using the above notation $M + c \pi^* H$ is ample on $\P(\E_C)_K$ but ampleness is an open condition for projective morphisms so this is satisfied for $\E|_C$ modulo almost every $p$, which implies $H$-semistability modulo almost every prime. 
+\end{proof}
+
+\begin{lemma}
+Let $C$ be a smooth curve and $\E$ a vector bundle. Then $\E$ is $\mu$-semistable if and only if $\E(-\mu)$ is semipositive.
+\end{lemma}
+
+\begin{proof}
+This is almost immediate from the definition. Semistable means that for any $\E \onto \L$ we have $\mu(\L) \ge \mu(\E)$ and semipositive means $\mu(\L) \ge 0$ so shifting by $- \mu(\E)$ these are the same condition. 
+\end{proof}
+
+\begin{cor}
+Over a field of characteristic zero, if $\E$ is $H$-semistable then $\E^{\ot n}$ is $H$-semistable. Hence the direct summands $S^m \E$ and $\bigwedge^m \E$ are $H$-semistable. More generally, if $\E_1, \E_2$ are $H$-semistable then $\E_1 \ot \E_2$ are $H$-semistable. 
+\end{cor}
+
+\begin{proof}
+We can reduce to a complete intersection curve of sufficiently divisible degree. Suppose $\E_1, \E_2$ are $\mu$-semistable this means that $\struct{\P(\E_i)}(1)$ are nef for $i = 1,2$.
+\end{proof}
+
+\begin{cor}
+
+\end{cor}
+
+\begin{proof}
+We can reduce to a complete intersection curve of sufficiently divisible degree. 
+Then we just need to show that if $\E_1, \E_2$ are semipositive then $\E_1 \ot \E_2$ is semipositive. Consider $\E_1 \ot \E_2 \onto \F$ where $\F$ is a vector bundle. {\color{red} I ONLY SEE HOW TO DO THIS IF ONE IS GLOBALLY GENERATED?}
+\end{proof}
+
+\begin{defn}
+Let $X$ be a projective variety and $\F$ a torsion-free coherent sheaf. We say that $\F$ is \textit{generically $H$-semipositive} if $\mu_{\min}(\F) \ge 0$.
+\end{defn}
+
+\begin{rmk}
+This is equivalent to ``generically nef''. {\color{red} WHY?}
+\end{rmk}
+
+
+\end{document}

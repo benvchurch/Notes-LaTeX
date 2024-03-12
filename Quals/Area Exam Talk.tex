@@ -1,0 +1,591 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\K}{\mathbb{K}}
+
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand\eqae{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny a.e.}}}{=}}}
+\renewcommand{\F}{\mathcal{F}}
+\renewcommand{\K}{\mathcal{K}}
+
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\ad}{\mathrm{ad}}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Talk}
+
+\subsection{Motivation: unirationality}
+
+Unirationaltiy is the weakest notion of a polynomial system being ``solvable'' by polynomials. 
+
+\begin{defn}
+Let $X$ be a variety over $k$. We say that $X$ is \textit{unirational} (over $k$) if there is a dominant rational map $\P^n \rat X$.
+\end{defn}
+
+This says exactly that (most) points of $X$ can be parametrized by some rational functions. 
+
+\begin{theorem}[Luroth]
+If $X$ is a curve then $X$ is unirational iff $X$ has genus $0$.
+\end{theorem}
+
+\begin{theorem}[Castellunovo]
+Let $X / \CC$ be a smooth proper surface. TFAE
+\begin{enumerate}
+\item $X$ is unirational
+\item $H^0(X, \omega_X^{\ot 2}) = 0$ and $H^1(X, \CC) = 0$
+\item $X \birat \P^2$
+\end{enumerate}
+\end{theorem}
+
+Let's talk about how we prove varities are not unirational in characteristic zero.
+
+\subsubsection{Characteristic Zero}
+
+Proving that a variety is not unirational is often quite sublte. For example, even in characteristic zero there is no known example of a rationally connected variety where we can prove it is not unirational.
+\par 
+However, if the variety admits any sort of forms we can use these as an obstruction.
+
+\begin{prop}
+Let $k$ be of characteristic zero and $X$ a proper $k$-variety. Then if $\omega \in H^0(X, \Omega_X^{\ot m})$ is a nonzero form for $m > 0$ then $X$ is not unirational.
+\end{prop}
+
+\begin{proof}
+Indeed, if $f : \P^n \rat X$ is a unirational parametrization with $n = \dim{X}$ then $f$ is generically \etale. Furthermore, since $X$ is proper $f$ is defined in codimension $1$ so $f^* \omega$ extends to a section of $H^0(\P^n, \Omega_{\P^n}^{\ot m})$ giving a contradiction. 
+\end{proof}
+
+This argument fails completely in positive characteristic because of the existence of inseparable maps for which $f^* \omega = 0$.
+
+\begin{example}
+Consider a surface $X / \FF_p$ defined as a smooth compactification of an equation of the form,
+\[ z^p = f(x,y) \]
+for some $f \in \FF_p[x,y]$. Then if we choose $f$ to have large degree $X$ may be of general type. However, notice that if we adjoin $p^{\text{th}}$-roots $s,t$ of $x$ and $y$ then the equation becomes
+\[ z^p = f(s^p, t^p) = f(s,t)^p \]
+therefore $k(X) \subset k(s,t)$ given by $z = f(s,t)$ and $x = s^p$ and $y = t^p$. This shows that $X$ is always uniratonal. 
+\end{example}
+
+This demonstrates that unirationality in positive characteristic is a phenmenon that persists even for quite ``complex'' varieties from the perspective of the usual classification of surfaces. 
+
+\subsection{Shioda's Example}
+
+Shioda used some very clever tricks and computations to compute the following.
+
+\begin{theorem}[Shioda]
+Let $F_n$ be the Fermat surface over $\FF_p$ ($p > 2$) given by the equation
+\[ \{ X^n + Y^n + Z^n + W^n = 0 \} \subset \P^3 \]
+Then $F_n$ is unirational if and only if $p^\nu \equiv -1 \mod n$ for some $\nu$.
+\end{theorem}
+
+\begin{example}
+Let $G = \Z / 5 \Z$ act on $F_5$ by $\lambda \cdot [X : Y : Z : W] = [X : \lambda Y : \lambda^2 Z : \lambda^3 W]$. This action is free and hence $X = F_5 / G$ is a smooth projective surface with $\pi_1(X) = \Z / 5 \Z$ called the Godeaux surface. Shioda's result shows that this is supersingular over infinitely many primes. However, we saw this cannot happen over $\CC$, indeed $X$ has general type. 
+\end{example}
+
+How does Shioda prove this theorem: for the ``if'' part he uses an extremely clever change of variables to just write down the unirational parametrization. To show the ``only if'' he needs an obstruction, this comes from \etale cohomology. 
+
+\begin{prop}
+Let $X$ be a smooth projective unirational surface over $\FF_q$. Then $\Frob_q \acts H^2_{\et}(X, \QQ_\ell)$ has eigenvalues of the form $\zeta \cdot q$ for $\zeta$ a root of unity. We call this property \textit{supersingularity}. 
+\end{prop}
+
+\begin{proof}
+Pass to an extension $\FF_{q^n}$ such that the unirational parametrization and all points of indeterminacy are defined over $\FF_{q^n}$. Resolving the indeterminacy locus, we get $\Bl_S \P^2 \to X$ where $S \subset \P^2$ is a finite set of points. Therefore $H^2_{\et}(X, \QQ_\ell) \embed H^2_{\et}(\Bl_S \P^2, \Q_\ell) = \Q_\ell(-1)^{1 + \# S}$. Thus $\Frob_{q^n} = \Frob_{q}^n$ acts via $q^n$.  
+\end{proof}
+
+
+\subsection{Jet Obstructions}
+
+
+Here we describe one approach to obstructing unirationality. The idea is very simple: recall that in characteristic zero we may use forms to obstruct unirationality. Hover, the issue is that degree $p$ purely inseparable maps can kill first-order derivatives. The fundamental observation is that they cannot kill $p^{\text{th}}$-order derivatives. Therefore, if we can find higher-order forms on our varities then these will pullback nontrivially even along certain inseparable maps to produce obstructions. This idea can be formalized using various notions of jet bundles.
+
+\begin{defn}
+Let $X \to S$ be a smooth scheme. Then $J^n_{X/S} := \pi_{1*} \pi_2^* \struct{X}$ where the projections are along the $n^{\text{th}}$-order thickening of the diagonal $\Delta^n_{X/S} := V(\I_{\Delta}^{n+1}) \subset X \times_S X$. This satisfies the following universal property,
+\[ \shHom{\struct{X}}{J^n_{X/S}}{\E} = \shDiff{\le n}{X}{\struct{X}}{\E} \]
+\end{defn}
+
+Now I define a notion of bigness for lifts of jets.
+
+\newcommand{\jetamp}{\mathrm{jetamp}}
+
+\begin{defn}
+Let $\wt{J}^n_X := \ker{(J^n_X \to \struct{X})}$ using the natural projection $J^n_X \to J^0_X = \struct{X}$.
+\end{defn}
+
+\begin{defn}
+Let $X$ be a smooth proper variety. Define the \textit{jet-amplitude} of $X$ to be
+\[ \jetamp(X) := \sup \left \{ \frac{n}{r} : \exists \, \omega \in H^0(X, \wt{J}^{n}_X) \text{ such that } \omega|_{\wt{J}^{r}_X} \neq 0 \right\} \]
+\end{defn}
+
+\begin{theorem}[C]
+Let $X$ be a smooth proper variety over a perfect field $k$. Suppose that $\log_p \jetamp(X) > \ell$ then there does not exist a unirational parametrization $\P^n \rat X$ of inseparability degree $\ell$.
+\end{theorem}
+
+\begin{proof}
+There is a factorization of rational maps
+\begin{center}
+\begin{tikzcd}
+X^{(1/q)} \arrow[r, dashed, "f'"] \arrow[rd, "F"'] & \P^n \arrow[d, dashed, "f"] 
+\\
+& X
+\end{tikzcd}
+\end{center}
+where $F : X^{(1/q)} \to X$ is the $\ell^{\text{th}}$-relative Frobenius. 
+Using extension in codimension $\ge 2$, there are well-defined pullback maps
+\begin{center}
+\begin{tikzcd}
+H^0(X, \wt{J}^{s}_X) \arrow[r] \arrow[d, "f^*"] & H^0(X, \wt{J}^{r}_X) \arrow[d, "f^*"] 
+\\
+H^0(\P^n, \wt{J}^{s}_X) \arrow[d, "f'^*"] \arrow[r] & H^0(\P^n, \wt{J}^{r}) \arrow[d, "f'^*"] 
+\\
+H^0(X^{(1/q)}, \wt{J}^{s}_{X^{(1/q)}}) \arrow[r] & H^0(X^{(1/q)}, \wt{J}^{r}_{X^{(1/q)}}) 
+\end{tikzcd}
+\end{center} 
+where the composition along column is $F^*$. Therefore, it suffices to show that $F^* \omega \neq 0$. To do this, we may work \etale-locally and reduce to the following computation: $J^r_{\A^n}$ is represented by the algebra,
+\[ k[x_1, \dots, x_n][\d{x_1}, \dots, \d{x_n}] / (\d{x_1}, \dots, \d{x_n})^{r+1} \] and $F^* \d{x_i} = \d{x_i^{q}} = (\d{x_i})^{q}$. Therefore, this is nonzero if $s/r \ge q$.
+\end{proof}
+
+Unfortunately it is quite difficult to compute $\jetamp(X)$. For ``generic'' complete intersections of large degree, it is known that $\jetamp(X) = \infty$. However, for any particular example it is very hard to get ones hands on this thing. There is a trivial bound as follows.
+
+
+\begin{prop}
+Let $X$ be a smooth projective variety. Then,
+\[ \jetamp(X) \ge \left(\frac{\ul{\hat{h}}^0(\Omega_X)}{\hat{h}^1(\Omega_X)}\right)^{\frac{1}{2 \dim{X}}} \]
+where $\hat{h}^i$ these are so-called \textit{asymtotic cohomology}
+\[ \hat{h}^i(X, \E) := \limsup_{m \to \infty} \frac{h^0(X, \nSym{m}{\E})}{m^{\dim{X} + \rank{\E} - 1}} \]
+and likewise $\ul{\hat{h}}^i$ are the \textit{lower asymtotic cohomology}
+\[ \ul{\hat{h}}^i(X, \E) := \liminf_{m \to \infty} \frac{h^0(X, \nSym{m}{\E})}{m^{\dim{X} + \rank{\E} - 1}} \]
+\end{prop}
+
+
+\begin{proof}
+This arises from the exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \nSym{n}{\Omega_X} \arrow[r] & J^n_X \arrow[r] & J^{n-1}_X \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{example}
+Suppose $h^0(X, \nSym{2}{\Omega_X}) \ge h^1(X, \nSym{3}{\Omega_X}) + h^1(X, \nSym{4}{\Omega_X})$ then $X$ is not a Zariski space in characteristic $2$.
+\end{example}
+
+\subsection{Hyperbolicity}
+
+\begin{defn}
+A complex variety $X$ is \textit{hyperbolic} if ever entre map $f : \CC \to X$ is constant.
+\end{defn}
+
+In particular, this says that $X$ does not contain any rational or elliptic curves. It is expected that general type varities are \textit{close} to being hyperbolic in the following precise sense.
+
+\begin{conj}[Green-Griffiths-Lang]
+Let $X$ be a smooth projective complex surface of general type. Then there exists a proper Zariski closed subset $Z \subsetneq X$ such that any entire curve $f : \CC \to X$ has image inside $Z$.
+\end{conj}
+
+The remarkable feature of this conjecture is that we expect every entire curve to be \textit{algebraically degenerate} meaning it satisfies a polynomial relation (i.e. it lives in $Z$). Moreover, we expect that these relations can be chosen independently of the map! 
+\bigskip\\
+The strategy developed by Green, Griffiths, Demailly and many others towards this conjecture is to produce algebraic differential equations that entire curves must satisfy. We can think of a first-order differential equation as a closed subspace of the tangent bundle of $X$. If we could produce enough differential equations so that the intersection of these loci in $T X$ does not dominate $X$ then we win. 
+
+\subsection{Induced Foliations}
+
+Suppose that $\omega \in H^0(P_k X, \struct{P_k X}(m))$ is a Demailly-Semple jet. Then the vanishing locus $V(\omega) \subset P_k X$ is pure codimension $1$. For each irreducible component $Z$, consider the following subbundle of the tangent bundle,
+\[ \F := \ker{(\T_Z \oplus \struct{P_k X}(-1)|_Z \to \pi^* \T_{P_{k-1}X} |_Z)} \]
+Since $X$ is a surface, $\F$ is generically rank $1$ and therefore automatically closed under Lie bracket i.e. it defines a foliation. {\color{red} CHECK THIS} Since every curve $f : C \to X$ lifts to a curve $f_k : C \to P_k X$ parallel to the directed structure (meaning its differential $\d{f_k} : \T_C \to \T_{P_k X}$ factors through $\E_k$)
+
+\subsection{$p$-Curvature}
+
+\begin{defn}
+Let $k$ be a field of characteristic $p$ and $\partial : A \to A$ a derivation. Then there is a well-defined derivation $\partial^p$ given by 
+\[ x \mapsto \underbrace{\partial \cdots \partial}_{p \text{ times}} x \]
+This defines a nonlinear map $\T_X \to \T_X$. Given an involutive subsheaf $\F$ the $p$-\textit{curvature} map 
+\[ \psi_p : \Frob^* \F \to \T_X / \F \]
+is a \textit{linear} $\struct{X}$-module map measuring the failure of $\F$ to be $p$-closed.
+\end{defn}
+
+\begin{proof}
+To show $\psi_p(\partial_1 + \partial_2)$ we use that
+\[ (\partial_1 + \partial_2)^p = \partial_1^p + \partial_2^p + \sum_{i = 1}^{p-1} s_i(\partial_1, \partial_2) \]
+but the $s_i$ are Lie polynomials so $s_i(\partial_1, \partial_2) \in \F$ because $\F$ is clsoed under Lie bracket.
+We need to show that $\psi_p(f \partial) = f^p \psi_p(\partial)$. Indeed, 
+\[ (f \partial)^p = f^p \partial^p + f \ad_{\partial}^{p-1}(f^{p-1}) \partial \]
+and because $\ad_{\partial}$ is just the action of $\partial$ on a function so the second term lies in $\F$.
+\end{proof}
+
+
+
+\begin{prop}
+Suppose that $f : C \to X$ is a map from a curve to a foliated variety $(X, \F)$ meaning that $\d{f} : \T_C \to f^* \F \to f^* \T_X$. Then $f^* \psi_p = 0$. Hence if $X$ is a surface and $\F$ is a foliation by curves then $\im{f} \subset \Delta_p := V(\psi_p)$.
+\end{prop}
+
+
+\begin{theorem}
+Let $X$ be a smooth projective surface over $k$ a field of characteristic $p$. Suppose that $\omega \in H^0(X, \nSym{n}{\Omega_X})$ is a nonzero symmetric form and $\F_{\omega}$ is the foliation induced on $V(\omega)$. If $\F_{\omega}$ is \textit{not} $p$-closed (on each irreducible component) then $X$ has finitely many rational curves.
+\end{theorem}
+
+\begin{proof}
+Indeed, $V(\omega) \subset \P(\Omega_X)$ is pure codimension $1$. The induced foliation $\F_\omega$ is assumed to be not $p$-closed on each irreducible component $Z \subset V(\omega)$ therefore $\psi_p : \Frob^* \F \to \T_Z/\F$ is a nonzero map of generically rank $1$-torsion-free sheaves. Hence its zero locus is not dense in $Z$ and hence is dimension $1$. Therefore, the union of these images in $X$ is a finite union of curves. However, we have seen that any rational curve on $X$ must lie inside this locus.
+\end{proof}
+
+\begin{example}
+Consider two curves $C_1, C_2$ defined as $A_6$-covers of $\P^1$ branched over three points with monodromies
+\begin{enumerate}
+\item $(1 6)(3 4) \quad (25436) \quad (16452)$
+\item $(123)(456) \quad (125) \quad (1465)(23)$
+\end{enumerate}
+Let $X$ be the minimal resolution of $(C_1 \times C_2)/A_6$. This is a minimal surface with $c_1(X)^2 = c_2(X) = 6$ and $\pi_1(X) = A_4 \times \Z / 5 \Z$ which is finite. Furthermore, $h^{2,0} = 0$ so the cohomology of $X_{\CC}$ is generated by algebraic cycles by the Lefschetz $(1,1)$ theorem. Therefore, $X$ is supersingular when reduced mod any prime of good reduction. From the main two invariants we cannot see that $X$ is not unirational except at $p = 2,3,5$. However, one can show that $\Omega_X$ is big. Choosing a symmetric form $\omega$ we get a foliation $\F_\omega$ and whenever $\F_{\omega}$ is not $p$-closed $X$ is not unirational. The Grothendieck $p$-curvature conjecture predicts this happens infinitely often. One can put this on a computer and start generating a list of primes where $X$ is not unirational.  
+\end{example}
+
+\section{Adendum}
+
+\begin{prop}
+Let $X / \CC$ be a smooth proper variety. If $X$ is unirational then $\pi_1(X) = 0$.
+\end{prop} 
+
+
+\begin{proof}
+Let $f : \P^n \sm Z \to X$ be a unirational parametrization and we can choose $\codim{Z} \ge 2$. Thus $\pi_1(\P^n \sm Z) = 1$ so the map lifts to the universal cover $\wt{X} \to X$ as a holomorphic map. However $f$ is generically a finite cover so this forces $\wt{X} \to X$ to be a finite cover also. Hence $\wt{X}$ is also a smooth proper variety. Now consider the diagram,
+\begin{center}
+\begin{tikzcd}
+Y \arrow[r] \arrow[d] \pullback & \wt{X} \arrow[d]
+\\
+\P^n \sm Z \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+since $\pi_1(\P^n \sm Z) = 1$ we see that $Y$ is a finite union of copies of $\P^n \sm Z$ and hence $\wt{X}$ is also unirational. Therefore we showed that $h^0(\wt{X}, \Omega_{\wt{X}}^p) = 0$ so by hodge symmetry $h^p(\wt{X}, \struct{\wt{X}}) = 0$ so $\chi(\wt{X}) = 1$. However, it is well-known that if $\wt{X} \to X$ has degree $n$ then $\chi(\struct{\wt{X}}) = n \chi(\struct{X})$ hence $n = 1$. 
+\end{proof}
+
+
+\begin{lemma}
+Let $f : X \to Y$ be surjection of smooth proper varieties. Then $f^* : H^i_{\et}(Y, \Q_\ell) \embed H^i_{\et}(X, \Q_\ell)$ is injective.
+\end{lemma}
+
+\begin{proof}
+Poincare duality defines a pushforward map $f_* = D^{-1} \circ (f_*)^{\vee} \circ D$ where $D(\alpha) = \tr{(\alpha \smile -)}$. If $f$ is generically finite, it suffices to show that $f_* f^* = \deg{f}$ since this is invertible on $\Q_\ell$. Indeed, 
+\[ D(f_* f^* \alpha) = \tr{(f^* \alpha \smile f^* - )} = \tr{f^* (\alpha \smile -)} = (\deg{f}) D(\alpha) \]
+because $f^* = \deg{f}$ on top cohomology. If $f$ is not generically finite then we may take a generic multisection $Z \subset X \to Y$ and then $(f \circ \iota)^*$ is injective so $f^*$ is injective.
+\end{proof}
+
+\subsection{Shioda's Example}
+
+Shioda used some very clever tricks and computations to compute the following.
+
+\begin{theorem}[Shioda]
+Let $F_n$ be the Fermat surface over $\FF_p$ ($p > 2$) given by the equation
+\[ \{ X^n + Y^n + Z^n + W^n = 0 \} \subset \P^3 \]
+Then $F_n$ is unirational if and only if $p^\nu \equiv -1 \mod n$ for some $\nu$.
+\end{theorem}
+
+\begin{example}
+Let $G = \Z / 5 \Z$ act on $F_5$ by $\lambda \cdot [X : Y : Z : W] = [X : \lambda Y : \lambda^2 Z : \lambda^3 W]$. This action is free and hence $X = F_5 / G$ is a smooth projective surface with $\pi_1(X) = \Z / 5 \Z$ called the Godeaux surface. Shioda's result shows that this is supersingular over infinitely many primes. However, we saw this cannot happen over $\CC$, indeed $X$ has general type. 
+\end{example}
+
+How does Shioda prove this theorem: for the ``if'' part he uses an extremely clever change of variables to just write down the unirational parametrization. To show the ``only if'' he needs an obstruction, this comes from \etale cohomology. 
+
+\begin{prop}
+Let $X$ be a smooth projective unirational surface over $\FF_q$. Then $\Frob_q \acts H^2_{\et}(X, \QQ_\ell)$ has eigenvalues of the form $\zeta \cdot q$ for $\zeta$ a root of unity. We call this property \textit{supersingularity}. 
+\end{prop}
+
+\begin{proof}
+Pass to an extension $\FF_{q^n}$ such that the unirational parametrization and all points of indeterminacy are defined over $\FF_{q^n}$. Resolving the indeterminacy locus, we get $\Bl_S \P^2 \to X$ where $S \subset \P^2$ is a finite set of points. Therefore $H^2_{\et}(X, \QQ_\ell) \embed H^2_{\et}(\Bl_S \P^2, \Q_\ell) = \Q_\ell(-1)^{1 + \# S}$. Thus $\Frob_{q^n} = \Frob_{q}^n$ acts via $q^n$.  
+\end{proof}
+
+Shioda then computes that $F_n$ is supersingular exactly when $p^\nu \equiv - 1 \mod p$ for some $\nu$ and this covers all the cases his construction works to show $F_n$ is moreover unirational. This, and a handful of other examples, leads him to make the following conjecture.
+
+\begin{conj}[Shioda]
+Let $X$ be a smooth projective surface over $\FF_q$. Suppose that
+\begin{enumerate}
+\item $\pi_1(X) = 1$
+\item $X$ is supersingular
+\end{enumerate}
+then $X$ is unirational.
+\end{conj}
+
+\begin{rmk}
+One might ask why doesn't Shioda just require that $\pi_1(X)$ is finite as suggested by Serre's theorem and the Godeaux surface example: this conjecture would be false because it turns out the Godeaux surface is supersingular in every characteristic (of good reduction) but it unirational only in the characteristics that $F_5$ is unirational in.
+\end{rmk}
+
+The goal of this talk is to describe new obstructions to unirationality that could be used to test Shioda's conjecture.
+
+\subsection{Proof of the Jet amplitdue Theorem}
+
+\begin{theorem}[C]
+Let $X$ be a smooth proper variety over a perfect field $k$. Suppose that $\log_p \jetamp(X) > \ell$ then there does not exist a unirational parametrization $\P^n \rat X$ of inseparability degree $\ell$.
+\end{theorem}
+
+\begin{proof}
+Since $\jetamp$ only increases anlong separable maps we may assume that $X$ has a purely inseparable unirational parametrization $f : \P^n \rat X$ of degree $k$. Now suppose that $\jetamp \ge p^{\ell} := q$ then there are integers $r,s \ge 0$ such that $\omega \in H^0(X, \wt{J}_X^{s})$ such that $\omega|_{\wt{J}^{r}} \neq 0$ and $s \ge q r$. By decreasing $r$ we may assume that $\omega|_{\wt{J}^{r-1}} = 0$ so $\omega|_{\wt{J}^{r}} \in H^0(X, \nSym{r}{\Omega_X})$ then decreasing $s$ we may assume $s = q r$. There is a factorization of rational maps
+\begin{center}
+\begin{tikzcd}
+X^{(1/q)} \arrow[r, dashed, "f'"] \arrow[rd, "F"'] & \P^n \arrow[d, dashed, "f"] 
+\\
+& X
+\end{tikzcd}
+\end{center}
+where $F : X^{(1/q)} \to X$ is the $\ell^{\text{th}}$-relative Frobenius. 
+Using extension in codimension $\ge 2$, there are well-defined pullback maps
+\begin{center}
+\begin{tikzcd}
+H^0(X, \wt{J}^{s}_X) \arrow[r] \arrow[d, "f^*"] & H^0(X, \wt{J}^{r}_X) \arrow[d, "f^*"] 
+\\
+H^0(\P^n, \wt{J}^{s}_X) \arrow[d, "f'^*"] \arrow[r] & H^0(\P^n, \wt{J}^{r}) \arrow[d, "f'^*"] 
+\\
+H^0(X^{(1/q)}, \wt{J}^{s}_{X^{(1/q)}}) \arrow[r] & H^0(X^{(1/q)}, \wt{J}^{r}_{X^{(1/q)}}) 
+\end{tikzcd}
+\end{center} 
+where the composition along column is $F^*$. Therefore, it suffices to show that $F^* \omega \neq 0$. To do this, we may work \etale-locally. Indeed, if $c : U \to X$ is an \etale chart then it suffices to show that $F_U^* \omega|_U \neq 0$ since the diagram
+\begin{center}
+\begin{tikzcd}
+U^{(1/q)} \arrow[r, "F_U"] \arrow[d] & U \arrow[d]
+\\
+X^{(1/q)} \arrow[r, "F"] & X 
+\end{tikzcd}
+\end{center}
+commutes. Since $X$ is smooth, there are \etale charts $U \to X$ with $g : U \to \A^n_k$ \etale. The diagram, 
+\begin{center}
+\begin{tikzcd}
+\wt{J}^s_{\A^n} \arrow[d, "F^*"] \arrow[r] & \wt{J}^r_{\A^n} \arrow[d, "F^*"] \arrow[ld, "t", dashed]
+\\
+\wt{J}^s_{\A^n} \arrow[r] & \wt{J}^r_{\A^n}
+\end{tikzcd}
+\end{center}
+has a commuting lift $t$. Indeed, $J^r_{\A^n}$ is represented by the algebra,
+\[ k[x_1, \dots, x_n][\d{x_1}, \dots, \d{x_n}] / (\d{x_1}, \dots, \d{x_n})^{r+1} \] and $F^* \d{x_i} = \d{x_i^{q}} = (\d{x_i})^{q}$. Therefore, the kernel of $\wt{J}^s_{\A^n} \to \wt{J}^r_{\A^n}$ are polynomials $h(\d{x_1}, \dots, \d{x_n})$ with coefficients in $k[x_1, \dots, x_n]$ of minimal degree $\ge r + 1$ and hence $F^* h = h(\d{x_1^{q}}, \dots, \d{x_n^{q}}) = 0$ in $J^s_{\A^n}$ since it has minimal degree $\ge q (r + 1) \ge s + 1$. Furthermore, consider a symmetric form $\eta \in H^0(\A^n, \nSym{r}{\Omega})$ write
+\[ \eta = \sum_{I} f_I(x_1, \dots, x_n) \d{x_{i_1}} \cdots \d{x_{i_r}} \]
+then we see
+\[ t(\eta) = \sum_I f_I(x_1^q, \dots, x_n^q) \d{x_{i_1}^q} \cdots \d{x_{i_r}^q} \in H^0(\A^n, \nSym{s}{\Omega}) \]
+but for different $I \subset \{1, \dots, n\}$ of size $r$, these are distinct basis elements of $H^0(\A^n, \nSym{s}{\Omega})$. Therefore, $t(\eta) = 0$ if and only if all $f_I(x_1^q, \dots, x_n^q) = 0$ if and only if all $f_I = 0$. Hence $t$ is injective. Since $g$ is \etale, we get isomorphisms $g^* \wt{J}_{\A^n}^r \iso \wt{J}^r_{U}$ for all $r$ so the diagram pulls back to
+\begin{center}
+\begin{tikzcd}
+\wt{J}^s_{U} \arrow[r] \arrow[d, "F^*_U"] & \wt{J}^r_{U} \arrow[d, "F^*_U"] \arrow[dl, "t_U"]
+\\
+\wt{J}^s_{U} \arrow[r] & \wt{J}^r_{U}
+\end{tikzcd}
+\end{center}
+such that the restriction $t_U : \nSym{r}{\Omega_U} \to \nSym{s}{\Omega_U}$ is injective. Therefore $F^*_U \omega|_U = t(\omega|_{\wt{J}^r_U}) \neq 0$ because we assumed that $\omega|_{\wt{J}^r} \in H^0(X, \nSym{r}{\Omega_X})$ and is nonzero.
+\end{proof}
+
+\begin{prop}
+Let $X$ be a smooth projective variety. Then,
+\[ \jetamp(X) \ge \left(\frac{\ul{\hat{h}}^0(\Omega_X)}{\hat{h}^1(\Omega_X)}\right)^{\frac{1}{2 \dim{X}}} \]
+where $\hat{h}^i$ these are so-called \textit{asymtotic cohomology}
+\[ \hat{h}^i(X, \E) := \limsup_{m \to \infty} \frac{h^0(X, \nSym{m}{\E})}{m^{\dim{X} + \rank{\E} - 1}} \]
+and likewise $\ul{\hat{h}}^i$ are the \textit{lower asymtotic cohomology}
+\[ \ul{\hat{h}}^i(X, \E) := \liminf_{m \to \infty} \frac{h^0(X, \nSym{m}{\E})}{m^{\dim{X} + \rank{\E} - 1}} \]
+\end{prop}
+
+
+\begin{proof}
+This arises from the exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \nSym{n}{\Omega_X} \arrow[r] & J^n_X \arrow[r] & J^{n-1}_X \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+Therefore, 
+\[ \dim \im{(H^0(X, J^{rs}_X) \to H^0(X, J^r_X))} \ge h^0(X, J^r_X) - \sum_{k = r+1}^{rs} \left[h^1(X, \nSym{k}{\Omega_X}) \right] \]
+but also
+\[ h^0(X, J^r_X) \ge \sum_{i = 1}^r \left[ h^0(X, \nSym{i}{\Omega_X}) - h^1(X, \nSym{i}{\Omega_X}) \right] \] 
+therefore
+\[ \dim \im{(H^0(X, J^{rs}_X) \to H^0(X, J^r_X))} \ge \sum_{i = 1}^r h^0(X, \nSym{i}{\Omega_X}) - \sum_{i = 1}^{rs} h^1(X, \nSym{i}{\Omega_X}) \]
+Applying the lemma, for any $\epsilon > 0$ for $r \gg_{\epsilon} 0$ we have
+\[ \sum_{i = 1}^r h^0(X, \nSym{i}{\Omega_X}) - \sum_{i = 1}^{rs} h^1(X, \nSym{i}{\Omega_X}) \ge \frac{1}{2 \dim{X}} \left[ (\ul{\hat{h}}^0 - \epsilon) r^{2 \dim{X}} - (\hat{h}^1 + \epsilon) (rs)^{2 \dim{X}} \right] \]
+Thus,
+\[ s^{2 \dim{X}} \le \frac{\ul{\hat{h}}^0 - \epsilon}{\hat{h}^1 + \epsilon} \implies \jetamp(X) \ge s  \]
+\end{proof}
+
+\begin{lemma}
+Let $f : \N \to \RR^+$ be an integer function. Suppose that
+\[ \liminf_{n \to \infty} \frac{f(n)}{n^k} = a \quad \text{ and } \quad \limsup_{n \to \infty} \frac{f(n)}{n^k} = b \]
+then\footnote{Notice that the outer inequalities are not usually equalities. For example let 
+\[ f(n) = \begin{cases} 0 & n \text{ even} \\ 1 & n \text{ odd} \end{cases} \]
+then the hypotheses are satisfies with $k = 0$ and $a = 0$ and $b = 1$ but
+\[ \sum_{i = 1}^n f(i) = \ceil{\frac{n}{2}} \] 
+and therefore the limit
+\[ \lim_{n \to \infty} \frac{1}{n} \sum_{i = 1}^n f(i) = \frac{1}{2} \]
+exists so the inequalities in the conclusion of the lemma are strict. }
+\[ \frac{b}{k+1} \ge \limsup_{n \to \infty} \frac{1}{n^{k+1}} \sum_{i = 1}^n f(i) \ge \liminf_{n \to \infty} \frac{1}{n^{k+1}} \sum_{i = 1}^n f(i) \ge \frac{a}{k+1}  \]
+\end{lemma}
+
+\begin{proof}
+The assumptions give for all $\epsilon > 0$ there is $n_\epsilon$ such that $n \ge n_\epsilon$ implies 
+\[ (b + \epsilon) n^k \ge f(n) \ge (a - \epsilon) n^k \]
+summing over this we get,
+\[ (b + \epsilon) \frac{1}{n^{k+1}} \sum_{i = 1}^n i^k \ge \frac{1}{n^{k+1}} \sum_{i = n_\epsilon}^n f(i) + \frac{1}{n^{k+1}} \sum_{i = 1}^{n_\epsilon} i^k \ge (a - \epsilon) \frac{1}{n^{k+1}} \sum_{i = 1}^n i^k \]
+Therefore,
+\[ \frac{b + \epsilon}{k + 1} (1 + O(n^{-1})) \ge \frac{1}{n^{k+1}} \sum_{i = 1}^n f(i) + \frac{1}{n^{k+1}} \sum_{i = 1}^{n_\epsilon} (i^k - f(i)) \ge \frac{a - \epsilon}{k+1} (1 + O(n^{-1}))  \]
+Taking the limit $n \to \infty$ and then $\epsilon \to 0$ gives the bounds
+\[ \frac{b}{k+1} \ge \limsup_{n \to \infty} \frac{1}{n^{k+1}} \sum_{i = 1}^n f(i) \ge \liminf_{n \to \infty} \frac{1}{n^{k+1}} \sum_{i = 1}^n f(i) \ge \frac{a}{k+1}  \]
+Furthermore, for any $\epsilon > 0$ and $n_0$ there is $n \ge n_0$ such that $(a + \epsilon) n^k \ge f(n)$ 
+\end{proof}
+
+\section{p-curvature computations}
+
+\newcommand{\Lie}{\mathrm{Lie}}
+\newcommand{\g}{\mathfrak{g}}
+
+\begin{lemma}
+Let $R$ be a (possibily noncommutative) associative ring of characteristic $p$. Then,
+\begin{enumerate}
+\item there are universal Lie polynomials $s_i(x,y) \in R \left< x, y \right>$ such that
+\[ (a + b)^p = a^p + b^p + \sum_{i = 1}^{p-1} s_i(a,b) \]
+where $s_i$ is defined by the relation,
+\[ (\ad_{a t + b})^{p-1}(a) = \sum_{i = 1}^{p-1} i s_i(a,b) t^{i-1} \]
+\item for all $g, \theta \in R$ such that $\{ \ad_{\theta}^n(g^m) \}_{n,m \ge 0}$ commute with each other,
+\[ (g \theta)^p = g^p \theta^p + g \cdot \ad_{\theta}^{p-1}(g^{p-1}) \theta \]
+\end{enumerate}
+\end{lemma}
+
+\begin{rmk}
+$s_i(x,y) \in \Lie(x,y)_{p-1}$ for the $(p-1)^{\text{th}}$-stage of the lower central series $\g_{i+1} = [\g_i, \g]$.
+\end{rmk}
+
+
+\begin{example}
+For example, if $p = 2$ then $(a + b)^2 = a^2 + ab + ba + b^2$ so $s_1(a,b) = ab + ba = [a,b]$ because the characteristic is 2.
+\end{example}
+
+
+\begin{lemma}
+Let $A,B$ be (possibily noncommutative) associative rings of characteristic $p$ and $M$ is an $(A,B)$-bimodule. Suppose that for some $a \in A$ and $m \in M$,
+\[ a \cdot m = \sum_i f_i \cdot m \cdot b_i \]
+such that the $f_i \in A$ commute with each other and $b_i \in B$ then
+\[ a^p \cdot m - \sum_i f_i^p \cdot m \cdot b_i^p \in \left< r \cdot m \cdot s \mid r \in \ZZ[f_1, \dots, f_r, \Lie(a, f_1, \dots, f_r)_{p-1}] \text{ and } s \in \Lie(b_1, \dots, b_r)_{p-1} \right>  \] 
+where the $1$ indicates the first stage of the lower central series.
+\end{lemma}
+
+
+\begin{proof}
+$M$ is an $A \ot B^\op$-module and $(a \ot 1 - \sum_i f_i \ot b_i)$ acts as zero. Furthermore,
+\[ (a \ot 1 - \sum_i f_i \ot b_i)^p = a^p \ot 1 + \left(- \sum_i f_i \ot b_i \right)^p + \sum_{j = 1}^{p-1} s_j(a \ot 1, -\sum_i f_i \ot b_i) \]
+so the last term is in the span of $\Lie(a, f_1, \dots, f_r)_{p-1} \ot b_i$. By Jacobson again,
+\[  \left(- \sum_i f_i \ot b_i \right)^p = - \sum_i f_i^p \ot b_i^p + g \]
+where $g$ is in the span of $f_i \ot \Lie(b_1, \dots, b_r)_{p-1}$. Therefore,
+\[ a^p \cdot m - \sum_i f_i^p \cdot m \cdot b_i^p = -\sum_{j = 1}^{p-1} s_j(a \ot 1, \sum_i f_i \ot b_i) \cdot m  -g \cdot m \]
+\end{proof}
+
+\begin{prop}
+Suppose that $f : C \to X$ is a map from a curve to a foliated variety $(X, \F)$ meaning that $\d{f} : \T_C \to f^* \F \to f^* \T_X$. Then $f^* \psi_p = 0$. Hence if $X$ is a surface and $\F$ is a foliation by curves then $\im{f} \subset \Delta_p := V(\psi_p)$.
+\end{prop}
+
+\begin{proof}
+Indeed, this follows from the following lemma.
+\end{proof}
+
+\begin{prop}
+Let $f : (X, \F_X) \to (Y, \F_Y)$ be a map of foliated varities. Then the diagram
+\begin{center}
+\begin{tikzcd}
+\Frob^* \F_X \arrow[r, "\psi_p"] \arrow[d] & \T_X / \F_X \arrow[d]
+\\
+f^* \Frob^* \F_Y \arrow[r, "f^* \psi_p"] & f^* (\T_Y / \F_Y) 
+\end{tikzcd}
+\end{center}
+of $\struct{X}$-linear maps commutes.
+\end{prop}
+
+\begin{proof}
+This is a local statement so we reduce to a ring map $\phi : A \to B$ with a diagram,
+\begin{center}
+\begin{tikzcd}
+\Der[R]{B}{B} \arrow[r, "\partial \mapsto \partial \circ \phi"] & \Der[R]{A}{B} 
+\\
+M \arrow[u] \arrow[r, "\kappa"] & B \ot_A N \arrow[u] 
+\end{tikzcd}
+\end{center}
+Suppose that $\partial \in M$ we need to show that $\psi_p(\partial) \circ \phi - \psi_p(\kappa(\partial)) \in B \ot_A N$. Indeed, let
+\[ \kappa(\partial) = \sum_i b_i \ot \partial_i \]
+for $\partial_i \in N$. Then 
+\[ \psi_p(\Frob^* \kappa(\partial)) = \psi_p \left(\sum_i b_i^p \ot \partial_i \right) = \sum_i b_i^p \ot \partial_i^p \]
+We apply the lemma to $B \ot_A \D_A$ as a $(\D_B, \D_A)$-bimodule and $\kappa$ shows that $\partial \cdot 1 = \sum_i b_i \cdot 1 \cdot \partial_i$. Therefore,
+\[ \kappa(\psi_p(\partial)) - \psi_p(\Frob^* \kappa(\partial)) \]
+is in the submodule spanned by elements of the form $r \ot s$ for $r$ generated by iterated application of $\partial$ to the $b_i$ and products of $b_i$ and $s$ is generated by commutators of $\partial_i$ which lie in $N$ so we see this is zero in $B \ot_A (\Der[R]{A}{A} / N)$.
+\end{proof}
+
+\subsection{Semple Jets}
+
+\begin{defn}
+A \textit{directed variety} $(X, \E)$ is a pair of a variety $X$ with a subbundle $\E \subset \T_X$. A morphism of directed varities $f : (X, \E) \to (Y, \E')$ is a morphism $f : X \to Y$ such that under $f_* \T_X \to \T_Y$ we have $f_* \E \to \E'$.
+\end{defn}
+
+\begin{rmk}
+Demailly's philosophy is that it is usefull to study this ``relative notion'' even for the absolute case $\E = \T_X$ since it has better functoriality properties.
+\end{rmk}
+
+\begin{rmk}
+Here our convention is that $\P(\E) := \rProj{X}{\Sym{}{\E^\vee}}$ so that $\cO(-1)$ is the universal subbundle. Hence $\cO(1)$ on $\P(\T_X)$ is what I usually call $\cO(1)$ on $\P(\Omega_X)$.
+\end{rmk}
+
+\begin{defn}
+To a directed pair $(X, \E)$ we introduce the \textit{projectivization} to produce a new pair $\P(X, \E) := (\wt{X}, \wt{\E})$ where $\wt{X} := \P(\E)$ and $\wt{\E}$ is defined via the diagram,
+\begin{center}
+\begin{tikzcd}[row sep = small, column sep = large]
+0 \arrow[r] & \T_{\wt{X}/X} \arrow[dd] \arrow[r] & \wt{\E} \arrow[dd] \pullback \arrow[r] & \cO(-1) \arrow[d, hook] \arrow[r] & 0
+\\
+& & & \pi^* \E \arrow[d, hook]
+\\
+0 \arrow[r] & \T_{\wt{X}/X} \arrow[r] & \T_{\wt{X}} \arrow[r] & \pi^* \T_{X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Then we have,
+\[ \dim{\wt{X}} = \dim{X} + \rank{\E} - 1 \quad \quad \rank{\wt{\E}} = \rank{\E} \] 
+\end{defn}
+
+\begin{rmk}
+Note that the Euler exact sequence takes the form,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cO \arrow[r] & \pi^* \E \ot \cO(1) \arrow[r] & \T_{\wt{X}/X} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+\end{rmk}
+
+\begin{prop}
+Given a morphism of directed varities $f : (X, \E) \to (Y, \F)$ we get a rational map $\wt{f} : (\wt{X}, \wt{\E}) \rat (\wt{Y}, \wt{\F})$ such that the diagram,
+\begin{center}
+\begin{tikzcd}
+(\wt{X}, \wt{\E}) \arrow[d,"\pi"] \arrow[r, "\wt{f}", dashed] & (\wt{Y}, \wt{\F}) \arrow[d, "\pi"]
+\\
+(X, \E) \arrow[r, "f"] & (Y, \F)
+\end{tikzcd}
+\end{center} 
+commutes in the category of directed manifolds (with rational maps). Moreover, if $f$ is ``immersive along $\E$'', meaning $f_{\#} : \E \to f^* \F$ is injective, then $\wt{f}$ is a morphism.
+\end{prop}
+
+\begin{defn}
+Let $(X, V)$ be a directed manifold. The \textit{projectivized Semple $k$-jet bundle} $P_k V = X_k$ is defined iteratively via,
+\[ (X_0, V_0) := (X, V) \quad \quad (X_{k+1}, V_{k+1}) := (\wt{X_k}, \wt{V_k}) \]
+and we have,
+\[ \dim{P_k V} = \dim{X} + k (\rank{V} - 1) \quad \quad \rank{V_k} = \rank{V} \]
+\end{defn}
+
+
+The semple tower is defined so that the following holds. Suppose that $f : C \to X$ is an immersed curve such that $\d{f} : \T_C \to f^* \T_X$ factors through $f^* \E \subset f^* \T_X$. Since $\d{f}$ is a subbundle this gives a subbundle $\T_X \embed \pi^* \E$ and hence a lift $f' : C \to \wt{X}$ such $\d{f} : \T_C \to f^* \E \to f^* \T_X$ is $f'^* [\struct{\wt{X}}(-1) \to \pi^* \E \to \pi^* \T_X]$. Therefore, consider $\d{f'} : \T_C \to f'^* \T_{\wt{X}}$. Since this map lifts $\d{f}$ we see that $\d{f'} : \T_X \to f'^* \wt{\E}$.
+
+Hence, if we start with an immersed curve $f : C \to X$ then there are lifts $f_k : C \to P_k$ for all $k$. The fundamental property is:
+
+\begin{prop}
+Let $f : \P^1 \to X$ be a rational curve. Then the lift $f_k : \P^1 \to P_k X$ lies in the base locus of $H^0(P_k X, \struct{P_k X}(m))$ for all $m > 0$.
+\end{prop}
+
+\begin{proof}
+Analogous to the statement that for any symmetric form $\omega \in H^0(X, \nSym{n}{\Omega_X})$ we must have $f^* \omega = 0$ because there are no global pluri-forms on $\P^1$.
+\end{proof}
+
+The following result gives some hope of proving the GGL conjecture:
+
+\begin{theorem}[Green-Griffiths, Demailly]
+Let $(X, \E)$ be a smooth projective directed variety that lifts to characteristic zero. Suppose that $\det{\E^\vee}$ is big. Then
+\[ H^0(P_k(X, \E), \struct{}(m)) \]
+has (many) nonzero sections for $m \gg k \gg 1$.
+\end{theorem}
+
+\end{document}
