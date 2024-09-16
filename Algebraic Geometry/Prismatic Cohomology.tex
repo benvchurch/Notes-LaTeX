@@ -16,6 +16,8 @@
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\LL}{\mathbb{L}}
 \newcommand{\ad}{\mathrm{ad}}
+\newcommand{\Spf}[1]{\mathrm{Spf}\left( #1 \right)}
+\newcommand{\R}{\mathrm{R}}
 
 Our goal will be the following theorem about the topology of algebraic varities. 
 
@@ -570,6 +572,8 @@ Note that $\struct{\Prism}$ is valued in $(p,I)$-complete $A$-$\delta$-algebras 
 
 \subsection{Breuil-Kisin and Breuil-Kisin-Fargues Prisms}
 
+
+
 As pointed out last time, to make the \etale comparison theorem work we need an algebraically closed field but we want to work over $K = \Frac{W(k)}$ to set up our Breuil-Kisin prism but this is not algebraically closed. Therefore, we will need to work with two different prisms and a comparison between them.
 
 \subsubsection{Breuil-Kisin Prism}
@@ -987,7 +991,7 @@ so that
 \end{center}
 
 \begin{defn}
-$\Prsim_{X/A} = R \nu_* \struct{\Prism} \in D(X_{\et}, A)$. Likewise $\ol{\Prism}_{X/A} = R \nu_* \struct{\ol{\Prism}} \in D(X_{\et}, \struct{X})$. 
+$\Prism_{X/A} = R \nu_* \struct{\Prism} \in D(X_{\et}, A)$. Likewise $\ol{\Prism}_{X/A} = R \nu_* \struct{\ol{\Prism}} \in D(X_{\et}, \struct{X})$. 
 \end{defn}
 
 By definition $\R \Gamma(X_{\et}, \Prism_{X/A}) \cong R \Gamma_{\Prism}(X/A)$ so the strategy is
@@ -996,5 +1000,141 @@ By definition $\R \Gamma(X_{\et}, \Prism_{X/A}) \cong R \Gamma_{\Prism}(X/A)$ so
 \item work \etale-locally
 \item do the computation for affine spaces.
 \end{enumerate}
+
+\section{Hodge-Tate II}
+
+
+Setup $(A, I)$ is a bounded prism. Let $X / \Spf{A/I}$ be a smooth relative scheme. Then there is a site $(X/A)_{\Prism}$ given by diagrams
+\begin{center}
+\begin{tikzcd}
+\Spf{B} \arrow[dd] \arrow[from=r, hook] & \Spf{B/IB} \arrow[d]
+\\
+& X \arrow[d]
+\\
+\Spf{A} \arrow[from=r, hook] & \Spf{A/I}
+\end{tikzcd}
+\end{center}
+
+We construct a morphism of topoi
+\[ \nu : \Sh{(X/A)_{\Prism}} \to \Sh{X_{\et}} \]
+via
+\begin{enumerate}
+\item $(\nu_* \F)(U \xrightarrow{\et} X) = H^0((U/A)_{\Prism}, \F|_{(U/A)_{\Prism}})$ which is a sheaf by a lemma from last time
+\item $(\nu^{-1} \G)^{\text{pre}}(B, IB) = \dlim_{\Spf{B/IB} \to U} \G(U \to X)$ this is a filtered colimit.
+\end{enumerate}
+
+\begin{defn}
+$\Prism_{X/A} = \R \nu_* \struct{\Prism} \in D(X_{\et}, A)$ and $\ol{\Prism}_{X/A} = \Prism_{X/A} \ot^{\LL}_A A/I = \RR \nu_* \struct{\ol{\Prism}} \in D(X_{\et}, \struct{X})$.
+\end{defn}
+
+\begin{theorem}[Hodge-Tate]
+$\H^i(\ol{\Prism}_{X/A}) = \Omega^i_{X/(A/I)} \{ - i \}$
+\end{theorem}
+
+\subsection{Construction of the Map}
+
+Note there is a distinguished triangle
+\[ \ol{\Prism}_{X/A} \{ i + 1 \} \to \Prism_{X/A} \ot_A^{\LL} I^{i} / I^{i+2} \to \ol{\Prism}_{X/A} \{ i \} \to + 1 \]
+from this we obtain a Bockstein
+\[ \H^i(\ol{\Prism}_{X/A} \{ i \}) \xrightarrow{\beta} \H^{i+1}(\ol{\Prism}_{A/I} \{ i + 1\}) \]
+this is only $A/I$-linear not $\struct{X}$-linear.
+
+\begin{prop}
+The sequence 
+\[ \H^0(\ol{\Prism}_{X/A}) \xrightarrow{\beta} \H^1(\ol{\Prism}_{X/A} \{ 1 \}) \xrightarrow{\beta} \H^2(\ol{\Prism}_{X/A} \{ 2 \}) \to \cdots \]
+is a differential graded algebra. 
+\end{prop}
+
+There is a canonical map
+\[ \struct{X} \to \H^0(\ol{\Prism}_{X/A}) \]
+induced by $\Spf{A/I} \to X$. Since it is a DGA for $f,g \in \H^0(\ol{\Prism}_{X/A})$ then $\beta(fg) = f \beta(g) + g \beta(f)$ (everything in degree zero commutes with everything else so there is no order ambiguity). This induces a map
+\[ \Omega_{X/A} \to \H^1(\ol{\Prism}_{X/A}) \{ 1 \} \]
+then some graded commutativity implies the existence of 
+\[ \Omega^i_{X/A} \to \H^i(\ol{\Prism}_{X/A}) \{ i \} \]
+
+\subsection{Prismatic Envelopes}
+
+\begin{lemma}
+For $A$ a $\delta$-ring there is a ``free $\delta$-$A$-algebra'' on one generator called $A \{ x \}$ which as a ring is polynomial algebrain $x, \delta(x), \delta^2(x), \dots$
+\end{lemma}
+
+\begin{prop}
+Let $(A, I)$ be a prism. Let $A/I \to R$ be a $p$-completely smooth $A/I$-algebra. Let $B_0 \onto R$ be a surjection where $B_0$ is $(p,I)$-completely smooth over $A$ 
+
+\begin{center}
+\begin{tikzcd}
+\Spf{B} \arrow[r] & \Spf{B_0} \arrow[from=r, hook] \arrow[d, "smooth"] & \Spf{R} \arrow[d, "smooth"]
+\\
+& \Spf{A} \arrow[from=r, hook] & \Spf{A/I}
+\end{tikzcd}
+\end{center}
+where $(A, I)$ is a prism but $B_0$ is not. 
+
+Let $B_0 \to B$ be a $(p, I)$-faithfully flat map. Let $B$ be a $\delta$-$A$-algebra, let $J = \ker{(B \to B \ot_{B_0}^{\LL} R)}$ then there exists a prism
+\[ (B, J) \to (B \{ \tfrac{J}{I} \}^{\vee}, I B \{ \tfrac{J}{I} \}^{\vee}) \]
+where the second is a universal prism over $(A, I)$ which is initial for maps $(B, J) \to (A,I)$.
+\end{prop}
+
+
+Coming back to our calculaton, to check that the map $\Omega^i_X \to \H^i(\ol{\Prism}_{X/A}) \{ i \}$ is an isomorphism we may work locally on $X$. Let $X = \Spf{R}$ with a diagram
+\begin{center}
+\begin{tikzcd}
+& \Spf{R} \arrow[d, "smooth"]
+\\
+\Spf{A} \arrow[from=r] & \Spf{A/I}
+\end{tikzcd}
+\end{center}
+Choose an embedding $\Spf{R} \embed \Spf{A[x_1, \dots, x_n]}$. Then there is a diagram
+\begin{center}
+\begin{tikzcd}
+\Spf{C} \arrow[d] \arrow[from=r, hook'] & \Spf{C/IC} \arrow[d]
+\\
+\Spf{A\{ \ul{x} \}} \arrow[d] \arrow[from=r] & \Spf{A \{ \ul{x} \} /J} \arrow[d]
+\\
+\Spf{A[\ul{x}]} \arrow[from=r, hook'] \arrow[d, "smooth"] & \Spf{R} \arrow[d, "smooth"]
+\\
+\Spf{A} \arrow[from=r] & \Spf{A/I}
+\end{tikzcd}
+\end{center}
+where $A[\ul{x}] \to A \{ \ul{x} \}$ is just a ring map but $A \to A \{ \ul{x} \}$ is a $\delta$-ring map. Here $J$ is defined via the fiber product and $C$ is the prismatic envenlope of the map $(A, I) \to (A \{ \ul{x} \}, J)$ 
+
+\begin{prop}
+$(C, IC) \in (X/A)_{\Prism}$ is weakly final.
+\end{prop}
+
+\begin{proof}
+Want for any 
+\begin{center}
+\begin{tikzcd}
+\Spf{D} \arrow[dddd, bend right = 70] \arrow[ddd, bend right = 60, "1"', dashed] \arrow[dd, bend right = 50, "2"', dashed] \arrow[from=r, hook'] \arrow[d, dashed, "3"] & \Spf{D/ID} \arrow[ddd, bend left = 70]  \arrow[d, dashed, "3"]
+\\
+\Spf{C} \arrow[d] \arrow[from=r, hook'] & \Spf{C/IC} \arrow[d]
+\\
+\Spf{A\{ \ul{x} \}} \arrow[d] \arrow[from=r] & \Spf{A \{ \ul{x} \} /J} \arrow[d]
+\\
+\Spf{A[\ul{x}]} \arrow[from=r, hook'] \arrow[d, "smooth"] & \Spf{R} \arrow[d, "smooth"]
+\\
+\Spf{A} \arrow[from=r] & \Spf{A/I}
+\end{tikzcd}
+\end{center}
+we want to fill in to get a map $(C, I) \to (D, I)$. 
+\begin{enumerate}
+\item $A[\ul{A}] \to R \to D / I D$ then there is a lift along $D \onto D/ID$ since $A[\ul{x}]$ is free. 
+\item Since $A[ \ul{x} ]$ is free we can uniquely lift to a $\delta$-map $A \{ \ul{x} \} \to D$
+\item use the universal property of the prismatic envelope.
+\end{enumerate}
+\end{proof}
+
+Note that there is nonuniquness in the construction arising from step 1 only. This construction is partially functorial. Indeed given $A[ \ul{x} ] \onto R$ the construction of $(C, IC)$ is functorial. Morover, carries $A[ \ul{x}, \ul{y}] \onto R$ to coproducts in $(X/A)_{\Prism}$.  So choose one surjection $B_0 = A[\ul{x}] \onto R$ then take the Cech nerve 
+\[ B_0 \to B_0 \ot_A B_0 \to B_0 \ot_A B_0 \ot_A B_0 \to \cdots \]
+which all have maps to $R$. Therefore we get a cosimplicial object $(C^\bullet, I C^\bullet)$ in $(X/A)_{\Prism}$. 
+
+\begin{lemma}
+Suppose that $(A, IA)$ is a prism then $((A/I)/A)_{\Prism}$ produces $\Prism_{(A/I)/A}$ which is the complex $A$ supported in degree zero. This means the higher cohomology of the structure sheaf of a prism is zero. 
+\end{lemma}
+
+\begin{prop}
+The cochain complex associated to $C^\bullet$ computes $\Delta_{X/A}$. The ``Cech-Alexander complex''. 
+\end{prop}
 
 \end{document}

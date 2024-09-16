@@ -1,0 +1,385 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../"}{AlgGeoCommands}
+
+\DeclareMathOperator{\covdeg}{\text{cov.deg}}
+\DeclareMathOperator{\cd}{\text{cd}}
+
+\theoremstyle{plain}
+\newtheorem{Lthm}{Theorem}
+\renewcommand*{\theLthm}{\Alph{Lthm}}
+\newtheorem{Lcor}[Lthm]{Corollary}
+\newtheorem{Lprop}[Lthm]{Proposition}
+%\newtheorem*{Claim*}{Claim}
+
+\DeclareMathOperator{\irr}{irr}
+\DeclareMathOperator{\BAV}{(BAV)}
+\DeclareMathOperator{\gon}{gon}
+\DeclareMathOperator{\cov}{cov.gon}
+\DeclareMathOperator{\amp}{Amp}
+\DeclareMathOperator{\nef}{Nef}
+\DeclareMathOperator{\eff}{Eff}
+\DeclareMathOperator{\mon}{Mon}
+\DeclareMathOperator{\val}{Val}
+\DeclareMathOperator{\ind}{ind}
+\DeclareMathOperator{\seg}{seg}
+\DeclareMathOperator{\pic}{Pic}
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\dps}{dP}
+\DeclareMathOperator{\ns}{NS}
+\DeclareMathOperator{\NKLT}{NKLT}
+\DeclareMathOperator{\divib}{div}
+\DeclareMathOperator{\LC}{LC}
+\DeclareMathOperator{\lct}{lct}
+
+\newcommand{\mb}[1]{\mathbb{#1}}
+\DeclareMathOperator{\cg}{cov.gon}
+\DeclareMathOperator{\covgon}{cov.gon}
+\DeclareMathOperator{\mindeg}{min.deg}
+
+\begin{document}
+
+\title{Harvard-MIT Algebraic Geometry Seminar \\ \large Curves on complete intersections and measures of irrationality.}
+\author{Ben Church}
+\maketitle
+\tableofcontents
+
+\section{Pretalk}
+
+\subsubsection{Stable Maps}
+
+\subsubsection{Covering Gonality and Separating Points}
+
+One the main ``measures of irrationality'' I will discuss is the \textit{covering gonality}
+\[ \cov(X)\ :=\ \min\big\{c>0\ |\ \exists\textup{ a curve of gonality } c \textup{ through a general point } x\in X\big\}.\]
+I want to describe a general method for proving lower bounds on the covering gonality. 
+\bigskip\\
+Notice that there is a trivial bound $\covgon(X) \le \deg{X}$ given by taking linear slices and noting that any curve  $C$ in projective space can be projected to $\P^1$ with a map of degree $\deg{C}$. 
+
+
+\begin{prop}
+If $H^0(X, \omega_X)$ separates $m$ distinct general points then $\cg(X) \ge m + 1$.
+\end{prop}
+
+\begin{proof}
+Consider a family of gonality $\le c$ curves covering $X$,
+\begin{center}
+\begin{tikzcd}
+\P^1 \times S \arrow[rd] & \C \arrow[l, "c"'] \arrow[r, "f"] \arrow[d, "\pi"] & X
+\\
+& S  
+\end{tikzcd}
+\end{center}
+We can choose $\C \to X$ so that the general curve $\C_s$ is birational onto its image. 
+Suppose that $H^0(X, \Omega_X)$ can separate $c$ general points on $X$. For some $s \in S$ so that $\C_s \to X$ is birational onto its image, we can chose these points to be exactly a fiber (contained in the immersed locus of $\C_s \to X$) of the gonality map $\C_s \to \P^1$ over a point $y \in \P^1$ where the map is \etale. Thus there exists a top-form $\omega \in H^0(X, \omega_X)$ zero at all but one of these points. Hence applying the trace map along $\C \to \P^1 \times S$ to $f^* \omega$ we get a form that is nonzero on $\P^1 \times S$ over the point $(y, s)$. Since $\P^1 \times S$ has no global top forms this is a contradiction.
+\end{proof}
+
+\subsubsection{Multiplier Ideals}
+
+Although most of our results hold in a more general setting, for simplicity we will assume that $X$ is $\QQ$-Gorenstein.
+
+\newcommand{\mtc}[1]{\mathcal{#1}}
+
+\begin{defn}\textup{
+    Let $(X,D)$ projective log pair such that $D$ is an effective $\mb{Q}$-Cartier $\mb{Q}$-divisor, and fix a log resolution $\mu : X' \rightarrow (X,D)$. Then the \emph{multiplier ideal sheaf}
+    \[ \mtc{J}(D) = \mtc{J}(X,D)\subseteq \mtc{O}_X \]
+    associated to $D$ is defined to be
+    \[ \mtc{J}(D)=\mu_{*}\mtc{O}_{X'}(K_{X'}-\floor{\mu^{*}(K_X + D)}) \]
+    where $\floor{\mu^{\ast}D}$ denotes the round-down. Let $Z(X,D)$ (or $Z(D)$ if there is no confusion about the ambient space) denote the scheme defined by the multiplier ideal $\mtc{J}(D)$.
+}
+\end{defn}
+
+The most important fact obout multiplier ideas is their vanishing theory. In particular, the Nadel vanishing theorem:
+
+\begin{theorem}\label{nadel} \textup{(Nadel vanishing theorem)}
+Let $X$ be a $\QQ$-Gorenstein normal projective variety, and $L$ be a line bundle on $X$. Let $D$ be an effective $\mb{Q}$-divisor such that $L-D$ is nef and big. Then
+\[ H^i(X,\mtc{O}_X(K_X+L)\otimes \mtc{J}(D))=0,\quad \textup{for}\quad i>0. \]
+\end{theorem}
+
+\begin{defn}\label{nonklt}\textup{
+    Let $(X,D)$ be a log pair. A prime divisor $E$ over $X$ is called a \emph{log canonical place} or \textit{lc place} of $(X,D)$ if there exists a birational model (or equivalently, a log resolution) $\pi:X'\rightarrow X$ of $(X,D)$ such that
+    \[ \ord_{E}\big(\pi^{*}(K_X+D)-K_{X'}\big)\ \ge \ 1. \]
+The closed subset $\pi(E)$ of $X$ is called an \emph{lc center} of $(X,D)$. The \emph{non-klt locus} of $(X,D)$, denoted by $\NKLT(X,D)$, is the union of all lc centers of $(X,D)$. Equivalently it is the complement of the locus of $(X, D)$ having klt singularities.
+}\end{defn}
+
+\begin{rmk}
+$\NKLT(X,D) = \Supp{}{\struct{X} / \mtc{J}(D)}$ so it is just the reduced structure on the subscheme defined by the muliplier ideal.
+\end{rmk}
+
+\begin{defn}
+Let $(X, D)$ be a pair such that $D$ is $\QQ$-Cartier. For an effective $\mb{Q}$-divisor $D$ and a point $x\in Y$, the \emph{LC-locus} of $D$ locally at $x$, denoted by $\LC_x(X,D)$, is the union of all irreducible components of $Z(c\cdot D)$ that pass through $x$, with a reduced scheme structure, where
+\[ c = \lct_x(X;D) := \inf \{ c' > 0 \mid \mtc{J}(c' \cdot D) \text{ is nontrivial at } x \} \]
+is the local log canonical threshold at $x$.
+\end{defn}
+
+\begin{remark}
+    \textup{In the above definition of LC-locus, the pair $(X,D)$ does not have to be log canonical. While this may not be compatible with some other conventions in the literature, it is convenient for our proofs. If $(X,D)$ is log canonical, we call it the non-klt locus (compare with Definition \ref{nonklt}). In general, for any non-lc pair $(X,D)$, by definition we have that
+    \[ \LC(X,D)\ =\ \NKLT(X,cD), \]
+    where $c=\lct(X,D)$. The local version is also true: for any point $p\in X$, we have $$\LC_p(X,D)\ =\ \NKLT_p(X,c_pD),$$ where $c_p=\lct_p(X,D)$. }
+\end{remark}
+
+\newpage
+
+\section{Introduction}
+
+The main question: given a projective variety $X$ what is the geometry of the curves on $X$. More precisely suppose $X \subset \P^N$ has a fixed embedding in projective space. We would like to ask:
+\begin{enumerate}
+\item what possible values for the numerical invariants of curves on $X$ can appear e.g.
+\begin{enumerate}
+\item degree (computed against $\struct{X}(1)$)
+\item genus 
+\item gonality
+\end{enumerate}
+\item we also have a natural source of curves on $X$ arsing from the embedding: taking a linear space $\Lambda$ of dimension $N - \dim{X}-1$ we get linear slice curves $C_\Lambda := X \cap \Lambda$ that cover $X$. We would like to know, how close are the curves covering $X$ to linear (or higher degree) slices? 
+\end{enumerate}
+When $X \subset \P^{n+r}$ is a general complete intersection cut out by homogeneous polynomials of degrees $d_1, \dots, d_r$, we write $X$ is CI of type $(d_1, \dots, d_r)$ the following result gives a first step towards these questions:
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+Let $X \subseteq \P^{n+r}$ be a general complete intersection variety of dimension $n \geq 1$ cut out by polynomials of degrees $d_{1}, \ldots, d_{r} \geq 2n$. Then any curve $C \subseteq X$ satisfies
+\[ \deg(C)\ \ge\ (d_1 - 2n + 1) \cdots (d_r - 2n + 1) .\]
+Moreover, there exists $N := N(n,r)$ such that if $d_1, \dots, d_r \ge N$, then
+\[ \deg(C)\ \ge\ d_1 \cdots d_r. \]
+\end{Lthm}
+
+This result is in the same spirit as famous conjectures of Griffiths and Harris originally stated for complete intersection 3-folds. They gave a series of conjectures the weakest of which is:
+
+\begin{conj}[Griffiths-Harris, '85]
+Let $X_d \subset \P^4$ be a (very) general hypersurface of degree $d \ge 6$. Then every curve $C \subset X$ has degree divisible by $d$. 
+\end{conj}
+
+In partcular, this says that curves are numerically equivalent to complete intersection curves. They further conjecture that all curves are actually \textit{linearly} equivalent to complete intersection curves but I won't be able to say anything about that. 
+\bigskip\\
+Given the divisibility, we might ask: is every curve a complete intersection.
+Moreover, for surfaces, the corresponding statement ($d \ge 4$) is a consequence of the Noether-Lefschetz theorem which further says that all curves are complete intersections. However, if $\dim{X} \ge 3$, Voisin showed that for all $d$ and general $X_d$ there are non-complete intersection curves on $X_d$ so the situtation is quite subtle indeed. However, there is a partial result of Wu
+\begin{theorem}[Wu, '90]
+Let $X_d \subset \P^4$ be a very general hypersurface of degree $d \ge 6$ and $C \subset X$ a curve of degree $\ell$. If $\ell < 2d - 1$ then $C$ is a complete intersection.
+\end{theorem}
+
+{\color{red} In particular, Wu's theorem implies our result for hypersurface 3-folds but to my knowledge the methods do not extend past this case.}
+
+Regarding divisbility, recent work of Paulsen building on work of Koll\'{a}r has proved Griffiths and Harris' conjecture for a positive density set of $d$. We use this result in the proof of Thm.~A.
+
+{\color{red} Besides intrinsic interest, our motivation is a conjecture of Bastianelli--De Poi--Ein--Lazarself--Ullery [BDELU17] on the measures of irrationality of complete intersections.}
+
+\section{Measures of Irrationality}
+
+{\color{red} These are quantitative measures of ``how far from being rational'' a variety. }
+
+For a projective variety $X$ of dimension $n$, the \emph{degree of irrationality} and the \emph{covering gonality} are defined as follows:
+\[ \irr(X)\ :=\ \min\big\{\delta>0\ |\ \exists\textup{ dominant rational map } X\dashrightarrow \mb{P}^n\textup{ of degree }\delta\big\}; \]
+\[ \cov(X)\ :=\ \min\big\{c>0\ |\ \exists\textup{ a curve of gonality } c \textup{ through a general point } x\in X\big\}.\]
+{\color{red} From their descriptions, we see that the degree of irrationality is a measure of how far $X$ is from being rational, while the covering gonality is a measure of how far $X$ is from being uniruled.} 
+\bigskip\\
+These are related by: 
+\[ \irr(X) \geq \cg(X) \]
+
+{\color{red} For me, $\irr$ is the more fundamental measure. However, in practice $\cg$ is much easier to study. Since we are interested in lower bounds, it suffices to bound $\cg$}
+
+In their landmark paper BDELU prove 
+
+\begin{theorem}[BDELU, '17]
+Let $X_d \subset \P^{n+1}$ be a smooth hypersurface of degree $d \ge n + 2$. Then $\covgon(X_d) \ge d - n$. If $X_d$ is very general then $\irr(X_d) = d - 1$. 
+\end{theorem}
+
+{\color{red} Geoff Smith also established similar bounds in characteristic $p$.} 
+
+Both of their method can prove if $X_{d_1, \dots, d_r} \subset \P^{n+r}$ is a general complete intersection then $\cg(X_{d_1, \dots, d_r}) \gtrapprox d_1 + \cdots + d_r$ giving an \textit{additive} bound in the degrees. 
+\bigskip\\
+BDELU ask: are there \textit{multiplicative bounds} of the form
+\[ \cg(X_{d_1, \dots, d_r}) \ge C d_1 \cdots d_r \]
+hence likewise for $\irr(X_{d_1, \dots, d_r})$.
+
+\subsection{History}
+
+\begin{enumerate}
+\item First evidence: Lazarsfeld '97 proves the case of complete intersection curves
+\item in his thesis: Stapleton '17 gives supperadditive bounds (of the form $e \sqrt[n+1]{d}$ for type $(e,d)$) for $X \subset \P^{n+2}$ CI of codimension $2$ 
+\item in his thesis: Chen '21 proved a multiplicative bound for codimesnion $2$ but with a constant $C \ll_n 1$
+\item Levinson-Stapleton-Ullery '23 establish sharp multiplicative bounds for the degree of irrationality of complete intersections whose degrees are sufficiently spread out (i.e. $d_1\gg d_2\gg\cdots\gg d_r\gg0$).
+\end{enumerate}
+
+{\color{red} We prove this conjecture and give the sharpest possible constant $C = 1 - \epsilon$ .}
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+Let $X \subseteq \P^{n+r}$ be a general CI of type $(d_1, \dots, d_r)$. For any $0 < \epsilon \ll 1$, there exists an integer $N_{\epsilon} = N(\epsilon, n, r) > 0$ such that if $d_1, \dots, d_r \ge N_\epsilon$, then
+\[ \cg(X) \ \geq \  (1-\epsilon) \cdot d_{1} \cdots d_{r}. \]
+\end{Lthm}
+
+\begin{rmk}
+Note that $\covgon(X) \le \deg{X}$ by taking linear slices so this is the optimal constant.
+\end{rmk}
+
+\begin{rmk}
+Note that we prove this for $X$ \textit{general} not \textit{very general} as one might expect for gonality results. This means in parituclar it holds for almost all CIs defined over $\Q$. 
+\end{rmk}
+
+{\color{red} It turns out that our proof Theorem B depends on Theorem A. }
+
+\section{Proof of Thm $A$}
+
+The idea is very simple, we break our complete intersection $X \spto X_1 \cup_Z X_2$ into two complete intersections with $\deg{X_1} + \deg{X_2} = \deg{X}$. {\color{red} Crucially we do this so that, $Z$ is also a complete intersection of one higher codimension: say by degenerating one of the equations cutting out $X$ into a product of two lower degree equations.} Start with some curve $C \subset X$ and degenerate it to a curve $C' \subset X_1 \cup_Z X_2$.
+\par 
+By wishful thinking: suppose that when we break $X$ the curve $C'$ has a component on each side then
+\[ \mindeg(X) \ge \mindeg(X_1) + \mindeg(X_2) \]
+and immediately win by induction. {\color{red} Unfortunately, this is not true. Consider the degeneration of the lines on a quadric suface to the union of two planes. *DRAW PICTURE*}
+\par 
+However, we can fix this strategy by using an idea deloped in log Gromov-Witten theory for finding degeration formulas for GW-invariants in a family specializing as above. The crutial observation is due to Jun Li:
+
+if $\X$ is the total space of the degeneration and we have a nodal curve $C' \to \X_0 = X_1 \cup_Z X_2$ which deforms to the generic fiber. Suppose $p \in C'$ is a point of the curve meeting $Z$ then $p$ must be a node meeting two components $C_1, C_2$ where $C_i \subset X_i$ and they meet $Z$ at $p$ with the same multiplicity \textit{provided} the following are satisfied:
+\begin{enumerate}
+\item[(1)] no component of $C'$ meeting $p$ is contained in $Z$
+\item[(2)] $p \in \X$ is a smooth point of the \textit{total space}.
+\end{enumerate}
+ 
+
+\begin{figure}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[dotted] (3, 0) -- (5, 2);
+                \draw (4, 3.5) .. controls (4.5, 2.5) and (3.5, 2.5) .. (3.975, 3.45);
+                \draw (3.5, 0.5) .. controls (3.5, -2) and (4.5, -2) .. (4.5, 1.5);
+                \draw (4.25, 4.05) node{\( C_{X_2} \)};
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.5, 0.55) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw[white, line width = 3pt] (4.5, 1.55) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (3.5, 0.5) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw (4.5, 1.5) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (a)}
+            \label{fig:case_A}
+      \end{minipage}
+      \hspace{0.05\linewidth}
+      \begin{minipage}{0.45\linewidth}
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[thick, color = red] (3, 0) -- (5, 2);
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw (4.5, 1) node{\( C_Z \)};
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (b)}
+            \label{fig:case_B}
+      \end{minipage}
+  \end{minipage}
+\end{figure}
+
+But there is still a problem: what if the curve specializes to $C'$ meeting $Z$ only inside the singular points of $\X$. Indeed this happens for the quadric! The next trick is to consider only those curves that move in a covering family. Then we can ensure that $C$ deforms to a curve that passes through a general point of $Z$ hence outside of $\X^{\text{sing}}$. {\color{red} for the quadric this is given by the line specializing to the intersction of the two planes, ** DRAW **}
+\par 
+Hence for covering families, the matching condition applies at some point $z \in Z \sm \X^{\text{sing}}$ so we can conclude:
+\[ \covdeg(X) \ge \min \{ \covdeg(X_1) + \covdeg(X_2), \covdeg(Z) \} \]
+Because $X_1, X_2, Z$ are also complete intersections, this alows us to do a complicated induction on degrees, codimension, and dimension simultaneously to prove the bound,
+\[ \mindeg(X) \ge (d_1 - 2n + 1) \cdots (d_r - 2n + 1) \]
+
+Then a trick of Reidl-Yang reduces the problem of computing the minimal degree of any curve to computing the degrees of curves that cover $X$. Finally, the same induction coupled with the divisibility results of Paulsen given
+\[ \deg{C} \ge d_1 \dots d_r \]
+for any curve as long as $d_i$ are very large.
+
+
+\section{Thm $A$ implies Thm $B$}
+
+Precisely, we consider $X = X_{d_1} \cap Y$ as a divisor in $|d_1 H|$ on a complete intersection  $Y$ of type $(d_2, \dots, d_{r})$. The covering gonality of $X$ is controlled by the number of points separated by canonical sections $H^0(X, \omega_X)$. This means we need to study the number of points separated by the linear series $|K_Y + d_1 H|$. Angehrn and
+Siu's work towards the Fujita conjecture shows that lower bounds on the degrees of subvarities implies separation of points for adjoint linear series. However, the original theorem of Angehrn and Siu gives insufficient numerics to answer the conjecture of BDELU given only our knowledge of degrees of curves. By optimizing the multiplier ideal construction for large numbers of points using only information on degrees of curves (rather than input from higher-dimensional subvarities) we obtain
+
+\newcommand{\reg}{\mathrm{reg}}
+
+\begin{Lthm}
+Let $(X, H)$ be a polarized smooth variety. Suppose for $\alpha > 0$ any positive dimensional subvariety $W \subseteq X$ satisfies $\deg_H{W} \ge \alpha$. Then for any $\epsilon > 0$, there exists an integer $d_0 := d_0(\dim(X), \alpha, \epsilon)$ such that for all $d \ge d_0$, the linear series $|K_X + d H|$ separates at least $(1 - \epsilon) \cdot d \cdot \alpha$ distinct points on $X$. 
+\end{Lthm}
+
+
+Note that the degree bound on curves gives a linear degree bound on all subvarities. 
+
+\begin{rmk}
+Theorem C gives the optimal asymtotics for the number of points $|K_X + d H|$ can separate when $X$ is a CI.
+\end{rmk}
+
+\subsection{Method}
+
+The desiderata: for any choice of $m$ distinct points $p_1,...,p_m \in U$, we will construct a $\mb{Q}$-divisor $D$ which satisfies the following conditions:
+    \begin{itemize}
+        \item $D \sim_{\mb{Q}} c \cdot H$, where $0 < c < d$ is a rational number,
+        \item the support of $\mtc{O}_X/\mtc{J}(X,D)$ contains $p_1,...,p_m$, and
+        \item some point $p_{j}$ is an isolated point of $\NKLT(D) := \Supp{}{\mtc{O}_X/\mtc{J}(X,D)}$.
+    \end{itemize}
+We claim this suffices. Nadel vanishing gives
+    \[ H^1\big(X,\mtc{O}_X(K_X + d H)\otimes \mtc{J}(X, D)\big) = 0, \]
+    and hence the restriction map
+    \[ H^0\big(X,\mtc{O}_X(K_X + d H)\big) \longrightarrow H^0\big(X, \mtc{O}_X(K_X + d H)\otimes \mtc{O}_X/\mtc{J}(X,D) \big) \]
+    is surjective hence there is a section $s_j \in H^0(X, \struct{X}(K_X + d H))$ nonzero at $p_j$ but zero at the rest. Removing the point $p_{j}$ from $\{p_1, \ldots, p_m\}$ and repeating the same construction for $\{p_1, \ldots, \hat{p}_{j}, \ldots, p_m \}$, one will end up with $m$ sections $s_1, \dots, s_m$ separating $p_1,...,p_m$ since their evaluations at $p_1, \dots, p_m$ form a triangular matrix with nonzero elements on the diagonal (so the map is surjective). 
+\bigskip\\
+To produce such a $D$ we perform cutting down operation on $\NKLT(X, D)$ which reduces the local dimension around a point $p_j$ while ensuring that all $p_1, \dots, p_m$ are still contained. 
+
+\section{In Case Someone Asks}
+
+The correct breaking lemma: let $R$ be a DVR and $s,\eta \in \Spec{R}$ be the closed point and generic point, respectively. Let $f : \X \to \Spec{R}$ be a SNC degeneration of varieties such that $\X_s = X_1 \cup_Z X_2$ is the union of two smooth irreducible varieties along a smooth divisor $Z$. 
+
+\begin{lemma} \label{lemma:breaking}
+Let $W \subseteq \X_s$ be the singular locus of the total space. Suppose $\mu_s : C \to \X_s$ is a nonconstant stable map that deforms to $\X_\eta$, and $z \in Z \sm W$ is a point in the image of $\mu$. Then one of the following holds:
+\begin{enumerate}
+    \item $z$ lies on the image of a component of type $Z$; or
+    \item $z$ lies on the image of a component of type $X_1$ and also on the image of a component of type $X_2$.
+\end{enumerate}
+\end{lemma}
+
+
+\end{document}

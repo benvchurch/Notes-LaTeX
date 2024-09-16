@@ -1,0 +1,468 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\ob}{\mathrm{ob}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\vir}{\mathrm{vir}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\ad}{\mathrm{ad}}
+
+\newcommand{\Y}{\mathscr{Y}}
+
+
+\DeclareMathOperator{\covdeg}{\text{cov.deg}}
+\DeclareMathOperator{\cd}{\text{cd}}
+
+\begin{document}
+
+\section{Covering Degree}
+
+
+\begin{defn}
+Let $(X, \L)$ be a polarized projective varitety. The \textit{covering degree} $\covdeg(X, \L)$ is the minimal $d$ such that there exists a family of proper geometically reduced and connected curves $\C \to T$ over an irreducible base $T$ and a surjective morphism $f : \C \to X$ such that $\deg{f^* \L|_{\C_t}} = d$.
+\end{defn}
+
+\begin{lemma}
+Let $X$ be a variety. In the defintion of covering degree, we can reduce to checking the degrees of stable maps whose generic curve is smooth and irreducible. 
+\end{lemma}
+
+\newcommand{\cQ}{\mathcal{Q}}
+
+\begin{proof}
+Consider $\C \to T$ and $\mu : \C \to X$ surjective. Since $X$ is irreducible, we can pass to an irreudicble component of $\C$ and hence assume that $\C$ and $T$ are irreducible retaining surjectivity of $\mu$. We need to show there is a surjective family of semistable curves of the same degree whose generic member is smooth an irreducible. First, notice that if $g : C_1 \to C_2$ is a birational finite map of curves of a field $k$ and $\L$ is a line bundle on $C_2$ then $\deg{\L} = \deg{g^* \L}$. Indeed, let $\cQ = (g_* \struct{C_2}) / \struct{C_1}$ then
+\begin{align*}
+\deg{g^* \L} & = \chi(C_1, g^* \L) - \chi(C_1, \struct{C_1}) = \chi(C_2, \L \ot g_* \struct{C_1}) - \chi(C_2, g_* \struct{C_2})
+\\
+& = [\chi(C_2, \L \ot \cQ) - \chi(C_2, \cQ) + \deg{\L} 
+\\
+& = \deg{\L}
+\end{align*} 
+because $\cQ$ has zero dimensional support so $\L \ot \cQ \cong \cQ$.
+\bigskip\\
+Let $K$ be the function field of $T$ and $C := \C_{\bar{K}}$ the geometric generic curve. Let $C' \to C$ be the normalization. There is a component $C'' \subset C'$ whose image $C'' \to C' \xrightarrow{\mu} X$ hits the generic point. Since $C'' \to \Spec{\bar{K}}$ is a smooth proper curve we get a map $\Spec{\bar{K}} \to \ol{\M}_g(X, d)$ which produces a family $\C' \to T'$ compactifying $C'$ by taking the scheme theoretic closure\footnote{Really, unless I alow stacky $T'$ I can take the closure in $\ol{M}_{g,0}(X, d)$ and take a further extension $T'' \to T'$ such that the universal family extists over $T''$} of $\Spec{\bar{K}} \to \ol{M}_{g}(X, d)$.
+\end{proof}
+
+\begin{defn}
+For $n \in \Z_+$ and $1 \le r < n$ and $\vec{e} \in \Z_+^{r}$ we define
+\[ \cd_n(\vec{e}) := \max_{X_{e_1}, \dots, X_{e_r}} \covdeg(X_{e_1} \cap \cdots \cap X_{e_r}) \]
+where $X_{e_1}, \dots, X_{e_r} \subset \P^n_{\CC}$ are taken over hypersurfaces such that the intersection is smooth of dimension $n - r$. 
+\end{defn}
+
+\begin{lemma}
+{\color{red} TODO} Covering degree drops under specialization in flat families.
+\end{lemma}
+
+\begin{cor}
+$\cd_n(\vec{e})$ may be computed as $\covdeg(X_{e_1} \cap \cdots \cap X_{e_r})$ for a very general complete intersection $X_{e_1} \cap \cdots \cap X_{e_r} \subset \P^n$. 
+\end{cor}
+
+\begin{proof}
+The locus in a flat family $\X \to T$ in $\P^n_T$ where $\covdeg(\X_t) > d$ is closed. Indeed, the locus in $T$ where $\ol{M}_{g,1}(\X/T, d) \to \X$ is not surjective on a fiber is closed for fixed $d$ and there are only finitely many $g$ that can appear for fixed $d$. {\color{red} TODO}
+\end{proof}
+
+\section{The Main Induction}
+
+\begin{theorem} \label{thm:deform_and_break_degree}
+Suppose $(\X, \L) \to \Spec{R}$ is a flat proper family over a dvr $R$ with $K = \Frac{R}$ such that,
+\begin{enumerate}
+\item $\X$ is regular and irreducible
+\item $\X_{\bar{\kappa}} = X_1 \cup_Z X_2$ with $X_1, X_2$ irreducble varieties of the same dimension and $Z$ a divisor in each $X_1, X_2$.
+\end{enumerate}
+Suppose $\covdeg(\X_{\ol{K}}, \L_{\ol{K}}) \le d$ then either
+\begin{enumerate}
+\item $\covdeg(X_1, \L|_{X_1}) + \covdeg(X_2, \L|_{X_2}) \le d$ or
+\item $\covdeg(Z, \L|_Z) \le d$.
+\end{enumerate}
+must hold.
+\end{theorem}
+
+\newcommand{\Mbar}{\ol{\mathcal{M}}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cN}{\mathcal{N}}
+
+\begin{proof}
+By assumption, there is a semistable curve $\pi : \C \to T$ and a stable map $\mu : \C \to \wt{\X}_{\ol{K}}$ so that $\deg{\mu^* \L} \le d$ fiberwise. This gives a map $T \to \Mbar_{g}(\X_K)$. Let $W \subset \Mbar_{g}(\X / R)$ be the scheme (stack) theoretic image which is a closed substack. Notice $W$ is integral and hence flat over $\Spec{R}$. Therefore, we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\C \arrow[r, "\mu"] \arrow[d, "\pi"] & \X \arrow[d]
+\\
+W \arrow[r] & \Spec{R}
+\end{tikzcd}
+\end{center}
+with $\mu$ surjective because it is surjective over $\ol{K}$ and $\X$ is irreducible and $\C$ is proper over $R$.
+Specializing to the geometric special fiber we get a stable map
+\begin{center}
+\begin{tikzcd}
+\C_0 \arrow[r, "\mu"] \arrow[d, "\pi"] & \X_0
+\\
+W_0
+\end{tikzcd}
+\end{center}
+with $\mu : \C_0 \to \X_0$ surjective and $\deg{\mu^* \L} \le d$ by flatness. Therefore, there is some component $S \subset W_0$ such that $\mu(\C_S) \supset X_2$. Moreover, there is an irreducible component $\C^\circ \subset \C_S$ of the total curve so that $\mu(\C^\circ) = X_2$. 
+
+Let $z \in Z$ be a general point. By assumption there is some $s \in S$ such that $z \in \mu(\C_s^\circ)$. Suppose that $z$ lies on a component of $\mu(\C_s)$ entirely inside $Z$. Then if we pass to the closed subscheme $S_Z \subset S$ of curves one of whose componets maps entirely inside $Z$ there is a component $\C' \subset \C_{S_Z}$ such that $\mu(\C') = Z$ since we know that the general point of $Z$ lies on a component of some curve contained entirely in $Z$. Since $\deg{\mu^* \L|_{\C'}} \le d$ we win in case (b). Otherwise, thorugh the general point $z \in Z$ there is no component of $\C_s$ meeting $z$ that lies inside $Z$ so by {\color{red} CITE Jun Li} $\mu(\C_s) \not \subset X_2$. Therefore, the components of $\C_S$ mapping into $X_1$ cover $Z$. If any of these components had image contained in $Z$ then we would be in case (b) so assume no component has image contained in $Z$. Hence, there is a component $\C' \subset \C_S$ such that $\mu(\C') \cap X_1 \supsetneq Z$ and since $\C'$ and $X_1$ are irreducible, $\mu(\C') = X_1$. Therefore, $\mu(\C_S) = \X_0$ so we have a covering family of curves over an irreducible base. Since  \[ d \ge \deg{\mu^* \L} \ge \deg{\mu^* \L|_{\C^\circ}} + \deg{\mu^* \L|_{\C'}} \]
+and $\C'$ is a covering family of $X_1$ and $\C^\circ$ is a covering family of $X_2$ so we conclude (a).
+\end{proof}
+
+\begin{theorem} \label{thm:inductive_bound}
+Let $e_j = a + b$ for $a, b \in \Z_+$. Then {\color{red} NEED BETTER NOTATION}
+\[ \cd(\vec{e}) \ge \min \{ \cd((\vec{e} \sm \{ e_j \}) \cup \{ a \}) + \cd((\vec{e} \sm \{ e_j \}) \cup \{ b \}), \cd(\vec{e} \sm \{ e_j \} \cup \{ a, b\} \} \] 
+\end{theorem}
+
+\begin{proof}
+Since $X_{e_1}$ is a very general hypersurface there exists a degeneration to $X_a \cup X_b$ a union of two very general hypersurfaces in $\P^n$. Explicitly, we can find equations $F,G,H$ of degree $e_1, a, b$ such that 
+\[ \X = V(GH - t F) \cap X_{e_2} \cap \cdots \cap X_{e_r}  \subset \P^n \times \A^1 \]
+so that $V(G)$ and $V(H)$ are isomorphic to the geometric generic hypersurface of degree $a$ and $b$ respectively and that the geometric generic fiber of $\X$ is isomorphic to the geometric generic hypersurface of degree $e_1$. 
+\bigskip\\
+We perform an explicit small resolution of singularities $\tau : \wt{\X} \to \X$. The resolution $\tau$ is an isomorphism over the generic fiber. Over the special fiber we get an explicit description as follows:
+\[ \wt{\X}_0 := \wt{X}_1 \cup_Z X_2 = (\wt{X}_a \cup X_b) \cap X_{e_2} \cap \cdots \cap X_{e_r} \]
+where $\wt{X}_a \to X_a$ is the of $X_a$ along $X_a \cap X_b \cap X_{e_1}$ and these are glued along the strict transform
+\[ Z := X_{a} \cap X_{b} \cap X_{e_2} \cap \cdots \cap X_{e_r} \]
+This is equal to the blowup of the complete intersections along
+\[ Y = X_{a} \cap X_{b} \cap X_{e_1} \cap \cdots \cap X_{e_r} \]
+Since $Y \subset Z$ is a Cartier divisor, the strict transform of $Z$ in each blowup are isomorphic to $Z$ hence $X_1 \cap X_2 = Z$. Notice that $Z \subset X_2$ is an ample divisor. 
+\bigskip\\
+Let $R = \CC[t]_{(t)}$ and $K = \CC(t)$ then by the previous discussion 
+\begin{enumerate}
+\item $\cd_n(\vec{e}) = \covdeg(\wt{\X}_{\ol{K}})$
+\item $\cd_n((\vec{e} \sm \{ e_j \}) \cup \{ a \}) = \covdeg(X_1)$
+\item $\cd_n((\vec{e} \sm \{ e_j \}) \cup \{ b \}) = \covdeg(X_2)$
+\item $\cd_n(\vec{e} \sm \{ e_j \} \cup \{ a, b\} = \covdeg(Z)$
+\end{enumerate}
+Therefore, we apply Theorem~\ref{thm:deform_and_break_degree} to conclude.
+\end{proof}
+
+\section{Asymtotics}
+
+
+\begin{prop}
+Let $\cd_n(\vec{e})$ be any function satisfying the inductive bound of Theorem~\ref{thm:inductive_bound} and the base case if $\# \vec{e} \ge n - 2$ then
+\[ \cd_n(\vec{e}) \ge 
+\begin{cases}
+e_1 \dots e_r & e_1 + \cdots e_r \ge n + 1
+\\
+1 & \text{else}
+\end{cases} \]
+Then,
+\[ \lim_{e_1, \dots, e_r \to \infty} \frac{\cd_n(\vec{e})}{e_1 \cdots e_r} \ge 1 \]
+\end{prop}
+
+\begin{proof}
+Perform induction on $n$. For $n = 3$ the base cases make this clear. Assume the statement for $n-1$. Choose $\epsilon > 0$. Let $\vec{r} = (e_2, \dots, e_r)$ and $\vec{m} = (e_1 - 1, e_2, \dots, e_r)$ therefore,
+\[ \cd_n(\vec{e}) \ge \min \{ \cd_{n-1}(\vec{r}) + \cd_{n}(\vec{m}), \cd_{n-1}(\vec{m}) \} \]
+By the inductive hypotheses, for $e_1, \dots, e_r \ge N_{\epsilon}$ we have
+\[ \cd_{n-1}(\vec{e}) \ge (1 - \epsilon) e_1 \cdots e_r \] 
+Therefore, 
+\[ \cd_n(\vec{e}) \ge \min \{ (1 - \epsilon) e_2 \cdots e_r + \cd_n(\vec{m}), (1 - \epsilon) (e_1 - 1) e_2 \cdots e_r \} \]
+Let $M \ge N_\epsilon$ be the minimal integer such that the second term is larger than the first for the above inequality applied any vector $\vec{e}_q := (q, e_2, \dots, e_r)$ for $q > M$. Therefore, 
+\[ \cd_n(\vec{e}) \ge \sum_{j = M}^{e_1} (1- \epsilon) e_2 \cdots e_r + \cd_n(\vec{e}_M) \]
+If $M = N_\epsilon$ we conclude that 
+\[ \cd_n(\vec{e}) \ge \sum_{j = N_\epsilon}^{e_1} (1 - \epsilon) e_2 \cdots e_r = (1 - \epsilon) (e_1 - N_\epsilon) e_2 \cdots e_r \]
+and therefore we conclude that
+\[ \lim_{e_1 \to \infty} \frac{\cd_n(\vec{e})}{e_1 \cdots e_r} \ge 1 - \epsilon \]
+for all $\epsilon$ and $e_2, \dots, e_r \ge N_\epsilon$ thus proving the claim. Otherwise, we have,
+\[ \cd_n(\vec{e}) \ge \sum_{j = M}^{e_1} (1 - \epsilon) e_2 \cdots e_r + (1 - \epsilon) (M - 1) e_2 \cdots e_r = (1 - \epsilon) (e_1 - 1) e_2 \cdots e_r \]
+so again we conclude.
+\end{proof}
+
+\section{Covering Degree Optimal}
+
+
+\begin{theorem} % [\cite[Proposition 7]{P21}] \label{thm:paulson}
+Let $n \ge 3$ be an integer. Then if $d$ is an integer such that
+\begin{enumerate}
+\item $d$ is coprime to $n!$
+\item the largest prime power $q$ dividing $d$ satisfies
+\[ \left( { n \choose 2} - 1 \right) \cdot q^n + \left( n! - {n \choose 2} \right) \cdot q^{n-1} + (2^n + 1) \cdot n! \ge d \]
+\end{enumerate}
+then every curve $C$ on a very general hypersurface $X_d \subset \P^{n+1}$ of degree $d$ and dimension $n$ satisfies $d \divides \deg{C}$.
+\end{theorem}
+
+
+\begin{proof}[Proof of OPTIMAL RESULT]
+Now we will that for fixed $(n,r)$ there is $N := N(n,r)$ such that for all $d_1, \dots, d_r \ge N$ we have $\cd_{n,r}(d_1, \dots, d_r) = d_1 \cdots d_r$. To do this we will check that the set of positive integers $S_n$ defined as the set of $d$ in the hypothesis of Theorem~\label{thm:paulson} satisfies the following condition
+\begin{center}
+for all positive intergers $k,r$ there exists $N := N(S,k,r)$ such that for all $d_1, \dots, d_r \ge N$ there exists a finite array $\{ a_1^i, \dots, a_r^i \}_{i}$ of elements $a_j^i \in S$ such that
+\begin{enumerate}
+\item all $a^i_j \ge k$
+\item any pair of elements $a^i_j$ and $a^{i'}_{j'}$ are coprime when $j \neq j'$
+\item for all $1 \le j \le r$ we have
+\[ d_j = \sum_i a^i_j \]
+\end{enumerate}
+\end{center}
+Granting $(\ast)$ we prove the result. Suppose that we choose $k(n,r) > 5$ so that $\cd_{n-1,r+1}(d_1, \dots, d_{r+1}) \ge (1 - \tfrac{1}{2}) d_1 \cdots d_r$ whenever $d_1, \dots, d_r \ge k$ (using CITE PROPERLY). This condition implies that if we split $d_1 = a + b$ for $a,b \ge k$ then 
+\begin{align*}
+\cd_{n,r}(d_1, \dots, d_r) & \ge \min \{ \cd_{n,r}(a, d_2, \dots, d_r) + \cd_{n,r}(b, d_2, \dots, d_r), \cd_{n-1, r+1}(a,b, d_2, \dots, d_r) \} 
+\\
+& \ge \cd_{n,r}(a, d_2, \dots, d_r) + \cd_{n,r}(b, d_2, \dots, d_r)
+\end{align*}
+since the second term is automatically $\ge \tfrac{1}{2} ab d_2 \cdots d_r \ge d_1 \cdots d_r$ since $\tfrac{1}{2} ab \ge a + b$ for $a,b > 5$. Therefore, when all entries are $\ge k$ we see that $\cd_{n,r}(d_1, \dots, d_r)$ is super-multilinear.
+\par
+Now using property $(\ast)$ for any $d_1, \dots, d_r \ge N(S_n, k(n,r), r)$ we can find a matrix $\{ a^i_j \}$ satisfying (a) and (b) so that $d_j = \sum_i a^i_j$. Since all $a^i_j \ge k$, using the super-mulilinearity we get
+\[ \cd_{n,r}(d_1, \dots, d_r) \ge \sum_{i_1, \dots, i_r} \cd_{n,r}(a_1^{i_1}, \cdots, a_r^{i_r}) \]
+Since $a_1^{i_1}, \dots, a^{i_r}_r$ are elements of $S$, any curve $C$ on a general complete intersection $X \subset \P^{n+r}$ general of type $(a^1_1, \dots, a^1_r)$ satisfies $a^1_j \divides \deg{C}$. Furthermore, because $a_1^{i_1}, \dots, a^{i_r}_r$ are pairwise coprime, $a^1_1 \cdots a^1_r \divides \deg{C}$. Therefore,
+\[ \cd_{n,r}(d_1, \dots, d_r) \ge \sum_{i_1, \dots, i_r} a_1^{i_1} \cdots a_r^{i_r} = d_1 \dots d_r \]
+Now we prove that $S_n$ satisfies $(\ast)$. We first claim that a set $S$ of positive intergers satisifes $(\ast)$ if it contains arbitrarily long sequences of pairwise coprime integers. Indeed, let $g_1, \dots, g_r, g'_1, \dots, g'_r$ be such a sequence of length $2r$ with all entries $\ge k$. Then I claim that the requisite matrices can be built so that $a_j^i$ is either $g_j$ or $g_j'$ for each $i$. Clearly, such a matrix satifies (a) and (b) so it suffices to show that all sufficiently large sequences $(d_1, \dots, d_r)$ are representable. This uses nothing more than the claim that if $g,g'$ are coprime then $d > (g-1)(g'-1)$ can be writen as $g x + g' y$ for $x,y > 0$ which is  Sylvester's answer to the well-known ``postage stamp'' or ''coin problem.''
+\par
+Finally, we show that $S_n$ contains arbitrarily long sequences of coprime intergers. Let $p_1, \dots, p_s$ be an increasing sequence of primes with $p_1 > \max \{n, 2^n \}$. Then $d = p_1 \cdots p_\ell \in S_n$ if 
+\[ C_n p_r^n \le p_1 \cdots p_\ell \]
+where $C_n$ is a constant depending only on $n$ (given explicitly in Theorem~\ref{thm:paulson}). By Bertrand's postulate we can choose $p_r \le 2^\ell p_1$ then  if
+\[ 2^{n\ell} C_n p_1^n \le p_1^\ell \]
+we win. Since $p_1 > 2^n$ as $\ell \to \infty$ this holds and since $\gcd(p_1, \dots, p_{\ell}, n!) = 1$ because $p_1 > n$ we see that $d = p_1 \cdots p_{\ell} \in S_n$. By starting at the next largest prime after $p_{\ell}$ we can construct a new element of $S_n$ sharing no primes in common. Repeating this, we see that $S_n$ contains an arbitrarily long sequence of pairwise coprime integers. 
+\end{proof}
+
+\section{Covering Degree}
+
+Here we record the well-known result that covering degree is lower semi-continuous, i.e. it goes down under specialization.
+
+\begin{lemma}[lower semi-continuity] \label{lemma:lowersemicontinuity}
+Let $(\X, \L) \rightarrow \Spec R$ be a flat proper family of varieties over a DVR $R$ with $K = \Frac{R}$. Then
+\[ \covdeg(\X_{\kappa}, \L_{\kappa}) \leq \covdeg(\X_{\overline{K}}, \L_{\overline{K}}). \]
+\end{lemma}
+
+\begin{proof}
+    Let $b : \covdeg(\X_{\overline{K}}, \L_{\overline{K}})$. A family computing the covering degree of $\X_{\overline{K}}$ gives a covering family of curves:
+    \begin{center}
+    \begin{tikzcd}
+    \cC_{\overline{K}} \arrow[d, swap, "\pi"] \arrow[r, "f"] & \X_{\overline{K}} \\
+    T_{\overline{K}} 
+    \end{tikzcd}
+    \end{center}
+    where $f$ is surjective and we may assume that $\pi$ is a stable family of curves whose general fiber is smooth (cf. Remark~\ref{rem:defcovdeg}). The base of the family admits a morphism $T_{\overline{K}} \rightarrow \Mbar_{g}(\X_{\overline{K}}, b)$ (where $g$ is the genus of the generic fiber), with image $V_{\overline{K}} \subseteq \Mbar_{g}(\X_{\overline{K}}, b)$. Passing to the closure gives a substack
+    \[ V \subseteq \Mbar_{g}(\X/T, b). \]
+    By \cite[Prop 2.6]{Vis89}, there is a finite surjective morphism from a scheme $V' \rightarrow V$. Pulling back the universal family, we obtain a diagram
+    \begin{center}
+    \begin{tikzcd}
+    \cC_{V'} \arrow[d, swap, "{\pi'}"] \arrow[r, "{f'}"] & \X_{\overline{K}} \\
+    V'
+    \end{tikzcd}
+    \end{center}
+    where $f'$ is surjective since $\cC_{V'}$ is proper and $f'$ is dominant. This implies that on the central fiber $\X_{\kappa}$, the map $f'_{\kappa} \colon \cC_{V'_{\kappa}} \rightarrow \X_{\kappa}$ is also surjective. By irreducibility, some component of $\cC_{V'_{\kappa}}$ surjects onto $\X_{\kappa}$. The inequality \[ \covdeg(\X_{\kappa}, \L_{\kappa}) \leq \covdeg(\X_{\overline{K}}, \L_{\overline{K}}). \] follows from the fact that the restriction $\pi'_{\kappa} \colon \cC_{V'_{\kappa}} \rightarrow V'_{\kappa}$ is a component of some family pulled back from $\Mbar_{g}(\X_{\kappa}, d)$
+\end{proof}
+
+
+\begin{lemma}[constructibility] \label{lemma:constructibility}
+    The covering degree is a constructible function in flat families of polarized varieties.
+\end{lemma}
+
+\begin{proof}
+    For any fixed degree $d > 0$, we prove that the locus of $t\in T$ for a flat family $\X \to T$ in $\P^N_T$ at which $\covdeg(\X_t) < d$ is closed. It suffices to show that the locus in $T$ over which $\bigcup_g \Mbar_{g,1}(\X/T, d) \to \X$ is surjective is closed\footnote{Alternatively one could use the Hilbert scheme of curves $\Hilb^{d,\chi}(\X/T)$ with Hilbert polynomial $d t + \chi$ such that $|\chi| \le d(d-3)$. This contains all reduced curves in $\X_t$ but also disjoint unions of curves with points. To ensure the surjectivity is not caused by zero-dimensional components, we must pass to $\Hilb^{d, \chi}_{\text{conn}}(\X/T)$ the Hilbert scheme of \textit{connected} subschemes.  This is a union of irreducible components of $\Hilb^{d,\chi}$ and hence proper by \cite[\href{https://stacks.math.columbia.edu/tag/0BUI}{Tag 0BUI}]{stacks}}
+    Note that for any stable map $f : C \to \P^n$ of degree $d$ if $C'$ is a component of genus $g > \frac{1}{2}(d-1)(d-2)$ then either $f|_{C'}$ is constant or must factor through a nontrivial finite covering of a curve of genus at most $\frac{1}{2}(d-1)(d-2)$. Therefore, if $\Mbar_{g,1}(\X_t, d) \to \X_t$ is surjective, passing to the normalization of the image of some nonconstant component of a generic curve dominating $\X_t$ we see that $\Mbar_{g,1}(\X_t, d) \to \X_t$ is surjective for some $g' \le \frac{1}{2}(d-1)(d-2)$. Hence the union over $g$ can be assumed to be finite, and we have a proper scheme mapping to $\X$ over $T$. Therefore, the locus on which the map is surjective is closed. 
+\end{proof}
+
+\subsection{The Breaking Lemma}
+
+First we recall some terminology and results from \cite{Li01}. The goal is to study which curves on the central fiber of a semistable degeneration of varieties deform to nearby fibers. 
+
+\begin{defn}
+Let $R$ be a DVR, and $0,\eta \in \Spec{R}$ be the closed point and generic point, respectively. An \textit{SNC degeneration of varieties} over $R$ is a flat proper family $f : \X \to \Spec{R}$ such that $\X_\eta$ is a smooth variety and $\X_0$ is reduced with simple normal crossing (SNC) singularities.
+\end{defn}
+
+To fix notation throughout this section we will work in the following situation:
+
+\begin{situation} \label{situation:breaking_degeneration}
+Let $R$ be a DVR and $f : \X \to \Spec{R}$ a SNC degeneration of varieties such that $\X_0 = X_1 \cup_Z X_2$ is the union of two smooth irreducible varieties along a smooth divisor $Z$. 
+\end{situation}
+
+
+It will be convenient to label certain types of components of a stable map:
+
+\begin{defn}
+Let $\mu : C \to X_1 \cup_Z X_2$ be a stable curve whose target has two smooth components glued along $Z$ as in situation~\ref{situation:breaking_degeneration}. A component $C' \subset C$ is said to be of
+\begin{enumerate}
+    \item \emph{ghost type} if $\mu(C')$ is a point in $Z$;
+    \item \emph{type $Z$} if it is not of ghost type and $\mu(C')\subseteq Z$; 
+    \item \emph{type $X_i$} (for $i=1$ or $2$) if it is neither of ghost type nor of type $Z$, and $\mu(C')\subseteq X_i$.
+\end{enumerate}
+\end{defn}
+
+The following lemma is the critical input that allows us to force certain curves of moderately low degree to break into reducible curves whose image lies on both components of the degeneration. 
+
+\begin{lemma} \label{lemma:divisorial_multiplicity_matching}
+In situation~\ref{situation:breaking_degeneration}, suppose there is a family of nonconstant stable maps
+\begin{center}
+    \begin{tikzcd}
+        \cC_A \arrow[d] \arrow[r, "\mu"] & \X \arrow[d]
+        \\
+        \Spec{A} \arrow[r] & \Spec{R}
+    \end{tikzcd}
+\end{center}
+with $\Spec{A} \to \Spec{R}$ surjective and $x \in \Spec{A}$ in the fiber over $0$. Let $E \subset (\cC_A)_x$ be a connected component of $\mu_x^{-1}(Z)$ that is contracted to a point $z = \mu(E) \in \X^{\reg}$ of the regular locus of the total space. Then let $C_1$ be the union of all components of type $X_1$ meeting $E$ and $C_2$ the union of all components of type $X_2$ meeting $E$. Then
+\[ \sum_{p \in E \cap C_1} [p] m_p(C_1; Z) - \sum_{p \in E \cap C_2} [p] m_p(C_2 ; Z) \sim 0 \]
+is linearly trivial as a divisor on $E$ where $m_p(C_1 ; Z)$ is the multiplicity at which $C_1$ intersects $Z \subset X_1$ at the point $p$ and similarly $m_p(C_2 ; Z)$ is the multiplicity at which $C_2$ intersects $Z \subset X_2$ at the point $p$.  
+\end{lemma}
+
+
+In particular,
+\[ \sum_{p \in E \cap C_1} m_p(C_1 ; Z) = \sum_{p \in E \cap C_2} m_p(C_2 ; Z) \]
+The only actual input we need is that there exists at least one component of type $X_1$ meeting $E$ and at least one component of type $X_2$ meeting $E$. This result follows from the multiplicity matching statment in the predeformability condition of Jun Li's relative stable maps formalism as well as the geometry of expanded degenerations. This result is implicit in \cite[\S2]{Li01}, \cite{QChen10}, and \cite{GV05}. 
+{\color{red} We refer to Appendix~\ref{appendix} for the proof and comparisons of notations between the referenced authors.} A consequence of this result, or rather the degree part, is the following lemma.
+
+\begin{lemma} \label{lemma:breaking}
+In situation~\ref{situation:breaking_degeneration} let $W \subset \X_0$ be the singular locus of the total space. Suppose there is a family of nonconstant stable maps: 
+\begin{center}
+    \begin{tikzcd}
+        \cC_A \arrow[d] \arrow[r, "\mu"] & \X \arrow[d]
+        \\
+        \Spec{A} \arrow[r] & \Spec{R}
+    \end{tikzcd}
+\end{center}
+with $\Spec{A} \to \Spec{R}$ surjective. Suppose $z \in Z \sm W$ is in the image of $\mu$. Then one of the following holds,
+\begin{enumerate}
+    \item[(a)] $z$ lies on the image of a component of type $Z$
+    \item[(b)] $z$ lies on the image of a component of type $X_1$ and also on the image of a component of type $X_2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\mu_{0} \colon (\cC_{A})_0 \to \X_0$ is nonconstant, there must be a component $C \subset (\cC_{A})_0$ meeting $\mu^{-1}(z)$ that is either of type $Z$ or (without loss of generality) of type $X_1$. In the former situation we arrive at case (a), so let us now assume that $C$ is of type $X_1$. Let $p \in C$ be a point maping to $z$. If $p$ lies on a component of type $Z$ then we are in case (a) otherwise $p \in E$ where $E$ is a connected component of $\mu^{-1}(z)$ and $\mu(E) = z$. Since $z \in Z \sm W$ we can apply Lemma~\ref{lemma:divisorial_multiplicity_matching} to conclude that $E$ meets a component $C_1$ of type $X_1$ and a component $C_2$ of type $X_2$. Hence the images of $C_1$ and $C_2$ contain $z$ (since they meet $E$ and $\mu(E) = z$) and satsify the conditions of case (b).
+\end{proof}
+
+{\color{red} PLACEHOLDER FIGURE}
+
+
+\begin{figure}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
+          \begin{figure}[H]
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[dotted] (3, 0) -- (5, 2);
+                \draw (4, 3.5) .. controls (4.5, 2.5) and (3.5, 2.5) .. (3.975, 3.45);
+                \draw (3.5, 0.5) .. controls (3.5, -2) and (4.5, -2) .. (4.5, 1.5);
+                \draw (4.25, 4.05) node{\( C_{X_2} \)};
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.5, 0.55) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw[white, line width = 3pt] (4.5, 1.55) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (3.5, 0.5) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw (4.5, 1.5) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (a)}
+            \label{fig:case_A}
+          \end{figure}
+      \end{minipage}
+      \hspace{0.05\linewidth}
+      \begin{minipage}{0.45\linewidth}
+          \begin{figure}[H]
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[thick, color = red] (3, 0) -- (5, 2);
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw (4.5, 1) node{\( C_Z \)};
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (b)}
+            \label{fig:case_B}
+          \end{figure}
+      \end{minipage}
+  \end{minipage}
+\end{figure}
+
+
+\begin{theorem} \label{thm:deform_and_break_degree}
+In situation~\ref{situation:breaking_degeneration} let $\L$ be a line bundle on $\X$ and suppose that $\X^{\reg} \cap Z$ is nonempty.
+Suppose that $\covdeg(\X_{\ol{\eta}}, \L_{\ol{\eta}}) \le d$. Then either
+\begin{enumerate}
+\item[(a)] $\covdeg(X_1, \L|_{X_1}) + \covdeg(X_2, \L|_{X_2}) \le d$, or 
+\item[(b)] $\covdeg(Z, \L|_Z) \le d$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The idea is that through a general point $z \in Z$ there is a curve in the specialization of the covering family passing through $z$. Then we apply Lemma~\ref{lemma:breaking} to conclude that either $z$ lies on a component of type $Z$ or it lies on two components, one of type $X_1$ and one of type $X_2$. Since $z$ was a general points, in the former case, the specialization of the covering family contains a covering family of curves of $Z$ so we conclude (b), in the latter case, there is a component covering $X_1$ and a component covering $X_2$ so we conclude (a). We now fill in the details of this argument.
+\par 
+By assumption, there is a family of stable curves $\pi : \cC \to T$ over an integral base $T$ and a stable dominant map $\mu : \cC \to \wt{\X}_{\ol{K}}$ such that $\deg_{\mu^* \L}\cC_t \le d$ fiberwise. This gives a map $T \to \Mbar_{g}(\X_{\eta})$. Let $\cW \subset \Mbar_{g}(\X / R)$ be the stack theoretic closure of the image of $T$. By \cite[Proposition 2.6]{Vis89}, one can choose a finite cover $W \to \cW$ by an integral scheme. 
+Since $W$ is integral and dominates $\Spec{R}$ it is flat over $\Spec{R}$. Therefore, pulling back to $W$ we have the following diagram
+\begin{center}
+\begin{tikzcd}
+\cC \arrow[r, "\mu"] \arrow[d, "\pi"'] & \X \arrow[d]
+\\
+W \arrow[r] & \Spec{R},
+\end{tikzcd}
+\end{center}
+where $\mu$ is surjective because it is surjective over $\eta$, the family $\cC$ is proper over $R$, and $\X$ is irreducible. Specializing to the geometric special fiber, we get a stable map
+\begin{center}
+\begin{tikzcd}
+\cC_0 \arrow[r, "\mu_0"] \arrow[d, "\pi_0"'] & \X_0
+\\
+W_0
+\end{tikzcd}
+\end{center}
+with $\mu : \cC_0 \to \X_0$ surjective and $\deg_{\mu^* \L}\cC_0 \le d$ by flatness. Therefore, there is an irreducible component $S \subset W_0$ such that $\mu(\cC_S) \supset Z$ (in fact, we can assume $\mu(\cC_S) \supset X_1$ since the union of all images is $X_1 \cup_Z X_2$ and the $X_i$ are irreducible).
+\par 
+Let $\xi \in Z$ be the generic point. Since $\mu$ is surjective, there is $\delta \in \cC_S$ maping to $\xi$. Restrict to the image $S' \subset S$ of the irreducible component of $\mu^{-1}_0(Z)$ containing $\delta$ so that every fiver of $\cC_{S'}$ meets $Z$. Let $\sigma \in S'$ be the generic point, since $\mu : \cC_{\sigma} \to \X_0$ is a stable map that deforms to $\X_{\eta}$ (since $W$ was irreducible there is a specialization from its generic point to $\sigam$) we may apply Lemma~\ref{lemma:breaking}. Since $\pi : \cC_{S'} \to S'$ is flat, the irreducible components of $\cC_{S'}$ are the same as those of $\cC_{\sigma}$. Hence, either there is a component $\cC_Z \subset \cC_{\sigma}$ with $(\cC_Z)_\sigma$ of type $Z$ and hitting $\xi$ in which case $\cC_Z \to S'$ is a covering family of $Z$ so we are in case (b), or there is a connected component of $\mu_0^{-1}(Z) \cap \cC_\sigma$ that gets contracted to $\xi$ (a ghost type component) it must meet at least one irreducible component $\cC_1 \subset \cC_S$ of type $X_1$ and at least one irreducible component $\cC_2 \subset \cC_S$ of type $X_2$. Hence $\mu : \cC_i \to \X_0$ hit $\xi$ but are type $X_i$ respectively. Since $\mu(\cC_i)$ are irreducible and properly contain $Z$ we must have $\mu(\cC_i) = X_i$ since the $X_i$ are irreducible. Therefore, $\cC_{S'} \to S'$ is a covering family of $X_1 \cup_Z X_2$ over an irreducible base and we have,
+\[ d \ge \deg_{\L}{\cC} = \deg_{\L}{\cC_{S'}}  \ge \deg_{\L}{\cC_1} + \deg_{\L}{\cC_2} \ge \covdeg(X_1, \L|_{X_1}) + \covdeg(X_2, \L|_{X_2}) \]
+giving case (b).
+\end{proof}
+
+
+
+
+
+\end{document}

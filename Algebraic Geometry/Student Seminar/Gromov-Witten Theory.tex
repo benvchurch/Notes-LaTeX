@@ -1,0 +1,912 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\Mbar}{\ol{\M}}
+
+\begin{document}
+
+\section{Rigidifying the space of stable maps}
+
+quasi-stable curves: 
+
+\begin{defn}
+A \textit{stable} map $(\mu : C \to X, p_1, \dots, p_n)$ with $p_i \in C$ is a map from a quasi-stable curve such that
+\begin{enumerate}
+\item if $E \subset C$ is a genus zero component and $\mu(E)$ is a point then $E$ contains at least three special (marked or singular) points
+\item if $E \subset C$ is a genus one component and $\mu(E)$ is a point then $E$ contains at least one special point. 
+\end{enumerate}
+\end{defn}
+
+Coarse moduli of stable maps should be a quotient of a locus in $\Hilb(\P(W) \times \P^r)$.
+
+Want a canonical way to rigidify the problem (meaning removing the automorphisms of stable maps). 
+
+Idea: consider $C \to \P^r$ and pullback hyperplanes and these impose additional marked points. 
+\bigskip\\
+Let $\P^r = \P(V)$ then $V^* = H^0(\P^r, \struct{}(1))$ and let $\bar{t} = (t_0, \dots, t_r)$ be \textit{any} basis for $V^*$. 
+
+\begin{defn}
+A $\bar{t}$-stable rigid family of degree $d$ maps is a $(\pi : \C \to S, \{ \sigma_i \}_{0 \le i \le n}, \{ \tau_{i,j} \}_{\substack{0 \le i \le r \\ 0 \le j \le d}}, \mu: \C \to \P^r )$ such that
+\begin{enumerate}
+\item $\pi : \C \to S$ is a quasi-stable curve
+\item $(\pi, \{ \sigma_i \}, \mu)$ is a stable family
+\item $(\pi, \{ \sigma_i \}, \{ \tau_{i,j} \})$ is a family of pointed stable curves (meaning the $\tau_{i,j}$ are distinct points missing the already special points of $(\pi, \{ \sigma_i \})$ 
+\item for any $0 \le i \le r$ we have $\div(\mu^* (t_i)) = [q_{i,1}] + \cdots + [q_{i, d}]$ as divisors 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Given a stable family and a choice of $\bar{t}$ which is ``good'' meaning that the intersection of the $V(t_i)$ with $\C_t$ are all sets of $d$ distinct points, we don't quite get a $\bar{t}$-rigid stable family. Indeed, we need to choose an ordering of the $q_{i,d}$ which may require taking an $S_d$-cover of $S$. 
+\end{rmk}
+
+\subsection{Special Cases}
+
+\newcommand{\barM}{\ol{\mathcal{M}}}
+
+\begin{enumerate}
+\item 
+For $r = 0$ we get stable curves with no map
+\item $d = 0$ the coarse space if $\barM_{g,n} \times \P^r$ 
+\item $r = d = 1$ and $g = n = 0$ then there aren't enough points to make it stable, we will ignore this case. 
+\end{enumerate}
+
+\begin{defn}
+Consider the functor:
+$\barM_{g,n}(\P^r, d, \bar{t})(S)$ is the set of isomorphism classes of stable families over $S$. 
+\end{defn}
+
+\begin{theorem}
+Let $d > 0$ and $r > 0$.
+There exists a quasi-projective scheme $\ol{M}_{g,n}(\P^r, d, \bar{t})$ which is a coarse space for $\barM_{g,n}(\P^r, d, \bar{t})$. If $g = 0$ then additionally this coarse space represents the functor.  
+\end{theorem}
+
+\begin{proof}
+Build the scheme explicitly such that $(\C, \sigma_i, \tau_{i,}, \mu)$ exists universally. Combining the marked points yields $S \to \ol{M}_{0,m}$ where $m = n + d(r+1)$. This map is not enough however. Suppose $S = \Spec{k}$ and $k = \bar{k}$. The map $C \to \P^r$ is not quite determined by the cartier divisors $\div(\mu^*(t_i))$, it is only determined up to a torus action. 
+\end{proof}
+
+\begin{defn}
+Let $\H_1 = \struct{\U_{0,m}}(q_{i,1} + \cdots + q_{i,d})$ for the points on $\barM_{0,m}$ ordered as the first $n$ are called $p_1, \dots, p_n$ and the rest are called $q_{i,j}$. 
+Suppose the diagram
+\begin{center}
+\begin{tikzcd}
+\C \arrow[r, "\bar{\gamma}"] \arrow[d] \pullback & \U_{0,n} \arrow[d, "\pi"]
+\\
+X \arrow[r, "\gamma"] & \ol{M}_{0,m}
+\end{tikzcd}
+\end{center}
+is Cartesian. We say $\gamma$ is $\H$-\textit{balanced} if for all $i$ we have,
+\begin{enumerate}
+\item $(\pi_X)_* \bar{\gamma}^* (\H_i \ot \H_0^{-1})$ is locally free
+\item $(\pi_X)^* (\pi_X)_*  \bar{\gamma}^* (\H_i \ot \H_0^{-1}) \iso  \bar{\gamma}^* (\H_i \ot \H_0^{-1})$ is an isomorphism. 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+This is the right condition because in our case $\H_i$ will just be $\struct{}(1)$ because all Cartier divisors $q_{i,1} + \cdots + q_{i,d}$ are hyperplane sections. Therefore, any two $\bar{\gamma}^* \H_i$ are actually isomorphic in our case of interest. 
+\end{rmk}
+
+Fact: there exists a locally closed subscheme $\iota: B \embed \ol{M}_{0,m}$ which is universal for $\H$-balanced maps. Let $\G_i = (\pi_B)_* \bar{\iota} (\H_i \ot \H_0^{-1})$ a line bundle let $\tau_i : Y_i \to B$ be the $\Gm$-bundle corresponding to $\G_i$ and $Y_i$ represents trivializations of $\G_i$. 
+\bigskip\\
+Let $Y = Y_1 \times_B \cdots \times_B Y_r$ and let $\U$ be the pullback of $\U_{0,n}$ along $Y \to \ol{M}_{0,m}$. We will show that $\pi_Y$ is a universal $\bar{t}$-rigid stable family. 
+
+\begin{proof}
+We construct a map $\mu : \U \to \P^r$ given by $\mu^* \struct{}(1) = \H_0$ and the sections corresponding to the Cartier divisors $\{ q_{i,1} + \cdots + q_{i,d} \}_{i}$ which are sections of $\H_i \iso \H_0$ the canonical isomorphisms existing over $Y$. 
+
+Since $(\U \to Y, \{ p_i \}, \{ q_i \})$ is a stable curve then $(\U \to Y, \{ p_i \}, \{ q_i \}, \U \to \P^r)$ is a stable map. We need to show the map is stable dropping the $\{ q_i \}$. Indeed, the number of $q_i$ on each component is its degree so the contracted components have no $q_i$ proving the claim. 
+\bigskip\\
+Universality: fix $(\pi : \C \to S, \{ \sigma_i \}, \{ \tau_{i,j} \}, \mu : \C \to \P^r)$ this gives a map $\lambda : S \to \ol{M}_{0,m}$ representing the data $(\mu : \C \to S, \{ \sigma_i \}, \{ \tau_{i,j} \})$. Then $\bar{\lambda}^* \H_i \cong \mu^* \struct{}(1)$ canonically and the divisors $\div \mu^* (t_i) = [q_{i,1}] + \cdots [q_{i,d}]$ are equal meaning there is an isomorphism of bundles with sections. These isomorphism between the $\bar{\lambda}^* \H_i$ give a lift $\tilde{\lambda} : S \to Y$ where the map $\mu$ is the pullback of the universal $\U \to \P^r$. 
+\end{proof}
+
+\section{Constructing $\Mbar_{g,n}(X, \beta)$}
+
+We focus on the case $g = 0$. Last time: for any basis $\bar{t}$ of $V^* = H^0(\P^r, \struct{}(1))$ we constructed a nonsingular quasi-projective variety $\ol{M}_{g,n}(\P^r, \beta, \bar{t})$. Today we
+\begin{enumerate}
+\item construct $\ol{M}_{g,h}(\P^r, \beta)$ via patching the rigid guys
+\item construct $\ol{M}_{g,n}(X, \beta)$ as a closed subscheme. 
+\end{enumerate}
+
+Step 1, by permuting the $q$ we get a quotient $\ol{M}(\bar{t})/G$ where $G = (S_d)^{r+1}$ permuting the points $\{ q_{i,j} \}$ given by the intersection with the $t_j$.  Then $\ol{M}(\bar{t})/G$ is also quasi-projective. Note that this action is \textit{not} free. Indeed, consider a map $\P^1 \to \P^1$ of degree $2$ and the $\bar{t}$ is given by a point on $\P^1$ that is not a branch point. Then $G$ swaps the two points in the fiber but these are isomorphic as stable curves with marked points. 
+\bigskip\\
+For two bases $\bar{t}, \bar{t}'$ we define an open $\ol{M}(\bar{t}, \bar{t}') \subset \ol{M}(\bar{t})$ where the basis $\bar{t}'$ is also transverse to the curve (but we are not fixing the order of the point on the intersection with $\bar{t}'$ so $\ol{M}(\bar{t}, \bar{t}')$ is not symmetric in $\bar{t}$ and $\bar{t}'$). We can show however that
+\[ \ol{M}(\bar{t}, \bar{t}')/G \cong \ol{M}(\bar{t'}, \bar{t})/G \cong \mathcal{E}(\bar{t}, \bar{t}')/(G \times G) \]
+where the last space is the one were we label the divisors for both $\bar{t}$ and $\bar{t}'$. 
+\bigskip\\
+These satisfy the cocycle condition for these isomorphisms because of the existence and symmetry of the spaces $\mathcal{E}(\bar{t}, \bar{t}')/(G \times G)$. Therefore, we can glue to get 
+\[ \ol{M}_{g,n}(\P^r, \beta) \]
+
+\subsection{Sepratedness}
+
+We will use the following fact. If $X$ has a cover by opens 
+
+\subsection{Properness}
+
+Let $X$ be a test curve (i.e. a dvr) with special closed point $x \in X$. We need to show we can fill in the diagram,
+\begin{center}
+\begin{tikzcd}
+\C \arrow[d] \arrow[r] & \P^r
+\\
+X \sm \{ x \} 
+\end{tikzcd}
+\end{center}
+
+\section{SAGS}
+
+Recall: $X$ is convex if for all $f : \P^1 \to X$ then $H^1(\P^1, f^* \T_X) = 0$. 
+
+
+Goal: if $X$ is a smooth projective convex variety then $\ol{\M}_{0,n}(X, \beta)$ is a smooth DM stack with boundary $\partial \ol{\M}_{0,n}(X, \beta) = \ol{\M}_{0,n}(X, \beta) \sm M_{0,n}(X, \beta)$ a divisor with normal crossings.
+
+\begin{theorem}
+Let $C$ be a proper algebraic curve without embedded point and $f : C \to M$ be a map to a smooth $M$ of pure dimension $n$. Then,
+\[ \dim_{[f]} \Hom{}{C}{M} \ge h^0(C, f^* \T_M) - h^1(C, f^* \T_M) = \chi(C, f^* \T_M) =  \deg{f^* \T_M} + n \chi(\struct{C}) = - K_M \cdot [C] + n \chi(\struct{C}) \]
+Furthermore, if we have equality then $\Hom{}{C}{M}$ is lci cut out by $h^1$ equations in its tangent space of dimension $h^0$.
+\end{theorem}
+
+\newcommand{\Def}{\mathrm{Def}}
+
+Consider the sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \bigoplus_{i = 1}^n T_{p_i}(\P^1) \arrow[r] & \Def_{\text{fix}}(f) \to H^0(\P^1, f^* \T_X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Therefore, 
+\[ \Def(f) = \dim H^0(\P^1, f^* \T_X) + n - 3 = \dim(X) + c_1(\T_X) \cdot \beta + (N-3) \]
+
+
+Recall $\partial \ol{\M}_{0,n}(*, 0) = \partial \ol{\M}_{0,n}$ is stratified by paritions of $n$ which is the locus of curves where the number of marked points on each component corresponds to the partition.
+
+\begin{defn}
+Let $A_1 \sqcup \cdots \sqcup A_n = [n]$ be a partition and $\beta_1, \dots, \beta_k \in A_1(X)$ effective curve classes with $\beta_1 + \cdots + \beta_n = \beta$. Then we define,
+\[ D(A_1, \dots, A_k ; \beta_1, \dots, \beta_k) \]
+to be the locus of $\mu : C \to X$ such that there exists a decomposition
+\[ C = C_1 \cup \cdots \cup C_n \]
+such that marks from $A_i$ lie on $C_i$ and $\mu_*([C_i]) = \beta_i$. 
+\end{defn}
+
+These are closed subsets. They are not irreducible because we do not fix the dual graph. 
+
+Plan:
+
+\begin{enumerate}
+\item if $k = 2$ then $D(A_1, A_2 ; \beta_1, \beta_2)$ are (Weil) divisors
+\item a $D(A_1, \dots, A_{k+1} ; \beta_1, \dots, \beta_{k+1})$ is an intersection of $k$ divisors of type considered above
+\item tangent space to $D(A_1, \dots, A_k ; \beta_1, \dots, \beta_k)$ has the expected dimension at each generic point
+\end{enumerate}
+
+
+\subsection{Part (a)}
+
+Let $\ol{\M}_{A} := \M_{0, A \cup \{ * \}}(X, \beta_1)$ where we are chosing markings from a set $A \subset [n]$. And let $\ol{\M}_{B} = \ol{\M}_{0, B \cup \{ * \}}(X, \beta_2)$. There are evaluation maps $e_A : \ol{\M}_{A} \to X$ and $e_B : \ol{\M}_B \to X$ which evaluate at $*$. We want to consider gluing two curves at a marked point which is still stable. To do this we need the marked points on each piece to go to the same point. Thus we define,
+\[ \wt{\D}(A, B, \beta_1, \beta-2) = \ol{\M}_A \times_X \ol{\M}_B \]
+over the maps $e_A, e_B$. These are pairs
+\[ \{ \mu_A : C_A \to X, \mu_B : C_B \to X, (\mu_A)_* [C_A] = \beta_1, (\mu_B)_* [C_B] = \beta_2, \mu_A(*) = \mu_B(*) \} \]
+There is a canonical map $\wt{\D}(A, B, \beta_1, \beta_2) \to D(A, B ; \beta_1, \beta_2)$. Since $X$ is convex $\mu^* \T_X$ is generated by global sections this means that,
+\[ \d{e_A} : H^0(C_A, \mu^* \T_X) \to T_{\mu(*)} X \]
+is surjective (at least over the interior points). Therefore, the fiber product has the correct dimension:
+\begin{align*}
+\dim{\wt{\D}} & = \dim{\ol{\M}_A} + \dim{\ol{\M}_B} - \dim(X) = \dim(X) + c_1(\T_X) \cdot \beta_1 + \# A - 2 + \dim(X) + c_1(\T_X) \cdot \beta_2 + \# B - 2 - \dim(X)
+\\
+& = \dim(X) + c_1(\T_X) \cdot \beta + n - 4 
+\end{align*}
+which means it could be a divisor. Notice that the map $\wt{\D} \to D$ has self intersections. Indeed, we could glue $\P^1 \cup \P^1$ and $\P^1$ to get the same thing as $\P^1$ glued together with $\P^1 \cup \P^1$. 
+
+\subsection{Part (b)}
+
+Let $\D(A_1, \dots, A_k ; \beta_1, \dots, \beta_k)$ be a stratum. Let $A_i^* = [n] \sm A_i$ and $\beta* = \beta - \beta_i$ then 
+\[ \D(A_1, \dots, A_k ; \beta_1, \dots, \beta_k) = \bigcap_{i = 1}^n \D(A_i, A_i^* ; \beta_i, \beta_i^*) \]
+If the same term appears twice in the intersection it means we are looking for the locus where a divisor self-intersects exactly because of this trouble we described earlier. 
+
+\begin{lemma}
+Let $X$ be a nonsingular projective convex variety. Let $\mu : C \to X$ be a map from a projective, connected, reduced nondal curve of arithmic genus zero. Then $H^1(C, \mu^* \T_X) = 0$ and $\mu^* \T_X$ is generated by global sections.
+\end{lemma}
+
+\begin{proof}
+Let $E \subset C$ be an irreducible component. Let $\mu^* \T_X |_E = \bigoplus \struct{}(a_i)$. By convexity we must have all $a_i \ge 0$ otherwise we could compose with a squaring map and violate convexity. We are going to prove by induction that,
+\[ H^1(C, \mu^* \T_X \ot \struct{C}(-p)) = 0 \]
+for any smooth point $p \in C$ which means that $\mu^* \T_X$ is generated by global sections (breaking a node into two parts and applying the proof to each part gives the global generation at nodes). We checked this if $C$ is irreducible by convexity. Let $C = C' \cup E$ and $C' \cap E = \{ p_1, \dots, p_r \}$ and $p \in E$. Then consider
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mu^* \T_X |_{C'} (- \sum p_i) \arrow[r] & \mu^* \T_X(-p) \arrow[r] & \mu^* \T_X |_E (-p) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the first term is a sum over irreducible componets twisted down by one point so we can apply the induction hypothesis. The last term has vanishing $H^1$ by the base case so we win by the exact sequence. 
+\end{proof}
+
+Deformations of nodal curves: inside $\Def(\mu)$ for each node, there is a hyperplane of deformations that do not smooth a given node. Hence, the space $\Def_G(\mu)$ of deformations which preserve all nodes satisfies $\dim{\Def_G(\mu)} \ge \dim{\Def(\mu)} - k$. There is a sequence,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Def_G(\mu : C \to X) \arrow[r] & \Def_G(\mu) \arrow[r] & \Def_G(C) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Using the automorphism we get,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^0(C, \T_C(-\text{nodes})) \arrow[r] & \Def_{C \text{fixed}}(\mu) \arrow[r] & \Def_G(\mu : C \to X) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+First $\dim{\Def_G(C)}$. If a component has at least 4 special points then there are moduli given by cross ratios:
+\[ \dim{\Def_G(C)} = \sum_{C_i} \max \{ ( \text{valence}_{C_i} - 3 ), 0 \} \]
+Infinitesimal automorphisms exist only for components of valence $< 3$. Therefore,
+\[ \dim H^0(C, \T_C(-\text{nodes})) = \sum_{C_i} \max \{ (3 - \text{valence}_{C_i}), 0 \} \]
+Next,
+\begin{align*}
+\dim \Def_G(\mu) = \dim \Def_G(C) + \dim \Def(\mu : C \to X) & = \dim \Def_G(C) - \dim H^0(C, \T_C(-\text{nodes})) + \dim H^0(C, \mu^* \T_C) 
+\\
+& = \sum_{C_i} (\text{valence}_{C_i} - 3) + \chi(C, \mu^* \T_X) = 2 k - 3 (k + 1) + \dim(X) + c_1(\T_X) \cdot \beta 
+\\
+& = (\dim(X) - 3 + c_1(\T_X) \cdot \beta) - k
+\end{align*}
+
+\section{Matt}
+
+Throughout, let $X$ be smooth, projective, convex variety.
+
+\begin{example}
+\begin{enumerate}
+\item $X = G / P$ where $G$ is a reductive group and $P$ is a parabolic
+\item $X = A$ is an abelian variety
+\end{enumerate}
+\end{example}
+
+Consider for each $1 \le i \le n$ the evaluation map $\ev_i : \ol{M}_{0,n}(X, \beta) \to X$ at the $i^{\text{th}}$-marked point. Let $\gamma_1, \dots, \gamma_n \subset X$ be cycles. We define,
+\[ I_\beta(\gamma_1 \cdots \gamma_n) = \int_{[ \ol{M}_{0,n}(X, \beta) ]} \ev_i \gamma_1 \smile \cdots \smile_n \gamma_n \]
+Now we consider
+\[ \dim{\ol{M}_{0,n}(X, \beta)} = \dim{X} + (n-3) + c_1(\T_X) \cdot \beta \]
+These numbers satisfy the following properties:
+\begin{enumerate}
+\item $I_\beta$ is multilinear in the $\gamma_1, \dots, \gamma_n$.
+\item if $\sum \codim{\gamma_i} \neq \dim(X) + (n-3) + c_1(\T_X) \cdot \beta$ then $I_\beta(\gamma_1 \dots \gamma_n) = 0$
+\item $I_\beta(\gamma_1 \dots \gamma_n)$ is symmetric up to signs from the cup product
+\item if $\beta = 0$ then $\ol{M}_{0,n}(X, \beta) = \ol{M}_{0,n} \times X$ and thus ($n \ge 3$)
+\[ I_\beta(\gamma_1 \dots \gamma_n) = 
+\begin{cases}
+\int \gamma_1 \smile  \gamma_2 \smile \gamma_3 & n = 3
+\\
+0 & \text{else}
+\end{cases} \] 
+\item For $\gamma_1 = 1$ we get
+\[ I_\beta(1 \cdot \gamma_2 \cdots \gamma_n) = 
+\begin{cases}
+\int_X \gamma_2 \smile \gamma_3 & n = 3, \beta = 0
+\\
+0 & \text{else}
+\end{cases} \]
+Using that the intersection is pulled back along $\ol{M}_{0, n}(X, \beta) \to \ol{M}_{0,n-1}(X, \beta)$ but the class on the base has the wrong dimension. 
+\item if $\beta$ is not effective then $I_\beta(\gamma_1 \cdots \gamma_r) = 0$
+\item Divisor axiom: if $\gamma_1 \in H^2(X)$ then
+\[ I_\beta(\gamma_1 \cdots \gamma_n) = \left( \int_\beta \gamma_1 \right) I_\beta(\gamma_2 \cdots \gamma_n) \] 
+\end{enumerate}
+
+\begin{example}
+Suppose $G \acts X$ transitively and $\gamma_i = [\Gamma_i]$ are classes of subvarities then for general $g_1, \dots, g_n \in G$
+\[ I_\beta(\gamma_1, \dots, \gamma_n) = \# \{ \mu : \P^1 \to X, (0,1, \infty, p_4, \dots, p_n) \mid \forall i : \ev_i(p_i) = g_i \Gamma_i \text{ and } \mu_* [\P^1] = \beta \} \]
+Why: the locus of automorphism free curves with smooth source $M_{0,n}(X, \beta)^\circ \subset \ol{M}_{0,n}(X, \beta)$ is a dense open. Then we use Kleiman-Bertini theorem which says that each intersection of $\ev_i^{-1}(\Gamma_i)$ can be made transverse and lie inside $M_{0,n}(X, \beta)^\circ$ for a general choice of $g_i \in G$. 
+\end{example}
+
+\begin{example}
+Consider the diagram,
+\begin{center}
+\begin{tikzcd}
+\ol{M}_{0,n}(X, \beta) \arrow[r, "\ev"] \arrow[d, "f"] & X^n
+\\
+\ol{M}_{0,n}
+\end{tikzcd}
+\end{center}
+Then we consider $f_* \ev^* : H^\bullet(X)^{\ot n} \to H^\bullet(\ol{M}_{0,n})$ which generalizes the Gromov-Witten invariants which appear as the top degree part of the image of this map. 
+\end{example}
+
+\section{Ben}
+
+Let's review the Gromov-Witten theory of $X = \P^2$. Here $X$ is a homogenous space for $G = \PGL_3$. Using the notation of last time $T_0, T_1, T_2$ is a basis for the cohomology of $X$ where
+\begin{enumerate}
+\item $T_0 = 1$
+\item $T_1 = [\text{line}]$
+\item $T_2 = [\text{point}]$
+\end{enumerate}
+Furthermore, $\beta \in H^2(X, \Z)$ must be of the form $\beta = d T_1$ and the effective ones have $d \ge 0$ where $d$ is the degree of the curve. Then we write $\ol{M}_{0,n}(\P^2, d)$ for the moduli space of genus $0$ stable maps of degree $d$ with $n$ marked points to $\P^2$.
+\bigskip\\
+Recall the Gromov-Witten invariants,
+\[ I_\beta(\gamma_1 \cdots \gamma_n) = \int_{[\ol{M}_{0,n}(X, \beta)]} \ev_1^{*}(\gamma_1) \smile \cdots \smile \ev_n^*(\gamma_n) \]
+satisfy the following properties:
+\begin{enumerate}
+\item $I_\beta$ is multilinear in the $\gamma_1, \dots, \gamma_n$.
+\item if $\sum \codim{\gamma_i} \neq \dim(X) + (n-3) + c_1(\T_X) \cdot \beta$ then $I_\beta(\gamma_1 \dots \gamma_n) = 0$
+\item $I_\beta(\gamma_1 \dots \gamma_n)$ is symmetric up to signs from the cup product
+\item if $\beta = 0$ then $\ol{M}_{0,n}(X, \beta) = \ol{M}_{0,n} \times X$ and thus ($n \ge 3$)
+\[ I_\beta(\gamma_1 \dots \gamma_n) = 
+\begin{cases}
+\int \gamma_1 \smile  \gamma_2 \smile \gamma_3 & n = 3
+\\
+0 & \text{else}
+\end{cases} \] 
+\item For $\gamma_1 = 1$ we get
+\[ I_\beta(1 \cdot \gamma_2 \cdots \gamma_n) = 
+\begin{cases}
+\int \gamma_2 \smile \gamma_3 & n = 3, \beta = 0
+\\
+0 & \text{else}
+\end{cases} \]
+Using that the intersection is pulled back along $\ol{M}_{0, n}(X, \beta) \to \ol{M}_{0,n-1}(X, \beta)$ but the class on the base has the wrong dimension. 
+\item if $\beta$ is not effective then $I_\beta(\gamma_1 \cdots \gamma_r) = 0$
+\item Divisor axiom: if $\gamma_1 \in H^2(X)$ then
+\[ I_\beta(\gamma_1 \cdots \gamma_n) = \left( \int_\beta \gamma_1 \right) I_\beta(\gamma_2 \cdots \gamma_n) \] 
+\end{enumerate}
+
+We want to compute all Gromov-Witten invariants of $X = \P^2$. Using bilinearily, we may assume each $\gamma_i \in \{ T_0, T_1, T_2 \}$ is a generator. If any $\gamma_i$ is $T_0 = 1$ then we use (e) and we just get an intersection number. If any $\gamma_i$ is $T_1$ then we may remove it using the divisor axiom and get an overall factor of $d$ (representing the fact that there are $d$ intersection points of a degree $d$ curve with a general line so we get a choice of $d$ poitns mapping into the line to mark). Therefore, the only interesting invariants are $I_d(T_2^n)$. Notice this is zero unless:
+\[ 2 n = 2 + (n-3) + 3d \]
+meaning that $n = 3d - 1$. We call these numbers
+\[ N_d := I_d(T_2^{3d - 1}) \]
+
+\begin{example}
+Since $\P^2$ is a homogeneous space the numbers $N_d$ have the following enumerative interpretation: choose $p_1, \dots, p_{3d - 1} \in \P^2$ points in general position then
+\[ N_d = \# \{ (\mu : \P^1 \to \P^2, 0, 1, \infty, x_4, \dots, x_{3d- 1}) \mid \deg{\mu} = d \text{ and } \mu(x_i) = p_i \} \]
+\end{example}
+
+\subsection{The Quantum Potential}
+
+Recall the quantum potential is defined for a class $\gamma$ as
+\[ \Phi(\gamma) := \sum_{n \ge 3} \sum_\beta \frac{1}{n!} I_\beta(\gamma^n) \]
+Using a basis $T_0, \dots, T_m$ of the cohomology such that,
+\begin{enumerate}
+\item $T_0 = 1$
+\item $T_1, \dots, T_p$ form a basis for $H^2(X, \Z)$
+\item $T_{p+1}, \dots, T_m$ are homogeneous generators for the remaining cohomology groups
+\end{enumerate}
+\[ \gamma = y_0 T_0 + \cdots + y_m T_m \]
+and then
+\[ \Phi(y_0, \dots, y_m) := \sum_{n \ge 3} \sum_\beta \frac{1}{n!} I_\beta((y_0 T_0 + \cdots + y_m T_m)^n) = \sum_{n_0 + \cdots + n_m \ge 3} \sum_\beta I_\beta(T_0^{n_0} \cdots T_m^{n_m}) \frac{y_0^{n_0}}{n_0!} \cdots \frac{y_m^{n_m}}{n_m!} \]
+We further decompose this as 
+\[ \Phi(y) = \Phi_{\text{classical}}(y) + \Phi_{\text{quantum}}(y) \]
+where the classical term is the $\beta = 0$ contribution
+\[ \Phi_{\text{classical}}(y) = \sum_{n_0 + \cdots + n_m = 3} \int_X (T_0^{n_0} \smile \cdot \smile T_m^{n_m}) \frac{y_0^{n_0}}{n_0!} \cdots \frac{y_m^{n_m}}{n_m!} \]
+Recall that, $T_0 = 1$ so if $n_0 > 0$ then $I_\beta(T_0^{n_0} \cdots T_m^{n_m}) = 0$ unless $\beta = 0$ so it does not contribute to the quantum part. Furthermore, $T_1, \dots, T_p$ are a basis for $H^2(X)$ hence by the divisor axiom
+\[ I_\beta(T_1^{n_1} \cdots T_m^{n_m}) = \left( \int_\beta T_1 \right)^{n_1} \cdots \left( \int_{\beta} T_p \right)^{n_p} I_{\beta}(T_{p+1}^{n_{p+1}} \cdots T_m^{n_m}) \] 
+Therefore, 
+\[ \Phi_{\text{quantum}}(y) = \sum_{n_{1} + \cdots + n_m \ge 3} \sum_{\beta \neq 0} \frac{1}{n_1!} \cdots \frac{1}{n_p!} \left( y_1 \int_\beta T_1 \right)^{n_1} \cdots \left( y_p \int_{\beta} T_p \right)^{n_p}  I_{\beta}(T_{p+1}^{n_{p+1}} \cdots T_m^{n_m}) \frac{y_{p+1}^{n_{p+1}}}{n_{p+1}!} \cdots \frac{y_m^{n_m}}{n_m!} \]
+Recall that only
+\[ \Phi_{ijk} := \frac{\partial^3 \Phi}{\partial y_i \partial y_j \partial y_k} \]
+are used to define the quantum product
+\[ T_i * T_j := \sum_{e,f} \Phi_{ije} g^{eg} T_f \]
+Therefore, if we modify it with terms of degree $< 3$ this does not change the quantum product so we may replace $\Phi_{\text{quantum}}(y)$ with the full series
+\[ \Gamma(y) := \sum_{n_{p+1} + \cdots + n_m \ge 0} \sum_{\beta \neq 0} \left( e^{y_1 \int_\beta T_1 + \cdots + y_p \int_\beta T_p} \right) I_{\beta}(T_{p+1}^{n_{p+1}} \cdots T_m^{n_m}) \frac{y_{p+1}^{n_{p+1}}}{n_{p+1}!} \cdots \frac{y_m^{n_m}}{n_m!} \]
+
+\subsection{The Recursion on $N_d$}
+
+Go back to $X = \P^2$ and $T_0 = 1, T_1 = [\text{line}], T_2 = [\text{point}]$. Then
+\[ g_{ij} = \int_X T_i \smile T_j = \begin{cases}
+1 & i + j = 2
+\\
+0 & \text{else}
+\end{cases} \]
+hence $g_{ij} = g^{ij}$. Therefore,
+\[ T_i * T_j = \Phi_{ij0} T_2 + \Phi_{ij1} T_1 + \Phi_{ij2} T_0 \]
+Furthermore,
+\[ \Phi_{ijk} = T_i \smile T_j \smile T_k + \Gamma_{ijk} \]
+Therefore,
+\begin{align*}
+T_1 * T_1 &= T_2 + \Gamma_{111} T_1 + \Gamma_{112} T_0
+\\
+T_1 * T_2 &= 0 + \Gamma_{121} T_1 + \Gamma_{122} T_0
+\\
+T_2 * T_2 &= 0 + \Gamma_{221} T_1 + \Gamma_{222} T_0 
+\end{align*}
+The associativity relation reads
+\[ (T_1 * T_1) * T_2 = (\Gamma_{221} T_1 + \Gamma_{222} T_0) + \Gamma_{111} (\Gamma_{121} T_1 + \Gamma_{122} T_0) + \Gamma_{112} T_2 \]
+equals
+\[ T_1 * (T_1 * T_2) = \Gamma_{121} (T_2 + \Gamma_{111} T_1 + \Gamma_{112} T_0) + \Gamma_{122} T_1 \]
+Equating the coefficients gives relations
+\begin{enumerate}
+\item $\Gamma_{222}  + \Gamma_{111} \Gamma_{122} = \Gamma_{121} \Gamma_{112}$
+\item $\Gamma_{221} + \Gamma_{111} \Gamma_{121} = \Gamma_{121} \Gamma_{111} + \Gamma_{122}$
+\item $\Gamma_{112} = \Gamma_{121}$
+\end{enumerate}
+The last is just the obvious symmetry. The second is also derivable from this symmetry. However, the first is interesting. Recall that
+\[ I_d(T_2^{n_2}) = 
+\begin{cases}
+N_d & n_2 = 3d - 1
+\\
+0 & \text{else}
+\end{cases} \]
+and therefore
+\[ \gamma(y) = \sum_{d \ge 1} N_d e^{d y_1} \frac{y_2^{3 d - 1}}{(3d - 1)!} \]
+From this we obtain the partial derivatives
+\begin{align*}
+\Gamma_{222} &= \sum_{d \ge 2} N_d e^{d y_1} \frac{y_2^{3 d - 4}}{(3d - 4)!}
+\\
+\Gamma_{112} &= \sum_{d \ge 1} d^2 N_d e^{d y_1} \frac{y_2^{3 d - 2}}{(3d - 2)!}
+\\
+\Gamma_{111} &= \sum_{d \ge 1} d^3 N_d e^{d y_1} \frac{y_2^{3 d - 1}}{(3d - 1)!}
+\\
+\Gamma_{122} &= \sum_{d \ge 1} d N_d e^{d y_1} \frac{y_2^{3 d - 3}}{(3d - 3)!}
+\end{align*}
+Therefore,
+\[ \Gamma_{112}^2 = \sum_{d \ge 2} \sum_{d_1 + d_2 = d} d_1^2 N_{d_1} d_2^2 N_{d_2} e^{d y_1} \frac{y_2^{3d - 4}}{(3 d_1 - 2)! (3 d_2 - 2)!} \]
+and
+\[ \Gamma_{111} \Gamma_{122} = \sum_{d \ge 2} \sum_{d_1 + d_2} d_1^3 N_{d_1} d_2 N_{d_2} e^{d y_1} \frac{y_2^{3d - 4}}{(3 d_1 - 1)! (3 d_2 - 3)!} \]
+The difference is supposed to equal
+\[ \Gamma_{222} = \sum_{d \ge 2} N_d e^{d y_1} \frac{y_2^{3 d - 4}}{(3d - 4)!} \]
+equating the coefficients of 
+\[ e^{d y_1} y_2^{3d - 4} / (3d - 4)! \]
+we get
+\[ N_d = \sum_{d_1 + d_2} N_{d_1} N_{d_2} \left[ d_1^2 d_2^2 {3 d - 4 \choose 3 d_1 - 2} - d_1^3 d_2 {3 d - 4 \choose 3 d_1 - 1} \right] \]
+Along with $N_1 = 1$ this recursive formula determines all $N_d$. 
+
+\section{Calabi-Yau 3-folds}
+
+\begin{defn}
+A smooth projective variety $X$ is \textit{Calabi-Yau} if $K_X \equiv_{\text{num}} 0$ and $H^1(X, \Z) = 0$.
+\end{defn}
+
+\subsection{Lines}
+
+Recall that the expected dimension of $\ol{\M}_{g,n}(X, \beta)$ is 
+\[ (1 - g)(\dim(X) - 3) + n + c_1(\T_X) \cdot \beta \]
+Therefore, if $X$ is a Calabi-Yau $3$-fold these numbers are zero leaving a vitrual dimension of $n$. Therefore, if we want to have a nonzero Gromov-Witten number
+\[ I_\beta(\gamma_1 \cdots \gamma_n) \]
+we need $\codim{\gamma_1} + \cdots + \codim{\gamma_n} = 2n$ so either all $\codim{\gamma_i} = 2$ (since $X$ is Calabi-Yau $H^1(X, \Z) = 0$) or there is at least one $\gamma_i = 1$. In the first, case the divisor axiom applies so we get
+\[ I_\beta(\gamma_1 \cdots \gamma_n) = \left( \int_\beta \gamma_1 \right) \cdot \left( \int_\beta \gamma_n \right) I_\beta \]
+and we reduce to zero-point Gromov-Witten numbers. Furthermore, if some $\gamma_i = 1$ then the only nonzero $I_\beta$ has $n = 3$ and equals $\int_X \gamma_1 \smile \gamma_2$. Therefore, the interesting Gromov-Witten numbers are zero-point $I_\beta$ indexed by effective curve classes $\beta$.
+\bigskip\\
+We expect $I_\beta$ to count the number of rational curves on $X$ with cohomology class $\beta$. However, sometimes this number is infinite. 
+
+\begin{example}
+Let $X_5 \subset \P^4$ be a smooth quintic 3-fold. Then $X_5$ is a Calabi-Yau 3-fold with $H_2(X_5, \Z) = \Z L$ generated by the class of a line. Therefore, we can write
+\[ N_d = I_{d L} \]
+One of those famous numbers is: there are exactly $2875$ lines on a general $X_5$ and none deform to first-order. Let's prove this. Consider $G = \mathrm{Gr}(5, 2)$ the space of lines in $\P^4$ and consider $P = \P^{{4 + 5 \choose 4} - 1} = \P^{125}$ the space of smooth quintic 3-folds. Let $\X \subset P \times G$ be the incidence correspondence of pairs $(X_5, \ell)$ such that $\ell \subset X_5$. Notice that $\pi_2 : \X \to G$ is a projective bundle. Indeed, given a fixed line $\ell$ the space of quintics containing it is given by the kernel of
+\[ H^0(\P^4, \struct{}(5)) \to H^0(\ell, \struct{}(5)) \]
+but this map is surjective (because a line is projectively normal if you like) so the fiber of $\pi_2$ over $\ell$ is $\P^{{4 + 5 \choose 4} - {1 + 5 \choose 1} - 1} = \P^{119}$. Furthermore, $\pi_2 : \X \to G$ is equivariant for the natural $\PGL_5$-action which is transitive on $G$ so if $\pi_2$ is generically smooth then it must be smooth. However, each fiber is irreducible so $\X$ is irreducible (because $\pi_2$ is proper). With a little more work we show the generic fiber is reduced and hence smooth (one way to do this is by exhibiting a line on an $X_5$ that does not deform proving that $\X$ is generically reduced). Thus $\pi_2$ is a smooth $\P^{119}$-bundle so $\X$ is smooth of dimension $\dim{\P^{119}} + \dim{G} = 125$. However, this is dimension of $P$ and thus $\pi_1$ is generically finite. Since $\X$ is a smooth irreducible variety, by generic smoothness the generic fiber of $\pi_1$ consists of reduced points proving that these curves are infinitesimally rigid. 
+\bigskip\\
+Now we can use intersection theory to determine $\deg{\pi_1}$. Let $F \in H^0(\P^4, \struct{}(5))$ be a general section. Over $G$ there is a universal rank $2$ quotient $\E$ corresponding to $H^0(\ell, \struct{}(1))$ over $[\ell]$ of $H^0(\P^4, \struct{}(1))$. Thus $F$ produces a section of $\Sym{5}{\E}$ whose vanishing on $G$ is the locus of lines contained in $V(F)$. Assuming that $V(F)$ is of the correct dimension $\dim{G} - \rank{\Sym{5}{\E}} = 0$ (which we proved is true for generic $F$) its class in Chow is given by $c_6(\Sym{5}{\E})$. We calculate
+\[ c_6(\Sym{5}{\E}) = 600 c_1(\E)^4 c_2(\E) + 1450 c_1(\E)^2 c_2(\E)^2 + 225 c_2(\E)^3 \]
+Furthermore, 
+\[ c(\E) = 1 + \sigma_1 + \sigma_{1,1} \]
+are the Schubert classes: $\sigma_1$ space of lines intersecting a fixed 2-space, $\sigma_{1,1}$ the space of lines contained in a fixed 3-space. Note that $\sigma_{1,1}^3 = 1$. Furthermore, $\sigma_{1}^2 \cdot \sigma_{1,1}^2 = 1$ because there is a unique line contained in a plane through the two points this plane intersects two other planes. Finally, $\sigma_1^4 \cdot \sigma_{1,1} = 2$ because there are exactly two lines in 3-space intersecting 4 generic lines  therefore
+\[ c_6(\Sym{5}{\E}) = 2 \cdot 600 + 1450 + 225 = 2875 \]
+\end{example}
+
+\begin{example}
+However, if $F = V(x_0^5 + \cdots + x_4^5)$ is the Fermat then there are infinitely many lines. Let $\zeta$ be a fifth-root of unity. Then $F \cap V(x_i + \zeta x_j)$ for $x_i \neq x_j$ has the equation 
+\[ x_0^5 + \cdots + \hat{x_i}^5 + \cdots + \hat{x_j}^5 + \cdots + x_4^5 \subset \P^3 \]
+which is the cone over a quintic curve and hence has a 1-dimensional family of lines. There are ${5 \choose 2} = 10$ choices of $i,j$ and $5$ choices of $\zeta$ giving $50$ total families of lines. It turns out that
+\[ \Mbar_{0,0}(F, 1) = \bigcup_i M_i \]
+for these 50 components. 
+\end{example}
+
+This example shows there are serious problems with defining Gromov-Witten numbers in the nonconvex case. First of all there may be components of higher dimension than expected and these components may not have the same dimension so it is unclear what the fundamental class should be. Moreover, we see that these moduli spaces are not at all deformation invariant. 
+
+\subsection{Higher Gromov-Witten Numbers}
+
+
+
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\LL}{\mathbb{L}}
+
+On $\Mbar_{0,0}(\P^4, d)$, which is a smooth DM-stack of dimension $1 + 5d$, there is a bundle $\cV_d := \pi_* \mu^* \struct{\P^4}(5)$ where $\pi : \C \to \Mbar_{0,0}(\P^4, d)$ is the universal curve.
+
+\begin{lemma}
+$\cV_d$ is a vector bundle of rank $5d + 1$.
+\end{lemma}
+
+\begin{proof}
+By Grauert's theorem, it suffices to check that $h^0(C, \mu^* \struct{\P^4}(5)) = 5d + 1$ for every stable map of degree $d$. Consider,
+\[ 0 \to \struct{C}(5) \to \struct{\wt{C}}(5) \to \cQ \to 0 \]
+the quotient has zero dimensional support so we may drop the twist. Let $\wt{C} = C_1 \sqcup \cdots \sqcup C_r$ with degrees $d_1 + \cdots + d_r = d$ so $\struct{\wt{C}}(5)|_{C_i} = \struct{\P^1}(5d_i)$ and therefore
+\[ H^0(\struct{\wt{C}}(5)) = 5 d + r \quad \quad H^1(\struct{\wt{C}}(5)) = 0 \]
+Furthermore, there are $r-1$ nodes at which $\cQ$ is supported. The evaluation map
+\[ H^0(\struct{\wt{C}}(5)) \to H^0(\cQ) \]
+is surjective because each $\struct{\wt{C}}(5)|_{C_i} \cong \struct{\P^1}(5 d_i)$ is globally generated and the dual graph of $C$ is a tree so we can surject onto the nodes working inwards from the leaves. Therefore, $H^0(\struct{C}(5)) = 5d + 1$. 
+\end{proof}
+
+\newcommand{\vir}{\mathrm{vir}}
+
+Then given a section $s \in H^0(\P^4, \struct{\P^4}(5))$ defining a quintic 3-fold $X_5$ we can pullback to get a section $\bar{s} \in H^0(\Mbar_{0,0}(\P^4, d), \cV_d)$ such that
+\[ \Mbar_{0,0}(X_5, d) \embed \Mbar_{0,0}(\P^4, d) \]
+is cut out as the vanishing locus of $\bar{s}$. Since it is cut out of a smooth space by the section of a vector bundle, we can use intersection theory to define a class on $\Mbar_{0,0}(X_5, d)$ of the expected dimension:
+\[ [\Mbar_{0,0}(X_5, d)]^{\vir} := [\bar{s}] \frown_{\cV_d} [\text{zero}]  \in A_{0}(\Mbar_{0,0}(X_5, d)) \]
+Therefore we actuall do produce a zero cycle and can define our Gromov-Witten invariants,
+\[ I_\beta := \int_{[\Mbar_{0,0}(X_5, d)]^{\vir}} 1 = \deg{[\Mbar_{0,0}(X_5, d)]^{\vir}} = \deg{\left( [\bar{s}] \frown_{\cV_d} [\text{zero}] \right)} = \deg{ \left( c_{5d + 1}(\cV_d) \frown [\Mbar_{0,0}(\P^4, d)] \right) } \]
+Note, by this definition $N_1 = 2875$ because the calculation we did is exactly the above Chern class calculation on $\Mbar_{0,0}(\P^4, 1) = \mathrm{Gr}(5, 2)$.
+
+\begin{example}
+
+\end{example}
+
+The class $[\Mbar_{0,0}(X_5, d)]^{\vir}$ is called a virtual fundamental class. We will explore the desiderata for these classes next.
+
+\section{Formalism}
+
+\subsection{Fundamental Classes}
+
+Let's recall the role of fundamental classes. The first place we encounter them is in Poincare duality. If $M$ is a oriented closed connected $n$-manifold then there is a canonical isomorphism
+\[ H_n(M, \Z) \cong \Z \]
+call the distinguished generator $[M]$. This class is used to define the Poincare duality map 
+\[ H^i(M, \Z) \iso H_{n-i}(M, \Z) \quad \alpha \mapsto \alpha \frown [M] \]
+
+Now if we replace $M$ by the complex points of a proper singular variety $X$, Poincare duality may fail. However, $X(\CC)$ is canonically oriented and it turns out this still gives a canonical isomorphism
+\[ H_{2n}(X(\CC), \Z) \cong \Z \]
+and $H^{>2n}(X(\CC), \Z) = 0$. It turns out it is easiest to see this if we generalize the situation to the noncompact case. Let $M$ be a noncompact oritented connected $n$-manifold then there are two natural generalizations of Poincare duality,
+\begin{enumerate}
+\item $H_c^i(M, \Z) \cong H_{n-i}(M, \Z)$
+\item $H^i(M, \Z) \cong H_{n-i}^{BM}(M, \Z)$.
+\end{enumerate}
+
+Borel-More homology is defined the exact same way as singular homology except insted of finite chains we use \textit{locally}-finite chains meaning that on each finite set there are finitely many simplices in the sum whose images meet it. 
+
+On a reasonable\footnote{locally contractible, $\sigma$-compact, and of finite dimension} space $X$ (CW-complex, manifold, etc) $H^{BM}_i(X, \Z)$ is computed by taking the dual of the compactly supported Cech complex of $\ul{\Z}$ and taking its homology.
+
+\begin{prop}
+Borel-More homology satisfies the following properties:
+\begin{enumerate}
+\item for $\RR^n$ we have
+\[ H_i^{BM}(\RR^n, \Z) = 
+\begin{cases}
+\Z & i = n
+\\
+0 & \text{else}
+\end{cases} \]
+\item if $X$ is compact then $H_\bullet^{BM}(X) \cong H_\bullet(X)$
+\item if $f : X \to Y$ is \textit{proper} then there is a pushforward
+\[ f_* : H^{BM}_\bullet(X) \to H^{BM}_\bullet(Y) \]
+\item given a locally compact space $X$ and a closed subspace $Z \subset X$ let $U = X \sm Z$ then there is a long exact sequence
+\[ \cdots \to H_i^{BM}(Z) \to H_i^{BM}(X) \to H_i^{BM}(U) \to H_{i-1}^{BM}(Z) \to \cdots \]
+\end{enumerate}
+\end{prop} 
+
+
+\begin{rmk}
+Note that Borel-More homology is \textit{not} a homotopy invariant in the naive sense (see $\RR^n$). However there is a natural isomorphism $H^{BM}_i(X) \to H^{BM}_{i+1}(X \times \RR)$.
+\end{rmk}
+
+\begin{prop}
+Let $X$ be (the complex points) of an irreducible complex variety of dimension $n$. Then $H^{BM}_i(X, \Z) = 0$ for $i > 2n$ and $H^{BM}_{2n}(X, \Z) = \Z [X]$ with a distinguished generator called the fundamental class. 
+\end{prop}
+
+\begin{proof}
+We proceed by induction on $n$. Let $Z \subset X$ be the singular locus. Then consider the localization sequence,
+\[ \cdots \to H_i^{BM}(Z) \to H_i^{BM}(X) \to H_i^{BM}(U) \to H_{i-1}^{BM}(Z) \to \cdots \]
+Since the real dimension of $Z$ is at most $2(n-1)$, by the inducton hypothesis we get $H_i^{BM}(X) \iso H_i^{BM}(U)$ for $i \ge 2n$. Therefore, we reduce to the smooth case. We could then appeal to Poincare duality
+\end{proof}
+
+When $X$ is a proper variety we get $[X] \in H_{2n}^{BM}(X) = H_{2n}(X)$. Furthermore, for any subvariety $V \subset X$ (with $X$ arbitrary), the inclusion map is proper (even if $X$ is not compact) so there is a map $\iota_* : H^{BM}_i(V) \to H^{BM}_i(X)$. Hence we get a class $[V] \in H^{BM}_{2 \dim{V}}(X)$. This defines a cycle class map
+\[ \gamma_d A_d(X) \to H^{BM}_{2d}(X) \]
+which makes perfect sense for $X$ not irreducible or reduced. Furthermore, we can show that this map is functorial with respect to proper pushforwards. 
+
+\begin{rmk}
+When $X$ is a variety, we are used to cycle class maps $A^d(X) \to H^{2d}(X)$ but this uses {\color{red} HOW IS THIS DEFINED??}
+\end{rmk}
+
+Given any finite type $\CC$-scheme $X$ there is an obvious class $[X] \in A_\bullet(X)$ given as the sum of $[Z]$ for the irreducible components $Z \subset X$. Then there is a candidate fundamental class $[Z] := \gamma([Z]) \in H^{BM}_\bullet(X)$ which is the sum over the fundamental classes of the irreducible components. Of course this class is not homogeneous which can be somewhat unpleasant. 
+\par 
+To extract numbers we should be in the case $X$ is proper. Then if $\gamma \in H^\bullet(X)$ is a cohomology class we can define:
+\[ \int_{[X]} \gamma := \deg{(\gamma \frown [X])_0} \]
+where $\frown : H^p(X) \times H_q(X) \to H_{q-p}(X)$ is the cap product and we take the degree zero part and then apply the degree map $\deg : H_0(X) \to \Z$. 
+
+\subsection{What is a Virtual Fundamental Class}
+
+Since the moduli space of stable maps is proper, by the following discussion it has a fundamental class\footnote{More later about the case of stacks}. However, this fundamental class may not be homogeneous. We can certainly define invariants as before
+\[ \int_{[\Mbar_{g,n}(X, \beta)]} \ev_1(\gamma_1) \smile \cdots \smile \ev_n(\gamma_n) \]
+
+The desire for a \textit{virtual} fundamental class comes from the following pathologies of the above definition:
+\begin{enumerate}
+\item $\Mbar_{g,n}(X, \beta)$ may have many components of different dimensions and these dimensions may exceed the expected dimension (what we will now call the virtual dimension) in this case it is very unclear when the above numbers are zero for dimension reasons
+\item from an enumerative perspective, this just completely throws away families of positive dimension satisfying the conditions (think about $\int_{[X]} 1$ for $X$ the union of a point and a line) but we might want to somehow incorporate their contibution
+
+\item under deformation, these moduli spaces may jump in dimension or acquire new components so these numbers are not invariant under deformation
+\end{enumerate}
+We want to define Gromov-Witten invariants as numbers asigned to the ``generic situation'' but in algebraic geometry it is not clear when or even if we can realize a ``generic enough'' situation to get reasonable spaces or classes in the correct dimension. I want to stress, this is not a new problem. The desiderata are exactly those of intersection theory and there Fulton solved the problem that sufficient moving lemmas available in topology are opaque in algebraic geometry. In fact, for hypersurfaces $X \subset \P^n$ we will see that the construction of a virtual fundamental class is exactly a question of intersection theory on $\Mbar_{0,0}(\P^n, d)$. The additional abstraction is that our moduli space $\Mbar_{0,0}(X, \beta)$ is not cut out of any smooth ambient space so we need some sort of intersection theory intrinsic to the stack. This of course does not exist without additional data. This additional data is provided by the natural choice of tangent-obstruction theory arising from the universal curve. Before we see this, lets explore virtual fundamental classes by example.
+
+\subsection{Intersection Products}
+
+Let $X \embed Y$ be a regular embedding of codimension $d$ and $Z \embed Y$ a closed subscheme of dimension $k$. Consider the scheme-theoretic intersection:
+\begin{center}
+\begin{tikzcd}
+W \arrow[d, hook] \arrow[r, hook] & Z \arrow[d, hook]
+\\
+X \arrow[r, hook] & Y
+\end{tikzcd}
+\end{center}
+Fulton defines a refined intersection class $[X] \frown_Y [Z] \in A_{k-d}(W)$ that lives on the physical intersection $W$ in the expected dimension. When the intersection is transverse, this is exactly the fundamental class of $W$. In general, we could call this the virtual fundamental class of $W$ \textit{with respect to its origin as an intersection}. It is important to remember that virtual fundamental classes are \textit{not} intrinsic to a space, rather they are imposed by us knowing where a space came from and how we wish it would be.
+\bigskip\\
+Let's recall how Fulton's definition worked. Motivated by the deformation to the normal cone
+\[ [X] \frown_Y [Z] = s^* [C_{W|Z}] \]
+where $C_{W|Z} \subset N_{X|Y}|_{W}$ is the normal cone of $W \embed Z$ which is embedded in the normal bundle of $X \embed Y$ restriced to $W$. Here $s : W \to N_{X|Y}|_W$ is the zero section and we use the fact that $\pi^* : A_{k-r}(W) \to A_k(N_{X|Y}|_W)$ is an isomorphism. 
+
+\subsection{Intrinsic Normal Cone and Virtual Fundamental Class With Respect to a Perfect Obstruction Theory}
+
+Suppose we have an abstract DM-stack $\Mbar$ without an embedding as the zero locus of some section of a vector bundle over a smooth space. The idea of Behrend-Fantechi is to somehow model $\Mbar$ locally of this form in a canonical way. To do this we need some additional data (which should, for example, tell us what the expected dimension is). This data is provided by the tangent-obstruction theory for the moduli problem $\Mbar$ represents. 
+
+\newcommand{\lisset}{\ell\mathrm{-\et}}
+\newcommand{\cN}{\mathcal{N}}
+
+\begin{defn}
+A \textit{perfect obstruction theory} is a map $\phi : \E^\bullet \to \LL_X^\bullet$ in $D^b_{\text{coh}}(\Mbar_{\lisset})$ such that $\E^\bullet$ is perfect of amplitude $[-1,0]$ and $\phi^i : h^i(\E^\bullet) \to h^i(\LL_X^\bullet)$ is an isomorphism for $i = 0$ and surjective for $i = -1$. 
+\end{defn}
+
+\begin{rmk}
+This is related to the usual notion of a tangent-obstruction theory in the following way. Consider $T \embed T'$ a square-zero extension of schemes and a morphism $f : T \to X$. We want to consider extensions $f' : T' \to X$. The map $\phi : \E^\bullet \to \LL_X^\bullet$ gives maps
+\[ \Ext{i}{T}{\LL f^* \LL_X^\bullet}{\I} \to \Ext{i}{T}{f^* \E^\bullet}{\I} \]
+which is an isomorphism at $i = 0$ and injective at $i = 1$. Since the LHS gives the universal tangent-obstruction theory for deforming morphisms to $X$ this means 
+\end{rmk}
+
+The idea is that such a perfect obstruction theory locally embedds a sort of normal cone  into $\E^{-1}$ which we can intersect with the zero section. 
+
+\begin{theorem}
+Given a pair $(X, \E^\bullet)$ of a scheme (or DM-stack) and a perfect obstruction theory there is a natural virtual fundamental class $[X, \E^\bullet] \in A_d(X)$ where $d := \rank{\E^0} - \rank{\E^{-1}}$ is the \textit{virtual dimension}.  
+\end{theorem}
+
+\begin{proof}
+The idea of Behrend-Fantechi is as follows. Consider diagrams,
+\begin{center}
+\begin{tikzcd}
+W 
+\\
+U \arrow[r, "\et"] \arrow[u, hook] & X
+\end{tikzcd}
+\end{center}
+of an \etale neighborhood and an embedding into a smooth scheme $W$. Then $\LL_X^\bullet |_U = \LL_U^\bullet$ because it is \etale. Furthermore, the embedding gives an isomorphism,
+\[ \tau_{\ge -1} \LL_U^\bullet \cong [ \cN^*_{U|W} \to \Omega_W |_U] \]
+The map $\phi$ factors:
+\[ \phi : \E^\bullet|_U \to \tau_{\ge -1} \LL_U^\bullet \to \LL_U^\bullet \]
+and hence we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\E^0 \arrow[r, "\phi^0"] & \Omega_W|_U 
+\\
+\E^{-1} \arrow[u, "\d"] \arrow[r, "\phi^{-1}"] & \cN^*_{U|W} \arrow[u, "\d"]
+\end{tikzcd}
+\end{center}
+such that $\phi^0$ is an isomorphism on cokernels and $\phi^{-1}$ is surjective on kernels. Considering the total spaces we get a diagram,
+\begin{center}
+\begin{tikzcd}
+E^{-1} \arrow[from=r, "\phi^{-1}"] & N_{U|W} \arrow[from=r, hook'] & C_{U|W}
+\\
+E^0 \arrow[u, "\d"] \arrow[from = r, "\phi^0"] & T_W|_U \arrow[u, "\ell"]
+\end{tikzcd}
+\end{center}
+and the cone $C_{U|W}$ is invariant under the action of $T_W|_U$ [BF, Lemma 3.2]. Therefore, we get an embedding of stakcs
+\[ [C_{U|W} / T_W|_U] \embed [N_{U|W} / T_W|_U] \embed [E^{-1}/E^0] \]
+and then we produce a cone
+\[ C := [C_{U|W}/T_W|_U] \times_{[E^{-1}/E^0]} E^{-1} \embed E^{-1} \]
+with
+\[ \dim{C} = \dim{E^0} \]
+because $E^{-1} \to [E^{-1} / E^0]$ is pure of relative dimension $\rank{E^0}$ and $[C_{U|W} / T_W |_U]$ is of pure dimension $0$.
+There is a way to glue these cones together to get an ``intrinsic normal cone''
+\[ \mathfrak{C} \embed E^{-1} \]
+Since
+\[ \dim{\mathfrak{C}} = \dim{W} - (\dim{W} - \rank{E^0}) = \rank{E^0} \]
+so intersecting with the zero section of $E^{-1}$ gives a cycle
+\[ [X, \E] \in A_{\rank{E^0} - \rank{E^{-1}}}(X) \]
+\end{proof}
+
+
+\subsection{Vanishing of Sections of a Vector Bundle}
+
+A special case of the above: let $X$ be a smooth scheme (or DM-stack) and $\E$ a vector bundle. Let $s$ be a section of $\E$. Then we define the \textit{virtual fundamental class} of $Z = V(s)$ \textit{with respect to its origin as the zero locus of a section of $\E$} as
+\[ [Z]^{\vir} := [s] \frown_{E} [s_0] := s^*_0 [C_{Z} X] \]
+
+There is a natrual perfect obstruction theory arising from its origin as the zero section of $\E$. Indeed, consider the complex
+\[ [\E^\vee|_Z \to \Omega_X|_Z] \to [I/I^2 \to \Omega_X |_Z] \to \LL_Z^\bullet \]
+given by the map $\E^\vee|_Z \to I / I^2$ and the second map is exactly the truncation $\tau_{\ge -1} \LL_Z$. This is a perfect obstruction theory by construction. We check that the construction of the virtual fundamental class agrees with $[Z]^{\vir}$ arising from intersection theory. 
+\par 
+Since $X$ is smooth, we may choose $Z \embed X$ as a global neighborhood in the definition of the intrinsic normal cone. Consider,
+\begin{center}
+\begin{tikzcd}
+\Omega_X|_Z \arrow[r, equals] & \Omega_X|_Z 
+\\
+\E^\vee|_Z \arrow[u] \arrow[r, "\phi^{-1}"] & I/I^2 \arrow[u]
+\end{tikzcd}
+\end{center}
+with $\phi^{-1}$ surjective. Therefore, we get exactly, 
+\[ C_{Z|X} \embed E|_Z \]
+and intersect the class $[C_{Z|X}]$ with the zero section so
+\[ [X, [\E^\vee|_Z \to \Omega_X|_Z]] := s^*_0 [C_{Z|X}] = [Z]^{\vir} \]
+
+\subsection{Example: Quintic 3-folds}
+
+As the zero locus of a section of a vector bundle over a smooth stack, $\Mbar_{0,0}(X_5, d)$ comes equipped with a natural perfect obstruction complex
+\[ [ \T_{\Mbar_{0,0}(\P^4, d)} \to \cV_d] \big|_{\Mbar_{0,0}(X_5, d)} \to \LL_{\Mbar_{0,0}(X_5, d)} \]
+
+\begin{lemma}
+This perfect obstruction theory agrees with the canonical one.
+\end{lemma}
+
+\begin{proof}
+{\color{red} TODO}
+\end{proof}
+
+Therefore, the virtual fundamental class is $[\bar{s}] \frown [s_0] = c_{5d + 1}(\cV_d) \frown [\Mbar_{0,0}(\P^4, d)]$. Since the expected dimension is zero we see that the Gromov-Witten numbers are
+\[ N_d = \int_{[\Mbar_{0,0}(\P^4, d)]} c_{5d + 1}(\cV_d) \]
+
+
+
+\subsection{Comparison Between Stack and Coarse Space}
+
+Recall that there is a factorization:
+\begin{center}
+\begin{tikzcd}
+\Mbar_{g,n}(X, \beta) \arrow[d, "\pi"] \arrow[r, "\ev_i"] & X
+\\
+\ol{M}_{g,n}(X, \beta) \arrow[ru, "e_i"]
+\end{tikzcd}
+\end{center}
+Hence we see that $\ev^*_i \gamma_i = \pi^* e^*_i \gamma_i$. Therefore, if we define $[\ol{M}_{g,n}(X, \beta)]^{\vir} := \pi_* [\Mbar_{g,n}(X, \beta)]^{\vir}$ then by the push-pull formula we have the tautological equality
+\[ I_\beta(\gamma_1 \cdots \gamma_r) := \int_{[\Mbar_{g,n}(X,\beta)]^{\vir}} \ev_1^*(\gamma_1) \smile \cdots \smile \ev_n^*(\gamma_n) =  \int_{[\ol{M}_{g,n}(X,\beta)]^{\vir}} e_1^*(\gamma_1) \smile \cdots \smile e_n^*(\gamma_n) \]
+In ``good'' situations $\Mbar_{g,n}(X, \beta)$ is smooth and irreducible (eg $X$ convex, $n \ge 1$ and $g = 0$) then the open $\M_{g,n}(X, \beta)^\circ \subset \Mbar_{g,n}(X, \beta)$ of automorphism-free stable maps is dense and hence $\pi$ is generically an isomorphism so
+\[ [\ol{M}_{g,n}(X, \beta)]^{\vir} = \pi_* [\Mbar_{g,n}(X, \beta)]^{\vir} = \pi_* [\Mbar_{g,n}(X, \beta)] = [\ol{M}_{g,n}(X, \beta)] \]
+
+\subsection{Chow Groups of Stacks}
+
+Recall if $\pi : X \to Y$ is finite flat of degree $n$ and $\Gamma_1, \Gamma_2 \subset Y$ are closed subvarities then the push-pull formulas say:
+\[ \pi_* (\pi^* \Gamma_1 \smile \pi^* \Gamma_2) = n (\Gamma_1 \smile \Gamma_2) \]
+Therefore, if we knew the intersection product on $X$ we could define:
+\[ \Gamma_1 \smile \Gamma_2 := \frac{1}{n} \pi^* \Gamma_1 \smile \pi^* \Gamma_2 \]
+When $Y$ exists as a variety this number is garunteed to give an integer. However, if $Y$ is a stack and $\Gamma_i$ are closed substacks this might not be an integer (for example, $\deg{[\mathbf{B} G]} = \frac{1}{\# G}$) but it gives a definiton of the Chow-ring with $\frac{1}{n} Z$-coefficients. If we don't have a global finite-flat presentation by a scheme then we have to patch this definition locally and if there is no a-priori controll over the degrees of these covers we only get a chow ring $A^\bullet(Y)_{\Q}$ with $\Q$-coefficients.  
+
+
+\section{Localization}
+
+
+\section{Instanton Numbers}
+
+Even when the actual number of rational curves of class $\beta$ is finite, the enumerative situation is still much more complex than for homogeneous varities. This is because of multiple covers. For degree $2$ curves on a general $X_5$ there are conics as well as double covers of the finitely many lines. This didn't happen for rational curves in $\P^2$, for example, because the count agrees with the number of rational curves through general points and there will be no rational curves of lower degree passing through these points to double cover. 
+
+\section{The Dreaded Atiyah-Bott}
+
+Equivariant cohomology: $G \acts X$ on a manifold. We define $H^\bullet_G(X)$ equivariant cohomology. We want this to be the cohomology of $X/G$ if $G$ acts freely. Otherwise, this is a bad notion so we do something homotopic instead. Let $EG$ be a contractible space with a free $G$-action. Then we define,
+\[ H_G^\bullet(X) := H^\bullet(X \times EG / G) \]
+
+\begin{example}
+$G = T = \Gm^n$ then $EG = (\CC^{\infty} \sm \{ 0 \})^n$ so $EG/G = (\CP^{\infty})^n$. Then,
+\[ H^\bullet_T(*) = \Z [x_1, \dots, x_n] \quad x_i \in H^2_T(*) \]
+Notice that $H^2_T(*)$ is identified with characters of the torus. 
+\end{example}
+
+Properties of equivariant cohomology:
+\begin{enumerate}
+\item pullback along $G$-equivariant maps
+\item if $f : X \to Y$ is a $G$-equivariant and proper map of manifolds then there is a pushforward
+\[ f_* : H^\bullet_G(X) \to H^{\bullet + \dim{Y} - \dim{X}}_G(Y) \]
+\item there is a natural map $H^\bullet_G(X) \to H^\bullet(X)$.
+\end{enumerate}
+The second uses that we can compute $H^i_G(X)$ by using a finite-dimensional (manifold) approximation to $EG$ which is highly-connected (compared to $i$) and hence we can use Poincare duality.
+\bigskip\\
+The first property means $H^\bullet_G(X)$ is a module over $H_G^\bullet(*)$ using pullback along $X \to *$. 
+\bigskip\\
+Let $E \to X$ be a $G$-equivariant vector bundle on $X$ then we get equivariant Chern classes:
+\[ c^i_G(E) \in H_G^\bullet(X) \]
+Via descending $E$ to $[X / G] := X \times_G EG$ and taking ordinary Chern classes there. 
+
+\begin{example}
+$G$-equivariant vector bundles on $*$ are $G$-representations. Therefore, for a character $\lambda$ produces an equivariant cohomology class.
+\end{example} 
+
+\begin{example}
+Recall that characters $\lambda$ of $T$ correspond to $1$-dimensional representations and hence a $G$-equivariant line bundle $\struct{}(\lambda)$ on $T$.
+For a character $\lambda$ of $T$ then $c_1(\struct{}(\lambda)) = \lambda \in H^2_T(*)$ almost by definition. 
+\end{example}
+
+\begin{example}
+If $E = \struct{}(\lambda_1) \oplus \cdots \oplus \struct{}(\lambda_n)$ then $c_k(E) = e_k(\lambda_1, \dots, \lambda_n) \in H^2{2k}_T(*)$ where $e_k$ is the elementary symmetric polynomial. 
+\end{example}
+
+\subsection{Atyiah-Bott}
+
+Let $K = \Frac{H^\bullet_T(*)}$. 
+
+\begin{theorem}[Atyiah-Bott]
+Let $T \acts X$ with $X$ a manifold.
+The natural restriction map $H_T^\bullet(X) \ot_{H^\bullet_T(*)} K \iso H^\bullet_T(X^T) \ot_{H^\bullet_T(*)} K$ is an isomorphism.
+\end{theorem}
+
+Let $Z_1, \dots, Z_j$ be the $T$-fixed components:
+\begin{enumerate}
+\item the $Z_i$ are manifolds. Therefore
+\[ H_T^\bullet(X^T) = \bigoplus_k H^i_T(Z_k) \]
+Note that $H_T^\bullet(Z_k) = H^\bullet(Z_k) \ot_{\ZZ} H^\bullet_T(*)$. 
+\end{enumerate}
+
+\begin{example}
+Suppose $X^T$ is empty then the $T$-action then $H^\bullet_T(X)$ is a module over $H^\bullet_T(*)$ with support away from the generic point since at each point there is some nontrivial action so it is killed after tensoring with $K$. 
+\end{example}
+
+In general, let $U = X \sm X^T$ then there is a long-exact sequence
+\[ H^i(U) = H^i(X, X^T) \to H^i_T(X) \to H^i_T(X^T) \to H^{i+1}_T(X, X^T) = H^{i+1}_T(U) \to \cdots \]
+when tensoring with $K$ the outside terms die so we get an isomorphism. This gives the proof.
+
+\subsection{Computations}
+
+The diagram:
+\begin{center}
+\begin{tikzcd}
+H^\bullet(X) \arrow[d, "\deg"] \arrow[from = r] & H_T^\bullet(X) \arrow[d] \arrow[r] & H_T^\bullet(X^T)
+\\
+\Z \arrow[from = r] & H_T^\bullet(*)
+\end{tikzcd}
+\end{center}
+commutes. If we have some Chern class computation we want to do: we take intersections of equivariant Chern classes to get a class in $H^{2n}_T(X)$ then pushforward to a point giving a class in $H^0_T(*) = \Z$ to get a number. This is the same as taking the original intersections of Chern classes. We want to use the Atiyah-Bott isomorphism but the diagram
+\begin{center}
+\begin{tikzcd}
+H^\bullet(X) \ot K \arrow[d, "\deg"] \arrow[r] & H^\bullet_T(X^T) \ot K \arrow[d]
+\\
+K \arrow[r, equals] & K
+\end{tikzcd}
+\end{center}
+does NOT commute. However, we can fix this. Consider $\iota : X^T \embed X$ the inclusion. Then $\iota^* \ot K$ is an isomorphism. Suppose $X$ is compact, then we have $\iota_*$ which messes up the grading. However if we write
+\[ X^T = Z_1 \sqcup \cdots \sqcup Z_r \]
+and $\iota_k : Z_k \embed X$ the inclusion then
+\[ \iota_k^* \iota_{k*} \alpha = c^{\text{top}}(Z_{Z_k|X}) \smile \alpha \]
+Indeed, by formal properties we reduce to the case $\alpha = 1$ where it is almost the definition. 
+
+\begin{cor}
+The inverse to $\iota^*$ is 
+\[ \sum_k \frac{\iota_{k*} \alpha}{c^{\text{top}}_T(N_{Z_{k*}|X})} \]
+\end{cor}
+
+The division makes sense in $K$ although it does not in ordinary cohomology since everything is a zero divisor. 
+
+\begin{cor}
+\[ \int^T_X \alpha = \sum_k \int^T_{Z_k} \frac{\iota^*_k \alpha}{c^{\top}_T(N_{Z_k|X})} \in H_T^\bullet(*) \ot K = K \]
+If $\alpha \in H^{2n}_T(X)$ then we get degree zero element in $H^0_T(*) \embed R$ which is just a number. 
+\end{cor}
+
+\begin{example}
+Lines of a general quintic 3-fold. We want to get 2875. This was
+\[ \int_{Gr(2,5)} c_6(\Sym{5}{S^\vee} \]
+Let $T \acts Gr(2,5)$ where $T = \Gm^5$ act on $\P^4$ and we lift the action. 
+Note that $S$ is a $T$-equivariant vector bundle where we act on the line and move the line. 
+\par
+Now $Gr(2,5)^T$ is given by the lines which have only two nonzero coordinates so there are ${5 \choose 2}$ points. Now $\iota^*_k S^\vee = \struct{}(\lambda_i) \oplus \struct{}(\lambda_j)$ at the fixed point with $(i,j)$ nonzero coordinates. Then 
+\[ \iota^*_k c_6^T(\Sym{5}{S^\vee}) = c_6^T(\Sym{5}{\iota^*_k S^\vee}) = (5 x_i) (4 x_i + x_j) (3 x_i + 2 x_j) (2 x_i + 3 x_j) (x_i + 4 x_j) (5 x_j) \]
+Now we need to figure out the normal bundle. Consider a $T$-fixed curve connecting $p_{23}$ and $p_{34}$ eg given by the row span of
+\[ \begin{pmatrix}
+0 & 1 & 0 & t & 0
+\\
+0 & 0 & 1 & 0 & 0 
+\end{pmatrix} \]
+then the corresponding weight on the curve is $\struct{}(\lambda_2 - \lambda_4)$. We conclude
+\[ c^{\text{top}}_T(N_{p_{23}|Gr(2,5)}) = \prod_{\substack{ i \in \{ 2, 3 \} \\ j \notin \{ 2, 3 \} }} (x_i - x_j) \]
+Therefore,
+\[ \int_{Gr(2,5)} c_6(\Sym{5}{S^\vee}) = \sum_{\substack{I = \{ i, j \} \\ i,j \in \{ 1,  \dots, 5 \}}} \frac{\prod_{a = 0}^5 (a x_i + (5 - a) x_j)}{\prod_{\substack{i \in I \\ j \notin I}} (x_i - x_j)} = 2875 \]
+\end{example} 
+
+\subsection{Localization on the Moduli Space of Genus Zero Stable Maps}
+
+\begin{thm}
+Let $X$ be a proper smooth orbifold with $T \acts X$ and $\alpha \in H_T^\bullet(X)$ and $Z_1, \dots, Z_j$ the $T$-fixed locus then
+\[ \int_X^T \alpha = \sum_k \frac{\iota^*_k \alpha}{\alpha_j c^{\text{top}}_T(N_{Z_j|X})}  \]
+where $\alpha_j$ is the order of the generic stabilizer of $Z_j$. 
+\end{thm}
+
+Localization on $\ol{M}_{0,n}(\P^r, d)$ let $T = \Gm^{r+1} \acts \P^r$ and hence we get an induced action $T \acts \ol{M}_{0,n}(\P^r, d)$. 
+\bigskip\\
+There are three steps:
+\begin{enumerate}
+\item identify the $T$-fixed locus 
+\item compute normal bundles
+\item compute $\iota^*_k \alpha$ for your class $\alpha$
+\end{enumerate}
+
+Consider the universal curve
+\begin{center}
+\begin{tikzcd}
+\cC \arrow[r, "\mu"] \arrow[d, "\pi"] & \P^4
+\\
+\ol{M}_{0,n}(\P^4, d) 
+\end{tikzcd}
+\end{center}
+we want to compute
+\[ \int_{\ol{M}_{0,n}(\P^4, d)} c_{5 d + 1}(\pi_* \mu^* \struct{}(5)) \]
+
+\end{document}
+

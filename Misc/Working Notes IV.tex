@@ -23,6 +23,11 @@
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\ad}{\mathrm{ad}}
 
+\newcommand{\Y}{\mathscr{Y}}
+
+\DeclareMathOperator{\coeff}{\mathrm{coeff}}
+\DeclareMathOperator{\cent}{\mathrm{center}}
+
 
 \begin{document}
 
@@ -199,7 +204,7 @@ Let $u : \C \to \D$ be cocontinuous functor and $g = (u^s, {}_s u) : \Sh(\C) \to
 \begin{enumerate}
 \item $g^{-1} = u^p$ (no sheafification required)
 \item $g^{-1}$ has a left adjoint $g_! = u_s$
-\item $g^{-1}$ commutes with arbitrary colimits
+\item $g^{-1}$ commutes with arbitrary limits and colimits
 \item $g_! (h^{X})^{\#} = (h^{u(X)})^{\#}$.
 \end{enumerate}
 \end{lemma}
@@ -209,7 +214,7 @@ Indeed, since $u$ is continuous $u^p$ sends sheaves to sheaves and $g^{-1} = u^s
 \begin{align*}
 \Hom{\Sh(\C)}{\F}{g^{-1} \G} = \Hom{\PSh(\C)}{\F}{u^p \G} = \Hom{\PSh(\D)}{u_p \F}{\G} = \Hom{\Sh(\D)}{g_! \F}{\G} 
 \end{align*}
-and (c) follows from (b). Finally,
+and (c) follows from (b) and that $g^{-1}$ is left adjoint to $g_*$. Finally,
 \[ \Hom{\Sh(\D)}{g_! (h^X)^{\#}}{\G} = \Hom{\Sh(\C)}{h^X}{g^{-1} \G} = (g^{-1} \G)(X) = \G(u(X)) = \Hom{\Sh(\C)}{(h^X)^{\#}}{\G} \]
 using (a) to get $g^{-1} \G = G \circ u$.
 \end{proof}
@@ -726,7 +731,7 @@ Let $(X, D)$ be a log-CY klt pair with $H^1(X, \struct{X}) = 0$ and $D$ a $\Z$-d
 \newcommand{\reg}{\mathrm{reg}}
 
 \begin{proof}
-Indeed, the canonical pairing $\Omega_{X^{\reg}} \ot \Omega_{X^{\reg}}^{n-1} \to \omega_{X^{\reg}}$ over the regular locus induces an isomorphism of reflexive sheaves $\T_X(-D) \iso \Omega_X^{[n-1]}(-K_X - D) = \Omega_X^{[n-1]}$. Consider a log resolution $\pi : \wt{X} \to X$. By [Greb Kebekus Diff Forms LC Spaces, Theorem 1.5] there is an extension $H^0(X, \Omega_X^{[n-1]}) = H^0(\wt{X}, \Omega_{\wt{X}}^{[n-1]})$. By Hodge theory, the dimension of this space is the same as the dimension of $H^1(\wt{X}, \struct{\wt{X}}) = H^1(X, \struct{X})$ using that $X$ has rational singularities {\color{red} this is still true for klt pairs right?} so we just need the assumption $H^1(X, \struct{X}) = 0$.
+Indeed, the canonical pairing $\Omega_{X^{\reg}} \ot \Omega_{X^{\reg}}^{n-1} \to \omega_{X^{\reg}}$ over the regular locus induces an isomorphism of reflexive sheaves $\T_X(-D) \iso \Omega_X^{[n-1]}(-K_X - D) = \Omega_X^{[n-1]}$. Consider a log resolution $\pi : \wt{X} \to X$. By [Greb Kebekus Diff Forms LC Spaces, Theorem 1.5] there is an extension $H^0(X, \Omega_X^{[n-1]}) = H^0(\wt{X}, \Omega_{\wt{X}}^{[n-1]})$. By Hodge theory, the dimension of this space is the same as the dimension of $H^1(\wt{X}, \struct{\wt{X}}) = H^1(X, \struct{X})$ {\color{red} THIS IS WRONG GET $H^1(\wt{X}, \omega_{\wt{X}}) = H^1(X, \struct{X})$} using that $X$ has rational singularities {\color{red} this is still true for klt pairs right? YES} so we just need the assumption $H^1(X, \struct{X}) = 0$.
 \end{proof}
 
 \subsection{Applications to the Iitaka fibration}
@@ -774,7 +779,6 @@ For the projections $p_1 : X \times Y \to Y$ and $p_2 : X \times Y \to Y$ we get
 
 \newcommand{\Def}{\mathrm{Def}}
 \newcommand{\Art}{\mathrm{Art}}
-\newcommand{\Y}{\mathcal{Y}}
 
 \begin{prop}
 Let $X,Y$ be proper DM-stacks over $k$ with $H^0(X, \struct{X}) = H^0(Y, \struct{Y}) = k$ and suppose
@@ -1739,5 +1743,694 @@ $\irr(A_d) \le 4$
 \end{theorem}
 
 The general $A$ has $\rho(A) = 1$. For $d \neq 1,3$ then $\irr(A_d) = 4$ (Martin) 
+
+
+\section{Stacks and Du Bois Complex}
+
+\newcommand{\R}{\mathbf{R}}
+
+Let $\X$ be a separated DM-stack and $\pi : \X \to X$ its coarse space. Then we need to claim that $\R \pi_* \ul{\Omega}_{\X} = \ul{\Omega}_{X}$. Because we know $\ul{\Omega}_{\X}$ makes sense if it is the $h$-topology thing. Then 
+
+
+\begin{defn}
+A morphism $p : \wt{X} \to X$ in $\Sch$ is a \textit{topological epimorphism} if $p$ is surjective and the Zariski topology of $X$ is the quotient topology of the Zariski topology of $\wt{X}$. It is a \textit{universal topological epimorphism} if this remains true after any base change.
+\end{defn}
+
+\begin{defn}
+The $h$-topology on $\Sch$ is the Grothendieck topology whose covers $\{ U_i \to X \}$ are such that
+\[ \bigsqcup U_i \to X \]
+is a universal topological epimorphism.
+\end{defn}
+
+\begin{example}
+The following are $h$-covers
+\begin{enumerate}
+\item flat covers
+\item proper surjective morphisms
+\item quotients by the operation of a finite group
+\end{enumerate}
+\end{example}
+
+\begin{prop}
+Let $(X', Z)$ be an abstract blow-up. This means there is a cartesian square
+\begin{center}
+\begin{tikzcd}
+E \pullback \arrow[d] \arrow[r] & X' \arrow[d, "f"]
+\\
+Z \arrow[r] & X
+\end{tikzcd}
+\end{center}
+where $f$ is proper, $Z \subset X$ is closed and $f$ induces an isomorphism $X' \sm E \iso X \sm Z$. Let $\F$ be an $h$-sheaf. Then the square
+\begin{center}
+\begin{tikzcd}
+\F(X') \arrow[r] \arrow[d] & \F(E)
+\\
+\F(X) \arrow[u] \arrow[r] & \F(Z) \arrow[u]
+\end{tikzcd}
+\end{center}
+is Cartesian.
+\end{prop}
+
+\newcommand{\Zar}{\mathrm{Zar}}
+
+\begin{defn}
+Let $\Omega^p \in \PSh(\Sch)$ be the presheaf
+\[ \Omega^p : X \mapsto \Gamma(X, \Omega^p_X) \]
+Let $\Omega^p_h$ be its sheafification in the $h$-topology.
+\end{defn}
+
+Let $k$ be an algebraically closed field of characteristic zero.
+
+\begin{prop}[AJ Thm. 3.6]
+Let $X$ be a smooth variety over $k$. Then $\Omega_h^p(X) = \Gamma(X, \Omega^p_X)$. 
+\end{prop}
+
+\begin{defn}
+Let $\rho : \Sch_h \to \Sch_{\Zar}$ be the canonical continuous morphism of sites. For $X \in \Sch$ let $\rho_X : \Sch_h \to X_{\Zar}$ be the inclusion of $X$ with the Zariski topology. Since $\rho^*$ is $h$-sheafification which is exact, this defines a morphism of topoi. 
+\end{defn}
+
+\begin{prop}[Prop 6.19]
+Let $\pi : \wt{X} \to X$ be a resolution of a variety of dimension $d$. Then 
+\[ \R (\rho_X)_* \Omega^{d}_h = \R \pi_* \Omega_{\wt{X}}^d \]
+\end{prop}
+
+\subsection{Hypercovers}
+
+We need special hypercoverings that satisfy cohomological descent. 
+
+\begin{defn}
+We say that 
+\end{defn}
+
+\begin{defn}[Delgine]
+We say that a simplicial map $X_\bullet \to Y_\bullet$ of topological spaces is a \textit{k-truncated hypercovering for the universal cohomological descent topology} if the maps 
+\[ \varphi_n : \cosk{X_\bullet} \to \cosk \sk_n X_\bullet \]
+induces
+\[ (\varphi_n)_{n+1} : X_{n+1} \to (\cosk \sk_n X_\bullet)_{n+1} \]
+is a universal cohomological descent map. 
+\end{defn}
+
+\begin{defn}
+An $h$-hypercover  
+
+
+
+\end{defn}
+
+\begin{prop}
+If $X_\bullet \to Y_\bullet$ is an $h$-hypercover then for all $h$-sheaves, the map of cosimplicial sets
+\[ H_h^i(Y_\bullet, \F) \to H^i_h(X_\bullet, \F) \]
+is an isomorphism.
+\end{prop}
+
+\subsection{The Du Bois Complex}
+
+Let $\d : \Omega^p_h \to \Omega^{p+1}_h$ be the $h$-sheafification of the exterior differential on $p$-forms. We call $\Omega_h^\bullet$ the \textit{the algeraic de Rham complex in the h-topology}. We denote by $H_h^i(X, \Omega^\bullet_h)$ its hypercohomology in the $h$-topology. The stupid filtration
+\[ F^p \Omega^\bullet_h := [ \cdots \to 0 \to \Omega^p_h \to \Omega_h^{p+1} \to \cdots] \subset \Omega^\bullet_h \]
+is called the \textit{Hodge filatration}.
+
+\begin{prop}
+Let $X \in \Sch$. Then $H^i_{\dR}(X) = H_h^i(X, \Omega_h^\bullet)$.
+\end{prop}
+
+\begin{proof}
+Let $X_\bullet \to X$ be a proper hypercover with all $X_n$ smooth. By the hypercohomology spectral sequence and Prop. 6.10
+\[ H^i_h(X, \Omega_h^\star) = H^i_h(X_\bullet, \Omega^\bullet_h) = H^i_{\Zar}(X_\bullet, \Omega^\star_h) \]
+\end{proof}
+
+\begin{cor}
+Let $k = \CC$. The embedding induces a natural isomorphism
+\[ H^i_h(X, \Omega_h^i) \cong H^i_{\text{sing}}(X_{\CC}^\an, \CC) \]
+\end{cor}
+
+\begin{theorem}[Theorem 7.7]
+Let $X \in \Sch$ be proper. Then the Hodge-to-de Rham spectral sequence
+\[ E_1^{p,q} = H^q_h(X, \Omega_h^p) \implies H^{p+q}_h(X, \Omega^\bullet_h) \]
+degenerates at $E_1$. The Hodge filtration on the complex induces the Hodge filtration on $H_{\dR}^i(X)$.
+\end{theorem}
+
+\begin{defn}
+Let $X$ be a variety, $\pi : X_\bullet \to X$ a proper hypercover with all $X_n$ smooth (but not necessarily connected) then
+\[ \ul{\Omega}_X^\bullet := \R \pi_* \Omega^\bullet_{X_\bullet} \]
+is the Du Bois complex of $X$ filtered by
+\[ F^p \ul{\Omega}_X^{\bullet} = \R \pi_* F^p \Omega^\bullet_{X^\bullet} \]
+\end{defn}
+
+\begin{theorem}
+Consider $\Omega^\bullet_h$ with the Hodge filtration as an object of $D^+ F(\Sh(\Sch_h))$ where $\Sh(\Sch_h)$ is the category of sheaves of abelian groups on $\Sch_h$. Then
+\[ \R (\rho_X)_* \Omega^\bullet_X \iso \ul{\Omega}_X^\bullet \]
+\end{theorem}
+
+\begin{proof}
+Choose a proper hypercover $\pi : X_\bullet \to X$ with $X_n$ smooth. We need to show that
+\[ \R (\rho_X)_* \Omega_h^\bullet \cong \R \pi_* \Omega^\bullet_X \]
+Using the Hodge filtration on both sides  we reduce to Corollary 6.16.
+\end{proof}
+
+\subsection{h-differentials on stacks}
+
+
+Let $\X$ be an algebraic stack and $\X_{\fppf}$ the big fppf site.
+
+Some questions: 
+
+\begin{enumerate}
+\item How do we deal with the 2-categorical site for sheaves on stacks
+\item Does alpers notes say that lisse-etale is funtorial (get map of topoi?)
+\item How does $\Sch_h \to X_{\Zar}$ become a continuous map of sites since it does not preserve fiber products. Can I do the same with stacks?
+\item is exceptional pushforward or pullback the one that commutes with colimits in lemma 1.2.1?
+\item how is functoriality for a map of stacks $f : \X \to \Y$ actually defined since the pullback of a scheme \etale over $\Y$ is not a scheme anymore? Maybe only the map of topoi exists? 
+\end{enumerate}
+
+Answers
+
+\begin{enumerate}
+\item you dont, $\X_{\fppf}$ is an ordinary $1$-site just give $\X$ as a category the topology given by fppf covers on the underlying maps of schemes.
+
+\item I think 
+
+\item you dont need absolute (fiber) products, just fiber products along maps $U_i \to U$ part of a covering family. These do pullback correctly to fiber products since we remember the base of the fiber product.  
+
+\item it is $g^{-1}$ in question, but commutativity with \textit{limits} is the operational part
+
+\item you don't use the pullback map you use the inclusion $\X_{\fppf} \to \Y_{\fppf}$ which is both cocontinuous (since covers are the same) and continuous since it sends covers to covers and preserves fiber products by covers. For a scheme this is just the postcomposition map $g^{\to}$ that we saw gives the same map of topoi as fiber product in the other direction.
+\end{enumerate}
+
+First step, check that under $\Sch_h \to X_{\et}$ we get the right object. Well $\Sch_h \to X_{\et} \to X_{\Zar}$ does give the correct object. We need to show that if $\tau_X : \Sch_h \to X_{\et}$ is the canonical map then $\tau_X : \Sch_h \to \Sch_{\et} \to X_{\et}$ gives a map of topoi and I want to show that $\R (\tau_X)_* \Omega_h^\bullet = (\ul{\Omega}_X^\bullet)^{\et}$ the sheafification of the complex of Zariski sheaves.
+
+If $g : U \to X$ is an \etale map then I want to show that $g^* \ul{\Omega}_X^\bullet = (\R (\tau_X)_* \Omega_h^\bullet)|_{U_{\Zar}}$ but $\Sch_h \to \Sch_\et \to U_{\et} \to U_{\Zar}$ is $\Sch_h \to \Sch_{\Zar} \to U_{\Zar}$ and thereore 
+\[ (\R (\tau_X)_* \Omega_h^\bullet)|_{U_{\Zar}} = \R (\rho_U)_* \Omega_h^\bullet = \ul{\Omega}_U^\bullet \]
+which is isomorphic to what we want because the Du Bois complex is compatible with \etale covers {\color{red} WHY?}
+
+\begin{prop}
+Let $\X$ be a smooth separated DM-stack over $k$. Then $\R (\tau_{\X})_* \Omega^\bullet_h = \Omega^\bullet_{\X}$.
+\end{prop}
+
+\begin{proof}
+Indeed, by the previous calculation $\R (\tau_{\X})_* \Omega_h^\bullet |_{U_{\Zar}} = \Omega_{U}^\bullet$ for any $U \to \X$ \etale. {\color{red} CHECK}
+\end{proof}
+
+\begin{cor}
+Let $\X$ be a smooth separated DM-stack and $\pi : \X \to X$ its coarse space then $\ul{\Omega}_X^k = \Omega_X^{[k]}$.
+\end{cor}
+
+\begin{proof}
+Indeed $\ul{\Omega}_X^\bullet = \R (\rho_X)_* \Omega^\bullet_h = \R \pi_* \R (\rho_{\X})_* \Omega^\bullet_h = \R \pi_* \Omega^\bullet_{\X}$. Moreover, the filtrations are preserved so $\ul{\Omega}_X^k = \R \pi_* \Omega^k_{\X}$ {\color{red} CHECK THIS BIGTIME} Since $\pi$ is a GMS we see that $\ul{\Omega}_X^k$ is supported in degree zero and it is reflexive by a calculation {\color{red} DO THIS!!}
+\end{proof}
+
+We want to show some cohomology vanishing of $\R (\tau_\X)_* \Omega_h^\bullet$ for $\X$ a smooth algebraic stack. In particular, we want to show that $\R (\tau_\X)_* \Omega_h^k$ is supported in one degree. To do this, we restrict to smooth covers $U \to \X$ and we compute but there it is just the Du Bois complex of $U$ so we win because $U$ is smooth over $k$. Now maybe reflexivity of the pushforward is hard. By the same logic, we should be able to show that it is a vector bundle on $\X$ in some sense? Maybe along a GMS the pushforward of a vector bundle is reflexive? 
+
+\subsection{Checks}
+
+Consider the maps of categories $\X_{\fppf} \to \Sch_{\fppf} \to \Sch_h$ which are just the projection and then the identiy on underlying categories. These are continuous cocontinuous maps. 
+
+The first map probably does not define a morphism of topoi but it does give an exact pullback $g_!$ on the category of abelian sheaves by \chref{https://stacks.math.columbia.edu/tag/00XT}{00XT}
+
+The second map defines an opposite morphism of topoi via \chref{https://stacks.math.columbia.edu/tag/00X6}{Tag 00X6}.
+
+\begin{rmk}
+One place we need exactness of $f^*$ is for $f_*$ to preserve injectives. Otherwise, we may not have a Grothendieck spectral sequence. 
+\end{rmk}
+
+
+\begin{prop}
+Consider functors between sites $\C \xrightarrow{u} \C' \xrightarrow{v} \C''$. Suppose these are continuous. Then $v^s = u_s \circ (v \circ u)^s$.
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Remarks on the Du Bois Complex of Stacks}
+
+\newcommand{\Sm}{\mathbf{Sm}}
+
+Following [HJ] fix a field $k$ of characteristic $0$. By \textit{scheme} and \textit{stack} we mean a separated scheme/algebraic stack of finite type over $k$. A \textit{variety} is a reduced (separated finite type over $k$) scheme. Let $\Sch$ and $\Var$ and $\Sm$ be the categories of schemes, varities, and smooth varities respectively. 
+\bigskip\\
+A continuous map/morphism of sites $f : \C \to \D$ is a functor $f^{-1} : \D \to \C$ in the opposite direction that preserves covering families and base change along morphisms in a covering family. We call such a functor $f^{-1} : \D \to \C$ continuous. 
+\bigskip\\
+See [HJ, section 1] for more conventions I will try to follow and the stacks project sections on sites and sheaves for the definitions of continuous, cocontinuous functors and their associated functoriality for sheaves.
+
+\subsection{The Du Bois Complex for a Scheme}
+
+Let $\d : \Omega^p_h \to \Omega^{p+1}_h$ be the $h$-sheafification of the exterior differential on $p$-forms. We call $\Omega_h^\bullet$ the \textit{the algeraic de Rham complex in the h-topology}. We denote by $H_h^i(X, \Omega^\bullet_h)$ its hypercohomology in the $h$-topology. The stupid filtration
+\[ F^p \Omega^\bullet_h := [ \cdots \to 0 \to \Omega^p_h \to \Omega_h^{p+1} \to \cdots] \subset \Omega^\bullet_h \]
+is called the \textit{Hodge filatration}.
+
+
+
+\begin{defn}
+Let $X$ be a variety, $\pi : X_\bullet \to X$ a proper hypercover\footnote{We always mean a hypercover in the sense of Hodge III which are required to satisfy cohomological descent.} with all $X_n$ smooth (but not necessarily connected) then
+\[ \ul{\Omega}_X^\bullet := \R \pi_* \Omega^\bullet_{X_\bullet} \]
+is the Du Bois complex of $X$ filtered by
+\[ F^p \ul{\Omega}_X^{\bullet} = \R \pi_* F^p \Omega^\bullet_{X^\bullet} \]
+\end{defn}
+
+\begin{defn}
+Let $\rho : \Sch_h \to \Sch_{\Zar}$ be the canonical continuous morphism of sites. For $X \in \Sch$ let $\rho_X : \Sch_h \to X_{\Zar}$ be the inclusion of $X$ with the Zariski topology. Since $\rho^*$ is $h$-sheafification which is exact, this defines a morphism of topoi. 
+\end{defn}
+
+\begin{theorem}[HJ Theorem 7.12]
+Consider $\Omega^\bullet_h$ with the Hodge filtration as an object of $D^+ F(\Sh(\Sch_h))$ where $\Sh(\Sch_h)$ is the category of sheaves of abelian groups on $\Sch_h$. Then
+\[ \R (\rho_X)_* \Omega^\bullet_X \iso \ul{\Omega}_X^\bullet \]
+\end{theorem}
+
+\begin{proof}
+Choose a proper hypercover $\pi : X_\bullet \to X$ with $X_n$ smooth. We need to show that
+\[ \R (\rho_X)_* \Omega_h^\bullet \cong \R \pi_* \Omega^\bullet_X \]
+Using the Hodge filtration on both sides the problem reduces to the following.
+\end{proof}
+
+\begin{lemma}[HJ Lemma 6.16]
+Let $X$ be a scheme and $\pi : X_\bullet \to X$ a proper hypercover with $X_n$ smooth for all $n$. Then
+\[ \R (\rho_X)_* \Omega^p_h = \R \pi_* \Omega^p_{X_\bullet} \]
+moreover:
+\begin{enumerate}
+\item the complex is concentrated in degrees at most $\dim{X}$
+\item it vanishes for $p > \dim{X}$
+\item all cohomology sheaves are coherent.
+\end{enumerate}
+\end{lemma}
+
+As Ravi suggested, this makes Du Bois' theorem immediate. 
+
+\begin{cor}
+Let $X$ be a variety. Then $\ul{\Omega}_{X}^\bullet \in D^+ F(\Sh(X_{\Zar})$ is independent of the choice of hyperresolution $X_\bullet \to X$.
+\end{cor}
+
+\subsection{Functoriality}
+
+\renewcommand{\big}{\mathrm{big}}
+\renewcommand{\small}{\mathrm{small}}
+
+Notice that functoriality of $\rho_X$ is a little weird. For a map $f : X \to Y$ of schemes, the obvious diagram
+\begin{center}
+\begin{tikzcd}
+\Sch_h \arrow[r, "\rho_X"] \arrow[rd, "\rho_Y"'] & X_{\Zar} \arrow[d, "f"]
+\\
+& Y_{\Zar}
+\end{tikzcd}
+\end{center}
+does NOT commute because $\rho$ is given by inclusion by $f$ is given by preimage. However, the underlying functors for the big sites do commute
+\begin{center}
+\begin{tikzcd}
+\Sch_h \arrow[from=r, "u_X"'] \arrow[from=rd, "u_Y"] & (\Sch_X)_{\Zar} \arrow[d, "u_f"]
+\\
+& (\Sch_Y)_{\Zar} 
+\end{tikzcd}
+\end{center}
+with $u_f$ the cocontinuous continuous map 
+\[ (U \to X) \mapsto (U \to Y) \]
+whose associated morphism of topoi $(u^s, {}_s u)$ is $f_{\big} : \Sh((\Sch_X)_{\Zar}) \to \Sh((\Sch_X)_{\Zar})$ the same map associated to the continuous map $v_f : (\Sch_Y)_{\Zar} \to (\Sch_X)_{\Zar}$ given by pullback. Furthermore $f_{\big !} = u_s$ is left-adjoint to $f_{\big}^{-1}$. Therefore, as a morphism of topoi,
+\[ \rho_X^\big = ((u_X)_s, (u_X)^s) = ( (u_Y)_s \circ (u_f)_s, (u_f)^s \circ (u_Y)^s) \]
+Therefore, we conclude that
+\[ (\rho_X^\big)^{-1} = (\rho_Y^\big)^{-1} \circ f_{\big !} \quad \quad \rho_{X*}^\big = f_{\big}^{-1} \circ \rho_{Y *}^\big \]
+Therefore we have functoriality in the sense of
+\begin{center}
+\begin{tikzcd}
+\Sh(\Sch_h) \arrow[r, "\rho_X^{\big}"] \arrow[rd, "\rho_Y^{\big}"'] & \Sh((\Sch_X)_{\Zar}) \arrow[from=d, "(f_! \dashv f^{-1})"']
+\\
+& \Sh((\Sch_Y)_{\Zar}) 
+\end{tikzcd}
+\end{center}
+Note that $f_!$ not in general exact. Moreover, the Zariski version of \chref{https://stacks.math.columbia.edu/tag/021G}{Tag 021G} gives maps of topoi
+\[ \Sh(X_{\Zar}) \xrightarrow{\iota_X} \Sh((\Sch_X)_{\Zar}) \xrightarrow{\pi_X} \Sh(X_{\Zar})\] 
+composiing to the identiy with $\pi_X$ arising from the obvious morphism $\pi_X : (\Sch_X)_{\Zar} \to X_{\Zar}$ of sites. The morphism of sites commutes,
+\begin{center}
+\begin{tikzcd}
+\Sh(\Sch_X)_{\Zar}) \arrow[d, "f_{\big}"] \arrow[r, "\pi_X"] & \Sh(X_{\Zar}) \arrow[d, "f_{\small}"] 
+\\
+\Sh((\Sch_Y)_{\Zar}) \arrow[r, "\pi_Y"] & \Sh(Y_{\Zar})
+\end{tikzcd}
+\end{center}
+there are natural maps
+\[ f_{\small}^{-1} \circ \pi_{Y*} \to \pi_{X*} \circ f_{\big}^{-1} \]
+arising by adjunction from
+\[ \pi_{Y_*} \to \pi_{Y*} \circ f_{\big *} \circ f_{\big}^{-1} = f_{\small *} \circ \pi_{X*} \circ f_{\big}^{-1} \] 
+This gives a map
+\[ \rho_{X*} = \pi_{X*} \circ \rho_{X*}^\big = \pi_{X*} \circ f_{\big}^{-1} \circ \rho_{Y *}^{\big} \leftarrow f_{\small}^{-1} \circ \pi_{Y *} \circ \rho_{Y*}^\big = f_{\small}^{-1} \circ \rho_{Y*}  \]
+If we take derived functors this gives the map
+\[ f^{-1}_{\small} \ul{\Omega}_Y^\bullet = f^{-1}_{\small} \R \rho_{X*} \Omega_h^\bullet \to \R \rho_{Y*} \Omega_h^\bullet = \ul{\Omega}_X^\bullet \]
+expressing functoriality of the Du Bois complex. Here we use that $f^{-1}_{\small}$ is exact. 
+
+\subsection{The Du Bois Complex for Stacks}
+
+\newcommand{\Et}{\mathrm{\'{E}t}}
+
+Our proposed definition is to imitate the definition using the $h$-topology but replacing the target Zariski topology by the \etale topology. Let $\X_{\et}$ denote the small \etale site of a DM-stack or scheme and $\X_{\Et}$ denote the big \etale site of an arbitrary stack or scheme.
+
+\begin{defn}
+Let $\X$ be a DM-stack. Then let $\rho_{\X}^{\et} : \Sch_h \to \X_{\et}$ be the continuous map of sites whose underlying functor is $u^{\et} : (U \to \X) \mapsto U$.
+\end{defn} 
+
+\begin{defn}
+Let $\X$ be any stack. Then let $\rho_{\X}^{\Et} : \Sch_h \to \X_{\Et}$ be the continuous map of sites whose underlying functor is $u^{\Et} : (U \to \X) \mapsto U$.
+\end{defn} 
+
+\begin{lemma}
+The induced maps $\rho_{\X}^{\et} : \Sh(\Sch_h) \to \Sh(\X_{\et})$ and $\rho_{\X}^{\Et} : \Sh(\Sch_h) \to \Sh(\X_{\Et})$ are morphisms of topoi. 
+\end{lemma}
+
+\begin{proof}
+It suffices to show $(\rho_{\X}^{\et})^{-1}$ and $(\rho_{\X}^{\Et})^{-1}$ are exact. This follows from \chref{https://stacks.math.columbia.edu/tag/00XS}{Tag 00XS} since the functor $(U \to \X) \mapsto U$ is continuous, cocontinuous, and preserves fiber products and equalizers.
+\end{proof}
+
+\subsubsection{Functoriality for DM-Stacks}
+
+As before, there is a comparison diagram between the big and small \etale topoi. 
+
+\begin{center}
+\begin{tikzcd}
+\Sh(\X_{\Et}) \arrow[d, "f_{\big}"] \arrow[r, "\pi_{\X}"] & \Sh(\X_{\et}) \arrow[d, "f_{\small}"] 
+\\
+\Sh(\Y_{\Zar}) \arrow[r, "\pi_{\Y}"] & \Sh(\Y_{\et})
+\end{tikzcd}
+\end{center}
+and $\rho_{\X}^{\et} = \pi_{\X} \circ \rho_{\X}^{\Et}$. Furthermore, the following relations hold
+\[ (\rho_{\X}^{\Et})^{-1} = (\rho_{\Y}^\Et)^{-1} \circ f_{\big !} \quad \quad \rho_{\X*}^\Et = f_{\big}^{-1} \circ \rho_{\Y *}^\et \]
+As before, the natural maps
+\[ f_{\small}^{-1} \circ \pi_{\Y*} \to \pi_{\X*} \circ f_{\big}^{-1} \]
+give
+\[ \rho_{\X*}^{\et} = \pi_{\X*} \circ \rho_{\X*}^\Et = \pi_{\X*} \circ f_{\big}^{-1} \circ \rho_{Y *}^{\Et} \leftarrow f_{\small}^{-1} \circ \pi_{\Y *} \circ \rho_{Y*}^\Et = f_{\small}^{-1} \circ \rho_{Y*}^{\et}  \]
+If we take derived functors this gives the map
+\[ f^{-1}_{\small} \ul{\Omega}_{\Y}^\bullet = f^{-1}_{\small} \R \rho_{\X*}^{\et} \Omega_h^\bullet \to \R \rho_{\Y*}^{\et} \Omega_h^\bullet = \ul{\Omega}_{\X}^\bullet \]
+expressing functoriality of the Du Bois complex. Here we use that $f^{-1}_{\small}$ is exact. 
+
+\begin{lemma}
+If $f : \X \to \Y$ is \etale then $f^{-1}_{\small} \ul{\Omega}^\bullet_{\Y} \to \ul{\Omega}_{\X}^\bullet$ is an isomorphism of filtered complexes. 
+\end{lemma}
+
+\begin{proof}
+The morphism $f_{\small} : \Sh(\X_{\et}) \to \Sh(\Y_{\et})$ is induced by the cocontinuous, continuous functor $\X_{\et} \to \Y_{\et}$ given by $(U \to \X) \mapsto (U \to \Y)$ since $f$ is \etale. Since everything commutes we see that $\rho_{X*}^{\et} = f^{-1}_{\small} \circ \rho_{Y*}^{\et}$ tracing through an identical argument to the big case. Taking derived functors we conclude.
+\end{proof}
+
+\begin{rmk}
+This may look somewhat weird with $f^{-1}$ instead of $f^*$ if is one is thinking about bundles. Remember $\ul{\Omega}_{\X}$ is defined on the entire small \etale site and therefore $f^{-1}_{\small}$ is more like a restriction to its values on $\Y$. The same phenomenon happens with $\Omega_{\X}^\bullet$ which is the complex of sheaves
+\[ (U \to \X) \mapsto \Gamma(U, \Omega_U^\bullet) \]
+\end{rmk}
+
+\subsubsection{Du Bois Complex for DM-Stacks}
+
+\begin{defn}
+The \textit{Du Bois complex} of a DM-stack $\X$ is $\ul{\Omega}^\bullet_{\X} := \R (\rho_{\X}^{\et})_* \Omega^\bullet_h \in D^+ F(\Sh(\X_{\et}))$ and its associated graded parts are $\ul{\Omega}_{\X}^k = \R (\rho_{\X}^{\et}) \Omega^k_h$.
+\end{defn}
+
+We should check this gives ``the same'' thing as the Du Bois complex when $\X$ is a scheme.
+
+\begin{prop}
+Let $X$ be a scheme and let $\nu : \Sh(X_{\et}) \to \Sh(X_{\Zar})$ be the natural map of topoi. Then there are natural isomorphisms
+\[ \R \nu_* (\ul{\Omega}_{X}^\bullet)_{\et} = \R \nu_* \R (\rho_X^{\et})_* \Omega^\bullet_h = \R (\rho_{X *}) \Omega^\bullet_h = \ul{\Omega}_X^\bullet \]
+and furthermore for all $k \ge 0$,
+\[ \nu^* \R (\rho_X)_* \Omega^k_h = \R (\rho_{X}^\et)_* \Omega^k_h \]
+Therefore, if $X$ is a variety, the three possible definitions of the Du Bois complex of $X$ agree. 
+\end{prop}
+
+\begin{proof}
+Notice that the composition
+\[ \Sch_h \xrightarrow{\rho_X^{\et}} X_{\et} \xrightarrow{\nu} X_{\Zar} \]
+of continuous morphisms is $\rho_X$. Therefore, the first statement hold immediately from the compositionality of derived functors. Adjunction of the first statement gives a map,
+\[ \alpha : \nu^{-1} \R (\rho_X)_* \Omega^\bullet_h \to \R (\rho_{X}^\et)_* \Omega^\bullet_h   \]
+of complexes of abelian sheaves. Taking filtered parts both sides become complexes of $\struct{X}$-modules so we get a map
+\[ \alpha^k : \nu^* \R (\rho_X)_* \Omega^k_h \to \R (\rho_{X}^\et)_* \Omega^k_h \]
+To show this is an isomorphism, we check on the cohomology sheaves,
+\[ \alpha^{k,q} : \nu^* \R^q (\rho_X)_* \Omega^k_h \to \R^q (\rho_{X}^\et)_* \Omega^k_h \]
+using that $\nu^*$ is exact. To prove these are isomorphisms, it suffices to show that for any \etale map $f : U \to X$ the restricton of each to $U_{\Zar}$ (i.e. pullback along $U_{\et} \to X_{\et}$ compsed with pushforward along $U_{\et} \to U_{\Zar}$) is an isomorphism. We do this by induction on $q$. We want to show that all maps in the diagram,
+\begin{center}
+\begin{tikzcd}
+(\nu^* \R^q (\rho_X)_* \Omega^k_h)|_{U_{\Zar}} \arrow[d, equals] \arrow[r, "\alpha^{k,q}"] & (\R^q (\rho_{X}^\et)_* \Omega^k_h)|_{U_{\Zar}} \arrow[d]
+\\
+f^* \H^q(\ul{\Omega}_X^k) \arrow[r] & \H^q(\ul{\Omega}_U^k)
+\end{tikzcd}
+\end{center}
+are isomorphisms where the second downward map is the natural edge map arising from the spectral sequence,
+\[ E_2^{a,b} = \R^a \nu_{U*} f_{\small}^{-1} \R^b (\rho_{X}^\et)_* \Omega^k_h \implies \R^{a+b} (\rho_U)_* \Omega^k_h = \H^{a+b}(\ul{\Omega}_U^k) \]
+This map is automatically isomorphism for $q = 0$ and the bottom map is always an isomorphism because the Du Bois complex is compatible with \etale localization (meaning $f^* \ul{\Omega}_X^k \iso \ul{\Omega}_U^k$ is a qis). Therefore, we win for $q = 0$. If $\alpha^{k,q'}$ is an isomorphism for $q' < q$ then the spectral sequence is converged at $E_2$ for $a + b \le q$ with only one nonzero column: $a = 0$. This is because $\nu_{U*}$ is exact on quasi-coherent sheaves by \chref{https://stacks.math.columbia.edu/tag/03P2}{Tag 03P2} and affine vanishing. Thus the edge map is an isomorphism so we win by induction.
+\end{proof}
+
+\begin{prop}
+Let $\X$ be a smooth DM-stack. Then the natural map
+\[ \Omega_{\X}^\bullet \to \ul{\Omega}_{\X}^\bullet \]
+is an isomorphism. 
+\end{prop}
+
+\begin{proof}
+It suffices to show that each $\Omega_{\X}^k \to \ul{\Omega}_{\X}^k$ is an isomorphism. This can be checked \etale locally. Let $f : U \to \X$ be an \etale cover by a scheme. Then we need to show that the pullback $f^{-1}_{\small}$, we which have shown above is the natural map
+\[ \nu_U^* \Omega_U^k \to \nu^*_U \ul{\Omega}_U^{k} \]
+which is an isomorphism since $U$ is smooth and we know for a smooth variety that $\Omega_U^k \iso \ul{\Omega}_U^k$ (these are Zariski sheaves) and so we conclude by applying $\nu^*_U$. 
+\end{proof}
+
+Now we recover another result of Du Bois.
+
+\begin{cor}
+Let $X$ be a variety with finite quotient singularities. Then $\ul{\Omega}_X^k = \Omega_X^{[k]}$.
+\end{cor}
+
+\begin{proof}
+By a result of Vistoli, there is a smooth DM-stack $\X$ such that $\pi : \X \to X$ is the coarse space. Since $\pi$ is a good moduli space the projection formula gives,
+\[ \ul{\Omega}_{X}^k = \R \pi_* \pi^* \ul{\Omega}_X^k \]
+\end{proof}
+
+\subsubsection{The Du Bois Complex of any stack}
+
+\newcommand{\lisset}{\ell-\text{\'{e}t}}
+
+We make the same definitions but replace the \etale site with the lisse-\etale site for a general stack.
+
+\begin{rmk}
+We can also work with $\R (\rho_{\X}^{\Et})_* \Omega_{h}^\bullet$ but it is annoying to work with quasi-coherent sheaves defined on the big sites because the embedding
+\[ \mathrm{QCoh}(\X) \embed \Mod{\struct{\X_{\Et}}} \]
+is NOT usually left-exact. Indeed, consider $\Spec{\Z}$ and the map $2 : \struct{} \to \struct{}$ which is injective as a map of quasi-coherent sheaves but not injective as a map of sheaves on the big \etale site because its value on $\Spec{\FF_2}$ -- which is an object of the big site -- is not injective. I stole this example from \chref{https://stacks.math.columbia.edu/tag/06VE}{here}.
+\end{rmk}
+
+\begin{defn}
+Let $\X$ be an stack. Then let $\rho_{\X}^{\lisset} : \Sch_h \to \X_{\lisset}$ be the obvious morphism of sites $(U \to \X) \mapsto U$.
+\end{defn} 
+
+\begin{lemma}
+The induced map $\rho_{\X}^{\lisset} : \Sh(\Sch_h) \to \Sh(\X_{\lisset})$ is a morphism of topoi. 
+\end{lemma}
+
+\begin{proof}
+It suffices to show $(\rho_{\X}^{\lisset})^{-1}$ is exact. This follows from \chref{https://stacks.math.columbia.edu/tag/00XS}{Tag 00XS} since the functor 
+\[ (U \to \X) \mapsto U \]
+is continuous, cocontinuous, and preserves fiber products and equalizers.
+\end{proof}
+
+\begin{defn}
+The \textit{Du Bois complex} of a stack $\X$ is $\ul{\Omega}^\bullet_{\X} := \R (\rho_{\X}^{\lisset})_* \Omega^\bullet_h \in D^+ F(\Sh(\X_{\lisset}))$ and its associated graded parts are $\ul{\Omega}_{\X}^k = \R (\rho_{\X}^{\lisset}) \Omega^k_h$. 
+\end{defn}
+
+\begin{lemma}
+Let $\X$ be a stack. Then $\ul{\Omega}_{\X}^k$ and $\R (\rho_{\X}^{\Et}) \Omega^k_h$ are complexes of locally quasi-coherent $\struct{\X}$-modules.  
+\end{lemma}
+
+\begin{proof}
+For any morphism $f : U \to \X$ this is just the claim that $(f_{\big}^{-1} \R (\rho_{\X}^{\Et}) \Omega^k_h) |_{U_{\et}} = (\ul{\Omega}^k_{U})^{\et}$ is a complex of quasi-coherent sheaves. 
+\end{proof}
+
+
+
+
+\section{Nowhere vanishing for singular varities}
+
+\begin{defn}
+Let $\omega$ be a reflexive differential form on a variety $X$ which extends to a global form $\wt{\omega}$ on a resolution $\wt{X} \to X$. We say that $\omega$ is \textit{nowhere vanishing} if $\omega$ does not vanish on $\wt{X} \sm E$ nor is identically zero along any connected component of $E$. 
+\end{defn}
+
+Question? Does PS14 still hold?
+
+
+\section{Questions March 28}
+
+\begin{enumerate}
+\item How is Ambro's result consistent with nontrivial projective bundles on abelian varities? Answer: Ambro only says its an \etale-local fiber bundle NOT a finite \etale-local fiber bundle.
+
+\item if $C$ is a genus $3$ hyperelliptic curve. Is it true that symmetric product is general type? Is it minimal? How does this work? Yes to all. 
+
+\item What is the correct version of the question $(X, D)$ have no automorphisms? Which result was Dori talking about that fixes the automorphisms? Dori proves that its a torus for boundary polarized CY. I think the correct question: the linear part of the connected component of Aut of $(X, D)$ is a torus. 
+\end{enumerate}
+
+\section{Inversion of Adjunction}
+
+
+\subsection{Pairs}
+
+\begin{defn}
+A \textit{pair} $(X, \Delta)$ over a base scheme $B$ is a $B$-scheme $X$ and a $\Q$-divisor $\Delta$ on $X$ satisfying
+\begin{enumerate}
+\item $B$ is regular, excellent, and pure dimensional
+\item $X$ is reduced, pure dimensional, $S_2$, excellent scheme that has a canonical sheaf $\omega_{X/B}$
+\item the canonical sheaf $\omega_{X/B}$ is locally free outside a codimension $2$ subset (automatic if $X$ is normal)
+\item $\Delta = \sum a_i D_i$ is a $\Q$-linear combination of distinct prime divisors non contained in $\Sing(X)$. We allow the $a_i$ to be arbitrary rational numbers. 
+\end{enumerate}
+\end{defn}
+
+It is tricky to give the most general conditions in which a canonical sheaf exists. However, we have one in the following situation:
+
+\begin{prop}
+Suppose there is an open $j : X^0 \embed X$ an a locally closed embedding $\iota : X^0 \embed \P^N_B$ such that
+\begin{enumerate}
+\item $Z : X \sm X^0$ has codimension $\ge 2$ in $X$
+\item $\iota(X^0)$ is lci in $\P^N_B$
+\end{enumerate}
+let $I$ denote the ideal sheaf of $\ol{\iota(X^0)}$ then $I / I^2$ is locally free on $\iota(X^0)$ so we set
+\[ \omega_{X^0/B} = \iota^* (\omega_{\P^N_B/B} \ot \det(I/I^2)^{-1}) \]
+then the canonical sheaf of $X$ over $B$ is
+\[ \omega_{X/B} := j_* \omega_{X^0 / B} \]
+\end{prop}
+
+\renewcommand{\Diff}{\mathrm{Diff}}
+
+\subsection{Birational Maps}
+
+\begin{defn}
+A rational map of reduced schemes $f : X \rat Y$ is \textit{birational} if there are dense open subschemes $U_X \subset X$ and $U_Y \subset Y$ such that $f|_{U_X} : U_X \to U_Y$ is an isomorphism. Among all pairs $(U_X, U_Y)$ there is a maximal one $(U_X^m, U_Y^m)$. The complement $\Exc(f) := X \sm U^m_X$ is called the \textit{exceptional set} or \textit{locus} of $f$. 
+\end{defn}
+
+\begin{rmk}
+Note that if $X$ is pure dimensional and $f : X \rat Y$ is birational then $Y$ is pure dimensional.
+\end{rmk}
+
+\begin{defn}
+Let $f : X \rat Y$ be birational and $Z \subset X$ be a closed subscheme such that $Z \cap U^m_X$ is dense in $Z$. Then the closure of $f(Z \cap U_X^m) \subset Y$ is called the \textit{birational transform} of $Z$ denoted as $f_* Z$.  
+\end{defn}
+
+\begin{rmk}
+CAUTION: if $f$ is not a morphism then $f_*$ need not preserve linear or algebraic equivalence. Furthermore, if $D := Z$ is a divisor then $\struct{Y}(f_* D)$ and $f_* \struct{X}(D)$ agree on $U_Y$ but not elsewhere. 
+\end{rmk}
+
+\begin{lemma}
+If $f : Y \to X$ is a birational morphism then $f^{-1} : X \rat Y$ has maximal opens $(U_X^m, U_Y^m)$ satisfying $(X \sm U_X^m) \sm \Sing(X)$ has codimension $2$ in $X$ and $U_Y^m = \Exc(f)$.
+\end{lemma}
+
+\begin{proof}
+Indeed, it is clear that $(U_X^m, U_Y^m)$ is the flip of the maximal open for $f$ so the second statement is immediate. We need to show that every prime divisor on $X \sm \Sing(X)$ meets $U_X^m$. Since we removed the singular locus we can assume that $X$ is smooth and irreducible. By Zariski's main lemma, either $f$ is an isomorphism over the generic point of $D$ or the fiber is positive dimensional meaning, by dimension reasons that there is a component of $Y$ mapping into $D$ which violates the definition of a birational map. 
+\end{proof}
+
+\begin{rmk}
+Hence if $D \subset X$ is a divisor with no component inside $\Sing(X)$ and $Y \to X$ is a birational morphism then $f^{-1}_* D$ is well-defined. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a reduced scheme. A \textit{divisor over} $X$ is a pair $(f : Y \to X, E)$ of a birational morphism $f : Y \to X$ and a divisor $E \subset Y$. The \textit{center} of $E$, denoted $\cent_X E$ is the closure of $f(E) \subset X$.   
+\end{defn}
+
+\section{Discrepancies and Singularities}
+
+\begin{defn}
+Let $(X, \Delta)$ be a pair. Assume that $m (K_X + \Delta)$ is Cartier for some $m > 0$. This means $m \Delta$ is integral and $\omega_X^{[m]}(m \Delta)$ is locally free. Suppose $f : Y \to X$ is a (not necessarily proper) birational morphism from a reduced scheme $Y$. Let $E \subset Y$ denote the exceptional locus of $f$ and $E_i \subset E$ the irreducible exceptional divisors. We assume $Y$ is regular at the generic point of each $E_i$ (automatic if $Y$ is normal). Let 
+\[ f_*^{-1} \Delta := \sum a_i f_*^{-1} D_i \quad \text{ where } \quad \Delta = \sum a_i D_i \]
+denote the birational transform. The natural isomorphism
+\[ t_{Y \sm E} : \omega_Y^{[m]}(m f_*^{-1} \Delta)|_{Y \sm E} \iso f^* \left( \omega_X^{[m]}(m \Delta) \right) |_{Y \sm E} \]
+implies that there are rational numbers $a(E_i, X, \Delta)$ such that $m a(E_i, X, \Delta)$ are integers and $t_{Y \sm E}$ extends to an isomorphism
+\[ t_Y : \omega_Y^{[m]}(m f_*^{-1} \Delta) \iso f^* \left( \omega_X^{[m]}(m \Delta) \right) \left( \sum_i m \cdot a(E_i, X, \Delta) E_i \right) \]
+For any divisor $D \subset Y$ that is not exceptional, we define 
+\[ a(D, X, \Delta) := - \coeff_{f_* D}(\Delta) \]
+These numbers are called \textit{discrepacies} of $D$ with respect to $(X, \Delta)$. The above fundamental relation can be writen as
+\[ K_Y + f_*^{-1} \Delta \sim_{\Q} f^* (K_X + \Delta) + \sum_i a(E_i, X, \Delta) E_i \]
+Furthermore, we define the \textit{log discrepancy} $b(E_i, X, \Delta)$ by the relation
+\[ K_Y + f_*^{-1} \Delta + E \sim_{\Q} f^* (K_X + \Delta
+) + \sum_i b(E_i, X, \Delta) \]
+where $\Delta_Y = f_*^{-1} \Delta + E$ and hence $b(E_i, X, \Delta) = a(E_i, X, \Delta) + 1$.
+\end{defn}
+
+\begin{lemma}
+Suppose that $f : Y \to X$ and $f' : Y' \to X$ are birational morphisms and $E \subset Y$ and $E' \subset Y'$ are prime divisors such that the rational map $f^{-1} \circ f' : Y' \rat Y$ satisfies $(f^{-1} \circ f')_* E' = E$ (meaning we assume that the rational map is defined at the generic point of $E'$ and it maps this point to $E$). Then $a(E, X, \Delta) = a(E', X, \Delta)$ and $\cent_X E = \cent_{X'} E'$.
+\end{lemma}
+
+\begin{rmk}
+Because of this lemma, we say heuristically that ``the discrepancy of a divisor over $X$ does not depend on the birational model''. 
+\end{rmk}
+\begin{rmk}
+The following relations are satisfied
+\begin{align*}
+K_Y + f_*^{-1} \Delta & \sim_{\Q} f^* (K_X + \Delta) + \sum_{E_i \subset E} a(E_i, X, \Delta) E_i
+\\
+K_Y  & \sim_{\Q} f^* (K_X + \Delta) + \sum_{D \subset Y} a(D, X, \Delta) D
+\end{align*}
+the first sum over the exceptional divisors and the second over all divisors. Furthermore, we set $\Delta_Y$ to be any divisor such that $f_* (K_Y + \Delta_Y) = K_X + \Delta$ then {\color{red} IS THIS RIGht}
+\[ K_Y + \Delta_Y \sim_{\Q} f^* (K_X + \Delta) \]
+\end{rmk}
+
+\begin{rmk}
+Notice above that $a(D, Y, \Delta_Y) = a(D, X, \Delta)$ for any divisor $D \subset Y$. We say that a birational morphism $(Y, \Delta_Y) \to (X, \Delta_X)$ is \textit{crepant} if it satisfies this property. 
+\end{rmk}
+
+
+\begin{defn}
+A proper birational morphism of pairs $f : (Y, \Delta_Y) \to (X, \Delta_X)$ is \textit{crepant} if 
+\[ K_Y + \Delta_Y \sim_{\Q} f^* (K_X + \Delta_X) \]
+In particular,
+\[ a(F, Y, \Delta_Y) = a(F, X, \Delta_X) \]
+for any divisor $F$ over $Y$. 
+\end{defn}
+
+
+\begin{defn}
+Let $(X, \Delta)$ be a pair where $X$ is normal of dimension $\ge 2$ and $\Delta = \sum a_i D_i$ is a subboundary (i.e. a formal sum of distinct prime divisors and $a_i$ are rational numbers $\le 1$). Assume $m(K_X + \Delta)$ is Cartier for some $m > 0$. We say that $(X, \Delta)$ is,
+\begin{enumerate}
+\item \textit{terminal} if $a(E, X, \Delta) > 0$ for all exceptional $E$ over $X$
+\item \textit{canonical} if $a(E, X, \Delta) \ge 0$ for all exceptional $E$ over $X$
+\item \textit{klt} if $a(D, X, \Delta) > -1$ for all divisors $D$ over $X$
+\item \textit{plt} if $a(E, X, \Delta) > -1$ for all exceptional $E$ over $X$
+\item \textit{dlt} if $a(D, X, \Delta) > -1$ for any $D$ with $\cent_X D \subset \text{non-snc}(X, \Delta)$
+\item \textit{lc} if $a(D, X, \Delta) \ge -1$ for all divisors $D$ over $X$
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Notice that $(X, \Delta)$ klt implies that the coefficients of $\Delta$ satisfy $a_i < 1$. Indeed, $a(D_i, X, \Delta) = - \coeff_{D_i} \Delta = - a_i$ and we require $a(D_i, X, \Delta) > - 1$. 
+\end{rmk}
+
+\begin{rmk}
+Each singularity type implies the next downwards except canonical only implies klt if every coefficient of $\Delta$ satisfies $a_i < 1$. 
+\end{rmk}
+
+\begin{lemma}[Kollar, Singularities of MMP, Corollary 2.13]
+Let $X$ be a normal scheme and $\Delta = \sum d_j D_j$ a $\Q$-divisor such that $K_X + \Delta$ is $\Q$-Cartier. Let $f : Y \to X$ be a log resolution. Write,
+\[ K_Y \sim_{\Q} f^* (K_X + \Delta) + \sum a_i E_i \]
+Then
+\begin{enumerate}
+\item $(X, \Delta)$ is log canonical if and only if every $a_i \ge -1$
+\item $(X, \Delta)$ is klt if and only if every $a_i > -1$
+\end{enumerate}
+notice that in this convention the birational transforms are amount the $E_i$ with coefficient $a_i = -d_j$.
+\end{lemma}
+
+\subsection{Adjunction}
+
+Let $(X, \Delta)$ be a pair. 
+
+\begin{theorem}[Kawmata]
+Let $(X, S + B)$ be a pair such that $S$ is a reduced divisor which has no common component with the support of $B$. Let $S^\nu$ denote the normalization of $S$, and let $B^\nu$ denote the different of $B$ on $S^\nu$. Then $(X, S + B)$ is log canonical near $S$ if and only if $(S^\nu, B^\nu)$ is log canonical.
+\end{theorem}
+
+\begin{defn}
+A \textit{pair} $(X, \Delta)$ where $X$ is a normal projective variety, and $\Delta$ is an effective $\Q$-divisor such that $K_X + \Delta$ is $\Q$-Cartier. 
+\end{defn}
+
+Now assume that $(X, \Delta)$ is a pair where $\Delta = S + B$ with $S$ normal prime divisor. Let $\pi : Y \to X$ a \textit{log resolution} of $(X, \Delta)$ meaning a birational morphism with $Y$ smooth and $\Supp{}{\pi_*^{-1} \Delta} + \Exc(\pi)$ is a snc divisor. Denote by $\wt{S}$ the strict transform of $S$. Then we can write,
+\[ K_Y + \Delta_Y = \pi^* ( K_X + \Delta) \]
+and then define
+\[ \Diff(B) := \pi_{\wt{S}, *} ((\Delta_Y - \wt{S})|_{\wt{S}}) \]
+where $\pi_{\wt{S}} : \wt{S} \to S$ is the restrictyion of $\pi$. Then we obtain a new pair $(S, \Diff(B))$ that does not depend on the choice of $Y$.
+
+
+
+
+MAIN QUESTION IF $(X, \Delta)$ IS A PAIR WHAT DOES AUT MEAN AND IS IT CONTAINED IN THE FOLLOWING GROUP
+
+Let $(\hat{X}, \hat{\Delta}) \to (X, \Delta)$ be an snc resolution then consider $\Aut{\hat{X}, \ceil{\hat{\Delta}}}$. 
+
+\section{Questions}
+
+What about the example quadric surface to union of two planes. 
+
+$V(xy - t zw)$ then have $[t s_0 : \alpha s_1 : s_0  : \alpha s_1 ]$ and $[s_0 : t \alpha s_1 : s_0 : s_1 \alpha]$ lines.
+
+
+
+
+
 
 \end{document}

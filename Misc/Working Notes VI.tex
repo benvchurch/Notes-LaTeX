@@ -1,0 +1,1694 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{import}
+\import{"../Algebraic Geometry/"}{AlgGeoCommands}
+
+\newcommand{\Loc}[1]{\mathfrak{Loc}\left( #1 \right)}
+\newcommand{\AbGrp}{\mathbf{AbGrp}}
+
+\renewcommand{\tr}{\operatorname{tr}}
+
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\ob}{\mathrm{ob}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\vir}{\mathrm{vir}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\ad}{\mathrm{ad}}
+
+\newcommand{\Y}{\mathscr{Y}}
+
+
+\DeclareMathOperator{\covdeg}{\text{cov.deg}}
+\DeclareMathOperator{\cd}{\text{cd}}
+
+\theoremstyle{plain}
+\newtheorem{Lthm}{Theorem}
+\renewcommand*{\theLthm}{\Alph{Lthm}}
+\newtheorem{Lcor}[Lthm]{Corollary}
+\newtheorem{Lprop}[Lthm]{Proposition}
+%\newtheorem*{Claim*}{Claim}
+
+\DeclareMathOperator{\irr}{irr}
+\DeclareMathOperator{\BAV}{(BAV)}
+\DeclareMathOperator{\gon}{gon}
+\DeclareMathOperator{\cov}{cov.gon}
+\DeclareMathOperator{\amp}{Amp}
+\DeclareMathOperator{\nef}{Nef}
+\DeclareMathOperator{\eff}{Eff}
+\DeclareMathOperator{\mon}{Mon}
+\DeclareMathOperator{\val}{Val}
+\DeclareMathOperator{\ind}{ind}
+\DeclareMathOperator{\seg}{seg}
+\DeclareMathOperator{\pic}{Pic}
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\dps}{dP}
+\DeclareMathOperator{\ns}{NS}
+\DeclareMathOperator{\NKLT}{NKLT}
+\DeclareMathOperator{\divib}{div}
+
+\newcommand{\mb}[1]{\mathbb{#1}}
+\DeclareMathOperator{\cg}{cov.gon}
+\DeclareMathOperator{\covgon}{cov.gon}
+\DeclareMathOperator{\mindeg}{min.deg}
+
+\begin{document}
+
+\section{Clemens Conjecture}
+
+
+\subsection{Notation: Mori degeneration}
+
+Consider Mori's degeneration:
+
+\begin{defn}
+Let $S$ be a scheme, $t \in \struct{S}$. Let $f,g \in \struct{S}[x_0, \dots, x_n]$ be homogeneous polynomials of degrees $cd$ and $d$ respectively such that $g^c  - f$ is not identically zero mod $s$ for any point $s \in S$. The scheme
+\[ Z = V(y^c - f, t y  - g) \subset \P_S(1^{n+1}, d) := \Proj{S[x_0, \dots, x_n, y]} \]
+where $\deg{x_i} = 1$ and $\deg{y} = d$.  If $t(s) \neq 0$ then $Z_s$ is isomorphic to the hypersurface
+\[ V(g(s)^c - t(s)^c f(s)) \subset \P_{\kappa(s)}^n := \Proj{\kappa(s)[x_0, \dots, x_n]} \]
+by eliminating $y$. Moreover, if $t(s) = 0$ then the fiber $Z_s$ is the degree $c$ cyclic cover of the hypersuface $\{ g(s) = 0 \}$ ramified along $\{ f(s) = 0 \}$. 
+\end{defn}
+
+\begin{rmk}
+Moreover, the map $\mu : Z_{0} \to \P^n$ is given by projection away from $\{ x_0 = x_1 = \cdots = x_n = 0 \}$ and since $f$ is homogeneous this point is not on $Z_0$ so it gives a morphism. Therefore $\mu^* \struct{}(1)$ agrees with $\struct{}(1)|_{Z_0}$ arising from the total space. Furthermore, note that the $\Gm$-action is free everywhere but along the ray $[0, 0, \dots, 0, \lambda]$ and therefore, since the hypersurface is away from this ray we see that $\struct{}(1)$ is locally free along $Z_0$.
+\end{rmk}
+
+
+Let $\mu : X_0 \to \P^3$ be the $p = 5$ cyclic cover defined by
+\[ w^p = f(x,y,z) \]
+Then according to Koll\'{a}r there is an exact sequence,
+\[ 0 \to \mu^* \struct{\P^3}(-p) \to \mu^* \Omega_{\P^3} \to \Omega_{X_0} \to \mu^* \struct{\P^3}(-1) \to 0 \]
+We define,
+\[ Q_0 := \coker{\left(  \mu^* \struct{\P^3}(-p) \to \mu^* \Omega_{\P^3} \right) } = \im{\left( \mu^* \Omega_{\P^3} \to \Omega_{X_0} \right) } \]
+Then Koll\'{a}r proves that
+\[ (\wedge^2 Q_0)^{\vee \vee} = \mu^* \struct{\P^3}(1) \]
+
+
+\begin{lemma}
+Let $f : S \to X$ be a morphism from a smooth birationally ruled surface to a smooth 3-fold. Suppose $\varphi : \L \embed \wedge^2 \Omega_X$ is a line bundle embedded in $\wedge^2 \Omega_X$ and $\L$ has a nonzero section $s$. Let $\ol{S} = \im{f}$ then one of the following must hold:
+\begin{enumerate}
+\item $\ol{S} \subset V(s)$
+\item $f^*(\L \ot \struct{X}(\ol{S}))$ intersects non-positively with the general fiber of $S \to C$
+\item $\ol{S} \subset V(\varphi)$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Suppose (a) does not hold.
+Because $H^0(S, \omega_S) = 0$ since $S$ is ruled and $f^* \L$ has a nonzero section because we are not in case (a), the composition is zero
+\[ f^* \L \to f^* \wedge^2 \Omega_X \to \omega_S \]
+since $\omega_S$ has no sections and $f^* \L$ is big. 
+\bigskip\\
+Now consider the sequence
+\[ 0 \to \C \to f^* \Omega_X \to \Omega_S \]
+Let $\ol{S}$ be the image of $S$. Then we have a sequence,
+\[ 0 \to \C \to \Omega_X |_{\ol{S}} \to \Omega_{\ol{S}} \to 0 \]
+and the sequence is left exact because $\ol{S}$ is a prime divisor and hence is Cartier and so $\C$ is a line bundle. 
+Consider the exact sequence
+\[ 0 \to f^* \C \to f^* \Omega_X \onto \F \subset \Omega_S \]
+where $\Omega_S / \F$ has support over the exceptional locus of $S \to \ol{S}$. Then I claim there is a sequence
+\[ 0 \to \F \ot \C \to \wedge^2 f^* \Omega_X \to \omega_S \]
+Indeed, consider the map $f^* \Omega_X \ot \C \to \wedge^2 f^* \Omega_X$. I claim this surjects onto the kernel. Indeed, if $\alpha \wedge \beta \mapsto 0$ then $\alpha - \lambda \beta$ is in the kernel. Therefore, $\alpha \wedge \beta = (\alpha - \lambda \beta) \wedge \beta$ thus is in the image of the claimed map. Moreover, since $\C \ot \C$ maps to zero we get a map $\F \ot \C \to \wedge^2 f^* \Omega_X$. This is injective because $\C$ is a line bundle and $\F$ is torsion-free and rank $1$ so we can check injectivity at the generic point.
+\par 
+Therefore, since $f^* \L \to \wedge^2 f^* \Omega_X \to \omega_S$ is zero we get that the map factors through $f^* \L \to \F \ot \C$. Hence, if the map $f^* \L \to \wedge^2 f^* \Omega_X$ is nonzero then we get an embedding
+\[ f^* \L \embed \Omega_S \ot f^* \C \]
+We need that $f^*(\L \ot \C^\vee)$ is big since $\Omega_S$ cannot contain a big line bundle. Indeed, there is map $S \to C$ whose general fiber is $\P^1$. Then we know $\Omega_S|_F \cong \struct{\P^1}(-2) \oplus \struct{\P^1}$ but a big line bundle must restrict positively to the generic fiber. 
+\end{proof}
+
+{\color{red} If $X$ is singular this might be an issue unless the singularities are not so bad that forms do not extend to the resolution}
+
+Note if $S \to X$ hits a singular point of $X$ that needs to be resolved then the modification to the normal bundle is only over exceptional loci of $S$ I think and therefore do not interact with the general fiber of $S$ maybe?? Unless the map contracts something to the singularity which seems very possible. 
+
+\section{Chang and Ran}
+
+let $X \subset \P^4$ be a general quintic hypersurface. Let it be a general hyperplane section of $Y \subset \P^5$ another fixed quintic. Let $S \to X$ be a smooth surface of negative kodiara dimension mapping birationally onto its image in $X$. There are two cases:
+\begin{enumerate}
+\item either $S$ fills $Y$ as we move $H$
+\item $S$ extends to a divisor of $Y$ such that $S$ is a section.
+\end{enumerate}
+
+I THINK they show (b) does not occur and when $-K_S$ is nef (a) does not occur either.
+
+\subsection{(a)}
+
+Consider the sequences,
+\[ 0 \to T_S \to f^* T_{X} \to N_f \to 0 \]
+and 
+\[ 0 \to N_f \to N_{\tilde{f}} \to L \to 0 \]
+where $\tilde{f}$ is the composite 
+\[ S \xrightarrow{f} X \embed Y \]
+and $L = f^* \struct{}(1)$. 
+\bigskip\\
+Note that the second sequence splits in any neighbrohood of a fiber of $f$. Let $\tau = (N_f)_{\tors}$ which is supported purely in codimension $1$ (because $T_S$ has corank $1$ in $f^* T_X$). Since $S$ fills $Y$ we see that $N_{\tilde{f}}$ is generated generically by global sections. Thus 
+\[ c_1(N_{\tilde{f}} / \tau) = c_1(N_{\tilde{f}}) - c_1(\tau) \]
+is nef {\color{red} WHY? maybe I don't know what generically globally generated means in this context?}
+
+\section{Wang 2000}
+
+Let $X$ be a non-singular complete intersection of type $(m_1, \dots, m_k)$ in a Grassmanian $G(r, n+1)$ such that $\dim{X} \ge 3$ and $m = m_1 + \cdots + m_k \ge n + 1$, and supposet $\ol{D} \subset X$ is an irreducible and reduced divisor. Let $f : D \to \ol{D} \subset X$ be a desingularization, $\ell$ denote the dimension of $D$ and $L = f^* \struct{G}(1)$. Obviously, $L$ is big and nef. Let $K_D$ be the canonical bundle of $D$. Let $S$ and $Q$ be the universal subbundle and universal quotient bundle on $G$. 
+
+\begin{prop}
+$X$ does not cotain any reduced irreducible divisor which admits a designularization having
+\[ H^0(K_D \ot f^* Q^\vee) = 0 \quad \text{ and } \quad H^1(K_D - L^{\ot m_i}) = 0 \]
+for any all $i = 1, \dots, k$.
+\end{prop}
+
+\subsection{Reflexive Sheaves}
+
+Let $\F^{\vee \vee}$ be the double dual of $\F$. A coherent sheaf $\F$ is reflexive if the natural map $\F \to \F^{\vee \vee}$ is an isomorphism. Define the singularity set of $\F$ to be the locus where $\F$ is not free over the local ring.
+\par
+It is well-known that the sigularity set of a torsion-free sheaf on $D$ is in codimension $\ge 2$. Moreover, the singularity set of a reflexitve sheaf on $D$ is in codimension $\ge 3$. It is also well-known that, in general, any reflexive rank $1$ sheaf on an integral locally factoral scheme is a line bundle.
+
+\subsection{The Proof}
+
+Assume such $\ol{D}$ exists. Consider the sequence
+\[ 0 \to Q^\vee \to \struct{G}^{n+1} \to S^\vee \to 0 \]
+Pull this back and tensor with $f^* Q$ to get
+\[ 0 \to f^* Q \ot f^* Q^\vee \to (f^* Q)^{n+1} \to f^* T_G \to 0 \]
+The top cohomology
+\[ h^\ell(f^* Q) = h^0(K_D \ot f^* Q^\vee) = 0 \]
+vanishes by assumption and hence $H^\ell(f^* T_G) = 0$. Now we pull back the normal bundle sequence of $X$
+\[ 0 \to f^* T_X \to f^* T_G \to \bigoplus L^{\ot m_i} \to 0 \]
+Note that we need the smoothness of $X$ to get the above sequence. Then we have,
+\[ h^{\ell-1}(L^{\ot m_i}) = h^1(K_D - L^{\ot m_i}) = 0 \]
+also by assumption and hence using this and the above calculation
+\[ H^\ell(f^* T_X) = 0 \]
+Next, consider the defining sequence of the normal sheaf
+\[ 0 \to T_D \to f^* T_X \to N_f \to 0 \]
+with the above three sequences we obtain
+\[ H^\ell(N_f) = 0 \]
+and
+\[ c_1(N_f) = K_D + (n + 1 - m) L \]
+where
+\[ m  = m_1 + \cdots + m_k \]
+Let $N_f^{\vee \vee}$ be the double dual of $N_f$ which is a line bundle. The image of $N_f \to N_f^{\vee \vee}$ is torsion-free. The singularity set of the image is in codimension $\ge 2$ so there is an exact sequence
+\[ 0 \to \tau \to N_f \to N_f^{\vee \vee} \to \phi \to 0 \]
+with $\dim{\Supp{}{\phi}} \le 0$. Devide these into sequences
+\[ 0 \to \tau \to N_f \to \psi \to 0 \]
+and
+\[ 0 \to \psi \to N_f^{\vee \vee} \to \phi \to 0 \]
+Then $H^\ell(N_f) = 0$ implies that likewise
+\[ H^\ell(N_f^{\vee \vee}) = 0 \]
+because $H^\ell(\phi) = 0$ by dimension reasons. On the other hand, we have 
+\[ c_1(N_f^{\vee \vee}) = K_D + (n + 1 - m)L - c_1(\tau) \]
+Note that $c_1(\tau)$ is always effective. Therefore,
+\[ h^\ell(N_f^{\vee \vee}) = h^0(K_D - N_f^{\vee \vee}) = h^0((m - n - 1)L + c_1(\tau)) > 0 \]
+which is a contradiction. 
+
+\subsection{Main Theorem}
+
+For $r = 1$ we identify $G(1, n+1) = \P^n$. 
+
+\begin{prop}
+A nonsingular complete intersection $X$ of type $(m_1, \dots, m_k)$ in $\P^n$ for $n \ge 4$ such that
+\[ m = m_1 + \cdots + m_k \ge n + 1 \]
+does not contain a reduced irreducible divisor which admits a desingularization having $H^0(K_D - L) = 0$ and $H^1(K_D - m_i L) = 0$ for all $i = 1,\dots, k$. 
+\end{prop}
+
+We get thiis immediately if we identify $\P^n$ with $G(n, n+1)$. 
+
+\begin{theorem}
+A non-singular complete intersection $X$ of type $(m_1, \dots, m_k)$ in $\P^n$ such that $\dim{X} \ge 3$ and $m = m_1 + \cdots + m_k \ge n + 1$ does not contain a reduced irreducible divisor which admits a desingularization having nef anticanonical bundle.
+\end{theorem}
+
+\begin{proof}
+If $-K_D$ is nef, $-K_D + L$ and $-K_D + m_i L$ are nef and big. Therefore by Kawamata-Viehweg vanishing we obtain
+\[ H^0(K_D - L) = 0 \quad H^1(K_D - m_i L) = 0 \]
+for all $i$. Note that $\dim{D} = \dim{X} - 1 \ge 2$ so we may apply the vanishing results. 
+\end{proof}
+
+\section{Ideas}
+
+\begin{enumerate}
+\item study elliptic curves on 3-folds using Noether-Lefschetz for rank two bundles see here \href{Ravindra and Tripathi}{http://www.math.umsl.edu/~girivaru/extension.pdf}
+\item failure of isotriviality for lc singularities. But look at the $-K_X$ nef case \chref{here}{https://arxiv.org/pdf/1612.05921} where there is some result.
+\end{enumerate}
+
+To read:
+
+\begin{enumerate}
+\item \href{https://link.springer.com/article/10.1007/s00222-023-01234-0}{phantom on a rational surface}
+\item \href{https://arxiv.org/abs/2402.04595}{quasi-albanese maps}
+\item \href{https://www.math.stonybrook.edu/~roblaz/Reprints/Lazarsfeld.Rmks.Work.Ein.pdf}{The work of Ein}
+\item \href{https://arxiv.org/pdf/2207.07389}{motivic invariants of birational maps}
+\item \href{Talk by Zvi Ran}{https://www.youtube.com/watch?v=CLLf-oDCNR0}
+\end{enumerate}
+
+\section{Conic Complexity}
+
+\renewcommand{\X}{\mathcal{X}}
+
+\begin{defn}
+We say a map of schemes $f : X \to Y$ is a \textit{fibration} (or an \textit{algebraic fiber space} when $X$ and $Y$ are finite type over $k$) if $f_* \struct{X} = \struct{Y}$.
+\end{defn}
+
+\begin{defn}
+Let $f : X \to Y$ be a morphism of varities over $k$. We say that $f$ is a \textit{conic bundle} if it is proper, $f_* \struct{X} = \struct{Y}$ and the generic fiber of $f$ is a curve of arithmetic genus zero (i.e.\ a conic). 
+\end{defn}
+
+
+\begin{defn}
+Let $X$ be an $n$-dimensional variety over a field $k$. The \textit{conic complexity} $c_{\text{conic}}(X)$ of $X$ is the minimum value of $c$ such that there exists a normal proper birational model $X_0$ and a sequence of fibrations of $k$-varities,
+\[ X_0 \to X_1 \to \cdots \to X_{\ell} \]
+so that $n-c$ of them are conic bundles.
+\end{defn}
+
+{\color{red} IS IT TRUE THAT CONIC COMPLEXITY IS A GEOMETRIC NOTION?} 
+\begin{rmk}
+The conic complexity is a geometic notion. Indeed, given a sequence over $k$ we obtain a similar sequence  
+\end{rmk}
+
+Here let $R$ be an excellent DVR with fraction field $K = \Frac{R}$ and maximal ideal $\m$ and residue field $\kappa = R / \m$.
+
+
+
+\begin{prop} \label{lemma:specializations_of_fibrations}
+Let $\X \to \Spec{R}$ be a flat proper morphism with $\X$ integral and normal. Suppose there is a birational modification $\gamma : \X_{0,K} \to \X_K$ and a sequence of fibrations
+\[ \X_{0,K} \xrightarrow{f_{0,K}} \X_{1,K} \xrightarrow{f_{1,K}} \X_{2,K} \to \cdots \to \X_{\ell,K} \]
+where $\X_{i,K}$ are normal proper $K$-varieties and $f_{i,K} : \X_{i,K} \to \X_{i+1,K}$ is a fibration of relative dimension $r_i$. Let $\delta \in \X_{\kappa}$ be the generic point of some irreduible component. Then there exists the following data:
+\begin{enumerate}
+\item asequence of fibrations of normal integral schemes flat and proper over $R$,
+\[ \X_0 \xrightarrow{f_0} \X_1 \xrightarrow{f_1} \X_2 \to \cdots \to \X_\ell \]
+\item a sequence $\delta_i \in (\X_i)_{\kappa}$ of generic points of normal irreducible components 
+\item a birational map $\epsilon : \X_0 \to \X$ such that $\epsilon : \delta_0 \mapsto \delta$
+\item a diagram,
+\begin{center}
+\begin{tikzcd}
+(\X_0)_K \arrow[r, "(f_0)_K"] \arrow[d, "\mu_0"] & (\X_1)_K \arrow[d, "\mu_1"] \arrow[r, "(f_1)_K"] & (\X_2)_K \arrow[d, "\mu_2"] \arrow[r] & \cdots \arrow[r] & (\X_\ell)_K \arrow[d, "\mu_\ell"]
+\\
+\X_{0,K} \arrow[r, "f_{0,K}"] & \X_{1,K} \arrow[r, "f_{1,K}"] & \X_{2,K} \arrow[r] & \cdots \arrow[r] & \X_{\ell,K}
+\end{tikzcd}
+\end{center}  
+where the downward maps are birational maps 
+\end{enumerate}
+such that $f_i : \delta_i \mapsto \delta_{i+1}$ has relative dimension $r_i$. 
+
+
+{\color{red} THIS IS WRONG}
+Furthermore, if $\X \to \Spec{R}$ admits a section through $\ol{ \{ \delta \} }$ then the map on closures  $\ol{ \{ \delta_i \} } \to \ol{ \{ \delta_{i + 1} \} }$ has geometrically connected fibers.
+\end{prop}
+
+Note that $\ol \{ \delta_0 \} \to \ol \{ \delta \}$ is birational since $\X$ is normal so $\epsilon : \X_0 \to \X$ is an isomorphism over a codimension $2$ subset and hence over $\delta$.
+
+\begin{rmk}
+If $\kappa$ has characteristic zero, when there is a section, the conclusion implies that $\ol{ \{ \delta_i \} } \to \ol{ \{ \delta_{i + 1} \} }$ is a fibration. Otherwise, we may have to worry about inseparable maps which have nonreduced generic fiber. 
+\end{rmk}
+
+\begin{proof}
+This is a repeated application of the lemma of Abhyankar and Zariski \cite[Lemma 2.22]{KollarSingsMMP} and some form of resolution of singularities. We proceed by induction on $\ell$. For $\ell = 0$ there is nothing to prove. Now suppose we have proved the lemma for $\ell - 1$. Let $B$ be any normal integral flat proper model of $\X_{1,K}$ over $R$. By \cite[Lemma 2.22]{KollarSingsMMP} there is a birational modification $g : \ol{B} \to B$ such that $\X \rat \ol{B}$ sends $\delta$ to a regular codimension $1$ point $\delta_1' \in \ol{B}$  Then apply the inductive hypothesis to $\delta_1 \in \ol{B}$ to produce the data:
+\begin{enumerate}
+\item a sequence of fibrations
+\[ \X_1 \xrightarrow{f_1} \X_2 \xrightarrow{f_2} \X_3 \to \cdots \to \X_{\ell} \]
+\item a sequence $\delta_i \in (\X_i)_{\kappa}$ of generic points of normal irreducible components 
+\item a birational map $\epsilon_1 : \X_1 \to \ol{B}$ such that $\epsilon_1 : \delta_1 \mapsto \delta_1'$
+\item a diagram,
+\begin{center}
+\begin{tikzcd}
+(\X_1)_K \arrow[r, "(f_1)_K"] \arrow[d, "\mu_1"] & (\X_2)_K \arrow[d, "\mu_2"] \arrow[r, "(f_2)_K"] & \cdots \arrow[r] & (\X_\ell)_K \arrow[d, "\mu_\ell"]
+\\
+\X_{1,K} \arrow[r, "f_{1,K}"] & \X_{2,K} \arrow[r, "f_{2,K}"] & \cdots \arrow[r] & \X_{\ell,K}
+\end{tikzcd}
+\end{center}  
+where the downward maps are birational maps 
+\end{enumerate}
+Now we produce a modification $\epsilon : \X_0 \to \X$ so that $f_0 : \X_0 \to \X_1$ is a morphism using the following standard argument. Consider the normalization of the closure of the graph of $\mu_1^{-1} \circ f_{0,K} \circ \gamma^{-1} : \X \rat \X_1$, which we will denote by $\Gamma$. This admits a morphism
+\[ \Gamma \rightarrow \X \times_{R} \X_1 \]
+over $R$, with the projection maps $\pi_{1}, \pi_{2}$. By further modifying $\Gamma$ we can assume $\ol{\{ \delta \}}$ is normal. Indeed apply Cesnavicius's Macaulayfication {\color{red} CITE} and Lipman's argument for resolution of codimension $2$ singularities {\color{red} CITE}. Hence we obtain $\epsilon : \X_0 \to \X$ and a morphism $f_0 : \X_0 \to \X_1$ satisfying all the required properties. Indeed, since $(f_0)_{K_*} \struct{(\X_0)_K} = \struct{(\X_1)_K}$ because the same holds for $f_{0,K}$. Since $\X_0$ is integral so $\struct{\X_1} \embed (f_0)_* \struct{\X_0}$ is an extension of sheaves of domains that is an isomorphism at the generic point so by normality of $\X_1$ it is an isomorphism. Thus $f_i$ have geometrically connected fibers hence the same is true of $\ol \{ \delta_i \} \to$ {\color{red} FUCK}
+
+
+ This concludes the proof by induciton.
+\end{proof}
+
+
+\begin{prop}
+Let $\X \to \Spec{R}$ be a flat proper morphism with $\X$ a normal integral scheme. For each irreducible component $X \subset \X_{\kappa}$ of the geometric generic fiber there is an inequality:
+\[ c_{\text{conic}}(X) \le c_{\text{conic}}(\X_{\ol{K}}) \]
+\end{prop}
+
+\begin{proof}
+Cf.\ the proof of Proposition 3.6 of [CCJS23]. 
+
+The hypothesis gives a sequence,
+\[ \X_K = \X_{0,K} \to \X_{1,K} \to \cdots \to \X_{\ell,K} \]
+where $n-c$ of these are conic bundles. 
+
+Applying Lemma~\ref{lemma:specializations_of_fibrations}
+with the generic point $\delta \in X \subset \X_{\kappa}$ of the irreducible component we get a sequence,
+\[ \X_0 \to \X_1 \to \cdots \to \X_\ell \]
+with the data as in the lemma including a sequence of points $\delta_i \in (\X_i)_{\kappa}$. Applying (CITE) to those $\X_i \to \X_{i+1}$ for which the generic fiber is a conic bundle we see that $\ol{\delta_i} \to \ol{\delta_{i+1}}$ is also a conic bundle. Hence $X$ has a fibration sequence with at least $n - c$ conic bundles so we conclude. 
+\end{proof}
+
+\newcommand{\nr}{\mathrm{nr}}
+
+
+\begin{prop}
+Let $X \to Y$ be a conic bundle between varities over $k$. Then the map
+\[ f^* : H_{\nr}^i(Y/k, A) \to H_{\nr}^i(X/k, A) \]
+has $2$-torsion kernel and cokernel. In particular, if $2$ in invertible on $A$ then $f^*$ is an isomorphism. 
+\end{prop}
+
+\begin{proof}
+Indeed, there is an \etale open $u : U \to Y$ with dense image such that $X_U := X \times_Y U \cong U \times \P^1$ where $U \to Y$ has degree $2$. The pull-push formula and functoriality for unramified cohomology gives:
+\begin{center}
+\begin{tikzcd}
+H^i_{\nr}(Y/k, A) \arrow[d, "u^*"] \arrow[r, "f^*"] & H^i_{\nr}(X/k, A) \arrow[d, "u'^*"]
+\\
+H^i_{\nr}(U/k, A) \arrow[r, "f'^*"] \arrow[d, "u_*"] & H^i_{\nr}(X_U/k, A) \arrow[d, "u'_*"] 
+\\
+H^i_{\nr}(Y/k, A) \arrow[r, "f^*"] & H^i_{\nr}(X/k, A)
+\end{tikzcd}
+\end{center}
+where the composition of the downward arrows is multiplication by $2$.
+But $f'^* : H^i_{\nr}(U/k, A) \to H^i_{\nr}(X_U/k, A)$ is an isomorphism by (SHREIDER Lemma~4.5). Hence the multiplication by $2$ map on the kernel and cokernel of $f^*$ is zero. 
+\end{proof}
+
+\begin{defn}
+Let $X / L$ and $Y / k$ be varities. We say that $X$ \textit{degenerates to} $Y$ if there exists a DVR $R$ and a flat scheme $\X \to \Spec{R}$ such that {\color{red} DO THIS PROPERTLY} 
+\end{defn}
+
+\begin{theorem}
+Suppose that $X / L$ degenerates to $Y / \bar{k}$ and $H^i_{\nr}(Y/\bar{k}, A) \neq 0$ where $2$ is invertible on $A$. Then $c_{\text{conic}}(X/L) > i$.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\section{GAeL Talk}
+
+Joint work w/ Nathan Chen and Junyan Zhao.
+
+{\color{red} Let's start with a general question: given an embedding}
+\[ X \embed \P^N \]
+with $X$ an $n$-dimensional variety. If I slice $X$ by linear spaces $\Lambda$ of dimension $n+1$ then I get a family of curves $C := X \cap \Lambda$ covering $X$ with $\deg{C} = \deg{X}$. 
+
+{\color{red} the fundamental question:}
+\\
+\noindent
+Q: do there exist curves on $X$ which are ``simplier'' than the linear slices.
+
+{\color{red} our main result confirms a folklore conjecture that for a general complete intersection of large degree, we have $\deg{C} \ge \deg{X}$ so the linear slices are curves of minimal degree}
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+Let $X \subseteq \P^{n+r}$ be a general complete intersection variety of dimension $n \geq 1$ cut out by polynomials of degrees $d_{1}, \ldots, d_{r} \geq 2n$. Then any curve $C \subseteq X$ satisfies
+\[ \deg(C)\ \ge\ (d_1 - 2n + 1) \cdots (d_r - 2n + 1) .\]
+Moreover, there exists $N := N(n,r)$ such that if $d_1, \dots, d_r \ge N$, then
+\[ \deg(C)\ \ge\ d_1 \cdots d_r. \]
+\end{Lthm}
+
+{\color{red} Besides intrinsic interest, our motivation is a conjecture of Bastianelli--De Poi--Ein--Lazarself--Ullery [BDELU17] on the measures of irrationality of complete intersections.}
+
+\subsection{Measures of Irrationality}
+
+{\color{red} These are quantitative measures of ``how far from being rational'' a variety. }
+
+For a projective variety $X$ of dimension $n$, the \emph{degree of irrationality} and the \emph{covering gonality} are defined as follows:
+\[ \irr(X)\ :=\ \min\big\{\delta>0\ |\ \exists\textup{ rational dominant map } X\dashrightarrow \mb{P}^n\textup{ of degree }\delta\big\}; \]
+\[ \cov(X)\ :=\ \min\big\{c>0\ |\ \exists\textup{ a curve of gonality } c \textup{ through a general point } x\in X\big\}.\]
+{\color{red} From their descriptions, we see that the degree of irrationality is a measure of how far $X$ is from being rational, while the covering gonality is a measure of how far $X$ is from being uniruled.} These are related by: 
+\[ \irr(X) \geq \cg(X) \]
+
+{\color{red} For me, $\irr$ is the more fundamental measure. However, in practice $\cg$ is much easier to study. Since we are interested in lower bounds, it suffices to bound $\cg$}
+
+BDELU prove that for a general hypersurface $X_d \subset \P^{n+1}$ then $\cg(X_d)$ (and hence $\irr(X)$) is asymptotically $\sim d$. Their method can prove if $X_{d_1, \dots, d_r} \subset \P^{n+r}$ is a general complete intersection then $\cg(X_{d_1, \dots, d_r}) \gtrapprox d_1 + \cdots + d_r$ an \textit{additive} bound. They ask: are there \textit{multiplicative bounds}
+\[ \cg(X_{d_1, \dots, d_r}) \ge C d_1 \cdots d_r \]
+
+{\color{red} We prove this conjecture and give the sharpest possible constant $C = 1$.}
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+For any $0 < \epsilon \ll 1$, there exists an integer $N_{\epsilon} = N(\epsilon, n, r) > 0$ such that if $d_1, \dots, d_r \ge N_\epsilon$, then
+\[ \cg(X_{d_1, \dots, d_r}) \ \geq \  (1-\epsilon) \cdot d_{1} \cdots d_{r}. \]
+\end{Lthm}
+
+{\color{red} It turns out that our proof Theorem B depends on Theorem A. }
+
+\subsection{Idea of the Reduction of Theorem B to Theorem A}
+
+The standard technique for bounding covering gonality uses sections of the canonical bundle. If 
+\begin{center}
+\begin{tikzcd}
+\P^1 \times S \arrow[rd] & \C \arrow[l, "c"'] \arrow[r] \arrow[d] & X
+\\
+& S  
+\end{tikzcd}
+\end{center}
+
+ is a family of gonality $\le c$ curves covering $X$ and $\omega_1, \dots, \omega_r \in H^0(X, \omega_X)$ are some top-forms then we can pull these back to $\C$ and trace them along $\C \to \P^1 \times S$. {\color{red} If the sections $\omega_1, \dots, \omega_r$ separate $c$ points then by chosing these points to be a fiber of the gonal map of the image of some general $\C_s$ in $X$ we see that the trace is nonzero. Since $\P^1 \times S$ has no global top forms this is a contradiction.}
+\bigskip\\
+Therefore we conclude:
+\[ H^0(X, \omega_X) \text{ separates } m \text{ points } \implies \cg(X) \ge m + 1 \]
+
+Next, how do we show that $H^0(X, \omega_X)$ separates lots of points on a complete intersection $X \subset \P^{n+r}$. We're going to use a trick: write $X = Y \cap D$ for $D \in |d H|$ and $Y$ is a complete intersection of one lower codimension then $K_X = (K_Y + X)|_X$ so it is enough to show the stronger property: $|K_Y + d H|$ separates $m$ points on $Y$. This is the same as showing that
+\[ H^0(Y, \struct{Y}(K_Y + d H)) \to H^0(Y, \I_{p_1, \dots, p_m} \ot \struct{Y}(K_Y + d H)) \]
+is surjective so it suffices to show $H^1(Y, \I_{p_1, \dots, p_m} \ot \struct{Y}(K_Y + dH)) = 0$. Blowuping up the points, this is the same as showing that
+\[ H^1(\Bl_{p_1, \dots, p_m} Y, \struct{Y}(\pi^* K_Y + d H - (E_1 + \cdots + E_m))) = H^1(\Bl_{p_1, \dots, p_m}, \omega_{\Bl Y} \ot \struct{}(d H - n (E_1 + \cdots + E_m)) \]
+is zero. The strategy of Chen '23 is to show that $\struct{\Bl Y}(d H - n (E_1 + \cdots + E_m)$ is big and nef and use Kawamata-Vieweg vanishing. Another way of saying this is is we need to compute multi-point Seshadri constants of $Y$. Chen '23 shows how we can do this and get a multiplicative bound on $\cg$ provided that we know a lower bound on the degrees of curves on $Y$. 
+
+{\color{red} However, the bound you get this way is not sharp ($C < 1$). In order to get a better bound, we replace $\I_{p_1, \dots, p_m}$ by a suitable multiplier ideal and use Nadel vanishing instead. This improves the method of Anghern-Siu in the limit of many points}.  
+
+\subsection{Proof of Theorem A}
+
+The idea is very simple, we break our complete intersection $X \spto X_1 \cup_Z X_2$ into two complete intersections with $\deg{X_1} + \deg{X_2} = \deg{X}$. {\color{red} Crutially we do this so that, $Z$ is also a complete intersection of one higher codimension: say by degenerating one of the equations cutting out $X$ into a product of two lower degree equations.} Start with some curve $C \subset X$ and degenerate it to a curve $C' \subset X_1 \cup_Z X_2$.
+\par 
+{\color{red} By wishful thinking: suppose that when we break $X$ the curve $C'$ has a component on each side then by breaking off planes over and over we would immediately win. Unfortunately, this is not true. Consider the degeneration of the lines on a quadric suface to the union of two planes. *DRAW PICTURE*}
+\bigskip\\
+{\color{red} However, by slightly less wishful thinking: let's assume that only one of two cases can occur:}
+\begin{figure}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[dotted] (3, 0) -- (5, 2);
+                \draw (4, 3.5) .. controls (4.5, 2.5) and (3.5, 2.5) .. (3.975, 3.45);
+                \draw (3.5, 0.5) .. controls (3.5, -2) and (4.5, -2) .. (4.5, 1.5);
+                \draw (4.25, 4.05) node{\( C_{X_2} \)};
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.5, 0.55) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw[white, line width = 3pt] (4.5, 1.55) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (3.5, 0.5) .. controls (3.5, 2) and (3.5, 4.5) .. (4, 3.5);
+                \draw (4.5, 1.5) .. controls (4.5, 3) and (4.5, 4.5) .. (4.025, 3.55);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (a)}
+            \label{fig:case_A}
+      \end{minipage}
+      \hspace{0.05\linewidth}
+      \begin{minipage}{0.45\linewidth}
+              \begin{tikzpicture}[scale=0.9]
+                \draw[thick] (3, 0) -- (0, 0) -- (1, 2) -- (5, 2);
+                \draw[thick] (3, 0) -- (3, -2) -- (5, -1) -- (5, 2);
+                \draw[thick, color = red] (3, 0) -- (5, 2);
+                \draw (2, 1) .. controls (1, 0) and (3, 0) .. (2.05, 0.95);
+                \draw (1.95, 1.05) .. controls (1.7, 1.3) and (1.5, 1.5) .. (1, 1.5);
+                \draw (2, 1) .. controls (3, 2) and (3.5, 2) .. (4.5, 1.5);
+                \draw (3.5, 0.5) -- (1, 1);
+                \draw (3.5, 0.5) circle[radius=0.03];
+                \filldraw (4.5, 1.5) circle[radius=0.03];
+                \draw (4.5, 1) node{\( C_Z \)};
+                \draw[white, line width = 3pt] (3.1, 0) -- (6, 0) -- (7, 2) -- (5.1, 2);
+                \draw[thick] (3, 0) -- (6, 0) -- (7, 2) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (4.54, 1.48) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw (4.5, 1.5) .. controls (5, 1.25) and (5.5, 1) .. (6, 1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw[white, line width = 3pt] (3.55, 0.49) -- (5.5, 0.1);
+                \draw (3.5, 0.5) -- (5.5, 0.1);
+                \draw[white, line width = 3pt] (3, 0.1) -- (3, 4) -- (5, 5) -- (5, 2.1);
+                \draw[thick] (3, 0) -- (3, 4) -- (5, 5) -- (5, 2);
+                \draw (1, 0.8) node{};
+                \draw (1.3, 1.7) node{\( C_{X_1} \)};
+                \draw (3.65, 0.3) node{\( p \)};
+                \draw (7.3, 1.8) node{\( X_1 \)};
+                \draw (5.4, 4.8) node{\( X_2 \)};
+                \filldraw (1.85, 0.83) circle[radius=0.03];
+                \filldraw (2.21, 0.76) circle[radius=0.03];
+                \draw (1.76, 0.97) node{};
+                \draw (2.3, 0.89) node{};
+            \end{tikzpicture}
+            \caption{Case (b)}
+            \label{fig:case_B}
+      \end{minipage}
+  \end{minipage}
+\end{figure}
+
+Then we immediately get: 
+\[ \mindeg(X) \ge \min \{ \mindeg(X_1) + \mindeg(X_2), \mindeg(Z) \} \]
+Because $X_1, X_2, Z$ are also complete intersections, this alows us to do a complicated induction on degrees, codimension, and dimension simultaneously to prove the bound,
+\[ \mindeg(X) \ge (d_1 - 2n + 1) \cdots (d_r - 2n + 1) \]
+{\color{red}
+To make this work, we need to show these are the only possible degenerations. The critical input is an idea of Jun Li:} if $\X$ is the total family of the degeneration and we have a nodal curve $C' \to \X_0 = X_1 \cup_Z X_2$ which deforms to the generic fiber. Suppose $p \in C'$ is a point of the curve meeting $Z$ then $p$ must be a node meeting two components $C_1, C_2$ where $C_i \subset X_i$ and they meet $Z$ at $p$ with the same multiplicity \textit{provided} the following are satisfied:
+\begin{enumerate}
+\item[(1)] no component of $C'$ meeting $p$ is contained in $Z$
+\item[(2)] $p \in \X$ is a smooth point of the \textit{total space}.
+\end{enumerate}
+
+{\color{red} Hence as long as $C'$ meets $Z$ at some point outside the singular locus of $\X$ then only cases (a) or (b) above are possible and hence the induction goes through.} However, $\X$ always has singular points occuring at the intersection of the equations for $X, X_1, X_2$ {\color{red} and if we resolve these singularities then after degeneration our curve may get lost in the new exceptional components / divisors.}
+\bigskip\\
+{\color{red} The trick is to instead consider the same induction for computing the minimal degree of curves on $X$ that \textit{cover} $X$. Then since these curves pass through a general point, we can always find one that hits $Z$ outside of $\X^{\text{sing}}$ so the induction works. Then a trick of Reidl-Yang reduces the problem of computing $\mindeg(X)$ to computing the degrees of curves that cover $X$.}
+
+\newpage
+
+\section{Gael}
+
+\newcommand{\alb}{\mathrm{alb}}
+
+Fujino: on the quasi-albanese map.
+\bigskip\\
+We construct a compactification of $G$ as follows. Let $\Gm^r \embed \P^r$ be the toric embedding. Then we consider 
+\[ Z = (G \times \P^r) / \Gm^r \]
+which is a $\P^r$-bundle over $A$. We claim this is the projectivization of the vector bundle associated to the $\Gm^r$-bundle over $A$ (which is a product of line bundles). Note that $\Gm^r \embed \P^r$ is the same as $\Gm^r \to \A^{r+1} \sm \{ 0 \}$ modulo the central $\Gm$. Therefore, we can see that 
+\[ Z = (G \times \P^r) / \Gm^r = \left( [(G \times \Gm) \times \A^{r + 1}] \sm \{ 0 \} \right) / \Gm^{r + 1} = \P(E \oplus \struct{}) \]
+where $E = [(G \times \Gm) \times \A^{r+1}]/\Gm^{r+1}$ is the associated bundle and this is a product of line bundles.  
+
+\begin{example}
+Let $A = E$ be an elliptic curve and $r = 1$ then there is a sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Gm \arrow[r] & G \arrow[r] & E \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then $Z = \P(\struct{} \oplus \alpha)$ where $\alpha \in \fPic^0_E$ and $\Delta$ is a union of the two sections.
+\end{example}
+
+\begin{rmk}
+If we want to preserve a product structure, we could choose $Z$ instead associated to $\Gm^r \embed (\P^1)^r$. Indeed, this is the same as taking $E = L_1 \oplus \cdots \oplus L_r$ and then letting
+\[ Z = \P(L_1 \oplus \struct{}) \times_A \cdots \times_A \P(L_r \oplus \struct{}) \]
+\end{rmk}
+
+
+Let $G$ be a semi-abelian group. Then there is a compactification $G \subset Z$ with a map $Z \to A$ making it a projective bundle of rank the rank of the torus. Furthermore
+\[ \Omega_Z(\log{Z \sm G}) = \struct{Z}^{\oplus \dim{G}} \]
+so 
+\[ \bar{q}(G) = \dim{G} \quad \quad \quad \bar{p}_m(G) = 1 \]
+If $V$ is smooth quasi-projective then there exists a pair
+\[ (\Alb(V), \alb(V)) \]
+which is universal for maps to semi-abelian varities and $\dim{\Alb(V)} = \bar{q}(V)$. This is construced via compactifying $V \embed X$ with boundary $D$ and taking
+\[ \Alb(V) = H^0(X, \Omega_X(\log{D}))^\vee / H_1(V, \Z)_{\text{tors-free}} \]
+Furthermore, any semi-abelian variety is of the form
+\[ G \cong \CC^{\dim{G}} / \pi_1(G) \]
+and $\pi_1(G)$ is free-abelian of rank $2 \dim{A} + r$ where $A$ is the abelian part and $r$ is the rank of the torus. Note that there is a map $V \embed X$ which induces $\Alb(V) \to \Alb(X)$ this is the abelian part corresponding to
+\[ H^0(X, \Omega_X(\log{D}))^\vee \onto H^0(X, \Omega_X)^\vee \]
+
+\begin{prop}
+Let $H \subset G$ be a smooth subvariety and $G$ a semi-abelian variety. Then the following are equivalent:
+\begin{enumerate}
+\item $H$ is a translate of a semiableian subvarity
+\item $\bar{\kappa}(H) = 1$ (meaning $\bar{p}_m(H) = 1$ for all $m \gg 0$)
+\item $H^0(\ol{V}, \Omega^i(\log{\ol{V} \sm V})) = { \dim{H} \choose i }$
+\item $\bar{p}_m(H) = 1$ for all $m \ge 0$
+\end{enumerate}
+\end{prop}
+
+\subsection{Right Birationality For Open Varities}
+
+\begin{defn}
+A map if weakly proper birational if it is the composition of proper birational maps, codimension $\ge 2$ opens, and their rational inverses.
+\end{defn}
+
+Two varities are WPB-equivalent iff there is a WPB-map between them. WPB-equivalence implies they have the same log-invariants.
+
+\begin{rmk}
+WPB-equivalence is not saturated. Not sure what an example is.
+\end{rmk}
+
+\begin{defn}
+$f : U \to V$ is WWPB if $f$ is a compoisition of things in the saturation and their inverses. Indeed, let 
+\[ \mathcal{W} = \{ f : U \to V \mid \exists g : V \to W \text{ or } h : W \to V \text{ such that } g \circ f \text{ or } f \circ h \text{ is WPB} \} \]
+Then WWPB is the localization of the inverses of maps in $\mathcal{W}$. We can continue to get WWWPB etc. 
+\end{defn}
+
+$W^\infty$PB maps preserve log invariants. 
+
+\begin{prop}
+If $f : V \rat U$ is WWPB between affine varities then $f$ is an isomorphism. 
+\end{prop}
+
+\begin{theorem}
+If $V$ is a smooth quasi-projective surface with $\bar{q}(V) = 2$ and either
+\begin{enumerate}
+\item $q(\ol{V}) > 0$ and $\bar{p}_1(V) = \bar{p}_2(V) = 1$
+\item $q(\ol{V}) = 0$ and $\bar{p}_1(V) = \bar{p}_2(V) = \bar{p}_3(V) = 1$
+\end{enumerate} 
+then $V$ is WWPB equivalent to a semi-abelian variety. 
+\end{theorem}
+
+\begin{cor}
+If $V$ is affine and $\bar{p}_1(V) = \bar{p}_3(V) = 1$ and $\bar{q}(V) = 2$ then $V \cong \Gm^2$. 
+\end{cor}
+
+
+\subsection{June 19}
+
+A \textit{pair} $(X, D)$ is a projective normal variety $X$ with a $\Q$-divisor $D$ which we write
+\[ D = \sum b_i D_i \]
+We require that $K_X + D$ is $\Q$-Cartier.
+Notation: $\pi : (Y, B_Y) \to (X, D)$ is a resolution such that $D_Y - \pi_*^{-1} D$ is actually a divisor with smooth (not just SNC!) support. Then we write
+\[ K_Y + D_Y = \pi^* (K_X + D) + \sum_i a_i E_i \]
+and these $a_i$ are the discrepancies. If we choose such a resolution, we don't need to take into account the coefficients of $D_Y$ nor do we need to check on all resolutions like plt etc. For klt we still need the assumption that the coefficients of $D$ are $<1$. 
+
+\begin{defn}
+Let $X$ be a variety. Then $X$ is \textit{demi-normal} if $X$ is $S_2$ and $X$ has at worst SNC singularities in codimension $1$. 
+\end{defn}
+
+On a demi-normal variety, there is a well-defined $K_X$ because we can do it at all codimension $1$ points. 
+\par 
+If $X$ is demi-normal and $K_X$ is $\Q$-Cartier then
+\[ \nu : (X^\nu, \Delta^{\nu}) \to X \]
+we can pullback and define
+\[ K_{X^\nu} + \Delta^\nu = \nu^* K_X \]
+\begin{defn}
+A variety $X$ is slc (semi-log canonical) if $X$ is demi-normal, $\Q$-Gorenstein, and $(X^\nu, \Delta^\nu)$ is log canonical. 
+\end{defn}
+
+\section{Log Blowups}
+
+Blowups have two problems:
+
+\begin{enumerate}
+\item don't commute with base change
+\item functor of points is nasy
+\end{enumerate}
+Log blowups solve both problems.
+\bigskip\\
+Recall: $I \subset \struct{X}$ is a quasi-coherent sheaf of ideals then $\Bl_I X$ is the terminal objectin the category of $t : T \to X$ such that $t^{-1} I \cdot \struct{T}$ is invertible. 
+\bigskip\\
+The log blowup: let $X = (X, P_X, \alpha)$ be a log-scheme. Recall $\ol{P}_X = P_X / P_X^\times$ is a finitely generated monoid. Let $I$ be a sheaf of ideals in $\ol{P}_X$. Then $\Bl_I X$ is the terminal object in the category of log schemes $t : T \to X$ such that $t^{-1} I \cdot \ol{P}_T$ is locally generated by one element. 
+
+\begin{prop}
+The log blowup:
+\begin{enumerate}
+\item commutes with (strict) base change 
+\item it represents the functor 
+\[ (T \to X) \mapsto 
+\begin{cases}
+* & t^{-1} I \cdot \ol{P}_T \text{ is locally generated by one element}
+\\
+\empty & \text{else}
+\end{cases} \]
+\end{enumerate}
+Note, the second property means that it is a log-monomorphism. 
+\end{prop}
+
+If $X_\sigma$ is affine toric, $S_\sigma = \sigma^\vee \cap M$ and $X_\sigma = \Spec{R[S_\sigma]}$. If $I \subset S_\sigma$ is an ideal, generates an ideal in $\ol{P}_{X_\sigma}$. Then the log blowup is
+\[ \Bl_I X_{\sigma} = \Bl_I X_\sigma = X_{\sigma_I} \]
+is just the ordinary (toric) blowup.  
+
+Recall that strict morphism $f : X \to Y$ of log schemes is one such that $P_X = f^* P_Y$.
+
+\subsection{Non-toric example}
+
+Let $X = (\Spec{k}, \N^2 \oplus k^\times) \to \A^2$ which is a strict morphism. Then let $I = ((1,0), (0,1)) \subset \N^2$ then the blowup of $\A_2$ at $0$ pulls back to the blowup at $I$. Furthermore, the log structure on the pullback $\P^1$ has two distinguished points $0,\infty$ the log structure is $\N$ generically and $\N^2$ at the two distinguished points.
+
+\subsection{Moduli of log-curves}
+
+Fix positive integers $2g - 2 + n > 0$. 
+
+\begin{defn}
+A \textit{stable $n$-marked curve of genus $g$} is a tuple $(\pi : C \to S, p_1, \dots, p_n, p_i : S \to C)$ such that
+\begin{enumerate}
+\item $\pi$ is proper, flat, finitely presented
+\item the $p_i$ are disjoint passing through the smooth locus of $\pi$
+\item the geometric fibers of $\pi$ are connectded nodal curves of genus $g$
+\item the automorphism groups of the fibers $(C_t, p_1, \dots, p_n)$ is finite, equivalently the log-canonical bundle $\omega_{\pi}(p_1 + \cdots + p_n)$ is ample.
+\end{enumerate}
+\end{defn} 
+
+Then $\ol{\M}_{g,n}$ represents the functor sending $T$ to families of stable $n$-marked curves over $T$. 
+
+\begin{enumerate}
+\item $\M_{g,n} \embed \ol{\M}_{g,n}$ is an open immersion with 
+\item $\Delta := \ol{\M}_{g,n} \sm \M_{g,n}$ is a normal crossings divisor and $\ol{\M}_{g,n}$ is smooth
+\item $\ol{\M}_{g,n}$ is proper
+\item $\dim \ol{\M}_{g,n} = 3d - 3 + n$. 
+\end{enumerate}
+
+\begin{proof}
+Of properness. Consider $\ol{\M}_{g,n+1} \to \ol{\M}_{g,n}$ this is a proper map because it is the universal curve and $\ol{\M}_{g,n}$ is proper so we win by induction (unless $g = 0,1$ in which case we didn't talk about $\ol{\M}_{g,0}$). 
+\end{proof}
+
+\section{Generic Vanishing}
+
+$a : X \to A$ inducing a surjection $\Alb_X \to A$. Then consider,
+\[ V^i(a, \F) := \{ \alpha \in \fPic^0_A \mid h^i(X, \F \ot a^* \alpha) \neq 0 \} \]
+We say that $\F$ satisfies generic vanishing (is GV) if 
+\[ \codim {V^i(a, \F)} \ge i \]
+
+\begin{theorem}[Hacon]
+If $\codim {V^i(A, \F)} > i$ for all $i$ then $\F = 0$.
+\end{theorem}
+
+This motivates the following definition
+\begin{defn}
+$\F$ is $\text{GV}_k$ if 
+\[ \codim{V^i(a, \F)} \ge i + k \]
+for all $i > 0$.
+\end{defn}
+
+Hacon's theorem says we must make no condition for $i = 0$. 
+
+\begin{prop}
+If $\F$ is GV sheaf and $n = \dim{X}$ then
+\[ V^0(X, \F) \supset V^1(X, \F) \supset \cdots \supset V^n(X, \F) \]
+and moreover, if $W \subset V^i(X, \F)$ is a component of codimension $k > i$ then it is also a component of $V^k(X, \F)$.
+\end{prop}
+
+\begin{theorem}[Ein-Lazarsfeld, '97]
+If $X$ is smooth projective and $p_1(X) = p_2(X) = 1$ then $\alb_X$ is surjective. 
+\end{theorem}
+
+Key ingredient: Green-Lazarsfeld (Simpson) generic vanishing theorem.
+
+\renewcommand{\codim}{\mathrm{codim}}
+\newcommand{\R}{\mathrm{R}}
+
+\begin{theorem}
+Let $X$ be smooth projective and $a : X \to A$ is a map inducing a surjection $\Alb_X \to A$. Let $k$ be the fiber dimension of $a$ then for all $i \ge k$ 
+\[ \codim_{A^\vee} V^i(X, \omega_X) \ge i - k \]
+and $\R^i a_* \omega_X$ are GV and the components of $V^i(X, \omega_X)$ and of $V^i(A, a_* \omega_X)$ are torsion-translates of subtori. 
+\end{theorem}
+
+
+\begin{proof}[Proof of Ein-Lazarsfeld '97]
+Apply the above theorem to $\alb_X : X \to \Alb_X$.
+First $\{ 0 \}$ is an isolated point of $V^0(X, \omega_X)$. We show this by contradiction. If it was positivie dimension then by Simpson, there exists $B \subset \fPic^0_X$ a sub abelian variety of dimension $> 0$ such that $B \subset V^0(X, \omega_X)$. Consider the multiplication map
+\[ H^0(X, \omega_X \ot \alpha) \ot H^0(X, \omega_X \ot \alpha^{-1}) \to H^0(X, \omega_X^{\ot 2}) \]  
+Now for $\alpha \in B$ both terms on the left hand side are nonzero. By assumption $H^0(X, \omega_X^{\ot 2})$ is one dimensional. This shows that the unique effective divisor in $|2 K_X|$ has infinitely many connected components since we can split it for any $\alpha$. This is a contradiciton. 
+\bigskip\\
+Now let $q := h^0(X, \Omega_X) = \dim{\Alb_X}$. Then,
+\[ V^0(X, \omega_X) = V^0(\Alb_X, \alb_* \omega_X) \]
+because pushforward preserves sections and the projection formula. Therefore, $\{ 0 \}$ is an isolated point of $V^0(\Alb_X, \alb_* \omega_X)$. We know $\alb_* \omega_X$ is GV so we can use propagation to say it is a component of $V^q(\Alb_X, \alb_* \omega_X)$. This means $h^q(\Alb_X, \alb_* \omega_X) \ge 1$ but if $\alb_* \omega_X$ has support in dimension $< q$ this would be zero. Therefore $\alb_X$ is surjective.
+\end{proof}
+
+\subsection{Popa-Schnell}
+
+If $(X,D)$ with $D$ a smooth boundary. Let $a : X \to A$ be as before then $a* \omega_X(D)$ is GV. Shibata then proves the results on components: $V^k(X, \omega_X(D))$ are torsion-translates of sub tori. 
+
+\begin{prop}
+If $V$ is smooth quasi-projective with $\bar{p}_1(V) = \bar{p}_2(V) = 1$ then $\alb_{\ol{V}} : \ol{V} \to \Alb_{\ol{V}}$ is surjective. 
+\end{prop}
+
+Write $X := \ol{V}$ for some compactification.
+Recall there is a diagram,
+\begin{center}
+\begin{tikzcd}
+& & V \arrow[d] \arrow[r, hook] & X \arrow[d]
+\\
+0 \arrow[r] & \Gm^r \arrow[r] & \Alb_V \arrow[r] & \Alb_X \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+If $\bar{q}(V) = q(X) = \dim{X}$ and $\bar{p}_1(V) = \bar{p}_2(V) = 1$ then $\alb_X$ is surjective and generically finite then $p_1(X) \neq 0$. But
+\[ 0 \neq p_1(X) \le \bar{p}_1(V) = h^0(X, \omega_X(D)) = 1 \]
+and therefore $p_1(X) = 1$ and $p_2(X) = 1$ by the same argument. Since $q(X) = \dim{X}$ then by Cheng-Hacon we know $\alb_X$ is birational. Therefore, $V \to \Alb_V$ is birational. To show WWPB it suffices to show that every component of $D$ is contracted. This we don't know how to do in arbitrary dimension but we do know how in dimension $2$. 
+
+\section{Lecture 4}
+
+\begin{theorem}
+Let $S$ be a smooth quasi-projective surface with $\bar{q}(S) = 2$ and either
+\begin{enumerate}
+\item $q(\ol{V}) > 0$ and $\bar{p}_1(V) = \bar{p}_2(V) = 1$ or
+\item $q(\ol{V}) = 0$ and $\bar{p}_1(V) = \bar{p}_2(V) = \bar{p}_3(V)$
+\end{enumerate} 
+then $S$ is WWPB equivalent to a quasi-abelian variety.
+\end{theorem}
+
+\begin{cor}
+If $S$ is affine and $\bar{q}(S) = 2$ and $\bar{p}_1(S) = \bar{p}_2(S) = \bar{p}_3(S) = 1$ then $S = \Gm^2$. 
+\end{cor}
+
+\begin{example}
+Let $E$ be the elliptic curve with $j(E) = 12^3$. This has complex multiplication $\omega : E \to E$ order $3$. Consider, a resolution
+\[ X \to (E \times E) / \left< \omega \times - \omega \right> \]
+then $X$ is an elliptic K3 surface. The fibration has three fibers of type $IV^*$. Let $S$ be the complement of the singular fibers. Let $F_i$ be the fibers with reduced structure,
+\[ \bar{p}_m(S) = \dim H^0(X, \omega_X(F_1 + F_2 + F_3)^{\ot m}) = h^0(X, \struct{X}(F_1 + F_2 + F_3)^{\ot m}) = 
+\begin{cases}
+1 & m \le 2
+\\
+> 1 & m \ge 3
+\end{cases} \] 
+and $\bar{q}(S) = 2$ so we really need the condition on $\bar{p}_3(S)$. The albanese of $S$ is $\Gm^2$ and the map factors through $S \to \P^1 \sm \{ 0,1,\infty \}$.
+\end{example}
+
+\section{Ideas}
+
+\begin{enumerate}
+\item Roitman to take quotient by gonality fibers. 
+\end{enumerate}
+
+
+\section{PCMI Notes}
+
+Define the moduli spaces.
+
+\begin{prop}
+$\M(X, r, \L, T_i) \to M_B(X, r, \L, T_i)$ is a $\Gm$-gerbe. 
+\end{prop}
+
+{\color{red} TODO}
+
+\begin{theorem}
+If there is one irreducible topological rank $r$ complex local system $\LL_{\CC}$ with determiniant $\L$ and monodromies in $T_i$ at infinity, then there is a non-empty open subscheme $S^\circ \subset S$ such that for any two closed points $s,s' \in |S|$ of residual characteristic $p \neq p'$ the following hold:
+\begin{enumerate}
+\item for any prime $\ell \neq p$ there is one arithmetic local system $\LL_{\ell, \bar{s}}$ on $X_{\bar{s}}$
+\item which has determinant $\L$, with quasi-unipotent monodromies $T_{i,\ell, \bar{s}}$ at ininifty such that $T_i^{ss} = T_{i,\ell, \bar{s}}^{ss}$
+\item which is irreducible over $\ol{\Q}_\ell$
+\item for $\ell = p$ there is one arithmetic local system $\LL_{p,\bar{s}'}$ on $X_{\bar{s}'}$  with (s), (3) where $\ell$ is replaced by $p$
+\item for any prime $\ell$, the topological pullback $(\mathrm{sp}_{\CC,\bar{s}}^{\top})^* \LL_{\ell, \bar{s}}$ have properties (2) and (3) as topological local systems. 
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\renewcommand{\sp}{\mathrm{sp}}
+
+\subsection{Grothendieck Specialization for Fundamental Groups}
+
+Let $X_S \to S$ be a smooth morphism, where $S$ is any scheme. Consider two field valued points $\eta : \Spec{F} \to S$ and $s : \Spec{k} \to S$ with the property that $\im{s}$ lies in the Zariski closure of $\im{\eta}$. Therefore, there is an irreducible subscheme $Z \subset S$ such that $s \in Z$ is a point and $\cO(Z) \to F$ is injective. Let $\wh{Z}$ be the completion along $s$ and $F \embed \wh{F}$ a field extension such that $\wh{F}$ contains $\cO(\wh{Z})$.
+\bigskip\\
+If $X$ is not proper, we assume there exists a relative compactification: $X_S \embed \ol{X}_S$ such that,
+\begin{enumerate}
+\item $\ol{X}_S \to S$ is smooth proper,
+\item $\wh{X}_X \sm X_S \to S$ is a relative normal crossings divisor with smooth components. 
+\end{enumerate}
+We call this a \textit{good} compactification. 
+\bigskip\\
+Therefore, we have a diagram
+\[ \Spec{\wh{F}} \to \wh{Z} \leftarrow s \]
+together with the scheme over it
+\begin{center}
+\begin{tikzcd}
+X_{\wh{Z}} \arrow[d] \arrow[r] & X_{\wh{Z}} \arrow[from=r] & X_s \arrow[d]
+\\
+\Spec{\wh{F}} \arrow[r] & \wh{Z} \arrow[from=r] & s
+\end{tikzcd}
+\end{center}
+We denote by $\ol{\wh{F}} \supset \wh{F}$ and $\ol{k} \supset k$ algebraic closures, the latter defining a morphism $\bar{s} \to s$. Then, upon choosing an $S$-point $x_S : S \to X_S$, one defines a specialization homomorphism
+\[ \sp_{\wt{F}, s} : \pi^t_1(X_{\wh{F}}, x_{\wh{F}}) \to \pi^t_1(X_s, x_s) \]
+which is the composite of the functoriality homomorphism
+\[ \pi_1^t(X_{\wh{F}}, x_{\wh{F}}) \to \pi^t_1(X_{\wh{Z}}, x_s) \]
+and the inverse of the base change isomorphism
+\[ \pi_1^t(X_s, x_s) \iso \pi_1^t(X_{\wh{Z}}, x_s) \]
+Finally, one has the functoriality homomorphism
+\[ \pi_1^t(X_{\wh{F}}, x_{\wh{F}}) \to \pi_1^t(X_F, x_F) \]
+which is an isomorphism in restriction to the geometric fundamental groups
+\[ \pi^t_1(X_{\ol{\wh{F}}}, x_{\ol{\wh{F}}}) \iso \pi_1^t(X_{\ol{F}}, x_{\ol{F}}) \]
+Taken together, this defines the specialization homomorphism
+\[ \sp_{F,s} : \pi_1^t(X_F, x_F) \to \pi^t_1(X_s, x_s) \]
+which, when retricted to the geometric fundamental groups, defines the specialization homomorphism
+\[ \sp_{\ol{F}, \ol{s}} : \pi^t_1(X_{\ol{F}}, x_{\ol{F}}) \to \pi_1^t(X_{\ol{s}}, x_{\ol{s}}) \]
+
+\begin{theorem}
+$\sp_{F,s}$ and $\sp_{\ol{F}, \ol{s}}$ are surjective, and $\sp_{\ol{F}, \ol{s}}$ induces an isomorphism on the pro-p'-completion. 
+\end{theorem}
+
+
+\subsection{Open Questions}
+
+\section{Some references}
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/1808.04331}{Konno invariant} this proves that the Konno invariant (fiber gemetric genus of a rational pencil) is approximately the number of canonical sections.
+
+\item \chref{https://arxiv.org/pdf/2210.12455}{Some birational invariants} proves that for K3 the fibering genus and irrationality are asymtotically equal
+
+\item  \chref{https://arxiv.org/pdf/math/9803121}{Holomorphic $2$-forms} shows that there are lots of examples with two forms with no zeros so they cannot be classified probably.
+
+\item \chref{https://arxiv.org/pdf/2401.03821}{They show that genus $g \le 14$ K3 surfaces have irr at most 4} using derived categories and bridgeland stability.
+
+\item \chref{https://arxiv.org/pdf/2407.11176}{example of a family of CY3s such that the $\Q$-hodge structures are all the same but the integral hodge structures are not}
+
+\item \chref{https://arxiv.org/pdf/2407.13434}{Fano Manifolds with some positivity} they show some things are covered by rational surfaces
+
+
+\item \chref{https://www.math.stonybrook.edu/~roblaz/Reprints/Ein.Laz.Seshadri.Consts.Smooth.Sfs.pdf}{Lazarsfeld prove that Seshadri constantss of smooth surfaces are at least one}
+
+\item \chref{https://webusers.imj-prg.fr/~claire.voisin/Articlesweb/v64n1a10.pdf}{Voisin proves that fibering genus of hyperkahler is bounded in terms of the betti number if the Hodge structure has large mumford tate group}
+
+\end{enumerate}
+
+Some facts about Abelian varities:
+
+\begin{enumerate}
+\item \chref{https://mathoverflow.net/questions/243380/is-a-polarization-on-an-abelian-scheme-an-open-condition}{Polarization is open in the space of maps}
+
+\item \chref{https://mathoverflow.net/questions/163697/lifting-abelian-varieties-to-p-adic-fields}{we can lift abelian varities but not always with the polarization} 
+\end{enumerate}
+
+
+Zero cycles:
+
+\begin{enumerate}
+\item \chref{https://static1.squarespace.com/static/57bf2a6de3df281593b7f57d/t/57bf68816a49636398ee2bb4/1472161921940/ratequivtalk.pdf}{talk on mumford's theorem}
+
+\item \chref{https://algant.eu/documents/theses/mornev.pdf}{master's thesis on zero cycles}
+
+\item \chref{https://www.math.univ-toulouse.fr/~mbernard/images/frg-notes.pdf}{Interesting survey: Cycles, derived categories, and rationality}
+
+\item \chref{https://arxiv.org/pdf/math/0607593}{zero cycles on surfaces in any characteristic}
+
+\item \chref{https://archive.mpim-bonn.mpg.de/id/eprint/1249/1/preprint_1992_58.pdf}{proves some Chow groups are not representable using Hodge theory}
+\end{enumerate}
+
+To understand for writing the appendix:
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/2012.13304}{Nisnevich motive of a stack}
+
+\item \chref{https://rezk.web.illinois.edu/freudenthal-and-blakers-massey.pdf}{Blakers-Massey} need to find a reference in $\A^1$-homotopy theory
+
+\item \chref{https://www.math.columbia.edu/~magenroy/motivicseminar.html}{here is Roy's master list}
+
+\item \chref{Kirsten's intro to motivic homotopy theory}{https://arxiv.org/pdf/1902.08857}
+\end{enumerate}
+
+
+What we need to understand four-fold contractions:
+
+\begin{enumerate}
+\item \chref{https://mathoverflow.net/questions/427074/singularities-of-contractions-of-extremal-faces}{contractions always have rational singularities}
+
+\item \chref{https://arxiv.org/pdf/1906.07598}{Towards Kotschick conjecture Schireieder}
+
+\item \chref{https://arxiv.org/pdf/1906.07606}{The classification paper of Hao and Schreieder}
+
+\item \chref{https://academic.oup.com/book/6326}{flips for 3-folds and 4-folds} not sure what this is for
+
+\item \chref{https://www.math.s.chiba-u.ac.jp/~ando/2EXT.pdf}{extremal rays in higher dimension} gives the general fibers of the contractions
+
+\item \chref{https://link.springer.com/article/10.1007/BF01443353}{small contractions of four-dimensional algebaic manifolds (Kawmata)} shows that small contractions must contract a locus with positive normal bundle we need this
+
+\item \chref{https://arxiv.org/pdf/alg-geom/9605013}{contractions of smooth varities} this gives the $(3,2)$ case when not constant fiber dimension 
+
+\item \chref{https://www.jstor.org/stable/119034}{gives the $(3,1)$ case}
+
+\item \chref{https://www.jstor.org/stable/2007050}{Mori's MMP for 3-folds}
+
+\item \chref{https://arxiv.org/pdf/2106.09264}{if the picard number is large then no small contractions}
+\end{enumerate}
+
+\newpage
+
+\section{Quotient Singularities}
+
+\begin{lemma}
+Let $R \to R'$ be a finite \etale map of excellent DVRs with fraction field extension $K'/K$. Let $L$ be the Galois closure of $K'$ over $K$ and $S$ be the integral closure of $R'$ inside $L$. Then
+\begin{enumerate}
+\item $S$ is also the integral closure of $R$ inside $L$
+\item $R' \to S$ and hence $R \to S$ are finite \etale.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $L/K'$ is finite, (USE EXCELLENCE HERE) $R' \to S$ is finite so $R \to S$ is finite hence integral. If $x \in L$ is integral over $R$ then it is integral over $R'$ so by definition $x \in S$. We need to show that $R' \to S$ is unramified. Choose an algebraic closure $K \embed \ol{K}$ then $L$ is the compositum of all embeddings $\sigma : K' \embed \ol{K}$ over $K$. Therefore, it suffices to prove the following claim.
+\end{proof}
+
+\begin{lemma}
+Let $L_1, L_2$ be field extension of $K$ inside a fixed algebraic closure $\ol{K}$. Let $R \subset K$ be an excellent DVR such that $K = \Frac{R}$. Then if $L_1 / K$ and $L_2 / K$ are unramified in the sense that their integral closures are unramified over $R$ then so is their compositum $L_1 L_2 / K$.
+\end{lemma}
+
+\begin{lemma}
+We put $L_1, L_2 \subset E$ into some Galois extension $E / K$. I claim there is a maximal intermediate field $E $ 
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+CRAP what I actually showed is if you have a finite \textit{quasi-\etale} map $U \onto X$ from a smooth scheme then $X$ has finite quotient singularities. But what if this is ramified in codimension $1$. Oops. I guess this was always obvious.
+
+
+Question: if $U \to X$ is a quasi-etale cover by a smooth scheme then does $X$ have finite quotient singularities?
+
+\section{classification and 1-forms}
+
+
+\subsection{The main technical result}
+
+\begin{theorem}
+Let $g : X \to S$ be a flat projective morphism whose fibers satisfy
+\begin{enumerate}
+\item $X_s$ are klt varities (in particular normal irreducible) 
+\item $K_{X_s} \sim_{\Q} 0$
+\end{enumerate}
+and there is a surjective morphism $g : X \to A$ where $A$ is an abelian variety. Then there is an isogeny $\pi : B \to A$ with kernel $G$ such that in the diagram
+\begin{center}
+\begin{tikzcd}
+F \times B \arrow[rrd, bend left] \arrow[ddr, bend right] \arrow[rd, dashed, "\sigma"]
+\\
+& X \times_A B \arrow[r] \arrow[d] & B \arrow[d, "\pi"]
+\\
+& X \arrow[r] & A 
+\end{tikzcd} 
+\end{center}
+$\sigma : F \times B \iso X \times_A B$ is an isomorphism and hence $X \cong F \times^G B$ where $F = f^{-1}(0_A)$. 
+\end{theorem}
+
+\subsection{Types of Contractions}
+
+\subsection{Properties of $1$-forms}
+
+
+
+\begin{defn}
+Let $X$ be a smooth projective variety (or more generally a K\"{a}hler manifold) and $\omega \in H^0(X, \omega_X)$ a global $1$-form. We say that
+\begin{enumerate}
+\item[(NWV)] $\omega$ is \textit{nowhere vanishing} if $\omega_x \in \Omega_{X,x}$ is nonzero for all $x \in X$
+\item[(S)] $\omega$ satisfies \textit{Schreieder's condition} if for every finite \etale cover $\tau : X' \to X$ the complex $(H^\bullet(X', \CC), \wedge \tau^* \omega)$ is exact.
+\end{enumerate}
+\end{defn}
+
+Note that (NWV) $\implies$ (S) by {\color{red} CITE}
+
+\subsection{Conjecture: Hao}
+
+As an application of these ideas, we also verify the $\dim{X} = 4$ case of a conjecture of Hao \cite[Conj.~1.5]{Hao23}.
+
+\begin{Lthm}\label{thm:smooth_map_to_simpleAV}
+Let $f : X \to A$ be a morphism from a smooth projective 4-fold $X$ to a simple abelian variety $A$. The following are equivalent:
+\begin{enumerate}
+\item there exists a holomorphic one-form $\omega \in H^0(A, \Omega^1_A)$ such that $f^{\ast}\omega$ is nowhere vanishing;
+\item $f : X \to A$ is smooth.
+\end{enumerate}
+\end{Lthm}
+
+\begin{proof}
+Note that the cases $\dim{A} \le 1$ are trivial so we may assume that $\dim{A} \ge 2$. 
+We first run MMP to $X$. 
+\end{proof}
+
+
+\subsection{Conjecture: Me}
+
+Assuming the abundance conjecture, we are also able to prove a conjectue of Chen, Hao, and the author {\color{red} CITE HERE}. 
+
+\begin{Lthm}\label{thm:smooth_map_to_simpleAV}
+Let $X$ be a smooth projective good minimal model. Then if $g$ is the maximal number of PLI $1$-forms on $X$ then there exists a smooth morphism $X \to A$ over an abelian variety of dimension $\dim{A} = g$.
+\end{Lthm}
+
+\begin{proof}
+We apply the main construction {\color{red} CITE} to conclude that $X \cong (Y \times B)/G$ where $B$ is isogenous to the image of the generic fiber of the Iitaka fibration inside $\Alb_X$. Also by the main construction $\dim{B} \ge g$ and $G \acts B$ freely. Therefore, we have a smooth morphism $X \to B / G$. If $\dim{B} = \dim{B/G} > g$ then there is a frame of PLI forms on $X$ pulled back from $B/G$ contradicting the maximality of $g$ hence $g = \dim{B}$ so we conclude.
+\end{proof}
+
+\subsection{Conjecture: Hao + Schreieder Conjecture 1.8}
+
+Assuming the abundance conjecture and termination of flops we can also prove a conjecture of Hao and Schreieder \cite[HS21(1)]{Conjecture 1.8}
+
+\begin{Lthm}\label{thm:smooth_map_to_simpleAV}
+Let $X \to A$ be a smooth morphism from a smooth projective variety $X$ to an abelian variety $A$. If $\kappa(X) \ge 0$ and assuming $X$ admits a good minimal model then there is a birational model
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, dashed] \arrow[rd] & & X' \arrow[ld]
+\\
+& A
+\end{tikzcd}
+\end{center}
+with $X' \to A$ an isotrivial smooth projective morphism (i.e. an analytic fiber bundle).
+\end{Lthm}
+
+\begin{proof}
+Let $X^{\min}$ be a good minimal model.
+We apply the main construction {\color{red} CITE} to $X^{\min} \to A$ to conclude that $X^{\min} \cong (Y \times B)/G$ where $B \to A$ is an isogeny. Also by the main construction $\dim{B} \ge g$ and $G \acts B$ freely. Let $Y' \to Y$ be a $G$-equivariant resolution of singularities. Then $X' = (Y' \times B)/G$ gives the requisite model.
+\end{proof}
+
+
+\subsection{Conjecture: Hao + Schreieder Conjecture 1.7}
+
+\section{Upper Triangular Automorphisms}
+
+We call a map $\varphi : X \times Y \to X \times Y$ \textit{upper triangular} if there is a diagram
+\begin{center}
+\begin{tikzcd}
+X \times Y \arrow[r, "\varphi"] \arrow[d] & X \times Y \arrow[d]
+\\
+Y \arrow[r, "\sigma"] & Y 
+\end{tikzcd}
+\end{center}
+
+\begin{lemma}
+Let $X,Y$ be normal varieties and $\varphi : X \times Y \to X \times Y$ an upper triangular automorphism. Then $\sigma : Y \to Y$ is also an isomorphism. 
+\end{lemma}
+
+\begin{proof}
+By the diagram, it is clear that $\sigma$ is surjective. Consider the fiber $\sigma^{-1}(y)$ over $y$ then we get an isomorphism,
+\[ \varphi : X \times \sigma^{-1}(y) \to X \times \{ y \} \]
+and the only way for these to be isomorphic is $\sigma^{-1}(y)$ to be a reduced point so we win.
+\end{proof}
+
+\begin{example}
+There is an upper triangular bijection $\varphi : \Z^2 \to \Z^2$ with a non-upper triangular inverse,
+\[ \varphi(x,y) = 
+\begin{cases}
+(2x, y/2) & y \text{ even}
+\\
+(2x + 1, (y-1)/2) & y \text{ odd}
+\end{cases} \]
+Indeed, this is clearly upper triangular and its inverse 
+\[ \varphi^{-1}(x,y) = 
+\begin{cases}
+(x/2, 2y) & x \text{ even}
+\\
+((x-1)/2, 2y + 1) & x \text{ odd}
+\end{cases} \]
+is \textit{lower} triangular. 
+\end{example}
+
+\section{Meng-Popa Conjecture C}
+
+Assuming MMP and adbundance we also prove Conjecture C of \cite{MP21}
+
+\begin{Lthm}
+Let $f : X \to A$ be an algebraic fiber space, with $X$ a smooth projective variety, $A$ an abelian variety, and general fiber $F$ with $\kappa(F) \ge 0$. Assume that $F$ admits a good minimal model. If $f$ is smooth away from a closed set of codimension at least $2$ in $A$, then there exists an isogeny $A' \to A$ such that
+\[ X \times_A A' \sim F \times A' \]
+i.e.\ $X$ becomes birational to a product after an \etale base change.
+\end{Lthm}
+
+\newcommand{\can}{\mathrm{can}}
+
+\begin{proof}
+By Lai {\color{red} CITE} $X$ admits a good minimal model $X^{\min}$. Then it suffices to show that $X^{\min} \to A \times X^{\can}$ is surjective by {\color{red} MAIN RESULT}. But this is imlied by the fact that $X_{\can, f} \times_A A' \cong F_{\can} \times A'$ and $X_{\can, f} \to X_{\can}$ is surjective.  
+\end{proof}
+
+
+\section{Hao's Conjecture Redux}
+
+\begin{lemma}
+Suppose that $f : X \to Y$ is a flat map between smooth varieties. Let $y \in Y$ be a point such that $X_y$ is singular (i.e. $f$ is singular at some point over $y$) then there exists a reduced divisor $Z \subset Y$ containing $y$ and an open set $V \subset Z$ such that $\omega|_{V}$ is nonvanishing for any $1$-form $\omega \in H^0(Y, \Omega_Y)$ with $f^* \omega$ nonvanishing.
+\end{lemma}
+
+\begin{proof}
+We are going to reduce to the case that $f$ is quasi-finite flat. Let $\dim{Y} = m$ and $\dim{X} = n + r$. Let $x \in X_y$ be a singular point and choose a regular sequence $s_1, \dots, s_m \in \m_y$ by flatness $f^\# s_1, \dots, f^\# s_m \in \m_x$ is a regular sequence. Since $X$ is regular, it can be extended to a regular sequence
+\[ f^\# s_1, \dots, f^\# s_m, g_1, \dots, g_{r} \in \m_x \]
+such that $\bar{g}_1, \dots, \bar{g}_r \in \m_x / \m_x^2$ are independent. Indeed, $\bar{g}_1$ is not a zero-divisor in $\stalk{X_y}{x} = \stalk{X}{x} / (f^\# s_1, \dots, f^\# s_m, g_1, \dots, g_{r})$ as long as it is not contained in any associated prime. As long as $\m_x$ is not an associated prime (which it is not because $\stalk{X}{x}$ is Cohen-Macaulay) then by prime avoidance
+\[ \m_x \not\subset \m_x^2 \cup \bigcup_{\p \in \Ass{\stalk{X}{x}}{\stalk{X_y}{x}}} \p \]
+so there exists an element $g_1$ and we repeat to build the requisite sequence.
+\bigskip\\
+Set $I = (g_1, \dots, g_r)$ and note that $\stalk{X}{x} / I$ is regular so $I$ is prime. Let $X' \subset X$ be the closure of the point corresponding to $I$. Then $x \in X'$ and $X'$ is smooth at $x$. Furthermore, $f' : X' \to Y$ has the same tangent rank at $x$ as $f$. By construction, $X'_y$ is finite so $f'$ is quasi-finite at $x'$ and flat by \chref{https://stacks.math.columbia.edu/tag/00MF}{Tag 00MF}. Let $D \subset X'$ be the singular locus of $f'$. By Zariski-Nagata purity, $D$ is pure of codimension $1$ in an open set $U \subset X'$ containing $x$. Shrinking $U$, we can ensure $U \to Y$ is quasi-finite flat. Since $X' \to Y$ is quasi-finite, $Z = \ol{f(D \cap V)}$ is a reduced divisor. Let $V$ be the image of the \etale locus of $D \cap V \to Z$ which is an open set.
+
+NO FAIL, NO REASON FORMS POINT ALONG $Z$ IF $f$ IS FULL RANK AT THE POINT OOPS.
+\end{proof}
+
+What I can prove is that we can assume that $f$ is flat and smooth away from codimension $2$ and is a $\Z$-homology bundle for the purposes of Hao's conjecture.
+
+Note also we can assume the fibers are generically reduced and lci hence reduced. 
+
+\section{Questions to Ponder}
+
+\begin{enumerate}
+\item for $\dim{A} = 2$ we just need to show there are no isolated points of $\Delta(f)$. By the Purity result, it would suffice to show that if $Z$ is a positive dimensional component of the singular locus mapped to a point $a \in A$ then its tangent map must surject onto $\P(T_a A)$. How do I show this?
+
+\item 
+\end{enumerate}
+
+\section{Some Interesting Papers}
+
+\begin{enumerate}
+\item Ando \chref{http://www.math.s.chiba-u.ac.jp/~ando/12Normal.pdf}{On the Normal bundle of an Exceptional curve
+in a higher dimensional algebraic manifold} classifies those curves that can be contracted to get an algebraic space in higher dimensions.
+
+\item \chref{https://www.mimuw.edu.pl/~jarekw/preprints/ABW-IntJ1991.pdf}{Vector Bundles and Adjunction} the authors classify ample vector bundles $E$ on $X$ of rank $\dim{X} - 1$ such that $K_X + \det{E}$ is not nef. This is used in the classification of fibers of contractions.
+
+\item Casagrande: \chref{https://arxiv.org/pdf/2106.09264}{Fano 4-folds with a small contraction} shows that small contractions only occur for small picard number and gives results on quasi-elementary and special contractions.
+
+\item Casagrande: \chref{https://arxiv.org/pdf/1902.01835}{Fano 4-folds with rational fibrations} shows that small contractions only occur for small picard number and gives results on quasi-elementary and special contractions.
+
+\item Casagrande: \chref{https://link.springer.com/article/10.1007/s00208-012-0781-5}{On the birational geometry of Fano 4-folds} classifies Fano 4-folds with respect to contraction types 
+
+
+\item \chref{https://projecteuclid.org/journals/kodai-mathematical-journal/volume-28/issue-3/Fano-Mori-elementary-contractions-with-reducible-general-fiber/10.2996/kmj/1134397769.full}{Fano-Mori elementary contractions with reducible general fiber} they determine conditions to ensure that if $\varphi : X \to Y$ is a divisorial contraction then $\Exc{\varphi} \to \varphi(\Exc{\varphi})$ has irreducible general fiber.
+
+\item \chref{https://arxiv.org/pdf/alg-geom/9602012}{NODAL CURVES ON SURFACES OF GENERAL TYPE} shows that certain Severi varities are smooth of the correct dimension. 
+\end{enumerate}
+
+\section{Some Good Mathoverflow references}
+
+\begin{enumerate}
+\item \chref{https://mathoverflow.net/questions/135679/local-systems-with-finite-monodromy}{Local system on an open with finite monodromy is trivialized by a finite ramified covered of the whole space}
+
+\item \chref{https://mathoverflow.net/questions/133253/how-to-define-the-canonical-sheaf-on-singular-varieties}{canonical sheaf on singular variety}
+
+\item \chref{https://mathoverflow.net/questions/35736/the-canonical-line-bundle-of-a-normal-variety}{canonical bundle of a normal variety} look at Sandor's answer
+
+\item \chref{https://mathoverflow.net/questions/47895/varieties-where-every-non-zero-effective-divisor-is-ample?rq=1}{simple abelian varities have effective = nef = ample} also discuss when ``every effective divisor is ample'' implies picard rank $1$
+
+\item \chref{https://mathoverflow.net/questions/418947/singular-locus-of-the-discriminant-variety}{singular locus of the discriminant}
+
+\item \chref{https://math.stackexchange.com/questions/714434/how-are-jacobians-of-genus-3-curves-different-from-one-another}{classifying genus $3$ curves}
+
+\item \chref{https://mathoverflow.net/questions/21627/what-are-non-trivial-examples-of-non-singular-blow-ups-of-a-non-singular-variety}{smooth blowups along singular varieties} and likewise \chref{https://mathoverflow.net/questions/21232/when-is-a-blow-up-non-singular}{this question}
+
+\item \chref{https://mathoverflow.net/questions/73419/why-are-the-different-definitions-of-minimal-model-equivalent?rq=1}{minimal models are actually minimal}
+
+\item \chref{https://mathoverflow.net/questions/391955/cohomology-and-base-change-without-noetherian-assumption}{cohomology and base change without noetherian assumptions}
+
+\item \chref{https://mathoverflow.net/questions/424612/class-of-the-discriminant-of-a-conic-bundle}{Discriminant of a Conic Bundle}
+
+\item \chref{https://mathoverflow.net/questions/67326/bertini-theorems-for-base-point-free-linear-systems-in-positive-characteristics}{Bertini in positive characterstic for basepoint free linear series}
+\end{enumerate}
+
+\section{To Read About maps to Abelian Varieties and Derived Categories}
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/0912.4040}{Popa-Schnell Derived Invariance} shows that the Picard varities of derived equivalent varities are isogenous. 
+
+\item \chref{https://arxiv.org/pdf/2208.14378}{Leiblich-Olsson prove something about derived equivalence implies the fibers of Iitaka are derived equivalent}
+
+\item \chref{https://www.sciencedirect.com/science/article/abs/pii/S0001870823001081?casa_token=ZgleRQZG9AsAAAAA:P60PVONuOS2dtkvrnykCdHBt7BWoTiQDYIC1TkYS-C8UijFItE28ROzgY_-PujeJklTYLsj9l2E}{Derived invariance of the Albanese relative canonical ring} shows moreover that the relative canonical model over the albanese is somewhat preserved by Derived equivalence.
+
+
+\item \chref{https://arxiv.org/pdf/math/0205287}{Kawamata $K$-equivalence} nice survey of what we know for general type varities. 
+
+\item \chref{https://arxiv.org/pdf/1710.07370}{Kawamata derived categories survey}
+
+\item \chref{https://scholarcommons.sc.edu/cgi/viewcontent.cgi?article=6781&context=etd}{rationality and derived categories}
+
+\end{enumerate}
+
+\section{To Read About Conic Bundles and del Pezzo Fibrations}
+
+\begin{enumerate}
+\item 
+\end{enumerate}
+
+
+\section{Exercises on Coherent Modules}
+
+\subsubsection{13.6.B}
+
+Let $A$ be coherent as an $A$-module we need to show that if $M$ is finitely-presented then it is coherent. Indeed, let $A^n \to M$ be a map and $K$ the kernel. We need to show that $K$ is finite. Choose a presentation 
+\[ A^r \to A^s \to M \to 0 \]
+
+\subsubsection{13.8.A}
+
+Coherent implies finitely presented implies finitely generated. This is by definition: if $M$ is coherent it is, finitely generated by definition and so taking $A^n \onto M$ the kernel is finite by coherence hence $M$ is finitely presented.
+
+\subsubsection{13.8.B}
+
+$0$ is coherent since for any map $A^n \to 0$ its kernel is $A^n$ and hence finite.
+
+\subsection{C-I}
+
+For the next exercises, let
+\[ 0 \to M \to N \to P \to 0 \]
+be an exact sequence of $A$-modules.
+
+\subsubsection{13.8.C}
+
+ Let $N$ be finitely generated. Then there is a surjection $A^n \onto N \onto P$ so $P$ is finitely generated.
+ 
+\subsubsection{13.8.D}
+
+Suppose $M,P$ are finitely generated. Lift a generating set of $P$ to $N$ to get a map $A^n \to N$ whose composition with $N \to P$ is surjective. Therefore its image plus $M$ is all of $N$ but $M$ is finite so we win by taking $A^{n+m} \to N$ given by a generating set for $M$ and the lifts.
+
+\subsubsection{13.8.E}
+
+Let $N,P$ be finitely generated. Then $M$ may not be. Indeed, this holds for any $P$ finite but not finitely preseted. Consider 
+\[ 0 \to I \to A \to A / I \to 0 \]
+for an ideal and $A = k[x_1, x_2, \dots]$ and $I = (x_1, x_2, \dots)$ then $I$ is not finite but the other two are by definition.
+
+\subsubsection{13.8.F}
+
+Let $N$ be coherent and $M$ finitely generated. We want to show $M$ is coherent. In fact, we just need that $M$ is a fintely generated submodule of $N$ since for any map $A^n \to M$ the kernel is the same as the kernel of $A^n \to M \to N$ since $M \embed N$ is injective and this kernel is finitely generated because $N$ is coherent. 
+
+\subsubsection{13.8.G}
+
+Let $N,P$ be coherent. We want to show that $M$ is coherent. First, $M$ is finite because $N$ is finite and $P$ is finitely presented. However, since $N,P$ are moreover coherent we just need $M = \ker{(N \to P)}$ not that $N \to P$ is surjective. Indeed, for any surjection $A^n \to N$ the kernel of $A^n \to N \to P$ surjects onto $M$ and this is finite since $P$ is coherent. 
+\bigskip\\
+Now we need to consder a map $A^n \to M$ and prove that it has finite kernel. This follows from before since $M$ is a finitely generated submodule of a coherent module.
+
+\subsubsection{13.8.H}
+
+Let $M$ be finitely generated and $N$ coherent. We want to show that $P$ is coherent. Since $N$ is finitely generated, it is clear that $P$ is also. Consider a map $A^n \to P$ we need to show it has finite kernel. We can lift these generators and add a generating set for $M$ to get a diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A^m \arrow[r, "\psi"] \arrow[d, two heads] & A^{(n+m)} \arrow[d, "\tilde{\varphi}"] \arrow[r] & A^n \arrow[d, "\varphi"] \arrow[r] & 0
+\\
+0 \arrow[r] & M \arrow[r] & N \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the snake lemma gives an exact sequence
+\[ 0 \to \ker{\psi} \to \ker{\tilde{\varphi}} \to \ker{\varphi} \to 0 \to \coker{\tilde{\varphi}} \to \coker{\varphi} \to 0 \]
+but $N$ is coherent so $\ker{\tilde{\varphi}}$ is finite and hence $\ker{\varphi}$ is also finite via the surjection $\ker{\varphi} \onto \ker{\varphi}$.
+
+\subsubsection{13.8.I}
+
+Let $M, P$ be coherent. We want to show $N$ is coherent. We already showed $N$ is finite so it suffices to consider a map $A^n \to N$ and consider the diagram,
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 0 \arrow[r] \arrow[d] & A^n \arrow[d, "\tilde{\varphi}"] \arrow[r] & A^n \arrow[d, "\varphi"] \arrow[r] & 0
+\\
+0 \arrow[r] & M \arrow[r] & N \arrow[r] & P \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+the snake lemma gives an exact sequence
+\[ 0 \to \ker{\tilde{\varphi}} \to \ker{\varphi} \to M  \]
+Then $\ker{\varphi}$ is finite since $P$ is coherent. Morover $M$ is coherent so the kernel of the map $\ker{\varphi} \to M$ is also finite proving the claim.
+
+\subsubsection{13.8.J}
+
+The direct sum of coherent modules is coherent using the exact sequence
+\[ 0 \to M \to M \oplus N \to N \to 0 \]
+and the previous exercise.
+
+\subsubsection{13.8.K}
+
+Let $M$ be finitely generated, $N$ coherent and $\phi : M \to N$ any map. We want to show that $\im{\phi}$ is coherent. It is finite by definition so we use that a finite submodule of a coherent module is coherent. 
+
+\subsubsection{13.8.L}
+
+Let $\phi : M \to N$ be a map of coherent modules. We want to show that $\ker{\varphi}$ and $\coker{\varphi}$ are coherent. Indeed, for the kernel we use that $\ker{\varphi}$ is finite since it is the kernel of a map from a finite module to a coherent module and that a finite submodule of a coherent module is coherent. For $\coker{\varphi}$ we use that $\im{\phi}$ is coherent by the previous exercise and the exact sequence
+\[ 0 \to \im{\phi} \to N \to \coker{\varphi} \to 0 \]
+then gives that $\coker{\varphi}$ is coherent by H.
+
+\subsubsection{13.8.M}
+
+Let $M, N$ be coherent submodules of a coherent module $P$. Consider the map
+\[ M \oplus N \to P \]
+which has image $M + N$ and kernel $M \cap N$. Hence both are coherent.
+
+\subsubsection{13.8.N}
+
+Let $A$ be coherent. Then $A^n$ is coherent hence any finitely presented module is the cokernel of a map of coherent modules and hence coherent. 
+
+\subsubsection{13.8.O}
+
+Let $M$ be finitely presented and $N$ coherent. Consider $A^m \to A^n \to M \to 0$ and consider
+\[ 0 \to \Hom{A}{M}{N} \to N^n \to N^n \]
+hence $\Hom{A}{M}{N}$ is a kernel of maps of coherent modules thus coherent.
+
+\subsubsection{13.8.P}
+
+Let $M$ be finitely presented and $N$ coherent. Consider $A^m \to A^n \to M \to 0$ and consider
+\[ N^m \to N^n \to M \ot_A N \to 0 \]
+hence $M \ot_A N$ is a cokernel of maps of coherent modules thus coherent.
+
+\subsubsection{13.8.Q}
+
+If $f \in A$ and $M$ is finite (resp. finitely presented, coherent) then we need to show $M_f$ is the same. This is clear for finite and finitely presented because $(-)_f$ is exact. Furthermore, let $M$ be coherent then $M_f$ is finite. Let $A^n_f \to M_f$ be a map. Clearing denominators, there is a map $A^n \to M$ whose localization has the same image. Since $M$ is coherent this submodule is finitely presented so $A^n_f \to M_f$ has finite kernel.
+
+
+\subsubsection{13.8.R}
+
+Let $(f_1, \dots, f_n) = A$. Let $M_{f_i}$ be finite for all $i$. We want to show that $M$ is finite. Let $m_{ij} \in M_{f_i}$ be a generating set for each $i$. We can assume these arise from $m_{ij} \in M$. This gives a map $\bigoplus_{i,j} \to M$ such that its localization at each $f_i$ is surjective. Let $Q$ be the cokernel then $Q_{f_i} = 0$ for all $f_i$. Hence for each $q \in Q$ there is $n$ so that $f_i^{r_i} q = 0$ and thus $1 \in (f_1, \dots, f_n)$ implies that $1$ can be written as a linear combination in $f_1^{r_1}, \dots, f_n^{r_n}$ hence $q = 1 \cdot q = 0$.
+
+
+\subsubsection{13.8.S}
+
+Let $(f_1, \dots, f_n) = A$. Let $M_{f_i}$ be coherent for all $i$. We want to show that $M$ is coherrent. 
+\bigskip\\
+We know $M$ is finite by above. Let $\phi : A^n \to M$ be a map. Then $(\ker{\phi})_{f_i} = \ker{\phi_{f_i}}$ is finite since $M_{f_i}$ is coherent and hence $\ker{\phi}$ is finite so $M$ is coherent.
+\bigskip\\
+The same works to show that if $M_{f_i}$ is finitely presented then $M$ is finitely presented. 
+ 
+ 
+ 
+ 
+\section{Sheaves Stuff}
+
+Question: does there exists an fpqc torsor for a reasonable group not representable by an algebraic space?
+
+\newcommand{\Shv}{\mathrm{Shv}}
+
+\begin{lemma}
+Descent holds along a $\tau$-cover for sheaves in the $\tau$-topology. Explicitly, let $\C_\tau$ be a site and consider the natural map
+\[ \Shv_S(\C_\tau) \to \mathrm{DD}_{S'/S}(\Shv_{S'}(\C_\tau)) \]
+is an equivaence of categories. 
+\end{lemma}
+
+\begin{rmk}
+Note that $\Shv_S(\C_\tau)$, the slice category of sheaces on $\C_\tau$ over the representable $h^S$ (in presheaves if $h^S$ is not a $\tau$-sheaf), is equivalent to $\Shv(\C_{\tau / S})$ the sheaves on the slice category over $S$. Indeed, the map $\varphi : F \to S$ gives a map $F(T) \to \Hom{}{T}{S}$ so it lives over the slice category already. Conversely, given a sheaf $G$ on the slice category we define $F$ via 
+\[ T \mapsto \{ (\alpha, \beta) \mid \alpha : T \to S \text{ and } \beta \in G(\alpha : T \to S) \} \]
+\end{rmk}
+
+\begin{proof}
+This is just unwinding definitions. For full faithfulness, we need to show that
+\[ \Hom{S}{F}{G} \to \Hom{S'}{F_{S'}}{G_{S'}} \rightrightarrows \Hom{S' \times_S S'}{F_{S' \times_S S'}}{G_{S' \times_S S'}} \]
+is an equalizer. This is exactly the sheaf condition for $\Hom{}{F}{G}$. Indeed, let's prove it. Let $\varphi, \psi : F \to G$ be $S$-morphisms that become equal upon pulling back to $S'$. For any $T \to S$ consider the cover $T_{S'} \to T$ then $\varphi_{T_{S'}} = \psi_{T_{S'}}$ so by local uniqueness: $\varphi_T = \psi_T$. Now supppose that $\varphi' : F_{S'} \to G_{S'}$ is equalized. Let $\varphi$ be defined as follows: $\varphi_T(x) \in G(T)$ is obtained by gluing $\varphi_{T_{S'}}(x|_{T_{S'}})$ along $T_{S'} \to T$ which exists because of the overlap condition on $\varphi_T$.
+\bigskip\\
+Now we prove essential surjectivity. Let $(G, \alpha)$ be a descent datum. We produce a sheaf $F$ as follows. Base changing along $T \to S$ we can replace $S$ by any $T$ so it suffices to produce $F(S)$. Define $F(S)$ as the limit (equalizer) of the diagram
+\begin{center}
+\begin{tikzcd}
+& & G(\pi_1 : S' \times_S S' \to S') \arrow[dd, "\alpha"]
+\\
+F(S) \arrow[r] & G(S') \arrow[ru] \arrow[rd]
+\\
+& & G(\pi_2 : S' \times_S S' \to S')
+\end{tikzcd}
+\end{center}
+\end{proof}
+ 
+\section{Symbols of Differential Operators and Pseduodifferential Operators}
+
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\inner}[2]{\left< #1, #2 \right>}
+\newcommand{\OP}{\mathrm{OP}}
+\renewcommand{\Diff}{\mathrm{Diff}}
+
+
+Every citation is to [1] Raymond Wells ``Differential Analysis on Complex Manifolds''
+
+\subsection{Structures on Manifolds}
+
+Let $K$ be a complete valued field (either $\RR$ or $\CC$ we will care about). For $D \subset K^n$ an open subset we have the following:
+\begin{enumerate}
+\item $K = \RR$
+\begin{enumerate}
+\item $\E(D)$ are the $C^\infty$-functions on $D$
+\item $\cA(D)$ are the \textit{real-analytic} functions on $D$
+\end{enumerate}
+\item $K = \CC$
+\begin{enumerate}
+\item $\cO(D)$ is the complex-valued \textit{holomorphic functions} on $D$
+\end{enumerate}
+\end{enumerate}
+In general, let $\cS$ be a subsheaf of the sheaf of continuous functions on $K^n$ in the standard topology.
+
+\begin{defn} [1, Definition 1.1]
+An $\cS$-\textit{structure} $\cS_M$ on a $K$-manifold $M$ is a subsheaf of the sheaf $\cC_M$ of $K$-valued continuous functions on $M$ such that for any chart $(U, \varphi)$ of $M$ the natural isomorphism
+\[ \varphi^{\#} : \cC_{\varphi(U)} \iso \varphi_* \cC_M \]
+identifies $\varphi_* \cS_M$ with $\cS_{\varphi(U)}$ defined via the open $\varphi(U) \subset K^n$.  
+\end{defn}
+
+For our three classes of functions we have defined for
+\begin{enumerate}
+\item $\cS = \E$ a \textit{differentiable} (or $C^\infty$) manifold and the function in $\E_M$ are called $C^{\infty}$-functions on (open subsets of) $M$
+\item $\cS = \cA$ a \textit{real-analytic} (or $C^\omega$) manifold and the functions in $\cA_M$ are called \textit{real-analytic functions} on (open subsets) of $M$
+\item $\cS = \cO$ a \textit{complex-analytic} (or \textit{holomorphic} or simply \textit{complex}) \textit{manifold}, and the functions in $\cO_M$ are called \textit{holomorphic} (or \textit{complex-analytic functions}) on (open subsets) of $M$.
+\end{enumerate}
+
+\begin{defn}
+An $\cS$-\textit{morphism} $F : (M, \cS_M) \to (N, \cS_N)$ is a continuous map $F : M \to N$ suhc that
+\[ f \in \cS_N(N) \implies f \circ F \in \cS_M(F^{-1}(U)) \]
+equivalently the morphism of sheaves $F^{\#} : \cC_N \to F_* \cC_M$ induces a morphism of sheaves between the subsheaves $\cS_N$ and $F_* \cS_M$.
+\end{defn}
+
+\begin{defn}
+Let $X$ be an $\cS$-manifold.
+An $\cS$-structure on a topological $K$-vector bundle $\pi : E \to X$ is a $\cS$-manifold structure on $E$ such that $\pi : E \to X$ becomes an $\cS$-morphism and there exists local trivializations by $\cS$-isomorphisms. 
+\end{defn}
+
+\subsection{Sobolev Spaces}
+
+Recall that there is a sobolev norm for compactly supported differentiable functions $f : \RR^n \to \CC^m$ defined by 
+\[ || f ||_{s, \RR^n}^2 = \int | \hat{f}(y) |^2 (1 + |y|^2)^s \d{y} \]
+where $\hat{f}$ is the Fourier transform
+\[ \hat{f}(y) = (2 \pi)^{-n} \int e^{-i \inner{x}{y}} f(x) \d{x} \]
+In $\RR^n$ this norm is equivalent to the norm
+\[ \left[ \sum_{|\alpha| \le s} \int_{\RR^n} |D^\alpha f|^2 \d{x} \right]^{1/2} \]
+Then we let $W(\RR^n, \CC^m)$ to be the completion of $\E(\RR^n, \CC^m)$ with respect to either norm. Note that $|| \bullet ||_s$ is defined for all $s \in \RR$ but we shall deal only with integral values in our applications.
+\bigskip\\
+Let $E$ be a Hermitian vector bundle on $X$. Let $\E_k(X, E)$ be the $C^k$-sections of $E$. Let $\cD(X, E) \subset \E(X, E)$ be the compactly supported section. Choosing a strictly positive smooth measure $\mu$ on $X$ (e.g. arising from a metric). Then we define an inner product on $\E(X, E)$ via
+\[ \inner{\xi}{\eta} = \int_X \inner{\xi(x)}{\eta(x)}_E \d{\mu} \]
+where $\inner{-}{-}_E$ is the Hermitian metric on $E$. Now we define a Sobolev norm $|| \bullet ||_s$ on $\E(X, E)$. To do this, we choose a partition of unity $\{ \rho_\alpha \}$ subordinate to a finite cover by charts $\{ (U_\alpha, \varphi_\alpha) \}$ over which $E$ has a trivialization 
+\begin{center}
+\begin{tikzcd}
+E|_{U_\alpha} \arrow[d] \arrow[r, "\tilde{\varphi}_\alpha"] & \wt{U}_\alpha \times \CC^m \arrow[d]
+\\
+U_\alpha \arrow[r, "\varphi_\alpha"] & \wt{U}_\alpha
+\end{tikzcd}
+\end{center}
+where $\varphi_\alpha : U_\alpha \to \wt{U}_\alpha \subset \RR^n$ is a diffeomorphism. 
+\bigskip\\
+Finally, we define, for $\xi \in \E(X, E)$
+\[ || \xi ||_{s,E} = \sum_\alpha || \tilde{\varphi}_\alpha^* \rho_\alpha \xi ||_{s, \RR^n} \]
+We let $W^s(X, E)$ be the completion of $\E(X, E)$ with respect to $|| \bullet ||_s$. The norm $|| \bullet ||_s$ defined on $\E(X, E)$ depends on the choice of paritions of unity, the local trivialization, and the Hermitian and metric structure. However, the topology on $W^s(X, E)$ is independent of these choices. 
+
+\subsection{Differential Operators}
+
+\begin{defn} [1, p. 113]
+Let $E, F$ be differentiable $\CC$-vector bundles over a differentiable manifold $X$. Let
+\[ L : \E(X, E) \to \E(X, F) \]
+be a $\CC$-linear map. We say that $L$ is a \textit{differntial operator} if for any choice of local coordinates and local trivializations there exists a linear partial differential operator $\wt{L}$ such that the dagram
+\begin{center}
+\begin{tikzcd}
+\E(U)^p \arrow[r, "\wt{L}"] \arrow[d, equals] & \E(U)^q \arrow[d, equals] 
+\\
+\E(U, U \times \CC^p) \arrow[r] & \E(U, U \times \CC^q)
+\\
+\E(X, E)|_U \arrow[u, hook] \arrow[r, "L"] & \E(X, F)|_U \arrow[u, hook] 
+\end{tikzcd}
+\end{center}
+commutes. That is, for $(f_1, \dots, f_p) \in \E(U)^p$ we have
+\[ \wt{L}(\ul{f})_i = \sum_{\substack{ i = 1 \\ |\alpha| \le k}}p a_\alpha^{ij} D^\alpha f_j \]
+A differential operator is said to be of \textit{order} $k$ if $\wt{L}$ can be taken to be of the above form. 
+\end{defn}
+
+\begin{defn}
+Suppose $X$ is a compact $C^\infty$-manifold. We define $\OP_k(E, F)$ as the the vector space of $\CC$-linear mappings
+\[ T : \E(X, E) \to \E(X, F) \]
+such that there is a continuous extension of $T$
+\[ \ol{T}_s : W^s(X, W) \to W^{s-k}(X, F) \]
+for all $s$. These are the \textit{operators of order} $k$ mapping $E$ to $F$. 
+\end{defn}
+
+\begin{prop} [1, Prop. 2.1]
+Let $L \in \OP_k(E, F)$. Then $L^*$ exists and moreover $L^* \in \OP_k(F, E)$ and the extension
+\[ (\ol{L}^*)_s : W^s(X, F) \to W^{s-k}(X, E) \]
+is given by the adjoint map
+\[ (\ol{L}_{k-s})^* : W^s(X, F) \to W^{s-k}(X, E) \]
+\end{prop}
+ 
+\begin{prop} [1, Prop. 2.2]
+$\Diff_k(E, F) \subset \OP_k(E, F)$
+\end{prop}
+
+\begin{proof}
+This is a local calculation and we use
+\[ \wh{D^\alpha f}(\xi) = \xi^\alpha \hat{f}(\xi) \]
+\end{proof}
+
+\subsection{Symbol}
+
+\newcommand{\Smbl}{\mathrm{Smbl}}
+
+We review how [1] defines the symbol. Let $U \subset T^* X$ be the complement of the zero section and $\pi : U \to X$ the projection. For $k \in \Z$ we define
+\[ \Smbl_k(E, F) = \{ \sigma \in \Hom{U}{\pi^* E}{\pi^* F} \mid \forall \rho > 0, (x,v) \in U : \sigma(x, \rho v) = \rho^k \sigma(x,v) \} \]
+Then we define a linear map
+\[ \sigma_k : \Diff_k(E, F) \to \Smbl_k(E, F) \]
+where $\sigma_k(L)$ is called the $k$-\textit{symbol} of the differential operator $L$. For $(x,v) \in U$ we define a linear map
+\[ \sigma_k(L)(x,v) : E_x \to F_x \]
+as follows: let $e \in E_x$ be given and choose $g \in \E(X)$ and $f \in \E(X,E)$ such that $\d{g}_x = v$ and $f(x) = e$ then we define
+\[ \sigma_k(L)(x,v) e = L \left( \frac{i^k}{k!} (g - g(x))^k f \right)(x) \in F_x \]
+
+\begin{prop}
+The symbol map $\sigma_k$ gives rise to an exact sequence
+\[ 0 \to \Diff_{k-1}(E, F) \to \Diff_k(E, F) \xrightarrow{\sigma_k} \Smbl_k(E, F) \]
+\end{prop}
+
+\subsection{Algebraic Symbols}
+
+In the algebraic category, a map $\varphi : \pi^* F \to \pi^* G$ extends to a map over all of $T^* X$ as long as $\dim{X} \ge 2$ since the zero section has codimension $\dim{X}$. Therefore, the data of $\varphi$ is equivalent to the data of 
+\[ \varphi : F \to \pi_* \pi^* G = 
+\begin{cases}
+G \ot \bigoplus_{n \ge 0} \nSym{n}{T_X} & \dim{X} \ge 2
+\\
+G \ot \bigoplus_{n \in \ZZ} T_X^{\ot n} & \dim{X} = 1
+\end{cases} \]
+and the $k$-symbols are those maps that are homogeneous of degree $k$ i.e.
+\[ \Smbl_k(E, F) = \Hom{}{E}{F \ot \nSym{k}{T_X}} \]
+We can describe the symbol map as follows. The jet bundle or bundle of principal parts (or total symbols) satisfies
+\[ \Diff_k(E, F) = \Hom{}{J^k(E)}{F} \]
+and there is an exact sequence
+\[ 0 \to E \ot \nSym{k}{\Omega_X} \to J^k(E) \to J^{k-1}(E) \to 0 \]
+and therefore applying $\shHom{}{-}{F}$ we get and exact sequence of sheaves
+\[ 0 \to \Diff_{k-1}(E, F) \to \Diff_k(E, F) \xrightarrow{\sigma_k} \Hom{}{E}{F \ot \nSym{k}{T_X}} \to 0 \]
+the last map is identified with the symbol map. 
+
+\subsection{Pseudodifferential Operators}
+
+\begin{defn} [1, Def. 3.7]
+A linear map $L : \cD(X, E) \to \E(X, E)$ is a \textit{pseduodifferential operator} on $X$ if for any coordinate chart $(U, \varphi)$ trivializing $E$ and $F$ and any open $U' \subset U$ with compact closure there is a $r \times p$ matrix $p^{ij} \in S^m_0(U)$ so that the induced 
+\[ L_U : \cD(U')^p \to \E(U)^r \]
+via extending by zero to $U$ and applying $L$ is a matrix of canonical pseudodifferential operators d
+\end{defn}
+
+
+\section{Talk Harvard-MIT}
+
+\subsection{Pretalk}
+
+\subsubsection{Stable Maps}
+
+\subsubsection{Covering Gonality and Separating Points}
+
+\subsubsection{Multiplier Ideals}
+
+\subsection{Introduction}
+
+The main question: given a projective variety $X$ what is the geometry of the curves on $X$. More precisely suppose $X \subset \P^N$ has a fixed embedding in projective space. We would like to ask:
+\begin{enumerate}
+\item what possible values for the numerical invariants of curves on $X$ can appear e.g.
+\begin{enumerate}
+\item degree (computed against $\struct{X}(1)$)
+\item genus 
+\item gonality
+\end{enumerate}
+\item we also have a natural source of curves on $X$ arsing from the embedding: taking a linear space $\Lambda$ of dimension $N - \dim{X}-1$ we get linear slice curves $C_\Lambda := X \cap \Lambda$ that cover $X$. We would like to know, how close are the curves covering $X$ to linear (or higher degree) slices? 
+\end{enumerate}
+When $X \subset \P^{n+r}$ is a general complete intersection cut out by homogeneous polynomials of degrees $d_1, \dots, d_r$, we write $X$ is CI of type $(d_1, \dots, d_r)$ the following result gives a first step towards these questions:
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+Let $X \subseteq \P^{n+r}$ be a general complete intersection variety of dimension $n \geq 1$ cut out by polynomials of degrees $d_{1}, \ldots, d_{r} \geq 2n$. Then any curve $C \subseteq X$ satisfies
+\[ \deg(C)\ \ge\ (d_1 - 2n + 1) \cdots (d_r - 2n + 1) .\]
+Moreover, there exists $N := N(n,r)$ such that if $d_1, \dots, d_r \ge N$, then
+\[ \deg(C)\ \ge\ d_1 \cdots d_r. \]
+\end{Lthm}
+
+{\color{red} Besides intrinsic interest, our motivation is a conjecture of Bastianelli--De Poi--Ein--Lazarself--Ullery [BDELU17] on the measures of irrationality of complete intersections.}
+
+\subsection{Measures of Irrationality}
+
+{\color{red} These are quantitative measures of ``how far from being rational'' a variety. }
+
+For a projective variety $X$ of dimension $n$, the \emph{degree of irrationality} and the \emph{covering gonality} are defined as follows:
+\[ \irr(X)\ :=\ \min\big\{\delta>0\ |\ \exists\textup{ rational dominant map } X\dashrightarrow \mb{P}^n\textup{ of degree }\delta\big\}; \]
+\[ \cov(X)\ :=\ \min\big\{c>0\ |\ \exists\textup{ a curve of gonality } c \textup{ through a general point } x\in X\big\}.\]
+{\color{red} From their descriptions, we see that the degree of irrationality is a measure of how far $X$ is from being rational, while the covering gonality is a measure of how far $X$ is from being uniruled.} These are related by: 
+\[ \irr(X) \geq \cg(X) \]
+
+{\color{red} For me, $\irr$ is the more fundamental measure. However, in practice $\cg$ is much easier to study. Since we are interested in lower bounds, it suffices to bound $\cg$}
+
+BDELU prove that for a general hypersurface $X_d \subset \P^{n+1}$ then $\cg(X_d)$ (and hence $\irr(X)$) is asymptotically $\sim d$. Their method can prove if $X_{d_1, \dots, d_r} \subset \P^{n+r}$ is a general complete intersection then $\cg(X_{d_1, \dots, d_r}) \gtrapprox d_1 + \cdots + d_r$ an \textit{additive} bound. They ask: are there \textit{multiplicative bounds}
+\[ \cg(X_{d_1, \dots, d_r}) \ge C d_1 \cdots d_r \]
+
+{\color{red} We prove this conjecture and give the sharpest possible constant $C = 1$.}
+
+\begin{Lthm}[Chen-C-Zhao, '24]
+For any $0 < \epsilon \ll 1$, there exists an integer $N_{\epsilon} = N(\epsilon, n, r) > 0$ such that if $d_1, \dots, d_r \ge N_\epsilon$, then
+\[ \cg(X_{d_1, \dots, d_r}) \ \geq \  (1-\epsilon) \cdot d_{1} \cdots d_{r}. \]
+\end{Lthm}
+
+{\color{red} It turns out that our proof Theorem B depends on Theorem A. }
+
+\section{Ample Line bundles on Abelian Varities}
+
+The following is used implicitly in PS14.
+
+\newcommand{\Td}{\mathrm{Td}}
+
+\begin{prop}
+Let $A$ be an abelian variety over a field of characteristic $p > \dim{X}$ and $\L$ an ample line bundle. Then $H^0(A, \L) \neq 0$.
+\end{prop}
+
+\begin{proof}
+Note that $\Td_A = 1$ so by Grothendieck-Riemann-Roch
+\[ \chi(\L) = \int_A \mathrm{\ch}(\L) = \frac{1}{n!} c_1(\L)^n > 0 \]
+Note this also shows that $\deg_L(A)$ is divisible by $n!$ (hence also the degree of any embedding $A \embed \P^N$). Now since $A$ lifts over $W_2(k)$ (see Mumford's book ) and $p > \dim{A}$ Deligne-Illusie applies to get Kodaira vanishing (note we only need to lift $A$ not $\L$ to apply Deligne-Illusie) so 
+\[ H^{>0}(A, \L) = H^{>0}(A, \L \ot \omega_A) = 0 \]
+and hence
+\[ H^0(X, \L) = \frac{1}{n!} c_1(\L)^n > 0 \]
+\end{proof}
+
+\end{document}
