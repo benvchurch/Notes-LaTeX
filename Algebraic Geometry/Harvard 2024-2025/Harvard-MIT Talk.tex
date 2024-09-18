@@ -45,6 +45,8 @@
 \DeclareMathOperator{\covgon}{cov.gon}
 \DeclareMathOperator{\mindeg}{min.deg}
 
+\newcommand{\Mbar}{\ol{\mathcal{M}}}
+
 \begin{document}
 
 \title{Harvard-MIT Algebraic Geometry Seminar \\ \large Curves on complete intersections and measures of irrationality.}
@@ -52,14 +54,108 @@
 \maketitle
 \tableofcontents
 
-\section{Pretalk}
+\section*{Pretalk}
 
 \subsubsection{Stable Maps}
+
+For a projective variety $X$ equipped with an embedding $X \hookrightarrow \P^N$, we write $\Mbar_g(X, b)$ for the Kontsevich moduli space of stable maps from genus $g$ curves which have degree $b$ with respect to the embedding. Likewise, if $(\X, L) \to T$ is a flat projective morphism with $L$ relatively ample we write $\Mbar_g(\X / T, b)$ for the relative moduli space of stable maps of degree $b$ with respect to the fixed embedding. 
+
+\begin{thm}
+Let $\pi : \X \to T$ be a flat projective morphism. Then there exists a proper DM-stack $\Mbar_{g,n}(\X / T, b)$ over $T$ representing the moduli problem:
+\[ (S \to T) \mapsto \{ (\pi : \C \to S, \sigma_1, \dots, \sigma_n) \text{ prestable curve with } f : \C \to \X_S \text{ over } S \text{ fiberwise stable} \} \]
+such that the fibers of $\pi$ are curves of genus $g$ and degre $b$ computed against $L$.
+\end{thm}
+
+\begin{proof}
+First notice that the moduli problem for $\X_S \to S$ is the base change along $S \to T$ of the moduli problem for $\X \to T$. 
+Choose an embedding $\X \embed \P^N_T$ and consider universal stable map $f : \mathcal{U} \to \P^N \times \Mbar_{g,n}(\P^N, d)$ over $\Mbar_{g,n}(\P^N_T/T, d) = \Mbar_{g,n}(\P^N, b) \times T$. For $S \to \Mbar_{g,n}(\P^N, b) \times T$ we see that $f_S$ factors through $\X_S \embed \P^N_S$ if and only if $S$ factors through
+\[ \ol{\M}_{g,n}(\X/T,b) \subset \Mbar_{g,n}(\P^N, d) \times T \]
+hence it is a closed substack (it is the locus where $f^* \I_{\X \times \Mbar} \to \struct{\mathcal{U}}$ is zero, which is represented by a closed substack [FGA explained, Theorem 5.8] since $\struct{\mathcal{U}}$ is flat over $\ol{\M}$). 
+\bigskip\\
+Therefore, we reduce to the case $\X = \P^N$ and $T = *$. We can build $\Mbar$ explicitly from a quotient of the Hilbert scheme. 
+\end{proof}
+
+\begin{defn} \label{def:deforms}
+    Let $\X \to S$ be a morphism of schemes, $s_0 \in S$ a point, and $\mu_{s_0} : C \to \X_{s_0}$ be a stable map. For any point $s\in S$, we say that $\mu_{s_0}$ \textit{deforms to $\X_{s}$} if there exists a family of stable maps
+    \begin{center}
+        \begin{tikzcd}
+        \cC_{T} \arrow[r, "\mu"] \arrow[d] & \X \arrow[d]
+        \\
+        (T, t_0) \arrow[r] & (S, s_0)
+        \end{tikzcd}
+    \end{center}
+    such that $T$ is connected and $s$ is in the image of $T \to S$ and $(\mu_{s_0})_{\kappa(t_0)} \cong \mu_{t_0}$. 
+\end{defn}
+
+\noindent Note that when $s$ specializes to $s_{0}$, we can always take $T$ to be the spectrum of a DVR.
+
+\begin{defn}
+    A \textit{covering family of curves} on a projective variety $X$ consists of a smooth family
+    \[ \pi \colon \cC \rightarrow T \]
+    of projective curves parameterized by an irreducible quasi-projective variety $T$, together with a dominant morphism (meaning it hits the generic point of each component of $X$)
+    \[ f \colon \cC \rightarrow X, \]
+    such that for general $t \in T$, the map $f_{t} \colon C_{t} \rightarrow X$ is birational onto its image.
+\end{defn}
+
+
+\begin{defn}\label{def:covdeg}
+ Let $(X, L)$ be a quasi-projective polarized variety. The \textit{covering degree} of $(X, L)$, denoted by $\covdeg(X, L)$, is the minimal integer $b$ such that there exists a covering family of curves $\{ \pi \colon \cC \to T, f \colon \cC \rightarrow X \}$ with
+    \[ \deg{f^* L|_{\cC_t}} = b. \]
+\end{defn}
+
+\begin{remark}\label{rem:defcovdeg}
+Alternatively, by standard compactification arguments (cf.\ \cite[Prop 2.6]{Vis89}) one can define the \textit{covering degree} $\covdeg(X, \L)$ as the minimal $d \in \Z_{>0}$ such that there exists a family of stable curves $\cC \to T$ over an irreducible base scheme $T$ and a \emph{surjective} stable map $f : \cC \to X$ such that $\deg{f^* L|_{\cC_t}} = b$. Since $X$ is irreducible, one can reduce to checking the degrees of stable maps where the general curve $C_{t}$ is smooth and irreducible.
+\end{remark}
+
+\subsubsection{Matching Condition}
+
+\begin{defn}\label{definition:snc_degeneration}
+Let $R$ be a DVR, and $s,\eta \in \Spec{R}$ be the closed point and generic point, respectively. An \textit{SNC degeneration of varieties} over $R$ is a flat proper family $f : \X \to \Spec{R}$ such that $\X_\eta$ is a smooth variety and $\X_s$ is reduced with simple normal crossing (SNC) singularities.
+\end{defn}
+
+Let $f : \X \to \Spec{R}$ be a SNC degeneration of varieties such that $\X_s = X_1 \cup_Z X_2$ is the union of two smooth irreducible varieties along a smooth divisor $Z$. 
+
+\begin{defn}
+Let $\mu : C \to X_1 \cup_Z X_2$ be a stable map whose target has two smooth components glued along $Z$. A sub-curve $C' \subseteq C$ is said to be of
+\begin{enumerate}
+    \item \emph{ghost type} if $\mu(C')$ is a point in $Z$;
+    \item \emph{type $Z$} if it is not of ghost type and $\mu(C')\subseteq Z$; 
+    \item \emph{type $X_i$} (for $i=1$ or $2$) if it is neither of ghost type nor of type $Z$, and $\mu(C')\subseteq X_i$.
+\end{enumerate}
+\end{defn}
+
+\begin{lemma} \label{lemma:breaking}
+Let $W \subseteq \X_s$ be the singular locus of the total space. Suppose $\mu_s : C \to \X_s$ is a nonconstant stable map that deforms to $\X_\eta$, and $z \in Z \sm W$ is a point in the image of $\mu$. Then one of the following holds:
+\begin{enumerate}
+    \item $z$ lies on the image of a component of type $Z$; or
+    \item $z$ lies on the image of a component of type $X_1$ and also on the image of a component of type $X_2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The idea is as follows: consider a stable map
+\begin{center}
+\begin{tikzcd}
+\C \arrow[r, "\mu"] \arrow[d] & \X \arrow[d]
+\\
+\Spec{A} \arrow[r] & \Spec{R}
+\end{tikzcd}
+\end{center} 
+deforming $\mu_s$. We assume the total space $\X$ is smooth but in general we could either shrink and do a local calculation or resolve singularities not chaning the neighborhood of $z$ and work with a more complicated SNC degeneration. Hence $X_1, X_2 \subset \X$ are Cartier divisors. Consider $L_i = \mu_s^* \struct{\X}(X_i)$ and $s_i$ the canonical sections. By definition, $V(s_i) = \mu_s^{-1}(X_i)$ with the correct scheme-theoretic structure. Finally, note that $\struct{\X}(X_1) \ot \struct{\X}(X_2) \cong \struct{\X}$ with $s_1 s_2 = \pi$ the uniformizer since this is the entire special fiber. Thus $L_1 \ot L_2 \cong \struct{\C}$ on this surface. Therefore, on any curve $C' \subset \C_s$
+\[ \deg_{C'}{L_1} + \deg_{C'}{L_2} = 0 \]
+but $L_i|_{\C_\eta}$ are trivial so the total degree on $\C_s$ must be zero. Since there is a component $C' \subset \C_s$ properly meeting $X_2$ we have $\deg_{C'}{L_2} > 0$ (given by the vanishing locus of $s_2$) so there is some component $C'' \subset \C_s$  with $\deg_{C''}{L_2} < 0$ but hence $s_2$ must vanish identically on $C''$ so $C''$ is contained in $X_2$ and $\deg_{C''}{L_1} = - \deg_{C''}{L_2} > 0$ so $C''$ meets $X_1$. Therefore either $C''$ is type $X_2$ and meets $X_1$ property or is type $Z$. A more detailed analysis shows that there are two such components meeting at $z$.
+\end{proof}
 
 \subsubsection{Covering Gonality and Separating Points}
 
 One the main ``measures of irrationality'' I will discuss is the \textit{covering gonality}
 \[ \cov(X)\ :=\ \min\big\{c>0\ |\ \exists\textup{ a curve of gonality } c \textup{ through a general point } x\in X\big\}.\]
+
+\begin{rmk}
+Note that we define the gonality of a singular curve to be the gonality of its normalization. 
+This is equivalent to the minimal $c$ such that $X$ admits a covering family whose general member has gonality $c$.
+\end{rmk}
+
 I want to describe a general method for proving lower bounds on the covering gonality. 
 \bigskip\\
 Notice that there is a trivial bound $\covgon(X) \le \deg{X}$ given by taking linear slices and noting that any curve  $C$ in projective space can be projected to $\P^1$ with a map of degree $\deg{C}$. 
@@ -83,8 +179,6 @@ Suppose that $H^0(X, \Omega_X)$ can separate $c$ general points on $X$. For some
 \end{proof}
 
 \subsubsection{Multiplier Ideals}
-
-Although most of our results hold in a more general setting, for simplicity we will assume that $X$ is $\QQ$-Gorenstein.
 
 \newcommand{\mtc}[1]{\mathcal{#1}}
 
@@ -138,7 +232,7 @@ The main question: given a projective variety $X$ what is the geometry of the cu
 \item genus 
 \item gonality
 \end{enumerate}
-\item we also have a natural source of curves on $X$ arsing from the embedding: taking a linear space $\Lambda$ of dimension $N - \dim{X}-1$ we get linear slice curves $C_\Lambda := X \cap \Lambda$ that cover $X$. We would like to know, how close are the curves covering $X$ to linear (or higher degree) slices? 
+\item we also have a natural source of curves on $X$ arsing from the embedding: taking a linear space $\Lambda$ of dimension $N - \dim{X}+1$ we get linear slice curves $C_\Lambda := X \cap \Lambda$ that cover $X$. {\color{red} How close are the ``simplest'' (in terms of the above numbers) curves to the linear slices}
 \end{enumerate}
 When $X \subset \P^{n+r}$ is a general complete intersection cut out by homogeneous polynomials of degrees $d_1, \dots, d_r$, we write $X$ is CI of type $(d_1, \dots, d_r)$ the following result gives a first step towards these questions:
 
@@ -157,8 +251,9 @@ Let $X_d \subset \P^4$ be a (very) general hypersurface of degree $d \ge 6$. The
 
 In partcular, this says that curves are numerically equivalent to complete intersection curves. They further conjecture that all curves are actually \textit{linearly} equivalent to complete intersection curves but I won't be able to say anything about that. 
 \bigskip\\
-Given the divisibility, we might ask: is every curve a complete intersection.
-Moreover, for surfaces, the corresponding statement ($d \ge 4$) is a consequence of the Noether-Lefschetz theorem which further says that all curves are complete intersections. However, if $\dim{X} \ge 3$, Voisin showed that for all $d$ and general $X_d$ there are non-complete intersection curves on $X_d$ so the situtation is quite subtle indeed. However, there is a partial result of Wu
+{\color{red} Given the divisibility, we might ask: is every curve a complete intersection.
+Moreover, for surfaces, the corresponding statement ($d \ge 4$) is a consequence of the Noether-Lefschetz theorem which further says that all curves are complete intersections. However, if $\dim{X} \ge 3$, Voisin showed that for all $d$ and general $X_d$ there are non-complete intersection curves on $X_d$ so the situtation is quite subtle indeed. However, there is a partial result of Wu}
+
 \begin{theorem}[Wu, '90]
 Let $X_d \subset \P^4$ be a very general hypersurface of degree $d \ge 6$ and $C \subset X$ a curve of degree $\ell$. If $\ell < 2d - 1$ then $C$ is a complete intersection.
 \end{theorem}
@@ -192,6 +287,7 @@ Let $X_d \subset \P^{n+1}$ be a smooth hypersurface of degree $d \ge n + 2$. The
 {\color{red} Geoff Smith also established similar bounds in characteristic $p$.} 
 
 Both of their method can prove if $X_{d_1, \dots, d_r} \subset \P^{n+r}$ is a general complete intersection then $\cg(X_{d_1, \dots, d_r}) \gtrapprox d_1 + \cdots + d_r$ giving an \textit{additive} bound in the degrees. 
+{\color{red} Basically because it comes from positivity of $K_X = (d_1 + \cdots + d_r - n+r) H$.}
 \bigskip\\
 BDELU ask: are there \textit{multiplicative bounds} of the form
 \[ \cg(X_{d_1, \dots, d_r}) \ge C d_1 \cdots d_r \]
@@ -201,8 +297,8 @@ hence likewise for $\irr(X_{d_1, \dots, d_r})$.
 
 \begin{enumerate}
 \item First evidence: Lazarsfeld '97 proves the case of complete intersection curves
-\item in his thesis: Stapleton '17 gives supperadditive bounds (of the form $e \sqrt[n+1]{d}$ for type $(e,d)$) for $X \subset \P^{n+2}$ CI of codimension $2$ 
-\item in his thesis: Chen '21 proved a multiplicative bound for codimesnion $2$ but with a constant $C \ll_n 1$
+\item in his thesis: Stapleton '17 gives supperadditive bounds (of the form $e \sqrt[n+1]{d}$ for type $(e,d)$) for $X_{e,d} \subset \P^{n+2}$ CI of codimension $2$ 
+\item in his thesis: Chen '21 proved a multiplicative bound for dimension $2$ and for codimesnion $2$ but with a constant $C \ll_n 1$
 \item Levinson-Stapleton-Ullery '23 establish sharp multiplicative bounds for the degree of irrationality of complete intersections whose degrees are sufficiently spread out (i.e. $d_1\gg d_2\gg\cdots\gg d_r\gg0$).
 \end{enumerate}
 
