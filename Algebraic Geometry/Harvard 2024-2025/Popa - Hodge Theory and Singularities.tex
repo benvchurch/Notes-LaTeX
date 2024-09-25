@@ -505,7 +505,7 @@ Want: construct some gadget $\ul{\Omega}_X^\ell \in D^\flat_{\mathrm{Coh}}(X)$ s
 \[ \gr_F^\ell H^i(X, \CC) \cong H^{i - \ell}(X, \ul{\Omega}_X^\ell) \]
 for the Hodge filtration on the mixed Hodge structure. 
 
-\section{Hyperresolutions and Cubical Resolutions}
+\subsection{Sept. 18 - Hyperresolutions and Cubical Resolutions}
 
 \begin{defn}[Deligne]
 $X$ is a complex variety, a \textit{hyperresolution} of $X$ is a diagram of varities andd morphisms 
@@ -581,5 +581,92 @@ where $\square_n$ is the category defined as
 \begin{defn}
 A \textit{cubical resolution} is a cubical variety such that all $X_I$ are smooth, the morphims are proper, and the associated simplicial variety satisfies \textit{cohomological descent}. 
 \end{defn}
+
+\section{Sept. 23}
+
+\newcommand{\parallelto}{\rightrightarrows}
+
+\begin{theorem}[GNPP]
+For every complex variety $X$ there exists a hyperresolution $\epsilon_\bullet : X_\bullet \to X$ such that $\dim{X_i} \le n - i$ for all $i$ where $n = \dim{X}$. More precisely, there exists an $(n+1)$-cubical resolution $X_\bullet \to X$ such that $\dim{X_I} \le n - |I| + 1$ for every $I \subset \{ 0, \dots, n-1\}$ and the hyperresolution is formed via the diagonal construction. 
+\end{theorem}
+
+\begin{proof}
+Starting point is the exercise: consider the square
+\begin{center}
+\begin{tikzcd}
+E \arrow[d] \arrow[r] & \wt{X} \arrow[d, "f"]
+\\
+Z \arrow[r] & X
+\end{tikzcd}
+\end{center}
+where $E = f^{-1}(E)_{\red}$ such that $f : \wt{X} \sm E \to X \sm Z$ is an isomorphism then 
+\[ E \parallelto Z \sqcup \wt{X} \to X \]
+has cohomological descent. Indeed, consider
+\[ \Z_X \to \Big[ \R f_* \Z_{\wt{X}} \oplus \Z_{Z} \to \R f_*\Z_{E} \]
+we need to show this is exact. At a point $x \in X \sm Z$ this is obvious from the fact that $f : \wt{X} \sm E \to X \sm Z$ is an isomorphism. For $x \in Z$ we use proper base change so we get
+\[ \Z \to \Big[ \R \Gamma(f^{-1}(x), \Z) \oplus \Z \to \R \Gamma(f^{-1}(x), \Z) \Big] \]
+The second map is the difference of the identity and the natural inclusion of $\Z$ into degree zero. Therefore the shifted cone is $\Z$ including in the clear way so we win. Here we 
+
+\begin{defn}
+Let $f : \wt{X} \to X$ be a morphism. The \textit{discriminant} $D_f$ of $f$ is the smallest closed subscheme of $X$ such that $f : \wt{X} \sm f^{-1}(D_f) \to X \sm D_f$ is an isomorphism. If $f$ is not birational $D_f := X$. 
+\end{defn}
+
+For any morphism $f : Y_\bullet \to Z_\bullet$ of $k$-cubical varieties (e.g. the data of a $(k+1)$-cubical variety) then $D_I$ of each $f_I : Y_I \to Z_I$ form a $(k+2)$-cubical variety
+\begin{center}
+\begin{tikzcd}
+f^{-1}_\bullet(D_\bullet)_{\red} \arrow[d] \arrow[r, hook] & Y_\bullet \arrow[d, "f_\bullet"]
+\\
+D_\bullet \arrow[r, hook] & Z_\bullet
+\end{tikzcd}
+\end{center}
+
+\begin{defn}
+We say that $f_\bullet$ is a \textit{resolution} of $Z_\bullet$ if all $Y_I$ are smooth and $\dim f_I^{-1}(D_I) < \dim{Z_I}$ (this second condition is to rule out a map where one component does not map birationally).
+\end{defn}
+
+\begin{prop}
+Resolutions of cubical varieties always exist.
+\end{prop}
+
+\begin{proof}
+For $1$-cubical variety: $f : Y \to X$ we just take a compatible resolution $\wt{Y} \to \wt{X}$. Indeed, we can take the main component $Y'$ of the fiber product $Y \times_X \wt{X}$ (say take the closure of the fiber product of the nice open locus) and take any resolution of $Y'$. 
+\end{proof}
+
+Sketch of the proof: want $X_\bullet$ such that $X_I$ smooth and $\dim{X_I} \le n - |I| + 1$.
+
+Prove by induction the statement: after $k$ steps we can construct a $(k+1)$-cubical variety $X^k_\bullet$ which has cohomological descent, with $X_{\empty} = X$ and
+\begin{enumerate}
+\item $X^k_I$ is smooth for all $I \subset \{ 0, \dots, k-1 \}$
+\item $\dim{X^k_I} \le n - |I| + 1$ for all $I \subset \{ 0, \dots, k \}$
+\end{enumerate}
+This plus the resolution step gives us the claim. 
+\bigskip\\
+For $k = 1$ we just take the discriminant of a resolution $f : \wt{X} \to X$ 
+\begin{center}
+\begin{tikzcd}
+E \arrow[d] \arrow[r] & \wt{X} \arrow[d, "f"]
+\\
+D \arrow[r] & X
+\end{tikzcd}
+\end{center}
+and set $X_{\empty} = X$ and $X_{\{0\}} = \wt{X}$ and $X_{\{1\}} = D$ and $X_{\{0,1\}} = E$. Then the condition for $k=1$ is satisfied. 
+\bigskip\\
+For $k = 2$, take a cubical resolution of $E \to D$ and take the discriminant locus of the morphism of $1$-cubical varieties to get a $3$-cubical diagram. Then composiing down to $X_{\{0\}} \to X_{\empty}$ gives a $3$-cubical variety satisfying our condition.
+\end{proof}
+
+\subsection{The Du Bois Complex}
+
+For $X$ smooth there is a complex $\ul{\CC} \to \Omega_X^\bullet$. 
+
+\begin{defn}
+Let $X / \CC$ be a complex variety with $\dim{X} = n$ and $\epsilon_\bullet : X_\bullet \to X$ a hyperresolution. We define
+\[ \ul{\Omega}_X^\bullet = \R \epsilon_\bullet \Omega^\bullet_{X_\bullet} \]
+be the filtered de Rham complex of $X$. 
+\end{defn} 
+
+Let $f : Y \to X$ be a proper morphism of smooth varieties then $\Omega_Z^\bullet \to \R f_* \Omega_Y$ and moreover $\Omega_Z^p \to \R f_* \Omega_Y^p$. These are the maps that allow us to build $\R \epsilon_{\bullet}$. Note that $\Omega_X^\bullet$ is not an element of $D^\flat_{\text{Coh}}$ since the maps are not $\struct{X}$-linear. Really, it lives in the derived category of filtered differential complexes (terms are coherent sheaves, map are differential operators of order $\le 1$). Furthermore, $\Omega_Y^\bullet$ is filtered by $F^p \Omega_Y^\bullet = \Omega_Y^{\ge p}$. Hence $\gr^p_F \Omega_Y^\bullet = \Omega_Y^p[-p]$. 
+
+
+
 
 \end{document}

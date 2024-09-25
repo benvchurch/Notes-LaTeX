@@ -1,0 +1,347 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\dbar}{\bar{\partial}}
+\newcommand{\HH}{\mathbb{H}}
+\renewcommand{\gr}{\mathrm{gr}}
+\newcommand{\R}{\mathrm{R}}
+
+
+\begin{document}
+
+\section{Pre-Talk}
+
+\subsection{The Moduli Spaces}
+
+\newcommand{\all}{\mathrm{all}}
+
+Given a finitely presented group $\pi$ we consider the functor sending a ring $A$ to representations valued in $A$,
+\[ \Rep_{\pi, r} : A \mapsto \{ \rho : \pi \to \GL_r(A) \} / \text{conjugation}. \]
+This is not quite representable. Indeed, it is not even an \etale sheaf. 
+
+\begin{example}
+Suppose $\pi$ is finite and $K$ has characteristic zero. Then $M(\pi, r)$ satisfies the sheaf condition for $L/K$ exactly if all dimension $r$ representations over $L$ with traces in $K$ are defined over $K$. For example let $\pi = Q_8$ and consider the representation
+\[ Q_8 \to \GL_2(\CC) \]
+using the standard representation via Pauli matrices. It is a standard that
+\[ \sigma_i \sigma_j = - \delta_{ij} I + \epsilon_{ijk} \sigma_k \]
+So 
+\[ \tr{\sigma_i} = 0 \quad \quad \tr{\sigma_i \sigma_j} = -2 \delta_{ij} \]
+hence the traces are all real. However, there are not enough independent order four elements in $\GL_2(\RR)$ for this to descend. 
+\end{example}
+
+Let's first consider a framed version
+\[ M^{\square}(\pi, r) : A \mapsto \{ \rho : \pi \to \GL_r(A) \} \]
+This is clearly represented by an affine scheme (inside $\A^{nr^2}$ where $n$ is the number of generators and impose $\det \neq 0$ and the finite number of relations). Now we can form a stack
+\[ [M^{\square}(\pi, r) / \GL_r] \]
+which represents the groupoid version
+\[ [M^{\square}(\pi, r) / \GL_r] : A \mapsto [\{ \rho : \pi \to \GL_r(A) \} / \text{conjugation}.] \]
+by definition. To get the isomorphism classes, we use GIT to form a coarse space
+\[ M^{\all}(\pi, r) := M^{\square}(\pi, r) // \GL_r \]
+From the perspective of GIT stability conditions:
+\begin{enumerate}
+\item completely reducible (i.e. semisimple) $\iff$ polystable
+\item irreducible $\implies$ stable (and usually the converse)
+\end{enumerate}
+Recall that $\varphi : X \to X // G$ identifies two points iff they have the same orbit closures and there is a unique polystable point in each fiber. Hence $M(\pi, r)$ ``parametrizes semisimple representations''. In fact, we can identify 
+\[ M^{\sqcup}(\pi, r) \to M^{\all}(\pi, r) \]
+on $\bar{k}$-points with the semisimplification. 
+
+\subsection{Irreducibility}
+
+\newcommand{\irr}{\mathrm{irr}}
+
+We can form two subschemes of $M^{\all}(\pi, r)$. The first is functorial
+\[ M^{\irr}(\pi, r) \subset M^{\all}(\pi, r) \]
+which is the open determined by the open of $M^{\sqcup}(\pi, r)$ of \textit{absolutely irreducible} representations meaning $\pi : \pi \to \GL_r(A)$ such that for all geometric points $A \to \bar{k}$ the representation $\rho : \pi \to \GL_r(\bar{k})$ is irreducible. 
+\bigskip\\
+This will be too limiting for us. Instead, we consider $M^{\mathrm{gen-irr}}(\pi, r)$ to be the closure of $M^{\irr}(\pi, r)(\CC)$ inside $M^{\all}(\pi, r)$ which we write as $M(\pi, r)$. This is the natural space to work in if we want to consider only representations that deform to a an irreducible representation over characteristic zero. 
+
+\subsection{Specialization and Tame Fundamental Groups}
+
+\begin{theorem}
+If $\pi = \pi_1(X)$ for $X$ a quasi-projective variety then $\epsilon : M \to \Spec{\Z}$ is surjective if and only if it is dominant.
+\end{theorem}
+
+\begin{rmk}
+To make this true we need $M = M(\pi, r, \delta)$ to modify slightly our definitions to involve only representations such that $\det{\rho}^\delta = 1$. This technical condition will just come along for the ride at almost every step of the proof.
+\end{rmk}
+
+\begin{rmk}
+Note the reason we passed to $M$ is so that each component hits $\Spec{\QQ}$ by definition. Therefore the above statemnt is equivalent to saying 
+\[ M(\CC) \neq \empty \iff \forall \ell : M(\ol{\ZZ}_{\ell}) \neq \empty \]
+In fact, Helene proves more: that these $\ol{\ZZ}_{\ell}$-points can be chosen to pass through $M^{\irr}_{\Q}$.
+\end{rmk}
+
+\begin{rmk}
+In fact, this theorem is an obstruction to groups arising from geometry since not every character variety satisfies this property. For example, the groups
+\[ \Gamma_{\ell} = \langle a,b\ \vert\ a^{\ell(\ell-1)}ba^{-\ell}b^{-2}\rangle \]
+has structure map $\epsilon : M \to \Spec{\Z}$
+with image $\Spec{\Z} \sm \{ \Spec{\FF_\ell} \}$.
+\end{rmk}
+
+How are we going to prove this? We are going to think about representations that factor as 
+\begin{center}
+\begin{tikzcd}
+\pi \arrow[d] \arrow[r, "\rho"] & \GL_r(\CC) \arrow[d, "\tau"]
+\\
+\hat{\pi} \arrow[r, "\text{cont.}"] & \GL_r(\ol{\Q}_\ell)
+\end{tikzcd}
+\end{center}
+If this exists then by continuity and compactness of $\hat{\pi}$, up to conjugation, $\hat{\pi} \to \GL_r(\ol{\Q}_\ell)$ lands in $\GL_r(\ol{\Z}_\ell)$ so we are done. However, the representation we started with probably does not fit into such a diagram. The game will be to ``approximate'' $\rho$ by -- for each $\ell$ -- a representation of the above form.
+\bigskip\\
+For $\ell \gg 0$ it turns out this is easy just by generic smoothness of $\epsilon : M \to \Spec{\ZZ}$. To get the other primes, we need some technology: companions for arithmetic representations. This technology is for representations of the fundamental group of a variety over $\FF_p$. Since $\hat{\pi}_1 = \pi_1^{\et}(X_{\CC})$ we can spread out $X$ over characteristic $p$ and use Grothendieck specialization maps to obtain a representation of a variety over $\FF_p$. However, the specialization map only exists when $X$ is proper. To handle the quasi-projective case, we need the tame fundamental group.
+
+\subsection{Tame Fundamental Groups} 
+
+
+\subsection{Arithmetic Representations}
+
+\subsection{Companions}
+
+\subsection{Local Structure: de Jong's Theorem}
+
+Drinfelds solution to de Jong's conjecture allows us to approximate by arithmetic representations of $\pi_1^t(X_{\ol{\FF}_p})$ for $p \gg 0$. 
+
+\section{Helene}
+
+\subsection{Preliminaries}
+
+Let $B$ be an effective divisor on a projective smooth variety $Y$ over $\CC$. We set
+\[ B = \sum v_j E_j \]
+where $E_j$ are the irreducible components of $B$. If we suppose that the divisors is assoicated to a positive power $\L^{\ot d}$ of a line bundle $\L$ meaning $\L^d = \struct{Y}(\sum v_j E_j)$ we write for $i \ge 0$
+\[ \L^{(i)} := \L^i \ot \struct{Y}(-\sum \floor{ v_j \cdot i \cdot d^{-1}} \cdot E_j) \]
+If $0 \le i < d$ the definition of $\L^{(i)}$ involves those $E_j$ for whcich $v_j \ge 2$. When we want to highlight the role of the reduced diviso $D$ of $B$ we write
+\[ B = D + \sum_{v_j \ge 2} v_j \cdot E_j \text{ or } D = \sum_{v_j = 1} v_j \cdot E_j \]
+We suppose that the divisor $B$ is strict normal crossings (SNC). The section $s$ of $\L^{\ot d}$ with support $B$ then defines a sheaf of $\struct{Y}$-modules
+\[ \cA = \bigoplus_{i = 0}^{d-1} \L^{-\ot i} \]
+which the strucrure of an algebra. The multiplication is defined by
+\[ \L^{-i} \oplus \L^{-j} \to \L^{-i} \ot \L^{-j} \to \L^{-i -j} \]
+and we identify $\L^{-d} \embed \struct{Y}$ by the dual of $s$. Let $W$ denote the normalization of $\rSpec{Y}{\cA}$ and $V \to W$ a resolution of singularities so we get a diagram
+\begin{center}
+\begin{tikzcd}
+V \arrow[rd, "f"] \arrow[r, "g"] & W \arrow[d, "\tau"]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+The variety $W$ is called the $d$-th root of the divisor $B$. 
+
+\begin{lemma}
+$W$ has rational singularities. In particular $W$ is Cohen-Macaulay and $\tau$ is flat. Furthermore
+\[ \tau_* \struct{W} = \bigoplus_{i = 0}^{d-1} (\L^{(i)})^{-1} \quad \R f_* \struct{V} = \bigoplus_{i = 0}^{d-1} (\L^{(i)})^{-1} [0] \]
+\end{lemma}
+
+\begin{theorem}
+Let $Y, B, \L$ be as above and let $\omega_Y$ be the canonical bundle. Suppose that the Kodiara dimension of $\L$ satisfies $\kappa(\L) = \dim{Y} = n$ and $\L$ is is generated by global sections. Then
+\[ H^q(Y, \omega_Y \ot \L^{(i)} \ot \L^k) = 0 \]
+for all $k > 0, q > 0$ and $i \ge 0$.
+\end{theorem}
+
+\begin{proof}
+Serre duality and Kawamata-Vieweg vanishing for $V$.
+\end{proof}
+
+\begin{theorem}
+Let $Y,B,\L$ as above. Suppose that $\kappa(\struct{Y}(D)) = \dim{Y}$. Then
+\[ H^q(Y, \omega_Y \ot \L^{(i)}) = 0\]
+for all $q > 0$ and $d > i > 0$.
+\end{theorem}
+
+\begin{proof}
+The proof is based on three facts:
+\begin{enumerate}
+\item the caluation of $\L^{(i)}$ in (2.2)
+\item the symmetry of Hodge numbers on $V$
+\item the formation of differential forms with logarithmc poles on a divisor with normal crossings.
+\end{enumerate}
+\end{proof}
+
+\subsection{•}
+
+Let $X^0$ be quasi-projective smooth subvariety of dimension $m \ge 1$ in $\P^n$. Let $Z$ be the closure and $\pi : X \to Z$ a birational map such that $X$ is smooth projective. In the proof of Theorem I, we construct sections of certain line bundles on $X$ which we want to identify with the restriction to $X^0$ of polynomial functions on $\P^n$. We do this using the ``section hunting'' proposition as follows. Let $X'$ be the normalization of $Z$ and write
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "\pi"] \arrow[d]
+\\
+X' \arrow[r, "\pi'"] & Z \arrow[r, hook] & \P^n
+\end{tikzcd}
+\end{center}
+for the corresponding maps. Let $U$ be the smooth locus of $X'$. For any variety $U'$ with a mrophism $\varphi : U' \to \P^n$ we set $\struct{U'}(1) = \varphi^* \struct{\P^n}(1)$. For any $\ell$< call $\theta_\ell$ the composition of the canonical maps
+\[ H^0(\P^n, \struct{\P^n}(\ell)) \to H^0(Z, \struct{Z}(\ell)) \to H^0(X', \struct{X'}(\ell)) \to H^0(U, \struct{U}(\ell)) \]
+
+\begin{prop}
+There is an injection
+\[ j : \omega_U \to \struct{U}(\deg{X^0} - m - 2) \]
+such that for all $k$, the image under $j$ of $H^0(U, \omega_U \ot \struct{U}(k))$ inside $H^0(U, \struct{U}(\deg{X^0} - m - 2 +k ))$ is contaied in the image of $\theta_{\deg{X^0} - m - 2 + k'}$. 
+\end{prop}
+
+\subsection{Proof of Theorem I}
+
+We consider the situation of Part 1. Let $X^0$ be smooth and quasi-projective of dimension $m$ and $Z$ the closure. Let $\{ X_j^0 \}$ be (integral) subvarities of $X^0$ of dimensions $n_j$ and $Z_j$ the closures inside $Z$. 
+\par 
+We write $X'$ for the normalization of $Z$ {\color{red} (corrected from $X$)}. Then choose a resolution $\pi : X \to X'$. 
+\par 
+We construct a desingularization of the divisor $V(s)$ associated to the section $s$ in Theorem I. 
+
+
+
+\section{Cubic Fourfolds}
+
+$X \subset \P^5$ a smooth cubic four-fold. First we consider the Hodge diamond. By Lefschetz we just need to understand the middle row. 
+\begin{enumerate}
+\item $H^4(X, \struct{X}) = H^4(X, \omega_X(3)) = 0$ by Kodaira vanishing
+\item for $H^3(X, \Omega_X^1)$ we use
+\[ 0 \to \struct{X}(-3) \to \Omega^1_{\P^5}|_X \to \Omega_X^1 \to 0 \]
+so by Kodaira vanishing we get
+\[ H^3(X, \Omega_X^1) \iso H^4(X, \struct{X}(-3)) = H^4(X, \omega_X) = \CC \]
+\item $\chi_{\text{top}}(X) = \deg c_4(\T_X)$. Thus we get
+\[ h^{22} + 6 = \deg c_4 \]
+and we use the SES
+\[ 0 \to \T_X \to \T_{\P^5}|_X \to \struct{}(3) \to 0 \]
+and hence
+\[ c(\T_X) = c(\T_{\P^5}) / (1 + 3 H) = \frac{(1 + H)^6}{1 + 3 H} = 1 + 3 H + 6 H^2 + 2 H^3 + 9 H^4 \]
+and $\deg{H^4} = 3$ so $\deg{c_4} = 27$ and thus $h^{22} = 21$. 
+\end{enumerate}
+The question is: when is $X$ rational? For $X_d \subset \P^{n+1}$ surface if $d = 1,2$ then it is rational. Therefore, $d = 3$ is the first interesting case. 
+\begin{enumerate}
+\item if $X_3$ is a curve it has genus $1$ so is not rational
+\item if $X_3$ is a surface then it is rational
+\item if $X_3$ is a 3-fold it is not rational (Clemens-Griffiths)
+\item if $X_3$ is a 4-fold ... well this is interesting
+\item if $X_3$ has $\dim{X_3} > 5$ or something it is rational
+\end{enumerate}
+
+\begin{example}
+Fix two planes:
+\[ P_1 = \{ u = v = w = 0 \} \quad P_2 = \{ x = y = z = 0 \} \]
+in $\P^5$ and let $X$ be a cubic 4-fold containing $P_1, P_2$. Consider
+\[ \varphi : P_1 \times \P^2 \rat X \]
+given by
+\[ (p, q) \mapsto (\ell_{p,q} \cap X) \sm \{ p, q \} \]
+there is a unique extra intersection point since the line intersects in three points. More precisely, $\varphi$ is defined outside the locus at which $\ell_{p,q} \subset X$ which is a surface. We can always write $X = V(F_1 + F_2)$ where $F_1$ has bidegree $(2,1)$ and $F_2$ has bidegree $(1,2)$ (wrt the variables $x,y,z$ and $u,v,w$) usually there is a bidegree $(0,3)$ and $(3,0)$ part but these are zero if it contains the planes. Then the non-defined locus $S$ is a K3 surfaces $V(F_1, F_2) \subset P_1 \times P_2$.
+\end{example}
+
+\begin{example}
+Suppose $X$ contains a plane then there is a map
+\[ q : \Bl_P(X) \to \P^2 \]
+projecting away from the plane. The fibers are quadric surfaces (these are the residuals of the intersection of a $3$-space containing $P$ with $X$). Then $X$ is rational if $q$ admits a rational section since then it is birational to $\P^2 \times \P^1 \times \P^1$. 
+\end{example}
+
+Consider $F_1(q)$ be the relative Fano scheme of lines for the map $q$. This is a fibration over $\P^2$. The map
+\[ F_1(q) \to \P^2 \]
+has general fiber a disjoint union of two lines. The stein factorization
+\[ F_1(q) \to S \to \P^2 \]
+gives a degree $2$ cover $S \to \P^2$ branched over a sextic and $S$ is a K3 surfaces. And $F_1(q) \to S$ is a smooth conic bundle. 
+
+\begin{prop}
+$q$ admits a rational section iff $r : F_1(q) \to S$ admits a rational section (i.e. it is a trivial Brauer class on $S$). 
+\end{prop} 
+
+\begin{defn}
+A polarized K3 surface $(X, L)$ is associated with $X$ if there exists a surface $T$ on $X$ non-homologous to a complete intersection such that $\left< h^2, T \right>^{\perp} \subset H^4(X, \ZZ)$ is isomorphic to $\left< L \right>^\perp \subset H^2(S, \Z)(-1)$.
+\end{defn}
+
+\begin{conj}
+Let $X$ be a cubic 4-fold. Then $X$ is rational iff it admits an associated K3 surface. 
+\end{conj}
+
+It is known that admitting an associated K3 surface is equivalent to $F_1(X)$ being birational to a Moduli space of stable sheaves on a K3. 
+
+\section{Twisted Intermediate Jacobian Fibrations}
+
+\newcommand{\cY}{\mathcal{Y}}
+
+Setup: $X \subset \P^5$ smooth cubic $4$-fold. Let $B := \{ [H] \mid H \subset \P^5 \} \cong (\P^5)^\vee$. Then we get a fibration
+\[ p : \cY \to B \]
+whose fibers are $X \cap H_b$ for $b \in B$ called the universal hyperplane section. Recall: cohomology of the generic fiber which is a cubic $3$-fold
+\[ H^i(Y, \Q) \cong \begin{cases}
+\Q & i = 0,2,6
+\\
+\Q^{\oplus 10} & i = 4
+\\
+0 & i = \text{odd}
+\end{cases} \]
+The intermediate Jacobian associated a smooth cubic $3$-fold $Y$ is given by the Hodge filtration
+\[ H^3(Y, \CC) \supset F^1 \supset F^2 \supset 0 \]
+then we define
+\[ J(Y) = \frac{(F^2 H^3)^\vee}{H^3(Y, \ZZ)} \]
+is a ppav of dimension $5$. Goal to do this for the family $p : \cY \to B$. What about the singular fibers? 
+\par 
+Proposed candiate: $(R^2 p_* \Omega_{\cY}^1) / R^3 p_* \Z_{\cY}$
+
+\begin{rmk}
+Note that $R^2 p_* \Omega^1_{\cY/B} = R^2 p_* \Omega^1_{\cY}$ because $R^1 p_* \struct{\cY} = 0$ for all $i > 0$. 
+\end{rmk} 
+
+\subsection{•}
+
+Over the smooth locus $U \subset B$ of $p$ we have a VHS 
+\[ (\Lambda_U := R^3 p_* \Z_{\cY_U}, \Lambda_{\CC}, F^\bullet \Lambda_{\CC}) \]
+and so we can associate an intermediate Jacobian
+\[ J(\Lambda_U) := \frac{(F^2 \Lambda_{\CC})^\vee}{R^3 p_* \Z_{\cY}} \cong \frac{R^2 p_* \Omega_{\cY}}{R^3 p_* \Z_{\cY}} \]
+
+\begin{prop}
+The injection
+\[ \Lambda \to \Lambda_{\CC} \to (F^2 \Lambda)^\vee \]
+ extends to an injection
+ \[ \Lambda := R^3 p_* \Z_{\cY} \to R^2 p_* \Omega^1_{\cY} \]
+\end{prop}
+
+\begin{rmk}
+$R^2 p_* \Omega^1_{\cY}$ is a locally free sheaf isomorphic to $\Omega^1_B$.
+\end{rmk}
+
+\begin{proof}
+Consider the exponential sequence
+\[ 0 \to \Z_{\cY} \to \struct{\cY} \to \struct{\cY}^\times \to 0 \]
+and we get
+\[ R^3 p_* \Z_{\cY} \cong R^2 p_* \struct{\cY}^\times \xrightarrow{\d{\log}} R^2 p_* \Omega_{\cY}^1 \]
+Step 2: need to show $R^3 p_* \Z_{\cY}$ is an irreducible sheaf. 
+\end{proof}
+
+Therefore we can define
+\[ J := \frac{R^2 p_* \Omega^1_{\cY}}{R^3 p_* \Z_{\cY}} \]
+is an abelian sheaf on $B$. 
+
+\subsection{Hodge Modules}
+
+Schnell: complex analytic Neron model. Recall, given a VHS of weight $2k + 1$ and level $1$ (meaning there is only two steps in the Hodge filtration $\Lambda \supsetneq F^k \supsetneq F^{k+1} \supsetneq 0$). Call it $(\Lambda, \Lambda_{\CC}, F^\bullet \Lambda_{\CC})$. On $U \subset B$ we have $(\Lambda_U, F^\bullet \Lambda)$ a VHS.
+\[ J(\Lambda_U) = \frac{(F^{k+1} \Lambda_{\CC})^{\vee}}{\Lambda_U} \]
+On $B$, let $\M$ be the minimal extension of $\Lambda_{\CC}$ as a Hodge module 
+\[ J(\M) := \frac{(F_{-k-1} \M)^{\vee}}{j_* \Lambda_U} \]
+Schnell shows:
+\begin{enumerate}
+\item total space is Hausdorff
+\item its formation commutes with smooth base change $B' \to B$
+\item Extends admissible normal functions without singularities w/o singularities (??) 
+\end{enumerate}
+
+\begin{prop}
+Back to our VHS $(\Lambda_U, F^\bullet \Lambda_{\CC}$ 
+\begin{enumerate}
+\item $(F_{-k-1} \M)^\vee \cong R^2 p_* \Omega_{\cY}^1$
+\item $j_* \Lambda_U \cong \Lambda \cong R^3 p_* \Z_{\cY}$
+\end{enumerate}
+\end{prop}
+
+\newcommand{\DR}{\mathrm{DR}}
+
+\begin{proof}
+Main input: decomposition theorem
+\[ \R p_* \Q_{\cY}[8] = \Q_B [5][3] \oplus \Q_B[5][1] \oplus \R^3 p_* \Z_{\cY}[5] \oplus \Q_B[5][-1] \oplus \Q_B[5][-3] \oplus K \]
+we show that $K = 0$. Upshot $IC(\Lambda_U) = \Lambda[5]$. Moreover we get the Hodge-Module theoretic decomposition theorem
+\[ p_+ \struct{\cY} = \struct{B}[3] \oplus \struct{B}(-1) [1] \oplus \M \oplus \struct{B}(-2)[-1] \oplus \struct{B}(-3)[-2] \]
+Saito: 
+\[ \gr^F_{-k} \DR(p_+ \struct{\cY}) \cong \R p_* \gr^F_{-k} \DR(\struct{\cY}) \]
+For $k = 1$ we get
+\[ \gr_{-1}^F \DR(\struct{\cY}) = \Omega_{\cY}^1[7] \]
+and therefore by Saito
+\[ \R p_* \Omega_{\cY}^1[7] \cong \Omega_B^1[7] \oplus \struct{B}[6] \oplus \gr^F_{-1} \DR(\M) \]
+therefore
+\[ \gr^F_{-1} \DR(\M) \cong R^2 p_* \Omega^1_{\cY} \]
+\end{proof}
+
+
+
+\end{document}
