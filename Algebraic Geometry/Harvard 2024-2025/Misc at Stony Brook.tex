@@ -1,0 +1,194 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\dbar}{\bar{\partial}}
+\newcommand{\HH}{\mathbb{H}}
+\renewcommand{\gr}{\mathrm{gr}}
+\newcommand{\R}{\mathrm{R}}
+
+
+\begin{document}
+
+\section{Reieder's Theorem and separating Points}
+
+\begin{theorem}
+Let $X$ be a smooth projective surface and $L$ a nef line bundle with $L^2 > 0$. Suppose that for any effective divisor $D$ we have $D \cdot L \ge \alpha$. Then $|K_X + d L|$ separates at least
+\[ \min \{ \alpha (d - \alpha / L^2) - 1, (d/2)^2 L^2 \} \]
+distinct points.
+\end{theorem}
+
+\begin{rmk}
+This is optimal for $X = \P^2$ and $L = \struct{X}(1)$ and $\alpha = 1$. Indeed, $|K_X + d L|$ separates $d - 2$ points for $d > 2$ and no points for $d \le 2$. Indeed any smooth plane curve of degree $d \ge 2$ has gonality $d - 1$. 
+\end{rmk}
+
+\begin{lemma}
+If $|K_X + L|$ does not separate $d$-points then there exists a reduced subscheme $Z$ of length $d$ (the union of the bad points) and an extension
+\[ 0 \to \struct{X} \to \E \to \L \ot \I_Z \to 0 \]
+such that $\E$ is a vector bundle. 
+\end{lemma}
+
+\begin{proof}
+From the sequence
+\[ 0 \to \L \ot \omega_X \ot \I_Z \to \L \ot \omega_X \to \L \ot \omega_X \ot \struct{Z} \to 0 \]
+we have
+\[ H^0(X, \L \ot \omega_X) \to H^0(Z, L \ot \omega_X|_Z) \to H^1(X, L \ot \omega_X \ot \I_Z) \]
+Therefore, we get a map via Serre duality 
+\[ \Ext{1}{X}{\L \ot \I_Z}{\struct{X}} = H^1(X, \L \ot \omega_X \ot \I_Z)^\vee \to H^0(Z, \L \ot \omega_X|_Z)^\vee \]
+\end{proof}
+
+\begin{proof}[Proof of Theorem]
+Suppose it does not separate $m$ points. Then there is a length $m$ subscheme $Z$ and an extension
+\[ 0 \to \struct{X} \to \E \to L^{\ot d} \ot \I_Z \to 0 \]
+where $\E$ is a rank $2$ vector bundle. We compute
+\[ \det{\E} \cong L^{\ot d} \quad c_2(\E) = m \]
+suppose that
+\[ d^2 L^2 > 4 m \]
+meaning that $\E$ violates the Bogomolov inequality and hence is unstable. By Bogomolov's theorem, there is a destabilizing sequence
+\[ 0 \to \struct{X}(A) \to \E \to \struct{X}(B) \ot \I_W \to 0 \] 
+for divisors $A,B$ such that
+\begin{enumerate}
+\item $d L = A + B$
+\item $c_2(\E) = m = A \cdot B + \length{}{W}$
+\item $(A - B)^2 > 0$ and $(A - B) \cdot H > 0$ for all ample $H$.
+\end{enumerate}
+Now consider the diagram
+\begin{center}
+\begin{tikzcd}
+& & 0 \arrow[d]
+\\
+& & \struct{X}(A) \arrow[d] \arrow[rd, "\theta"]
+\\
+0 \arrow[r] & \struct{X} \arrow[r] & \E \arrow[r] \arrow[d] & \L \ot \I_Z \arrow[r] & 0
+\\
+& & \struct{X}(B) \ot \I_W \arrow[d]
+\\
+& & 0
+\end{tikzcd}
+\end{center}
+I claim the map $\theta$ is nonzero. Otherwise, there is a nonzero map $\struct{X}(A) \to \struct{X}$ meaning $-A$ is effective. By assumption $L \cdot A \le -\alpha < 0$ and
+\[ d L \cdot A = A^2 + A \cdot B \]
+Note that the following hold
+\begin{enumerate}
+\item $d^2 L^2 = A^2 + 2 A \cdot B + B^2 \ge 0$ since $L$ is nef
+\item $A^2 - B^2 = (A - B) \cdot (A + B) \ge 0$ since $L = A + B$ is nef and hence the limit is ample divisors
+\item $(A - B)^2 = A^2 - 2 A \cdot B + B^2 > 0$
+\end{enumerate}
+therefore 
+\[ 2 d L \cdot A = 2(A^2 + A \cdot B) = (A^2 + 2 A \cdot B + B^2) + (A^2 - B^2) \ge 0 \]
+a contradiction. Hence $\theta \neq 0$. This means there is an effective divisor $D$ continaing $W$ such that $D \sim d L - A = B$. By assumption, $L \cdot B \ge \alpha$.  
+
+Rewrite what we know,
+\begin{enumerate}
+\item $(d L - 2 D)^2 > 0$
+\item $(d L - 2 D) \cdot L \ge 0$
+\item $(d L - D) \cdot D = m - \length{}{W} \le m$
+\end{enumerate}
+Therefore, by Hodge index, {\color{red} need a strict inequality}
+\[ (L \cdot D)^2 d \ge (L^2 D^2) d > 2 (L \cdot D) D^2 \ge 2 (L \cdot D) ((L \cdot D)d - m) \]  
+Furthermore, $L \cdot D \ge \alpha$ by assumption. Dividing by $L \cdot D$ we get,
+\[ \tfrac{d}{2} (D \cdot L) > D^2 \ge d (D \cdot L) - m \]
+We set,
+\begin{align*}
+a &= D \cdot L
+\\
+b &= D^2
+\end{align*}
+so we have inequalities
+\begin{align*}
+a &\ge \alpha
+\\
+\tfrac{d}{2} \alpha &\ge b \ge d a - m
+\end{align*} 
+\end{proof}
+
+
+\section{Complete Intersections and smooth extensions}
+
+\newcommand{\cZ}{\mathcal{Z}}
+
+Question: when does a smooth complete intersection $X \subset \P^{n+r}$ have an extension $X'$ to a smooth complete intersection of one larger dimension.
+
+\begin{lemma}
+Let $X$ be smooth and $\I_Z \subset \struct{X}$ the ideal sheaf of a smooth subvariety $Z \subset X$ with $\dim{Z} < \frac{1}{2} \dim{X}$. If $\I_Z \ot \L$ is globally generated for some $\L$ then the generic section $s \in H^0(X, \I \ot \L)$ defines a smooth hypersurface $V(s)$. 
+\end{lemma}
+
+\begin{proof}
+Let $P = \P(H^0(X, \I \ot \L))$ and consider the incidence correspondence $\X \subset P \times X$ of $(s, x)$ for $s(x) = 0$. Further, let $\cZ \subset \X$ be the locus $(s, x)$ where $s(x) = 0$ and $x$ is a singular point of $V(s)$. Consider the map $S \to X$. The fiber of $x$ consists of the projectivization of the linear space of those $s$ such that
+\begin{enumerate}
+\item $\bar{s} \in \L / \m_x \L$ is zero
+\item $\bar{s} \in \m_x \L / \m_x^2 \L$ is zero
+\end{enumerate}
+For $x \notin Z$ we see that $H^0(X, \I_Z \ot \L) \to \L / \m_x^2 \L$ is surjective so the fiber has dimension $(\dim{P} + 1) - (\dim{X} + 1) - 1 = \dim{P} - \dim{X} - 1$. For $x \in Z$ we get 
+\[ H^0(X, \I_Z \ot \L) \to \I_x \L / \m_x^2 \L \]
+is surjective because $\I \ot \L$ is globally generated. Since $Z$ is smooth, $\I_x$ is cut out by a regular sequence so this vector space has dimension $\dim{X} - \dim{Z}$. Therefore, the fibers over this point has dimension
+\[ (\dim{P} + 1) - (\dim{X} - \dim{Z}) - 1 = \dim{P} - \dim{X} + \dim{Z} \]
+Therefore, by the following lemma
+\[ \dim{\X} \le \max \{ \dim{P} - 1, \dim{P} - \dim{X} + 2 \dim{Z} \} \]
+Hence, as long as $\dim{X} - 2 \dim{Z} \ge 1$ we see that $\X \to P$ cannot be dominant. 
+\end{proof}
+
+\begin{lemma}
+If $X \to Y$ is a map of finite type $k$-schemes with $Y$ irreducble. Let $Z \subset Y$ be a closed subscheme. Suppose that $X_y \le d_1$ for $y \in Z$ and $X_y \le d_2$ for $y \in Y \sm Z$. Then 
+\[ \dim{X} \le \max \{ d_1 + \dim{Z}, d_2 + \dim{Y} \} \]
+\end{lemma}
+
+\begin{proof}
+Write $X = X_1 \cup \cdots \cup X_r$ be the irreducible components. It suffices to prove the claim for each $X_i$. We know that $(X_i)_y$ also satisfies the dimension bounds. If $X_i \to Y$ factors through $Z$ then a general fiber (over its image) has dimension $\le d_1$ hence $\dim{X_i} \le d_1 + \dim{Z}$. Otherwise, the general point of the image is not contained in $Z$ so the general fiber has dimension $\le d_2$ hence $\dim{X_i} \le d_2 + \dim{Y}$. Therefore, we win. 
+\end{proof}
+
+
+Now let $X \subset \P^{n+r}$ be a complete intersection of type $(d_1, \dots, d_r)$ with $d_1 \le d_2 \le \cdots \le d_r$. Suppose $2n < n + r$ i.e. $n < r$ then if $\I_X(d)$ is globally, generated, we can put $X \subset X_d$ for a smooth hypersurface $X_d$. Note that
+\[ \struct{}(-d_1) \oplus \cdots \oplus \struct{}(-d_r) \onto \I_{X} \]
+therefore $\I_{X}(d_r)$ is globally generated. 
+
+\begin{lemma}
+Let $X \subset \P^{n+r}$ be a smooth complete intersection of multidegrees $d_1 \le d_2 \le \cdots \le d_r$. Then there exists an extension $X \subset X' \subset \P^{n+r}$ where $X'$ is a smooth complete intersection of type $(d_{i}, \dots, d_r)$ such that $X$ is cut out by the same equations $(d_1, \dots, d_{i-1})$ in $(X', \struct{X'}(1))$ as long as $i > \dim{X}$
+\end{lemma}
+
+\begin{proof}
+Let $(X, \struct{X}(1))$ be smooth projective with $\struct{X}(1)$ very ample such that $H^i(X, \struct{X}(d)) = 0$ for all $0 < i < \dim{X}$ and all $d$. Let $Z \subset X$ a smooth complete intersection of multidegrees $d_1 \le d_2 \le \cdots \le d_r$. If $2 r > \dim{X}$ then there exists a smooth hypersurface $X_{d_r} \subset X$ containing $Z$ such that $Z$ is a complete intersection of type $(d_1, \dots, d_{r-1})$ in $(X_d, \struct{X_d}(1))$. Note:
+\[ 2 \dim{Z} = 2(\dim{X} - r) < \dim{X} \iff 2 r > \dim{X} \]
+Indeed, because
+\[ \struct{X}(-d_1) \oplus \cdots \oplus \struct{X}(-d_r) \onto \I_Z \]
+we see that $\I_Z(d_r)$ is globally generated so we can apply the lemma. Therefore, there exists $Z \subset X_d$ with $X_d$ smooth. We just need to show that $Z$ is a complete intersection in $X_d$. Let $f_i \in H^0(X, \struct{X}(d_i))$ be the sections cutting out $Z$ and $f' \in H^0(X, \struct{X}(d_r))$ the section defining $X_d$. Consider
+\[ \struct{X_d}(-d_1) \oplus \cdots \oplus \struct{X_d}(-d_{r-1}) \to \I_{Z|X_d} \]
+we need to show this is surjective. Consider the Kozul resolution $\E^\bullet$ of $Z$
+\[ 0 \to \struct{X}(-(d_1 + \cdots + d_r)) \to \cdots \to \struct{X}(-d_1) \oplus \cdots \oplus \struct{X}(-d_r) \to \I_Z \to 0 \]
+Then we get a spectral sequence
+\[ E_1^{p,q} = H^q(X, \E^p(d)) \implies H^{p+q}(X, \I_Z(d)) \]
+Then by the vanishing property, $E^{p,q}_1 = 0$ for $q \neq 0,n$ where $n = \dim{X}$. Since $\E^\bullet$ is supported in degrees $[-(r-1), 0]$ and $r \le \dim{X}$ so if $p + q = 0$ then $E^{p,q}_1 = 0$ except for $E_1^{0,0}$. Furthermore, the differentials
+\[ \d_r : E_r^{0,0} \to E_r^{r,1-r} \]
+are zero because $r > 0$ so we see there is a surjection
+\[ E_1^{0,0} \to H^0(X, \I_Z(d)) \]
+Hence, for $d = d_r$, we can write
+\[ f' = \lambda_1 f_1 + \cdots + \lambda_r f_r \]
+where $\lambda_i \in H^0(X, \struct{X}(d_r - d_i))$ and $\lambda_r \in \CC$. Since the generic element is smooth, we can choose $X_d$ so that $\lambda_r \neq 0$ therefore in $\struct{X_d}$ we see that $f_r$ is in the image of the above map. Hence it is surjective because $\I_{Z|X_d}$ is generated by $f_1, \dots, f_r$. 
+\bigskip\\
+Now we run induction. We can run it as long as $2 \dim{Z} < \dim{X}$ therefore we run until we get $Z \subset X' \subset X$ such that $\dim{X'} = 2 \dim{Z}$ meaning $Z \subset X'$ is type $(d_1, \dots, d_i)$ and $X' \subset X$ is type $(d_{i+1}, \dots, d_r)$ in $X$. Hence
+\[ \dim{X'} = \dim{X} - (r - i) \quad \dim{Z} = \dim{X} - r \]
+so we must have
+\[ 2 (\dim{X} - r) = \dim{X} - (r - i) \]
+so $i = \dim{X} - r$.  
+\end{proof}
+
+For example, if $r = \dim{X} - 1$ (the case $\dim{Z} = 1$) then $i = 1$ and we can extend to a smooth surface.
+
+
+\begin{rmk}
+Consider $f_1 = x, f_2 = y, f_3 = z$ and $f' = x+y$ in $\P^4$ then $Z = V(f_1, f_2, f_3) \subset V(f')$ but obviously $Z$ is not cut out by $f_1, f_2$ inside $X_1 = V(f')$.
+\end{rmk}
+
+Question: if we don't assume the vanishing, is this false?
+
+
+\section{TODO}
+
+\begin{enumerate}
+\item Work out the Ryidl-Yang proof.
+\item Reieder for 3-folds and elliptic curves on Calabi-Yau
+\item numerics 
+\end{enumerate}
+
+
+\end{document}

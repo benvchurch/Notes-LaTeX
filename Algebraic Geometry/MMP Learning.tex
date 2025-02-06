@@ -1,0 +1,411 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+\renewcommand{\U}{\mathfrak{U}}
+
+\begin{document}
+
+\section{Small Contractions}
+
+We want to study the structure of birational maps $f : X \to Y$. From experience with smooth varities we expect the exceptional locus to be a divisor. First, we define the exceptional locus.
+
+\newcommand{\Ex}[1]{\mathrm{Ex}\left(#1 \right)}
+
+\begin{defn}
+Let $f : X \to Y$ be a birational map of varieties. Then there exists a largest open $U \subset Y$ such that $f : f^{-1}(U) \to U$ is an isomorphism. Then the \textit{exceptional locus} if the closed subscheme,
+\[ \Ex{f} = X \sm f^{-1}(U) \]
+\end{defn}
+
+\begin{prop}[Kollar-Mori, Cor. 2.63]
+If $f : X \to Y$ is birational where $X$ is projective and $Y$ is $\Q$-factorial then $\Ex{f}$ is pure codimension $1$.
+\end{prop}
+
+\begin{proof}
+Heuristically, $f$ is projective hence is a blowup at some ideal $\I \subset \struct{Y}$. Using the methods [Hartshorne, Ex. 7.11] (which only requires that $Y$ has $\Q$-factorial singularities) we modify $\I$ such that it has support equal to $Y \sm U$ where $U$ is the largest open over which $f$ is an isomorphism. Therefore, $\Ex{f}$ is the total transform of $V(\I)$ which is a Cartier divisor by the definition of blowing up.
+\end{proof}
+
+\begin{example}
+Let $Y = \Spec{k[x,y,z,w]/(xy - zw)}$ be the affine cone over a the quadric surface $Q = \Proj{k[x,y,z,w]/(xy - zw)}$. Thus $Y$ which has an isolated singularity at the origin which is not $\Q$-factorial. Indeed, consider the prime divisor,
+\[ D = V(x,z) \]
+Then I claim that $n D$ is never Cartier for $n \neq 0$. Indeed, the vanishing of each coordinate function $x,y,z,w$ contains components.
+\bigskip\\
+Set $\wt{X} = \Bl_0 Y$ which has exceptional fiber $Q$. We can blow down along the two rulings to get two smooth $3$-folds,
+\begin{center}
+\begin{tikzcd}
+& \wt{X} \arrow[ld] \arrow[rd]
+\\
+X \arrow[rd] & & X^+ \arrow[ld]
+\\
+& Y
+\end{tikzcd}
+\end{center}
+These can be described as the blowups along $I = (x,z)$ and $I^+ = (x,w)$. Since the exceptional of $\wt{X} \to Q$ is codimension $1$ then by contracting $Q$ to a curve on $X$ and $X^+$ we see that these blowups $X \to Y$ and $X^+ \to Y$ has codimension $2$ exceptional divisors.
+\bigskip\\
+Let's compute this in coordinates. By symmetry, it suffices to consider $X \to Y$ which is the blowup of $I = (x, z)$. Then,
+\[ \Bl_I(A) = A[u,v]/(uz - vx, uy - vw) \]
+Then we get two charts for $X$,
+\begin{align*}
+U_0 &= \Spec{A[\tfrac{u}{v}]/(\tfrac{u}{v} z - x, \tfrac{u}{v} y - w)} = \Spec{k[y,z,\tfrac{u}{v}]} \\
+U_1 &= \Spec{A[\tfrac{v}{u}]/(z - \tfrac{v}{u} x, y - \tfrac{v}{u} w)} = \Spec{k[x,w,\tfrac{v}{u}]}
+\end{align*}
+so we indeed see that $X$ is smooth (in fact it is locally affine space). The fiber over $I$ is,
+\[ f^{-1}(V(I)) = \Proj{k[y,w][u,v]/(uy - vw)} \]
+However, this is \textit{not} the exceptional locus since $I$ is invertible on $Y \sm \{ 0 \}$. Indeed, the exceptional locus is exactly over the origin since these are blowdowns of $\wt{X}$. Then the exceptional locus is,
+\[ E = \Proj{\Bl_I(A) / \m \Bl_I(A)} = \Proj{k[u,v]} \]
+which is a copy of $\P^1$. 
+\end{example}
+
+\begin{defn}
+A \textit{small contraction} is a birational map $f : X \to Y$ with $\codim{\Ex{f}, X} \ge 2$.
+\end{defn}
+
+\begin{rmk}
+We have seen if $Y$ is not $\Q$-Cartier there are often small contractions. However, this does not always happen. For example, if $Y$ is the projective cone over a degree $d$ plane curve, this is normal and projective but not $\Q$-factorial. However, there is no small contraction over $Y$. Indeed, since $\dim{Y} = 2$, such a small contraction would have zero dimensional exceptional locus. However, $Y$ is normal so any birational map has connected fibers. Thus, we see that small contractions are a dimension $\ge 3$ phenomenon. 
+\end{rmk}
+
+\begin{example}
+Consider the $1$-forms,
+\begin{align*}
+\omega &= \d{x} \quad U_0 : \tfrac{u}{v} \d{z} + z \d{\tfrac{u}{v}} && U_1 : \d{z}
+\\
+\omega &= \d{y} \quad U_0 : \d{y} &&  U_1 : \tfrac{v}{u} \d{w} + w \d{\tfrac{v}{u}} 
+\\
+\omega &= \d{z} \quad U_0 : \d{z} && U_1 : \tfrac{v}{u} \d{x} + x \d{\tfrac{v}{u}} 
+\\
+\omega &= \d{w} \quad U_0 : \tfrac{u}{v} \d{y} + y \d{\tfrac{u}{v}} &&  U_1 : \d{w}
+\end{align*}
+So we see that for each of these $1$-forms, one vanishes on exactly one but not both of the flops. Moreover, the form $\omega = \d{\tfrac{u}{v}}$ flops to the rational form $- \left( \tfrac{v}{u} \right)^{-2} \d{\tfrac{v}{u}}$.
+\end{example}
+
+
+\section{Inversion of Adjunction}
+
+
+\subsection{Pairs}
+
+\begin{defn}
+A \textit{pair} $(X, \Delta)$ over a base scheme $B$ is a $B$-scheme $X$ and a $\Q$-divisor $\Delta$ on $X$ satisfying
+\begin{enumerate}
+\item $B$ is regular, excellent, and pure dimensional
+\item $X$ is reduced, pure dimensional, $S_2$, excellent scheme that has a canonical sheaf $\omega_{X/B}$
+\item the canonical sheaf $\omega_{X/B}$ is locally free outside a codimension $2$ subset (automatic if $X$ is normal)
+\item $\Delta = \sum a_i D_i$ is a $\Q$-linear combination of distinct prime divisors non contained in $\Sing(X)$. We allow the $a_i$ to be arbitrary rational numbers. 
+\end{enumerate}
+\end{defn}
+
+It is tricky to give the most general conditions in which a canonical sheaf exists. However, we have one in the following situation:
+
+\begin{prop}
+Suppose there is an open $j : X^0 \embed X$ an a locally closed embedding $\iota : X^0 \embed \P^N_B$ such that
+\begin{enumerate}
+\item $Z : X \sm X^0$ has codimension $\ge 2$ in $X$
+\item $\iota(X^0)$ is lci in $\P^N_B$
+\end{enumerate}
+let $I$ denote the ideal sheaf of $\ol{\iota(X^0)}$ then $I / I^2$ is locally free on $\iota(X^0)$ so we set
+\[ \omega_{X^0/B} = \iota^* (\omega_{\P^N_B/B} \ot \det(I/I^2)^{-1}) \]
+then the canonical sheaf of $X$ over $B$ is
+\[ \omega_{X/B} := j_* \omega_{X^0 / B} \]
+\end{prop}
+
+\renewcommand{\Diff}{\mathrm{Diff}}
+
+\subsection{Birational Maps}
+
+\begin{defn}
+A rational map of reduced schemes $f : X \rat Y$ is \textit{birational} if there are dense open subschemes $U_X \subset X$ and $U_Y \subset Y$ such that $f|_{U_X} : U_X \to U_Y$ is an isomorphism. Among all pairs $(U_X, U_Y)$ there is a maximal one $(U_X^m, U_Y^m)$. The complement $\Exc(f) := X \sm U^m_X$ is called the \textit{exceptional set} or \textit{locus} of $f$. 
+\end{defn}
+
+\begin{rmk}
+Note that if $X$ is pure dimensional and $f : X \rat Y$ is birational then $Y$ is pure dimensional.
+\end{rmk}
+
+\begin{defn}
+Let $f : X \rat Y$ be birational and $Z \subset X$ be a closed subscheme such that $Z \cap U^m_X$ is dense in $Z$. Then the closure of $f(Z \cap U_X^m) \subset Y$ is called the \textit{birational transform} of $Z$ denoted as $f_* Z$.  
+\end{defn}
+
+\begin{rmk}
+CAUTION: if $f$ is not a morphism then $f_*$ need not preserve linear or algebraic equivalence. Furthermore, if $D := Z$ is a divisor then $\struct{Y}(f_* D)$ and $f_* \struct{X}(D)$ agree on $U_Y$ but not elsewhere. 
+\end{rmk}
+
+\begin{lemma}
+If $f : Y \to X$ is a birational morphism then $f^{-1} : X \rat Y$ has maximal opens $(U_X^m, U_Y^m)$ satisfying $(X \sm U_X^m) \sm \Sing(X)$ has codimension $2$ in $X$ and $U_Y^m = \Exc(f)$.
+\end{lemma}
+
+\begin{proof}
+Indeed, it is clear that $(U_X^m, U_Y^m)$ is the flip of the maximal open for $f$ so the second statement is immediate. We need to show that every prime divisor on $X \sm \Sing(X)$ meets $U_X^m$. Since we removed the singular locus we can assume that $X$ is smooth and irreducible. By Zariski's main lemma, either $f$ is an isomorphism over the generic point of $D$ or the fiber is positive dimensional meaning, by dimension reasons that there is a component of $Y$ mapping into $D$ which violates the definition of a birational map. 
+\end{proof}
+
+\begin{rmk}
+Hence if $D \subset X$ is a divisor with no component inside $\Sing(X)$ and $Y \to X$ is a birational morphism then $f^{-1}_* D$ is well-defined. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a reduced scheme. A \textit{divisor over} $X$ is a pair $(f : Y \to X, E)$ of a birational morphism $f : Y \to X$ and a divisor $E \subset Y$. The \textit{center} of $E$, denoted $\cent_X E$ is the closure of $f(E) \subset X$.   
+\end{defn}
+
+\section{Discrepancies and Singularities}
+
+\begin{defn}
+Let $(X, \Delta)$ be a pair. Assume that $m (K_X + \Delta)$ is Cartier for some $m > 0$. This means $m \Delta$ is integral and $\omega_X^{[m]}(m \Delta)$ is locally free. Suppose $f : Y \to X$ is a (not necessarily proper) birational morphism from a reduced scheme $Y$. Let $E \subset Y$ denote the exceptional locus of $f$ and $E_i \subset E$ the irreducible exceptional divisors. We assume $Y$ is regular at the generic point of each $E_i$ (automatic if $Y$ is normal). Let 
+\[ f_*^{-1} \Delta := \sum a_i f_*^{-1} D_i \quad \text{ where } \quad \Delta = \sum a_i D_i \]
+denote the birational transform. The natural isomorphism
+\[ t_{Y \sm E} : \omega_Y^{[m]}(m f_*^{-1} \Delta)|_{Y \sm E} \iso f^* \left( \omega_X^{[m]}(m \Delta) \right) |_{Y \sm E} \]
+implies that there are rational numbers $a(E_i, X, \Delta)$ such that $m a(E_i, X, \Delta)$ are integers and $t_{Y \sm E}$ extends to an isomorphism
+\[ t_Y : \omega_Y^{[m]}(m f_*^{-1} \Delta) \iso f^* \left( \omega_X^{[m]}(m \Delta) \right) \left( \sum_i m \cdot a(E_i, X, \Delta) E_i \right) \]
+For any divisor $D \subset Y$ that is not exceptional, we define 
+\[ a(D, X, \Delta) := - \coeff_{f_* D}(\Delta) \]
+These numbers are called \textit{discrepacies} of $D$ with respect to $(X, \Delta)$. The above fundamental relation can be writen as
+\[ K_Y + f_*^{-1} \Delta \sim_{\Q} f^* (K_X + \Delta) + \sum_i a(E_i, X, \Delta) E_i \]
+Furthermore, we define the \textit{log discrepancy} $b(E_i, X, \Delta)$ by the relation
+\[ K_Y + f_*^{-1} \Delta + E \sim_{\Q} f^* (K_X + \Delta
+) + \sum_i b(E_i, X, \Delta) \]
+where $\Delta_Y = f_*^{-1} \Delta + E$ and hence $b(E_i, X, \Delta) = a(E_i, X, \Delta) + 1$.
+\end{defn}
+
+\begin{lemma}
+Suppose that $f : Y \to X$ and $f' : Y' \to X$ are birational morphisms and $E \subset Y$ and $E' \subset Y'$ are prime divisors such that the rational map $f^{-1} \circ f' : Y' \rat Y$ satisfies $(f^{-1} \circ f')_* E' = E$ (meaning we assume that the rational map is defined at the generic point of $E'$ and it maps this point to $E$). Then $a(E, X, \Delta) = a(E', X, \Delta)$ and $\cent_X E = \cent_{X'} E'$.
+\end{lemma}
+
+\begin{rmk}
+Because of this lemma, we say heuristically that ``the discrepancy of a divisor over $X$ does not depend on the birational model''. 
+\end{rmk}
+\begin{rmk}
+The following relations are satisfied
+\begin{align*}
+K_Y + f_*^{-1} \Delta & \sim_{\Q} f^* (K_X + \Delta) + \sum_{E_i \subset E} a(E_i, X, \Delta) E_i
+\\
+K_Y  & \sim_{\Q} f^* (K_X + \Delta) + \sum_{D \subset Y} a(D, X, \Delta) D
+\end{align*}
+the first sum over the exceptional divisors and the second over all divisors. Furthermore, we set $\Delta_Y$ to be any divisor such that $f_* (K_Y + \Delta_Y) = K_X + \Delta$ then {\color{red} IS THIS RIGht}
+\[ K_Y + \Delta_Y \sim_{\Q} f^* (K_X + \Delta) \]
+\end{rmk}
+
+\begin{rmk}
+Notice above that $a(D, Y, \Delta_Y) = a(D, X, \Delta)$ for any divisor $D \subset Y$. We say that a birational morphism $(Y, \Delta_Y) \to (X, \Delta_X)$ is \textit{crepant} if it satisfies this property. 
+\end{rmk}
+
+
+\begin{defn}
+A proper birational morphism of pairs $f : (Y, \Delta_Y) \to (X, \Delta_X)$ is \textit{crepant} if 
+\[ K_Y + \Delta_Y \sim_{\Q} f^* (K_X + \Delta_X) \]
+In particular,
+\[ a(F, Y, \Delta_Y) = a(F, X, \Delta_X) \]
+for any divisor $F$ over $Y$. 
+\end{defn}
+
+
+\begin{defn}
+Let $(X, \Delta)$ be a pair where $X$ is normal of dimension $\ge 2$ and $\Delta = \sum a_i D_i$ is a subboundary (i.e. a formal sum of distinct prime divisors and $a_i$ are rational numbers $\le 1$). Assume $m(K_X + \Delta)$ is Cartier for some $m > 0$. We say that $(X, \Delta)$ is,
+\begin{enumerate}
+\item \textit{terminal} if $a(E, X, \Delta) > 0$ for all exceptional $E$ over $X$
+\item \textit{canonical} if $a(E, X, \Delta) \ge 0$ for all exceptional $E$ over $X$
+\item \textit{klt} if $a(D, X, \Delta) > -1$ for all divisors $D$ over $X$
+\item \textit{plt} if $a(E, X, \Delta) > -1$ for all exceptional $E$ over $X$
+\item \textit{dlt} if $a(D, X, \Delta) > -1$ for any $D$ with $\cent_X D \subset \text{non-snc}(X, \Delta)$
+\item \textit{lc} if $a(D, X, \Delta) \ge -1$ for all divisors $D$ over $X$
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Notice that $(X, \Delta)$ klt implies that the coefficients of $\Delta$ satisfy $a_i < 1$. Indeed, $a(D_i, X, \Delta) = - \coeff_{D_i} \Delta = - a_i$ and we require $a(D_i, X, \Delta) > - 1$. 
+\end{rmk}
+
+\begin{rmk}
+Each singularity type implies the next downwards except canonical only implies klt if every coefficient of $\Delta$ satisfies $a_i < 1$. 
+\end{rmk}
+
+\begin{lemma}[Kollar, Singularities of MMP, Corollary 2.13]
+Let $X$ be a normal scheme and $\Delta = \sum d_j D_j$ a $\Q$-divisor such that $K_X + \Delta$ is $\Q$-Cartier. Let $f : Y \to X$ be a log resolution. Write,
+\[ K_Y \sim_{\Q} f^* (K_X + \Delta) + \sum a_i E_i \]
+Then
+\begin{enumerate}
+\item $(X, \Delta)$ is log canonical if and only if every $a_i \ge -1$
+\item $(X, \Delta)$ is klt if and only if every $a_i > -1$
+\end{enumerate}
+notice that in this convention the birational transforms are amount the $E_i$ with coefficient $a_i = -d_j$.
+\end{lemma}
+
+\subsection{Adjunction}
+
+Let $(X, \Delta)$ be a pair. 
+
+\begin{theorem}[Kawmata]
+Let $(X, S + B)$ be a pair such that $S$ is a reduced divisor which has no common component with the support of $B$. Let $S^\nu$ denote the normalization of $S$, and let $B^\nu$ denote the different of $B$ on $S^\nu$. Then $(X, S + B)$ is log canonical near $S$ if and only if $(S^\nu, B^\nu)$ is log canonical.
+\end{theorem}
+
+\begin{defn}
+A \textit{pair} $(X, \Delta)$ where $X$ is a normal projective variety, and $\Delta$ is an effective $\Q$-divisor such that $K_X + \Delta$ is $\Q$-Cartier. 
+\end{defn}
+
+Now assume that $(X, \Delta)$ is a pair where $\Delta = S + B$ with $S$ normal prime divisor. Let $\pi : Y \to X$ a \textit{log resolution} of $(X, \Delta)$ meaning a birational morphism with $Y$ smooth and $\Supp{}{\pi_*^{-1} \Delta} + \Exc(\pi)$ is a snc divisor. Denote by $\wt{S}$ the strict transform of $S$. Then we can write,
+\[ K_Y + \Delta_Y = \pi^* ( K_X + \Delta) \]
+and then define
+\[ \Diff(B) := \pi_{\wt{S}, *} ((\Delta_Y - \wt{S})|_{\wt{S}}) \]
+where $\pi_{\wt{S}} : \wt{S} \to S$ is the restrictyion of $\pi$. Then we obtain a new pair $(S, \Diff(B))$ that does not depend on the choice of $Y$.
+
+
+
+
+MAIN QUESTION IF $(X, \Delta)$ IS A PAIR WHAT DOES AUT MEAN AND IS IT CONTAINED IN THE FOLLOWING GROUP
+
+Let $(\hat{X}, \hat{\Delta}) \to (X, \Delta)$ be an snc resolution then consider $\Aut{\hat{X}, \ceil{\hat{\Delta}}}$. 
+
+
+\section{Main Results of BCHM}
+
+\begin{defn} (See Definition 3.1.1 of BCHM for all definitions)
+Let $\pi : X \to U$ be a projective morphism of quasi-projective varities and $D$ a $\RR$-Cartier divisor on $X$. We say that
+\begin{enumerate}
+\item $D$ is $\pi$-big if $D|_F$ is big on a general fiber $F$ of $\pi$ (equivalently $D \sim_{\RR, U} A + B$ for $A$ ample over $U$ and $B \ge 0$) 
+\item $D$ is $\pi$-nef if $D \cdot C \ge 0$ for all curves $C$ contained in a fiber
+\item $D$ is $\pi$-pseudo-effective if $D|_F$ is pseudo-effective for the generic fiber 
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+If $\pi : X' \to X$ is projective and birational then any proper divisor $D \subset X'$ (if $X'$ is irreducible, otherwise we need that $D$ does not contain any component) is $\pi$-big and $\pi$-pseudo-effective (since it is zero on the generic fiber) but usually not $\pi$-nef.
+\end{rmk}
+
+\begin{theorem}
+Let $(X, \Delta)$ be a klt pair, where $K_X + \Delta$ is $\RR$-Cartier. Let $\pi : X \to U$ be a projective morphism of quasi-projective varieties. If either $\Delta$ is $\pi$-big and $\Delta$ is $\pi$-pseudo-effective or $K_X + \Delta$ is $\pi$-big, then
+\begin{enumerate}
+\item $K_X + \Delta$ has a log terminal model over $U$,
+\item if $K_X + \Delta$ is $\pi$-big then $K_X + \Delta$ has a log canonical model over $U$, and 
+\item if $K_X + \Delta$ is $\Q$-Cartier, then the $\struct{U}$-algebra
+\[ \mathcal{R}(\pi, K_X + \Delta) = \bigoplus_{m \in \NN} \pi_* \struct{X}( \floor{m(K_X + \Delta)}) \]
+is finitely fenerated.
+\end{enumerate}
+\end{theorem}
+
+
+\section{MMP Learning Seminar Week 6}
+
+\begin{defn}
+$\varphi : X \to W$ is a \textit{flipping contraction} if $(X, \Delta)$ is klt $\Q$-factorial $\rho(X/W) = 1$ and $\varphi$ is a small birational contraction and $-(K_X + \Delta)$ is ample over $W$.
+\end{defn}
+
+\begin{rmk}
+$W$ is never $\Q$-factoral and $K_W$ is not $\Q$-Cartier!
+\end{rmk}
+
+\begin{defn}
+Let $\varphi : X \to W$ be a flipping contraction. We say that $\pi : X \rat X'$ is a \textit{flip} if it is a small birational map $K_{X^+} + \Delta^+$ is $\Q$-Cartier where $\Delta^+ = \pi_* \Delta$. There is a projective morphism $\varphi^+ : X^+ \to W$ so that $K_{X^+} + \Delta^+$ is ample over $W$.
+\end{defn}
+
+\begin{lemma}
+Let $f : X \rat Y$ a small birational map between normal varieties. $D$ a Weil divisor then
+\[ H^0(X, \struct{X}(D)) = H^0(Y, \struct{Y}(f_* D)) \]
+\end{lemma}
+
+\begin{proof}
+Indeed, by Harthog and isomorphism in codimension $1$.
+\end{proof}
+
+\begin{lemma}
+Let $\varphi : X \to W$ be a flipping contraction of $(X, \Delta)$ and $\pi : X \rat X'$ a flip. Then $\rho(X) = \rho(X^+)$ and $X^+$ is $\Q$-factorial.
+\end{lemma}
+
+\begin{rmk}
+When we work with log pairs $(X, \Delta)$ we assume $-(K_X + \Delta)$ is $\varphi$-ample for a flipping contraction.
+\end{rmk}
+
+\begin{proof}
+Consider $D^+$ on $X^+$ and corresponding $D$ on $X$ by isomorphism in codim $1$. Find $r$ such that $R \cdot (D + r (K_X + \Delta)) = 0$ here $R$ is the extremal ray defining the flipping contraction. We know $X$ is $\Q$-factorial hence $m(D + r(K_X + \Delta))$ is Cariter for $m$ big so we can descent it to $D_W$ a Cartier divisor on $W$. Then
+\[ m D^+ = m \pi_* D \sim (\varphi^+)^* D_W - (mr) (K_{X^+} + \Delta^+) \]
+which is Cartier. For equality of $\rho$, we use that $\pi$ is an isomorphism in codimension $1$ so it is injective and surjective on divisors. 
+\end{proof}
+
+\begin{lemma}
+Let $f : X \to Y$ is a projective contraction between normal varieties with $\rho(X/Y) = 1$. Assume $\Exc{\varphi}$ contains a divisor. Then $\varphi$ s the contraction of a unique irreducible divisor.
+\end{lemma}
+
+\begin{proof}
+Let's say $\Exc{\varphi}$ has two divisors $E_1, E_2$. Then we can find $C_i$ covering $E_i$ with $C_i \cdot E_i < 0$ (what does this have to do with Picard rank?). Furthermore, $E_1, E_2$ are numerically dependent over $Y$ so $E_1 + a E_2 \equiv_Y 0$. Assume $C_1 \cdot E_2$ then
+\[ C_1 \cdot (E_1 + a E_2) = C_1 \cdot E_1 < 0 \]
+but $C_1$ is contracted so this is impossible. Thus choosing $C_1$ general we get $C_1 \cdot E_2 > 0$. Thus
+\[ a = - \frac{C_1 \cdot E_1}{C_1 \cdot E_2} > 0 \]
+Thus $E = E_1 + a E_2$ is an effective divisor which is contracted so it must be covered by $E$-negative curves contradicting that it is numerically trivial. Therefore, there is at most $1$ irreducible divisor in $\Exc{\varphi}$. Suppose $\Exc{\varphi}$ contains another component $W$. We can find a curve $C \subset W$ intersecting $E$ properly (since the fibers are connected) but then $E \cdot C > 0$ contradicting the fact that all contracted curves are numerically equivalent since we also have negative curves on $E$ since it is contracted.  
+\end{proof}
+
+This is called a divisorial contraction, it contracts an irreducible divisor to a higher-codimension locus.
+
+\begin{prop}
+Let $\varphi : X \to W$ be a flipping contraction for $(X, \Delta)$ klt. The flip exists iff
+\[ R = \bigoplus_{m \ge 0} \varphi_* \struct{X}(m(K_X + \Delta)) \]
+is a fg $\struct{W}$-algebra. If this is the case then 
+\[ X^+ = \rProj{W}{\bigoplus_{m \ge 0} \varphi_* \struct{X}(m(K_X + \Delta)) }\]
+\end{prop}
+
+\begin{proof}
+Assume the flip
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, dashed, "\pi"] \arrow[rd] & & X^+ \arrow[ld]
+\\
+& W
+\end{tikzcd}
+\end{center}
+exists. Then $\pi$ is small so 
+\[ R = \bigoplus_{m \ge 0} \varphi_* \struct{X}(m(K_X + \Delta)) = \bigoplus_{m \ge 0} \varphi_* \struct{X^+}(m(K_{X^+} + \Delta^+)) \]
+Moreover, $K_{X^+} + \Delta^{+}$ is ample over $W$ hence $R$ is finitely generated and hence the Proj equals $X^+$ over $W$. 
+\bigskip\\
+Assume $R$ is finitely generated and define 
+\[ X^+ = \rProj{W}{R} \]
+The natural map
+\[ \pi : X \rat X^+ \]
+is an isomorphism in codimension $1$ on $X$ because away from the flipping locus $K_X + \Delta$ is ample and hence the map is an isomorphism. We need to show the same is true of the inverse. It could happen that there exists $E \subset X^+$ contracted to $X$. Then we would have $E$ contracted under $\varphi^+ : E \to W$ so 
+\[ \varphi_*^+ \struct{X^+}(1) = \varphi_* \struct{X}(m(K_X + \Delta)) = \struct{W}(m(K_{W} + \varphi_* \Delta))  \]
+so 
+\[ \struct{W}(tm (K_W + \varphi_* \Delta) = \varphi^+_* \struct{X^+}(t) \subsetneq \varphi_*^+ \struct{X^+}(t)(E) \]
+however we have a natural inclusion
+\[ \varphi_*^+ \struct{X^+}(t)(E) \embed \struct{W}(tm (K_W + \varphi_* \Delta)) \]
+because it is contracted. Thus $\varphi^+$ is small. Then by Lemma $2$ they have the same Picard rank. The same argument shows that $\rho(X/W) = \rho(X^+/W)$.
+\end{proof}
+
+\section{MMP Learning Seminar Week 9}
+
+Let $X$ be a $\Q$-factorial terminal projective $3$-fold. Suppose we have a flipping contraction $f :  X \to W$ then we want
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, dashed, "\pi"] \arrow[rd] & & X^+ \arrow[ld]
+\\
+& W
+\end{tikzcd}
+\end{center}
+we know 
+\begin{enumerate}
+\item $\rho(X/W) = 1$
+\item $-K_X$ is $f$-ample
+\item $X$ is smooth in codim $2$
+\end{enumerate}
+What we want is a birational modification $\pi$ which is an isomorphism in codim $1$ such that
+\begin{enumerate}
+\item $\rho(X^+/W) = 1$
+\item $K_{X^+}$ is ample over $W$
+\item $X^+$ has $\Q$-factorial terminal singularities 
+\end{enumerate}
+
+\begin{lemma}
+Such $X^+$ is unique and equals
+\[ \rProj{W}{\bigoplus_{n \ge 0} f_* \struct{X}(n K_X)} \]
+provided that this is a fg $\struct{W}$-algebra.
+\end{lemma}
+
+\begin{prop}
+\[ R(X) = \bigoplus_{n \ge 0} f_8 \struct{X}(n K_X) \]
+is fg as a $\struct{W}$-algebra iff it is fg locally (even analytically) over $W$.
+\end{prop}
+
+Because $X$ is terminal, it has isolated singularities. 
+
+Mori 1988: proved that these curves can be contracted one by one in the analytic sense (you can't algebraically since they are numerically equivalent). 
+
+
+Terminal $3$-fold flipping contractions implies we should study extremal neighborhoods.
+
+
+\section{Minimal Models are Unique in Codim $1$}
+
+\subsection{Birational Automorphisms}
+
+\end{document}

@@ -683,7 +683,7 @@ Then $\F$ is locally free.
 \end{lemma}
 
 \begin{proof}
-Work locally, assume $\L = \struct{X}$. Then there is alocally free resolution,
+Work locally, assume $\L = \struct{X}$. Then there is a locally free resolution,
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & \struct{X}(-C) \arrow[r] & \struct{X} \arrow[r] & \struct{C} \arrow[r] & 0
@@ -740,7 +740,7 @@ We get that,
 
 \begin{lemma}
 Let $\F = \F_{C, \L}$ then,
-\[ \chi(\F \ot \F^\vee)  = \]
+\[ \chi(\F \ot \F^\vee) = 8 - \Delta(\F) = 8 + C^2 - 4 \deg{\L} \]
 \end{lemma}
 
 \section{Oct 18}
@@ -1326,19 +1326,19 @@ Let $\C \to \Delta = \Spec{R}$ be a family of connected nodal curves over a DVR.
 Let $C = X \cup Y$ be nodal. Let $V$ be a vector bundle with $V|_X$ and $V|_Y$ semistable. Then $V$ is semistable. Furthermore, if one of $V|_X$ and $V|_Y$ is stable, then $V$ is stable.
 \end{lemma}
 
-\section{Nov 29}
+\section{Nov 29 Reider's Theorem}
 
 \begin{theorem}
 Let $X$ be a surface and $L$ a nef line bundle.
 \begin{enumerate}
-\item if $L^2 \ge 5$ and $p$ is a base point of $K_X \ot L$ then there is some $p \in D \subset X$ effective such that one of
+\item if $L^2 > 4$ and $p$ is a base point of $K_X \ot L$ then there is some $p \in D \subset X$ effective such that one of
 \begin{enumerate}
 \item $L \cdot D = 0$ and $D^2 = -1$
 \item $L \cdot D = 1$ and $D^2 = 0$
 \end{enumerate}
 is true
 
-\item if $L^2 \ge 10$ and $p,q$ are not separated by $K_X \ot L$ then there is $p,q \in D \subset X$ such that one of,
+\item if $L^2 > 9$ and $p,q$ are not separated by $K_X \ot L$ then there is $p,q \in D \subset X$ such that one of,
 \begin{enumerate}
 \item $L \cdot D = 0$ and $D^2 = -1,-2$
 \item $L \cdot D = 1$ and $D^2 = 0,-1$
@@ -1369,23 +1369,74 @@ Step 3: inequalities.
 \end{proof}
 
 
+\subsection{Special Cycles}
+
+\begin{defn}
+Let $X$ be a variety and $\struct{X}(D)$ a line bundle on $X$. An zero-dimesional subscheme $Z \subset X$ is said to be \textit{in special position} with respect to $\struct{X}(D)$ if 
+\begin{enumerate}
+\item $H^0(X, \struct{X}(D)) \to H^0(Z, \struct{X}(D)|_Z)$ is not surjective
+\item for all $Z' \subset Z$ with $\length{\struct{Z} / \struct{Z'}} = 1$ the map
+\[ H^0(X, \I_{Z}(D)) \to H^0(X, \I_{Z'}(D)) \]
+is an isomorphism
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+Suppose that $\struct{X}(D)$ does not separate some collection of $m$ distinct points on $U$. Then there exists a reduced zero-dimensional subscheme $Z \subset U$ with $\length{Z} \le m$ in special position with respect to $\struct{X}(D)$.
+\end{lemma}
+
+\begin{proof}
+Let $Z_0 = \{ p_1, \dots, p_m \}$ be some collection of $m$ distinct points in $U$ such that
+\[ H^0(X, \struct{X}(D)) \to H^0(Z_0, \struct{X}(D)|_{Z_0}) \]
+is not surjective. For each $p_i \in Z_0$ let $Z_0' = Z_0 \sm \{ p_i \}$ and consider the map
+\[ H^0(X, \I_{Z_0'}(D)) \to H^0(X, \I_{Z_0}(D)) \]
+if this is an isomorphism for all $i$ then $Z_0$ is in special position. Otherwise, there is $i$ for which it is not an isomorphims. This means there is a section $s$ vanishing on $Z_0'$ nonvanishing at $p_i$. If $\struct{X}(D)$ separates $Z_0'$ then it also separates $Z_0$ because we can use $s$ to make the value at $p_i$ anything without changing the values on $Z_0'$. Thus $Z_1 := Z_0'$ is a collection of points not separated by $\struct{X}(D)$. Repeating, we get $Z_k$ with length $m - k$ in special position. The only case where this might fail is if we get down to $k = m - 1$. Then $\struct{X}(D)$ is not globally generated on $U$. Since every section vanishing at some $p$ then $Z = \{ p \}$ is in special position so we automatically win.  
+\end{proof}
+
+{\color{red} IS THIS THE SAME AS $Z$ SCHEME?}
+
+\begin{theorem}
+Let $S$ be a smooth surface, $L$ a line bundle and $Z$ an effective zero-cycle on $S$. The following are equivalent:
+\begin{enumerate}
+\item $Z$ is in special position with respect to $|K_S + L|$, where $K_S$ is the canonical divisor of $S$,
+\item there exist a pair $(\E, e)$ where $\E$ is a rank $2$ bundle on $S$ and $e$ a section such that $\E = \wedge^2 \E = L$ and $V(e) = Z$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $Z$ be in special position. Then consider the extension
+\[ 0 \to \struct{S} \to \E \to \I_Z \ot L \to 0 \]
+whose extension class in
+\[ \Ext{1}{S}{\I_Z \ot L}{\struct{S}} = H^1(X, \I_Z \ot L \ot \omega_S)^\vee \]
+is the element defined by 
+\[ H^0(Z, L \ot \omega_S|_Z) \to H^1(X, \I_Z \ot L \ot \omega_S) \]
+{\color{red} DO THIS}
+\end{proof}
+
 For step 2 we have,
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & \struct{X} \arrow[r] & E \arrow[r] & I_Z \ot L \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-and $\rank{E} = 2$ and $\det{E} = L$ and $c_1(E) = 1$ and $c_2(E) = \deg{Z} = 1$ (doing part 1). Notice that $c_1(E)^2 > 4 c_2(E)$. This by Bogomolov,
+and $\rank{E} = 2$ and $\det{E} = L$ and $c_1(E) = c_1(L)$ and $c_2(E) = \deg{Z} = 1$ (doing part 1). Notice that $c_1(E)^2 > 4 c_2(E)$. Then by Bogomolov, there is a sequence
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & A \arrow[r] & E \arrow[r] & I_W \ot B \arrow[r] & 0
 \end{tikzcd}
 \end{center}
-$W$ is a $0$-dimensional subscheme,
-\[ (A - B)^2 > 0 \text{ and } (A - B) \cdot H > 0 \]
-for every ample class $H$. Then consider,
+$W$ is a $0$-dimensional subscheme such that
+\begin{enumerate}
+\item $A \ot B = L$
+\item $(c_1(A) - c_1(B))^2 > 0$
+\item for any ample $H$ we have $c_1(A) \cdot H > c_1(B) \cdot H$
+\item $c_2(\E) = \length{Z} = A \cdot B + \length{W}$. 
+\end{enumerate}
+Then consider the diagram,
 \begin{center}
 \begin{tikzcd}
+& & 0 \arrow[d]
+\\
 & & A \arrow[d] \arrow[ld, dashed] \arrow[rd, "t"]
 \\
 0 \arrow[r] & \struct{X} \arrow[r] & E \arrow[d] \arrow[r] & I_Z \ot L \arrow[r] & 0
@@ -1395,23 +1446,31 @@ for every ample class $H$. Then consider,
 & & 0
 \end{tikzcd}
 \end{center}
-Claim $t \neq 0$ otherwise, there a nonzero map $A \to \struct{X}$ and thus $H^0(X< A^\vee) \neq 0$ but $0 < (A-B) \cdot H = (2 A - L) \cdot H$ and hence $(-A) \cdot H < - \frac{1}{2} L \cdot H \le 0$ is a contradiciton. Therefore $t \neq 0$. 
+Claim $t \neq 0$ otherwise, there a nonzero map $A \to \struct{X}$ and thus $H^0(X, A^\vee) \neq 0$ but $0 < (A-B) \cdot H = (2 A - L) \cdot H$ and hence $(-A) \cdot H < - \frac{1}{2} L \cdot H \le 0$ is a contradiciton. Therefore $t \neq 0$. 
 \bigskip\\
-Let $D$ be the effective divisor defined by $t$. Let $Z \subset D$ and $L = A \ot D$ so we have $Z \subset D$ and $L = A \ot \struct{X}(D)$ from the sequence,
+Let $D$ be the effective divisor defined by $t$. Since $Z \subset D$ and $L = A \ot \struct{X}(D)$ so consider the sequence,
 \begin{center}
 \begin{tikzcd}
 0 \arrow[r] & I_Z \ot L \ot A^\vee \arrow[r] & L \ot A^\vee \arrow[r] & (L \ot A^\vee)|_Z \arrow[r] & 0
 \end{tikzcd}
 \end{center}
 
-Then for step 3 we have $L, A, D$ and $L - A = D$ thus $A - B = L - 2 D$
+Now we enter step 3. Since $A + B = L$ we can replace $B$ by $D$ i.e.\ ensure that $B$ is effectove. We have constructed divisors $L, A, D$ with $L - A = D$ thus $A - D = L - 2 D$
 
 \begin{lemma}
 We have $L \cdot D \ge 0$ and $L \cdot D - 1 \le D^2 \le \frac{1}{2} L \cdot D$ 
 \end{lemma}
 
 \begin{proof}
-DO THIS!!
+Since $D$ is effective and $L$ is nef $L \cdot D \ge 0$. Since $L$ is a limit of ample divisors we see that $L \cdot (A - D) \ge 0$ but $ L = A + D$ so $A^2 \ge D^2$ {\color{red} WHY DO THEY SAY NOT EQUALITY ALLOWED}. Also 
+\[ (A - D)^2 > 0 \implies A^2 - 2 A \cdot D + D^2 \ge \]
+
+Then $A \cdot D + \length{W} = \length{Z} = 1$ implies $A \cdot D \le 1$. 
+Hodge index theorem gives
+\[ A^2 D^2 \le (A \cdot D)^2 \le 1 \]
+and thus $D^2 \le 0$ since $A^2 \ge D^2$ {\color{red} WHY?}
+
+Now $0 \le L \cdot D = A \cdot D + D^2$
 \end{proof}
 
 \section{A Langer: On boundedness of semistable sheaves}

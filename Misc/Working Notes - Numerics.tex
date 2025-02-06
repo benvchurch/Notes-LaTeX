@@ -1,0 +1,105 @@
+\documentclass[fontsize=11pt]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{physics}
+\usepackage[margin=1in]{geometry}
+\usepackage{scrextend}
+\usepackage{tikz-cd}
+\usepackage[shortlabels]{enumitem}
+\usepackage{colonequals}
+\usepackage{comment}
+\usepackage{graphicx}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{theorem}[thm]{Theorem}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{conj}[thm]{Conjecture}
+
+
+\begin{document}
+
+\begin{lemma}\label{numerical}
+For any integers $n > 1$ and $d \ge n^2$ let $q \coloneqq d - n \sqrt{d} \ge 0$. Then the inequality
+$$\sum_{k=1}^{n} k \sqrt[k]{q} + c \ <\ d$$
+is satisfied for some $c \coloneqq c(n,d) > 0$ strictly positive function.
+\end{lemma}
+
+\begin{proof}
+The desired inequality is equivalent to showing
+\[ \sum_{k = 2}^k k \sqrt[k]{q} < n \sqrt{d} \]
+and then we set
+\[ c \coloneqq \frac{1}{2} \left[ n \sqrt{d} - \sum_{k = 2}^k k \sqrt[k]{q} \right] \]
+which is then positive. For $n = 2$ the desired inequality is obvious. For $n > 2$ write the inequality as
+\[ \sum_{k = 3}^n k \sqrt[k]{q} < (n-2) \sqrt{d} + 2(\sqrt{d} - \sqrt{q}) \]
+Since there are $n-2$ terms in this sum, it suffices to show for all $3 \le k \le n$ that
+\[ k \sqrt[k]{q} < \sqrt{d} \]
+In fact, this is not quite true. It is true for $3 \le k \le n - 6$. To see this, let $y = \sqrt{d}$ then the inequality becomes
+\[ y^{k-1} > k^k (y - n) \]
+which is minimized (there is at most one minimum for $y \ge n$) when
+\[ y = \left( \frac{k^k}{k-1} \right)^{\frac{1}{k-2}} \]
+Now it is easily seen that, when $k \ge 4$, this value occurs between $k$ and $k + 6$. Thus the inequality is satisfied unless $k \ge n - 6$. We handle the case $k = 3$ separately (the only subtitly is when $n = 3$ but then $k = 3$ is covered in the final $6$ values). Taking into account the remaining term on the right-hand side, it suffices to check that
+\[ \sum_{k = n - 6}^n k \sqrt[k]{q} < 6 \sqrt{d} + 2 (\sqrt{d} - \sqrt{q}) \] 
+\end{proof}
+
+\begin{prop}
+Hence in theorem $C$ we can take
+\[ d_0(\dim{X}, \alpha, \epsilon) := \left\lceil \frac{(\dim{X})^{\frac{\dim{X}}{\dim{X}-1}} (1 + \ln{\frac{\dim{X}}{2}})^2}{\epsilon^2} \right\rceil \]
+\end{prop}
+
+\begin{prop}
+Combining this with Theorem $A$, we get an explicit version of theorem $B$: general $X \subset \mathbb{P}^{n+r}$ of type $(d_1, \dots, d_r)$ has 
+\[ \mathrm{covgon}(X) \ge (1-\epsilon) d_1 \cdots d_r \]
+if (up to reordering the degrees)
+\[ d_1 \ge  \left\lceil \frac{4 (n+1)^{1 + \frac{1}{n}} (1 + \ln{\frac{n+1}{2}})^2}{\epsilon^2} \right\rceil \]
+and
+\[ d_2, \dots, d_r \ge  \left\lceil \frac{2(n-2)(r-1)}{\epsilon} \right\rceil \]
+\end{prop}
+
+\begin{proof}
+Indeed, we just need that $Y := X_{d_2, \dots, d_r}$ which has dimension $n+1$ satisfies 
+\[ \mathrm{covdeg}(Y) \ge (1 - \epsilon/2) d_2 \cdots d_r \]
+which by the bound
+\[ \mathrm{covdeg}(Y) \ge (d_2 - n + 2) \cdots (d_r - n + 2) \]
+holds as long as each
+\[ \sum_{i = 2}^r \left( 1 - \frac{n-2}{d_i} \right) \le 1 - \epsilon/2 \]
+which holds if each term is less that $1 - \epsilon/2(r-1)$ hence if
+\[ d_i \ge \frac{2 (n-2)(r-1)}{\epsilon} \]
+Hence we apply Theorem $C$ with $\alpha = (1 - \epsilon/2) d_2 \dots d_r$ so we evaluate the constant $d_0(n+1, \alpha, \epsilon/2)$ to get the desired bound on $d_1$.
+\end{proof}
+
+In the proof of theorem $A$ the set $S_n$ should be replaced by $S_{n+r-1}$. Let $n' = n+r - 1$ from now on. Should mention that we need $n' \ge 3$ ofc the cases where this is not true (inside $\PP^3$ are completely understood). 
+
+\begin{prop}
+In theorem $A$ we can take $N(n,r) := 2^{2 r^2 (n + r)^3}$.
+\end{prop}
+
+\begin{proof}
+The proof says we need to take $k = 2nr$ and find an increasing sequence of primes $p_1, \dots, p_\ell$ so that $p_1 > 2^{2n'}$ with $p_{i+1} \le 2 p_i$ (possible by Bertrand's postulate) so that 
+\[ \left( {n' \choose 2} - 1 \right) p_{\ell}^{n'} + \left( n'! - {n' \choose 2} \right) p_{\ell}^{n'-1} + (2^{n'} + 1) \cdot n'! \le p_1 \cdots p_{\ell} \]
+since $p_1 > 2^{2n}$ and $n' \ge 3$ 
+\[ \left( {n'}! - {n' \choose 2} \right) [p_{\ell}^n - p_{\ell}^{n-1}] > (2^n + 1) \cdot n! \]
+so we can take 
+\[ C_{n'} = n'! \]
+and the condition is satisfied as long as
+\[ C_{n'} p_{\ell}^{n'} \le p_1 \cdots p_{\ell} \]
+which is satisfied if 
+\[ 2^{n' \ell} C_n p_1^{n'} \le p_1^{\ell} \]
+since $p_{i+1} < 2 p_i$. Therefore, we need
+\[ \left( \frac{p_1}{2^{n'}} \right)^{\ell - n'} \ge C_{n'} 2^{n'^2} \]
+since $p_1 > 2^{2n'}$ this is satisfied as long as 
+\[ \ell \ge 2 n' + \frac{\log{n'!}}{n' \log{2}} \]
+Hence we can set
+\[ \ell := 3n' \] 
+Now we form the requisite numbers as follows. Let $g_1$ be the product of $p_1, \dots, p_{\ell}$ and $g_2$ be the product of the next $\ell$ primes and so on. We need to do this $2 r$ times to win and we need $d \ge g_r \cdot g_{2r}$ and $k \ge g_i$ for all $i$. The second condition is clearly satisfied because $nr < 2^{n+r}$ for $n,r > 1$. Therefore $N$ can be taken as the product of the first $2 r \ell$ primes larger than $2^{2n'}$. Agan by Bertrand's postulate, this is upper bounded by
+\[ \prod_{i = 1}^{2 r \ell} 2^{2n'} 2^i \le 2^{2 n' (r \ell + 3r)^2} = 2^{2 n' r^2 (n+r)^2} \le 2^{2 r^2 (n + r)^3} \]    
+\end{proof}
+
+
+\end{document}

@@ -1,0 +1,465 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{../}{AlgGeoCommands}
+
+\newcommand{\dbar}{\bar{\partial}}
+\newcommand{\HH}{\mathbb{H}}
+\renewcommand{\gr}{\mathrm{gr}}
+\newcommand{\R}{\mathrm{R}}
+
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\can}{\mathrm{can}}
+
+\begin{document}
+\author{Benjamin Church}
+\title{\Huge Pre-Talk}
+
+\section{Introduction}
+
+\begin{thm}[Hodge-to-de Rham-degeneration]
+Let $X / k$ be a smooth proper scheme with $k$ a field of characteristic zero and $\Omega^\bullet_{X/k}$ is de Rham complex. Then, the Hodge-to-de Rham spectral sequence,
+\[ E_1^{p,q} = H^{q}(X, \Omega^p_{X/k}) \implies H_{\dR}^{p+q}(X) \]
+degenerates at the $E_1$-page.
+\end{thm}
+
+\begin{rmk}
+This is equivalent to the numerical equality
+\[ \dim{H^n_{\dR}(X)} = \sum_{p + q = n} \dim{H^q(X, \Omega^p_{X/k})} \]
+\end{rmk}
+
+\begin{theorem}[Kodaira-Nakano-vanishing]
+Let $X / k$ be a smooth proper scheme with $k$ a field of characteristic zero and $\L$ an ample. Then $H^q(X, \Omega_X^p \ot \L) = 0$ for $p + q > \dim{X}$. 
+\end{theorem}
+
+
+\begin{theorem}[Deligne-Illusie]
+Let $X / k$ be a smooth proper scheme of pure dimension $n$. Let $k$ be a perfect field of characteristic $p$. Suppose
+\begin{enumerate}
+\item $p > n$
+\item $X$ lifts to $W_2(k)$
+\end{enumerate}
+then the Hodge-to-de Rham spectral sequence degenerates at $E_1$ and Kodaira-Nakano vanishing holds for any ample $\L$.
+\end{theorem}
+
+
+\begin{cor}
+The theorems also hold over $k$ characteristic zero. 
+\end{cor}
+
+\begin{proof}
+Both are completely numerical statements. For $X / k$ in characteristic zero, we can spread out to a finite type $\ZZ$-algebra $A \subset k$ and smooth proper morphism $f : \X \to S = \Spec{A}$ with a relatively ample $\L$ so that the the dimensions of all the relevant cohomology groups are constant. Hence we just need to prove degeneration and Nakano vanishing for some fiber. Shrinking, we may assume $S \to \Spec{\Z}$ is smooth. By Chevallay, there is a prime $p > \dim{X}$ in the image of $S \to \Spec{\Z}$ so choose $s \mapsto p$ and by smoothness there is a map $\Spec{W_2(\kappa(s))} \to S$ hence $\X_s$ satisfies the hypothesis and we apply Deligne-Illusie's results to win.
+\end{proof}
+
+
+
+\subsection{Recall: the Frobenius}
+
+
+\newcommand{\Fr}{\mathrm{Fr}}
+
+\begin{defn}
+Let $X$ be a scheme of characteristic $p$ (meaning $p \struct{X} = 0$). Then there is a natural map $\Fr : X \to X$ via $\id$ on topological spaces and $\struct{X} \to \struct{X}$ via $x \mapsto x^p$. This is natural, in the sense that for any map $f : X \to Y$ there is a commutative diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Fr_X"] \arrow[d, "f"] & X \arrow[d, "f"]
+\\
+Y \arrow[r, "\Fr_Y"] & Y
+\end{tikzcd}
+\end{center}
+Therefore, we can define via pullbacks,
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "f"'] \arrow[r, "F_{X/Y}", dashed] & X^{(p)} \arrow[d] \arrow[r] & X \arrow[d, "f"]
+\\
+& Y \arrow[r, "\Fr_Y"] & Y
+\end{tikzcd}
+\end{center}
+giving the relative Frobenius $F_{X/Y} : X \to X^{(p)}$. 
+\end{defn}
+
+\begin{prop}
+If $Y$ has characteristic $p$ and $f : X \to Y$ is smooth of relative dimension $n$ then $F_{X/Y} : X \to X^{(p)}$ is finite and flat of degree $n$. Therefore, $F_* \struct{X}$ is locally free of rank $n$ as a $\struct{X^{(p)}}$-module.
+\end{prop}
+
+
+\subsection{The Incredible Trick: Cartier Isomorphisms}
+
+Let $F = F_{X/k}$ for $X$ smooth over a perfect field $k$ of characteristic $p$. 
+\par 
+The following is a crucial remark. The differentials $(\Omega_X^\bullet, \d)$ are nonlinear so it does not form an element of $D^b(X)$. However, $F_* \Omega_X^\bullet \in D^b(X^{(p)})$ because the differentials are $\struct{X^{(p)}}$-linear! This is because 
+\[ \d{s^p} = p \, s^{p-1} \d{s} = 0 \]
+
+The incredible observation is that under our hypotheses $F_* \Omega_X^\bullet$ decomposes into its cohomology in the derived category.
+
+\begin{theorem}
+If $X$ lifts to $W_2(k)$ then there is a quasi-isomorphism in $D^b(X^{(p)})$ 
+\[ \varphi : \tau^{<p} F_* \Omega_X^\bullet \iso \bigoplus_{i < p} \Omega_{X^{(p)}}^i [-i] \]
+In particular, if $p > \dim{X}$ then $\tau^{<p} F_* \Omega_X^\bullet = F_* \Omega_X^\bullet$ decomposes.
+\end{theorem}
+
+Let's assume this and prove the main theorem.
+
+\subsection{Hodge-to-de Rham degeneration}
+
+Let $X / k$ be satisfying the hypotheses so $\varphi$ exists and $p < \dim{X}$. Then
+\[ \HH^n(X, \Omega_X^\bullet) = \HH^n(X^{(p)}, F_* \Omega_X^\bullet) \iso \bigoplus_i H^{n-i}(X^{(p)}, \Omega^i_{X^{(p)}}) = \bigoplus_{i} \Fr_k^* H^{n-i}(X, \Omega_X^i)  \]
+The first map is because $F$ is a homeomorphism\footnote{Since it is not a complex of $\struct{X}$-modules, because the maps are nonlinear, affine is not enough. However, the Leray spectral sequence is completely general so quasi-finite is enough because then the higher derived pushforwards vanish when the fibers are zero dimensional.}, the second is $\varphi$ on cohomology the last one uses flat base change for the pullback diagram
+\begin{center}
+\begin{tikzcd}
+X^{(p)} \arrow[r] \arrow[d] & X \arrow[d]
+\\
+\Spec{k} \arrow[r, "\Fr_k"] & \Spec{k}
+\end{tikzcd}
+\end{center}
+Since $F_k^*$ does not change the dimension of a vector space (only the $k$-action) we conclude using that $E_1$-degeneration is equivalent to the numerical equality given by taking dimensions above.
+
+\subsection{Kodaira Vanishing}
+
+We will use $\varphi$ to prove the following inductive step. 
+\begin{defn}
+We say that $\M \in \Pic{X}$ satisfies (NV) if 
+\[ H^q(X, \Omega_X^p \ot \M) = 0 \quad \text{ for all } p + q > \dim{X} \]
+\end{defn}
+We will prove
+\[ (\ast) \quad \quad \M^{\ot p} \text{ satisfies (NV)} \implies \M \text{ satisfies (NV)} \]
+Why does $(\ast)$ suffice. By downward induction, we just need to show that if $\L \in \Pic{X}$ is ample then $\L^{\ot p^k}$ satisfies (NV) for $k \gg 0$. But this is clear: large enough powers of $\L$ kill \textit{all} higher cohomology of anything by Serre vanishing. 
+
+
+\begin{lemma}
+For any invertible module $\M$,
+\[ F_X^* \M \iso \M^{\otimes p} \]
+\end{lemma}
+
+\begin{proof}
+The map is defined by adjunction of $\M \to (F_X)_* \M^{\otimes p}$ via $m \mapsto m^{\otimes p}$ which is linear because,
+\[ am \mapsto (am)^p = a^p m^p = a \cdot m^p \]
+We check $F_X^* \M \iso \M^{\ot p}$ locally.
+\end{proof}
+
+\begin{cor}
+Let $\M'$ be the pullback of $\M$ under $X^{(p)} \to X$. Then $F^* \M' = \M^{\otimes p}$. 
+\end{cor}
+
+\begin{rmk}
+The point of this is that the $p$-th power of any line bundle is pulled back from a line bundle on $X^{(p)}$.
+\end{rmk}
+
+\begin{proof}[Proof of induction]
+Assume (NV) holds for $\M^{\ot p}$. By the projection formula,
+\[ F_*(\M^{\otimes p} \otimes \Omega^i_X) \cong F_*(F^* \M' \otimes \Omega^i) \cong \M' \otimes F_* \Omega_X^i \] 
+Consider the hypercohomology spectral sequence computing the cohomology of $\M' \ot F_* \Omega_X^\bullet$,
+\[ E^{i,j}_1 = H^j(X^{(p)}, \M' \otimes F_* \Omega^i_X) \implies \mathbb{H}^{i+j}(X^{(p)}, \M' \otimes F_* \Omega^\bullet_X) \]
+However,
+\[ H^j(X^{(p)}, \M' \otimes F_* \Omega^i_X) = H^j(X^{(p)}, F_*(\M^{\ot p} \ot \Omega_X^i)) = H^j(X, \M^{\ot p} \otimes \Omega^i_X) = 0 \]
+for $i + j > \dim{X}$ by the induction hypothesis. Therefore, we conclude from the spectral sequence,
+\[ \mathbb{H}^{k}(X^{(p)}, \M' \otimes F_* \Omega^\bullet_X) = 0 \]
+for $k > \dim{X}$. Now we use the decomposition
+\[ \M' \ot F_* \Omega^\bullet_X \iso \bigoplus_{i} \M' \otimes \Omega^i_X [-i] \]
+so the hypercohomology is given by,
+\[ \mathbb{H}^k(X^{(p)}, \M' \ot F_* \Omega_X^\bullet) = \bigoplus_{i + j = k} H^j(X^{(p)}, \M' \ot \Omega^i_{X^{(p)}}) = \bigoplus_{i + j = k} \Fr_k^* H^j(X, \M \ot \Omega^i_X) \]
+and thus by vanihsing of the hypercohomology for $n > \dim{X}$ we get vanishing,
+\[ H^j(X, \M \ot \Omega^i_{X}) = 0 \]
+for $i + j > \dim{X}$ proving (NV) for $\M$ thus completing the induction.
+\end{proof}
+
+
+\subsection{The Cartier Operator}
+
+We need to construct $\varphi$. The first step is to understand the Cartier operator. There is a graded isomorphism,
+\[ C^{-1} : \bigoplus_{i} \Omega^i_{X^{(p)}} \iso \bigoplus_i \mathcal{H}^i(F_* \Omega^\bullet_{X}) \]
+such that,
+\begin{enumerate}
+\item in $i = 0$ the map $\struct{X^{(p)}} \to F_* \struct{X}$ is exactly $F^{\#}$
+\item in $i = 1$,
+\[ C^{-1}(1 \otimes \d{s}) = s^{p-1} \d{s} \in \mathcal{H}^1(F_* \Omega^\bullet_{X}) \]
+think of this as ``$\frac{F^*(\d{s})}{p}$''.  
+\end{enumerate}
+\noindent
+To prove the theorem, we will exhibit a quasi-isomorphism
+\[ \varphi : \bigoplus_{i < p} \Omega^i_{X^{(p)}}[-i] \to F_* \Omega^\bullet_{X} \]
+that induces $C^{-1}$ on cohomology for $i < p$ (and thus is a quasi-isomorphism to the trucation). We want to reduce to constructing $\varphi^1$ where $\varphi^i$ are the components of the map from the direct sum. For $\varphi^0$ we just define,
+\[ \varphi^0 : \struct{X^{(p)}} \xrightarrow{C^{-1}} F_* \struct{X} = \mathcal{H}^0(F_* \Omega^\bullet_{X}) \embed F_* \Omega^\bullet_{X} \]
+Now assume we have constructed,
+\[ \varphi^1 : \Omega^1_{X^{(p)}} [-1] \to \wt{F}_* \Omega^\bullet_{X} \]
+inducing $C^{-1}$ on $\mathcal{H}^1$.
+Then there exists,
+\[ \left( \Omega^1_{X^{(p)}} \right)^{\otimes i} \to \Omega^i_{X^{(p)}} \]
+by sending,
+\[ w_1 \otimes \cdots \otimes w_i \mapsto w_1 \wedge \cdots \wedge w_i \]
+If $i < p$ (or in characteristic zero) then there exists a section to this map,
+\[ a(w_1 \wedge \cdots \wedge w_i)  = \frac{1}{i!} \sum_{\sigma \in S_i} \mathrm{sign}(i) w_{\sigma(1)} \otimes \cdots \otimes w_{\sigma(i)} \]
+Therefore we get,
+\begin{center}
+\begin{tikzcd}
+(\Omega^1_{X^{(p)}})^{\otimes i} \arrow[r, "\varphi_1^{\otimes i}"] & \left( F_* \Omega_{X}^\bullet \right)^{\otimes^{\LL} i} \arrow[d]
+\\
+\Omega^i_{X^{(p)}} \arrow[u] \arrow[r, dashed, "\varphi^i"] & F_* \Omega^\bullet_{X}
+\end{tikzcd}
+\end{center}
+Because this construction agrees with the product structure and the Cartier isomorphism is determined (using the product structure) by its values in degree $1$ this means that $\varphi^i$ must induce $C^{-1}$ in degree $i$.
+
+
+\subsection{Construction of $\varphi^1$}
+
+First we consider the case when $F$ admits a global lift over $W_2(k)$. This means there is a diagram,
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "F"'] \pullback \arrow[r] & \wt{X} \arrow[d, "\wt{F}"] 
+\\
+X^{(p)} \arrow[r] & \wt{X}^{(p)}
+\end{tikzcd}
+\end{center}
+where $\wt{X} \to \Spec{W_2(k)}$ and $\wt{X^{(p)}} \to \Spec{W_2(k)}$ are smooth lifts of $X$ and $X^{(p)}$ over $W_2(k)$. 
+\bigskip\\
+Now to perform the construction notice that,
+\[ \im{(\wt{F}^* : \Omega^1_{\wt{X^{(p)}}/\wt{S}} \to \wt{F}_* \Omega^1_{\wt{X}/\wt{S}})} \subset p \cdot \wt{F}_* \Omega^1_{\wt{X}/\wt{S}} \]
+because pulling back differentials by Frobenius introduces a factor of $p$. Therefore, we get a diagram,
+\begin{center}
+\begin{tikzcd}
+\Omega^1_{\wt{X^{(p)}}/\wt{S}} \arrow[d, two heads] \arrow[r, "\wt{F}"] & p \cdot \wt{F}_* \Omega^1_{\wt{X}/\wt{S}} 
+\\
+\Omega^1_{X^{(p)}} \arrow[r, dashed, "\varphi^1"] & F_* \Omega^1_{X} \arrow[u, "p \cdot (-)"]
+\end{tikzcd}
+\end{center}
+which exists because the right upward map is an isomorphism and the kernel of the left downward map is the multiples of $p$ which are sent to zero. 
+I claim that
+\[ \im{\varphi^1} \subset Z^1(F_* \Omega^\bullet_{X}) \]
+and $\varphi^1$ induces $C^{-1}$ in degree $1$. For local section $a'\in \Gamma(U^{(p)}, \struct{\wt{X^{(p)}}})$ pulled back from $a \in \Gamma(U, \struct{X})$, the differential $\d{a}$ is acted on via
+\[ \wt{F}^*(\d{a'}) = \d{\,\wt{F}^\# a'} = p a^{p-1} \d{a} + p \, \d{b} \]
+where $\wt{F}^\# a' = a^p + p \, b$ where $p \, b$ is the error term. Hence
+\[ \varphi^1(\d{a'}) = a^{p-1} \d{a} + \d{b} \]
+which is clearly an exact form (lies in $Z^1$). But notice that the second term is exact and therefore dies in the quotient
+\[ Z^1(F_* \Omega^\bullet_{X}) \to \cH^1(F_* \Omega^\bullet_{X}) \]
+so the induced map is exactly given by the Cartier isomorphism in degree $1$.
+
+\subsection{What about if $F$ doesn't lift?}
+
+From smoothness, we know that lifts exist locally. We need to compare the outputs of different lifts. 
+
+\begin{lemma}
+Given flat lifts $\wt{X}_i$ of $X$ and $G_i : \wt{X} \to \wt{X^{(p)}}$ of $F$ over $\wt{S}$ there is a canonical element,
+\[ h(G_1, G_2) : \Omega^1_{X^{(p)}} \to F_* \struct{X} \]
+such that,
+\[ \varphi^1_{G_2} - \varphi^1_{G_1} = \d{h(G_1, G_2)} \] 
+and if $G_3 : \wt{X}_3 \to \wt{X^{(p)}}$ is a third lifting then
+\[ h(G_1, G_2) + h(G_2, G_3) = h(G_1, G_3) \]
+\end{lemma}
+
+\begin{proof}
+Choose an isomorphism $u : \wt{X}_1 \iso \wt{X}_2$ of lifts (which may only exist locally) then 
+\[ u^* G_2 - G_1 : \struct{X^{(p)}} \to F_* \struct{X} \]
+is a derivation which does not depend on the choice of isomorphism $u$. Indeed, given $u' : \wt{X}_1 \iso \wt{X}_2$ the difference is a derivation or equivalently a map
+\[ \delta : \Omega_{X}^1 \to \struct{X} \]
+Then $u^* G_2$ and $u'^* G_2$ differ by the composition of $\delta$ with the pullback $F^* \Omega^1_{X^{(p)}} \to \Omega^1_{X}$ which is zero. Hence $u^* G_2 = u'^* G_2$. Therefore, working locally on $X$ so that an isomorphism $u$ exists, we get a well-defined derivation 
+\[ h(G_1, G_2) : \Omega^1_{X^{(p)}} \to \wt{F}_* \struct{X} \]
+via the difference above. Then 
+\[ \varphi_{G_2}^1 - \varphi_{G_1}^1 = \d{h(G_1, G_2)} \]
+from the formula for $\varphi^1$ since $G_2^{\#}(a') - G_1^{\#}(a') = b_2 - b_1$ in $F_* \struct{X} = p \cdot \wt{F}_* \struct{\wt{X}}$ then
+\[ \varphi^1_{G_2}(a') - \varphi^1_{G_1}(a') = \d{(b_2 - b_1)} \]
+\end{proof}
+
+This is exactly enough data to modify the local lifts in such a way that the $\varphi_{G}^1$ glue to
+\[ \varphi^1 : \Omega^1_{X^{(p)}} \to Z^1(F_* \Omega_X^\bullet) \]
+using the Cech description.
+
+
+\section{Talk}
+
+\newcommand{\Zar}{\mathrm{Zar}}
+
+Let $X / \CC$ be smooth and proper. Then 
+\[ H^n(X/\CC, \CC) = \bigoplus_{i + j = n} H^j(X, \Omega_X^i) \]
+by the Hodge decomposition. This is because by Grothendieck
+\[ H^n(X, \CC) = H^n_{\dR}(X/\CC) = \HH^n_{\Zar}(X, \Omega_X^\bullet) \]
+we can interpret the Hodge decomposition by saying that we can replace the differentials by $0$ and the cohomology does not change. 
+\par 
+We also have Kodaira-Akizuki-Nakano vanishing: if $\L$ is ample then
+\[ H^i(X, \L \ot \Omega_X^j) = 0 \]
+for all $i + j > \dim{X}$. 
+
+\subsection{The positive characteristic scenario}
+
+Let $p$ be a prime and $X / \FF_p$ be a smooth projective variety. Is there a natural decomposition?
+\[ H^n_{\dR}(X / \FF_p ) = \bigoplus_{i + j = n} H^j(X, \Omega^i_X) \]
+but we cannot hope to have a natural such decomposition. Indeed, if $F : X \to X$ is the Frobenius
+\[ f \in \struct{X} \quad F^*(f) = f^p \]
+
+\begin{example}
+Let $E / \FF_p$ be a supersingular elliptic curve then $F^* = 0$ on $H^1(E, \struct{E})$. Then
+\[ F^* \acts H^1_{\dR}(E/\FF_p) = \FF_p^{\oplus 2} \]
+acts via
+\[ F^* = 
+\begin{pmatrix}
+0 & 1
+\\
+0 & 0
+\end{pmatrix} \]
+and hence cannot respect any decomposition.
+\end{example}
+
+\begin{example}
+Mumford gave an example of a surface such that 
+\[ \d : H^0(X, \Omega_X^1) \to H^0(X, \Omega^2_X) \]
+is nonzero and thus
+\[ \dim{H^1_{\dR}} < \dim{H^0(X, \Omega_X^1)} + \dim{H^1(X, \struct{})} \]
+\end{example}
+
+\begin{theorem}[Deligne-Illusie]
+Let $X / \FF_p$ be a smooth variety endowed with a lift $\wt{X}$ over $\Z / p^2$ then 
+\[ H^n_{\dR}(X) = \bigoplus_{i + j = n} H^j(X, \Omega^i) \]
+for $n < p$ which is natural in $\wt{X}$ (so not completely canonical only functorial for morphisms endowed with a lift). 
+\end{theorem}
+
+This fixes the issues. In the first example, $F$ cannot be lifted, in the second the variety does not lift at all. 
+
+\begin{theorem}
+If $X$ is smooth projective and $\dim{X} \le p$ then
+\[ H^i(X, \Omega^j \ot \L) = 0 \]
+for $i + j > \dim{X}$ if $X$ admits a lift.
+\end{theorem}
+
+\begin{theorem}[P]
+There exist smooth projective $X / \FF_p$ liftable to $\ZZ_p$ such that
+\[ \dim{H_{\dR}^p(X / \FF_p)} < \dim \bigoplus_{i + j = p} H^j(X, \Omega^i_X) \]
+\end{theorem}
+
+So the first case possible fails. 
+
+\subsection{Method of Deligne-Illusie}
+
+For $X / \FF_p$ smooth the complex
+\[ F_* \Omega_X^\bullet := [F_* \struct{X} \xrightarrow{F_* \d} F_* \Omega^1_X \xrightarrow{F_* \d} F_* \Omega_X^2 \to \cdots]  \]
+is a \textit{linear} complex of $\struct{X}$-modules. Indeed,
+\[ \d{f^p \omega} = p f^{p-1} \d{f} \wedge \omega + f^p \omega = f^p \omega \]
+But note that 
+\[ \R \Gamma_{\dR}(X) = \R \Gamma_{\Zar}(X, F_* \Omega_X^\bullet) \]
+Cartier isomorphism
+\[ \cH^i(F_* \Omega_X^\bullet) \iso \Omega^i_X \]
+The key question is whether this lifts to the derived category? This means is $F_* \Omega_X^\bullet$ quasi-isomorphic to a complex with zero differentials? Question: is there a quasi-isomorphism
+\[ F_* \Omega^\bullet_X =\iso \bigoplus_{i \ge 0} \Omega^i_X[-i] \]
+If yes, we get a decomposition
+\[ H^n_{\dR}(X) \cong \bigoplus_{i + j = n} H^j(X, \Omega^i_X) \]
+for all $n$ and we get Kodaira-Akizuki-Nakano vanishing. 
+
+Consider
+\[ \tau^{\le 1} F_* \Omega_X \iso [\struct{X} \xrightarrow{0} \Omega_X^1] \]
+exists iff $X$ lifts to $\Z / p^2$. Moreover if you are precise about the equivalence of quasi-isomorphisms they are in bijection with isomorphism classes of lifts. It turns out that such a quasi-isomorphism implies 
+\[ \tau^{< p} F_* \Omega_X^\bullet \iso \bigoplus_{i = 0}^{p-1} \Omega^i_X [-i] \]
+We want to figure out some classes of varieties for which this quasi-isomorphism exists.
+
+\subsection{Frobenius Splitting}
+
+\begin{defn}[Mehta-Ramanathan]
+Let $X / \FF_p$ be any scheme. We say it is \textit{Frobenius split} if there exists
+\[ \sigma : F_* \struct{X} \to \struct{X} \]
+such that the composition
+\[ \struct{X} \to F_* \strut{X} \xrightarrow{\sigma} \struct{X} \]
+is the identity.
+\end{defn}
+
+Note that $F_* \struct{X}$ is, for $X$ smooth, a vector bundle of rank $p^{\dim{X}}$.
+
+\begin{rmk}
+In characteristic zero, if $f : X \to Y$ is a finite flat morphism then $\struct{Y} \to f_* \struct{X}$ always has a splitting. Indeed, if $\deg{f}$ is invertible on $Y$ then there is a splitting by taking the trace map which gives multiplication by $p$. Thus failure of splitting is a strictly characteristic zero phenomenon. 
+\end{rmk}
+
+\begin{prop}
+If $X$ is any projective variety over $\FF_p$ and is $F$-split then if $\L$ is an ample line bundle then $H^i(X, \L) = 0$ for $i > 0$. 
+\end{prop}
+
+\begin{proof}
+For any line bundle $\L$ we see that if $H^i(X, \L^{\ot p}) = 0$ then $H^i(X, \L^{\ot p}) = 0$. Indeed,
+\[ H^i(X, \L^{\ot p}) = H^i(X, F^* \L) = H^i(X, F_* F^* \L) = H^i(X, \L \ot F_* \struct{X}) \]
+there is always a map $\L \to F_* F^* \L$ but we have a splitting so 
+\[ H^i(X, \L) \to H^i(X, \L \ot F_* \struct{X}) \]
+is a direct summand. Hence $H^i(X, \L^{\ot p}) = 0$ implies $H^i(X, \L) = 0$. Since $\L$ is ample, some power will kill higher cohomology so we win by downward induction. 
+\end{proof}
+
+Analogously we can prove
+\[ H^i(X, \L \ot \omega_X) = 0 \]
+for $i > 0$ if $F$-split and smooth projective.
+
+\begin{example}
+The following are $F$-split
+\begin{enumerate}
+\item ordinary elliptic curves
+\item flag varities $G / P$ for $P \subset G$ parabolic in a reductive group
+\item toric varieties?
+\item $B G$ for any reductive group $G$ 
+\end{enumerate}
+non $F$-split varieties: 
+\begin{enumerate}
+\item curve of genus $g > 1$
+\item most varieties
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[P]
+If $X$ is smooth and $F$-split then 
+\[ F_* \Omega_X^\bullet = \bigoplus_{i \ge 0} \Omega_X^i[-i] \]
+so there is a decomposition in all degrees. Moreover, if $X$ is smooth projective then \[ H^i(X, \L \ot \Omega_X^j) = 0 \]
+for $i + j > \dim{X}$. 
+\end{theorem}
+
+\begin{prop}[Vologodsky, Bhatt]
+If $X / \FF_p$ is smooth then
+\[ F^* F_* \Omega_X^\bullet \cong \bigoplus_{i \ge 0} F^* \Omega_X^\bullet [-i] \]
+Any possible extension thus die under $F^*$.
+\end{prop}
+
+Then the theorem follows quickly. We get
+\[ F_* \struct{X} \ot_{\struct{X}} F_* \Omega_X^\bullet \cong \bigoplus_{i \ge 0} F_* \struct{X} \ot \Omega_X^i[-i] \]
+there is always a map
+\[ F_* \Omega_X^\bullet \to F_* \struct{X} \ot_{\struct{X}} F_* \Omega_X^\bullet \]
+but when you are $F$-split there is a section
+\[ F_* \struct{X} \ot_{\struct{X}} F_* \Omega_X^\bullet \to F_* \Omega_X^\bullet \]
+so $F_* \Omega_X^\bullet$ is a direct summand of a decomposition complex. 
+
+\subsection{The de Rham stack (Simpson, Drinfeld, Bhatt-Lurie, Ogus-Vologodsky}
+
+The proof of these claims uses the de Rham stack. Let $X / \FF_p$ be a smooth variety. There is a stack $X^{\dR} / \FF_p$ which is a \etale stack in groupoids such that
+\begin{enumerate}
+\item $\R \Gamma(X^{\dR}, \struct{X^{\dR}}) \cong \R \Gamma_{\dR}(X/\FF_p)$
+\item $\QCoh(X^{\dR}) \cong D_X$-modules with locally nilpotentent $p$-curvature. These are pairs $(\E, \nabla)$ where $\E$ is a vector bundle with $\nabla$ a flat connection with locally nilpotent $p$-curvature. 
+\end{enumerate}
+
+There is a map $s : X \to X^{\dR}$ such that $s^* (\E, \nabla) = \E$. In characteristic $p$ there is a map $\pi : X^{\dR} \to X$ such that $\pi^* \E = (F^* \E, \nabla^{\text{can}})$ where $\nabla^{\text{can}}(f \ot s) = \d{f} \ot s$ which is well-defined because $p$-th powers have zero differential. The composition $\pi \circ s = F$ because $s^* \pi^* \E = F^* \E$. 
+
+\begin{prop}
+$F_* \Omega_X^\bullet = \R \pi_* \struct{X^{\dR}}$
+\end{prop} 
+
+Key property: $\pi : X^{\dR} \to X$ is a gerbe for a group scheme on $X$. 
+
+\begin{lemma}[Ogus-Vologodsky]
+Assume $X$ has a lift $\wt{X}$ over $\Z / p^2$ equipped with a lift of Frobenius $\wt{F} : \wt{X} \to \wt{X}$. Then the category of quasi-coherent sheaves on $X$ with flat locally nilpotent $p$-curvature connections is equivalent to the category of nilpotent Higgs sheaves $(\E, \theta)$ on $X$. 
+\end{lemma}
+
+In particular, when we have $F$-lifts, $X^{\dR} \cong B_X T_X^{\#}$ for a certain group scheme $T_X^{\#}$. This is induced by the above equivalence of categories.
+
+\begin{proof}
+Let $\theta : \E \to \E \ot \Omega_X^1$ be a Higgs sheaf. We want to produce $(\E, \nabla)$. The lift $\wt{F}$ produces
+\[ F^* \Omega^1_X \xrightarrow{\frac{1}{p} \d{wt{F}}} \Omega_X^1 \]
+given by
+\[ \omega \ot 1 \mapsto \frac{\d{\wt{F}(\wt{\omega})}}{p} \]
+for some lift $\wt{\omega}$ of $\omega$. 
+Then I can consider $(F^* \E, \nabla^{\can} + \\frac{\d{\wt{F}}}{p} \cdot F^* \theta)$
+where we need this curious map or else $F^* \theta$ has target in $F^* \Omega_X^1$. This map of categories works in general, it is an equivalence if we impose nilpotency conditions.
+\end{proof}
+
+\begin{cor}
+Given a lift 
+\begin{center}
+\begin{tikzcd}
+Y \arrow[rd] \arrow[r, "\wt{f}"] & X^{\dR} \arrow[d, "\pi"] 
+\\
+& X
+\end{tikzcd}
+\end{center}
+then there is a quasi-isomorphism
+\[ \wt{f}^* F_* \Omega_X^\bullet \bigoplus_{i \ge 0} \Omega_X^i[-i] \]
+\end{cor}
+
+In particular, we can apply this to Frobenius given a lifting. 
+\end{document}

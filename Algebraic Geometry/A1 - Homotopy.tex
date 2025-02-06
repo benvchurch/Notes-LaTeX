@@ -8,7 +8,6 @@
 \newcommand{\sq}{\mathrm{sq}}
 \DeclareMathOperator{\dlog}{\mathrm{dlog}}
 \newcommand{\st}{\mathrm{st}}
-\newcommand{\Bl}{\mathrm{Bl}}
 
 \begin{document}
 
@@ -94,7 +93,6 @@ How do we capture the notion of a group object in an $\infty$-category? The asso
 
 \newcommand{\CMon}[1]{\mathrm{CMon}\left( #1 \right)}
 \newcommand{\Fin}{\mathrm{Fin}}
-\newcommand{\ul}[1]{\underline{#1}}
 \newcommand{\Space}{\mathbf{Space}}
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\gp}{\mathrm{gp}}
@@ -1059,6 +1057,8 @@ Let $k$ be a perfect field, $f : Y \to X$ a morphism in $\PSh(\Sm_k)$ and $n \ge
 Since $\L_{\mot}$ is a left-adjoint, it preserves homotopy colimits. Thus $\L_{\mot}(\cofib f) = \cofib(\L_{\mot} f)$ and hence we can assume that $X, Y$ are motivic. Then it reduces to the corresponding lemma for ordinary spaces 
 \end{proof}
 
+{\color{red} We have to be careful: $\L_{\mot}(\cofib f) = \cofib(\L_{\mot} f)$ but the second is computed in motivic spaces which is not the same as the colimit computed on sheaves. In particular, its stalks are not the cofibers of the maps on stalks so we cannot direct apply topological arguments to it. Instead we have to use the connectivity theorem.}
+
 \subsection{Connectivity Theorem}
 
 (FIX THIS COMPLETELY)
@@ -1381,7 +1381,7 @@ Indeed we see that $\Th_X$ is the pushout,
 \end{tikzcd}
 \end{center}
 
-\subsection{Deformation to the Normal COne}
+\subsection{Deformation to the Normal Cone}
 
 Given a closed immersion $Z \to X$ then define,
 \[ D(X, Z) = \Bl_{Z \times 0} (X \times \A^1) \sm \Bl_{Z \times 0} (X \times 0) \]
@@ -1501,5 +1501,567 @@ This follows from the connectivity of the map $\B \GL_n \to \B \GL_{n+1}$.
 \end{rmk}
 
 
+\newpage
+
+\section{Appendix}
+
+
+To understand for writing the appendix:
+
+\begin{enumerate}
+\item \chref{https://arxiv.org/pdf/2012.13304}{Nisnevich motive of a stack}
+
+\item \chref{https://rezk.web.illinois.edu/freudenthal-and-blakers-massey.pdf}{Blakers-Massey} need to find a reference in $\A^1$-homotopy theory
+
+\item \chref{https://www.math.columbia.edu/~magenroy/motivicseminar.html}{here is Roy's master list}
+
+\item \chref{Kirsten's intro to motivic homotopy theory}{https://arxiv.org/pdf/1902.08857}
+\end{enumerate}
+
+\subsection{TODO}
+
+\begin{enumerate}
+\item connectivity arguments find and prove
+\item are Ravi's stacks Exhaustive as in \chref{https://arxiv.org/pdf/1711.11072}{here}
+\item consider homotopy groups of $\P^n$ to see potential counterexamples
+\end{enumerate}
+
+
+\subsection{Blakers-Massey}
+
+The main question concerns the connectivity of the inclusion map $j : U \to X$ of a open set of a smooth variety with large codimension.
+
+\begin{defn}
+Let $f : X \to Y$ be a morphism of topological spaces. $f$ is $n$-connected if for all $x \in X$ the induced map $f_* : \pi_k(X, x) \to \pi_k(Y, f(x))$ is an isomorphism for all $k \le n$ and an epimorphism for $k = n+1$. 
+\end{defn}
+
+\begin{rmk}
+$X \to *$ is $n$-connected iff $X$ is $n$-connected. Likewise, if $X$ is nonempty then $X$ is $(n+1)$-connected iff $* \to X$ is $n$-connected. 
+\end{rmk}
+
+\begin{rmk}
+From the long exact sequence of a fibration, $f : X \to Y$ is $n$-connected if and only if the homotopy fiber of $f$ is $n$-connected.
+\end{rmk}
+
+\begin{rmk}
+Note how this convention plays with connectivity of a pair $(X, A)$. We say that $(X,A)$ is $n$-connected if $\pi_k(X,A) = 0$ for $k \le n$. This is equivalent, by the long exact sequence, to the inclusion map $A \to X$ being $(n-1)$-connected.
+\end{rmk}
+
+ Over $\CC$ and in the traditional homotopy theory this is taken care of by the classical Blakers-Massey theorem and manipulation of tubular neighborhoods. First we recal.
+
+\begin{prop}[Blakers-Massey]
+Consider a homotopy pushout diagram of topological spaces,
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] \arrow[d] & B \arrow[d]
+\\
+A \arrow[r] & \pushout X 
+\end{tikzcd}
+\end{center}
+Suppose that the map $U \to A$ is $m$-connected and $U \to B$ is $n$-connected. Then
+\begin{enumerate}
+\item the map of pairs $(A, U) \to (X, B)$ is $(m + n + 1)$-connected (meaning the identical definition in terms of maps of homotopy groups of pairs) {\color{red} GET THE INDEXING RIGHT}
+\item the map to the homotopy pullback $U \to A \times^h_X B$ is $(m+n)$-connected.
+\end{enumerate} 
+\end{prop}
+
+\begin{proof}
+\chref{https://rezk.web.illinois.edu/freudenthal-and-blakers-massey.pdf}{See a proof here}. 
+\end{proof}
+
+\begin{rmk}
+In fact, these statements are equivalent. I claim there is a natural equivalence between certain homotopy fibers
+\[ \fib(U \to A \times^h_X B) \iso \fib(\fib(U \to A) \to \fib(B \to X)) \]
+Indeed, for any commutative square
+\begin{center}
+\begin{tikzcd}
+U \arrow[r] \arrow[d] & B \arrow[d]
+\\
+A \arrow[r] & X
+\end{tikzcd}
+\end{center}
+Then the homotopy groups of the fiber of $U \to A$ are (by the long exact sequence and 5-lemma) equal to the homotopy groups of the pair $(A, U)$ and likewise for $(X, B)$. Furthermore, the map $U \to A \times^h_X B$ is $k$-connected iff $\fib(U \to A \times^h_X B)$ is $k$-connected. This gives the equivalence between the formulations. 
+\end{rmk}
+
+\begin{rmk}
+This theorem is a vast generalization of Freudenthal suspension theorem. In that case $A = B = *$ so if $U$ is $n$-connected then the maps $U \to *$ are $n$-connected so $U \to \Omega \Sigma U$ is $2n$-connected.
+\end{rmk}
+
+\begin{rmk}
+Usually Blakers-Massey, in this context called ``homotopy excision'', is stated for an \textit{excisive triple} $(X; A, B)$. This is {\color{red} TODO} which ensures that $X$ is the homotopy colimit of $A \leftarrow A \cap B \to B$ hence we can apply the theorem to conclude that if $(A, A \cap B)$ is $m$-connected and $(B, A \cap B)$ is $n$-connected then $(A, A \cap B) \to (X, B)$ is $(m+n)$-connected. {\color{red} check indexing}
+\end{rmk}
+
+This gives, for example, May's or Hatcher's version of homotopy excision.
+
+\begin{theorem}
+Let $(X; A,B)$ be an excisive triad such that $C = A \cap B$ is nonempty and connected. Assume that $(A,C)$ is $m$-connected and $(B,C)$ is $n$-connected, for $m, n \ge 0$. Then the inclusion $(A, C) \to (X,B)$ is $(n+m-1)$-connected.
+\end{theorem}
+
+\begin{prop}
+Let $X$ be a manifold and $Z \subset X$ a submanifold of (real) codimension $r$. Let $U = X \sm Z$. Then the inclusion $j : U \to X$ is $(r-2)$-connected meaning 
+\[ \pi_k(U) \to \pi_k(X) \]
+is an isomorphism for $k \le r-2$ and is surjective for $k = r - 1$.
+\end{prop}
+
+\begin{proof}
+We apply Blakers-Massey to the excisive triple $(X; N_Z, U)$ where $N_Z$ is a disk bundle variant of the normal bundle which is isomorphic to a tubular neighborhood of $Z$ inside $X$. Notice that the intersection $C := N_Z \cap U = S(N_Z)$ is homotopy equivalent to the sphere bundle of the normal bundle. Since $N_Z$ has rank $r$, the bundle $S(N_Z) \to Z$ is a $S^{r-1}$-bundle and hence is $(r-2)$-connected. Furthermore, $S(N_Z) \to U$ is $-1$-connected because both are connected. Therefore, $(N_Z, S(N_Z)) \to (X, U)$ is $(r-2)$-connected meaning
+\[ \pi_k(N_Z, S(N_Z)) \to \pi_k(X,U) \]
+is an isomorphism for $k \le r - 2$ and surjective for $k = r - 1$. However, the pair $(N_Z, S(N_Z))$ is also $(r-1)$-connected (since $S(N_Z) \to Z$ is $(r-2)$-connected) meaning $\pi_k(N_Z, S(N_Z)) = 0$ for $k \le r - 1$ thus $\pi_k(X, U) = 0$ for $k \le r - 1$.  
+\end{proof}
+
+\begin{rmk}
+The example of $S^n$ shows that this is optimal for all $r$. Indeed, let $U \embed S^n$ be the complment of one point then $U \cong \RR^n$ 
+\end{rmk}
+
+\begin{cor}
+Let $X$ be a complex manifold (in particular a smooth $\CC$-variety) and $Z \subset X$ a submanifold of (complex) codimension $r$. Let $U = X \sm Z$. Then the inclusion $j : U \to X$ is $(2r-2)$-connected meaning 
+\[ \pi_k(U) \to \pi_k(X) \]
+is an isomorphism for $k \le 2r-2$ and is surjective for $k = 2r - 1$.
+\end{cor}
+
+\begin{rmk}
+This is also optimal. For example, for $r = 1$ consider $j : E \sm \{ p \} \embed E$ the complement of a point in an elliptic curve. This is surjective on $\pi_1$ but not an isomorphism. For $\A^1 \to \P^1$, the complement of the point at $\infty$, the induced map on $\pi_2$ is not surjective. 
+\end{rmk}
+
+\begin{cor}
+Let $X$ be a smooth $\CC$-variety and $Z \subset X$ a (not necessarily smooth) subvariety. Let $U = X \sm Z$. Then the inclusion $j : U \to X$ is $(2r - 2)$-connected meaning
+\[ \pi_k(U) \to \pi_k(X) \]
+is an isomorphism for $k \le 2r - 2$ and is surjective for $k = 2r - 1$.
+\end{cor}
+
+\begin{proof}
+Consider a filtration
+\[ Z = Z_0 \supsetneq Z_1 \supsetneq \cdots \supsetneq Z_k = \empty \]
+where $Z_i \sm Z_{i+1}$ is smooth. This exists by generic smoothness. We proceed by induction on $r$. For $r = \dim{X}$ the subvariety consists of a finite set of points and hence is automatically smooth. Now we factor
+\[ \pi_k(X \sm Z) \to \pi_k(X \sm Z_1) \to \pi_k(X) \]
+since $Z_1$ is codimension $\ge r + 1$ in $X$ by the induction hypothesis $X \sm Z_1 \to X$ is $2r$-connected. Now $X \sm Z \to X \sm Z_1$ is the complement of the smooth subvariety $Z \sm Z_1$ so by our previous results it is $(2r-2)$-connected. Hence both maps are isomorphism for $k \le 2r-2$ and surjective for $k = 2r - 1$.
+\end{proof}
+
+
+\subsection{Motivic Spaces}
+
+$\A^1$-connectivity results for $j : U \embed X$ do not carry over exactly as for complex manifolds. One manifestation is that for varieties defined over $\RR$ the motivic spaces have an $\RR$-realization so the best we could hope for is that if the codimension of $Z = X \sm U$ is $r$ then $j$ is $(r-2)$-connected. 
+
+I do not know if this holds. I have some reason to doubt it. The reson the proof fails is that we don't have access to tubual neighborhoods or sphere bundles in motivic homotopy theory. Instead, we have the purity isomorphism which will tell us that $\cofib(U \to X)$ is highly $\A^1$-connected.
+
+\subsection{Connectivity and cofibers}
+
+Note the following consequences of Blakers-Massey,
+
+\begin{prop}
+Consider the homotopy cofiber
+\begin{center}
+\begin{tikzcd}
+X \arrow[d] \arrow[r, "f"] & Y \arrow[d, "r"]
+\\
+* \arrow[r] & \cofib(f)
+\end{tikzcd}
+\end{center}
+If $X$ is $m$-connected and $f$ is $n$-connected then $X \to \fib(r)$ is $(m+n)$-connected. Therefore, we get a diagram from the long exact sequence for the homotopy fiber of $r$.
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & \pi_k(\fib(r)) \arrow[r] & \pi_k(Y) \arrow[r] & \pi_k(\cofib(f)) \arrow[r] & \cdots
+\\
+& \pi_k(X) \arrow[u] \arrow[ru, "f_*"']  
+\end{tikzcd}
+\end{center}
+since $\pi_k(X) \to \pi_k(\fib(r))$ is an isomorphism for $k \le m+n$ and an epi for $k = m + n + 1$ and $f_*$ is an isomorphism $k \le n$ and surjective for $k = n+1$. Thus $\pi_k(\cofib(f)) = 0$ for $k \le n+1$ as long as $m \ge 0$ {\color{red} apparently I don't need this [Lur09, Proposition 6.5.1.20]}.
+\end{prop}
+
+\begin{cor}
+Consider the homotopy cofiber
+\begin{center}
+\begin{tikzcd}
+X \arrow[d] \arrow[r, "f"] & Y \arrow[d, "r"]
+\\
+* \arrow[r] & \cofib(f)
+\end{tikzcd}
+\end{center}
+we can ``rotate'' as in the formation of the Puppe sequence via taking pushouts to get a diagram consisting of homotopy pushout squares
+\begin{center}
+\begin{tikzcd}
+X \arrow[d] \arrow[r, "f"] & Y \arrow[d, "r"] \arrow[r] & * \arrow[d]
+\\
+* \arrow[r] & \cofib(f) \arrow[r] \arrow[d] & \Sigma X \arrow[d, "-\Sigma f"] \arrow[r] & * \arrow[d]
+\\
+& * \arrow[r] & \Sigma Y \arrow[r] & \Sigma \cofib(f)
+\end{tikzcd}
+\end{center}
+Applying the above result to the ``rotated'' homotopy pushout square
+\begin{center}
+\begin{tikzcd}
+\cofib(f) \arrow[r] \arrow[d] & \Sigma X \arrow[d, "-\Sigma f"] 
+\\
+* \arrow[r] & \Sigma Y
+\end{tikzcd}
+\end{center}
+since $\Sigma X$ is $0$-connected, $\cofib(f) \to \Sigma X$ is $-1$-connected\footnote{Here I probably assumed $X$ is nonempty so $Y$ is nonempty so $\cofib(f) \to \Sigma X$ is surjective on path-components since $\Sigma X$ is connected and $\cofib(f)$ is nonempty. This implies $\cofib(f) \to \Sigma X$ is $-1$-connected.} Hence by Blakers-Massy: if $\cofib(f)$ is $m$-connected we conclude that $\Sigma f : \Sigma X \to \Sigma Y$ is $(m-1)$-connected.
+\end{cor}
+
+\begin{rmk}
+The signs in the Puppe sequence come from the standard identification of the iterated mapping cones with $\Sigma X$ etc. See for example,
+\begin{enumerate}
+\item \chref{https://mathoverflow.net/questions/2077/how-to-determine-the-homotopy-groups-of-the-suspension-of-a-space}{this mathoverflow answer}
+\item \chref{https://math.colorado.edu/~agbe5088/math6280/classnotes/Class10.pdf}{MATH 6280 at Colorado class 10}
+\item ipad notes from Dec.13 
+\end{enumerate}
+\end{rmk}
+
+\begin{rmk}
+This is the optimal result. Indeed, consider $S^1 \to *$ which has cofiber $\Sigma S^1 = S^2$ which is $1$-connected. Indeed, $S^1 \to *$ is $0$-connected but not $1$-connected.
+\end{rmk}
+
+We can form this in a different way using the alternative version of Blakers-Massey.
+
+\begin{prop}
+Let $f : X \to Y$ be $n$-connected and $X$ be $m$-connected. Then the natural map 
+\[ \fib(f) \to \Omega \cofib(f) \]
+is $(n+m)$-connected.
+\end{prop}
+
+\begin{proof}
+Consider the pushout square
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "f"] \arrow[d] & Y \arrow[d]
+\\
+* \arrow[r] & \cofib(f)
+\end{tikzcd}
+\end{center}
+then using the first form we see that
+\[ \fib(f) \to \fib(* \to \cofib(f)) = \Omega \cofib(f) \]
+is $(n + m)$-connected. 
+\end{proof}
+
+These above results carry over completely to the world of motivic spaces.
+
+\newcommand{\Hen}{\mathrm{Hen}}
+
+\begin{lemma}
+Let $F \in \PSh(\Sm_S)$. Then for $x \in X \in \Sm_S$ the Nisnevich stalk of $\pi_i(F)$ at $x$ is $\pi_i(F_x)$.
+\end{lemma}
+
+\begin{proof}
+Indeed, 
+\[ \pi_i(F)_x = \colim_{Y \in \Hen_{X,x}} \pi_i(F(Y)) = \pi_i(\colim_{Y \in \Hen_{X,x}} F(Y)) = \pi_i(F_x) \] 
+because $\pi_i$ commutes with filtered homotopy colimits {\color{red} NEED REFERENCE} (e.g. look at \chref{https://mathoverflow.net/questions/56166/do-homotopy-groups-always-commute-with-filtered-colimits}{this answer}). 
+\end{proof}
+
+\begin{cor}
+To check if a (pointed) object $F$ or morphism $f : F \to G$ is $n$-connected it suffices to check on Nisnevich stalks. 
+\end{cor}
+
+\begin{proof}
+Indeed, the morphism of sheaves $\pi_i(F) \to \pi_i(G)$ (with $Y = *$ in the first case) is an isomorphism it suffices to check this on stalks which is the same as checking the corresponding map of spaces $F_x \to G_x$ is $n$-connected. 
+\end{proof}
+
+\begin{lemma}
+Let $k$ be a perfect field, $f : Y \to X$ be a morphism in $\PSh(\Sm_k)$, and $n \ge -1$. If $f$ is $\A^1$-$n$-connected, then $\cofib(f)$ is $\A^1$-$(n+1)$-connected. The coverse holds if $X$ and $Y$ are $\A^1$-$1$-connected.
+\end{lemma}
+
+\begin{proof}
+Since $L_{\mot}$ is a left-adjoint it preserves homotopy colimits. Hence it suffices to show that $L_{\mot}(\cofib(f)) = \cofib(L_{\mot}(f))$ is $(n+1)$-connected. By assumption $L_{\mot}(f))$ is $n$-connected so the map on stalks is $n$-connected but $\cofib$ commutes with colimits hence with taking stalks so by the result for spaces we conclude that $\cofib(L_{\mot}(f))$ is $(n+1)$-connected.
+\par 
+However, for the converse we need to be a little careful since it does not preserve homotopy fibers. Let $C = \cofib(L_{\mot}(f))$ and $F = \fib(L_{\mot}(f))$. Our assumption is that $C$ is $\Aconn{n+1}$. 
+\end{proof}
+
+
+
+
+\begin{lemma}[8.9]
+Let $k$ be a perfect field, $X$ a smooth $k$-scheme, and $Z \subset X$ a closed subscheem of codimension $\ge r$. Then $\Sigma(X/(X \sm Z))$ is $\Aconn{r}$. 
+\end{lemma}
+
+\begin{proof}
+$X$ is a disjoint union of quasi-compact smooth schemes so we may assume that $X$ is quasi-compact. If $Z$ is smooth then $X / (X \sm Z)$ is $\Aconn{r-1}$ by purity.
+\bigskip\\
+Notice that I can assume $Z$ is smooth because the sheaf represented by $Z$ and $Z_{\red}$ on $\Sm_k$ are the same since a morphism from a reduced scheme factors through the reduction.
+\bigskip\\
+Since $k$ is perfect, generic smoothness gives a filtration,
+\[ \empty = Z_0 \subsetneq Z_1 \subsetneq \cdots \subsetneq Z_n = Z \]
+of closed subschemes such that $Z_j \sm Z_{j-1}$ is smooth. We prove the result by induction on $n$. Consider the cofiber sequence,
+\[ \frac{X \sm Z_{n-1}}{X \sm Z} \to \frac{X}{X \sm Z} \to \frac{X}{X \sm Z_{n-1}} \]
+Therefore because homotopy colimits commute we get a cofiber sequence,
+\[ \Sigma \left( \frac{X \sm Z_{n-1}}{X \sm Z} \right) \to \Sigma \left( \frac{X}{X \sm Z} \right) \to \Sigma \left( \frac{X}{X \sm Z_{n-1}} \right) \]
+by the induction hypothesis $X / (X \sm Z_{n-1})$ is $\Aconn{r}$ (indeed it should be $\Aconn{r+1}$ because $\codim{Z_{n-1}, X} \ge r + 1$ but we don't need this) and hence by Lemma 8.8 the morphism,
+\[ \Sigma \left( \frac{X \sm Z_{n-1}}{X \sm Z} \right) \to \Sigma \left( \frac{X}{X \sm Z} \right)  \]
+is $\Aconn{r-1}$. Since, $X \sm Z_{n-1}$ and $X \sm Z$ are smooth, by the smooth case we know that $\Sigma ((X \sm Z_{n-1})/(X \sm Z))$ is $\Aconn{r}$ and hence $\Sigma( X / (X \sm Z))$ is $\Aconn{r}$.
+\end{proof}
+
+
+\subsection{Purity}
+
+
+
+\subsection{Motivic Spectra}
+
+\newcommand{\SH}{\mathrm{SH}}
+
+Let $S$ be a scheme and $\Sm_S$ the category of smooth schemes over $S$. Then $\Spc(S)_*$ be the $\infty$-category of pointed motivic spaces over $S$. $\Spc(S)$ is the category of $\A^1$-invariant Nisnevich sheaves on $\Sm_S$ valued in spaces (or equivalently simplicial sheaves). The inclusion
+\[ i : \Spc(S) \to \PSh(\Sm_S) \]
+admits a left-adjoint $L_{\mot} : \PSh(\Sm_S) \to \Spc(S)$. 
+
+\begin{defn}
+The category \textit{of motivic spectra} is the localization $\SH(S) := \Spc(S)_*[(\P^1)^{-1}]$. Denote by
+\[ \Sigma^\infty : \Spc(S)_* \to \SH(S) \]
+the canonical functor. 
+\end{defn}
+
+\begin{prop}
+Let $j : U \to X$ be the inclusion of an open set of a smooth $k$-scheme whose complement has codimension $r$. Then
+\[ \Sigma^\infty U \to \Sigma^\infty X \]
+is $(r-2)$-connected. In fact, it is $(r-2)$-very effective. 
+\end{prop}
+
+\begin{proof}
+{\color{red} TODO}
+\end{proof}
+
+\subsection{Stacks}
+
+Furthermore, if X admits a good moduli space (in the sense of [Alp]), then by a theorem of Alper,
+Hall and Rydh, it is Nisnevich locally of the form [Spec (A)/GLn] (see [AHR, Theorem 13.1]), and
+hence a cd-quotient stack2
+.
+
+Remark 2.11. In Proposition 2.10, the GLn-presentation Y• and the Cech nerve ˇ U• are simplicial
+objects in the category of algebraic spaces. This is because a smooth presentation p : U → X of an
+algebraic stack need not be representable by schemes, but only algebraic spaces. However, as any
+algebraic space admits a Nisnevich presentation by a scheme [Knu, Theorem II.6.4], we can refine the
+Cech nerve ˇ U• to a generalised hypercovering V• such that each Vi
+is a scheme. Then M(V•) computes
+the motive M(X) (see [DHI] for details).
+
+
+\begin{rmk}
+Since a nice stack is therefore Nisnevich locally a global quotient stack, we just need to show that a vector bundle over a global quotient stack is a motivic equivalence.
+\end{rmk}
+
+\section{Note about homotopy theory}
+
+
+\newcommand{\Shv}{\mathrm{Shv}}
+
+
+The reason that the homotopy category $h C$ of a homotopy theory (whatevery that means) is ``bad'' is that homotopy limits and colimits are not categorically defined (i.e. not intrinsic to the category $h C$) and certainly do not agree with the internal notion of limits or colimits. 
+\par 
+This is what $\infty$-categories fixes, it gives a framework in which homotopy limits or colimits are actual internal limits or colimits in the category theory itself. 
+\par 
+Model structures, on the other hand, give a $1$-categorical framework in which homotopy (co)limits can be computed and manipulated through judicious use of (co)fibrant replacement. They are still not intrinsic to the category (i.e.\ they depend on the model structure) and very different model structures may be Quillen equivalent so it seems less intrinsic than the $\infty$-categorical notions of homotopy (co)limits. Furthermore, the heavy use of replacements makes functoriality of the homotopy (co)limits somewhat more cumbersome (think of how anoying it can be to define things in the derived category). 
+
+
+
+\section{Representing Torsors}
+
+Here we use the notation of Morel-Voevodsky. 
+
+{\color{red} MV uses simplicial objects in sheaves, isn't this not the same as sheaves of simplicial sets in the $\infty$-categorical sense? Maybe this is reflected in the model structure?}
+
+Let $\Delta^{\op} \Shv(T)$ be the topos of simplicial objects in sheaves on a site $T$. There is a cosimplicial object 
+\[ \Delta \to \Delta^{\op} \Shv(T) \quad n \mapsto \Delta^n \]
+where $\Delta^n$ is the constant simplicial sheaf valued in the $n$-simplex $\Delta^n = h^{[n]}$ representable simplicial set.
+
+\begin{defn}
+On $\Delta^{\op} \Shv(T)$ we define a Quillen model structure $(W_s, C, F_s)$ 
+\begin{enumerate}
+\item $W_s$ is the class of (simplicial) weak equivalences: $f : \X \to \Y$ such that for any point $x$ of $T$
+\[ x^*(t) : x^*(\X) \to x^*(\Y) \]
+is a weak equivalence
+\item $C$ is the class of cofibrations: monomorphisms $f : \X \to \Y$ 
+\item $F_s$ is the class of fibrations: morphisms with the right lifting property with respect to cofibrations which are also weak equivalences.
+\end{enumerate}
+\end{defn}
+
+\begin{theorem}
+For any small site $T$, the triple $(W_s, C, F_s)$ is a model structure. 
+\end{theorem}
+
+Let $\H_s(T)$ be the corresponding homotopy category. 
+
+\subsection{Homotopical classification of torsors}
+
+Let $T$ be a site and $G$ a sheaf of simplicial groups on $T$. A right (resp.\ left) action of $G$ on a simplicial sheaf $\X$ is a morphism $a : \X \times G \to \X$ (resp.\ $G \times \X \to \X$) such that the usual diagrams commute. A (left) action is called (categorically) free ({\color{red} shouldn't it be free-transitive}) if the morphism $G \times \X \to \X \times \X$ of the form $(g, x) \mapsto( a(g,x), x)$ is an isomorphism.
+\par 
+For any right action $G$ on $\X$ define the quotient $\X / G$ as the coequalizer of the two morphisms $\X \times G \to \X$. 
+\par 
+A principal $G$-bundle (or equivalenctly $G$-torsor) over $\X$ is a morphism $\Y \to \X$ together with a free (right) action $G$ on $\Y$ such that the canonical morphism $\Y / G \to \X$ is an isomorphism. 
+
+\begin{rmk}
+If $T$ is the \etale site on a scheme $X$ then this gives the usual definition restricted to sheaves of sets. Indeed, if $G$ is a sheaf of groups, $\F$ is a sheaf of sets satisfying
+\begin{enumerate}
+\item $G \times \F \to \F \times \F$ is an isomorphism
+\item $\F / G \to X$ is an isomorphism. Note that $\F \to \F / G$ is surjective by definition meaning the canonical section of $\F / G \iso X$ lifts locally on $X$ to a section of $\F$.
+\end{enumerate} 
+\end{rmk}
+
+Denote by $P(\X, G)$ the set of isomorphism classes of principal $G$-bundles over $\X$ pointed by the trivial bundle.
+
+\begin{rmk}
+The base change maps make $\X \mapsto P(\X, G)$ into a contravariant functor on simplical sheaves to pointed sets. 
+\end{rmk}
+
+\begin{defn}
+Let $X$ be a sheaf of sets on $T$. Denote by $E(X)$ the simplicial sheaf of sets whose $n$-th term is $X^{n+1}$ and with faces (resp.\ degeneracies) induced by partial projections (resp.\ diagonals). It is unqiuely defined by the property that
+\[ \Hom{\Delta^{\op} \Shv(T)}{\Y}{E(X)} \to \Hom{\Shv(T)}{\Y_0}{X} \]
+is bijective for any simplicial sheaf $\Y$.
+\end{defn}
+
+When $G$ is a sheaf of groups then $E(G)$ becomes a simplicial sheaf of groups (using $E(X \times Y) \cong E(X) \times E(Y)$ naturally) whose subgroup of vertices is $G$. It has both left and right $G$-actions. 
+
+
+{\color{red} what is the definition of $B(G)$}
+
+The morphism
+\[ E(G) \to B(G) \quad (g_0, g_1, \dots, g_n) \mapsto (g_0  g_1^{-1}, g_1 g_2^{-1}, \dots, g_{n-1} g_n^{-1}, g_n) \]
+induces an isomorphism
+\[ E(G) / G \iso B(G) \]
+If $G$ is a simplicial sheaf of group, then taking the diagonal of the bisimplical group $(n,m) \mapsto E(G_n)_m$ defines a sheaf of simplicial groups denoted $E(G)$ which again contains $G$ as a subgroup. 
+\par 
+Again taking the diagonal defines $E(G) \to B(G)$ inducing $E(G)/G \iso B(G)$.
+
+\begin{rmk}
+Recall a trivial local fibration $\Y \to \X$ is a morphism of simplicial sheaves whose stalks are both Kan fibrations and weak equivalences. 
+\end{rmk}
+
+\begin{lemma}
+Let $G$ be a simplicial sheaf of groups, and let $P$ a $G$-torsor over a simplicial sheaf $\X$. Then there is a trivial local fibration $\Y \to \X$ and a morphism $\Y \to B(G)$ wuch that $P \times_{\X} \Y$ is isomorphic to the pull-back of $E(G) \to B(G)$ along $\Y \to B(G)$.
+\end{lemma}
+
+\begin{proof}
+Let $\Y = (P \times E(G))/G$ via the right diagonal action. The projection $\Y \to \X$ is a trivial local fibration (whose fibers are the locally fibrant and weakly constractibl simplicial sheaf $E(G)$). By construction, the pullback of $P$ to $\Y$ is isomorphic to the pullback of $E(G)$ via $\Y \to B(G)$.
+\end{proof}
+
+\begin{defn}
+A simplicial sheaf $\X$ is said to be of \textit{simplical dimension} $\le n$ if $\X_n \times \Delta^n \to \X$ is an epimorphism, or equivalently if $\sk_n(\X) = \X$. 
+\end{defn}
+
+\begin{lemma}
+Assume $G$ has simplicial dimenson zeor and $f : \X \to \Y$ is a trivial local fibration. Then the pullback $P(\Y, G) \to \P(\X, G)$ is a bijection.
+\end{lemma}
+
+The following lemma shows that for $G$ of dimension $0$ the set of torsors is ``homotopy invariant''.
+
+\begin{lemma}
+Assume that $G$ has simplicial dimension zero, then for any simplicial sheaf $\X$, the map $P(\X, G) \to P(\X \times \Delta^1, G)$ is a bijection. 
+\end{lemma}
+
+There is a map
+\[ P(\X, G) \to \Hom{\mathcal{H}_s(T)}{\X}{BG} \]
+given by sending the torsor $P$ to the roof $\X \leftarrow \Y \to BG$ constructed above. Let $BG \to \mathcal{B} G$ be a trivial cofbiration such that $\mathcal{B} G$ is fibrant.
+
+\begin{lemma}
+Assume that $G$ has simplicial dimension zero the natural map
+\[ P(\X, G) \to \Hom{\mathcal{H}_s(T)}{\X}{BG} \]
+is a bijection. 
+\end{lemma}
+
+\begin{prop}
+For any $G$ of simplicial dimension zero and any object $U$ of $T$ one has
+\[ \pi_i(\mathcal{B} G(U), *) = 
+\begin{cases}
+H^i(U, G) := P(U, G) &  i = 0
+\\
+G(U) & i = 1
+\\
+0 & i > 0
+\end{cases} \]
+\end{prop}
+
+\subsection{The \etale classifying space $B_{\et} G$}
+
+From now on, let $S$ be a noetherian scheme with finite Krull dimension. Let $G$ be a sheaf of groups (actual groups, hence simplicial dimension $0$) on $(\Sm_S)_{\et}$. There is a natural morphism of sites
+\[ \pi: (\Sm_S)_{\et} \to (\Sm_S)_{\Nis} \]
+via the inclusion of topologies. This allows us to define
+\[ B_{\et} G = \RR \pi_* \pi^* BG \]
+as an object of $\H_s((\Sm_S)_{\Nis})$.
+\par 
+Note that if $\B_{\et} G$ is a fibrant model of $B(G_{\et})$ in the category of simplicial \etale sheaves, then $B_{\et}(G) \cong \B_{\et} G$ (where we not consider $\B_{\et} G$ as a (fibrant) simplicial Nisnevch sheaf). Then we conclude
+\[ \Hom{\H^s_\bullet((\Sm_S)_{\Nis}}{\Sigma_s^n U_+}{(BG, *)} = 
+\begin{cases}
+H^1_{\Nis}(U, G) & n = 0
+\\
+G(U) & n = 1
+\\
+0 & n > 1
+\end{cases} \]
+and likewise
+\[ \Hom{\H^s_\bullet((\Sm_S)_{\Nis}}{\Sigma_s^n U_+}{(B_{\et}G, *)} = 
+\begin{cases}
+H^1_{\et}(U, G) & n = 0
+\\
+G_{\et}(U) & n = 1
+\\
+0 & n > 1
+\end{cases} \]
+In particular, this gives a criterion for $BG \to B_{\et} G$ to ne an isomorphism in $\H_s((\Sm_S)_{\Nis})$
+
+\begin{lemma}
+The canonical morphism $BG \to B_{\et} G$ s an isomorphism if and only if $G$ is a sheaf in the \etale topology and one of the following equivalent conditions holds:
+\begin{enumerate}
+\item for any scheme $U$ smooth over $S$, one has $H^1_{\Nis}(U, G) = H^1_{\et}(U, G)$
+\item for any scheme $U$ smooth over $S$, and a point $x \in X$ 
+\[ H^1_{\et}(\Spec{\stalk{X}{x}^h}, G) = * \] 
+\end{enumerate}
+\end{lemma}
+
+\subsection{$\A^1$-contractibility}
+
+Recall the $\A^1$-homotopy category $\H_\bullet(S)$ is (DEFINE)
+
+See p. 133 for geometric models. 
+
+\subsection{\etale group schemes}
+
+\begin{prop}
+Let $G$ be a finite \etale group scheme over $S$ of order prime to the characteristic of $S$. Then $B_{\et} G \in \Delta^{\op} \Shv_{\Nis}(\Sm_S)$ is $\A^1$-local.
+\end{prop}
+
+\begin{cor}
+Let $G$ be as above. Then for any scheme $U$ smooth over $S$
+\[ \Hom{\H_\bullet(S)}{\Sigma^m_t \Sigma^n_s U_+}{(B_{\et} G, *)} = 
+\begin{cases}
+H^1_{\et}(U, G) & n,m = 0
+\\
+G(U) & m = 0, n = 1
+\\
+\ker{(H^1_{\et}(\Gm \times S, G) \to H^1_{\et}(S, G))} & m = 1, n = 0
+\\
+0 & \text{ else }
+\end{cases} \]
+\end{cor}
+
+\subsection{Algebraic $K$-theory}
+
+\newcommand{\BGL}{\mathrm{BGL}}
+
+\begin{prop}
+There are canonical isomorphisms in $\H(S)$ 
+\[ B \GL_n \iso B_{\et} \GL_n \to \mathrm{Gr}(n, \infty) \]
+\end{prop}
+
+Using the homotopy invariance of units and Picard group we condude 
+\begin{prop}
+Let $S$ be regular. The for any scheme $U$ smooth over $S$ 
+\[ \Hom{\H_\bullet(S)}{\Sigma^n_t \Sigma^m_t U_+}{(\P^\infty, *)} = 
+\begin{cases}
+\Pic{U} & m,n = 0
+\\
+\struct{}^\times(U) & m = 0, n = 1
+\\
+H^0(U, \Z) & m = 1, n = 1
+\\
+0 & \text{ else}
+\end{cases} \]
+\end{prop}
+
+For $n > 1$ the objects $B \GL_n = B_{\et} \GL_n$ are not know to be $\A^1$-local. {\color{red} do we know this now? Shouldn't it be false, since vector bundles up to isomorphism are not $\A^1$-invariant?}
+
+Morel-Voevodsky prove $K$-theory in representable in $\H_\bullet(S)$ by $\BGL_\infty \times \Z$. 
+
+\begin{theorem}
+For any smooth scheme $X$ over a regular scheme $S$ and any $n,m \ge 0$ there is a canonical isomorphism
+\[ \Hom{\H_\bullet(S)}{\Sigma_t^m \Sigma_s^n X_+}{(\BGL_\infty \times \Z, *)} = K_{n-m}(X) \]
+where for $n < m$ the groups $K_{n-m}$ are zero. 
+\end{theorem}
 
 \end{document}

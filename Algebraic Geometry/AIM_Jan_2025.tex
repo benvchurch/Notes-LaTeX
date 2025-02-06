@@ -1,0 +1,913 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\import{./}{AlgGeoCommands}
+
+\DeclareMathOperator{\Out}{\mathrm{Out}}
+\newcommand{\Spf}[1]{\mathrm{Spf}\left( #1 \right)}
+
+
+\begin{document}
+
+\section{Jan 27}
+
+\subsection{Talk: Petrov}
+
+Let $X / \CC$ be a connected algebraic variety, fix $r \ge 0$ consider $M_{B,r}$ is an affine scheme over $\Z$ defined by 
+\[ M_{B,r} = M_{B,r}^{\square} // \, \GL_r \quad \text{where} \quad M_{B,r}^{\square} = \Hom{}{\pi_1(X(\CC), x)}{\GL_r} \]
+Since this is a GIT quotient, $M_{B,r}(k)$ is isomorphism classes of semi-simple $k$-reps of $\pi_1(X(\CC), x)$ for $k = \bar{k}$ characteristic $0$. 
+\\
+Galois dynamics: choose $X_0 / F$ for $F \subset \CC$ finitely generated over $\QQ$ along with an isomorphism $X_0 \times_F \CC \cong X$. Assume that $x \in X(F)$ for simplicity. Then 
+\[ \pi_1^{\et}(X_{0, \bar{F}}, x) = \pi_1^{\et}(X_{0, \CC}, x) \cong \pi_1(X(\CC), x)^{\wedge} \]
+Then $G_F = \Gal(\bar{F}/F)$ acts on $\pi_1^{\et}(X_{0,\bar{F}}, x)$ and hence on the profinite completion. 
+\\
+``Action'' on the character variety. Choose a prime $\ell$ and consider the set 
+\[ M_{B,r}(\ol{\Z}_{\ell}) = \{ \text{semi-simple and conjugate to integral } \rho : \pi_1(X(\CC), x) \to \GL_r(\ol{\Q}_{\ell}) \} / \sim \]
+where we conjugate by $\ol{\Q}_{\ell}$ (two reps valued in $\ol{\Z}_{\ell}$ may be conjugate over $\ol{\Q}_{\ell}$ but not over $\ol{\Z}_{\ell}$). This set is
+\[ \bigcup_{\substack{E \supset \Q_{\ell} // \text{finite}}} \{ \text{semi-simple } \rho : \pi_1(X(\CC), x) \to \GL_r(E) \text{ factoring through } \GL_r(\struct{E}) \} / \text{conj.} \]
+and the representation $\rho : \pi_1(X(\CC), x) \to \GL_r(\struct{E})$ factors through the profinite completion and hence this set of points inherits a $G_F$-action. 
+
+\begin{defn}
+$\rho \in M_{B,r}(\ol{\ZZ}_\ell)$ is called \textit{arithmetic} if for some $X_0, F$ (equivalently for any) it has finite orbit under $G_F$.
+\end{defn}
+
+\begin{conj}[Relative Fontaine-Mazur]
+Let $X$ be normal then $\rho$ is arithmetic if and only if it is of geometric origin. 
+\end{conj}
+
+\begin{rmk}
+\begin{enumerate}
+\item $\rho$ is arithmetic iff there is some spreading out $X_0,F$ on which $\rho$ extends to $\pi_1^{\et}(X_0, x) \to \GL_r(\ol{\Q}_\ell)$ note that
+\[ \pi_1^{\et}(X_0, x) = G_F \ltimes \pi_1^{\et}(X_{0,\ol{F}}, x) \]
+\item geometric implies arithmetic by \etale cohomology and the previous remark
+\end{enumerate}
+\end{rmk}
+
+\begin{example}
+$X = \A^1_{\CC} \sm \{ 0 \}$ then for $X_0 = \A^1_F \{ 0 \}$ then $\pi_1^{\et}(X_{0, \ol{F}}) = \hat{\Z}(1)$ meaning $G_F$ acts by the cyclotomic character. Here consider $M_{B,1} = \Gm$ so $M_{B,1}(\ol{\Z}_{\ell}) = \ol{\ZZ}_{\ell}^\times$ and the action of the Galois group is $a \in \ol{\ZZ}_{\ell}^\times$ (corresponding to $\rho : 1 \mapsto a$) then $g(a) = a^{\chi_{\text{cycl}}(g)}$. What are the arithmetic points, these are exactly the roots of unity $a \in \ol{\ZZ}_{\ell}^\times$. Hence the conjecture is true using the power coverings $\Gm \to \Gm$.  
+\end{example}
+
+\begin{rmk}
+For any smooth $X$ we can show that arithmetic points of $M_{B,1}(\ol{\ZZ}_\ell)$ are exactly those $\rho$ with finite image in $\Gm$. Indeed,
+\[ \rho : \pi_1^{\et}(X_{0,\ol{F}})^{\ab} \to \ol{\Q}_{\ell}^\times \]
+if $\rho$ is arithmetic this factors through the $G_F$-coinvariants 
+\[ \rho : (\pi_1^{\et}(X_{0,\ol{F}})^{\ab})_{G_F} \to \ol{\Q}_\ell^\times \]
+but for any given $F$ this coinvariants are finite. This is because $G_F \acts H^1_{\et}(X_{0,\ol{F}}, \Q_p)$ has no invariants for any $\Q_p$ by the Weil conjectures. Then the abelianization is, dual to this up to torsion. 
+\end{rmk}
+
+\begin{theorem}[Litt]
+For any fixed $E \supset \Q_\ell$ finite, there are finitely many arithmetic points in $M_{B,r}(\struct{E})$ 
+\end{theorem}
+
+\begin{rmk}
+For rank $1$, this is because there are only finitely many roots of unity in any fixed $p$-adic field. 
+\end{rmk}
+
+\begin{theorem}[Lam, Landesman-Litt]
+For almost all genus $2$ curves $X / \CC$ there are no points in $M_{B,2}$ of geometric origin with infinite monodromy. 
+\end{theorem}
+
+\begin{rmk}
+Fix $E \supset \Q_{\ell}$ finite then $G_F \acts M_{B,r}(\struct{E})$ is unramified (meaning inertia acts trivially) away from a finite set $S$ of places of $F$. 
+\\
+To see this, choose a spreading out $\X_0 / R$ for $R / \ZZ$ finitely generated so we get a specialization surjection on geometric fundamental groups (assuming $\X_0$ is smooth and proper, otherwise we need tame fundamental groups)
+\[ \pi_1^{\et}(X_{0,\ol{F}}) \onto \pi_1^{\et}(\X_{0, \ol{k(v)}}) \]
+for any place $v$ of $F$. This is just killing the pro-$p$ factor for $p$ the residue characteristic of $v$. Hence away from finitely many places, $v \in S$, the representation $\rho$ factors through the quotient and hence we get a well-defined action of $G_{k(v)} = \left< \mathrm{Fr}_v \right>$. 
+\end{rmk}
+
+\begin{theorem}[Drinfeld, Lafforgue] 
+Let $Y_0 / \FF_q$ be a smooth curve and $\ell$ not dividing $q$. For 
+\[ \rho : \pi_1^{\et}(Y_{0, \ol{\FF}_q}) \to \GL_r(\ol{\Q_p}) \]
+irreducible. If it extends to $\pi_1^{\et}(Y_0)$ then it is of geometric origin. 
+\end{theorem}
+
+\begin{theorem}[Drinfeld, de Jong, Esnault-de Jong]
+For $X / \CC$ smooth, fix $v$ then for almost all $\ell$ points in $M_{B,r}(\ol{\Z}_\ell)$ fixed by $\mathrm{Fr}_v$ are Zariski dense.
+\end{theorem}
+
+\subsection{Dynamics on Character Varieties}
+
+
+\subsubsection{Background}
+
+Let $\pi$ be a finitely generated group. Let $G$ be a reductive group over $\Q$ and $G \acts \Hom{}{\pi}{G}$ by conjugation so we can form the GIT quotient.
+
+\begin{defn}
+Write $M(\pi, G)$ for the GIT quotient which is an affine scheme of finite type (by Hilbert!). If $G$ is a topological group, we write $M(\pi, G)$ for the topological quotient space.
+\end{defn}
+
+\begin{rmk}
+Let $G_{/\Q}$ be a reductive algebraic group and $k$ a commutative $\Q$-algebra. Typically 
+\[ \Hom{}{\pi}{G(k)} \to M(\pi,G(k)) \to M(\pi, G)(k) \]
+is not surjective (but the first map is surjective by definition). For exmaple, let $G = \SL_2$ then 
+\[ M(\pi, \SL_2)(\RR) = M(\pi, \SU_2) \cup M(\pi, \SL_2(\RR)) \]
+\end{rmk}
+
+\begin{defn}
+By functoriality, $\Out(\pi) \acts M(\pi, G)$. If $\Sigma$ is a manifold (or really just a path-connected space of finite type) write $M(\Sigma, G) := M(\pi_1(\Sigma), G)$.
+\end{defn}
+
+Let $\Sigma = \Sigma_{g,n}$ the compact oriented surface of genus $g$ with $n$ punctures (thought of as a manifold with boundary whose boundaries are small circles $S^1$). Let 
+\[ \Gamma(\Sigma) := \pi_0 \mathrm{Diff}^+(\Sigma, \partial \Sigma) \]
+is the pure MCG of $\Sigma$. Then there is a map $\Gamma(\Sigma) \to \Out(\pi_1 \Sigma) \acts M(\Sigma, G)$. The inclusion $\partial \Sigma \embed \Sigma$ induces
+\[ M(\Sigma, G) \to M(\partial \Sigma, G) = \prod_{i = 1}^n M(C_i, G) \]
+which is $\Gamma(\Sigma)$-invariant.
+\\
+Given $k \in M(\partial \Sigma, G)$ write $\mathrm{Res}^{-1}(k) = M_k(\Sigma, G)$ the \textit{relative character variety}.
+
+\begin{rmk}
+$M(\Sigma, \SL_2)$ has an algebraic Poisson structure, such that $M_k(\Sigma, G)$ are symplectic leaves (Goldman)
+\end{rmk}
+
+Goal: for surfaces $\Sigma$ and real algebrac groups $G_{/\Q}$, study dynamics of $\Gamma(\Sigma) \acts M_k(\Sigma, G)(k)$ where $k = \RR, \CC, \QQ_p, \QQ, \ol{\Q}, \ZZ, \FF_p, \dots$.
+
+\subsection{Real Dynamics}
+
+\newcommand{\Teich}{\mathrm{Teich}}
+
+Teichmuller theory: $\Sigma = \Sigma_{g,0}$ for $g \ge 2$ let
+\[ \Teich(\Sigma) = \{ \text{marked hyperbolic sufraces } \Sigma \cong (S, \sigma) \} / \text{isom} \]
+Uniformization shows that 
+
+\newpage
+
+
+\subsection{Group Problem Session}
+
+
+\subsubsection{Torelli Group Orbits}
+
+What are the finite orbits of the action of the Torelli group on the character varieties of surfaces. 
+
+\begin{defn}
+Torelli group $T_{g,n}$ is the kernel of the action of the Mapping class group of $\Sigma_{g,n}$ on homology $H_1(\Sigma_{g,n}, \Z)$.
+\end{defn}
+
+So $T_{g,n} \acts M(\Sigma_{g,n}, r)$. Question: classify finite orbits for $r > 1$.
+
+\begin{rmk}
+For $r = 1$ the Torelli group acts finitely. 
+\end{rmk}
+
+\begin{rmk}
+If the representation factors through the abelianization, it is automatically fixed by Torelli. Indeed, if $\rho : \pi_1 \to \GL_r(\CC)$ factors through $\pi_1^{\ab}$ then if we conjugate by an outer automorphism this corresponds to the action on $H_1$. 
+\end{rmk}
+
+Representations of $\SL_2$ whose image lies in the infinite Dihedral groups, are these fixed by Torelli? 
+\\
+Variatons: replace $T_{g,n}$ by other terms in the Johnson filtration: kernel of the action on the quotient by $\pi_1$ by a term in the lower central series. 
+
+Motivation: interesting examples where the orbit under MCG is infinite but have finite orbits under these smaller groups. This is dual to the question ``what can the stabilizer of an infinite orbit point be''? 
+
+\subsubsection{Geometric proofs of result of (McMullen)--Imayoshi-Shiga '99}
+
+Let $X \to B$ be a smooth proper family of curves of genus $g \ge 2$ parametrized by a (possibly open) curve $B$ with $\chi(B) < 0$ then if not isotrivial the monodromy representation (in a homotopy sense) is irreducible. Meaning: any simple closed curve $C \subset X_s$ fixed under monodromy must bound a disk.  
+\\
+Question: is this theorem still true if we drop ``simple'' from the closed curve. 
+
+\begin{rmk}
+The proof begins: endow each fiber which its hyperbolic metric, the assumption is that the class is nontrivial so it's reprsented by a closed geodesic. This geodesic has a length and a theorem says that the length function is pluri-subharmonic and hence is constant as it varies in families? The essence of the proof is to then show that the length must be zero. 
+\end{rmk}
+
+\begin{rmk}
+This is saying that $\pi_1(B) \to MCG$ does not live in the subgroup generated by Tate twists which is something like a parabolic subgroup. So Daniel is saying ``if the image lies in the analog of a Parabolic, then it lands in the analog of a Levi''.  Factoring through the Levi should mean that the map to $\M_g$ is homotopic to one that factors through the boundary of the DM compactification (related to collapsing the curve to having length zero). 
+\end{rmk}
+
+\begin{rmk}
+If $C$ is a separating curve, then this splits the homology of the surface into two parts. If it is invariant under $\pi_1$ this would give a decomposition of the Hodge structure which is impossible since the generic Jacobian is irreducible. 
+\end{rmk}
+
+Question: is there an arithmetic analog of this question? For $B = \Spec{\struct{K}[1/N]}$ where $K$ is a number field. 
+
+\begin{rmk}
+McMullen's theorem was motivated by studying the Shafarevich conjecture (proven by Arakelov-Parshin): ``there are only finitely many smooth proper curve families with fixed genus over a fixed base curve''. 
+\end{rmk}
+
+Question: are there analogs of the theorem on finite closed curves in fibers of families over a higher dimensional base? Special interest: totally geodesic subvarieties (Arana-Hererra - Wright). These are not totally classified but we have a number of results about the fundamental groups. 
+
+\subsubsection{Example of Irreducible Reps of Surface Groups with Finite Orbits not Arising from Abelian Varieties}
+
+Can we find an examples of an irreducible representation $\rho : \pi_1(\Sigma_g) \to \GL_r(\CC)$ with finite orbit under MCG that does not arise from families of abelian varieties. 
+
+
+\begin{example}
+Kodaira-Parshin family: the fiber over $s \in S$ parametrizes covers of fixed degree ramified only over $s$. These are 
+\end{example}
+
+Comes from abelian varieties means: there exists a complex structure on $S$ such that there is an Zariski open $U \subset S$ an a family of abelian varities $A \to U$ such that the representation restricted to $U$ is a subquotient of the $H^1$. 
+
+\begin{example}
+Biswas et al: for $\Sigma_{1,n}$ for $n > 0$ then the examples have image inside the infinite dihedral group in $\SL_2(\CC)$ which have finite image but don't arise from abelian varieties. 
+\end{example}
+
+Proposed candidate: iterate the Kodaira-Parshin trick. 
+\[ \cdots \to \C''' \to \C'' \to \C' \to \C \to \M_g \]
+then we consider $R^{\text{middle}} \pi_* \CC$ for the composite $\C^{(n)} \to \C$. 
+
+\subsubsection{Relative Fontaine-Mazur Predictions}
+
+Example: Simpson's conjecture: isolated points of the character variety $M(X,r)$ (we dont want $X = \Sigma_g$ because there are no isolated points then unless $g = 0$) are geometric and hence are integral and carry a VHS.
+\\
+There are other examples of finite orbits forced by geometry: for example isolated singularities of the moduli space. Are these integral points and do they carry a VHS? 
+\\
+Problem: can we prove the case $r = 2$ (like Corlette-Simpson).
+
+
+\subsubsection{Are Arithmeticity or being of Geometric Origin Decidable?}
+
+For points $x \in M(X, r)$. 
+
+\subsubsection{Conjecture of Katzarkov-Pantov-Simpson}  
+
+Does the monodromy of a nonisotrivial family $\C \to B$ of curves of genus $g \ge 2$ (perhaps one arising from a sufficiently ample Lefschetz pencil on a surface) does the action on the character variety have a dense orbit?
+\\
+The monodromy gives a subgroup $G \subset Mod(S_b)$ then $G \acts M(S_b, H)$ where $H$ is a reductive group. Is there always a Zariski dense orbit? 
+\\
+They prove in their paper: if $G = \GL_{2r+1}(\CC)$ and sufficiently ample Lefschetz pencil on a surface $X$ with $H^1(X, \Q) = 0$ then the answer is yes. 
+
+\begin{rmk}
+They use $\GL_{2r+1}(\CC)$ for a special representation and consider the action on the tangent space. 
+\end{rmk}
+
+Consider diffeomorphisms of the base lifting to diffeomorphisms of the total space preserving fibers: 
+\[ G' = \{ [f] \in \Mod{}(B) \mid \text{ exists lift } \wt{f} : S \to S \text{ over } f \} \]
+then ask if $G' \acts M(B, r)$ has a Zariski dense orbit? For a sufficiently ample Lefschetz pencil, this group is the stabilizer of the representation $\pi_1(B) \to M(S_b, r)$.  
+\\
+Question: what are the finite orbits of (conjugacy classes of) representations $\rho : \pi_1(\Sigma_{g,n}) \to \Mod{}(\Sigma_h)$ under the action of $\Mod{}(\Sigma_{g,n})$.
+\\
+Some ``obvious'' examples arising from Kodaira-Parshin families.
+\\
+Are there examples with infinite orbit but finite orbit when passing to the associated symplectic representation (coming from the action on $H_1(S_h)$).
+
+\subsubsection{Algebraic Compactification of Character Varieties}
+
+What are known about ``canonical'' compactifications of character varieties as an algebraic variety? 
+\\
+Conjecture: $M(\Sigma, r)$ has a log CY compactification. Theorem (Whang) for $r = 2$ for $M_\gamma(\Sigma, r)$ where $\Sigma$ is punctured at least once. 
+\\
+Question: when is the dual complex of the boundary a rational homology sphere? \Kollar et al proved that this must be true for log-CY pairs.
+\\
+Moduli of $\lambda$-connections quotiented by the $\CC^\times$-action gives a compactification of the Moduli of Higgs bundles. This also has an algebraic structure but the good open is only biholomorphic to the character variety.
+
+\subsubsection{Geometric Local Systems on $\M_g$}
+
+Local systems on $\M_g$ (representations of $\Mod{}(S_g)$) also with level structure. Suppose they have Hodge theoretic information. Then there is a period map $\M_g \to D / \Gamma$, is this map rigid in some sense? Is it rigid in its mapping space?
+\\
+Examples, higher Prym, Kodaira-Parshin families. We have big monodromy results in the work of Sawin--Landesman-Litt. Some hope this will imply infinitesimal rigidity. 
+\\
+Theorem (Peters): if the monodromy 
+
+
+Higher Prym: fix a finite group $G$. Let $\M' \to \M_g$ be the universal space of $G$-covers of curves of genus $g$. Given a $G$-cover $\varphi : C_h \to C_g$ we get an exact sequence of abelian varieties,
+\[ \mathrm{Prym}(\varphi) \to \Jac(C_h) \to \Jac(C_g) \]
+the map $\varphi \mapsto \mathrm{Prym}(\varphi)$ induces a period map $\M' \to D / \Gamma$ which is a moduli space of polarized abelian varieties. Under some hypothesis, (Landesman-Litt-Sawin, ...) the induced map $\pi_1(\M') \to \Gamma$ has large image. Theorem (Peters): large image implies infinitesimal rigidity of the period map $\M' \to D / \Gamma$ as a holomorphic map of complex analytic spaces.
+\\
+Question: is this map actually unique? 
+\\
+Motiviation: Theorem of Serv\'{a}n: case $G = \Z / 2 \Z$ and $h = 2g - 1$ then the holomorphic Prym morphism $\M' \to \cA_{g-1}$ is the unique nonconstant holomorphic map to $\cA_{k}$ for $k < g$. Farb: showed that Torelli $\M_g \to \cA_g$ is unique for all maps to $\cA_h$ for $h \le g$. 
+
+\subsubsection{Coincidence about Braid Groups}
+
+\newcommand{\B}{\mathbb{B}}
+
+Fact (Coxeter): the quotient of the Braid group $\mathbb{B}_n$ by the subgroup $H = \left<< \sigma_i^k \right>>$ normally generated by the powers of the half-twists is finite iff there exists a regular $3$-polygon with $n$-gonal faces + valence $k$-vertices. Furthermore, the sizes are computed and related to complex reflection groups. 
+\\
+Consider the matrices:
+\[ A = 
+\begin{pmatrix}
+1 & -1
+\\
+0 & 1 
+\end{pmatrix}
+\quad \quad B = \begin{pmatrix}
+1 & 0
+\\
+1 & 1
+\end{pmatrix} \]
+the action $\B_3 \acts F_3$ on the free group and given the map $\varphi : F_3 \to \SL_2(\ZZ)$ given by the matrices $A, B, A$ then $\B_3 \acts \Hom{}{F_3}{\SL_2(\ZZ)}$ the intersection of the stabilizers of the $\B_3$-action of $\varphi$ is $\left<< \sigma_i^3 \right>>$. 
+\\
+This is an example of a mapping class group action on a character variety. Question: is there a reason for this arising from middle convolution? Can we reprove Coxeter's theorem using this method?
+
+\subsubsection{Zariski density of MCG-orbits on $\SL_3$-character varieties}
+
+What are some sufficient conditions for a point to have a Zariski dense orbit under the mapping class group on $M_\gamma(\Sigma_g, \SL_3)$? Here $\gamma$ is the fixed characteristic polynomial around the punctures. 
+\\
+Any examples of finite orbits in $M(\Sigma_{0,4}, \SL_3)$?
+\\
+Question: representations associated to conformal blocks (these have finite mapping class group orbits), can we understand these examples?
+
+
+\section{Jan 28}
+
+\subsection{Talk Brunebarb}
+
+\begin{theorem}
+Let $X / \CC$ be a smooth projective (or compact Kahler) manifold. There is a natural equivalence of categories between $\CC$-local systems and semistable (wrt. some hence any polarization\footnote{This is true when the rational Chern classes vanish}) Higgs bundles with vanishing rational Chern classes. 
+\end{theorem}
+
+\begin{rmk}
+The structure of a Higgs sheaf is equivalent to that of a $\mathrm{Sym}^\bullet(T_X)$-module coherent as a $\struct{X}$-module. A Higgs bundle is a Higgs sheaf whose underlying $\struct{X}$-module is a vector bundle.
+\end{rmk}
+
+Some notes:
+\begin{enumerate}
+\item The correspondence depends on the complex structure of $X$ but not on the choice of polarization. 
+\item the correspondence preserves the rank
+\item naturality means it is compatible with pullback along any $f : X \to Y$ (in particular, the pullback of a semi-stable Higgs bundle remains semi-stable).
+\item irreducible local systems correspond to stable Higgs bundles with $c_i \ot \Q = 0$
+\item semisimple local systems correspond to polystable Higgs bundles with $c_i \ot \Q = 0$
+\item consequence: the pullback of a semisimple local system remains semisimple
+\item unitary local systems (admit a flat Hermitian metric) correspond to polystable vector bundles with $c_i \ot \Q = 0$ (meaning $\theta = 0$) in this case $L \mapsto L \ot_{\CC} \struct{X}$
+\item In general, if $L \mapsto (\E, \theta)$ saying that $\E \cong L \ot_{\CC} \struct{X}$ is equivalent to requiring that $\theta = 0$. However, the underlying $C^{\infty}$-vector bundles are allways the same. 
+\item if $L \mapsto (\E, \theta)$ then there exsits a canonical isomorphism $H^i(X, L) = \H^i(E \ot \Omega^\bullet_X, \theta)$.
+\end{enumerate}
+
+Two main steps in the proof:
+\begin{enumerate}
+\item correspondence between semisimple objects by relating both to harmonic bundles
+\item study extensions on both sides controlled by dgas. The dgas are formal so we are able to reduce to showing that the Ext groups are the same between semistable bundles
+\end{enumerate}
+
+\renewcommand{\gr}{\mathrm{gr}}
+\newcommand{\Dol}{\mathrm{Dol}}
+
+\begin{example}
+Consider a complex polarized VHS which is the data:
+\begin{enumerate}
+\item a complex $C^{\infty}$ bundle $V$ with a decomposition
+\[ V = \bigoplus_{p \in \Z} V^p \]
+\item a flat connection $\nabla : \cA^0(V) \to \cA^1(V)$ such that
+\[ \nabla \cA^0(V^p) \subset \cA^{1,0}(V^{p-1}) \oplus \cA^{1}(V^p) \oplus \cA^{0,1}(V^{p+1}) \]
+\item a $\nabla$-flat hermitian pairing $Q : V \ot \ol{V} \to \CC$ such that the decomposition is $Q$-orthogonal and $(-1)^p Q|_{V^p}$ is positive-definite. 
+\end{enumerate}
+The transversality condition implies the following: the filtered pieces are defined as
+\[ F^p = \bigoplus_{k \ge p} V^k \]
+is holomorphic subbundle of $(V, \nabla^{0,1})$ and
+\[ \nabla F^p \subset F^{p-1} \ot \Omega^1 \]
+Now the associated Higgs bundle is
+\[ (\gr^F V, \gr^F \nabla) \] 
+\end{example}
+
+\textbf{Moduli}: let $X / \CC$ be smooth projective and fix $x \in X$ and $n \ge 1$. Consider the following
+\begin{enumerate}
+\item $M^\square_B(X, x, n)$ be the fine moduli space of local systems framed at $x$. This is the same as giving the monodromy rep at $x$ and hence is naturally isomorphic to $\Hom{}{\pi_1(X, x)}{\GL_n}$
+\item $M_{\dR}^{\square}(X, x, n)$ the moduli space of flat connections with framing at $x$ of the underlying bundle
+\item $M^{\square}_{\Dol}(X, x, n)$ the moduli space of Higgs bundles with framing at $x$ of the underlying bundle
+\end{enumerate}
+
+Taking the GIT quotient by the natural $\GL_n$-action on the Framing gives
+\[ M_B(X, n) \quad M_{\dR}(X, n) \quad M_{\Dol}(X, n) \]
+We get a biholomorphic between first two by Riemann-Hilbert and a real analytic homeomorphism between the second by the Simpson correspondence.
+
+\begin{rmk}
+It turns out that the Simpson correspondence at the level of $M_{\dR}^{\square}(X, x, n)$ and $M^{\square}_{\Dol}(X, x, n)$ may not even be continuous. 
+\end{rmk}
+
+There is a $\Gm$-action on $M_{\Dol}(X, n)$ given by $\lambda : (E, \theta) \mapsto (E, \lambda \theta)$. 
+
+\begin{prop}[Simpson]
+$(E, \theta)$ is $\Gm$-fixed iff it arises from a $\CC$-VHS. 
+\end{prop}
+
+Hitchin fibration: 
+\[ \Phi : M_{\Dol}(X, n) \to \bigoplus_{k = 1}^n H^0(X, \Sym{k}{\Omega^1_X}) \quad \quad (E, \theta) \mapsto \det{(\theta - t \cdot \id)} \]
+
+\begin{theorem}[Hitchin, Simpson]
+$\Phi$ is proper. 
+\end{theorem} 
+
+\begin{cor}
+For any $(E, \theta)$ there exists a limit,
+\[ \lim_{t \to 0 } t \cdot (E, \theta) \]
+which is a $\Gm$-fixed point. (Note: it is not just setting $\theta = 0$ when $n > 1$). 
+\end{cor}
+
+\begin{cor}
+Every $\CC$-local system can be deformed to a $\CC$-VHS. 
+\end{cor}
+
+\begin{cor}
+$\SL_n(\ZZ)$ is not the fundamental group of a smooth projective variety for $n \ge 2$. 
+\end{cor}
+
+Now for $X / \ol{\Q}$, a variety defiend over a number field, we have $M_B, M_{\dR}, M_{\Dol}$. We know
+\begin{enumerate}
+\item $M_B$ is an affine scheme over $\Z$
+\item $M_{\dR}$ is a $\ol{\Q}$-variety
+\item $M_{\Dol}$ is a $\ol{\Q}$-variety with a $\Gm$-action
+\end{enumerate}
+
+Question: what points are compatible with all the rational structures? 
+
+\begin{conj}[Simpson]
+\begin{enumerate}
+\item $\Z$-local system underlying a $\C$-VHS is motivic
+\item $\Z$-local system whose associated flat bundle $\ol{\Q}$ is motivic
+\end{enumerate}
+\end{conj}
+
+Question: if a $\ol{\Q}$-flat bundle whose corresponding Higgs bundle is also defined over $\ol{\Q}$ and fixed by $\Gm$ then does it arise from geometry? 
+
+\begin{theorem}[Arapura, Deligne, Simpson]
+Let $M \subset M(X, 1)(\CC)$ which is closed complex-algebraic in at least two of the algebraic structures induced by the correspondences. Then $M$ is a finite union of translates of subtori. If moreover, $M$ is defined over $\ol{\Q}$ in $M_{B}$ and $M_{\dR}$ then it is a finite union of translates of subtori by torsion points. 
+\end{theorem}
+
+
+\begin{conj}[Period]
+Let $X / \QQ$ smooth projective variety. Then $H^i_B(X(\CC), \CC) \cong H^i_{\dR}(X) \ot_{\QQ} \CC$ then any vector defined over $\QQ$ on the left and $\QQ$ on the right is generated by algebraic cycles. 
+\end{conj}
+
+The question is supposed to be an analog of this conjecture. 
+
+
+\begin{rmk}
+In fact for a $\ol{\Q}$-point of $M_{\dR}$ if we take the associated Higgs bundle and take the limit $t \to 0$ then the Higgs bundle we get is also defined over $\ol{\Q}$. This is because it is a limit of a $t$-connection and the Moduli of $t$-connections is defined over $\ol{\Q}$.
+\end{rmk}
+
+\subsection{The questions}
+
+\begin{enumerate}
+\item AG proof of McMullen's Theorem/Arithmetic McMullen's theorem
+\item Are isolated singularities of $M_B(X,r)$ motivic?
+\item Infinite-index subgroups of MCG action on $M(\Sigma_g, r)$ (e.g. Torelli)
+\item Rigidity of period maps
+\item Is $M_\gamma(\Sigma_{g,n}, r)$ log CY?
+\item Compute/understand MCG action on $M_B(\Sigma_{g,n}, 3)$
+\item Find/understand ``counterexamples to Putman-Wieland'' in genus $\le 2$
+\item $X \to S$ sufficiently ample Lefschetz pencil does $\pi_1(S) \acts M_B(X_s, H)$ have dense orbit?
+\item understand fixed point for specific elements of the MCG acting on $M(\Sigma_g, 2)(\ol{\Z})$
+\item Prove $\SL_n(\Z)$ is not a quasi-projective $\pi_1$ using arithmetic. 
+\end{enumerate}
+
+\section{Jan 29}
+
+\subsection{The Questions}
+
+\begin{enumerate}
+\item McMullen's theorem
+\item Are isolated singular points of $M_B(X)$ motivic?
+\item Stable cohomology of character varieties
+\item Rigidity of period maps
+\item Is $M_k(\Sigma_{g,n}, r)$ log CY?
+\item Integral points / dense orbits in rk $\ge 3$.
+\item (Katzarkov-Panlev-Simpson) Dense orbits for $\pi_1(B)$ for $B$ base of a Lefschetz pencil?
+\item For an element $\gamma$ of the MCG what are the fixed points of $M(\Sigma_{g,n}, 2)(\ol{\Z})^\gamma$?
+\item $(\E, \nabla) / X_{\ol{\Q}}$ underlying a $\CC$-VHS is it motivic?
+\item Is motivicity / arithmeticity deciable.
+\end{enumerate}
+
+
+\subsection{Esnault-Groecheing}
+
+\begin{enumerate}
+\item (2.5) why is flatness for the connection relevant to this claim? Oh, it's so that the sections descend along frobenius
+\item why is the $p$-curvature trace-free
+
+\item what's the point of rank $\le r$ rather than rank $= r$ in Prop 3.3
+\end{enumerate}
+
+
+\section{Jan 30}
+
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\Hdg}{\mathrm{Hodge}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\Higgs}{\mathrm{Higgs}}
+\newcommand{\abs}{\mathrm{abs}}
+\newcommand{\can}{\mathrm{can}}
+\newcommand{\cris}{\mathrm{cris}}
+
+\subsection{The Nonabelian Hodge Locus}
+
+Work over $\CC$. Let $\pi : \X \to S$ be smooth projective. Weil: for $x\ in S$ and $Z \subset \X_s \subset\ X$ algebraic cycle, there is an algebraic subvariety $V \subset S$ where the cycle deforms to nearby fibers.
+\\
+Consider $[Z] \in H^{2n}(\X_s, \Z) \cap F^n$ now consider $\lambda \in H^{2n}(\X_s, F^n)$ the locus $U_\lambda$ of points $s \in S$ where the parallel transport of $\lambda$ is still Hodge. 
+
+\begin{theorem}[Cattani-Deligne-Kaplan, Bakker-Klinger-Tsimerman]
+$U_\lambda$ is an algebraic subvariety of $S$. 
+\end{theorem}
+
+We say $U_\lambda$ is a component of the Hodge locus.
+
+\begin{defn}
+The \textit{Hodge locus} is the union over all $U_\lambda \subsetneq S$ for all $\lambda$ a Hodge class of a fiber.
+\end{defn}
+
+Another definition: the VHS gives a local system $\V_{\Z} = R^{2n} \pi_* \ul{\Z}_{\X}$ and $\V_{\Z} \ot_{\Z} \CC$ is equipped with a Hodge filtration and a connection statisfying Griffiths transversality and a polarization on $\V_{\Z}$. 
+
+Now, for each $s \in S$ we get a polarized Hodge structure $(\V_{\Z,s}, F^\bullet V_s, Q)$ and $\Hdg_s = \V_{\Z,s} \cap F_s^n$ 
+
+Consider 
+\[ \W = \bigoplus_{a,b \ge 0} (\V_{\Z})^{\ot a} \ot (\V_{\Z}^\vee)^{\ot b} \supset \Hdg \]
+
+\begin{defn}
+$G_s \subset \GL(V)$ the algebaic group over $\Q$ which stabilizes all Hodge classes. The Mumford tate group at $s$. Then the Hodge Locus is the set of $s \in S$ where $G_s \subsetneq G$ where $G$ is the generic Mumford-Tate group.
+\end{defn}
+
+Consider the momodromy rep $\rho : \pi_1(S, s) \to \GL(V)$ and $H$ the Zariski closure of the image. 
+
+\begin{theorem}[Deligne,Andre]
+$H^0 \triangleright G^{\mathrm{der}}$
+\end{theorem}
+
+Let $G$ be the generic Mumford-Tate group.
+
+\begin{example}
+$\C_g \to \M_g$ the locus where the Jacobian is nonsimple is an example of a Hodge locus. 
+\end{example}
+
+Last observation 
+\[ \V_{\Z} \subset \cV \cong \cV_{\text{Higgs}} = \bigoplus_{p,q} \cV^{p,q} \]
+there is a $\CC^\times$-action $z \cdot v^{p,q} = z^{-p} \bar{z}^{-q} v^{p,q}$. 
+
+\subsubsection{Non-Abelain Hodge locus}
+
+$\pi : \X \to S$ there are relative spaces:
+\begin{enumerate}
+\item $\M_B(\X/S, \GL_n) \to S$
+\item $\M_{\dR}(\X/S) \to S$
+\item $\M_{\Higgs}(\X/S) \to S$
+\end{enumerate}
+and there is a Riemann-Hilbert and Simpson correspondence in families. We have special subvarieties:
+\begin{enumerate}
+\item $\M_B(\X/S, \GL_n(\ol{\Z}))$ integral monodromy
+\item $\M_{\Higgs}(\X/S)^{\Gm}$ the fixed-points of the $\Gm$-action
+\end{enumerate}
+
+\begin{defn}
+The nonabelian Hodge locus is the intersection
+\[ \M_B(\X/S, \GL_n(\ol{\Z})) \cap \M_{\Higgs}(\X/S)^{\Gm} \subset \M_{\dR}(\X/S) \]
+so its fiber over $s$ correspond to $\Z$-local systems which can underly a $\Z$-polarized VHS.
+\end{defn}
+
+\begin{theorem}[Simpson]
+\begin{enumerate}
+\item $NAHL \subset \M_{\dR}(\X/S) \to S$ is proper 
+\item NAHL is complex analytic subvariety of $\M_{\dR}(\X/S)$
+\end{enumerate}
+\end{theorem}
+
+\begin{conj}
+NAHL is an algebraic subvariety of $\M_{\dR}(\X/S)$ furthermore its image in $S$ is algebraic. 
+\end{conj}
+
+Given $\rho \in \M_B(\X_s)$ this image is the locus of isomonodromic deformations of $\rho$ that remain $\Gm$-fixed.
+
+\subsubsection{Properness}
+
+This relies on the following theorem of Deligne:
+
+\begin{theorem}
+$X/\CC$ is a smooth quasi-projective variety and $n \ge 1$. There are finitely many reps
+\[ \rho : \pi_1(X, x) \to \GL_n(\Z) \]
+that underly a $\Z$-polarizable VHS up to conjugacy. 
+\end{theorem}
+
+Sketch: find a finite set $\gamma_1, \dots, \gamma_r \in \pi_1(X, x)$ such that the traces of $\rho(\gamma_1), \dots, \rho(\gamma_r)$ completely determine $\rho \ot \Q$ up to conjugacy. Second: for any $\gamma \in \pi_1(X, x)$ there is a uniform bound $C_{\gamma, n}$ so that any rep $\rho : \pi_1(X, x) \to \GL_n(\Z)$ underlying a $\Z$-VHS then $|\tr{\rho(\gamma)}| \le C_{\gamma, n}$. This shows there are only finitely many traces. 
+
+Indeed, if $\rho$ underlies a $\Z$-VHS then it gives a period map $\Phi : X \to D / \Gamma$ then Griffiths: $\Phi$ is length decreasing. Going to the universal cover:
+\begin{center}
+\begin{tikzcd}
+\wt{X} \arrow[r, "\Phi"] \arrow[d] & D \arrow[d]
+\\
+X \arrow[r, "\Phi"] & D / \Gamma
+\end{tikzcd}
+\end{center}
+then a point of the universal cover $\gamma \cdot x$ maps to some $\Phi(\gamma) \cdot \Phi(x)$ which cannot be two far from $\Phi(x)$ giving such a bound.
+\\
+Question: does finiteness hold if we only ask for a $\Z$-VHS structure with respect to \textit{some} complex structure on $X$? More precsely: consider a smooth projective family $\pi : \X \to S$ choose $0 \in S$ and given a path $\gamma : 0 \mapsto s$ in $S$ and a lift $x_\gamma$ to $\X$ we get an isomorphism
+\[ \gamma_* : \pi_1(\X_0, x_0) \iso \pi_1(\X_s, x_s) \] 
+we can ask how many reps of $\pi_1(\X_0, x_0)$ there are such that the associated rep under $\gamma_*$ has a $\Z$-VHS structure. 
+
+Question: such $\pi_1(\X_0, x_0) \to \GL_n(\Z)$ are finite unp to conjugacy and $\pi_1(S)$? 
+
+\begin{rmk}
+Algebraicity of the NAHL implies this question.
+\end{rmk}
+
+\begin{defn}
+$\rho : \pi_1(X, x) \to \GL_n(\Z)$ is $\Q$-anisotropic if the algebraic monodromy group $H$ is an anisotropic algebraic group meaning $H(\RR) / H(\ZZ)$ is compact.
+\end{defn}
+
+\begin{theorem}[Engel, Tayou]
+Both questons are true for $\Q$-anisotropic local systems. 
+\end{theorem}
+
+\subsection{Integrable Connections ove char p and $p$-adic fields}
+
+Question: $(\E_{\CC}, \nabla_{\CC})$ integrable connection on a smooth algebraic variety / $\CC$. What sort of arithmetic properties does this connection have if it comes from geometry? 
+\\
+Consider a spreading out to some f.g. field $\Q \subset L \subset \CC$ and a ring $\Z \subset R \subset L$ f.g. over $\ZZ$ with a nice spread out $(\E_R, \nabla_R)$ on $X_R$. Then for all $\m \subset R$ maximal ideals we get reductions $(\E_R, \nabla_R) \ot_R R / \m$ which are integrable connections on $X_k$ with $k = R / \m$ a finite field. 
+\\
+Key words:
+\begin{enumerate}
+\item nilpotence of $p$-curvature
+\item $F$-isocrystal
+\end{enumerate}
+
+\begin{conj}[Simpson]
+If $(\E_{\CC}, \nabla_{\CC})$ is irreducible and has finite order determinant s.t. $(\E_{\CC}, \nabla_{\CC}) \in \M_{\dR}(X_{\CC})$ is isolated, then it comes from geometry. 
+\end{conj}
+
+\begin{theorem}[Esnault-Groechenig]
+Let $X_{\CC}$ be projective. In the setup of the conjecture, there exists $(\E_R, \nabla_R)$ on $X_R$ such that for all $\m \subset R$ then $(\E_R, \nabla_R) \ot R / \m$ has nilpotent $p$-curvature and $(\E_R, \nabla_R) \ot W[1/p]$ completed is upgraded to an $F$-isocrystal. 
+\end{theorem}
+
+Let $k$ be a field of characteristic $p > 0$ ($p$ prime) and $\pi : X \to \Spec{k}$ a smooth algebraic variety. 
+
+\begin{rmk}
+In characteristic $p > 0$, we have $(f + g)^p = f^p + g^p$ so $(-)^p$ is a ring homomorphism. 
+\end{rmk}
+
+Then we have $F_{\abs} : X \to X$ the absolute Frobenius map on $X$ s.t. on points it is the identity and on functions it is $F^*_{\abs} f = f^p$. Then there is a relative Frobenius:
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, bend left, "F_{\abs}"]  \arrow[r, "F"] & X^{(p)} \arrow[d] \pullback \arrow[r] & X \arrow[d]
+\\
+& \Spec{k} \arrow[r, "F_{\abs}"] & \Spec{k}
+\end{tikzcd}
+\end{center}
+defines relative Frobenius $F : X \to X^{(p)}$. For $\d : \struct{X} \to \Omega^1_{X/k}$ note that $\d{f^p} = p f^{p-1} \d{f} = 0$ and hence $\ker{\d} = \struct{X^{(p)}} \subset \struct{X}$ under the map $F_{X/k}^{-1}$. 
+\\
+Construction: $\E_0$ quasi-coherent $\struct{X^{(p)}}$-module. Then $\E := F^* \E_0$ is equipped with a canonical connection $\nabla_{\can} : \E \to \E \ot \Omega_{X/k}^1$. Indeed, writing
+\[ \E = \struct{X} \ot_{\struct{X^{(p)}}} \E_0 \]
+we write
+\[ \nabla_{\can}(f \ot e) = \d{f} \ot e \]
+Note that $f \ot g e = f g^p \ot e$ so this is really a connection. Observe the subsheaf of horizontal sections $\E^{\nabla} = \E_0$ recovers $\E_0$ i.e. $(F^* \E_0, \nabla_{\can})$ always has a null set of solutions since $\struct{X} \to_{\struct{X^{(p)}}} \E^{\nabla_{\can}} \iso \E$. Notice that $\E$ does not need to be locally free unlike the case of coherent modules with flat connection in characteristic zero.
+
+\subsubsection{Curvature}
+
+Recall a connection $\nabla : \E \to \E \ot \Omega^1$ is integrable iff for all $D, D' : \struct{X} \to \struct{X}$ $k$-derivations 
+\[ \nabla_{[D, D']} = [\nabla_D, \nabla_{D'}] \in \End{\E} \]
+In characteristic $p$ we have another way to construct new derivations not just Lie bracket. The map $D \mapsto D^{[p]}$ gives the structure of a $p$-Lie algebra. This is a derivation because of some $p$-magic
+\[ D^p (fg) = D^p(f) g + f D^p(g) + \sum_{0 < i < p} {p \choose i} D^i(f) D^{p-i}(g) = D^p(f) g + f D^p(g) \]
+
+\begin{defn}
+The $p$-curvature map $\psi(\nabla) : \Theta_X \to \End{\E}$ is defined by
+\[ \psi(\nabla) : D \mapsto (\nabla_D)^p - \nabla_{D^{[p]}} \]
+Now one checks that $\psi(\nabla)(D) : \E \to \E$ is $\struct{X}$-linear and $\psi(\nabla)(f D) = f^p \psi(\nabla)$ so $\psi(\nabla)$ is $p$-linear.
+\end{defn}
+
+\begin{example}
+$X = \Gm$ then consider $D = t \partial_t$ which acts via $t^n \mapsto n t^n$. Then $D^{[p]} : t^n \mapsto n^p t^n = n t^n$ and thus $D^{[p]} = D$. For $a \in k$ consder the flat bundle $(\struct{X}, \nabla_a = \d + a t^{-1} \d{t})$. Then
+\[ \psi(\nabla_a)(D)(1) = (\nabla_{a,D})^p(1) - \nabla_{a,D^{[p]}}(1) = a^p - a \]
+\end{example}
+
+\begin{theorem}[Cartier descent]
+There is an equivlence
+\[ \QCoh(X^{(p)}) \iso \{ (\E, \nabla) \mid \E \in \QCoh(X) \text{ flat and zero p-curvature } \nabla \} \]
+given by
+\[ \E_0 \mapsto (F^* \E, \nabla_{\can}) \]
+\end{theorem}
+
+\begin{proof}
+For $e \in \E$ formal Taylor series
+\[ \sum (-1)^n \frac{\nabla^n_{\partial_t}(e)}{n!} t^n \]
+if $\psi(\nabla) = 0$ then $\nabla^p_{\partial_t} = \nabla_{(\partial_t)^p} = 0$ and thus the higher terms that would not be well-defined due to zero division are actually just zero so we get polynomial solutions.
+\end{proof}
+
+\begin{theorem}
+If $(\E, \nabla)$ comes from geometry, then $\psi(\nabla)$ is nilpotent.
+\end{theorem}
+
+\begin{proof}
+Explicit descriptio of Gauss-Manin connection (Katz-Oda). 
+\end{proof}
+
+\subsubsection{Global setup:}
+
+For $\CC \supset L \supset \Q$ and $L \supset R \supset \ZZ$ and spreading out $(\E_R, \nabla_R)$ then if $(\E_{\CC}, \nabla_{\CC})$ comes from geometry, this property can be spread out so $\psi(\E_{R/\m}, \nabla_{R/\m})$ is nilpotent for almost all $\m \subset R$. 
+\\
+$p$-curvature conjecture: suppose for almost all $\m \subset R$ we have $\psi(\nabla_{R/\m}) = 0$ (there is a full set of solutions) then $\E_{\CC}$ is trivialized on some finite \etale cover $X'_{\CC} \to X_{\CC}$. 
+
+\begin{example}
+Let $L/\Q$ finite and $a \in L$ and consider $(\struct{X}, \nabla_a = \d + a t^{-1} \d{t})$ for $X = \Gm$. The $p$-curvature prediction: if for almost all $\p \subset \struct{L}$ we have $a^p - a \equiv 0 \mod \p$ then $a \in \Q$. This is Dirichlet's theorem. Indeed, for $a \in \Q$ these are exactly the connections that have flat solutions after a covering $\Gm \to \Gm$ sending $z \mapsto z^n$ for $n$ the denominator of $a$.
+\end{example}
+
+\subsubsection{$F$-isocrystals}
+
+Let $k = \FF_q$ a finite field and $W = W(k) = \Z_p$ and $K = W[1/p] = \Q_p$. 
+
+\begin{theorem}
+Let $X / k$ smooth. The following objects are ``of weight $0$'' and there is an equivalence for $\ell \neq p$
+\[ \{ \text{irred } \ol{\Q}_{\ell}\text{-local systems of finite order det} \} \iso \{ \text{irred } \ol{\Q}_p\text{-overcovergent F-isocrystals of finite order det} \} \]
+matching Frobenius characteristic polynomials at $x \in X$. Moreover, if $\dim{X} \le 1$ they are of geometrc origin. 
+\end{theorem}
+
+What is the right-hand side. Crystalline cohomology theory is a good $p$-adic cohomology. There is a crystalline site $(X/W)_{\cris}, \struct{X/W})$ crystalline site then there is a cohomology
+\[ H^n_{\cris}(X/K) = H^n((X/W)_{\cris}, \struct{X/W})[1/p] \]
+which are $K$-vectorspaces.
+
+\begin{defn}
+Isocrystals are the $\Q$-linearization of coherent $\struct{X/W}$-modules.
+\end{defn}
+
+We can understand $H_{\cris}$ when $X$ lifts to characteristic zero formally. Suppose $X \to \Spec{k}$ lifts to a smooth $\X \to \Spf{W}$ a $p$-adic formal scheme then
+\[ H^n_{\cris}(X/K) = H^n_{\dR}(\X/W)[1/p] \]
+moreover coherent $\struct{X/W}$-modules are exactly $(\hat{\E}, \hat{\nabla})$ coerent sheaf on $\X$ with an integral formal connection such that $\hat{\nabla}$ is quasi-nilpotent i.e. the reduction $\hat{\nabla} \ot_W k$ is a connection on $X$ with nilpotent $p$-curvature. 
+
+\begin{rmk}
+Daniel said that $F$-isocrystals are automatically have nilpotnet $p$-curvature because they are fixed by Frobenius to some power. But doesn't this say that actually every isocrystal already has nilpotent $p$-curvature? 
+\end{rmk}
+
+\begin{example}
+$X = \Gm$ then $\X = \Spf{W\left< t^{\pm 1} \right>} = \hat{\Gm}$. Then consider $\hat{\nabla}_a = \d + a t^{-1} \d{t}$ is q-nilp if $a \in \Z_p$. 
+\end{example}
+
+Abstract formalism: $E$ is an (iso)crystal then there is a pullback $F^* E$. If $E$ corresponds to $(\hat{\E}, \hat{\nabla})$ then $F^*_{\X} (\hat{\E}, \hat{\nabla})$ for some formal lift $F_{\X} : \X \to \X$ of $F_{\abs}$ on $\X$.
+
+\begin{example}
+$F_{\X} \acts \hat{\Gm}$ via $t \mapsto t^p$. Then $F^*_{\X} \nabla_a = \d + a^p F^* (t^{-1} \d{t}) =  \d + p a^p t^{-1} \d{t}$ so if $a = i / (p-1) \in \Z_p \cap \Q$ then $F^*_{\X} \nabla_a = \nabla_{pa} = \nabla_{a + i} \cong \nabla_a$. 
+\end{example} 
+
+\begin{defn}
+An $F$-isocrystal is a pair $(E, \varphi_E : F^* E \iso E)$. 
+\end{defn}
+
+\begin{rmk}
+works perfectly if $X / k$ is smooth proper. In general, need to consider different convergence property (nilpotent $p$-curvature is a convergence property of the taylor series as we saw before) we need a convergence property at the boundary. This is what overconvergent means. If $X / k$ is proper then $F$-isocrystal is the same as overcovergent $F$-isocrystal. 
+\end{rmk}
+
+\begin{rmk}
+If $k = \FF_q$ consider $F^{*a} E \iso E$ is called a $F_q$-isocrystal where $q = p^a$. 
+\end{rmk}
+
+Weil $\ol{\Q}_{\ell}$-sheaf: an $\ell$-adic local system should be $\pi_1^{\et}(X, \bar{x}) \to \GL_n(\ol{\Q}_\ell)$ continuous rep. Since the $\pi_1^{\et}$ is profinite, we need the image of each frobenius we can take $\ol{\Z}$-powers so it must be an $\ell$-adic unit. 
+
+\subsection{Problems}
+
+\begin{enumerate}
+\item McMullen's theorem
+\item Are isolated singular poitns on character varieties motivic
+\item Stable cohomology of families of character varieties
+\item Rigidity of period maps.
+\item Compute finite mapping class group orbits or integral points in rank $3$ character varieties.
+\item What is the maximum dimension of an isotrivial isogeny factor n a nonisotrivial family of genus $g$ Jacobians as a function of $g$?
+\item Explicitly bound the number of $\Z$-PVHS on a curve.
+\item Decidability of arithmeticity or motivicity.
+\end{enumerate}
+
+\section{Jan 31}
+
+\subsection{Motivicity and isotriviality conjectures for rigid connections}
+
+Conjectures: recal that for $(M, \nabla)$ a flat connection over a scheme $S$ of characteristic $p > 0$ we have the $p$-curvature 
+\[ \psi_p : F^* \Theta_X \to \End{M} \]
+or an $\struct{S}$-linear map
+\[ \psi_p : M \to (F^*_{\abs} \Omega_S^1) \ot M \]
+
+\begin{conj}[Grothendieck-Katz]
+$(M, \nabla)$ a flat connection over $S$, smooth quasi-projective over a number field $K$ then $(M, \nabla)$ is isotrivial iff almost all $p$-curvatures of $(M, \nabla)$ vanish. 
+\end{conj}
+
+\begin{rmk}
+$p$-curvature condition is related to integrality properties of Taylor expansions of flat sections. Indeed, let $m_0$ be a local section of $M$ (not necessarily flat) over $S$ a smooth curve with local coordinate $z$. We can expand to get a formal section
+\[ m = \sum_{i \ge 0} (-1)^i \frac{\nabla_{\partial_z}^i (m_0)}{i!} z^i \]
+This is always a formal solution. 
+The $p$-adic radius of convergence is $p^{-1/(p^2-1)}$ if $\psi_p = 0$ and $p^{-1/(p-1)}$ in general. This gives better convergence as $p$ varies. We would want to use the theorem: if we have the product of all $p$-adic radii of convergences are $\ge 1$ and the coefficients are integral then the power series is rational. 
+\end{rmk}
+
+Variant for local systems: $S/ \struct{K}$ proper regular over $\struct{K}$ ring of integers of a number field $K$ and consider $\ell$-adic local systems $E$ on $S$ (unamified at all primes). Q: is $E$ (geometrically) constant? 
+
+\subsubsection{What's known}
+
+Katz's proof of $p$-curvatue conjecture for Gauss-Manin connection: for $f : \X \to S$ smooth projective morphism with $S / K$ over a number field. Then consider
+\[ (M, \nabla) := (R^n f_* \Omega_{\X/S}^\bullet, \nabla_{\mathrm{GM}}) \]
+Katz proves that in this case the $p$-curvature conjecture is true. 
+\\
+Instead of the usual ``stupid'' filtration, use the good truncation to get the ``conjugate'' spectral sequence
+\[ E^{p,q}_2 = R^p f_* \cH^q(\Omega^\bullet_{\X/S}) \]
+In characteristic zero, this is a very complicated object since there is no algebraic poincare lemma. In the analytic category, however, we just get cohomology of the trivial local system (de Rham theorem). After reduction mod $p$, we have more information because we have the Cartier operator:
+\[ E^{p,q}_2 = R^p f_* \cH^q(\Omega_{\X/S}) \cong F^* R^p f_* \Omega_{\X/S}^q \]
+Know: for large characteristic $p$ the conjugate spectral sequence degenerates at $E_2$.
+
+Now: the Kodaira-Spencer connecting maps:
+\[ F^* R^p f_* \Omega^q_{\X/S} \to F^* \Omega_S^1 \ot F^* R^{p+1} f_* \Omega_{\X/S}^{q-1} \] 
+Katz proves this is the $p$-curvature. Therefore, vanishing of the $p$-curvatures implies that the VHS is constant i.e. under the nonabelian Hodge correspondence the local system is unitary. Hence the monodromy is discrete and unitiary and hence finite. 
+
+\begin{rmk}
+This proof doesn't work for factors of a GM-connection because we have $\struct{K}$-structure (why is this not enought?).
+
+Furthermore, it only uses that $\psi_p = 0$ for infinitely many $p$ not for almost all $p$. This is not enough for the $p$-curvature conjecture in general. Indeed, consider in rank $1$ on $\Gm$ we have $\nabla_a = \d + a t^{-1} \d{t}$ will always have infinitely many $p$ with $\psi_p = 0$ by Chebotarev (its the primes with $a \in K$ that lie in the prime subfield which is automatic for the totally split $p$). 
+\end{rmk}
+
+\subsubsection{Esnault-Groechenig's work on rigid local systems}
+
+Two ingredients:
+\begin{enumerate}
+\item integrality: the underlying local system of a rigid local system is integral
+\item analog of Katz's method on the relationship between KS and $p$-curvature
+\end{enumerate}
+
+\begin{theorem}[EG, 2017]
+Let $E$ be a cohomologically rigid point of $M_B(S_{\CC})$ then $E$ underlies an $\struct{K}$-local system for some number field $K$.  
+\end{theorem}
+
+Sketch of proof: 
+\begin{enumerate}
+\item the monodromy lives in some $\struct{K}[1/N]$ because it is rigid and we can choose $K,N$ that work for all rigid points because there are only finitely many (with fixed rank)
+\item we may assume that $E$ extends after completion to an arithmetic $\ol{\Q}_{\ell}$-local system 
+\end{enumerate}
+
+Kodaira-Spencer vs $p$-curvature:
+
+Ogus-Vologodsky '07: version in characteristic $p$ of NAHT. Equivalence of categories: Higgs bundles with nilpotent Higgs field and flat connection with nilpotent $p$-curvature. 
+
+\begin{example}
+Consider $(M, \nabla)$
+\begin{enumerate}
+\item if $p$-curvature is zero then $(M, \nabla) = (F^* N, \nabla_{\can})$ corresponds to Higgs bundle $(N, 0)$ 
+\item $p$-curvature nilpotnent of order $1$ then ther es an extension
+\[ 0 \to (F^* Q_1, \nabla_{\can}) \to (M, \nabla) \to (F^* Q_2,\nabla_{\can}) \to 0 \]
+then we get an extension class
+\[ \xi \in H^1(S, F^* (Q_2^\vee \ot Q_1), \nabla_{\can}) \]
+Deligne-Illusie: under suitable assumptions (i.e. a lift to $W_2$ etc) then 
+\[ H^1(S, F^* (Q_2 \ot Q_1), \nabla_{\can}) = H^1(S^{(p)}, Q_2^\vee \ot Q_1) \oplus H^0(S^{(p)}, \Omega^1_S \ot Q_2^{\vee} \ot Q_1) \]
+call $\theta$ the projection of $\xi$ to the second factor. The first term gives an extension of $\struct{S^{(p)}}$-modules
+\[ 0 \to Q_1 \to V \to Q_2 \to 0 \]
+and the second $\theta$ induces a map
+\[ V \to Q_2 \to Q_1 \ot \Omega^1 \to V \ot \Omega^1 \]
+which is the Higgs field.
+\end{enumerate}
+\end{example}
+
+\begin{theorem}[EG, '20]
+Let $(M, \nabla)$ be rigid, with almost all vanishing $p$-curvatures then $(M, \nabla)$ is unitary. 
+\end{theorem}
+
+\subsection{Geometry of Surface Bundles via Monodromy}
+
+\begin{theorem}[Thurston]
+$S_{g,n}$ a punctured surface of genus $g$. Let $\phi \in \Mod{}(S)$ and let $M_\phi$ be the self gluing of $S_{g,n} \times [0,1]$ along its boundary via $\phi$. Then $M_\phi$ is hyperbolic iff $M_\phi$ is atoroidal iff $\phi$ is pseudo-Anosov.
+\end{theorem}
+
+\begin{rmk}
+Assuming $n = 0$ so $S$ is closed, $M_\phi$ is atoroidal means $\Z^2$ is not a subgroup of $\pi_1(M_\phi)$ (no immersed torus). Likewise pseudo-Anosov means $\phi$ is infinite order and powers of $\phi$ fixe no conjugacy class in $\pi_1(S)$.
+\end{rmk}
+
+\begin{example}
+Consider $N = S^3 \sm K$ where $K$ is a figure-eight not. Then $N = M_\phi$ for $S = S_{1,1}$ and 
+\[ \phi = 
+\begin{pmatrix}
+2 & 1
+\\
+1 & 1
+\end{pmatrix} 
+\in \Mod{}(S_{1,1}) = \SL_2(\Z) \]
+\end{example}
+
+\begin{example}
+$\phi \in \SL_2(\Z)$ is (pseudo)Anosov iff $|\tr{\phi}| > 2$ (is this the same as ``hyperbolic'' or is that $\tr{\phi} > 2$). 
+\end{example}
+
+\begin{rmk}
+Let $\phi$ be pseudo-Anosov. Thurston gives $\rho \in M(S, \SL_2)^{\phi}$ then $\rho$ is defined over $\ol{\Z}$ iff $\pi_1(M_\phi) \subset \PSL_2(\CC)$ is arithmetic. 
+\end{rmk}
+
+Question: are there similar examples in higher dimension? For $g,h \ge 2$ does there exsit a $S_g$ bundle $E$ over $S_h$
+\[ S_g \to E \to S_h \]
+such that $E$ is
+\begin{enumerate}
+\item a hyperbolic 4-manifold
+\item Riemannian negative curvature (isn't this the same?)
+\item Gromov hyperbolic
+\item atoroidal
+\end{enumerate}
+
+\subsection{Monodromy (Earle-Eells)}
+
+For $g \ge 2$, there is a bijection
+\[ \{\text{smooth bundles } S_g \to E \to S_h \} / \sim \iso \Hom{}{\pi_1(S_h)}{\Mod{}(S_g)}/ \text{conj} =: M(h,g) \]
+given by taking monodromy. In particular, $E$ is determined by its topological bundle structure. 
+
+\subsection{Problems}
+
+\begin{enumerate}
+\item McMullen's theorem
+\item Isolated singularities are motivic
+\item stable cohomology of character varieties
+\item explicit bounds on the number of integral PVHS
+\item maximal dimension of an isotrivial isogeny factor
+\item decidability of arithmeticity/motivicty.
+\end{enumerate}
+
+\section{Siegal Discs}
+
+\begin{theorem}
+Let $k$ be a finitely-generated field, and let $X / k$ be a smooth curve. Let $\ell$ be a prime different from the characteristic of $k$, and let $k^{\sep}$ be a separable closure of $k$. Let $\bar{x}$ be a geometric point of $X$. There exists a positive constant $N = N(X, \ell)$ such that if
+\[ \rho : \pi_1^{\et}(X_{k^{\sep}}, \bar{x}) \to \GL_n(\ol{\Z}_{\ell}) \]
+is a continuous representation such that
+\begin{enumerate}
+\item $\rho \ot \ol{\Q}_{\ell}$ is semisimple arithmetic, and
+\item $\rho$ is trivial mod $\ell^N$
+\end{enumerate}
+then $\rho$ is trivial. 
+\end{theorem}
+
+
+\subsubsection{Sketch:}
+
+Reduce to the case $k$ is finite, $X$ affine, and $X(k)$ nonempty via specialization. Let $x \in X(k)$ be a rational point and $\bar{x}$ an associated geometry point. Let $\pi_1^{\ell}(X_{\bar{k}}, \bar{x})$ be the pro-$\ell$-completion of the geometric \etale fundamental group. There is an isomorphism of the pro-$\ell$ group ring
+\[ \Z_{\ell} \left<< \pi_1^{\ell}(X_{\bar{k}}, \bar{x})\right>> \]
+
+\end{document}

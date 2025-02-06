@@ -7,6 +7,17 @@
 \renewcommand{\gr}{\mathrm{gr}}
 \newcommand{\R}{\mathrm{R}}
 
+\renewcommand{\cH}{\mathcal{H}}
+\renewcommand{\codim}{\mathrm{codim}}
+
+\DeclareMathOperator{\mult}{\mathrm{mult}}
+\DeclareMathOperator{\lcdef}{\mathrm{lcdef}}
+\newcommand{\LL}{\mathbb{L}}
+
+\DeclareMathOperator{\lcd}{\mathrm{lcd}}
+\DeclareMathOperator{\lcdeg}{\mathrm{lcdeg}}
+
+\newcommand{\cM}{\mathcal{M}}
 
 \begin{document}
 
@@ -666,7 +677,1688 @@ be the filtered de Rham complex of $X$.
 
 Let $f : Y \to X$ be a proper morphism of smooth varieties then $\Omega_Z^\bullet \to \R f_* \Omega_Y$ and moreover $\Omega_Z^p \to \R f_* \Omega_Y^p$. These are the maps that allow us to build $\R \epsilon_{\bullet}$. Note that $\Omega_X^\bullet$ is not an element of $D^\flat_{\text{Coh}}$ since the maps are not $\struct{X}$-linear. Really, it lives in the derived category of filtered differential complexes (terms are coherent sheaves, map are differential operators of order $\le 1$). Furthermore, $\Omega_Y^\bullet$ is filtered by $F^p \Omega_Y^\bullet = \Omega_Y^{\ge p}$. Hence $\gr^p_F \Omega_Y^\bullet = \Omega_Y^p[-p]$. 
 
+\section{Sept 25 - Filtered de Rham Complex}
+
+Let $X$ be a variety / $\CC$. Choose a hyperresolution $\epsilon_\bullet : X_\bullet \to X$. We define $\ul{\Omega}_X^\bullet := \R \epsilon_\bullet \Omega_{X_\bullet}^\bullet$. 
+\par 
+Recall, for $f : Z \to Y$ proper of smooth varities then $\Omega_Y^\bullet \to \R f_* \Omega_Z^\bullet$ is given componentwise by $\Omega_Y^p \to f_* \Omega_Z^p \to \R f_* \Omega_Z^p$. We know $\Omega_Y^\bullet$ s filtered by $F^p \Omega_Y^\bullet = \Omega_Y^{\ge p}$.
+
+\begin{enumerate}
+\item $\R \epsilon_{i *} \Omega_{X_i}^\bullet$ is filtered by $\R \epsilon_{i *} (F^p \Omega_{X_i}^\bullet)$ these are compatible to get a filtration $F^p \ul{\Omega}_X^\bullet := \R \epsilon_{\bullet *} \Omega_{X_\bullet}^{\bullet \ge p}$.
+\end{enumerate}
+
+\begin{defn}
+The $p$-th \textit{Du Bois complex} of $X$ is
+\[ \ul{\Omega}_X^p := \gr^p_F \ul{\Omega}_X^\bullet [p] \cong \R \epsilon_{\bullet *} \Omega_{X_\bullet}^p \]
+\end{defn}
+
+\begin{lemma}
+$\ul{\Omega}^p_X \in D^{\flat}_{\mathrm{Coh}}(X)$
+\end{lemma}
+
+\begin{proof}
+This because for any $g : Y \to Z$ between smooth varities we get the filtration via
+\[ \R g_* F^p \Omega_Y^\bullet \to \R g_* \Omega_Y^\bullet \]
+then the graded parts are $\R g_* \Omega_Y^p[-p]$ because $\R g_*$ is triangulated so it commutes with taking cone (hence with formation of $F^p / F^{p+1}$)
+\end{proof}
+
+\begin{lemma}
+There is a spectral sequence
+\[ E_1^{ji} = R^i \epsilon_{j *} \Omega^p_{X_j} \implies \cH^{i+j} \ul{\Omega}^p_X \]
+\end{lemma}
+
+\begin{rmk}
+Recall:
+\begin{enumerate}
+\item if $X$ is a real manifold of dimension $d$ then
+\[ 0 \to \cA_X^0 \xrightarrow{\d} \cA_X^1 \xrightarrow{\d} \cA_X^2 \to \cdots \to \cA_X^d \to 0 \]
+is quasi-isomorphic to $\ul{\RR}$ by the Poincare lemma.
+\item if $X$ is a complex manifold of dimension $n$ then
+\[ 0 \to \cA_X^{p,0} \xrightarrow{\dbar} \cA_X^{p,1} \xrightarrow{\dbar} \cA_X^{p,2} \to \cdots \to \cA_X^{p,n} \to 0 \]
+is quasi-isomorphic to $\Omega_X^P$ by the $\dbar$-Poincare lemma.
+\end{enumerate}
+All these sheaves $\cA_X^p$ and $\cA_X^{p,q}$ are fine and hence acyclic. 
+\end{rmk}
+
+Therefore, we have a representative for $\ul{\Omega}_X^\bullet$ (menaing we take the total complex of the following double complex):
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & & 0 \arrow[d]
+\\
+0 \arrow[r] & \epsilon_{0*} \cA^0_{X_0} \arrow[d] \arrow[r] & \epsilon_{0*} \cA_{X_0}^1 \arrow[d] \arrow[r] & \cdots \arrow[r] & \epsilon_{0*} \cA_{X_0}^n \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \epsilon_{1*} \cA^0_{X_1} \arrow[r] \arrow[d] & \epsilon_{1*} \cA_{X_1}^1 \arrow[r] \arrow[d] & \cdots \arrow[r] & \epsilon_{1*} \cA_{X_1}^n \arrow[r] \arrow[d] & 0
+\\
+& \vdots \arrow[d] & \vdots \arrow[d] & \ddots & \vdots \arrow[d]
+\\
+0 \arrow[r] & \epsilon_{n*} \cA^0_{X_0} \arrow[r] & \epsilon_{0*} \cA_{X_0}^1 \arrow[r] & \cdots \arrow[r] & \epsilon_{n*} \cA_{X_0}^n \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+here we are using complex valued $C^{\infty}$-forms not real valued ones.
+Furthermore, $\ul{\Omega}_X^p = \gr^p_F \ul{\Omega}_X^\bullet [p]$ has a representative
+\begin{center}
+\begin{tikzcd}
+& 0 \arrow[d] & 0 \arrow[d] & & 0 \arrow[d]
+\\
+0 \arrow[r] & \epsilon_{0*} \cA^{p,0}_{X_0} \arrow[d] \arrow[r] & \epsilon_{0*} \cA_{X_0}^{p,1} \arrow[d] \arrow[r] & \cdots \arrow[r] & \epsilon_{0*} \cA_{X_0}^{p,n} \arrow[r] \arrow[d] & 0
+\\
+0 \arrow[r] & \epsilon_{1*} \cA^{p,0}_{X_1} \arrow[r] \arrow[d] & \epsilon_{1*} \cA_{X_1}^{p,1} \arrow[r] \arrow[d] & \cdots \arrow[r] & \epsilon_{1*} \cA_{X_1}^{p,n} \arrow[r] \arrow[d] & 0
+\\
+& \vdots \arrow[d] & \vdots \arrow[d] & \ddots & \vdots \arrow[d]
+\\
+0 \arrow[r] & \epsilon_{n*} \cA^{p,0}_{X_0} \arrow[r] & \epsilon_{0*} \cA_{X_0}^{p,1} \arrow[r] & \cdots \arrow[r] & \epsilon_{n*} \cA_{X_0}^{p,n} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is the natural map shifted by $p$ to the left. 
+
+\begin{theorem}[Du Bois]
+Any map of hyperresolutions:
+\begin{center}
+\begin{tikzcd}
+X_\bullet' \arrow[rr] \arrow[rd] & & X_\bullet \arrow[ld]
+\\
+& X
+\end{tikzcd}
+\end{center}
+induces a quasi-isomorphicm $\R \epsilon_{\bullet X}' \Omega_{X'_\bullet}^p \iso \R \epsilon_{\bullet *} \Omega_{X_\bullet}^p$ so that $\ul{\Omega}_X^p$ is well defined (and also so is $\ul{\Omega}_X^\bullet$). 
+\end{theorem}
+
+\begin{example}
+\begin{enumerate}
+\item if $X$ is smooth then $\id : X \to X$ is a hyperresolution so $\ul{\Omega}_X^\bullet = \Omega_X^\bullet$ and $\ul{\Omega}_X^p = \Omega_X^p [0]$
+\item let $X$ be a cuspidal curve. Then $\ul{\Omega}_X^0 = f_* \Omega_{\wt{X}}^0 = f_* \struct{\wt{X}} \neq \struct{X}$. There is a map
+\[ 0 \to \struct{X} \to f_* \struct{\wt{X}} \to \CC_p \to 0 \]
+Likewise $\ul{\Omega}^1_X = f_* \Omega^1_{\wt{X}} = f_* \omega_{\wt{X}} \neq \omega_X$.
+\item let $X$ be a nodal curve, say an irreducible one $V(y^2 - x^2 - x^3)$. Then we have a $2$-cubical resolution
+\begin{center}
+\begin{tikzcd}
+\{ r,s \} \pullback \arrow[d] \arrow[r, hook] & \wt{X} \arrow[d]
+\\
+\{ p \} \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+Therefore
+\[ \ul{\Omega}_X^0 := [ f_* \struct{\wt{X}} \oplus \struct{p} \to \struct{r} \oplus \struct{s}] \cong \struct{X} \]
+and
+\[ \ul{\Omega}_X^1 := [ f_* \omega_{\wt{X}} \to 0] \]
+so $\ul{\Omega}_X^1 = f_* \omega_{\wt{X}} \neq \omega_X$
+\item $A_1$-singularity $X = V(x^2 + y^2 + z^2) \subset \CC^3$ the cone over a conic $C$. We have the resolution
+\begin{center}
+\begin{tikzcd}
+C \arrow[r] \arrow[d] \pullback & \wt{X} \arrow[d]
+\\
+\{ p \} \arrow[r] & X
+\end{tikzcd}
+\end{center}
+and therefore
+\[ \ul{\Omega}_X^0 = [ \R f_* \struct{\wt{X}} \oplus \struct{p} \to \R f_* \struct{C}] \cong \struct{X} \]
+because $\R f_* \struct{\wt{X}} = \struct{X}$ and $\R f_* \struct{C} = \struct{p}$. Next compute
+\[ \ul{\Omega}_X^2 = [ \R f_* \Omega_{\wt{X}}^2 \to 0] = f_* \omega_{\wt{X}} \]
+by G-R. In this case $f_* \omega_{\wt{X}} = \omega_X$ because the singularity is canonical. Finally
+\[ \ul{\Omega}_X^1 = [ \R f_* \Omega_{\wt{X}}^1 \oplus \Omega^1_{p} \to \R f_* \omega_C] \]
+The term $\Omega^1_p = 0$ so we get a long exact sequence
+\[ 0 \to \cH^0(\ul{\Omega}^1_X) \to f_* \Omega_{\wt{X}}^1 \to 0 \to \cH^1(\ul{\Omega}^1_X) \to R^1 f_* \Omega_{\wt{X}}^1 \to \struct{p} \ot H^1(C, \omega_C) \to \cH^2(\ul{\Omega}_X^1) \to 0 \]
+where the zero comes from $H^0(C, \omega_C) = 0$ 
+and Exercise: $R^1 f_* \Omega_{\wt{X}}^1 \iso R^1 f_* \omega_C$ is an isomorphism. Therefore we get
+\begin{enumerate}
+\item $\cH^0 \ul{\Omega}_X^1 = f_* \Omega_{\wt{X}}^1$
+\item $\cH^0 \ul{\Omega}_X^1 = 0$
+\item $\cH^0 \ul{\Omega}_X^1 = 0$
+\end{enumerate}
+therefore $\ul{\Omega}_X^1 = f_* \Omega_{\wt{X}}^1 \cong (\Omega_X^1)^{\vee \vee}$. 
+\end{enumerate}
+\item if $X$ is the cone over a smooth curve $C \subset \P^2$ of degree $\ge 4$ then we look at the ``Du Bois table''
+\begin{center}
+\begin{tikzcd}
+\cH^0(\ul{\Omega}_X^0) & \cH^1(\ul{\Omega}_X^0) & \cH^2(\ul{\Omega}_X^0)
+\\
+\cH^0(\ul{\Omega}_X^1) & \cH^1(\ul{\Omega}_X^1) & 0
+\\
+\cH^0(\ul{\Omega}_X^2) & 0 & 0 
+\end{tikzcd}
+\end{center}
+It turns out that always $\cH^2(\ul{\Omega}_X^0) = 0$. However, in this case we have both $\cH^1(\ul{\Omega}_X^0) \neq 0$ and $\cH^1(\ul{\Omega}_X^1) \neq 0$. These are both $H^1(C, \struct{C}(1))$ (or maybe just the first one). 
+\end{example}
+
+\section{Oct. 9 - }
+
+\begin{prop}
+Let $Z \subset X$ be closed and we have a diagram,
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, hook] \arrow[d] & Y \arrow[d]
+\\
+Z \arrow[r, hook] & X
+\end{tikzcd}
+\end{center}
+where $f$ is proper and induces an isomorphism $Y \sm E \iso X \sm Z$ then there is an exact triangle
+\[ \ul{\Omega}_X^p \to \R f_* \ul{\Omega}_Y^p \oplus \ul{\Omega}_Z^p \to \R f_* \ul{\Omega}_E^p \to + 1 \]
+\end{prop}
+
+\begin{example}
+Let $x \in X$ be an isolated singularity. By locality, we can assume $X$ is smooth outside of $x$. Say $f : \wt{X} \to X$ is a strong log resolution meaning $E = f^{-1}(X)_{\red}$ is SNC and $f$ is an isomorphism away from $E$. Then we get a triangle
+\[ \ul{\Omega}_X^p \to \R f_* \Omega_{\wt{X}}^p \oplus \Omega_x^p \to \R f_* f_* \ul{\Omega}_E^p \to + 1 \]
+and we did the calculation of $\ul{\Omega}_E$ for $E$ an SNC divisor. For $p = 0$ we have
+\[ \ul{\Omega}_X^0 \to \R f_* \struct{\wt{X}} \oplus \struct{x} \to \R f_* \struct{E} \to +1 \]
+This induces a $\triangle$
+\[ \R f_* \struct{\wt{X}}(-E) \to \ul{\Omega}_X^0 \to \struct{x} \to + 1 \]
+by the octahedral axiom. For $p > 0$ recall there is a short exact sequence
+\[ 0 \to \Omega_{\wt{X}}^p(\log{E})(-E) \to \Omega_{\wt{X}}^p \to \ul{\Omega}_E^p \to 0 \]
+Hence we get that
+\[ \ul{\Omega}_X^p \cong \R f_* \Omega_{\wt{X}}^p(\log{E})(-E) \]
+\end{example}
+
+Another approach is to embed $X$ in a smooth variety $Y$ and take a log resolution of $(Y,X)$ then apply the triangle. Consider a strong log resolution $(\wt{Y}, E) \to (Y, X)$ so we have a diagram
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, hook] \arrow[d] & \wt{Y} \arrow[d]
+\\
+X \arrow[r, hook] & Y
+\end{tikzcd}
+\end{center}
+with $E := f^{-1}(X)_{\red}$ is SNC and $\wt{Y} \sm E \iso Y \sm X$. Thus we get a $\triangle$
+\[ \Omega_Y^p \to \R f_* \Omega_{\wt{Y}}^p \oplus \ul{\Omega}_X^p \to \R f_* \ul{\Omega}_E^p \to + 1 \]
+
+\begin{example}
+For $p = 0$ we get
+\[ \struct{Y} \to \R f_* \struct{\wt{Y}} \oplus \ul{\Omega}_X^0 \to \R f_* \struct{E} \to + 1 \]
+and because $Y$ is smooth $\R f_* \struct{\wt{Y}} = \struct{Y}$ so we get
+\[ \ul{\Omega}_X^0 \cong \R f_* \struct{E} \]
+\end{example}
+
+These are formulas that birational geometers would like: some sheaves defined in terms of resolution of singularities. There's a big difference between rational and du Bois singularities: rational is about resolutions, du Bois is about log resolutions. 
+\bigskip\\
+Now, for any $p$ we get an exact triangle
+\[ \R f_* \Omega_{\wt{Y}}^p(\log{E})(-E) \to \Omega_Y^p \to \ul{\Omega}_X^p \to + 1 \]
+More generally, 
+
+\begin{prop}[Steenbrink's Triangle]
+Let $X \subset Y$ be a closed subset. And let $f : \wt{Y} \to Y$ be a proper birational map with $\wt{Y}$ smooth and $E = f^{-1}(X)_{\red}$ is an SNC divisor and $f : \wt{Y} \sm E \to Y \sm X$ is an isomorphism. Then there exists an exact $\triangle$ 
+\[ \R f_* \Omega_Y^p(\log{E})(-E) \to \ul{\Omega}_Y^p \to \ul{\Omega}_X^p \to +1 \]
+\end{prop}
+
+\begin{proof}
+Octahedral axiom.
+\end{proof}
+
+\subsection{Cones}
+
+\newcommand{\ulO}{\ul{\Omega}}
+
+Let $X \subset \P^N$ be smooth projective, $L$ ample line bundle on $X$ (not necessarily very ample?). Then we set
+\[ Z = \Spec{\bigoplus_{m \ge 0} H^0(X, L^m)} \]
+We want this because when $L = \struct{X}(1)$ (i.e. it is very ample) then $Z$ is the normalization of the usual cone. This is good because for a singularity to be du Bois, it must be normal. Hence it is more natural to consider $Z$. 
+
+\begin{prop}
+$\cH^0 \ul{\Omega}_Z^0 = \struct{Z}$ and for $i \le 1$ or $p \ge 1$
+\[ \cH^i \ulO_Z^p = \bigoplus_{m \ge 1} \left[ H^i(X, \Omega_X^p \ol L^m) \oplus H^i(X, \Omega_X^{p-1} \ot L^m) \right] \]
+and for $p = 0$ the second term is zero. 
+\end{prop}
+
+\begin{rmk}
+Bott vanishing is the term for when these groups are all zero. For example, if $X \subset \P^n$ is a smooth hypersurface then Duc computed everything. 
+\end{rmk}
+
+\subsection{Computation of $\ulO^p_Z$ for $p \ge 1$}
+
+Consider the log resolution $(\wt{Z}, X) \to (Z, x)$ where $x \in Z$ is the cone point. Therefore we get an exact $\triangle$
+\[ \ulO_Z^p \to \R f_* \Omega_{\wt{Z}}^p \oplus \ulO_{x}^p \to \R f_* \Omega_X^p \to +1 \]
+but $p > 0$ so $\ulO_{x}^p = 0$. Therefore we have a $\triangle$
+\[ \ulO_Z^p \to \R f_* \ulO_{\wt{Z}}^p \to \R f_* \ulO_X^p \to + 1 \]
+Note that $\pi : \wt{Z} \to X$ is an $\A^1$-bundle. The map
+\[ \R f_* \ulO_{\wt{Z}}^p \to \R f_* \ulO_X^p \]
+is naturally split by
+\[ \R f_* \Omega_E^p \to \R f_* \Omega_{\wt{Z}}^p \]
+pullback along $\pi$ (since the map is given by restricting to $X = E \subset \wt{X}$). 
+Hence the LES for this $\triangle$ splits into a bunch of short exact sequences
+\[ 0 \to \cH^i \ulO_Z^p \to R^i f_* \Omega_{\wt{Z}}^p \to R^i f_* \Omega_{X}^p \to 0 \]
+and hence since everything is supported at $x$, 
+\[ 0 \to \cH^i \ulO_Z^p \to H^i(\wt{Z}, \Omega_{\wt{Z}}^p) \to H^i(X, \Omega_X^p) \to 0 \]
+This is hence the kernel of
+\[ \pi_* : H^i(\wt{Z}, \Omega_{\wt{Z}}^p) \to H^i(X, \Omega^p_X) \]
+We consider
+\[ H^i(\wt{Z}, \Omega_{\wt{Z}}^p) = H^i(X, \pi_* \Omega_{\wt{Z}}^p) \]
+
+\begin{lemma}
+There exists a split exact sequence
+\[ 0 \to \bigoplus_{m \ge 0} \Omega_X^p \ot L^m \to \pi_* \Omega_{\wt{Z}}^p \to \bigoplus_{m \ge 1} \Omega^{p-1}_X \ot L^m \to 0 \]
+\end{lemma}
+
+Using that the $H^i(X, \Omega^p_X)$ of the previous sequence cancels the first term on the left then we conclude what we want. 
+
+\begin{proof}
+Consider
+\[ 0 \to \pi^* \Omega_X \to \Omega_{\wt{Z}} \to \pi^* L \to 0 \]
+Taking wedges gives the sequence
+\[ 0 \to \pi^* \Omega_X^p \to \Omega_{\wt{Z}}^p \to \pi^* (\Omega_X^{p-1} \ot L^m) \to 0 \]
+and hence pushing forward we get what is desired because
+\[ \pi_* \struct{Z} = \bigoplus_{m \ge 0} L^{\ot m} \]
+For exactness, it suffices to show that $R^1 \pi_* \struct{\wt{Z}} = 0$ but this is clear because the fibers are affine space. Now we need to see why the sequences are split. We need to produce a map
+\[ \bigoplus_{m \ge 1} \Omega_X^{p-1} \ot L \to \pi_* \Omega_{\wt{Z}}^p \]
+which we do by adjunction. This is given by the operator $\d$ 
+\[ \pi^* \Omega^{p-1}_X \ot L^m \to \Omega_{\wt{Z}}^p \] 
+whose composition is multiplication by $m$. Really how this works is we take the natural dual section $(s^\vee)^m : L^m \to \struct{X}$ and tensor with $\Omega_{X}^{p-1}$ and then apply $\d$. 
+\end{proof}
+
+\section{Oct. 16 - Du Bois Singularities}
+
+\renewcommand{\Coh}{\mathrm{Coh}}
+
+\begin{defn}
+Let $X$ be a variety over $\CC$. Say that $X$ has \textit{Du Bois singularities} if the morphism $\struct{X} \to \ul{\Omega}_X^0$ is an isomorphism in $D^\flat_{\Coh}(X)$.
+\end{defn}
+
+Let's check this agrees with the preliminary definition. Say $X \subset Y$ with $Y$ smooth and take a strong log resolution,
+\begin{center}
+\begin{tikzcd}
+E \arrow[r, hook] \arrow[d] & \wt{Y} \arrow[d, "f"]
+\\
+X \arrow[r, hook] & Y
+\end{tikzcd}
+\end{center}
+where $E = f^{-1}(X)_{\red}$ is an SNC divisor and $f : \wt{Y} \sm E \iso Y \sm X$ with $\wt{Y}$ smooth and $f$ proper. Recall the Meyer-Vietorez $\triangle$
+\[ \struct{Y} \to \R f_* \struct{Y} \oplus \ul{\Omega}_X^0 \to \R f_* \ul{\Omega}_E^0 \to + 1 \]
+recall that $\ul{\Omega}_E = \struct{E}$ since $E$ is SNC. However, $\wt{Y}$ is smooth so $\struct{Y} \iso \R f_* \struct{\wt{Y}}$. Therefore, 
+\[ \ul{\Omega}_X^0 \cong \R f_* \struct{E} \]
+In particular the preliminar definition says the RHS is $\struct{X}$ i.e. $X$ is Du Bois iff the natural map
+\[ \struct{X} \to \R f_* \struct{E} \]
+is an isomorphism. 
+
+\begin{example}
+\begin{enumerate}
+\item $E$ is an SNC divisor then $E$ is Du Bois (in particular it can be not normal)
+\item nodal curve $\ul{\Omega}_C^0 \cong \struct{C}$ is Du Bois
+\item cuspidal curve $\ul{\Omega}_C^0 \cong f_* \struct{\wt{C}} \neq \struct{C}$ not Du Bois
+\item $X = C(Y)$ for $Y \subset \P^n$ a smooth hypersurface of degree $d$ then $X$ is Du Bois iff $d \le n + 1$. 
+\end{enumerate}
+\end{example}
+
+\begin{rmk}
+Say $d > n+1$ so $\ul{\Omega}_X^0 \neq \struct{X}$. If $X$ is normal then $\cH^0 \ul{\Omega}_X^0 \cong \struct{X}$. Hence, there exists an $i > 0$ such that $\cH^i \ul{\Omega}_X^0 \neq 0$. In fact, only $\cH^{n-1} \ul{\Omega}_X^0$ is nonzero. 
+\end{rmk}
+
+\begin{example}
+Let $X = C(Y,L)$ for $Y \subset \P^n$ with $L$ very ample. Rosie:
+\begin{enumerate}
+\item $\cH^0 \ul{\Omega}_X^0 \cong \struct{X}$
+\item $\Gamma(X, \cH^i \ul{\Omega}_X^0) = \bigoplus_{m \ge 1} H^i(Y, L^{\ot m})$ 
+\end{enumerate}
+hence $X$ is Du Bois iff $H^i(Y, L^{\ot m}) = 0$ for all $i > 0$ and $m > 0$. 
+For rational singularities, we only additionally need $H^i(Y, \struct{Y}) = 0$ for $i > 0$. For example, if $Y$ is weak Calabi-Yau or Fano then Du Bois holds. More generally, it works if $\omega_Y$ is anti-nef by Kawamata-Viehweg vanishing. 
+\end{example}
+
+\begin{example}
+If $X$ has quotient singularities then $\ul{\Omega}_X^p \cong \Omega_X^{[p]}$ so in particular it is Du Bois. 
+\end{example}
+
+\subsection{Seminormality}
+
+Let $R$ be a reduced finitely generated $k$-algebra. 
+
+\begin{defn}
+A finite extension $R \embed S$ where $S$ is a reduced $R$-algebra (i.e. an integral extension) is called \textit{subintegral} if
+\begin{enumerate}
+\item $\iota : \Spec{S} \to \Spec{R}$ is a bijection
+\item for every $\p \in \Spec{S}$ the induced map $\kappa(\iota^{-1}(\p)) \to \kappa(\p)$ is an isomorphism
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+In characteristic zero, it is equivalent to being a universal homeomorphism (since universal homeomorphism = radicial + integral + surjective).
+\end{rmk}
+
+\begin{defn}
+\begin{enumerate}
+\item fix a ring extension $R \embed S$. The \textit{seminormalization} of $R$ in $S$ is the (unique) largest subintegral subextension
+\[ R \subset R^{sn, S} \subset S \]
+\item if $S = \ol{R}$ is the integral closure then we denote by $R^{sn} := R^{sn, \ol{R}}$ and call it the \textit{seminormalization}. 
+\end{enumerate}
+\end{defn}
+
+Therefore there is a sequence of maps
+\[ X^{\nu} \to X^{sn} \to X \]
+the first is a bijection on points, the second is an isomorphism on residue fields. 
+
+\begin{rmk}
+Can show, $R$ seminormal iff all subintegral extensions $R \subset S$ are isomorphisms.
+\end{rmk}
+
+\begin{theorem}[Swan]
+\begin{enumerate}
+\item An extension $R \subset S$ is seminormal in $S$ if for all $x \in S$ such that $x^2, x^3 \in R$ then $x \in R$.
+\item $R$ is seminormal iff for all $x,y \in R$ such that $y^2 = x^3$ then there exists a unique $z \in R$ such that $y = z^3$ and $x = z^2$. 
+\end{enumerate}
+\end{theorem}
+
+\begin{example}
+\begin{enumerate}
+\item $C = V(y^2 - x^3)$ this is not seminormal because there is no $z$ solving as above. There is inside the normalization $k[t]$ where $x \mapsto t^2$ and $y \mapsto t^3$.
+\end{enumerate}
+\end{example}
+
+\begin{example}
+Let $C = V(y^2 - x^2 - x^3)$ then the normalization is
+\[ k[x,y]/(y^2 - x^2 - x^3) \to k[t] \]
+via $x \mapsto t^2 - 1, y \mapsto t(t^2 - 1)$. This is the inclusion
+\[ k[t^2-1,t(t^2-1)] \embed k[t] \]
+is not subintegral since $k[t^2-1,t(t^2-1)]$ 
+\end{example}
+
+\begin{example}
+Three lines meeting at a point in $\P^2$ is not seminormal. Its seminormalization is the coordinate axes in $\P^3$ which is ``more transverse''. 
+\end{example}
+
+
+\begin{lemma}
+$R$ is seminormal iff $R_\p$ is seminormal for all primes $\p$ iff $R_{\m}$ is seminormal for all maximal ideals.
+\end{lemma}
+
+\begin{defn}
+A variety $X$ is seminormal if all local rings (equivalently the rings of an affine cover) are seminormal.
+\end{defn}
+
+\begin{lemma}
+If $X$ is seminormal then $\struct{X}(U)$ is seminormal.
+\end{lemma}
+
+\begin{proof}
+Suffices to show for $U = X$. Take a cover $U_i$ of $X$ with $\struct{X}(U_i)$ seminormal and consider $y^2 = x^3$ of global functions. Then on each $U_i$ there is a unique $z_i$ solving it. By uniqueness, these glue to give a global $z$ such that $y = z^3$ and $x = z^2$. 
+\end{proof}
+
+\begin{prop}[Saito, Schwede]
+For any variety $X$ we have $\cH^0 \ul{\Omega}_X^0 \cong \struct{X^{sn}}$. 
+\end{prop}
+
+\begin{proof}
+Embed $X \subset Y$ in a smooth variety $Y$. Choose a strong log resolution $f : (\wt{Y}, E) \to (Y, X)$. We know that
+\[ \ul{\Omega}_X^0 \cong \R f_* \struct{E} \]
+and hence
+\[ \cH^0 \ul{\Omega}_X^0 \cong f_* \struct{E} \]
+so we just need to show that $f_* \struct{E} \cong \struct{X^{sn}}$. Indeed, $E$ is SNC so it is seminormal. Therefore, $f_* \struct{E}$ is a sheaf of seminormal rings (by the lemma). Hence $\struct{X} \to f_* \struct{E}$ factors through $\struct{X^{sn}}$. We will show that
+\[ E \to X' = \rSpec{X}{f_* \struct{E}} \to X \]
+is the seminormalization. Furthermore, $E \to X$ has connected fibers because it arises from a blowup of $Y$. Furthermore, $X' \to X$ is affine with connected fibers so it must be a bijection on points but $X'$ is seminormal so it is the seminormalization. 
+\end{proof}
+
+\begin{cor}
+If $X$ is Du Bois then $X$ is seminormal. 
+\end{cor}
+
+\section{Oct. 21 - Nice Properties of DB singularities}
+
+Let $X$ be projectve then there is a HdR spectral sequence
+\[ E^{p,q}_1 = \H^q(X, \ul{\Omega}_X^p) \implies H^{p+q}(X, \CC) \]
+which degenerates at $E_1$. This gives a surjection
+\[ H^i(X, \CC) \to H^i(X, \struct{X}) \to H^i(X, \ul{\Omega}_X^0) = E^{0,i}_1 = E^{0,i}_\infty \]
+If $X$ is Du Bois then this gives a surjection $H^i(X, \CC) \to H^i(X, \struct{X})$. 
+
+\begin{prop}[Du Bois]
+If $f : X \to S$ is a flat projective morphism of varieties over $\CC$ such that for all $s \in S$ the fiber $X_s$ has Du Bois singularities then $R^i f_* \struct{X}$ is locally free and compatible with base change for all $i$ (hence $h^i(X_s, \struct{X_s})$ is locally constant).
+\end{prop}
+
+\begin{proof}
+COnsider $\ul{\CC}_X \to \struct{X}$ then get a diagram
+\begin{center}
+\begin{tikzcd}
+(R^i f_* \CC_X)_s \arrow[r] \arrow[d, equals] & (R^i f_* \struct{X})_s \arrow[d]
+\\
+H^i(X_S, \CC) \arrow[r, two heads] & H^i(X_s, \struct{X_s}) 
+\end{tikzcd}
+\end{center}
+where the left map is an isomorphism by proper base change for topology. The bottom map is surjective since $X_s$ is Du Bois. Therefore we get surjections
+\[ (R^i f_* \struct{X})_s \onto H^i(X_s, \struct{X_s}) \]
+for all $i$. Then by cohomology and base change $R^i f_* \struct{X}$ is locally free and commutes with all base change. 
+\end{proof}
+
+\begin{theorem}[Kollar-Kovacs]
+If $X$ has lc singularities then it has Du Bois singularities. In fact, if $(X, \Delta)$ is a slc pair then $X$ is Du Bois.
+\end{theorem}
+
+We'll only do the proof in the Cohen-Macualay case. 
+
+\begin{conj}[Steenbrink]
+Rational implies Du Bois.
+\end{conj}
+
+\begin{theorem}[Kovacs, Saito]
+Rational singularities are Du Bois. 
+\end{theorem}
+
+In preparation: we have an injectivity theorem.
+
+\begin{theorem}[Kovacs-Schwede]
+For any $X / \CC$ the morphism
+\[ \psi : \RHom{}{\ul{\Omega}_X^0}{\omega_X^\bullet} \to \RHom{}{\struct{X}}{\omega_X^\bullet} = \omega_X^\bullet \]
+obtained by dualizing the canonical morphism $\struct{X} \to \ul{\Omega}_X^0$ is injective on cohomology. 
+\end{theorem}
+
+Assume this for the moment. We will get a nice flexible characterization of Du Bois singularities. 
+
+\begin{cor}
+If $\struct{X} \to \ul{\Omega}_X^0$ has a left inverse in $D^b_{\Coh}(X)$ then $X$ is Du Bois.
+\end{cor}
+
+\begin{proof}
+Consider
+\[ \struct{X} \to \ul{\Omega}_X^0 \to \struct{X} \]
+whose composition is the identity. Dualizing we get
+\[ \RHom{}{\struct{X}}{\omega_X^\bullet} \to \RHom{}{\ul{\Omega}_X^0}{\omega_X^\bullet} \to \RHom{}{\struct{X}}{\omega_X^\bullet} \]
+then we get
+\[ \omega_X^\bullet \to \RHom{}{\ul{\Omega}_X^0}{\omega_X^\bullet} \xrightarrow{\psi} \omega_X^\bullet \]
+and the composition is an isomorphism so $\psi$ is surjective on cohomology but the theorem says $\psi$ is injective on cohomology so $\psi$ is a quai and hence dualizing again the original map was a quis. 
+\end{proof}
+
+Thus we get an identical characterization for Du Bois singularities as we had for rational singularities. 
+
+\begin{cor}
+If $f : Y \to X$ proper morphism, $Y$ Du Bois and 
+\[ \struct{X} \to \RR f_* \struct{Y} \]
+has a left inverse then $X$ is Du Bois.
+\end{cor}
+
+\begin{proof}
+We have a diagram
+\[ \struct{X} \to \ul{\Omega}_X^0 \to \RR f_* \ul{\Omega}_Y^0 = \RR f_* \struct{Y} \to \struct{X} \]
+where the last map is the splitting. Hence this also splits $\struct{X} \to \ul{\Omega}_X^0$ so we apply the corollary.
+\end{proof}
+
+\begin{cor}
+Rational singularities are Du Bois.
+\end{cor}
+
+\begin{proof}
+Indeed, let $f : \wt{X} \to X$ be a resolution then $\struct{X} \to \RR f_* \struct{\wt{X}}$ is an isomorphism (hence split) because $X$ is rational but $\wt{X}$ is smooth and hence Du Bois so we conclude that $X$ is Du Bois by the corollary. 
+\end{proof}
+
+\subsection{Proof of Kovacs-Schwede Injectivity Theorem}
+
+Preparation: the result is completely local but we want to use Hodge theory and nice vanishing theorems. Therefore, we want to make everything compact. Then we pass to a cyclic cover to extract ample line bundles. We need to see how the Du Bois complex behaves under cyclic coverings.
+\par 
+Fix a variety $X$ and $L$ semiample line bundle. Fix $m$ such that $L^{\ot m}$ is globally generated and $D \in |L^{\ot m}|$. Then we want to ``extract roots''
+\[ \pi : Y \to X \]
+branched along $D$ meaning we construct the algebra
+\[ Y = \rSpec{X}{\struct{X} \oplus \cdots \oplus L^{-\ot (m-1)}} \]
+with the multiplication induced by $\struct{X} \to L^{-\ot m}$. 
+
+\begin{rmk}
+If $X$ and $D$ are smooth then $Y$ is smooth.
+\end{rmk}
+
+Always
+\[ \pi_* \struct{Y} = \bigoplus_{i = 0}^{m - 1} L^{-i} \]
+by definition. 
+
+\begin{lemma}
+In this setting, if $D \in |L^{\ot m}|$ is a general divisor 
+\[ \pi_* \ul{\Omega}_Y^0 \cong \ul{\Omega}_X^0 \otimes \pi_* \struct{Y} \]
+and hence $\struct{Y} \to \ul{\Omega}_Y^0$ gives $\pi_* \struct{Y} \to \pi_* \ul{\Omega}_Y^0$ compatible with the decomposition. 
+\end{lemma}
+
+\begin{rmk}
+If $\Omega_X^k \iso \ul{\Omega}_X^k$ is an isomorphism for $k < p$ then we get an injectivity theorem for $\ul{\Omega}_X^p$ (at least its proved for $X$ lci). 
+\end{rmk}
+
+\begin{proof}
+Consider a diagram
+\begin{center}
+\begin{tikzcd}
+Y_\bullet \arrow[d] \arrow[r] & X_\bullet \arrow[d]
+\\
+Y \arrow[r, "\pi"] & X
+\end{tikzcd}
+\end{center}
+of hyperresolutions since each $\epsilon : X_i \to X$ pulls back $L^{\ot m}$ to a globally generated line bundle so the general divisor is smooth. Really, we should say that choosing $s_1, \dots, s_n$ generating $L^{\ot m}$ then the pullback of these sections generates $\epsilon^*_i L^{\ot m}$ so for a general choice 
+\[ s = \lambda_1 s_1 + \cdots + \lambda_n s_n \]
+for $\lambda_i \in \CC$ we see that $V(\epsilon_i^* s)$ is smooth for all $i$.
+Hence we can arrange that $D_i = \epsilon_i^* D$ are all smooth so we form $Y_i$ as the cyclic cover of $(X_i, D_i)$ then $\pi_\bullet : Y_\bullet \to X_\bullet$ is a map of (semi)simplicial varieties and $Y_\bullet \to Y$ is a hyperresolution. Then this becomes clear because
+\[ \R \pi_* \ul{\Omega}_Y^0 = \R \pi_* \R \epsilon_{\bullet *} \struct{Y_\bullet} = \R \epsilon_{\bullet *} \R \pi_* \struct{Y_\bullet} = \R \epsilon_{\bullet *} \left(\struct{X_\bullet} \ot \bigoplus_{i = 0}^{m-1} \epsilon_\bullet^* L^{-i} \right) \]
+\end{proof}
+
+\section{Oct. 23}
+
+\begin{theorem}
+Let $X$ be a variety over $\CC$. The morphism in $D^b(X)$
+\[ \RHom{}{\ulO_X^0}{\omega_X^\bullet} \to \RHom{}{\struct{X}}{\omega_X^\bullet} = \omega_X^\bullet \]
+induced by dualizing $\struct{X} \to \ulO_X^0$ is injective on cohomology.
+\end{theorem}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\begin{proof}
+Local statement so we assume $X$ is afine. Then compactifying we may assume $X$ is projective. Fix an ample $L$ on $X$. Claim: for all $i, j \ge 0$
+\[ H^j(X, L^{-i}) \to H^j(X, \ulO_X^0 \ot L^{-i}) \]
+is surjective (ok even when $L$ is semiample). 
+\par
+Proof: fix $m \gg 0$ (in particular $m > i$) such that $L^{\ot m}$ is globally generated. Let $D \in |L^{\ot m}|$ general. From las time: the $m$-fold cyclic cover $\pi : Y \to X$ branched over $D$ 
+\[ \pi_* \struct{Y} = \bigoplus_{\ell = 0}^{m-1} L^{-\ell} \to \pi_* \ulO_Y^0 \cong \ulO_X^0 \ot \left( \bigoplus_{\ell = 0}^{m-1} L^{- \ell} \right) \]
+apply Hodge theory on $Y$ then
+\[ H^j(Y, \CC) \to H^j(Y, \struct{Y}) \to H^j(Y, \ulO_Y^0) \]
+is surjective by degeneration of the HdR spectral sequence. Thus
+\[ H^j(Y, \struct{Y}) \onto H^j(Y, \ulO_Y^0) \]
+for all $j$ and this proves the claim. 
+\par 
+To simplify notation, write $\DD(-) := \RHom{}{-}{\omega_X^\bullet}$. Applying Serre duality to the map in the claim we get 
+\[ H^j(X, \DD(\ulO^0_X) \ot L^i) \to H^j(X, \omega_X^\bullet \ot L^i) \]
+is injective for all $i \ge 0$ and all $j$ (here we flipped $j$ and $-j$ when dualizing). General point: $A^\bullet \in D^b(X)$ then there is a spectral sequence
+\[ E^{p,q}_2 = H^p(X, \H^q(A^\bullet) \ot L^i) \implies H^{p+q}(X, A^\bullet \ot L^i) \]
+by Serre all the $E^{p,q}_2 = 0$ for $i \gg 0$ and $p > 0$. Can allso choose $\H^q(A^\bullet) \ot L^i$ globally generated for $i \gg 0$ and al $p$. Therefore, by the spectral sequence
+\[ \HH^j(X, A^\bullet \ot L^i) = H^0(X, \H^j(A^\bullet) \ot L^i) \]
+Therefore, we choose $i \gg 0$ such that these things are satisfied for both $\DD(\ulO_X^0)$ and $\omega_X^\bullet$. Hence we get an injection
+\[ H^0(X, \H^j \DD(\ulO_X^0) \ot L^i) \embed H^0(X, \H^j \omega_X^\bullet \ot L^i) \]
+these are globally generated so the inclusion gives an inclusion
+\[ \H^j \DD(\ulO_X^0) \ot L^i \embed \H^j \omega_X^\bullet \ot L^i \]
+twisting down $L^i$ we get what we wanted. 
+\end{proof}
+
+
+\subsection{Consequences of the Injectivity Theorem}
+
+\begin{cor}
+If $X$ is CM then 
+\[ \H^j \DD(\ulO_X^0) = \shExt{j}{}{\ulO_X^0}{\omega_X^\bullet} \]
+is zero unless $j = -n$. In general, it is supported between $-n, \dots, -d$ where $d$ is the depth.
+\end{cor}
+
+\begin{proof}
+This is because $\H^j \omega_X^\bullet = 0$ except $j \neq -n$ for a dualizing complex on a CM scheme. In general
+\[ \H^j \omega_X^\bullet = \shExt{j+\dim{Y}}{}{\struct{X}}{\omega_Y} \]
+for a local embedding $X \embed Y$ into a smooth variety and this is zero for $j > -d$ where $d$ is the depth. 
+\end{proof}
+
+Recall the interpretation of $\ulO_X^0$ that 
+\[ \ulO_X^0 = \R f_* \struct{E} \]
+for a square
+\begin{center}
+\begin{tikzcd}
+E \arrow[d] \arrow[r] & \wt{Y} \arrow[d]
+\\
+X \arrow[r, hook] & Y
+\end{tikzcd}
+\end{center}
+for a log resolution of $(Y, X)$. Duality
+\[ \DD(\ulO_X^0) = \RHom{}{\RR f_* \struct{E}}{\omega_X^\bullet} = \RR f_* \omega_E [\dim{E}] \]
+by Grothendieck duality since $E$ is CM and equidimensional. 
+
+\begin{cor}[GR type criterion]
+If $X$ is CM and the above settup then
+\[ R^i f_* \omega_E = 0 \]
+unless $i = r - 1$ where $r = \codim{X,Y}$.
+\end{cor}
+
+
+Furthermore, for $i = r-1$ we get an embedding
+\[ R^i f_* \omega_E \embed \omega_X \]
+and they are isomorphic exactly on the Du Bois locus. In the gorenstein case, this gives an ideal sheaf that measures where a variety is Du Bois. Explicitly,
+\[ R^{r-1} f_* \omega_E \cong \omega_X \ot \J_{DB} \]
+and $\J_{DB}$ is the ``non-Du Bois interegral sheaf''. 
+\bigskip\\
+Another application: 
+
+\begin{cor}
+If $X$ has DB singularities away from $Z$ a closed subset of dimension $s$ then $\H^i \ulO_X^0 = 0$ for all $0 < i < \depth{}{\struct{X}} - s - 1$. 
+\end{cor}
+
+\begin{example}
+If $X$ is CM with isolated singularities then $s = 0$ and $\depth{}{\struct{X}} = \dim{X}$ so we get $\H^i \ulO_X = 0$ for $0 < i < \dim{X} - 1$ but its also zero for $i \ge n$. Therefore, it is only supported in two degrees. 
+\end{example}
+
+\begin{proof}
+Consider the cone
+\[ \RHom{}{\ulO_X^0}{\omega_X^\bullet} \to \omega_X^\bullet \to C \to + 1 \]
+lets define $A := C[-n]$. The injectivity sequence shows there are short exact sequences
+\[ 0 \to \shExt{i}{}{\ulO_X^0}{\omega_X^\bullet} \to \H^i \omega_X^\bullet \to \H^{j+n} A \to 0 \]
+We know $\H^j \omega_X^\bullet \neq 0$ only if $j \in [-n,-d]$ where $d$ is the depth. Therefore, $\H^k A \neq 0$ only possibly in the interval $k \in [0, n-d]$. Dualizing the triangle
+\[ \DD (A[n]) \to \struct{X} \to \ulO_X^0 \to + 1 \]
+For $i > 0$ there is no $\H^i \struct{X}$ so we have 
+\[ \H^i \ulO_X^0 \iso \Ext{i+1-n}{}{A}{\omega_X^\bullet} \]
+By hypothesis, $A^\bullet$ is supported on a closed set $Z$ of dimension $s$ (since it is the cone of a map that is an isomorphism over $Z$). Now we use the spectral sequence
+\[ E^{p,q}_2 = \shExt{p}{}{\H^{-q} A}{\omega_X^\bullet} \implies \shExt{p+q}{}{A^\bullet}{\omega_X^\bullet} \]
+hence set $p + q = i + 1 - n$ and use that $\H^k A^\bullet$ is supported on $Z$ and is zero for $k \notin [0, n-d]$. Now we use the Auslander-Buchsbaum formula: suppose $Y$ is regular and $\F \in \Coh(Y)$ then
+\[ \Ext{j}{\struct{Y}}{\F}{\struct{Y}} = 0 \quad j < \dim{Y} - \Supp{}{\F} \]  
+We could have replaced $\struct{Y}$ with $\omega_Y$ because it is a line bundle so does not impact the vanishing of sheaf ext.
+Generalization to the singular setting involves the dualizing complex. We have
+\[ \shExt{i}{\struct{X}}{\F}{\omega_X^\bullet} = 0 \quad j < -  \dim \Supp{}{\F} \]
+(notice the shift in the dualizing complex removes the dimension. 
+\par 
+Returning to our problem
+\[ E^{i+1 - k + k, k}_2 = 0 \]
+whenever
+\begin{enumerate}
+\item $i + 1 - n - k < s$ using the support fact this is the same as $i < n - k - s  - 1$
+\item $k > n - d$ by the vanishing of terms of $A$
+\end{enumerate}
+and therefore at least one holds whenever 
+\[ i < d - s - 1 \] 
+so we conclude by the spectral sequence that 
+\[ \H^i \ulO_X^0 \cong \shExt{i+1-n}{}{A^\bullet}{\omega_X^\bullet} = 0 \]
+whenever this inequality holds.
+\end{proof}
+
+\subsection{Amusing Consequence}
+
+\begin{cor}
+Let $X$ be seminormal, projective, CM and set $n = \dim{X}$. Suppose $X$ is Du Bois away from finitely many points (e.g. $X$ has isolated singularities) then $X$ is Du Bois iff $H^n(X, \struct{X}) \to H^n(X, \ulO_X^0)$ is injective iff $h^n(\struct{X}) \le h^n(\ulO_X^0)$.
+\end{cor}
+
+For exmaple, this holds whenvever $H^n(X, \struct{X}) = 0$. 
+
+\begin{proof}
+For all $i$ we have $H^i(X, \CC) \to H^i(X, \struct{X}) \to H^i(X, \ulO_X^0)$ is surjective. Thus the hypothesis is actually equivalent to $H^i(X, \struct{X}) \to H^i(X, \ulO_X^0)$ being an isomorphism. Consider the $\triangle$
+\[ \struct{X} \to \ulO_X^0 \to C \to +1 \]
+and $C$ is supported on a finite set. Claim $\H^i C = 0$ for $i < 0$. Indeed, this is clear except for $i = -1$ where there an injection
+\[ 0 \to \H^{-1} C \to \struct{X} \to \H^0 \ulO_X^0 \]
+and $\struct{X}$ is torsion-free but $\H^{-1} C$ is supported at points so it must be zero. Furthermore, for $i > 0$ we see that 
+\[ \H^i C = \H^i \ulO_X^0 = 0 \]
+for $i \neq 0, n-1$ by our previous result (it is always zero for $i \ge n$). Because $X$ is seminormal $\struct{X} \to \H^0 \ulO_X^0$ is an isomorphism so $\cH^0 C = 0$. Thus $X$ is Du Bois iff $\H^{n-1} C = 0$. 
+\par 
+Passing to hypercohomology we get
+\[ 0 \to H^{n-1}(X, C^\bullet) \to H^n(X, \struct{X}) \to H^n(X, \ulO_X^0) \to 0 \]
+because the maps on the last two terms are always surjective by Hodge theory so these are short. Therefore $H^{n-1}(X, C^\bullet) = H^0(X, \cH^{n-1} C) = 0$ but $\cH^{n-1} C$ is supported at finitely many points so if it has zero global sections it is zero. Our hypothesis show that the second map in the exact sequence is an isomorphism and hence the vanishing holds. 
+\end{proof}
+
+\section{Nov 11 - Higher Singularities}
+
+What is the use?
+\begin{enumerate}
+\item if $X$ is $m$-Du Bois and projective then 
+\[ H^q(X, \Omega_X^p \ot L) = 0 \quad \forall p + q > \dim{X} \text{ and } p \le m \]
+for $L$ ample. Indeed, for $p \le m$ we use $\Omega_X^p \iso \ulO^p_X$ and Nakano vanishing for the Du Bois complex
+
+\item interesting for deformation theory, smooth problems
+
+\item if $f : X \to S$ is flat projective family with (lci) $m$-Du Bois fibers then $R^i f_* \Omega_{X/S}^p$ are locally free and compatible with base change for all $i$ and $p \le m$ (hence constancy of certain Hodge Du Bois numbers $\ul{h}^{p,q}(X)$)
+
+\item if moreover the fibers have $m$-rational singularities then many other Hodge Du Bois numbers are constant
+
+\item Principle: higher Du Bois singularities ``detect'' lower and lower multiplicities of points
+\begin{enumerate}
+\item for a hypersurface $D \subset X$ we see that $(X,D)$ is log canonical iff $D$ is reduced and Du Bois. For $D$ reduced, log canonical implies $d = \mult_x(D) \le n + 1$ where $n = \dim{X}$
+\item Fact: if $D$ is $m$-Du Bois then $\mult_x(D) \le \frac{n+1}{m+1}$ this is equivalent to saying $(X, D)$ is $m$-log canonical meaning $I_p(D) = \struct{X}$ for $p \le m$ (where these are Hodge ideals).
+\end{enumerate} 
+\item $m$-rational singularities: $\Omega_X^p \to \ulO^p_X \to \DD(\ulO_X^{n-p})$ is an isomorphism for $p \le m$
+\begin{enumerate}
+\item Fact: the above composition being an isomorphism is equivalent to both map individually being isomorphisms:
+\begin{enumerate}
+\item $\Omega_X^p \iso \ulO_X^p$ for $p \le m$ ($X$ is $m$-Du Bois)
+\item $\ulO_X^p \iso \DD(\ulO_X^{n-p})$ for $p \le m$ (duality)
+\end{enumerate}
+\item if $X$ is projective then $\ul{h}^{p,q}(X) := h^{q}(X, \ulO_X^p) = h^{n-p}(X, \DD(\ulO_X^p) = \ul{h}^{n-p,n-q}(X)$ when $X$ is $m$-rational and $p \le m$
+\item in fact: also $\ul{h}^{q,p} = \ul{h}^{n-q, n-p}$ but these are much harder 
+\end{enumerate}
+\end{enumerate}
+
+\begin{example}
+If $X$ is a $1$-rational $4$-fold then the Hodge Du Bois diamond is completely symmetric. 
+\end{example}
+
+\subsection{$m$-rational implies $m$-Du Bois}
+
+Behavior with respect to general hyperplane sections. We saw previous that $\ulO_X^0|_H = \ulO_H^0$ for a general hyperplane section. We want to generalize to higher $p$.
+
+\begin{prop}
+Let $X$ be a quasi-projective variety $p \ge 0$ and $H$ is a general hyperplane section then there is an exact $\triangle$
+\[ \ulO_H^{p-1} \ot \struct{H}(-H) \to \ulO_X^p|_H \to \ulO_H^p \to +1 \]
+\end{prop}
+
+\begin{rmk}
+For $Y$ smooth, $D$ a codimension $1$ subvariety then there is a sequence
+\[ 0 \to \struct{D}(-D) \to \Omega_Y|_D^1 \to \Omega_D^1 \to 0 \]
+Then we get higher sequences for free
+\[ 0 \to \Omega_D^{p-1} (-D) \to \Omega_Y^p|_D \to \Omega_D^p \to 0 \]
+\end{rmk}
+
+\begin{proof}
+The general case follows from the smooth case by taking a hyperresolution $\epsilon_\bullet : X_\bullet \to X$ and then the fiber product $H \times_X X_\bullet \to H$ is also a hyperresolution if $H$ is general. Then the sequences glue to give an exact triangle. 
+\end{proof}
+
+\begin{theorem}
+If $X$ is quasi-projective and pre-$m$-Du Bois (resp.\ pre-$m$-rational) then a general hyperplane section is pre-$m$-Du Bous (resp.\ pre-$m$-rational).
+\end{theorem}
+
+\begin{proof}
+Say $X$ is pre-$m$-Du Bois. For $m = 0$ the result is clear using $ulO_X^0|_H = \ulO_H^0$. Now we do induction. Since pre-$m$-Du Bois implies $m-1$ as well we get $H$ is pre-$(m-1)$-Du Bois by the induction hypothesis. Now write the triangles for $p \le m$
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cH^0(\ulO_H^{p-1}(-H)) \arrow[r] \arrow[d] & \cH^0(\ulO_X^p|_H) \arrow[d] \arrow[r] & \cH^0(\ulO_H^p) \arrow[d] \arrow[r] & \cdots
+\\
+& \ulO_H^{p-1}(-H) \arrow[r] & \ulO_X^p|_H \arrow[r] & \ulO_H^p \arrow[r] & + 1
+\end{tikzcd}
+\end{center}
+since $D$ is pre-$(m-1)$-Du Bois the first downward map is an isomorphism and since there is no higher cohomology in $\ulO_H^{p-1}(-H)$ the top seqeucne is short exact. By hypothesis on $X$ we know that the middle downward map is an isomorphism (since $H$ is general we get that $\cH^j(\ulO_X^p|_H) \iso (\cH^j \ulO_X^p)|_H$ since it misses all the associated points) therefore we conclude that the last map is an isomorphism. 
+\bigskip\\
+Suppose $X$ is pre-$m$-rational: $\cH^0 \DD(\ulO_X^{n-p}) \iso \DD(\ulO_X^{n-p})$ meaning it has cohomology only degree zero. For $m = 0$ the proof is easy. For $m > 0$ by induction we can assume $H$ is pre-$(m-1)$-rational. Use basic exact $\triangle$ with $p$ replaced by $n-p$ and dualize it:
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cH^0 \DD(\ulO_H^{n-p}) \arrow[r] \arrow[d] & \cH^0 \DD(\ulO_X^{n-p})|_H \arrow[d] \arrow[r] & \cH^0 \DD(\ulO_H^{n-p-1})(H)  \arrow[d] \arrow[r] & \cdots
+\\
+& \DD(\ulO_H^{n-p}) \arrow[r] & \DD(\ulO_X^{n-p})|_H \arrow[r] & \DD(\ulO_H^{n-p-1})(H) \arrow[r] & + 1
+\end{tikzcd}
+\end{center}
+there is always a zero since the complexes are in positive degrees (by our convention with shifts in the dualizing complex). By induction:
+\[ (\DD_H \circ \LL \iota^*) (\ulO_X^{n-p}) = \iota^! \DD_X(\ulO_X^{n-p}) = \DD_X(\ulO_X^{n-p})|_H (H)[-1] \]
+because for $\iota : H \embed X$ and we have
+\[ \iota^! = \DD_H \circ \LL \iota^* \circ \DD_X \]
+Fact: for hypersurfaces $\iota^! = - \ot \struct{H}(H)[-1]$
+\end{proof}
+
+\begin{rmk}
+Wouldn't it be easier to just use the long exact sequence and say that the first two only have cohomology in degree $0$ so the third does as well. 
+\end{rmk}
+
+\begin{cor}
+Same statement for $m$-Du Bois and $m$-rational.
+\end{cor}
+
+\begin{proof}
+Exercise $\Omega_X^p \to \ulO_X^p$.
+\end{proof}
+
+\begin{theorem}
+\begin{enumerate}
+\item pre-$m$-rational $\implies$ pre-$m$-Du Bois
+\item $m$-rational $\implies$ $m$-Du Bois
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Recall: the case $m = 0$ key point
+\[ \DD(\ulO_X^0) \to \DD(\struct{X}) = \omega_X^\bullet \]
+is injective on cohomology.
+\end{proof}
+
+\begin{conj}
+If $X$ has pre-$(m-1)$-Du Bois singularities, then
+\[ \DD(\ulO_X^m) \to \DD(\cH^0 \ulO_X^m) \]
+is injective on cohomology (obtained by dualizing the inclusion). 
+\end{conj}
+
+For $m = 0$ there is a factorization
+\[ \struct{X} \to \cH^0 \ulO_X^0 \to \ulO_X^0 \]
+then dualizing
+\[ \DD(\ulO_X^0) \to \DD(\cH^0 \ulO_X^0) \to \DD(\struct{X}) \]
+the composition is injective on cohomology so the first map is also injective on cohomology so $m = 0$ case implies the injectivity theorem but we don't but a version of the Kahler differentials there because then it's less likely to be true. 
+
+\begin{theorem}
+This conjecture is true for isolated singularities. 
+\end{theorem}
+
+\begin{theorem}
+If $X$ is lci and $(m-1)$-Du Bois then the strong conjecture is true:
+\[ \DD(\ulO_X^m) \to \DD(\Omega_X^m) \]
+is injective on cohomology. 
+\end{theorem}
+
+\begin{rmk}
+This is really the same theorem since for $m \ge 2$ we actually know
+\[ \Omega_X^m \iso \Omega_X^{[m]} \iso \cH^0 \ulO_X^m \]
+the first isomorphism comes from lci and the second comes from Kebekus-Schnell extension results for rational singularities (we need $m > 1$ so that $(m-1)$-Du Bois implies rational). 
+\end{rmk}
+
+\begin{theorem}
+Let $X$ be lci then $\Omega_X^m$ is reflexive iff $m \le \codim{X_{\text{sing}}} - 2$. 
+\end{theorem}
+
+\section{Nov. 13 - Natural Interpretation for Higher Rational Singularities}
+
+Recall from last time: $m$-rational implies $m$-Du Bois. First we recall the behavior with respect to general hypersurface sections.
+
+\begin{prop}
+If $X$ is quasi-projective, $p \ge 0$ and $H$ a general hyperplane section then there is an exact triangle
+\[ \ulO_H^{p-1}(-H) \to \ulO_X^p|_H \to \ulO_H^p \to + 1 \]
+\end{prop}
+
+\begin{theorem}
+If $X$ is quasi-projective and pre-$m$-Du Bois then so is a general hyperplane section.
+\end{theorem}
+
+\begin{cor}
+Same for $m$-Du Bois and $m$-rational.
+\end{cor}
+
+\begin{theorem}
+\begin{enumerate}
+\item pre-$m$-rational implies pre-$m$-Du Bois
+\item $m$-rational implies $m$-Du Bois.
+\end{enumerate}
+\end{theorem}
+
+Recall: for $m = 0$ the key points is that
+\[ \DD(\ulO_X^0) \to \DD(\struct{X}) = \omega_X^\bullet \]
+is injective cohomology. 
+
+\begin{conj}
+If $X$ has pre-$(m-1)$-Du Bois singularities then 
+\[ \DD(\ulO_X^m) \to \DD(\cH^0 \ulO_X^m) \]
+is injective on cohomology. 
+\end{conj}
+
+\begin{theorem}
+The conjecture is true for isolated singularities.
+\end{theorem}
+
+\begin{theorem}
+If $X$ is lci and $(m-1)$-Du Bois then
+\[ \DD(\ulO_X^m) \to \DD(\Omega_X^m) \]
+is injective on cohomology (but we also know (maybe for $m \ge 2$) that $\Omega_X^m \cong \Omega_X^{[m]} \cong \cH^0 \ulO_X^m$ by Kebekus-Schnell. 
+\end{theorem}
+
+\subsection{Today}
+
+Recall $X$ has $m$-rational singularities if the composition
+\[ \Omega_X^p \to \ulO_X^p \to \DD(\ulO_X^{n-p}) \]
+is an isomorphism for all $p \le m$. For rational singularities, let $f : \wt{X} \to X$ be a resolution, we need $X$ normal and $R^i f_* \struct{\wt{X}} = 0$ for all $i > 0$
+
+\begin{prop}
+$f : \wt{X} \to X$ a strong log resolution, let $E$ be the reduced exceptional divisor then
+\begin{enumerate}
+\item there is a natural map
+\[ \DD(\ulO_X^{n-p}) \to \RR f_* \Omega_{\wt{X}}^p(\log{E}) \]
+which is an isomorphism when
+\[ p < \codim_X X_{\sing} \]
+\item if $X$ is normal 
+\[ \cH^i \DD(\ulO_X^{n-p}) \cong f_* \Omega_{\wt{X}}^p(\log{E}) \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Consider the diagram
+\begin{center}
+\begin{tikzcd}
+E \pullback \arrow[d] \arrow[r] & \wt{X} \arrow[d]
+\\
+Z = X_{\text{sing}} \arrow[r] & X 
+\end{tikzcd}
+\end{center}
+then we use Steenbrink's triangle
+\[ \RR f_* \Omega_{\wt{X}}^{n-p}(\log{E})(-E) \to \ulO_X^{n-p} \to \ulO_Z^{n-p} \to +1 \]
+Dualizing, we get
+\[ \DD(\ulO_Z^{n-p}) \to \DD(\ulO_X^{n-p}) \to \DD(\RR f_* \Omega_{\wt{X}}^{n-p}(\log{E})(-E)) \to +1 \]
+but by Grothendieck duality
+\[ DD(\RR f_* \Omega_{\wt{X}}^{n-p}(\log{E})(-E)) = \RR f_* \Omega_{\wt{X}}^p(\log{E}) \]
+since there is a perfect pairing
+\[ \Omega_{\wt{X}}^p(\log{E}) \ot \Omega_{\wt{X}}^{n-p}(\log{E})(-E) \to \omega_{\wt{X}} \]
+Now if $n - p > \dim{Z}$ we have $\ulO_Z^{n-p} = 0$ so we get (1).
+\par 
+Suppose $X$ is normal then $c = \codim_X X_{\sing} \ge 2$ then the long exact sequence associated to the previous triangle
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \cH^0 \DD(\ulO_Z^{n-p}) \arrow[r] & \cH^0 \DD(\ulO_X^{n-p}) \arrow[r] & f_* \Omega_{\wt{X}}^p(\log{E}) \arrow[r] & \cH^1 \DD(\ulO_Z^{n-p}) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+Grothendieck duality gives for $\iota : Z \embed X$ we have
+\[ \DD_X( \bullet) = \DD_Z(\bullet) [-c] \]
+therefore
+\[ \cH^i \DD_X(\ulO_Z^{n-p}) = \cH^{i-c} \D_Z(\ulO_Z^{n-p}) = 0 \]
+for $i < c$ and hence for $i = 0,1$ hence the above exact sequence gives
+\[ \cH^0 \DD_X(\ulO_X^{n-p}) \iso f_* \Omega^p_{\wt{X}}(\log{E}) \]
+\end{proof}
+
+Now say $X$ is normal so pre-$0$-rational is the same as $X$ having rational singularities. In this case
+\[ \cH^0 \ulO_X^p \cong \Omega_X^{[p]} \cong f_* \Omega_{\wt{X}}^p \cong f_* \Omega_{\wt{X}}^p(\log{E}) \cong \cH^0 \DD_X(\ulO_X^{n-p}) \]
+the first is by Kebekus-Schnell (uses mixed Hodge module machinery). 
+\bigskip\\
+Say $X$ has pre-$m$-rational singularities for some $m \ge 0$ then in particular for all $p \le m$ the maps
+\[ \cH^0 \ulO_X^p \to \ulO_X^p \to \DD(\ulO_X^{n-p}) \]
+compose to an isomorphism. 
+
+\section{Nov. 18 - Continuation}
+
+We are trying to show that $m$-rational implies $m$-Du Bois. The difficult part is that pre-$m$-rational implies pre-$m$-Du Bois. This is what we focus on now. Last time, we proved it for lci and for isolated singularities using the injectivity theorem. 
+\bigskip\\
+\textbf{Sketch:} may assume $X$ is quasi-projective. Induction on both $\dim{X} = n$ and $m$. The cases $m = - 1$ and $n = 0$ are clear. Otherwise: let $\Sigma$ be the lous where $X$ is not pre-$m$-DB meaning $\Sigma$ is the set of points $x$ such that $\exists i > 0$ such that $\cH^i \ulO_X^m \neq 0$. 
+\par 
+Now we cut with hyperplanes. Let $H$ be a general hyperplane section so we get the triangle
+\[ \ulO_H^{m-1}(-H) \to \ulO_X^m|_H \to \ulO_H^m \to +1 \]
+Now we use that $X$ being pre-$m$-rational implies $H$ is also. By induction on dimension, $H$ is pre-$m$-Du Bois. Therefore, using the triangle,
+\[ \cH^i(\ulO_X^m|_H) = (\cH^i \ulO_X^m)|_H = 0 \]
+for all $i > 0$. Hence $X$ is pre-$m$-Du Bois in a neighborhood of $H$. Thus $H$ and $\Sigma$ are disjoint. Hence $\dim{\Sigma} \le 0$ since if it contains a curve then it intersects any hyperplane section. If $\Sigma = \empty$ we are done. Hence suppose $\dim{\Sigma} = 0$. We know $X$ is pre-$(m-1)$-rational hence pre-$(m-1)$-Du Bois by induction on $m$. But $X$ is also pre-$m$-Du Bois away from $\Sigma$ so if $X$ is projective then the conclusion follows from the injectivity theorem. If $X$ is only quasi-projective we can compactify and run the same argument.  
+
+
+\subsection{Hodge-Du Bois numbers (diamond) of $X$}
+
+\newcommand{\ulh}{\ul{h}}
+\newcommand{\sn}{\mathrm{sn}}
+
+\begin{defn}
+Let $X$ be an irreducible projective variety of dimension $n$. The \textit{Hodge-Du Bois (HDB) spaces} are $H^{p,q}(X) := \HH^q(X, \ulO_X^p)$. These are the associated graded of $\ul{H}^{p+q}(X, \CC)$ with respect to the Hodge filtration (but mixes weights). The \textit{Hodge-Du Bois numbers} are $\ulh^{p,q} := \dim_{\CC} \ul{H}^{p,q}(X)$. 
+\end{defn}
+
+Key identity:
+\[ b_k(X) = \sum_{p+q = k} \ulh^{p,q}(X) \]
+by $E_1$-degeneration. Hence $\ulh^{0,0} = \ulh^{n,n} = 1$. 
+
+\begin{example}
+\begin{enumerate}
+\item say $C$ is a projective curve then 
+\[ \ulh^{1,0} h^0(X, \ulO_C^1) = h^0(\wt{C}, \omega_{\wt{C}}) = p_g(C) \]
+is the geometric genus where $f : \wt{C} \to C$ is the normalization. Furthermore,
+\[ \ulh^{0,1}(C) = h^1(C, \ulO_C^0) = h^1(C^{\sn}, \struct{C^{\sn}}) = p_a(C^{\sn}) \]
+since the seminormalization map is finite. We do have
+\[ \ulh^{1,0}(C) \le \ulh^{0,1}(C) \]
+
+\item surface cones: say $X$ is the projective cone over a smooth curve $B \embed \P^2$ of degree $d$. Consider the usual resolution $f : \wt{X} \to X$ which exceptional divisor $B$. First some facts:
+\begin{enumerate}
+\item if $X$ is normal then $H^1(X, \QQ)$ is pure hence $\ulh^{0,1} = \ulh^{1,0}$ since the failure of symmetry is due to mixed weights (since these numbers are the sum over pure Hodge structures of different weight)
+\item if $s = \dim{X^{\sing}}$ then $H^k(X, \QQ)$ is pure for $k > n + s$
+\end{enumerate}
+therefore, only middle cohomology for us might not have symmetry. But also we need to ask if there is a duality between $H^1$ and $H^3$?
+\par 
+Now we bring in the higher singularities. Remember $X$ is Du Bois iff $d \le 3$ and rational iff $d \le 2$. We stick to the case $d \le 3$ so that $X$ is Du Bois. Then
+\[ \ulh^{0,1}(X) = h^1(X, \ulO_X^0) = h^1(X, \struct{X}) \]
+and likewise
+\[ \ulh^{2,1}(X) = h^1(X, \ulO_X^2) = h^1(\wt{X}, \omega_{\wt{X}}) = h^1(\wt{X}, \struct{\wt{X}}) \]
+but those numbers should not be equal if the singularity is not rational. 
+\end{enumerate}
+\end{example}
+
+\begin{prop}
+If $X$ is any variety with rational singularities then $H^2(X, \QQ)$ is pure.
+\end{prop}
+
+\begin{cor}
+For a surface with rational singularities, we have full Hodge-Du Bois symmetry. 
+\end{cor}
+
+
+Fact: for all $0 \le p \le i \le n$ we have
+\[ \sum_{a = 0}^p h^{i-a,a}(X) \le \sum_{a = 0}^p \ulh^{a,i-a}(X) \] 
+For example
+\[ \ulh^{i,0}(X) \le \ulh^{0,i}(X) \]
+Moreover, equality holds for all $0 \le m \le m$ iff each $\ulh^{i-p,p}(X) = \ulh^{p,i-p}(X)$ for all $0 \le p \le m$ iff 
+\[ \gr^p_F W_{i-1} H^i(X, \CC) = 0 \quad \forall p \le m \]
+in particular, the above is true for all $p$ iff $H^i$ is pure (since its $W_{i - 1} = 0$). 
+
+
+\begin{rmk}
+Recall that $\ulO_X^{\dim{X}} = f_* \omega_{\wt{X}}$ from a resolution since there are no other terms of top dimension in the canonical hyperresolution and Grauert-Riemanschnieder tells us $\R f_* \omega_{\wt{X}} = f_* \omega_{\wt{X}}$.
+\end{rmk}
+
+\subsection{Three main invariants that contribute to the symmetry of the HDB diamond}
+
+\begin{enumerate}
+\item the local cohomological defect (dimension) of $X$
+\item higher rational/Du Bois singularities of $X$ (the largest index for which such properties hold)
+\item the (local/analytic) $\Q$-factoriality defect of $X$ 
+\end{enumerate}
+
+\subsubsection{Local cohomological defect}
+
+Let $X$ be a singular variety. There is an analog of Nakano vanishing: Steenbrink vanishing
+\[ \HH^q(X, \ulO_X^p \ot L) = 0 \]
+for all $p+q > n$ and $L$ ample. In the smooth case, this is the same as
+\[ H^q(X, \Omega_X^p \ot L^{-1}) = 0 \]
+for all $p + q < n$ but in the singular case the duality map
+\[ \ulO_X^p \to \DD(\ulO_X^{n-p}) \]
+is not an isomorphism. We do get
+\[ \HH^{n-q}(X, \DD(\ulO_X^p) \ot L^{-1}) = 0 \]
+for $p + q > n$ but replacing by $\ulO_X^{n-p}$ the result is false. 
+
+\begin{rmk}
+If we have $p$-rational singularities
+\[ \Omega_X^p \to \ulO_X^p \to \DD(\ulO_X^{n-p}) \]
+is an isomorphism and the injectivity theorem implies both maps are isomorphisms hence we get $p$-Du Bois plus the duality result we need to dualize Steenbrink vanishing.
+\end{rmk}
+
+However, we get something without $p$-rational singularities.
+
+
+\begin{theorem}
+$\HH^q(X, \ulO_X^p \ot L^{-1}) = 0$ for all $L$ ample and $p + q < n - \lcdef(X)$.
+\end{theorem}
+
+\begin{defn}
+Let $X \embed Y$ be an embedding of a variety in a smooth variety. Then the local cohomology sheaves $\cH^q_X(\struct{Y})$ are supported on $X$. These are the higher derived functors of $\cH_X^0$ the sheaf of sections supported on $X$).
+\end{defn}
+
+Various ways to think about it:
+
+\begin{enumerate}
+\item if $U = Y \sm X$ and $j : U \embed Y$ the embedding, these sheaves understand the cone of $\struct{Y} \to \R f_* \struct{U}$. If $C$ is the cone then $\cH^i(C) = \cH^i_X(\struct{Y})$
+
+\item Locally: $X$ is given by some ideal $I = (f_1, \dots, f_r) \subset R$ then $H^q_I(R)$ is local cohomology in the commutative algebra sense. E.g. for $I = (f)$ a hypersurface there is $0 \to R \to R_f \to H^1_f R \to 0$ (so there is only local $H^1$). In general: a real theorem is that there exists a Cech-type localization complex
+\[ 0 \to R \to \prod_i R_{f_i} \to \prod_{i < j} R_{f_i f_j} \to \cdots \to R_{f_1 \dots f_r} \to 0 \]
+whose cohomologies are the $H^q_I(R)$. In particular local cohomology vanishes in degree above the minimal number of defining equations of $X$. 
+\end{enumerate}
+
+\begin{cor}
+$\cH^q_X \struct{Y} - 0$ for $q$ greater than the minimal number of local defining equations for $X$ in $Y$.
+\end{cor}
+
+General fact: $\cH^q_X \struct{Y} = 0$ for $q < \codim_Y(X)$. 
+
+\section{Nov. 20}
+
+Let $X$ be a complex variety of dimension $n$ and $X \subset Y$ a smooth variety then $\cH^q_X \struct{Y}$ the local cohomology sheaves. 
+
+\begin{prop}
+$\codim_Y(X) = \min \{ q \mid \cH_X^q \struct{Y} \neq 0 \}$
+\end{prop}
+
+
+\begin{defn}
+The \textit{local cohomological dimension} of $X$ in $Y$ is 
+\[ \lcd_Y(X) = \max \{ q \mid \cH_X^q \struct{Y} \neq 0 \} \le \dim{X} \]
+Then \textit{local cohomological defect} of $X$ is 
+\[ \lcdef_Y(X) := \lcd_Y(X) - \codim_Y(X) \]
+\end{defn}
+
+\begin{prop}
+$\lcdef_Y(X)$ is independent of the choice of embedding in a smooth ambiant space. 
+\end{prop}
+
+\begin{theorem}[Ogus, Bhatt, Saito]
+$\lcdef(X)$ is the amplitdue of perverse cohomology of $\ul{\QQ}_X$. 
+\end{theorem}
+
+\begin{theorem}[Mustata-P.]
+$\lcdef(X) = \dim{X} - \min_{p \ge 0} \{ \depth{}{\ulO_X^p} + p \}$ 
+\end{theorem}
+
+Recall that $\lcd_Y(X)$ is less than the minimal number of defining equations. Therefore.
+
+\begin{example}
+$X$ lci $\implies \lcd_Y(X) = \codim_Y(X)$ and hence $\lcdef(X) = 0$.  
+\end{example}
+
+\begin{theorem}
+$X$ projective then $\HH^q(X, \ulO_X^p \ot L^{-1}) = 0$ for all $p + q < n - \lcdef(X)$. 
+\end{theorem}
+
+Recall
+\[ \HH^q(X, \ulO_X^p \ot L^{-1}) = \HH^{n-q}(X, \DD(\ulO_X^p) \ot L) \]
+and $\DD(\ulO_X^p)$ will be an object whose cohomologies have vanishing theorems (because it will be related to a MHM). It has $\lcdef(X)$ cohomology amplitude because it is related to the pervse cohomologies of $\ul{\QQ}_X$. This is how the proof goes. 
+
+\begin{theorem}[Weak Lefschetz for singular varieties]
+If $X$ is projective of dimension $n$ and $D$ is a general hyperplane section of $X$ then the restriction maps $H^k(X, \QQ) \to H^k(D, \QQ)$ are
+\begin{enumerate}
+\item isomorphisms for $k < n - 1 - \lcdef(X)$
+\item injective for $k = n - 1 - \lcdef(X)$. 
+\end{enumerate} 
+\end{theorem}
+
+\begin{rmk}
+In fact, $D$ can be taken by \textit{any} ample effective Cartier divisor and replacing $\lcdef(X)$ with $\lcdef(X \sm D)$. 
+\end{rmk}
+
+\begin{proof}
+We want to use the degeneration of the Hodge-to-de Rham spectral sequence to show properties of the map
+\[ H^k(X, \QQ) \to H^k(D, \QQ) \]
+in terms of 
+\[ \HH^q(X, \ulO_X^p) \to \HH^q(X, \ulO_D^p) \]
+Note that in the smooth setting Lazarsfeld works with log forms because of the exact sequence
+\[ 0 \to \Omega_X^p(\log{D})(-D) \to \Omega_X^p \to \Omega_D^p \to 0 \]
+Since $D$ is general, we have a diagram of exact triangles from the octahedral axiom
+\begin{center}
+\begin{tikzcd}
+\ulO_X^{p}(-D) \arrow[d] \arrow[r, equals] & \ulO_X^p(-D) \arrow[d]
+\\
+C_{X,D}^p \arrow[d] \arrow[r] & \ulO_X^{p} \arrow[d] \arrow[r] & \ulO_D^p \arrow[r] & +1
+\\
+\ulO_D^{p-1}(-d) \arrow[d] \arrow[r] & \ulO_X^p|_D \arrow[r] & \ulO_D^p \arrow[r] & +1
+\\
++1 & +1
+\end{tikzcd}
+\end{center}
+thus we get a sequence
+\[ \HH^q(X, C_{X,D}^p) \to \HH^q(X, \ulO_X^p) \to \HH^q(X, \ulO_D^p) \to \HH^{q-1}(X, C_{X,D}^p) \]
+then the triangle
+\[ \ulO_X^p(-D) \to C_{X,D}^p \to \ulO_D^{p-1}(-D) \to +1 \]
+then we get 
+\[ \HH^q(X, \ulO_X^p(-D)) \to \HH^q(X, C_{X,D}^p) \to \HH^q(D, \ulO_D^{p-1}(-D)) \]
+but the outside terms are zero by our Nakano vanishing theorem for $p + q < n - \lcdef(X)$ since $\lcdef(D) \le \lcdef(X)$ therefore $\HH^q(X, C_{X,D}^p) = 0$ for $p + q < n - \lcdef(X)$ and hence we get exactly the isomorphism and injectivity statements from the previous sequence. 
+\end{proof}
+
+\begin{example}
+If $X$ is lci then $\lcdef(X)$ so we get the same weak Lefschetz as for smooth varieties (a result due to Goresky-MacPherson using stratefied Morse theory). 
+\end{example}
+
+\begin{theorem}[Artin]
+Let $U$ be affine then $H^k(U, \ZZ) = 0$ for all $k > n$.
+\end{theorem}
+
+Mihnea says the proof in Lazarsfeld's book is wonderful. 
+
+\begin{example}
+Varieties with $\lcdef(X) = 0$ but not lci:
+\begin{enumerate}
+\item $X$ Cohen-Macaulay surface
+\item $X$ Cohen-Macaulay $3$-fold
+\item $X$ Cohen-Macaualy $4$-fold with local analytic picard groups torsion
+\item $X$ with quotient singularities
+\item $X$ a rational homology manifold ($H_\bullet(X, X \sm \{ p \}, \Q) = \Q[-2n]$)
+\end{enumerate}
+The reasons are the following amazing facts:
+\begin{enumerate}
+\item Thm (Ogus): $\depth{\struct{X}} \ge 2 \implies \lcdeg(X) \le n - 2$ 
+\item Thm (Dao-Takagi): $\depth{\struct{X}} \ge 3 \implies \lcdef(X) \le n - 3$
+\item in char $p$ we always have $\lcdef(X) = \dim{X} - \depth{}{\struct{X}}$
+\item however, in char $0$ the analogus statement already fails for $4$
+\item if $\depth{\struct{X}} \ge 4$ and the local analytic picard groups are torsion then $\lcdef(X) \le n - 4$
+\end{enumerate}
+\end{example}
+
+\newcommand{\IC}{\mathrm{IC}}
+
+\begin{rmk}
+$X$ is a rational homology manifold if $\ul{\Q}_X[n] \to \IC_X$ is an isomorphism. Since $\IC_X$ is a perverse sheaf, if this is isomorphic to $\ul{\Q}_X[n]$ it implies that the perverse amplitude of $\ul{\Q}_X$ is $0$ so $\lcdef(X) = 0$. Of course this also implies
+\[ H^\bullet(X, \QQ) \iso IH^{\bullet}(X, \QQ) \]
+so singular cohomology has all the nice properties (pure Hodge structure, Poincare duality, etc) hence the Hodge Du Bois diamond is already fully symmetric. 
+\end{rmk}
+
+\begin{cor}
+If $X$ has isolated singularities and $\lcdef(X) = 0$ then $H^k(X, \QQ)$ has a pure hodge structure for $k \neq n$ (the hard part is $k < n$)
+\end{cor}
+
+\begin{proof}
+Choose a general hyperplane section. Since $X$ has isolated singularities then $D$ misses all the singularities and hence is smooth. Hence $H^k(D, \QQ)$ are all pure but $H^k(X, \QQ) \embed H^k(D, \QQ)$ so $H^k(X, \QQ)$ is also pure. 
+\end{proof}
+
+\begin{cor}
+$\codim{X_{\sing}} \ge k + 1$ implies $H^i(X, \QQ)$ is pure for $i \le k - \lcdef(X)$. 
+\end{cor}
+
+\begin{cor}
+$X$ normal then $H^1(X, \QQ)$ is pure.
+\end{cor}
+
+\begin{proof}
+$\depth{\struct{X}} \ge 2$ and thus $\lcdef(X) \le n - 2$ so cutting with hyperplanes down to a curve we get a normal hence smooth curve so the Hodge structure is pure. Thus we get an injection $H^1(X, \QQ) \embed H^1(C, \QQ)$ so $H^1(X, \QQ)$ is pure.
+\end{proof}
+
+\begin{cor}
+If $X$ has rational singularities then $H^2(X, \QQ)$ is pure (and $H^1(X, \QQ) \cong H^{2n-1}(X, \QQ)^\vee$)
+\end{cor}
+
+\begin{proof}
+Cut to a surface with rational singularities then by Mumford it is a rational homology manifold so it has pure Hodge theory. Alternatively, only need $\depth{\struct{X}} \ge 3$ implies $\lcdef(X) \le n - 3$ and then we can cut to a curve. The second statement follow from $H^1$ having an isomorphism to intersection cohomology and this has Poincare duality (and the high intersection cohomology equals singular cohomology). 
+\end{proof}
+
+\subsection{Higher Rational Singularities}
+
+Consider
+\[ \Omega_X^p \to \ulO_X^p \to \DD(\ulO_X^{n-p}) \]
+and $X$ is $m$-rational then the composition is an isomorphism for $p \le m$. If we have the injectivity theorem then both maps are isomorphisms individually. Say $X$ satisfies ($D_m$)  if the second map is an isomorphism so $m$-rational is $m$-Du Bois plus ($D_m$). Note ($D_m$) says
+\[ \ul{H}^{p,q}(X) = \HH^q(X, \ulO_X^p) = \HH^{n-q}(X, \ulO_X^{n-p}) = \ul{H}^{n-p,n-q}(X) \]
+Thus $m$-rational implies ($D_m$) implies $\ul{h}^{p,q} = \ul{h}^{n-p,n-q}$ for all $p \le m$ and all $q$. 
+
+\begin{theorem}
+($D_m$) implies moreover that $\ul{h}^{q,p} = \ul{h}^{n-q,n-p}$ for $p \le m$ and all $q$ 
+\end{theorem}
+
+\section{Nov. 25}
+
+
+\begin{defn}
+A (rationa) pure Hodge structure (PHS, HS) of weight $k$ is a finite dimensional vector space $H / \QQ$ + a dcomposition 
+\[ H_{\CC} = H \ot_{\QQ} \CC = \bigoplus_{p + q = k} H^{p,q} \]
+such that
+\begin{enumerate}
+\item $H^{p,q} = \ol{H^{q,p}}$
+\end{enumerate}
+this ss the same as the data of a Hodge filtration 
+\[ F^p H_{\CC} = \bigoplus_{p' + q' = k, p' \ge p} H^{p',q'} \] 
+such that 
+\[ F^p H_{\CC} \oplus \ol{F^{k-p}+1} H_{\CC} = H_{\CC} \]
+Morphisms are $\Q$-linear maps such that $f(F^p) \subset F^p$ for all $p$.
+\end{defn}
+
+\begin{defn}
+The Hodge number of $H$ are $h^{p,q}(H) = \dim_{\CC} H^{p,q} = \dim_{\CC} \gr_F^p H_{\CC}$
+\end{defn}
+
+\begin{example}
+\begin{enumerate}
+\item for $X$ smooth projective $H^k(X) = \bigoplus_{p + q = k} H^{p,q}(X)$ is a pure Hodge structure of weight $k$
+\item the Tate HS $\Q(r)$ of weight $-2r$ is 
+\[ H = (2 \pi i)^r \Q \quad H_{\CC} = \CC^{-r,-r} \]
+\end{enumerate}
+If $H$ is a HS of weight $k$ then $H(r) = H \ot \Q(r)$ is a HS of weight $k-2r$.
+\end{example}
+
+\begin{defn}
+A (rational) \textit{mixed Hodge structure} (MHS) is a triple $(H, W, F)$ with
+\begin{enumerate}
+\item $H$ a finite-dim $\Q$-vectorspace
+\item the weight filtration $W_\bullet H$ is an increasing filtration on $H_{\QQ}$
+\item the Hodge filtration $F_\bullet H_{\CC}$ is a decreasing filtration defined on $H_{\CC}$ 
+\end{enumerate}
+such that the induced filtration of $F$ on $\gr^W_k H$ are pure Hodge structures of weight $k$. Explicitly, these are
+\[ F^p( \gr_k^W H)_{\CC} = F^p \gr_k^W H_{\CC} = \frac{W_k H_{\CC} \cap F^p H_{\CC}}{W_{k-1} H_{\CC} \cap F^p H_{\CC}} \]
+the morphisms are $\Q$-linear and preserve the filtrations. 
+\end{defn}
+
+\begin{defn}
+The Hodge-Deligne numbers of $H$ are 
+\[ h^{p,q}(H) = \dim_{\CC} \gr_F^p \gr_{p+q}^W H_{\CC} \]
+\end{defn}
+
+\begin{example}
+\begin{enumerate}
+\item a pure Hodge structure is a MHS with $W_k H = H$ and $W_{k-1} H = 0$
+\item for $X$ is not smooth or not projective (or both) then $H^k(X)$ has the structure of a MHS defined by Deligne
+\item let $Z \embed X$ be a codimension $r$ inclusion of smooth projective varieties the Gysin map
+\[ H^{k - 2r}(Z) \to H^k(X) \]
+in this case induced by Poincare duality applied to the natural pullback. If we twist to make these Hodge structures in the same weight we obtain a Gysin sequence of mixed Hodge structures
+\begin{center}
+\begin{tikzcd}
+\cdots \arrow[r] & H^{k-2r}(Z)(-r) \arrow[r] & H^k(X) \arrow[r] & H^k(U) \arrow[r] & H^{k-2r+1}(Z)(-r) \arrow[r] & \cdots
+\end{tikzcd}
+\end{center}
+therefore $H^k(U)$ is of weights $k$ and $k+1$. 
+\end{enumerate}
+\item suppose $X = X_1 \cup X_2$ the union of smooth projective varieties with $Z = X_1 \cap X_2$ smooth then the Meyer-Vietoris sequence
+\[ \cdots \to H^{m-1}(X_1) \oplus H^{m-1}(X_2) \to H^{m-1}(Z) \to H^m(X) \to H^m(X_1) \oplus H^m(X_2) \to H^m(Z) \to \cdots \]
+giving a short exact sequence
+\[ 0 \to K \to H^m(X) \to Q \to 0 \]
+where $K$ is a cokernel of pure Hodge structures of weight $m-1$ and $Q$ is a kernel of pure Hodge structures of weight $m$. 
+\end{example}
+
+\begin{rmk}
+\begin{enumerate}
+\item Category of HS is abelian (follows from Hodge decomposition)
+\item Category of MHS is abelian. This is harder, uses the Deligne decomposition:
+\[ H_{\CC} = \bigoplus_{p,q \in \ZZ} I^{p,q} \quad I^{p,q} = \left[ F^p \cap W_{p+q} \cap \left( \ol{F^q} \cap W_{p+q} + \sum_{j \ge 2} \ol{F^{q - j + 1}} \cap W_{p+q-j} \right) \right] \]
+satisfies
+\[ W_k H_{\CC} = \bigoplus_{p+q = k} I^{p,q} \quad F^p H_{\CC} = \bigoplus_{p \ge p'} I^{p', q'} \quad I^{p,q} = \ol{I^{q,p}} \mod W_{p+q-1} \]
+\end{enumerate}
+\end{rmk}
+
+\begin{theorem}[Deligne '71, '74]
+Let $U$ be a (complex) algebraic variety. Then one can put a MHS on $H^k(U)$ in a functorial way such that morphisms $U \to U'$ induce morphisms of Hodge structures $H^k(U') \to H^k(U)$. If $U$ is smooth and projective then $H^k(U)$ is pure of weight $k$.
+\end{theorem}
+
+
+\subsection{smooth but non-projective case}
+
+First start with the case $U$ is smooth. Let $j : U \embed X$ be a smooth compactificaton with $D = X \sm U$ is an SNC divisor. Consider the complex of log forms 
+\[ [ 0 \to \struct{X} \to \Omega_X^1(\log{D}) \to \cdots \to \Omega_X^n(\log{D}) \to 0] \]
+A local calculation shows that
+\[ \Omega_X^\bullet(\log{D}) \embed j_* \Omega^\bullet_U \]
+s a quasi-isomorphism. The Poincare lemma shows that
+\[ \ul{\CC}_U \to \Omega_U^\bullet \]
+is a quasi-isomorphism. Therefore
+\[ H^k(U, \CC) = \HH^k(U, \Omega_U^\bullet) = \HH^k(X, \Omega_X^\bullet(\log{D})) \]
+but the RHS is endowed with some natural filtrations that we can now exploit. 
+
+
+We use the decreasing blunt stupid filtration
+\[ F^p \Omega_X^\bullet(\log{D}) := \Omega_X^{\bullet \ge p}(\log{D}) = [0 \to \cdots \to 0 \to \Omega_X^p(\log{D}) \to \cdots \to \Omega_X^n(\log{D}) \to 0] \]
+induces
+\[ H^p H^k(U, \CC) = \im{(\HH^k(X, \Omega_X^{\bullet \ge p}(\log{D}) \to H^k(U, \CC))} \] 
+for the weight filtration, use the increasing filtration counting the number of log poles along $D$
+\[ W_k \Omega_X^\bullet(\log{D}) = [0 \to \struct{X} \to \cdots \to \Omega_X^{\ell-1}(\log{D}) \to \Omega_X^{\ell}(\log{D})] \wedge [0 \to \struct{X} \to \Omega_X^1 \to \cdots \to \Omega_X^{n - \ell}] \]
+For some reason the filtration
+\[ W_{\ell} H^k(U, \CC) = \im{ \left( \HH^k(X, W_{\ell - k} \Omega_X^\bullet(\log{D})) \to H^k(U, \CC) \right) } \]
+
+\begin{rmk}
+Note that $j_* \Omega_U^\bullet = \Omega_X^\bullet(*D)$ has a pole-order filtration. We can also get a pole-order filtration on cohomology which we can compare with the Hodge filtration. 
+\end{rmk}
+
+\subsection{projective but non-smooth case}
+
+Let $U$ be projective. Fix a hyperresolution $\epsilon_\bullet : \ul{U}_\bullet \to U$. By cohomological descent
+\[ H^k(U, \CC) = \HH^k(U, \R \epsilon_{\bullet, *} \CC_{U_\bullet}) = \HH^k(U, \ul{\Omega}_U) \]
+Obtain filtrations by ``pushing forward via Mayer-Vietoris'' the filtration make the cohomology of $U_\bullet$ into pure Hodge structures but the weights are mixed in the pushforward.
+
+\subsection{General case}
+
+Let $U \embed X$ be a compactification but $U, X$ are not necessarily smooth. Let $D = X \sm U$. The same techniques give a hyperresolution of the \textit{pair} $(X,D)$ meaning a hyperresolution $\epsilon_{\bullet} : X_{\bullet} \to X$ st. inverse images $D_\bullet = \epsilon_\bullet^{-1}(D)$ on each component of $X_i$ are SNC divisors.
+\bigskip\\
+It can be checked: 
+\[ H^k(U, \CC) = \HH^k(X, \RR \epsilon_{\bullet *} \Omega^\bullet_{X_{\bullet}}(\log{D_\bullet})) \]
+gives weight and Hodge filtrations compatibly.  
+
+\subsection{Hodge Deligne-Numbers}
+
+Notation: $h^{p,q}_k(U) := h^{p,q}(H^k(U))$.
+
+\begin{theorem}
+Suppose $h^{p,q}_k(U) \neq 0$ then 
+\begin{enumerate}
+\item $0 \le p, q \le k$
+\item if $k > n = \dim{U}$ then $k-n \le p,q \le n$
+\item if $U$ is smooth then $p + q \ge k$
+\item if $U$ is projective then $p + q \le k$
+\end{enumerate}
+\end{theorem}
+
+We can reformulate this in terms of which weights occur in the MHS. Say \textit{weight m occurs} in a MHS $(H, W, F)$ if $\gr^W_m H \neq 0$. 
+\begin{center}
+\begin{tabular}{c|c|c|c}
+index range & general & smooth & projective
+\\
+\hline
+$k \le n$ & $[0, 2k]$ & $[k,2k]$ & $[0,k]$
+\\
+$k \ge n$ & $[2k - 2n, 2n]$ & $[k,2n]$ & $[2k-2n, k]$ 
+\end{tabular}
+\end{center}
+Note that in the smooth case the weights on $H^k$ are $\ge k$ because in the constrution the weight $\ell$ part is induced from $W_{\ell - k} \Omega_X^\bullet(\log{D})$ which is zero for $\ell < k$.
+
+In the proper case the weights on $H^k$ are $\le k$ because they are pushed forward from cohomologies of higher terms in the hyperresolution which are of lower dimension.
+
+\subsection{comparison with Du Bois numbers}
+
+Let $X$ be a complex $n$-dimensional irreducible projective variety. The Hodge-Du Bois numbers
+\[ \ul{h}^{p,q} = \dim_{\CC} \HH^q(X, \ulO_X^p) \]
+Then there is a spectral sequence
+\[ E^{p,q}_1 = \HH^q(X, \ulO_X^p) \implies \HH^{p+q}(X, \ulO_X^\bullet) = H^{p+q}(X, \CC) \]
+and
+\[ \ul{h}^{p,q} = \dim_{\CC} \HH^{p,q}(X, \gr^p_F \ulO_X^\bullet) = \dim_{\CC} \gr_F^p H^{p+q}(X, \CC) \]
+therefore, the Hodge-Deligne numbers 
+\[ h^{p,q}_k(X) = \dim_{\CC} \gr^p_F \gr_{p+q}^W H^k(X, \CC) \]
+satisfies
+\[ h^{p,r}_{[p+q} = \dim_{\CC} \gr_F^p \gr_r^W H^{p+q}(X, \CC) \]
+
+\begin{cor}
+$\ul{h}^{p,q} = h^{p,0}_{p+q} + \cdots + h^{p,q}_{p+q}$
+\end{cor}
+
+\begin{proof}
+We have 
+\[ \gr^p_F \gr_r^{W} H^{p+q}(X, \CC) = 0 \]
+for $r < p$ 
+\[ 0 \subset W_0 H^{p+q}(X, \CC) \subset \cdots \subset W_{p+q} H^{p+q}(X, \CC) = H^{p+Q}(X, \CC) \]
+\end{proof}
+
+\begin{cor}
+For all $0 \le p \le i \le n = \dim{X}$ then
+\[ \sum_{q = 0}^p \ul{h}^{i-q,q} \le \sum_{q = 0}^p \ul{h}^{q,i-q} \] 
+\end{cor}
+
+\begin{proof}
+Since $h^{p,q}_k$ are the Hodge numbers of a pure Hodge structure (of weight $p+q$) then they have Hodge symmetry $h^{p,q}_k = h^{q,p}_k$. Then you write the Du Bois numbers in terms of the Deligne numbers and do some serious reindexing. 
+\end{proof}
+
+\begin{theorem}
+$H^k(X)$ is pure for $k \ge n + \dim{X_{\sing}}$.
+\end{theorem}
+
+\begin{lemma}
+Fix a log-resolution $f : (\wt{X}, D) \to (X, X_{\sing})$ and set $s = \dim{X_{\sing}}$. Then for all $k \ge n + s$ the MHS $H^k(D)$ is pure.
+\end{lemma}
+
+\begin{proof}
+$H^k(D)$ has weights $\le k$ since it is projective. Thus it suffices to show $W_{k-1} H^k(D) = 0$. Cover $X_{\sing}$ with $(s+1)$-affine opens (we can do this since $\dim{X_{\sing}} = s$) of $X$ then $H^j(U_i) = 0$ for $j > n$ by Artin vanishing. Inductively (Mayer-Vietoris) gives $H^j(U_0 \cup \cdots U_i) = 0$ for $i > n + i$. Then consider $\wt{U} = f^{-1}(U)$ from the topological pullback square
+\begin{center}
+\begin{tikzcd}
+D \pullback \arrow[d, "f"] & \wt{U} \arrow[d]
+\\
+X_{\sing} \arrow[r] & U 
+\end{tikzcd}
+\end{center}
+gives a long exact sequence
+\[ \cdots \to H^k(U) \to H^k(\wt{U}) \oplus H^k(X_{\sing}) \to H^k(U) \to \cdots \]
+but for $k > n + s$ we have $H^k(U) = 0$ 
+\end{proof}
+
+\section{Dec. 2 - Higher rationality}
+
+Recall $X$ has $m$-rational singularities if and only if
+\begin{enumerate}
+\item[$dB_m$] $X$ is $m$-Du Bois
+\item[$D_m$] $\ulO_X^p \iso \DD(\ulO_X^{n-p})$ is an isomorphism for all $p \le m$
+\end{enumerate} 
+The second property implies a duality
+\[ \ul{h}^{p,q}(X) = \ul{h}^{n-p,n-q}(X) \quad \forall q. \forall p \le m \]
+
+\begin{theorem}
+Let $X$ be projective satisfying $D_m$ then
+\[ \ul{h}^{p,q} = \ul{h}^{q,p} = \ul{h}^{n-p,n-q} = \ul{h}^{n-q,n-p} \quad \forall q \forall p \le m \]
+\end{theorem}
+
+\begin{rmk}
+For example, $m = 0$ i.e. $X$ has rational singularities then $\ul{h}^{0,q} = \ul{h}^{q,0}$. Inded,
+\[ \ul{h}^{0,q}(X) = h^q(X, \ulO_X^0) = h^q(X, \struct{X}) = h^q(\wt{X}, \wt{X}) \]
+using Du Bois and rational singularities. Since $\wt{X}$ is smooth
+\[ h^q(\wt{X}, \wt{X}) = h^0(\wt{X}, \Omega_{\wt{X}}^q) = h^0(X, f_* \Omega_{\wt{X}}^q) \]
+then
+\[ \ul{h}^{q,0}(X) = h^0(X, \ulO_X^q) \]
+Now from the spectral sequence
+\[ h^0(, \ulO_X^q) = h^0(X, \cH^0(\ulO_X^q)) \]
+and $\cH^0(\ulO_X^q) = \Omega_X^{[q]} = f_* \Omega_{\wt{X}}^q$ using a big theorem of Kebekus-Schnell. 
+\end{rmk}
+
+\begin{example}
+If $X$ is a surface with rational singularities then the HDB diamond is fully symmetric. More is known: Mumford proved rational surfaces are rational homology manifolds. 
+\end{example}
+
+\begin{exercise}
+$X$ is Du Bois surface and HDB diamond symmetric implies $X$ has rational singularities.
+\end{exercise}
+
+Facts: assume $X$ (any dimension) has $\lcdef{X} = 0$ and $X$ is a RHM away from a finite set $S$ then HDB diamond is symmetric if and only if $X$ is a RHM. 
+
+
+\begin{example}
+Consider a $3$-fold with isolated singularities. If in addition
+\begin{enumerate}
+\item $X$ is normal: $H^1(X)$ is pure
+\item $X$ is CM: $\lcdef(X) = 0$ then $H^5(X) = H^1(X)$ and $H^2(X)$ are also pure and 
+\item if $X$ has rational singularities then we have symmetry of the entire boundary of the HDBD. 
+\end{enumerate}
+This gives partial symmetry. We know all horizontal symmetries except $\ul{h}^{2,1} = \ul{h}^{1,2}$ and we know $H^2(X)$ and $H^4(X)$ are pure but not that they are dual. So we have
+\begin{center}
+Q: when $\ul{h}^{2,1} = \ul{h}^{1,2}$ and $\ul{h}^{1,1} = \ul{h}^{2,2}$ (or equivalently $H^2(X) \cong H^4(X)$)
+\end{center}
+\end{example}
+
+\begin{theorem}
+Let $X$ be a variety with rational singularities. Then $b_2(X) = b_{2n-2}(X)$ iff $X$ is $\Q$-factorial. In fact, if $X$ is normal $b_{2n-2}(X) - b_2(X) = \sigma(X) \ge 0$ where $\sigma(X)$ is the $\Q$-factoriality defect:
+\[ \sigma(X) = \dim_{\Q} \frac{\mathrm{Div}(X)_{\Q}}{\mathrm{CDiv}(X)_{\Q}} \]
+\end{theorem}
+
+Therefore, $\ul{h}^{2,2} \ge \ul{h}^{1,1}$ with equality iff $X$ is $\Q$-factorial. Furthermore, we always have $\ul{h}^{2,1} \le \ul{h}^{1,2}$ using mixed Hodge structures. 
+
+\begin{theorem}
+$\ul{h}^{1,2} = \ul{h}^{2,1}$ iff $X$ is locally analytically $\Q$-factorial. In fact, for any 3-fold $X$ with rational singularties, there is a finite set $S$ where $X$ is not analytically $\Q$-factorial 
+\[ \sum_{x \in S} \sigma^{\an}(X, x) - \sigma(X) = \ul{h}^{1,2} - \ul{h}^{2,1} \]
+\end{theorem}
+
+\subsection{Relationship to Hodge modules}
+
+\newcommand{\DR}{\mathrm{DR}}
+\newcommand{\LC}{\mathrm{LC}}
+
+\begin{prop}
+Let $\iota : X \embed Y$ be an embedding in a smooth variety of dimension $n$. Then for all $p \in \Z$,
+\[ \iota_* \ulO_X^p = \DD_Y(\gr_{p-n}^F \DR_Y(\LC_X))[p] \]
+\end{prop}
+
+The complex $\LC_X$ of constructible sheaves is defined as the cone,
+\[ \LC_X \to \ul{\Q}_Y[n] \to j_* \ul{\Q}_U[n] \]
+for $j : U = Y \sm X \embed Y$. There are enchancements to mixed Hodge modules
+\[ \LC_X \to \ul{\Q}^H_Y[n] \to j_* \ul{\Q}^H_U[n] \]
+when we take the associated $D$-module, the local cohomologies are $\cH^q_X(\struct{Y})$. 
+
+First, $\ul{\Q}^H_Y[n]$ is the ``trivial Hodge module'' which is $(\struct{Y}, F, \ul{\Q}[n])$ where $\struct{Y}$ is the trivial $D$-module and the filtration $F_k \struct{Y} = 0$ for $k < 0$ and everything for $k \ge 0$. 
+
+\begin{example}
+For $X$ a hypersurface, $V(f) \subset Y$ then 
+\[ \cH^1_X(\struct{Y}) = \struct{Y}(* X) / \struct{Y} = R_f / R \]
+is also a $D$-module by differentiating functions of the form $g/f^k$ using the quotient rule. This extends to an ideal $I = (f_1, \dots, f_r)$ using the complex computing local cohomology in terms of localization. 
+\end{example}
+
+Given a $D$-module $\M$ there is a complex
+\[ \DR(\M) := [0 \to \M \to \M \ot \Omega^1_Y \to \M \ot \Omega^2_Y \to \cdots \to \M \ot \Omega^n_Y \to 0] \]
+If $(\M, F)$ is moreover a filtered $D$-module then
+\[ F_k \DR(\M) := [0 \to F_k \M \to F_{k+1} \M \ot \Omega_Y^1 \to \cdots \to F_{k+n} \M \ot \Omega^n_Y \to 0] \]
+and this is nonlinear but due to Griffiths transversality the graded part is $\struct{X}$-linear
+\[ \gr_k^F \DR(\M) := [0 \to \gr_k^F \M \to \gr_{k+1}^F \M \ot \Omega^1_Y \to \cdots \to \gr^F_{k+n} \M \ot \Omega_Y^n \to 0] \]
+
+\begin{example}
+Say $X$ is a hypersurface. There is an exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \struct{Y} \arrow[r] & \struct{Y}(* X) \arrow[r] & * \cH^1_X \struct{Y} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+The filtration of $\struct{Y}$ is very simple. The filtration of $\struct{Y}(* X)$ is highly complex. To understand it, we choose a strong log resolution $f : (\wt{Y}, E) \to (Y, X)$ where $E = f^{-1}(X)_{\red}$. Then because $f$ is an isomorphism over $U$,
+\[ \struct{Y}(*X) = j_* \struct{U} = f_* j_* \struct{U} = f_* \struct{\wt{Y}}(* E) \]
+This can be enhanced to pushing forward the trivial Hodge module:
+\[ j_* \ul{\Q}_U^H[n] = f_* j_* \ul{\Q}_U^H[n] \]
+First we must define a filtration for $\struct{\wt{Y}}(* E)$
+\[ F_k \struct{\wt{Y}}(*E) = 
+\begin{cases}
+\struct{\wt{Y}}(E) & k = 0
+\\
+F_k \D_{\wt{Y}} \cdot \struct{\wt{Y}}(E) & k > 0
+\\
+0 & k < 0
+\end{cases} \]
+given this, you can form a direct image for filtered $D$-modules: $(\struct{Y}(*X), F) := f_+(\struct{\wt{Y}}(*E), F)$.
+\end{example}
+
+Delgine: the canonical map $j_* \Omega_U^\bullet \to \Omega_{\wt{Y}}^\bullet(\log{E})$ is a quasi-isomorphism. Note that $\Omega_U^\bullet$ is the DR complex of the trivial Hodge module $\ul{\Q}^H_U$ so this theorem is telling us how to express $j_* \ul{\Q}^H_U$ in terms of log forms. 
+
+\begin{rmk}
+For $\struct{Y}$ we have
+\[ \DR(\struct{Y}) := [0 \to \struct{Y} \to \Omega_Y^1 \to \cdots \to \Omega_Y^n \to 0] \]
+and for $p \ge 0$
+\[ F_{-p} \DR(\struct{Y}) = [0 \to 0 \to \cdots \to 0 \to \Omega_Y^p \to \cdots \to \Omega_Y^n \to 0] \]
+so 
+\[ \gr_{-p}^F \DR(\struct{Y}) = \Omega^p_Y[n-p] \]
+\end{rmk}
+
+Deligne tells us that similarly
+\[ \gr^F_{-p} \DR_{\wt{Y}}(\struct{\wt{Y}}(*E)) = \Omega_Y^p(\log{E})[n-p] \]
+
+\section{Dec. 4} 
+
+\begin{prop}
+If $X \subset Y$ for $Y$ smooth $n$-dimensional then
+\[ \ulO_X^p \cong \DD(\gr^F_{p-n} \DR_Y(\LC_Y(X))) [p] \]
+\end{prop}
+
+\begin{proof}
+Let $f : (\wt{Y}, E) \to (Y,X)$ be a strict log resoltion of $(Y, X)$ with $E = f^{-1}(X)_{\red}$. Since $f$ is strict we have
+\begin{center}
+\begin{tikzcd}
+& \wt{Y} \arrow[d, "f"]
+\\
+U \arrow[r, hook, "j"] \arrow[ru, "j'"] & Y 
+\end{tikzcd}
+\end{center}
+so we have
+\[ j_* \ul{\Q}_U^{H}[n] \cong f_* j_*' \ul{\Q}_U^H[n] \]
+In terms of the underlying filtered $D$-modules this is 
+\[ j_+(\struct{U}, F) \cong f_+ j'_+ (\struct{U}, F) \]
+and since $j'$ is the complement of an SNC divisor $E$ we have
+\[ j'_+ (\struct{U}, F) = (\struct{\wt{Y}}(* E), F) \]
+for the Hodge filtration $F$ which for an SNC divisor was
+\[ F_k \struct{\wt{Y}}(* E) = 
+\begin{cases}
+\struct{\wt{Y}}(E) & k = 0
+\\
+(F_k \D_{\wt{Y}}) \struct{\wt{Y}}(E) & k > 0
+\end{cases} \]
+Now we compute
+\[ \gr_{p-n}^F \DR_{\wt{Y}}(j_+ \struct{U}) = \gr_{p-n}^F \DR_{Y}(f_+ \struct{Y}(*E), F) \]
+Think about the case where $f$ is a map to a point. For example
+\[ \gr_{-k}^F \DR_{Y}(\struct{Y}) = \Omega^k_Y[k-n] \]
+and then applying $f_+$ is taking cohomology. But degeneration of the Hodge-to-de Rham spectral sequence says that filtration commutes with taking cohomology. Saito proves that this works in a relative sense as well. Saito strictness says
+\[ \gr_{p-n}^F \DR_{Y}(f_+ \struct{Y}(*E), F) = \R f_* (\gr^F_{p-n} \DR_{\wt{Y}}(\struct{\wt{Y}}(*E))) = \R f_* \Omega^p_{\wt{Y}}(\log{E})[p] \]
+Recall there is, by definition, an exact triangle
+\[ \LC_Y(X) \to \ul{\Q}_Y^H[n] \to j_* \ul{\Q}_U^H[n] \to +1 \]
+applying the exact functor (it is exact for ``special'' filtered $D$-modules) $\gr_{p-n}^F \DR_Y(-)$ to this picture and apply the duality functor so we are interested in the cone of
+\[ \RHom{}{\gr_{p-n}^F \DR_Y(j_* \ul{\Q}_U^H[n])}{\omega_Y} \to \RHom{}{\gr^F_{p-n} \DR_Y(\ul{\Q}_Y^H[n])}{\omega_Y} \]
+but this equals
+\[ \RHom{}{\R f_* \Omega_Y^p(\log{E})}{\omega_Y} \to \RHom{}{\Omega_Y^{n-p}}{\omega_Y}[-p] \]
+and by Grothendieck duality these are
+\[ \R f_* \Omega_{\wt{Y}}^{n-p}(\log{E}(-E)[-p] \to \Omega^P_Y[-p] \]
+and then from Steenbrink's triangle
+\[ \R f_* \Omega_{\wt{Y}}^{n-p}(\log{E})(-E)[-p] \to \Omega^p_Y[-p] \to \ulO_X^p[-p] \to +1 \]
+and therefore we identy the cone with $\ulO_X^p[-p]$. 
+\end{proof}
+
+\begin{example}
+Let $X \subset Y$ be a hypersurface: then $\LC_Y(X) = \cH^1_X(\struct{Y})[-1]$ and therefore
+\[ \ulO_X^p \cong \RHom{}{\gr^F_{p-n} \DR(\cH_X^1(\struct{Y})}{\omega_Y}[p+1] \]
+The Hodge filtration here is quite mysterious. However, $\cH^1_X(\struct{Y})$ carries another very basic filtration: the \textit{pole-order filtration}: 
+\[ P_k \cH^1_X(\struct{Y}) = \frac{P_k \struct{Y}(*X)}{\struct{Y}} = \frac{\struct{Y}((k+1) X)}{\struct{Y}} \cong \struct{X}((k+1) X) \]
+and $P_k = 0$ for $k < 0$.  
+\end{example}
+
+Fact: if $(\cM, F)$ is a MHM whose support is contained in $Z$ some subvariety $Z \subset Y$ then $\I_Z \cdot F_k \M \subset F_{k-1} \M$. Suppose $F_k = 0$ for $k < 0$ then $\I_Z^{p+1} \cdot F_p \cM = 0$ for all $p \ge 0$. 
+But note that,
+\[ P_p \cH^1_X(\struct{Y}) = \{ u \in \cH^1_X(\struct{Y}) \mid \I_X^{p+1} \cdot u = 0 \} \]
+and therefore, since the Hodge filtration satisfies the previous remark, we conclude
+\[ F_p \cH_X^1(\struct{Y}) \subset P_p \cH_X^1(\struct{Y}) \]
+for all $p$. 
+
+\begin{example}
+We ask when these filtrations are equal: say for $p = 0$. Consider the condition that $F_0 = P_0$. Exploit that this appears as
+\[ \gr^F_{-n} \DR_Y(\cH^1_X(\struct{Y}) = F_0 \cH^1_X(\struct{Y}) \ot \omega_Y [0] \]
+and recall that
+\[ \DD(\gr^F_{-n} \DR_Y(\cH^1_X(\struct{Y}))[0] = \ulO_X^0 \]
+However, for the pole-order filtration
+\[ \gr_{-n}^P \DR_Y(\cH_X^1(\struct{Y})) = P_0 \cH^1_X(\struct{Y}) \ot \omega_Y \cong \omega_X \]
+therefore
+\[ \DD(\gr_{-n}^P \DR_Y(\cH_X^1(\struct{Y}))) = \struct{X} \]
+therefore $P_0 = F_0$ is equivalent to having Du Bois singularities!
+\end{example}
+
+Fact: $F_1 = P_1$ implies $X$ has rational singularities. This is much harder to prove.
+
+\begin{rmk}
+$F_k \subset P_k \iff F_k \struct{Y}(* X) \subset P_k \struct{Y}(* X) = \struct{Y}((k+1)X)$ therefore since $F_k \struct{Y}(* X)$ is coherent we see that the inclusion realizes it in terms of some ideal:
+\[ F_k \struct{Y}(* X) = \struct{Y}((k+1) X) \ot \I_k(X) \]
+defines $\I_k(X)$ the $k$-th Hodge ideal of the hypersurface. In fact,
+\[ \I_0(X) = \J((1 - \epsilon) X) \]
+is the multiplier ideal for the $\Q$-divisor $(1 - \epsilon) X$ with $0 < \epsilon \ll 1$. Therefore, we recover the statement that $X$ is Du Bois iff $(Y,X)$ is log canonical. 
+\end{rmk}
+
+\begin{theorem}[Saito]
+$\I_k(X) = \struct{Y}$ iff $\wt{\alpha}(X) \ge k+1$ where $\wt{\alpha}$ is the minimal exponent. 
+\end{theorem}
+
+The proof goes by comparison to the microlocal $V$-filtration modulo $f$ where $X = V(f)$. 
+
+\begin{theorem}
+The following are equivalent:
+\begin{enumerate}
+\item $X$ is $m$-Du Bois
+\item $F_p = P_p$ on $\cH^1_X(\struct{Y})$ for all $p \le m$
+\item $\wt{\alpha}(X) \ge m + 1$.
+\end{enumerate}
+\end{theorem}
+
+
+In general, we always have the order filtration
+\[ F_k \subset O_k \cH_Z^q(\struct{Y}) := \{ u \mid \I_Z^{k+1} \cdot u = 0 \} \]
+but this is a very bad object since the pieces are infinite-dimensional. There is a better object call the Ext filtration
+\[ E_k \cH^q_X(\struct{Y}) := \im{(\shExt{q}{}{\struct{Y}/\I_Z^{k+1}}{\struct{Y}} \to \cH^1_X(\struct{Y}))} \]
+using the fact
+\[ \cH^q_X(\struct{Y}) = \ilim_k \shExt{q}{}{\struct{Y}/\I_Z^{k+1}}{\struct{Y}} \]
+When $Z$ is lci we know $F_k \susbet E_k$. In general, we don't know. 
+\bigskip\\
+What is the idea: for $X \subset Y$ again a hypersurface there is an inclusion $F_p \subset P_p$ for all $p$. Therefore we get a map
+\[ \varphi_p : \gr^F_{p-n} \DR(\cH^1_X(\struct{Y})) \to \gr^P_{p-n} \DR(\cH^1_X(\struct{Y})) \]
+Then $\varphi_p$ is an isomorphism $\iff F_k = P_k$ for all $k \le p$. Denote $\varphi_p : A_p^\bullet \to B_p^\bullet$ the above map. Then denote by
+\[ C_p^\bullet \to \ulO_X^p \]
+the morphism of complexes
+\[ \RHom{}{B_p^\bullet}{\omega_Y}[p+1] \to \RHom{}{A_p^\bullet}{\omega_Y}[p+1] \]
+We write out the complexes
+\[ B_p^\bullet := [0 \to \gr^P_{p-n} \cH^1_X(\struct{Y}) \to \cdots \to \gr_p^P \cH^1 \ot \omega_Y \to 0 \]
+which equals
+\[ B_p^\bullet := [0 \to \cdots 0 \to \struct{X}(X) \ot \Omega_Y^{n-p} \to \cdots \to \struct{X}((p+1)X) \ot \omega_Y \to 0] \]
+Exercise: $\RHom{}{B_p^\bullet}{\omega_Y}$ is computed just by applying Hom term-by-term (just need some Ext vanishing) so we get
+\[ C_p^\bullet = [0 \to \struct{X}(-pX) \to \struct{X}((-p+1)X) \ot \Omega^1_Y \to \struct{X}(-X) \ot \Omega_Y^{p-1} \to \struct{X} \ot \Omega_Y^{p} \to 0 \]
+living in $[-p, 0]$.
+This is a famous complex. Indeed, for $X \subset Y$ consider the complex
+\[ 0 \to \struct{X}(-X) \to \Omega_Y^1|_X \to \Omega_X^1 \to 0 \]
+which gives
+\[ \struct{X}(-X) \ot \Omega_Y^{p-1}|_X \to \Omega_Y^p|_X \to \Omega^p_X \to 0 \]
+then we get a Kozul complex for $\T_Y|_X \to \struct{X}(X)$ which is the dual of the first map. Our complex is the Kozul complex truncated at $p$ tensored with some line bundle. Therefore, from the above sequence
+\[ \cH^0(C_p^\bullet) = \Omega_X^P \]
+Recall the map
+\[ C_p^\bullet \to \ulO_X^p \]
+and that $C_p^\bullet$ lives in non-positive degrees. Recall that $F_k = P_k$ for all $k \le p$ iff $\varphi_p$ or equivalently the above map is an isomorphism but this is only possible if everyhing in nonzero degree is zero and 
+\[ \cH^0(\ulO_X^p) \cong \cH^0(C_p^\bullet) = \Omega_X^p \]
+which holds iff $X$ is $p$-Du Bois. 
+\bigskip\\
+The other way requires some commutative algebra: depth sensitivity: $\codim_X(X_{\sing}) \ge k$ implies $C_p^\bullet$ is exact $k$-steps from the left. To go backwards in the above argument we need if $X$ is $p$-Du Bois then $C_p^{<0} = 0$ since the isomorphism in degree zero is part of the definition. This requires the above commutative algebra and to prove: if $X$ is $p$-Du Bois then $\codim_X(X_{\sing}) \ge 2p + 1$ which is greater than $p$ so we win. 
 
 
 
 \end{document}
+
